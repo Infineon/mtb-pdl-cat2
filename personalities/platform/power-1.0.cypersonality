@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file power.cypersonality
+* \version 1.0
+*
+* \brief
+* Power personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright 2020 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8power" name="Power Settings" version="1.0" path="Power" xmlns="http://cypress.com/xsd/cyhwpersonality_v1">
+  <Dependencies>
+    <IpBlock name="s8srsslt" />
+    <Resource name="srss\.power" used="true" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="vddaMv" paramId="vddaMv" />
+    <ExposedMember key="deepsleepWhenIdle" paramId="deepsleepWhenIdle" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- Documentation -->
+    <ParamDoc id="pdlDoc" name="SysPm API Reference" group="Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__syspm.html" linkText="Open SysPm Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- RTOS -->
+    <ParamChoice id="idlePwrMode" name="System Idle Power Mode" group="RTOS" default="CY_CFG_PWR_MODE_DEEPSLEEP" visible="true" editable="true"
+      desc="Selects the lowest power mode the system attempts to enter when there is no active tasks to execute, i.e. the system is in idle state.
+            This option only applies for an RTOS based application.">
+      <Entry name="Active" value="CY_CFG_PWR_MODE_ACTIVE" visible="true" />
+      <Entry name="CPU Sleep" value="CY_CFG_PWR_MODE_SLEEP" visible="true" />
+      <Entry name="System Deep Sleep" value="CY_CFG_PWR_MODE_DEEPSLEEP" visible="true" />
+    </ParamChoice>
+
+    <ParamRange id="deepsleepLatency" name="Deep Sleep Latency (ms)" group="RTOS" default="0" min="0" max="10" resolution="1" visible="true" editable="true"
+      desc="Greater between the time required to enter to and exit from the deep sleep power mode.
+            This option only applies for an RTOS based application." />
+
+    <!-- Operating conditions -->
+    <ParamRange id="vddaMv"    name="VDDA Voltage (mV)"    group="Operating Conditions" default="3300" min="1710" max="5500" resolution="1" visible="true" editable="true" desc="VDDA voltage in millivolts." />
+    <ParamRange id="vdddMv"    name="VDDD Voltage (mV)"    group="Operating Conditions" default="3300" min="1710" max="5500" resolution="1" visible="true" editable="true" desc="VDDD voltage in millivolts." />
+
+    <ParamBool id="deepsleepWhenIdle" name="deepsleepWhenIdle" group="Internal" default="`${idlePwrMode eq CY_CFG_PWR_MODE_DEEPSLEEP}`" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <!-- Error checking -->
+  <DRCs>
+    <DRC type="ERROR" text="The input voltage of VDDD is set to `${vdddMv}` which is out of range. The value must be between 1710 and VDDA (`${vddaMv}`)." condition="`${(vdddMv &gt; vddaMv)}`" />
+  </DRCs>
+
+  <!-- Generated firmware -->
+  <ConfigFirmware>
+    <ConfigInclude value="cy_syspm.h" include="true" />
+
+    <!-- RTOS -->
+    <ConfigDefine name="CY_CFG_PWR_MODE_ACTIVE"         public="true" value="0x04UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_MODE_SLEEP"          public="true" value="0x08UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_MODE_DEEPSLEEP"      public="true" value="0x10UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_SYS_IDLE_MODE"       public="true" value="`${idlePwrMode}`" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_DEEPSLEEP_LATENCY"   public="true" value="`${deepsleepLatency}`UL" include="true" />
+
+    <!-- Operating conditions -->
+    <ConfigDefine name="CY_CFG_PWR_VDDA_MV"    public="true" value="`${vddaMv}`" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_VDDD_MV"    public="true" value="`${vdddMv}`" include="true" />
+
+  </ConfigFirmware>
+</Personality>
