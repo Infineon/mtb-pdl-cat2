@@ -114,8 +114,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stru
 <a class="el" href="group__group__scb__uart__enums.html#ga5ee6d587ef3399954d609f17775a3f42">cy_en_scb_uart_parity_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a8105fe188535ea1d434fcf4449f8f3f5">parity</a></td></tr>
 <tr class="memdesc:a8105fe188535ea1d434fcf4449f8f3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the UART parity. <br /></td></tr>
 <tr class="separator:a8105fe188535ea1d434fcf4449f8f3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11ed4ced763dc661cf7e3b5456ec6157"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a11ed4ced763dc661cf7e3b5456ec6157">enableInputFilter</a></td></tr>
-<tr class="memdesc:a11ed4ced763dc661cf7e3b5456ec6157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a digital 3-tap median filter (2 out of 3 voting) to be applied to the input of the RX FIFO to filter glitches on the line (for IrDA, this parameter is ignored)  <a href="#a11ed4ced763dc661cf7e3b5456ec6157">More...</a><br /></td></tr>
+<tr class="memitem:a11ed4ced763dc661cf7e3b5456ec6157"><td class="memItemLeft" align="right" valign="top"><a id="a11ed4ced763dc661cf7e3b5456ec6157"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a11ed4ced763dc661cf7e3b5456ec6157">enableInputFilter</a></td></tr>
+<tr class="memdesc:a11ed4ced763dc661cf7e3b5456ec6157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables a digital 3-tap median filter (2 out of 3 voting) to be applied to the input of the RX FIFO to filter glitches on the line (for IrDA, this parameter is ignored) <br /></td></tr>
 <tr class="separator:a11ed4ced763dc661cf7e3b5456ec6157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d815bb37e49de4d14869223229f8f54"><td class="memItemLeft" align="right" valign="top"><a id="a3d815bb37e49de4d14869223229f8f54"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a3d815bb37e49de4d14869223229f8f54">dropOnParityError</a></td></tr>
@@ -149,6 +150,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stru
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a09c9696d4f75ebfe55d7974264a62d3d">smartCardRetryOnNack</a></td></tr>
 <tr class="memdesc:a09c9696d4f75ebfe55d7974264a62d3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables retransmission of the frame placed in the TX FIFO when NACK is received in SmartCard mode (for Standard and IrDA , this parameter is ignored) <br /></td></tr>
 <tr class="separator:a09c9696d4f75ebfe55d7974264a62d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55b7aee62163327aa8379df20a3be8c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a55b7aee62163327aa8379df20a3be8c5">enableLinMode</a></td></tr>
+<tr class="memdesc:a55b7aee62163327aa8379df20a3be8c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">When enabled, allows to use baud rate detection, see <a class="el" href="group__group__scb__uart__general__functions.html#ga1f4032d3805d5d070227fcb90b32ea95">Cy_SCB_UART_GetBaudRateCount</a>.  <a href="#a55b7aee62163327aa8379df20a3be8c5">More...</a><br /></td></tr>
+<tr class="separator:a55b7aee62163327aa8379df20a3be8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23f93e077ac4de987f18193e18f7944c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__scb__uart__config__t.html#a23f93e077ac4de987f18193e18f7944c">enableCts</a></td></tr>
 <tr class="memdesc:a23f93e077ac4de987f18193e18f7944c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the usage of the CTS input signal for the transmitter.  <a href="#a23f93e077ac4de987f18193e18f7944c">More...</a><br /></td></tr>
 <tr class="separator:a23f93e077ac4de987f18193e18f7944c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,22 +209,6 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <li>The UART baud rate is the SCB Clock frequency / oversample (valid range is 8-16).</li>
 <li>For IrDA, the oversample is always 16, unless <a class="el" href="structcy__stc__scb__uart__config__t.html#a2f927424c73f317022e884169583e65d">irdaEnableLowPowerReceiver</a> is enabled. Then the oversample is reduced to the <a class="el" href="group__group__scb__uart__macros__irda__lp__ovs.html">UART IRDA Low Power Oversample factors</a> set. </li>
 </ul>
-
-</div>
-</div>
-<a id="a11ed4ced763dc661cf7e3b5456ec6157"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11ed4ced763dc661cf7e3b5456ec6157">&#9670;&nbsp;</a></span>enableInputFilter</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool cy_stc_scb_uart_config_t::enableInputFilter</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enables a digital 3-tap median filter (2 out of 3 voting) to be applied to the input of the RX FIFO to filter glitches on the line (for IrDA, this parameter is ignored) </p>
 
 </div>
 </div>
@@ -289,6 +277,23 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 
 <p>Enables the low-power receive for IrDA mode. </p>
 <p>Note that the transmission must be disabled if this mode is enabled. </p>
+
+</div>
+</div>
+<a id="a55b7aee62163327aa8379df20a3be8c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55b7aee62163327aa8379df20a3be8c5">&#9670;&nbsp;</a></span>enableLinMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cy_stc_scb_uart_config_t::enableLinMode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>When enabled, allows to use baud rate detection, see <a class="el" href="group__group__scb__uart__general__functions.html#ga1f4032d3805d5d070227fcb90b32ea95">Cy_SCB_UART_GetBaudRateCount</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable in Standart mode. </dd></dl>
 
 </div>
 </div>

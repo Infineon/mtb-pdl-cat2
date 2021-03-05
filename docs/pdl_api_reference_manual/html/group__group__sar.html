@@ -167,6 +167,7 @@ Triggering Conversions</h1>
 <tr>
 <td>Hardware level sensitive </td><td>Conversions are triggered continuously when the hardware trigger signal is high. </td><td>To enable this mode, set up the <a class="el" href="structcy__stc__sar__config__t.html#ab31d2eaf109a1e7d0a0def0d28af8663">cy_stc_sar_config_t::trigMode</a> field of config structure with <a class="el" href="group__group__sar__enums.html#gga62ecb4e368dcea23cfbfc41bd0497fc6ac7d137ec50152f166656503877638943">CY_SAR_TRIGGER_MODE_FW_AND_HWLEVEL</a>.  </td></tr>
 </table>
+<p>If the trigger occurs during a scan, a <a class="el" href="group__group__sar__macros__interrupt.html#gab899a78469af6a37779035df455ed8be">CY_SAR_INTR_FW_COLLISION</a> interrupt occurs and the trigger is delayed until the end of the scan.</p>
 <p>The trigger mode can be changed during run time with <a class="el" href="group__group__sar__functions__config.html#gaabd68168933e0922c739ee8ebe3cddd6">Cy_SAR_SetConvertMode</a>.</p>
 <p>For the hardware trigger modes, use the <a class="el" href="group__group__trigmux.html">TrigMux (Trigger Multiplexer)</a> driver to route an internal or external signal to the SAR trigger input. When making the required <a class="el" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe">Cy_TrigMux_Connect</a> calls, use the pre-defined enum, TRIG6_OUT_PASS_TR_SAR_IN, for the SAR trigger input.</p>
 <div class="fragment"><div class="line">    <span class="comment">/* Scenario: TCPWM is used to trigger the SAR conversions.</span></div><div class="line"><span class="comment">     * Connect the TCPWM to the SAR trigger input.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"><span class="preprocessor">    #if (defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4) || defined(CY_DEVICE_PSOC4AMC))</span></div><div class="line">        <a class="code" href="group__group__trigmux__enums.html#ga30a0d3f7caf6a59d3fb7a618a95ed6ae">cy_en_trigmux_status_t</a> trigmuxStatus = <a class="code" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe">Cy_TrigMux_Connect</a>(TRIG2_IN_TCPWM_TR_COMPARE_MATCH2, TRIG2_OUT_PASS0_TR_SAR_IN);</div><div class="line"><span class="preprocessor">    #else </span><span class="comment">/* other device family */</span><span class="preprocessor"></span></div><div class="line">        <a class="code" href="group__group__trigmux__enums.html#ga30a0d3f7caf6a59d3fb7a618a95ed6ae">cy_en_trigmux_status_t</a> trigmuxStatus = <a class="code" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe">Cy_TrigMux_Connect</a>(TRIG1_IN_TCPWM_TR_COMPARE_MATCH2, TRIG1_OUT_PASS0_TR_SAR_IN);</div><div class="line"><span class="preprocessor">    #endif </span><span class="comment">/* PSoC4 device family */</span><span class="preprocessor"></span></div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__trigmux__enums.html#gga30a0d3f7caf6a59d3fb7a618a95ed6aea19e80892aa7755dd38c708994502d02c">CY_TRIGMUX_SUCCESS</a> != trigmuxStatus)</div><div class="line">    {</div><div class="line">        <span class="comment">/* insert error handling here */</span></div><div class="line">    }</div></div><!-- fragment --> <h1><a class="anchor" id="group_sar_handle_interrupts"></a>
@@ -270,9 +271,9 @@ More Information</h1>
 Changelog</h1>
 <table class="doxtable">
 <tr>
-<th>Version</th><th>Changes</th><th><p class="starttd">Reason for Change</p>
-<p class="endtd"></p>
-</th></tr>
+<th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td>1.0.1 </td><td>Minor documentation updates. </td><td>Documentation enhancement.  </td></tr>
 <tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
 </table>

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 2.0
+* \version 2.10
 *
 * Provides an API declaration of the SysLib driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -108,6 +108,11 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>2.10</td>
+*     <td>Updated \ref Cy_SysLib_DelayCycles() with Cortex-M0 devices support.</td>
+*     <td>Fixed incorrect delay provided by \ref Cy_SysLib_DelayCycles() on Cortex-M0 devices. </td>
+*   </tr>
 *   <tr>
 *     <td>2.0</td>
 *     <td>Removed redundant functions Cy_SysLib_Halt(), Cy_SysLib_AssertFailed()</td>
@@ -236,7 +241,7 @@ typedef enum
 #define CY_SYSLIB_DRV_VERSION_MAJOR    2
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    0
+#define CY_SYSLIB_DRV_VERSION_MINOR    10
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;

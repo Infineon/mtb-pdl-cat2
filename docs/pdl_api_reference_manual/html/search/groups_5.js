@@ -38,6 +38,11 @@ var searchData=
   ['functions',['Functions',['../group__group__tcpwm__functions__pwm.html',1,'']]],
   ['functions',['Functions',['../group__group__tcpwm__functions__quaddec.html',1,'']]],
   ['functions',['Functions',['../group__group__trigmux__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__common__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__legacy__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__phy__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__typec__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__vbus__ctrl__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__wdc__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__wdt__functions.html',1,'']]]
 ];

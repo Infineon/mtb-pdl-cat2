@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_systick.h
-* \version 1.10
+* \version 1.20
 *
 * Provides the API declarations of the SysTick driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,6 +75,12 @@
 * <table class="doxtable">
 * <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 * <tr>
+* <td>1.20</td>
+* <td>
+*   - Added \ref Cy_SysTick_IsEnabled() to return timer's enable/disable state.</td>
+* <td>Implementation enhancement.</td>
+* </tr>
+* <tr>
 * <td>1.10</td>
 * <td>
 *   - Added CY_ASSERT_L1 for the input parameter of the \ref Cy_SysTick_Init() and \ref Cy_SysTick_SetReload() functions.
@@ -139,6 +145,7 @@ typedef enum
 void Cy_SysTick_Init(cy_en_systick_clock_source_t clockSource, uint32_t interval);
 void Cy_SysTick_Enable(void);
 void Cy_SysTick_Disable(void);
+__STATIC_INLINE bool Cy_SysTick_IsEnabled(void);
 Cy_SysTick_Callback Cy_SysTick_SetCallback(uint32_t number, Cy_SysTick_Callback function);
 Cy_SysTick_Callback Cy_SysTick_GetCallback(uint32_t number);
 void Cy_SysTick_SetClockSource(cy_en_systick_clock_source_t clockSource);
@@ -163,7 +170,7 @@ __STATIC_INLINE void Cy_SysTick_Clear(void);
 #define SYSTICK_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define SYSTICK_DRV_VERSION_MINOR       10
+#define SYSTICK_DRV_VERSION_MINOR       20
 
 /** Number of the callbacks assigned to the SysTick interrupt */
 #define CY_SYS_SYST_NUM_OF_CALLBACKS         (5u)
@@ -294,6 +301,20 @@ __STATIC_INLINE void Cy_SysTick_Clear(void)
 __STATIC_INLINE uint32_t Cy_SysTick_GetCountFlag(void)
 {
     return (SYSTICK_CTRL & SysTick_CTRL_COUNTFLAG_Msk);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysTick_IsEnabled
+****************************************************************************//**
+*
+* Returns the SysTick enable/disable state.
+*
+* \return Returns true is the timer is enabled; otherwise false is returned.
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_SysTick_IsEnabled(void)
+{
+    return ((SYSTICK_CTRL & SysTick_CTRL_ENABLE_Msk) != 0U);
 }
 
 

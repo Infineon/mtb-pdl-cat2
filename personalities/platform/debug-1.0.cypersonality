@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@
 
 <Personality id="m0s8dap" name="Debug Access" version="1.0" path="Debug" xmlns="http://cypress.com/xsd/cyhwpersonality_v1">
   <Dependencies>
-    <IpBlock name="m0s8cpussv3,m0s8cpussv3_s8" />
+    <IpBlock name="m0s8cpussv3,m0s8cpussv3_s8,m0s8cpussv3_ver5_s8" />
     <Resource name="cpuss\.dap" used="true" />
   </Dependencies>
 

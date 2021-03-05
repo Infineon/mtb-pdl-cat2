@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 2.0
+* \version 3.0
 *
 * Provides common API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,6 +56,20 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">3.0</td>
+*     <td>Added support of SCB blocks with FIFO buffers size other than 32 byte.</td>
+*     <td>New device support.</td>
+*   </tr>
+*   <tr>
+*     <td>Added \ref Cy_SCB_UART_GetBaudRateCount() to get number of peripheral
+*         clock periods that constitutes the transmission of the LIN's sync byte. \n
+*         Added enableLinMode member to \ref cy_stc_scb_uart_config_t. 
+*         \note enableLinMode has effect on \ref CY_SCB_UART_TX_ARB_LOST and
+*         \ref CY_SCB_UART_RX_BREAK_DETECT interrupts.
+*     </td>
+*     <td>LIN mode support.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="5">2.0</td>
 *     <td>Added new features:
@@ -254,7 +268,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 */
 
 /** Driver major version */
-#define CY_SCB_DRV_VERSION_MAJOR    (2)
+#define CY_SCB_DRV_VERSION_MAJOR    (3)
 
 /** Driver minor version */
 #define CY_SCB_DRV_VERSION_MINOR    (0)
@@ -330,7 +344,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_TX_INTR_UART_NACK       SCB_INTR_TX_UART_NACK_Msk
 
 /**
-* SmartCard only: the value on the TX line of the UART does not match the
+* SmartCard and LIN only: the value on the TX line of the UART does not match the
 * value on the RX line
 */
 #define CY_SCB_TX_INTR_UART_ARB_LOST   SCB_INTR_TX_UART_ARB_LOST_Msk
@@ -357,6 +371,9 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 
 /** An attempt to read from an empty RX FIFO */
 #define CY_SCB_RX_INTR_UNDERFLOW         SCB_INTR_RX_UNDERFLOW_Msk
+
+/** LIN baudrate detection is completed */
+#define CY_SCB_RX_INTR_BAUD_DETECT       SCB_INTR_RX_BAUD_DETECT_Msk
 
 /** A UART framing error detected */
 #define CY_SCB_RX_INTR_UART_FRAME_ERROR  SCB_INTR_RX_FRAME_ERROR_Msk
@@ -615,8 +632,8 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 /* Clear interrupt sources */
 #define CY_SCB_CLEAR_ALL_INTR_SRC   (0UL)
 
-/* Hardware FIFO size: EZ_DATA_NR / 2 = (32 / 2) = 16 */
-#define CY_SCB_FIFO_SIZE            (16UL)
+/* Hardware FIFO size */
+#define CY_SCB_FIFO_SIZE            (SCB_EZ_DATA_NR / 2U)
 
 /* Provides a list of allowed sources */
 #define CY_SCB_TX_INTR_MASK     (CY_SCB_TX_INTR_LEVEL     | CY_SCB_TX_INTR_NOT_FULL  | CY_SCB_TX_INTR_EMPTY     | \
@@ -627,12 +644,13 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_RX_INTR_MASK     (CY_SCB_RX_INTR_LEVEL             | CY_SCB_RX_INTR_NOT_EMPTY | CY_SCB_RX_INTR_FULL | \
                                  CY_SCB_RX_INTR_OVERFLOW          | CY_SCB_RX_INTR_UNDERFLOW                       | \
                                  CY_SCB_RX_INTR_UART_FRAME_ERROR  | CY_SCB_RX_INTR_UART_PARITY_ERROR               | \
-                                 CY_SCB_RX_INTR_UART_BREAK_DETECT)
+                                 CY_SCB_RX_INTR_UART_BREAK_DETECT | CY_SCB_RX_INTR_BAUD_DETECT)
 #else /* CY_IP_MXSCB */
 #define CY_SCB_RX_INTR_MASK     (CY_SCB_RX_INTR_LEVEL             | CY_SCB_RX_INTR_NOT_EMPTY | CY_SCB_RX_INTR_FULL | \
                                  CY_SCB_RX_INTR_OVERFLOW          | CY_SCB_RX_INTR_UNDERFLOW                       | \
                                  CY_SCB_RX_INTR_UART_FRAME_ERROR  | CY_SCB_RX_INTR_UART_PARITY_ERROR               | \
-                                 CY_SCB_RX_INTR_UART_BREAK_DETECT | CY_SCB_RX_INTR_SPI_PARITY_ERROR)
+                                 CY_SCB_RX_INTR_UART_BREAK_DETECT | CY_SCB_RX_INTR_BAUD_DETECT                     | \
+                                 CY_SCB_RX_INTR_SPI_PARITY_ERROR)
 #endif /* CY_IP_M0S8SCB */
 
 #ifdef CY_IP_M0S8SCB

@@ -37,6 +37,7 @@ var searchData=
   ['initctl4',['initCtl4',['../structcy__stc__msc__base__config__t.html#aef5782828e1f22e1fe66e759e89d7328',1,'cy_stc_msc_base_config_t']]],
   ['inputfreq',['inputFreq',['../structcy__stc__sysclk__pll__config__t.html#a56a32915a8b74c510bd7fc64f34991b0',1,'cy_stc_sysclk_pll_config_t']]],
   ['intedge',['intEdge',['../structcy__stc__gpio__pin__config__t.html#a224590619198ad520a196319b618deda',1,'cy_stc_gpio_pin_config_t']]],
+  ['intelmode',['intelMode',['../structcy__pd__pd__do__t_1_1_t_b_t___u_f_p___v_d_o.html#a7ae539995942fb396630cc50cd8a6b7b',1,'cy_pd_pd_do_t::TBT_UFP_VDO::intelMode()'],['../structcy__pd__pd__do__t_1_1_t_b_t___v_d_o.html#aca336ef99b11b78993332491b9df8ec8',1,'cy_pd_pd_do_t::TBT_VDO::intelMode()'],['../structcy__pd__pd__do__t_1_1_t_b_t___c_b_l___v_d_o.html#a33d7b5a400acb1c1d45f6a1b6c4cc71a',1,'cy_pd_pd_do_t::TBT_CBL_VDO::intelMode()']]],
   ['interrupt',['interrupt',['../structcy__stc__dmac__descriptor__config__t.html#a87fe6edcff85e9ea2c38e294fcbe2f5c',1,'cy_stc_dmac_descriptor_config_t']]],
   ['interruptsources',['interruptSources',['../structcy__stc__tcpwm__counter__config__t.html#a5094c6f251fb4345f7c1c3a73c5807dc',1,'cy_stc_tcpwm_counter_config_t::interruptSources()'],['../structcy__stc__tcpwm__pwm__config__t.html#ad6b8cfe78481516baf3d1f1a0e9bdd07',1,'cy_stc_tcpwm_pwm_config_t::interruptSources()'],['../structcy__stc__tcpwm__quaddec__config__t.html#a40d7a2830339c593182dea25668a4cd4',1,'cy_stc_tcpwm_quaddec_config_t::interruptSources()']]],
   ['intr',['intr',['../structcy__stc__csd__config__t.html#ac30340788af8dd9c632a0b2b25f77c8b',1,'cy_stc_csd_config_t::intr()'],['../structcy__stc__msc__base__config__t.html#af8f6dbf7eac5883d061ed4d196cc854a',1,'cy_stc_msc_base_config_t::intr()']]],
@@ -53,5 +54,6 @@ var searchData=
   ['irdaenablelowpowerreceiver',['irdaEnableLowPowerReceiver',['../structcy__stc__scb__uart__config__t.html#a2f927424c73f317022e884169583e65d',1,'cy_stc_scb_uart_config_t']]],
   ['irdainvertrx',['irdaInvertRx',['../structcy__stc__scb__uart__config__t.html#a1c4cd968ea7897497e93dcb2ae3ad39c',1,'cy_stc_scb_uart_config_t']]],
   ['irqn_5ftype',['IRQn_Type',['../group__group__sysint__enums.html#ga7e1129cd8a196f4284d41db3e82ad5c8',1,'irqn_type.h']]],
+  ['is_5factive',['is_active',['../structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15',1,'cy_stc_usbpd_legacy_charging_state_t']]],
   ['introducing_20psoc_204',['Introducing PSoC 4',['../page_introducing_psoc_4.html',1,'']]]
 ];

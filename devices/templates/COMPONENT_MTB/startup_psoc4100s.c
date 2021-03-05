@@ -1,11 +1,12 @@
 /******************************************************************************
- * @file     startup_Device.c
+ * @file     startup_psoc4100s.c
  * @brief    CMSIS-Core(M) Device Startup File for Category 2 device
  * @version  V2.0.0
  * @date     20. May 2019
  ******************************************************************************/
 /*
  * Copyright (c) 2009-2019 Arm Limited. All rights reserved.
+ * Copyright 2019-2021 Cypress Semiconductor Corporation
  *
  * SPDX-License-Identifier: Apache-2.0
  *

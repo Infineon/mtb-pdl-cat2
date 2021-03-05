@@ -17,6 +17,7 @@ var group__group__scb__uart__data__structures =
       [ "irdaInvertRx", "structcy__stc__scb__uart__config__t.html#a1c4cd968ea7897497e93dcb2ae3ad39c", null ],
       [ "irdaEnableLowPowerReceiver", "structcy__stc__scb__uart__config__t.html#a2f927424c73f317022e884169583e65d", null ],
       [ "smartCardRetryOnNack", "structcy__stc__scb__uart__config__t.html#a09c9696d4f75ebfe55d7974264a62d3d", null ],
+      [ "enableLinMode", "structcy__stc__scb__uart__config__t.html#a55b7aee62163327aa8379df20a3be8c5", null ],
       [ "enableCts", "structcy__stc__scb__uart__config__t.html#a23f93e077ac4de987f18193e18f7944c", null ],
       [ "ctsPolarity", "structcy__stc__scb__uart__config__t.html#a9e3b74f87a756eec81dbbba110214619", null ],
       [ "rtsRxFifoLevel", "structcy__stc__scb__uart__config__t.html#a04b3320e809245b5b6736a4dbba1e9cd", null ],

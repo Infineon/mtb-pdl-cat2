@@ -5,7 +5,7 @@
 * SFLASH IP definitions
 *
 * \note
-* Generator version: 1.6.0.136
+* Generator version: 1.6.0.417
 *
 ********************************************************************************
 * \copyright
@@ -34,7 +34,7 @@
 *                                    SFLASH
 *******************************************************************************/
 
-#define SFLASH_SECTION_SIZE                     0x00000400UL
+#define SFLASH_SECTION_SIZE                     0x00000800UL
 
 /**
   * \brief Supervisory Flash Area (Cypress Trim & Wounding Info) (SFLASH)

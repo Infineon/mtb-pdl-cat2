@@ -6,5 +6,6 @@ var searchData=
   ['tcpwm_20_20_20_20_20_20_20_20_28timer_20counter_20pwm_29',['TCPWM        (Timer Counter PWM)',['../group__group__tcpwm.html',1,'']]],
   ['timer_2fcounter_20_28tcpwm_29',['Timer/Counter (TCPWM)',['../group__group__tcpwm__counter.html',1,'']]],
   ['tcpwm_20input_20selection',['TCPWM Input Selection',['../group__group__tcpwm__input__selection.html',1,'']]],
-  ['trigmux_20_20_20_20_20_20_28trigger_20multiplexer_29',['TrigMux      (Trigger Multiplexer)',['../group__group__trigmux.html',1,'']]]
+  ['trigmux_20_20_20_20_20_20_28trigger_20multiplexer_29',['TrigMux      (Trigger Multiplexer)',['../group__group__trigmux.html',1,'']]],
+  ['type_20c_20_28usbpd_29',['Type C (USBPD)',['../group__group__usbpd__typec.html',1,'']]]
 ];

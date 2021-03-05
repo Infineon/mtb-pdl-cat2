@@ -13,5 +13,6 @@ var searchData=
   ['counter_20direction',['Counter Direction',['../group__group__tcpwm__counter__direction.html',1,'']]],
   ['counter_20run_20modes',['Counter Run Modes',['../group__group__tcpwm__counter__run__modes.html',1,'']]],
   ['counter_20status',['Counter Status',['../group__group__tcpwm__counter__status.html',1,'']]],
+  ['common',['Common',['../group__group__usbpd__common.html',1,'']]],
   ['cascading_20masks',['Cascading Masks',['../group__group__wdc__macros__cascading__masks.html',1,'']]]
 ];

@@ -30,5 +30,8 @@ var searchData=
   ['enumerated_20types',['Enumerated Types',['../group__group__syspm__data__enumerates.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__tcpwm__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__trigmux__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__common__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__legacy__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__vbus__ctrl__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__wdc__enums.html',1,'']]]
 ];

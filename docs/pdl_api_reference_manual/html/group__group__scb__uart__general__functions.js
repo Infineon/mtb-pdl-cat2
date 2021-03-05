@@ -9,5 +9,6 @@ var group__group__scb__uart__general__functions =
     [ "Cy_SCB_UART_SetRtsFifoLevel", "group__group__scb__uart__general__functions.html#gadba62509586aebd21d6e5511abd9e09d", null ],
     [ "Cy_SCB_UART_GetRtsFifoLevel", "group__group__scb__uart__general__functions.html#gaae8b7c8a06d34d42aea6e2913da5bebe", null ],
     [ "Cy_SCB_UART_EnableSkipStart", "group__group__scb__uart__general__functions.html#ga3374291c2222f5e1e6f043c8f9dbf969", null ],
-    [ "Cy_SCB_UART_DisableSkipStart", "group__group__scb__uart__general__functions.html#ga2154a54acbf4e9a5a38af3c515d4acc3", null ]
+    [ "Cy_SCB_UART_DisableSkipStart", "group__group__scb__uart__general__functions.html#ga2154a54acbf4e9a5a38af3c515d4acc3", null ],
+    [ "Cy_SCB_UART_GetBaudRateCount", "group__group__scb__uart__general__functions.html#ga1f4032d3805d5d070227fcb90b32ea95", null ]
 ];

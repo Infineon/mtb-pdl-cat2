@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_uart.c
-* \version 2.0
+* \version 3.0
 *
 * Provides UART API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -85,6 +85,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
         CY_ASSERT_L2(CY_SCB_UART_IS_ADDRESS_VALID     (config->receiverAddress));
         CY_ASSERT_L2(CY_SCB_UART_IS_ADDRESS_MASK_VALID(config->receiverAddressMask));
         CY_ASSERT_L2(CY_SCB_UART_IS_MUTLI_PROC_VALID  (config->enableMutliProcessorMode, config->uartMode, config->dataWidth, config->parity));
+        CY_ASSERT_L2(CY_SCB_UART_IS_LIN_MODE_VALID    (config->enableLinMode, config->uartMode));
 
         CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(config->rxFifoIntEnableMask, CY_SCB_UART_RX_INTR_MASK));
         CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(config->txFifoIntEnableMask, CY_SCB_UART_TX_INTR_MASK));
@@ -124,6 +125,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
 #ifdef CY_IP_M0S8SCB
         SCB_UART_RX_CTRL(base) = _BOOL2FLD(SCB_UART_RX_CTRL_POLARITY, config->irdaInvertRx)                  |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_MP_MODE, config->enableMutliProcessorMode)       |
+                                 _BOOL2FLD(SCB_UART_RX_CTRL_LIN_MODE, config->enableLinMode)                 |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_PARITY_ERROR, config->dropOnParityError) |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_FRAME_ERROR, config->dropOnFrameError)   |
                                  _VAL2FLD(SCB_UART_RX_CTRL_BREAK_WIDTH, (config->breakWidth - 1UL))          |
@@ -132,6 +134,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
 #else /* CY_IP_MXSCB */
         SCB_UART_RX_CTRL(base) = _BOOL2FLD(SCB_UART_RX_CTRL_POLARITY, config->irdaInvertRx)                  |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_MP_MODE, config->enableMutliProcessorMode)       |
+                                 _BOOL2FLD(SCB_UART_RX_CTRL_LIN_MODE, config->enableLinMode)                 |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_PARITY_ERROR, config->dropOnParityError) |
                                  _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_FRAME_ERROR, config->dropOnFrameError)   |
                                  _VAL2FLD(SCB_UART_RX_CTRL_BREAK_WIDTH, (config->breakWidth - 1UL))          |

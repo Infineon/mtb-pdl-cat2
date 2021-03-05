@@ -27,6 +27,9 @@ var searchData=
   ['macros',['Macros',['../group__group__tcpwm__macros__pwm.html',1,'']]],
   ['macros',['Macros',['../group__group__tcpwm__macros__quaddec.html',1,'']]],
   ['macros',['Macros',['../group__group__trigmux__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__usbpd__common__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__usbpd__legacy__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__usbpd__typec__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__wdc__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__wdt__macros.html',1,'']]]
 ];

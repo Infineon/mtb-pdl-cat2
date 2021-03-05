@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -87,7 +87,7 @@
     <!--Inputs-->
     <ParamSignal port="clock[0]" name="Clock Signal" group="Inputs" visible="true" desc="The clock input defines the operating frequency." canBeEmpty="false" />
 
-    <ParamChoice id="CountInput" name="Count Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${pPwmNePrs}`" editable="true" desc="Determines if a count input is needed and how that input is registered." >
+    <ParamChoice id="CountInput" name="Count Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${pPwmNePrs &amp;&amp; hasVisibleOption(&quot;count[0]&quot;)}`" editable="true" desc="Determines if a count input is needed and how that input is registered." >
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -107,7 +107,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamChoice id="KillInput" name="Kill Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="Determines how the kill input behaves." >
+    <ParamChoice id="KillInput" name="Kill Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;stop[0]&quot;)}`" editable="true" desc="Determines how the kill input behaves." >
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -127,7 +127,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamChoice id="ReloadInput" name="Reload Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="Determines if a reload input is needed and how the reload signal input is registered." >
+    <ParamChoice id="ReloadInput" name="Reload Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;reload[0]&quot;)}`" editable="true" desc="Determines if a reload input is needed and how the reload signal input is registered." >
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -146,7 +146,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamChoice id="StartInput" name="Start Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="Determines if a start input is needed and how that input is registered." >
+    <ParamChoice id="StartInput" name="Start Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;start[0]&quot;)}`" editable="true" desc="Determines if a start input is needed and how that input is registered." >
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -165,7 +165,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamChoice id="SwapInput" name="Swap Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="This input controls when compare and period swaps occur." >
+    <ParamChoice id="SwapInput" name="Swap Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;capture[0]&quot;)}`" editable="true" desc="This input controls when compare and period swaps occur." >
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -197,7 +197,7 @@
     <ParamBool id="InvertPwm_n" name="Invert PWM_n Output" group="PWM Output Polarity" default="false" visible="true" editable="true" desc="If checked the main PWM_n output is inverted." />
 
     <!--Outputs-->
-    <ParamSignal port="line[0]" name="PWM (line)" group="Outputs" visible="true" desc="PWM output" canBeEmpty="true" >
+    <ParamSignal port="line[0]" name="PWM (line)" group="Outputs" visible="`${hasVisibleOption(&quot;line[0]&quot;)}`" desc="PWM output" canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
@@ -210,7 +210,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="line_compl[0]" name="PWM_n (line_compl)" group="Outputs" visible="true" desc="Complimentary PWM output." canBeEmpty="true" >
+    <ParamSignal port="line_compl[0]" name="PWM_n (line_compl)" group="Outputs" visible="`${hasVisibleOption(&quot;line_compl[0]&quot;)}`" desc="Complimentary PWM output." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
@@ -223,7 +223,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="tr_overflow[0]" name="Overflow" group="Outputs" visible="`${pPwmNePrs}`" desc="This digital output goes high when the count value overflows from the period to zero. Reload will also generate an Overflow when Left alignment." canBeEmpty="true" >
+    <ParamSignal port="tr_overflow[0]" name="Overflow" group="Outputs" visible="`${pPwmNePrs &amp;&amp; hasVisibleOption(&quot;tr_overflow[0]&quot;)}`" desc="This digital output goes high when the count value overflows from the period to zero. Reload will also generate an Overflow when Left alignment." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
@@ -236,7 +236,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="tr_underflow[0]" name="Underflow" group="Outputs" visible="`${pPwmNePrs}`" desc="This digital output goes high when the count value rolls over from zero to the period value. Reload will also generate an underflow event in Right, Center and Asymmetric alignment modes." canBeEmpty="true" >
+    <ParamSignal port="tr_underflow[0]" name="Underflow" group="Outputs" visible="`${pPwmNePrs &amp;&amp; hasVisibleOption(&quot;tr_underflow[0]&quot;)}`" desc="This digital output goes high when the count value rolls over from zero to the period value. Reload will also generate an underflow event in Right, Center and Asymmetric alignment modes." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
@@ -249,7 +249,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="tr_compare_match[0]" name="Compare (cc_match)" group="Outputs" visible="true" desc="This digital output goes high when the compare value equals the Count Value." canBeEmpty="true" >
+    <ParamSignal port="tr_compare_match[0]" name="Compare (cc_match)" group="Outputs" visible="`${hasVisibleOption(&quot;tr_compare_match[0]&quot;)}`" desc="This digital output goes high when the compare value equals the Count Value." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

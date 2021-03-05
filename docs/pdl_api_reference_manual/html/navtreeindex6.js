@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"group__group__smartio__enums.html#gga8e445e3c1017ca42126054f92192574aa2ca6e98e8e8421dd34752c22420ddf73":[2,8,3,7,2],
+"group__group__smartio__enums.html#gga8e445e3c1017ca42126054f92192574aa4c3725615e3042ce8fd8e0541b095852":[2,8,3,7,11],
 "group__group__smartio__enums.html#gga8e445e3c1017ca42126054f92192574aa5fbd0756597605d3bd5b02534a41315b":[2,8,3,7,3],
 "group__group__smartio__enums.html#gga8e445e3c1017ca42126054f92192574aa7354f4a791940bfbd452a63e82bb50a5":[2,8,3,7,9],
 "group__group__smartio__enums.html#gga8e445e3c1017ca42126054f92192574aa9e881d27dc3bcbcfb9d7c9f836f0f9a2":[2,8,3,7,8],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "group__group__syslib__data__structures.html":[2,12,2],
 "group__group__syslib__enumerated__types.html":[2,12,3],
 "group__group__syslib__enumerated__types.html#ga97d0b049220b931606e2ae2e144994e1":[2,12,3,0],
-"group__group__syslib__enumerated__types.html#gga97d0b049220b931606e2ae2e144994e1a3be9d96ef6dc5712eece0461a3a00def":[2,12,3,0,4],
-"group__group__syslib__enumerated__types.html#gga97d0b049220b931606e2ae2e144994e1a7c9afe9d38b5cd61b214b55f4f16152f":[2,12,3,0,3],
-"group__group__syslib__enumerated__types.html#gga97d0b049220b931606e2ae2e144994e1a7d26e21cf3c67f4202b35c3c6bcde534":[2,12,3,0,0]
+"group__group__syslib__enumerated__types.html#gga97d0b049220b931606e2ae2e144994e1a3be9d96ef6dc5712eece0461a3a00def":[2,12,3,0,4]
 };

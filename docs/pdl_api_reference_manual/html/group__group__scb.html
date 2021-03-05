@@ -99,6 +99,12 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td rowspan="2">3.0 </td><td>Added support of SCB blocks with FIFO buffers size other than 32 byte. </td><td>New device support.  </td></tr>
+<tr>
+<td>Added <a class="el" href="group__group__scb__uart__general__functions.html#ga1f4032d3805d5d070227fcb90b32ea95">Cy_SCB_UART_GetBaudRateCount()</a> to get number of peripheral clock periods that constitutes the transmission of the LIN's sync byte. <br />
+ Added enableLinMode member to <a class="el" href="structcy__stc__scb__uart__config__t.html">cy_stc_scb_uart_config_t</a>. <dl class="section note"><dt>Note</dt><dd>enableLinMode has effect on <a class="el" href="group__group__scb__uart__macros__tx__fifo__status.html#gaf463f453c30885d0bd6ae52744bb1449">CY_SCB_UART_TX_ARB_LOST</a> and <a class="el" href="group__group__scb__uart__macros__rx__fifo__status.html#ga305036745f5db0cea8cd97fa8b6ade43">CY_SCB_UART_RX_BREAK_DETECT</a> interrupts.  </dd></dl>
+</td><td>LIN mode support.  </td></tr>
+<tr>
 <td rowspan="5">2.0 </td><td><p class="starttd">Added new features:</p><ul>
 <li>High-speed mode for I2C Slave</li>
 <li>SPI Parity</li>

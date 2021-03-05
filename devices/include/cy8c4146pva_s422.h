@@ -5,11 +5,11 @@
 * CY8C4146PVA-S422 device header
 *
 * \note
-* Generator version: 1.6.0.392
+* Generator version: 1.6.0.457
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -138,7 +138,7 @@ typedef enum {
 #define CY_IP_M0S8PERI_TR_INSTANCES     1u
 #define CY_IP_M0S8PERI_TR_VERSION       1u
 #define CY_IP_M0S8SCB                   1u
-#define CY_IP_M0S8SCB_INSTANCES         3u
+#define CY_IP_M0S8SCB_INSTANCES         2u
 #define CY_IP_M0S8SCB_VERSION           2u
 #define CY_IP_S8SRSSLT                  1u
 #define CY_IP_S8SRSSLT_INSTANCES        1u

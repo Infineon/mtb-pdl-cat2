@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -267,7 +267,6 @@
     <!-- Includes -->
     <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
     <ConfigInclude value="cy_msc.h" include="true" />
-    <ConfigInclude value="cy_msc_simul.h" include="true" guard="defined(MSC_SIMULATION)"/>
 
     <ConfigDefine name="CY_`${mscInstanceName}`_DMAC_BASE_ADDR" value="`${allDmaTriggersAssigned ? &quot;DMAC&quot; : &quot;NULL&quot;}`" public="true" include="true" />
 

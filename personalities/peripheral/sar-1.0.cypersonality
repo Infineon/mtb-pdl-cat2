@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -249,7 +249,7 @@
       <Entry name="Vref" value="CY_SAR_NEG_SEL_VREF" visible="true" />
     </ParamChoice>
     <ParamSignal name="Vref External Pin" port="vref_ext[0]" group="Connections" visible="`${isVrefExternal}`" canBeEmpty="`${!isVrefExternal}`" requirePreferred="true" multiSelect="false" desc="Select the device pin for external ADC reference" />
-    <ParamString id="vneg_select_string" name="vneg_select_string" group="Internal" default="`${((vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN) || (vneg_select eq CY_SAR_NEG_SEL_VREF)) ? vneg_select : &quot;SAR&quot; . passInst . &quot;_NEG_SEL&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="vneg_select_string" name="vneg_select_string" group="Internal" default="`${single_ended_exists ? ((vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN) || (vneg_select eq CY_SAR_NEG_SEL_VREF)) ? vneg_select : &quot;SAR&quot; . passInst . &quot;_NEG_SEL&quot; : CY_SAR_NEG_SEL_VSSA_KELVIN}`" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="se_code_range" name="Single-ended Code Range" group="Sampling" default="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN ? &quot;0x000 to 0x7FF&quot; : (!se_format ? &quot;0x000 to 0xFFF&quot; : &quot;0x800 to 0x7FF&quot;)}`" visible="true" editable="false" desc="Code range for all single-ended channels. See associated voltage range." />
     <ParamString id="se_volt_range" name="Single-ended Voltage Range" group="Sampling" default="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN ? &quot;0 to Vref&quot; : (vneg_select eq CY_SAR_NEG_SEL_VREF ? &quot;0 to 2*Vref&quot; : &quot;Vneg +/-Vref&quot;)}`" visible="true" editable="false" desc="Voltage range for all single-ended channels. Note that the voltage on a single-ended channel cannot go below 0 V. See associated code range." />
     <ParamBool id="vneg_routed" name="vneg_routed" group="Internal" default="`${(vneg_select ne CY_SAR_NEG_SEL_VSSA_KELVIN) &amp;&amp; (vneg_select ne CY_SAR_NEG_SEL_VREF)}`" visible="`${debug}`" editable="false" desc="" />
@@ -367,7 +367,7 @@
 
     <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_sar_config_t" const="`${inFlash}`" public="true" include="true">
       <Member name="vrefSel" value="`${((CY_SAR_VREF_SEL_BGR_BYP eq vref_select) || (CY_SAR_VREF_SEL_BGR eq vref_select)) ? CY_SAR_VREF_SEL_BGR :
-                                       ((CY_SAR_VREF_SEL_VDDA_DIV_2_BYP eq vref_select) || (CY_SAR_VREF_SEL_VDDA_DIV_2 eq vref_select)) ? CY_SAR_VREF_SEL_BGR : vref_select}`" />
+                                       ((CY_SAR_VREF_SEL_VDDA_DIV_2_BYP eq vref_select) || (CY_SAR_VREF_SEL_VDDA_DIV_2 eq vref_select)) ? CY_SAR_VREF_SEL_VDDA_DIV_2 : vref_select}`" />
       <Member name="vrefBypCapEn" value="`${vref_byp_cap}`" />
       <Member name="negSel" value="`${vneg_select_string}`" />
       <Member name="negVref" value="CY_SAR_NEGVREF_HW" />

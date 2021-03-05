@@ -8,7 +8,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -270,6 +270,9 @@
     </DRC>
     <DRC type="WARNING" text="All MSC blocks have to utilize the same clock source"
          condition="`${!((msc0Clk eq msc1Clk) &amp;&amp; (msc2Clk eq msc3Clk) &amp;&amp; (msc0Clk eq msc3Clk))}`" >
+    </DRC>
+    <DRC type="ERROR" text="The Power Settings personality is not enabled" condition="`${!isPowerEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="srss[0].power[0]" value="" valid="true" />
     </DRC>
   </DRCs>
 

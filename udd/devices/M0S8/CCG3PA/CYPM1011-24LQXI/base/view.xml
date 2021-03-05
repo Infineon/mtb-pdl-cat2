@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<baseview>
+  <mcu>CortexM0</mcu>
+  <vendor>Cypress</vendor>
+  <flash>65536</flash>
+  <ram>8192</ram>
+  <package>24-QFN-PMG1-S0</package>
+  <minvoltage>2700</minvoltage>
+  <maxvoltage>5500</maxvoltage>
+  <description>The CYPM1011-24LQXI device.</description>
+</baseview>

@@ -5,6 +5,7 @@ var group__group__scb__common__macros__rx__intr =
     [ "CY_SCB_RX_INTR_FULL", "group__group__scb__common__macros__rx__intr.html#ga1cb2d0a7d0b1cc8d61047f6e18ea8253", null ],
     [ "CY_SCB_RX_INTR_OVERFLOW", "group__group__scb__common__macros__rx__intr.html#ga2eb641ced7c5a56090406d3e6b121b7f", null ],
     [ "CY_SCB_RX_INTR_UNDERFLOW", "group__group__scb__common__macros__rx__intr.html#gac09e0975c2ec8d3e7e5360eb3cf652db", null ],
+    [ "CY_SCB_RX_INTR_BAUD_DETECT", "group__group__scb__common__macros__rx__intr.html#ga1b12f8f3c7a25c8ebca33100e25e28d0", null ],
     [ "CY_SCB_RX_INTR_UART_FRAME_ERROR", "group__group__scb__common__macros__rx__intr.html#ga84bfda9d220b8bb6b5311614c097bed6", null ],
     [ "CY_SCB_RX_INTR_UART_PARITY_ERROR", "group__group__scb__common__macros__rx__intr.html#ga93968b0308022036b7517a6575d11a40", null ],
     [ "CY_SCB_RX_INTR_SPI_PARITY_ERROR", "group__group__scb__common__macros__rx__intr.html#ga4fd3c9ff51712f44913122a284078df6", null ],

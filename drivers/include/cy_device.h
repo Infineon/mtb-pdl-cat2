@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_device.h
-* \version 1.0
+* \version 1.10
 *
 * This file specifies the structure for core and peripheral block HW base
 * addresses, versions, and parameters.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -343,6 +343,7 @@
 #define HSIOM_PRT_PORT_SEL(base)           (((HSIOM_PRT_Type *)(base))->PORT_SEL)
 
 #define HSIOM_AMUX_SPLIT_CTL(switchCtrl)   (HSIOM->AMUX_SPLIT_CTL[switchCtrl])
+#define HSIOM_PUMP_CTL                     (HSIOM->PUMP_CTL)
 
 
 /*******************************************************************************
@@ -399,6 +400,7 @@
 #define SCB_UART_CTRL(base)                 (((CySCB_Type*) (base))->UART_CTRL)
 #define SCB_UART_TX_CTRL(base)              (((CySCB_Type*) (base))->UART_TX_CTRL)
 #define SCB_UART_RX_CTRL(base)              (((CySCB_Type*) (base))->UART_RX_CTRL)
+#define SCB_UART_RX_STATUS(base)            (((CySCB_Type*) (base))->UART_RX_STATUS)
 #define SCB_UART_FLOW_CTRL(base)            (((CySCB_Type*) (base))->UART_FLOW_CTRL)
 #define SCB_I2C_CTRL(base)                  (((CySCB_Type*) (base))->I2C_CTRL)
 #define SCB_I2C_STATUS(base)                (((CySCB_Type*) (base))->I2C_STATUS)
@@ -522,6 +524,30 @@
 #define CANFD_CREL(base, chan)              (((CANFD_Type *)(base))->CH[chan].M_TTCAN.CREL)
 
 #define CY_CANFD_CHANNELS_NUM               (0x1UL)
+
+/*******************************************************************************
+*                I2S
+*******************************************************************************/
+
+#define I2S_CTL(base)                   (((I2S_Type*)(base))->CTL)
+#define I2S_CMD(base)                   (((I2S_Type*)(base))->CMD)
+#define I2S_CLOCK_CTL(base)             (((I2S_Type*)(base))->CLOCK_CTL)
+#define I2S_TR_CTL(base)                (((I2S_Type*)(base))->TR_CTL)
+#define I2S_TX_CTL(base)                (((I2S_Type*)(base))->TX_CTL)
+#define I2S_TX_FIFO_CTL(base)           (((I2S_Type*)(base))->TX_FIFO_CTL)
+#define I2S_TX_FIFO_STATUS(base)        (((I2S_Type*)(base))->TX_FIFO_STATUS)
+#define I2S_TX_FIFO_WR(base)            (((I2S_Type*)(base))->TX_FIFO_WR)
+#define I2S_TX_WATCHDOG(base)           (((I2S_Type*)(base))->TX_WATCHDOG)
+#define I2S_RX_CTL(base)                (((I2S_Type*)(base))->RX_CTL)
+#define I2S_RX_FIFO_CTL(base)           (((I2S_Type*)(base))->RX_FIFO_CTL)
+#define I2S_RX_FIFO_STATUS(base)        (((I2S_Type*)(base))->RX_FIFO_STATUS)
+#define I2S_RX_FIFO_RD(base)            (((I2S_Type*)(base))->RX_FIFO_RD)
+#define I2S_RX_FIFO_RD_SILENT(base)     (((I2S_Type*)(base))->RX_FIFO_RD_SILENT)
+#define I2S_RX_WATCHDOG(base)           (((I2S_Type*)(base))->RX_WATCHDOG)
+#define I2S_INTR(base)                  (((I2S_Type*)(base))->INTR)
+#define I2S_INTR_SET(base)              (((I2S_Type*)(base))->INTR_SET)
+#define I2S_INTR_MASK(base)             (((I2S_Type*)(base))->INTR_MASK)
+#define I2S_INTR_MASKED(base)           (((I2S_Type*)(base))->INTR_MASKED)
 
 
 #endif /* CY_DEVICE_H_ */

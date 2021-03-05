@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['dmac_5fdescr_5ftype',['DMAC_DESCR_Type',['../struct_d_m_a_c___d_e_s_c_r___type.html',1,'']]],
-  ['dmac_5ftype',['DMAC_Type',['../struct_d_m_a_c___type.html',1,'']]]
+  ['bat_5fsnk',['BAT_SNK',['../structcy__pd__pd__do__t_1_1_b_a_t___s_n_k.html',1,'cy_pd_pd_do_t']]],
+  ['bat_5fsrc',['BAT_SRC',['../structcy__pd__pd__do__t_1_1_b_a_t___s_r_c.html',1,'cy_pd_pd_do_t']]],
+  ['bist_5fdo',['BIST_DO',['../structcy__pd__pd__do__t_1_1_b_i_s_t___d_o.html',1,'cy_pd_pd_do_t']]]
 ];

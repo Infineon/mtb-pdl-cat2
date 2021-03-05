@@ -3,6 +3,7 @@ var group__group__systick__functions =
     [ "Cy_SysTick_Init", "group__group__systick__functions.html#gac600820b0201e4ad5a171e97f7642c62", null ],
     [ "Cy_SysTick_Enable", "group__group__systick__functions.html#ga14017a044d9158c88c6cd589b6bd6895", null ],
     [ "Cy_SysTick_Disable", "group__group__systick__functions.html#gaf371c2b11a3b5bb8241842298137167b", null ],
+    [ "Cy_SysTick_IsEnabled", "group__group__systick__functions.html#ga3f8081d5b34edcaabf394b86b87f1147", null ],
     [ "Cy_SysTick_SetCallback", "group__group__systick__functions.html#gac20a2349069c5268c6e3f05c6777b9c9", null ],
     [ "Cy_SysTick_GetCallback", "group__group__systick__functions.html#ga3fb4a65fcdb113c20d679e5d9ae5f2e8", null ],
     [ "Cy_SysTick_SetClockSource", "group__group__systick__functions.html#gaa8a72d8a278e4a3a970b4c4a021f3647", null ],

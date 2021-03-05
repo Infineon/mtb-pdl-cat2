@@ -14,5 +14,6 @@ var searchData=
   ['pwm_20modes',['PWM modes',['../group__group__tcpwm__pwm__modes.html',1,'']]],
   ['pwm_20output_20invert',['PWM output invert',['../group__group__tcpwm__pwm__output__invert.html',1,'']]],
   ['pwm_20run_20modes',['PWM run modes',['../group__group__tcpwm__pwm__run__modes.html',1,'']]],
-  ['pwm_20status',['PWM Status',['../group__group__tcpwm__pwm__status.html',1,'']]]
+  ['pwm_20status',['PWM Status',['../group__group__tcpwm__pwm__status.html',1,'']]],
+  ['phy_20_28usbpd_29',['Phy (USBPD)',['../group__group__usbpd__phy.html',1,'']]]
 ];

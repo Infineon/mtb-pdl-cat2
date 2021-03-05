@@ -7,5 +7,6 @@ var searchData=
   ['uart_20receive_20statuses',['UART Receive Statuses',['../group__group__scb__uart__macros__receive__status.html',1,'']]],
   ['uart_20rx_20fifo_20status_2e',['UART RX FIFO status.',['../group__group__scb__uart__macros__rx__fifo__status.html',1,'']]],
   ['uart_20transmit_20status',['UART Transmit Status',['../group__group__scb__uart__macros__transmit__status.html',1,'']]],
-  ['uart_20tx_20fifo_20statuses',['UART TX FIFO Statuses',['../group__group__scb__uart__macros__tx__fifo__status.html',1,'']]]
+  ['uart_20tx_20fifo_20statuses',['UART TX FIFO Statuses',['../group__group__scb__uart__macros__tx__fifo__status.html',1,'']]],
+  ['usbpd_20_20_20_20_20_20_20_20_28usb_20power_20delivery_29',['USBPD        (USB Power Delivery)',['../group__group__usbpd.html',1,'']]]
 ];

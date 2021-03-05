@@ -1,6 +1,6 @@
 /*******************************************************************************
 * \file cy8c4xx7.icf
-* \version 1.10
+* \version 1.10.1
 *
 * Linker file for the IAR compiler.
 *
@@ -19,7 +19,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2020 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,24 +51,42 @@ define symbol __ICFEDIT_intvec_start__ = 0x00000000;
 /* RAM */
 define symbol __ICFEDIT_region_IRAM1_start__ = 0x20000000;
 define symbol __ICFEDIT_region_IRAM1_end__   = 0x20003FFF;
+define symbol __ICFEDIT_region_IRAM2_start__ = 0x0;
+define symbol __ICFEDIT_region_IRAM2_end__   = 0x0;
+define symbol __ICFEDIT_region_IRAM3_start__ = 0x0;
+define symbol __ICFEDIT_region_IRAM3_end__   = 0x0;
+define symbol __ICFEDIT_region_ERAM1_start__ = 0x0;
+define symbol __ICFEDIT_region_ERAM1_end__   = 0x0;
+define symbol __ICFEDIT_region_ERAM2_start__ = 0x0;
+define symbol __ICFEDIT_region_ERAM2_end__   = 0x0;
+define symbol __ICFEDIT_region_ERAM3_start__ = 0x0;
+define symbol __ICFEDIT_region_ERAM3_end__   = 0x0;
 
 /* Flash */
 define symbol __ICFEDIT_region_IROM1_start__ = 0x00000000;
 define symbol __ICFEDIT_region_IROM1_end__   = 0x0001FFFF;
+define symbol __ICFEDIT_region_IROM2_start__ = 0x0;
+define symbol __ICFEDIT_region_IROM2_end__   = 0x0;
+define symbol __ICFEDIT_region_EROM1_end__   = 0x0;
+define symbol __ICFEDIT_region_EROM1_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM2_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM2_end__   = 0x0;
+define symbol __ICFEDIT_region_EROM3_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM3_end__   = 0x0;
 
 /*-Sizes-*/
 if (!isdefinedsymbol(__STACK_SIZE)) {
-  define symbol __ICFEDIT_size_cstack__ = 0x0400;
+define symbol __ICFEDIT_size_cstack__ = 0x0400;
 } else {
-  define symbol __ICFEDIT_size_cstack__ = __STACK_SIZE;
+define symbol __ICFEDIT_size_cstack__ = __STACK_SIZE;
 }
 define symbol __ICFEDIT_size_proc_stack__ = 0x0;
 
 /* Defines the minimum heap size. The actual heap size will be expanded to the end of the stack region */
 if (!isdefinedsymbol(__HEAP_SIZE)) {
-    define symbol __ICFEDIT_size_heap__ = 0x0080;
+define symbol __ICFEDIT_size_heap__ = 0x0080;
 } else {
-  define symbol __ICFEDIT_size_heap__ = __HEAP_SIZE;
+define symbol __ICFEDIT_size_heap__ = __HEAP_SIZE;
 }
 /**** End of ICF editor section. ###ICF###*/
 

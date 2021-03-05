@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 2.0
+* \version 3.0
 *
 * Provides UART API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,6 +51,7 @@
 *   * Multi-processor mode
 * * SmartCard (ISO7816) reader
 * * IrDA
+* * Supports Local Interconnect Network (LIN)
 * * Data frame size programmable from 4 to 16 bits
 * * Programmable number of STOP bits, which can be set in terms of half bit
 *   periods between 1 and 4
@@ -413,7 +414,6 @@ typedef struct stc_scb_uart_config
     * Enables a digital 3-tap median filter (2 out of 3 voting) to be applied
     * to the input of the RX FIFO to filter glitches on the line (for IrDA,
     * this parameter is ignored)
-    *
     */
     bool        enableInputFilter;
 
@@ -471,6 +471,13 @@ typedef struct stc_scb_uart_config
     * is ignored)
     */
     bool        smartCardRetryOnNack;
+
+    /** 
+    * When enabled, allows to use baud rate detection, see
+    * \ref Cy_SCB_UART_GetBaudRateCount.
+    * \note Only applicable in Standart mode.  
+    */
+    bool        enableLinMode;
 
     /**
     * Enables the usage of the CTS input signal for the transmitter. The
@@ -585,6 +592,7 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_GetRtsFifoLevel(CySCB_Type const *base);
 
 __STATIC_INLINE void Cy_SCB_UART_EnableSkipStart (CySCB_Type *base);
 __STATIC_INLINE void Cy_SCB_UART_DisableSkipStart(CySCB_Type *base);
+__STATIC_INLINE uint32_t Cy_SCB_UART_GetBaudRateCount(CySCB_Type *base);
 /** \} group_scb_uart_general_functions */
 
 /**
@@ -753,7 +761,7 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 /** SmartCard only: the transmitter received a NACK */
 #define CY_SCB_UART_TX_NACK        (SCB_INTR_TX_UART_NACK_Msk)
 
-/** SmartCard only: the transmitter lost arbitration */
+/** SmartCard and LIN only: the transmitter lost arbitration */
 #define CY_SCB_UART_TX_ARB_LOST    (SCB_INTR_TX_UART_ARB_LOST_Msk)
 /** \} group_scb_uart_macros_tx_fifo_status */
 
@@ -928,6 +936,8 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 
 #define CY_SCB_UART_IS_MUTLI_PROC_VALID(mp, mode, width, parity)    ( (mp) ? ((CY_SCB_UART_STANDARD  == (mode)) && ((width) == 9UL) && \
                                                                               (CY_SCB_UART_PARITY_NONE == (parity))) : true)
+
+#define CY_SCB_UART_IS_LIN_MODE_VALID(enableLinMode, mode)        ( (enableLinMode) ? (CY_SCB_UART_STANDARD  == (mode)) : true)
 /** \endcond */
 
 /** \} group_scb_uart_macros */
@@ -1061,6 +1071,34 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_GetRtsFifoLevel(CySCB_Type const *base)
 __STATIC_INLINE void Cy_SCB_UART_EnableSkipStart(CySCB_Type *base)
 {
     SCB_UART_RX_CTRL(base) |= SCB_UART_RX_CTRL_SKIP_START_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SCB_UART_GetBaudRateCount
+****************************************************************************//**
+*
+* Reads an amount of peripheral clock periods that constitute the transmission of
+* a 0x55 data frame.
+*
+* \param base
+* The pointer to the UART SCB instance.
+*
+* \return
+* Amount of peripheral clock periods that constitute the transmission of a 0x55
+* data frame.
+*
+* \note
+* This function return the valid data when interrupt \ref CY_SCB_RX_INTR_BAUD_DETECT
+* triggered and enableLinMode is enabled in \ref cy_stc_scb_uart_config_t.
+*
+* \note
+* Only applicable for LIN protocol.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SCB_UART_GetBaudRateCount(CySCB_Type *base)
+{
+    return (SCB_UART_RX_STATUS(base) & SCB_UART_RX_STATUS_BR_COUNTER_Msk);
 }
 
 

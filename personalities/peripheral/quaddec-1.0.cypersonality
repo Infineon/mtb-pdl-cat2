@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,7 +51,7 @@
 
     <!--Inputs-->
     <ParamSignal port="clock[0]" name="Clock Signal" group="Inputs" visible="true" desc="The clock input defines the operating frequency." canBeEmpty="false" />
-    <ParamChoice id="IndexInput" name="Index Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="Determines if an index is needed and what edge causes an index to occur">
+    <ParamChoice id="IndexInput" name="Index Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;reload[0]&quot;)}`" editable="true" desc="Determines if an index is needed and what edge causes an index to occur">
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -71,7 +71,7 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
 
-    <ParamSignal port="count[0]" name="PhiA Signal" group="Inputs" visible="true" desc="This is the phase A input it is always required." canBeEmpty="false" >
+    <ParamSignal port="count[0]" name="PhiA Signal" group="Inputs" visible="true" desc="This is the phase A input it is always required." canBeEmpty="false" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -84,7 +84,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="start[0]" name="PhiB Signal" group="Inputs" visible="true" desc="This is the phase B input it is always required." canBeEmpty="false" >
+    <ParamSignal port="start[0]" name="PhiB Signal" group="Inputs" visible="true" desc="This is the phase B input it is always required." canBeEmpty="false" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -98,7 +98,7 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
 
-    <ParamChoice id="StopInput" name="Stop Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="true" editable="true" desc="Determines if a stop input is needed and what edges causes a stop to occur">
+    <ParamChoice id="StopInput" name="Stop Input" group="Inputs" default="CY_TCPWM_INPUT_DISABLED" visible="`${hasVisibleOption(&quot;stop[0]&quot;)}`" editable="true" desc="Determines if a stop input is needed and what edges causes a stop to occur">
       <Entry name="Rising Edge" value="CY_TCPWM_INPUT_RISINGEDGE" visible="true" />
       <Entry name="Falling Edge" value="CY_TCPWM_INPUT_FALLINGEDGE" visible="true" />
       <Entry name="Either Edge" value="CY_TCPWM_INPUT_EITHEREDGE" visible="true" />
@@ -119,7 +119,7 @@
     </ParamSignal>
 
     <!--Outputs-->
-    <ParamSignal port="tr_compare_match[0]" name="TC (cc_match)" group="Outputs" visible="true" desc="This output goes high on an index event, or when the count equals 0x0000 or 0xffff." canBeEmpty="true" >
+    <ParamSignal port="tr_compare_match[0]" name="TC (cc_match)" group="Outputs" visible="`${hasVisibleOption(&quot;tr_compare_match[0]&quot;)}`" desc="This output goes high on an index event, or when the count equals 0x0000 or 0xffff." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

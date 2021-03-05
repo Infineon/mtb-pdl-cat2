@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_pdl.h
-* \version 1.0
+* \version 1.10
 *
 * Include this file in all of your source files that access PDL.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,5 +51,9 @@
 #include "cy_trigmux.h"
 #include "cy_wdc.h"
 #include "cy_wdt.h"
+#include "cy_usbpd_bch.h"
+#include "cy_usbpd_phy.h"
+#include "cy_usbpd_typec.h"
+#include "cy_usbpd_vbus_ctrl.h"
 
 #endif /* CY_PDL_H */

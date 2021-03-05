@@ -5,11 +5,11 @@
 * Common header file to be included by the drivers.
 *
 * \note
-* Generator version: 1.6.0.388
+* Generator version: 1.6.0.453
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -814,6 +814,20 @@
     #include "cy8c4745lqi_s411.h"
 #elif defined (CY8C4745AZI_S413)
     #include "cy8c4745azi_s413.h"
+#elif defined (CYPM1011_24LQXI)
+    #include "cypm1011_24lqxi.h"
+#elif defined (CYPM1111_40LQXIT)
+    #include "cypm1111_40lqxit.h"
+#elif defined (CYPM1211_40LQXIT)
+    #include "cypm1211_40lqxit.h"
+#elif defined (CYPM1322_97BZXIT)
+    #include "cypm1322_97bzxit.h"
+#elif defined (CYPM1311_48LQXI)
+    #include "cypm1311_48lqxi.h"
+#elif defined (CYPD8225_97BZXIT)
+    #include "cypd8225_97bzxit.h"
+#elif defined (CYPD8125_48LQXI)
+    #include "cypd8125_48lqxi.h"
 #else
     #error Undefined part number
 #endif

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 1.0
+* \version 1.0.1
 *
 * Header file for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -163,6 +163,8 @@
 *     \ref CY_SAR_TRIGGER_MODE_FW_AND_HWLEVEL.</td>
 *    </tr>
 * </table>
+*
+* If the trigger occurs during a scan, a \ref CY_SAR_INTR_FW_COLLISION interrupt occurs and the trigger is delayed until the end of the scan.
 *
 * The trigger mode can be changed during run time with \ref Cy_SAR_SetConvertMode.
 *
@@ -340,7 +342,11 @@
 * \section group_sar_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
-
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Minor documentation updates.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>

@@ -120,6 +120,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga2154a54acbf4e9a5a38af3c515d4acc3"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__uart__general__functions.html#ga2154a54acbf4e9a5a38af3c515d4acc3">Cy_SCB_UART_DisableSkipStart</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base)</td></tr>
 <tr class="memdesc:ga2154a54acbf4e9a5a38af3c515d4acc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the skip start-bit functionality.  <a href="#ga2154a54acbf4e9a5a38af3c515d4acc3">More...</a><br /></td></tr>
 <tr class="separator:ga2154a54acbf4e9a5a38af3c515d4acc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1f4032d3805d5d070227fcb90b32ea95"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__uart__general__functions.html#ga1f4032d3805d5d070227fcb90b32ea95">Cy_SCB_UART_GetBaudRateCount</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base)</td></tr>
+<tr class="memdesc:ga1f4032d3805d5d070227fcb90b32ea95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an amount of peripheral clock periods that constitute the transmission of a 0x55 data frame.  <a href="#ga1f4032d3805d5d070227fcb90b32ea95">More...</a><br /></td></tr>
+<tr class="separator:ga1f4032d3805d5d070227fcb90b32ea95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gacbc061f623d2fafbcfffcb58c5f2db51"></a>
@@ -432,6 +435,36 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga1f4032d3805d5d070227fcb90b32ea95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1f4032d3805d5d070227fcb90b32ea95">&#9670;&nbsp;</a></span>Cy_SCB_UART_GetBaudRateCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE uint32_t Cy_SCB_UART_GetBaudRateCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reads an amount of peripheral clock periods that constitute the transmission of a 0x55 data frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the UART SCB instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Amount of peripheral clock periods that constitute the transmission of a 0x55 data frame.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function return the valid data when interrupt <a class="el" href="group__group__scb__common__macros__rx__intr.html#ga1b12f8f3c7a25c8ebca33100e25e28d0">CY_SCB_RX_INTR_BAUD_DETECT</a> triggered and enableLinMode is enabled in <a class="el" href="structcy__stc__scb__uart__config__t.html">cy_stc_scb_uart_config_t</a>.</dd>
+<dd>
+Only applicable for LIN protocol. </dd></dl>
 
 </div>
 </div>

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy8c4xx6.ld
-* \version 1.10
+* \version 1.10.1
 *
 * Linker file for the GNU C compiler.
 *
@@ -19,7 +19,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2020 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -347,6 +347,6 @@ SECTIONS
 /* Flash */
 __cy_memory_0_start    = 0x00000000;
 __cy_memory_0_length   = 0x00010000;
-__cy_memory_0_row_size = 0x100;
+__cy_memory_0_row_size = 0x80;
 
 /* EOF */

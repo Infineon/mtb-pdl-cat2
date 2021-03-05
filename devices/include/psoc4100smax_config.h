@@ -5,11 +5,11 @@
 * PSoC4100Smax device configuration header
 *
 * \note
-* Generator version: 1.6.0.358
+* Generator version: 1.6.0.439
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -1830,6 +1830,8 @@ typedef enum
 #define WCO_SPARE_EN                    0u
 /* Std Lib Config 1=scs8ls, 2=scs8hd, 3=scs8hv(invalid), others=reserved */
 #define WCO_SPARE_STDLIB_CFG            2u
+/* Number of words in EZ memory */
+#define SCB_EZ_DATA_NR                  32u
 
 #endif /* _PSOC4100SMAX_CONFIG_H_ */
 

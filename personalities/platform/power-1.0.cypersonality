@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +34,7 @@
   <ExposedMembers>
     <ExposedMember key="vddaMv" paramId="vddaMv" />
     <ExposedMember key="deepsleepWhenIdle" paramId="deepsleepWhenIdle" />
+    <ExposedMember key="AmuxPumpEn" paramId="AmuxPumpEn" />
   </ExposedMembers>
   <Parameters>
     <!-- Documentation -->
@@ -57,11 +58,20 @@
     <ParamRange id="vdddMv"    name="VDDD Voltage (mV)"    group="Operating Conditions" default="3300" min="1710" max="5500" resolution="1" visible="true" editable="true" desc="VDDD voltage in millivolts." />
 
     <ParamBool id="deepsleepWhenIdle" name="deepsleepWhenIdle" group="Internal" default="`${idlePwrMode eq CY_CFG_PWR_MODE_DEEPSLEEP}`" visible="false" editable="false" desc="" />
+    <ParamBool id="hasHsiomPump" name="hasHsiomPump" group="Internal" default="`${hasBlock(&quot;ioss[0].hsiom_pump[0]&quot;)}`" visible="false" editable="false" desc="IOSS has HSIOM pump." />
+    <ParamBool id="Vddale4" name="Vddalt4" group="Internal" default="`${vddaMv &lt;= 4000}`" visible="false" editable="false" desc="VDDA less than or equal 4000 mV." />   
+    <ParamBool id="AmuxPumpEn" name="AMUXBUS pump enable" group="Analog System" default="false" visible="`${hasHsiomPump}`" editable="true" desc="Enable the HSIOM AMUXBUS charge pump." />
   </Parameters>
 
   <!-- Error checking -->
   <DRCs>
     <DRC type="ERROR" text="The input voltage of VDDD is set to `${vdddMv}` which is out of range. The value must be between 1710 and VDDA (`${vddaMv}`)." condition="`${(vdddMv &gt; vddaMv)}`" />
+    <DRC type="INFO" text="The VDDA voltage is not greater than 4000 mV - it is recommended to enable the AMUXBUS charge pump if the AMUXBUS is used." condition="`${hasHsiomPump &amp;&amp; Vddale4 &amp;&amp; !AmuxPumpEn}`" >
+      <FixIt action="SET_PARAM" target="AmuxPumpEn" value="true" valid="true" />
+    </DRC>
+    <DRC type="INFO" text="The AMUXBUS charge pump should be disabled if VDDA voltage is over 4000 mV to avoid AMUXBUS circuits overvoltage." condition="`${hasHsiomPump &amp;&amp; !Vddale4 &amp;&amp; AmuxPumpEn}`" >
+      <FixIt action="SET_PARAM" target="AmuxPumpEn" value="false" valid="true" />
+    </DRC>
   </DRCs>
 
   <!-- Generated firmware -->
@@ -78,6 +88,10 @@
     <!-- Operating conditions -->
     <ConfigDefine name="CY_CFG_PWR_VDDA_MV"    public="true" value="`${vddaMv}`" include="true" />
     <ConfigDefine name="CY_CFG_PWR_VDDD_MV"    public="true" value="`${vdddMv}`" include="true" />
+
+    <!-- Enable HSIOM pump -->
+    <ConfigInstruction value="SRSSLT_CLK_SELECT |= SRSSLT_CLK_SELECT_PUMP_SEL_Msk;" include="`${AmuxPumpEn}`" />
+    <ConfigInstruction value="HSIOM_PUMP_CTL |= HSIOM_PUMP_CTL_ENABLED_Msk;" include="`${AmuxPumpEn}`" />
 
   </ConfigFirmware>
 </Personality>

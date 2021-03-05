@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_wdt.h
-* \version 1.0
+* \version 1.0.1
 *
 *  This file provides constants and parameter values for the WDT driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -167,6 +167,32 @@
 * * Use the WDT ISR only as a timer to trigger certain actions and to change the
 * next match value.
 *
+* \section group_wdt_section_use_case_1 Use case 1. Configure the WDT for periodic interrupt.
+*
+* Set parameters of the WDT.
+*
+* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_config_data
+*
+* Create an interrupt config structure and interrupt handler.
+*
+* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_Isr_config
+*
+* Hook the interrupt service routine and enable interrupt than config the WDT.
+*
+* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_config
+*
+* \note Additionally, global interrupts should be enabled.
+*
+* \note Before the WDT initialization, ensure that the WDT clock source is enabled.
+* Refer to \ref group_sysclk_ilo of SysClk driver documentation.
+*
+* \section group_wdt_section_use_case_2 Use case 2. Configure the WDT for the system reset generation after a configurable interval.
+*
+* In this case WDT resets the system every third WDT event (1.23s at ILO 40kHz).
+*
+* \snippet wdt/snippet/main.c snippet_WDT_useCase_2_config_data
+* \snippet wdt/snippet/main.c snippet_WDT_useCase_2_config
+*
 * \section group_wdt_section_more_information More Information
 *
 * For more information on the WDT peripheral, refer to the technical reference
@@ -175,6 +201,11 @@
 * \section group_wdt_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Code snippets added.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>

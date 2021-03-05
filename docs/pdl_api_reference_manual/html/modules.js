@@ -17,6 +17,7 @@ var modules =
     [ "SysTick      (ARM System Timer)", "group__group__arm__system__timer.html", "group__group__arm__system__timer" ],
     [ "TCPWM        (Timer Counter PWM)", "group__group__tcpwm.html", "group__group__tcpwm" ],
     [ "TrigMux      (Trigger Multiplexer)", "group__group__trigmux.html", "group__group__trigmux" ],
+    [ "USBPD        (USB Power Delivery)", "group__group__usbpd.html", "group__group__usbpd" ],
     [ "WDC          (Watchdog Counters)", "group__group__wdc.html", "group__group__wdc" ],
     [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ]
 ];

@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -338,15 +338,15 @@
     <ParamString id="ClkFreq" name="Clock Frequency" group="Data Rate" default="`${(scbClkHz &lt; 1000000) ? (scbClkHz / 1000.0) . &quot; kHz&quot; : (scbClkHz / 1000000.0) . &quot; MHz&quot;}`" visible="true" editable="false" desc="Frequency of the connected clock" />
 
     <!-- Hardware buffer size (defines FIFO size) -->
-    <ParamRange id="hwBufferSize" name="Hardware Buffer Size" group="Internal" default="`${lookupExpression(&quot;EZ_DATA_NR&quot;)}`" min="1" max="32" resolution="1" visible="false" editable="false" desc="Hardware buffer size." />
-    <ParamRange id="FifoLevelByte" name="FIFO Level (Byte)" group="Internal" default="`${(hwBufferSize / 2) - 1}`" min="0" max="15" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
-    <ParamRange id="FifoLevelHalfword" name="FIFO Level (Halfword)" group="Internal" default="`${(hwBufferSize / 4) - 1}`" min="0" max="7" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
-    <ParamRange id="FifoLevelMax" name="FIFO Level Max" group="Internal" default="`${(DataWidth &lt;= 8) ? FifoLevelByte : FifoLevelHalfword}`" min="0" max="15" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="hwBufferSize" name="Hardware Buffer Size" group="Internal" default="`${lookupExpression(&quot;EZ_DATA_NR&quot;)}`" min="1" max="256" resolution="1" visible="false" editable="false" desc="Hardware buffer size." />
+    <ParamRange id="FifoLevelByte" name="FIFO Level (Byte)" group="Internal" default="`${(hwBufferSize / 2) - 1}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="FifoLevelHalfword" name="FIFO Level (Halfword)" group="Internal" default="`${(hwBufferSize / 4) - 1}`" min="0" max="63" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="FifoLevelMax" name="FIFO Level Max" group="Internal" default="`${(DataWidth &lt;= 8) ? FifoLevelByte : FifoLevelHalfword}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
 
     <!--Trigger Level-->
-    <ParamRange id="RxTriggerLevel" name="RX FIFO Level" group="Trigger Level" default="7" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines behavior of signal which drives the RX FIFO Above Level interrupt source and RX trigger output as follows: the signal remains active until the number of data elements in the RX FIFO is greater than the value of RX FIFO Level. For example, the RX FIFO has 8 data elements and the RX FIFO level is 0. The signal remains active until all data elements are read from the RX FIFO. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
+    <ParamRange id="RxTriggerLevel" name="RX FIFO Level" group="Trigger Level" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines behavior of signal which drives the RX FIFO Above Level interrupt source and RX trigger output as follows: the signal remains active until the number of data elements in the RX FIFO is greater than the value of RX FIFO Level. For example, the RX FIFO has 8 data elements and the RX FIFO level is 0. The signal remains active until all data elements are read from the RX FIFO. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
-    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="7" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO Below Level interrupt source and TX trigger output as follows: until the number of data elements in the TX FIFO is less than the value of the TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." /> 
+    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="`${(FifoLevelMax == 15) ? 0 : (FifoLevelMax / 2)}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO Below Level interrupt source and TX trigger output as follows: until the number of data elements in the TX FIFO is less than the value of the TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." /> 
 
     <!-- API Mode -->
     <ParamChoice id="ApiMode" name="API Mode" group="API Mode" default="HIGH_LEVEL" visible="true" editable="true" desc="This parameter defines which API set will be used during driver operation. High Level means driver controls interrupt sources and Cy_SCB_SPI_Interrupt function must be called in the interrupt handler hooked to NVIC. Low Level means that the user configures interrupt sources and implements own interrupt handler or do not use interrupt at all.">

@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,7 +48,10 @@
     <ParamBool id="Standard" name="Standard" group="Internal" default="`${ComMode eq CY_SCB_UART_STANDARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
     <ParamBool id="SmartCard" name="SmartCard" group="Internal" default="`${ComMode eq CY_SCB_UART_SMARTCARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
     <ParamBool id="IrDA" name="IrDA" group="Internal" default="`${ComMode eq CY_SCB_UART_IRDA}`" visible="false" editable="false" desc="This parameter defines SmartCard." /> 
-    
+
+    <!-- Lin Mode -->
+    <ParamBool id="EnableLinMode" name="Enable LIN Mode" group="General" default="`${false}`" visible="`${Standard}`" editable="true" desc="This parameter enables the LIN mode. Only applicable when Com Mode is Standard." />
+
     <ParamBool id="IrdaLowPower" name="Low Power Receiving" group="General" default="false" visible="`${IrDA}`" editable="true" desc="This parameter enables the low-power receiver option. Only applicable when Com Mode is IrDA."/>
 
     <ParamRange id="BaudRate" name="Baud Rate (bps)" group="General" default="115200" min="1" max="1000000" resolution="1" visible="true" editable="true" desc="Baud rate that UART operates. Maximum baud rate is 1 Mbps." />
@@ -112,10 +115,10 @@
     <ParamBool id="EnableTxEn" name="TX-Enable" group="Support RS-485" default="false" visible="`${!SmartCard}`" editable="true" desc="This parameter enables TX_EN output." />
     
     <!-- Hardware buffer size (defines FIFO size) -->
-    <ParamRange id="hwBufferSize" name="Hardware Buffer Size" group="Internal" default="`${lookupExpression(&quot;EZ_DATA_NR&quot;)}`" min="1" max="32" resolution="1" visible="false" editable="false" desc="Hardware buffer size." />
-    <ParamRange id="FifoLevelByte" name="FIFO Level (Byte)" group="Internal" default="`${(hwBufferSize / 2) - 1}`" min="0" max="15" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
-    <ParamRange id="FifoLevelHalfword" name="FIFO Level (Halfword)" group="Internal" default="`${(hwBufferSize / 4) - 1}`" min="0" max="7" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
-    <ParamRange id="FifoLevelMax" name="FIFO Level Max" group="Internal" default="`${(DataWidth &lt;= 8) ? FifoLevelByte : FifoLevelHalfword}`" min="0" max="15" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="hwBufferSize" name="Hardware Buffer Size" group="Internal" default="`${lookupExpression(&quot;EZ_DATA_NR&quot;)}`" min="1" max="256" resolution="1" visible="false" editable="false" desc="Hardware buffer size." />
+    <ParamRange id="FifoLevelByte" name="FIFO Level (Byte)" group="Internal" default="`${(hwBufferSize / 2) - 1}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="FifoLevelHalfword" name="FIFO Level (Halfword)" group="Internal" default="`${(hwBufferSize / 4) - 1}`" min="0" max="63" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
+    <ParamRange id="FifoLevelMax" name="FIFO Level Max" group="Internal" default="`${(DataWidth &lt;= 8) ? FifoLevelByte : FifoLevelHalfword}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="FIFO Level for byte entry." />
 
     <!--Flow Control-->
     <ParamBool id="FlowControl" name="Enable Flow Control" group="Flow Control" default="false" visible="`${!SmartCard}`" editable="true" desc="This parameter enables the cts input." />
@@ -127,7 +130,7 @@
       <Entry name="Active Low" value="CY_SCB_UART_ACTIVE_LOW" visible="true" />
       <Entry name="Active High" value="CY_SCB_UART_ACTIVE_HIGH" visible="true" />
     </ParamChoice>
-    <ParamRange id="RtsTriggerLevel" name="RTS Activation Level" group="Flow Control" default="7" min="0" max="`${FifoLevelMax}`" resolution="1" visible="`${!SmartCard}`" editable="true" desc="This parameter determines the behavior of the RTS signal as follows: while the RX FIFO has fewer entries than the RTS Active When, the signal remains active; otherwise, the signal becomes inactive. The range: 0 – `${FifoLevelByte}` (when Data Width is less than or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
+    <ParamRange id="RtsTriggerLevel" name="RTS Activation Level" group="Flow Control" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="`${!SmartCard}`" editable="true" desc="This parameter determines the behavior of the RTS signal as follows: while the RX FIFO has fewer entries than the RTS Active When, the signal remains active; otherwise, the signal becomes inactive. The range: 0 – `${FifoLevelByte}` (when Data Width is less than or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
     <ParamString id="Tx_out_descr" name="tx_out description" group="Internal" default="The transmitter output drives the output serial data to another device on the serial bus." visible="false" editable="false" desc="tx_out description" />
     <ParamString id="Rx_tx_out_descr" name="rx_tx_out description" group="Internal" default="The receive and transmit output receives and transmits data from/to another device on the bus. This pin presents if the Com Mode parameter is SmartCard. Note that Drive Mode of the connected pin must be Open Drain Drives Low." visible="false" editable="false" desc="rx_tx_out description" />
@@ -259,9 +262,9 @@
     <ParamRange id="BaudRateAccuracy" name="Baud Rate Accuracy (%)" group="Actual Baud Rate" default="`${(abs(BaudRate - actualBaudRate) / BaudRate) * 100}`" min="0" max="200000000" resolution="0.001" visible="true" editable="false" desc="Deviation of actual baud rate from desired baud rate (does not include Clk_Peri accuracy)." />
     <ParamString id="ClkFreq" name="Clock Frequency" group="Actual Baud Rate" default="`${(scbClkHz &lt; 1000000) ? (scbClkHz / 1000.0) . &quot; kHz&quot; : (scbClkHz / 1000000.0) . &quot; MHz&quot;}`" visible="true" editable="false" desc="Frequency of the connected clock" />
     
-    <ParamRange id="RxTriggerLevel" name="RX FIFO Level" group="Trigger Level" default="7" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the RX FIFO Above Level interrupt source and the RX Trigger Output as follows: the signal remains active until the number of data elements in the RX FIFO is greater than the value of the RX FIFO Level. For example, the RX FIFO has 8 data elements and the RX FIFO level is 0. The signal remains active until all data elements are read from the RX FIFO. The range: 0 – `${FifoLevelByte}` (when Data Width is less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
+    <ParamRange id="RxTriggerLevel" name="RX FIFO Level" group="Trigger Level" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the RX FIFO Above Level interrupt source and the RX Trigger Output as follows: the signal remains active until the number of data elements in the RX FIFO is greater than the value of the RX FIFO Level. For example, the RX FIFO has 8 data elements and the RX FIFO level is 0. The signal remains active until all data elements are read from the RX FIFO. The range: 0 – `${FifoLevelByte}` (when Data Width is less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
-    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="7" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO below-level interrupt source and TX Trigger Output as follows: until the number of data elements in the TX FIFO is less than the value of TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when Data Width is less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
+    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="`${(FifoLevelMax == 15) ? 0 : (FifoLevelMax / 2)}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO below-level interrupt source and TX Trigger Output as follows: until the number of data elements in the TX FIFO is less than the value of TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when Data Width is less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
     <!--Multi Processor Mode-->
     <ParamBool id="MultiProc" name="Enable Multi Processor Mode" group="Multi Processor Mode" default="false" visible="`${!SmartCard}`" editable="true" desc="This parameter enables the UART multi-processor mode. Only applicable when Com Mode is Standard." />
@@ -375,6 +378,7 @@
       <Member name="smartCardRetryOnNack" value="`${(SmartCard &amp;&amp; SmCardRetryOnNack) ? &quot;true&quot; : &quot;false&quot;}`" />
       <Member name="irdaInvertRx" value="`${(IrDA &amp;&amp; (IrdaPolarity eq INVERTING)) ? &quot;true&quot; : &quot;false&quot;}`" />   
       <Member name="irdaEnableLowPowerReceiver" value="`${(IrDA &amp;&amp; IrdaLowPower) ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="enableLinMode" value="`${(Standard &amp;&amp; EnableLinMode) ? &quot;true&quot; : &quot;false&quot;}`" />
 
       <Member name="oversample" value="`${(Standard || SmartCard) ? Oversample : (IrDA &amp;&amp; !IrdaLowPower) ? IrDAOversample : IrDAOversampleDefine}`" />
       

@@ -5,11 +5,11 @@
 * CPUSS IP definitions
 *
 * \note
-* Generator version: 1.6.0.108
+* Generator version: 1.6.0.437
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

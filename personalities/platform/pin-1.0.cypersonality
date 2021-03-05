@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* Copyright 2020-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,6 +38,7 @@
   <Parameters>
     <!--Misc-->
     <ParamBool id="hasSIO" name="HasSIO" group="Misc" default="`${lookupExpression(&quot;GPIO.GPIO_PORT_NR[&quot; . getInstNumber(&quot;port&quot;) . &quot;].GPIO_PRT.SIO&quot;) &gt; 0}`" visible="false" editable="false" desc="Has SIO" />
+    <ParamBool id="hasIRQ" name="HasIRQ" group="Misc" default="`${lookupExpression(&quot;GPIO.GPIO_PORT_NR[&quot; . getInstNumber(&quot;port&quot;) . &quot;].GPIO_PRT.IRQ&quot;, 0) &gt; 0}`" visible="false" editable="false" desc="Has dedicated IRQ" />
 
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__gpio.html" linkText="Open GPIO Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
@@ -163,7 +164,7 @@
     <ConfigDefine name="`${INST_NAME}`_INIT_DRIVESTATE" value="`${initialState}`" public="true" include="true" />
     <ConfigDefine name="`${blockName . &quot;_HSIOM&quot;}`" value="HSIOM_SEL_GPIO" public="true" include="true" preventOverride="true" />
     <ConfigDefine name="`${INST_NAME}`_HSIOM" value="`${blockName . &quot;_HSIOM&quot;}`" public="true" include="`${!(INST_NAME eq blockName)}`" />
-    <ConfigDefine name="`${INST_NAME}`_IRQ" value="ioss_interrupts_gpio_`${port}`_IRQn" public="true" include="`${port &lt; 4}`" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="`${hasIRQ ? &quot;ioss_interrupts_gpio_&quot; . port . &quot;_IRQn&quot; : &quot;ioss_interrupt_gpio_IRQn&quot;}`" public="true" include="true" />
     <ConfigDefine name="`${INST_NAME}`_HAL_PORT_PIN" value="P`${port}`_`${pin}`" public="true" include="true" guard="defined (CY_USING_HAL)"/>
     <ConfigDefine name="`${INST_NAME}`" value="P`${port}`_`${pin}`" public="true" include="true" guard="defined (CY_USING_HAL)" />
     <ConfigDefine name="`${INST_NAME}`_HAL_IRQ" value="`${(isrTrigger eq CY_GPIO_INTR_DISABLE) ? &quot;CYHAL_GPIO_IRQ_NONE&quot; :

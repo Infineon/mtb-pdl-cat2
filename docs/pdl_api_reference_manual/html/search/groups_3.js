@@ -26,5 +26,6 @@ var searchData=
   ['data_20structures',['Data Structures',['../group__group__tcpwm__data__structures__pwm.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__tcpwm__data__structures__quaddec.html',1,'']]],
   ['default_20registers_20constants',['Default registers constants',['../group__group__tcpwm__reg__const.html',1,'']]],
+  ['data_20structures',['Data Structures',['../group__group__usbpd__common__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__wdc__data__structures.html',1,'']]]
 ];
