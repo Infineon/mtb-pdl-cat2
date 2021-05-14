@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file i2s.cypersonality
+* \version 1.0
+*
+* \brief
+* I2S personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright 2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="mxs40i2s" name="I2S" version="1.0" path="Communications" xmlns="http://cypress.com/xsd/cyhwpersonality_v1">
+  <Dependencies>
+    <IpBlock name="mxaudioss_ver2_s8" />
+    <Resource name="audioss\.i2s" used="true" />
+  </Dependencies>
+  <ExposedMembers />
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__i2s.html" linkText="Open I2S Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- Timing -->
+    <ParamSignal port="clock_pos_i2s_en[0]" name="Clock" group="Timing" visible="true" desc="Input clock source" canBeEmpty="false" />
+    <ParamString id="sourceClock" name="sourceClock" group="General" default="`${getBlockFromSignal(&quot;clock_pos_i2s_en[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="sourceFreq" name="sourceFreq" group="General" default="`${isBlockUsed(sourceClock) ? getExposedMember(sourceClock, &quot;frequency&quot;) : 0}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
+
+    <ParamSignal port="clk_i2s_if[0]" name="External Interface Clock" group="Timing" visible="true" desc="External interface clock - if unassigned then the CLK_HF1 clock is used." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="DEFAULT" reason="">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamBool id="extClk" name="Clock From Terminal" group="Timing" default="`${hasConnection(&quot;clk_i2s_if&quot;, 0)}`" visible="false" editable="false" desc="Selects input clock source: external interface clock (from the clk_if terminal) or internal clock (CLK_HF1)" />
+
+    <ParamRange  id="i2sClk" name="Input Clock Frequency (kHz)" group="Timing" default="`${sourceFreq / 1000}`" min="0" max="400000000" resolution="0.001" visible="true" editable="`${extClk}`" desc="Shows the actual input clock frequency in case of internal I2S clock using (Clock From Terminal is unassigned), and is editable in case of using the external I2S interface clock from terminal - the expected external clock frequency should be entered in kHz." />
+
+    <ParamRange id="clockDiv" name="Clock Divider" group="Timing" default="16" min="1" max="64" resolution="1" visible="true" editable="true" desc="Sets the input Clock Divider" />
+    <ParamRange id="bitRate" name="Bit Rate (kbps)" group="Timing" default="`${i2sClk / clockDiv / 8}`" min="0" max="10000000" resolution="0.001" visible="true" editable="false" desc="Shows the actual bit rate" />
+
+    <!-- TX -->
+    <ParamChoice id="txAlignment" name="Alignment" group="TX" default="CY_I2S_I2S_MODE" visible="true" editable="true" desc="Set interface transfer mode: I2S, Left Justified, TDM mode A, or TDM mode B">
+      <Entry name="Left Justified" value="CY_I2S_LEFT_JUSTIFIED" visible="true" />
+      <Entry name="I2S mode" value="CY_I2S_I2S_MODE" visible="true" />
+      <Entry name="TDM mode A" value="CY_I2S_TDM_MODE_A" visible="true" />
+      <Entry name="TDM mode B" value="CY_I2S_TDM_MODE_B" visible="true" />
+    </ParamChoice>
+    <ParamRange id="txChannels" name="Channels" group="TX" default="2" min="1" max="8" resolution="1" visible="true" editable="true" desc="Number of channels per frame (2 is the only valid value for Left Justified and I2S modes)" />
+    <ParamChoice id="txChannelLength" name="Channel Length" group="TX" default="16" visible="true" editable="true" desc="Set channel length in bits (32 bit is the only valid value for TDM modes)">
+      <Entry name="8" value="8" visible="true" />
+      <Entry name="16" value="16" visible="true" />
+      <Entry name="18" value="18" visible="true" />
+      <Entry name="20" value="20" visible="true" />
+      <Entry name="24" value="24" visible="true" />
+      <Entry name="32" value="32" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="txWordLength" name="Word Length" group="TX" default="16" visible="true" editable="true" desc="Set word length (in bits)">
+      <Entry name="8" value="8" visible="true" />
+      <Entry name="16" value="16" visible="true" />
+      <Entry name="18" value="18" visible="true" />
+      <Entry name="20" value="20" visible="true" />
+      <Entry name="24" value="24" visible="true" />
+      <Entry name="32" value="32" visible="true" />
+    </ParamChoice>
+
+    <ParamRange id="txFrameRate" name="Frame Rate (ksps)" group="TX" default="`${((txAlignment eq CY_I2S_TDM_MODE_A) || (txAlignment eq CY_I2S_TDM_MODE_B)) ? (bitRate / 256) : (bitRate / txChannelLength / 2)}`" min="0" max="10000000" resolution="0.001" visible="true" editable="false" desc="Shows the actual frame rate" />
+
+    <ParamChoice id="txOverheadValue" name="Overhead Value" group="TX" default="CY_I2S_OVHDATA_ZERO" visible="true" editable="true" desc="Set the overhead bits level (available only when word length is less than channel length). It fills all the channel LSBs (after the data LSB) on SDO wire by 1 or 0">
+      <Entry name="0" value="CY_I2S_OVHDATA_ZERO" visible="true" />
+      <Entry name="1" value="CY_I2S_OVHDATA_ONE" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="txWsPulseWidth" name="WS Pulse Width" group="TX" default="CY_I2S_WS_ONE_CHANNEL_LENGTH" visible="true" editable="true" desc="Pulse width of the WS signal: one SCK period or one channel length. The one channel length is the only valid value for I2S and Left Justified modes">
+      <Entry name="1 SCK period" value="CY_I2S_WS_ONE_SCK_CYCLE" visible="true" />
+      <Entry name="1 channel length" value="CY_I2S_WS_ONE_CHANNEL_LENGTH" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="txSckoPolarity" name="Output Serial Clock Polarity" group="TX" default="0" visible="true" editable="true" desc="Polarity of the output SCK signal (available only in master mode)">
+      <Entry name="Normal" value="0" visible="true" />
+      <Entry name="Inverted" value="1" visible="true" />
+    </ParamChoice>
+    <ParamRange id="txFifoTriggerLevel" name="FIFO Trigger Level" group="TX" default="0" min="0" max="255" resolution="1" visible="true" editable="true" desc="Set FIFO level to trigger an interrupt." />
+
+    <!-- Connections -->
+
+    <ParamSignal port="tx_sck[0]" name="Tx Serial Clock" group="Outputs" visible="true" desc="Tx serial clock" canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="ERROR" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="tx_ws[0]" name="Tx Word Select"  group="Outputs" visible="true" desc="Tx word select" canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="ERROR" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="tx_sdo[0]" name="Tx Serial Data"   group="Outputs" visible="true" desc="Tx serial data output" canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="ERROR" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <!-- I2S instance number -->
+    <ParamString id="InstNumber" name="Instance Number" group="Internal" default="`${getInstNumber(&quot;audioss&quot;)}`" visible="false" editable="false" desc="I2S Instance number." />
+    <ParamBool id="hasAudioss1" name="hasAudioss1" group="Internal" default="`${hasBlock(&quot;audioss[1]&quot;)}`" visible="false" editable="false" desc="Check whether device has more than one audioss" />
+
+    <!-- Peripheral clock divider connection -->
+    <ParamBool id="pclkOk" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock_pos_i2s_en&quot;, 0) &amp;&amp; isBlockUsed(sourceClock)}`" visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
+
+  </Parameters>
+
+  <DRCs>
+    <!-- TX direction -->
+    <DRC type="ERROR" text="In TDM mode the channel length is fixed 32 bit" condition="`${((txAlignment eq CY_I2S_TDM_MODE_A) || (txAlignment eq CY_I2S_TDM_MODE_B)) &amp;&amp; !(txChannelLength eq 32)}`" paramId="txChannelLength" >
+      <FixIt action="SET_PARAM" target="txChannelLength" value="32" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Only 2 channels is supported during Left Justified or I2S mode" condition="`${((txAlignment eq CY_I2S_I2S_MODE) || (txAlignment eq CY_I2S_LEFT_JUSTIFIED)) &amp;&amp; (txChannels != 2)}`" >
+       <FixIt action="SET_PARAM" target="txChannels" value="2" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="TX WS Pulse Width: only the &quot;1 channel length&quot; value is possible in I2S or Left Justified modes" condition="`${((txAlignment eq CY_I2S_I2S_MODE) || (txAlignment eq CY_I2S_LEFT_JUSTIFIED)) &amp;&amp; !(txWsPulseWidth eq CY_I2S_WS_ONE_CHANNEL_LENGTH)}`" >
+       <FixIt action="SET_PARAM" target="txWsPulseWidth" value="CY_I2S_WS_ONE_CHANNEL_LENGTH" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="TX Word Length value must be less than or equal TX Channel Length." condition="`${txWordLength &gt; txChannelLength}`" />
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_i2s.h" include="true" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="I2S`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="audioss_`${hasAudioss1 ? InstNumber . &quot;_&quot; : &quot;&quot;}`interrupt_i2s_IRQn" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME . &quot;_config&quot;}`" type="cy_stc_i2s_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="clkDiv"                value="`${clockDiv}`U" />
+      <Member name="extClk"                value="`${extClk}`" />
+      <Member name="txAlignment"           value="`${txAlignment}`" />
+      <Member name="txWsPulseWidth"        value="`${txWsPulseWidth}`" />
+      <Member name="txSckoInversion"       value="`${txSckoPolarity == 1 ? true : false}`" />
+      <Member name="txChannels"            value="`${txChannels}`" />
+      <Member name="txChannelLength"       value="CY_I2S_LEN`${txChannelLength}`" />
+      <Member name="txWordLength"          value="CY_I2S_LEN`${txWordLength}`" />
+      <Member name="txOverheadValue"       value="`${txOverheadValue}`" />
+      <Member name="txFifoTriggerLevel"    value="`${txFifoTriggerLevel}`U" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_I2S" />
+      <Member name="block_num" value="`${InstNumber}`U" />
+      <Member name="channel_num" value="0U" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_AUDIOSS_CLOCK_POS_I2S_EN, `${getExposedMember(sourceClock, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" />
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+
+</Personality>

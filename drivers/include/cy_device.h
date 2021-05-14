@@ -538,17 +538,10 @@
 #define I2S_TX_FIFO_STATUS(base)        (((I2S_Type*)(base))->TX_FIFO_STATUS)
 #define I2S_TX_FIFO_WR(base)            (((I2S_Type*)(base))->TX_FIFO_WR)
 #define I2S_TX_WATCHDOG(base)           (((I2S_Type*)(base))->TX_WATCHDOG)
-#define I2S_RX_CTL(base)                (((I2S_Type*)(base))->RX_CTL)
-#define I2S_RX_FIFO_CTL(base)           (((I2S_Type*)(base))->RX_FIFO_CTL)
-#define I2S_RX_FIFO_STATUS(base)        (((I2S_Type*)(base))->RX_FIFO_STATUS)
-#define I2S_RX_FIFO_RD(base)            (((I2S_Type*)(base))->RX_FIFO_RD)
-#define I2S_RX_FIFO_RD_SILENT(base)     (((I2S_Type*)(base))->RX_FIFO_RD_SILENT)
-#define I2S_RX_WATCHDOG(base)           (((I2S_Type*)(base))->RX_WATCHDOG)
 #define I2S_INTR(base)                  (((I2S_Type*)(base))->INTR)
 #define I2S_INTR_SET(base)              (((I2S_Type*)(base))->INTR_SET)
 #define I2S_INTR_MASK(base)             (((I2S_Type*)(base))->INTR_MASK)
 #define I2S_INTR_MASKED(base)           (((I2S_Type*)(base))->INTR_MASKED)
-
 
 #endif /* CY_DEVICE_H_ */
 

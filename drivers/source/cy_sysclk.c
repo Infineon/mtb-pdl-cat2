@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 1.10
+* \version 1.20
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -348,43 +348,37 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
             }
             else
             {
-                uint32_t regTmp = 0uL;
-                uint32_t lfLimit = 0uL;
-                uint32_t flashCtlReg = 0uL;
+                uint32_t lfLimit = 0UL;
+                uint32_t flashCtlReg = 0UL;
+                uint32_t dpllMult = 0UL;
 
                 /* Set oscillator interface control port to WCO */
                 SRSSLT_CLK_IMO_TRIM1 = 0UL;
 
-                /* For the WCO locking mode, the IMO gain needs to be CY_SYS_CLK_IMO_TRIM4_GAIN */
-                regTmp = (_CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_MULT,     0) |
-                          _CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_LF_IGAIN, 0) |
-                          _CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_LF_PGAIN, 0) |
-                          _CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_LF_LIMIT, 0));
-
                 /* Set multiplier to determine IMO frequency in multiples of the WCO frequency */
-                regTmp |= CY_SYSLIB_DIV_ROUND(Cy_SysClk_ImoGetFrequency(), CY_SYSCLK_WCO_FREQ) & WCO_DPLL_DPLL_MULT_Msk;
+                dpllMult = CY_SYSLIB_DIV_ROUND(Cy_SysClk_ImoGetFrequency(), CY_SYSCLK_WCO_FREQ) - 1UL;
 
-                /* Set DPLL Loop Filter Integral and Proportional Gains Setting */
-                regTmp |= (_FLD2VAL(WCO_DPLL_DPLL_LF_IGAIN, WCO_DPLL) | _FLD2VAL(WCO_DPLL_DPLL_LF_PGAIN, WCO_DPLL));
-
-                WCO_DPLL = regTmp;
+                /* Config DPLL */
+                WCO_DPLL = (_VAL2FLD(WCO_DPLL_DPLL_MULT,     dpllMult) |
+                            _VAL2FLD(WCO_DPLL_DPLL_LF_IGAIN, CY_SYSCLK_WCO_DPLL_LF_IGAIN) |
+                            _VAL2FLD(WCO_DPLL_DPLL_LF_PGAIN, CY_SYSCLK_WCO_DPLL_LF_PGAIN) |
+                            _VAL2FLD(WCO_DPLL_DPLL_LF_LIMIT, 0UL));
 
                 flashCtlReg = CPUSS_FLASH_CTL;
-                Cy_SysLib_SetWaitStates(48);
+                Cy_SysLib_SetWaitStates(48UL);
 
-                WCO_CONFIG |= _VAL2FLD(WCO_CONFIG_IP_ENABLE, 0x1u);
+                /* Enable DPLL operation */
+                WCO_CONFIG |= WCO_CONFIG_DPLL_ENABLE_Msk;
 
-                regTmp  = (WCO_DPLL & ~WCO_DPLL_DPLL_LF_LIMIT_Msk);
-
-                while (lfLimit < (CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX - CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_STEP))
+                while (lfLimit <= CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX)
                 {
                     Cy_SysLib_Delay(CY_SYSCLK_WCO_DPLL_TIMEOUT_MS);
                     lfLimit += CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_STEP;
-                    WCO_DPLL = (regTmp | (lfLimit << WCO_DPLL_DPLL_LF_LIMIT_Pos));
+                    WCO_DPLL = _CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_LF_LIMIT, lfLimit);
                 }
 
                 Cy_SysLib_Delay(CY_SYSCLK_WCO_DPLL_TIMEOUT_MS);
-                WCO_DPLL = (regTmp | (CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX << WCO_DPLL_DPLL_LF_LIMIT_Pos));
+                WCO_DPLL = _CLR_SET_FLD32U(WCO_DPLL, WCO_DPLL_DPLL_LF_LIMIT, CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX);
 
                 CPUSS_FLASH_CTL = flashCtlReg;
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 1.10
+* \version 1.20
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -56,6 +56,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.20</td>
+*     <td>Fixed the \ref Cy_SysClk_ImoLock function to properly lock IMO.</td>
+*     <td>Defect fix.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">1.10</td>
 *     <td>New feature is added: external reference signal for PLL.\n
@@ -285,7 +290,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   1
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   10
+#define  CY_SYSCLK_DRV_VERSION_MINOR   20
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -966,12 +971,14 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_IloDisable(void)
 /* ===========================    WCO SECTION    ============================ */
 /* ========================================================================== */
 
-#define CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX         (0xFFuL)
-#define CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_STEP        (16uL)
-#define CY_SYSCLK_WCO_IMO_TIMEOUT_MS                   (20uL)
-#define CY_SYSCLK_WCO_DPLL_TIMEOUT_MS                  (1uL)
-#define CY_SYSCLK_WCO_TRIM_GM_HPM                      (0x1uL)
-#define CY_SYSCLK_WCO_TRIM_XGM_2620NA                  (0x01uL)
+#define CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_MAX         (0xFFUL)
+#define CY_SYSCLK_WCO_CONFIG_DPLL_LF_LIMIT_STEP        (16UL)
+#define CY_SYSCLK_WCO_IMO_TIMEOUT_MS                   (20UL)
+#define CY_SYSCLK_WCO_DPLL_TIMEOUT_MS                  (1UL)
+#define CY_SYSCLK_WCO_DPLL_LF_IGAIN                    (4UL)
+#define CY_SYSCLK_WCO_DPLL_LF_PGAIN                    (2UL)
+#define CY_SYSCLK_WCO_TRIM_GM_HPM                      (0x1UL)
+#define CY_SYSCLK_WCO_TRIM_XGM_2620NA                  (0x01UL)
 
 /** Recommended WCO startup timeout for blocking \ref Cy_SysClk_WcoEnable execution */
 #define CY_SYSCLK_WCO_TIMEOUT_US                       (20000UL)
@@ -998,11 +1005,11 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass);
  * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoEnable
  *
  *******************************************************************************/
- __STATIC_INLINE void Cy_SysClk_WcoEnable(uint32_t timeoutUs)
- {
-     WCO_CONFIG |= WCO_CONFIG_IP_ENABLE_Msk;
-     Cy_SysLib_DelayUs((uint16_t)timeoutUs);
- }
+__STATIC_INLINE void Cy_SysClk_WcoEnable(uint32_t timeoutUs)
+{
+    WCO_CONFIG |= WCO_CONFIG_IP_ENABLE_Msk;
+    Cy_SysLib_DelayUs((uint16_t)timeoutUs);
+}
 
 
 /*******************************************************************************

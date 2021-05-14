@@ -4,7 +4,7 @@
   <Param name="PartAvailability" value="Active" />
   <Param name="DeviceDie" value="PMG1S3" />
   <Param name="Silicon_Revision" value="PRODUCTION" />
-  <Param name="Package" value="97-BGA" />
+  <Param name="Package" value="97-BGA-CYPD8225" />
   <Param name="CPU" value="ARM CM0+" />
   <Param name="DeviceSeries" value="PMG1S3" />
   <Param name="Speed_MHz" value="48" />

@@ -5,6 +5,7 @@ var searchData=
   ['macros',['Macros',['../group__group__dmac__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__flash__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__gpio__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__i2s__macros.html',1,'']]],
   ['msc_20_20_20_20_20_20_20_20_20_20_28multi_2dsense_20converter_29',['MSC          (Multi-Sense Converter)',['../group__group__msc.html',1,'']]],
   ['macros',['Macros',['../group__group__msc__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__sar__macros.html',1,'']]],

@@ -35,10 +35,13 @@
   <ExposedMembers>
     <ExposedMember key="frequency" paramId="frequency" />
     <ExposedMember key="accuracy"  paramId="accuracy" />
+    <ExposedMember key="suppressCodeGen" paramId="suppressCodeGen" />
   </ExposedMembers>
   <Parameters>
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__sysclk__wco.html" linkText="Open WCO Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal" default="true" visible="false" editable="false" desc="Prevents pins connected to this personality to generate configuration code" />
 
     <ParamChoice id="clockPort" name="Clock Port" group="General" default="CY_SYSCLK_WCO_NOT_BYPASSED" visible="true" editable="true" desc="Activates the WCO bypass mode">
       <Entry name="Normal (Crystal)" value="CY_SYSCLK_WCO_NOT_BYPASSED" visible="true" />

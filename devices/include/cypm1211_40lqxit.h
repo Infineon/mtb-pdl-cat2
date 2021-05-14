@@ -5,7 +5,7 @@
 * CYPM1211-40LQXIT device header
 *
 * \note
-* Generator version: 1.6.0.464
+* Generator version: 1.6.0.480
 *
 ********************************************************************************
 * \copyright
@@ -222,12 +222,12 @@ typedef enum {
 #define CRYPTO                                  ((CRYPTO_Type*) CRYPTO_BASE)                                      /* 0x400B0000 */
 
 /*******************************************************************************
-*                                   USBDEVV2
+*                                    USBFS
 *******************************************************************************/
 
-#define USBDEVV2_BASE                           0x400C0000UL
-#define USBDEVV2                                ((USBDEVV2_Type*) USBDEVV2_BASE)                                  /* 0x400C0000 */
-#define USBDEVV2_USB                            ((USBDEVV2_USB_Type*) &USBDEVV2->USB)                             /* 0x400C2000 */
+#define USBFS_BASE                              0x400C0000UL
+#define USBFS                                   ((USBFS_Type*) USBFS_BASE)                                        /* 0x400C0000 */
+#define USBFS_BCD                               ((USBFS_BCD_Type*) &USBFS->BCD)                                   /* 0x400C2000 */
 
 /*******************************************************************************
 *                                    CPUSS

@@ -37,6 +37,8 @@ var searchData=
   ['cy_5fstc_5ffault_5fvconn_5focp_5fcfg_5ft',['cy_stc_fault_vconn_ocp_cfg_t',['../structcy__stc__fault__vconn__ocp__cfg__t.html',1,'']]],
   ['cy_5fstc_5fgpio_5fpin_5fconfig_5ft',['cy_stc_gpio_pin_config_t',['../structcy__stc__gpio__pin__config__t.html',1,'']]],
   ['cy_5fstc_5fgpio_5fprt_5fconfig_5ft',['cy_stc_gpio_prt_config_t',['../structcy__stc__gpio__prt__config__t.html',1,'']]],
+  ['cy_5fstc_5fi2s_5fconfig_5ft',['cy_stc_i2s_config_t',['../structcy__stc__i2s__config__t.html',1,'']]],
+  ['cy_5fstc_5fi2s_5fcontext_5ft',['cy_stc_i2s_context_t',['../structcy__stc__i2s__context__t.html',1,'']]],
   ['cy_5fstc_5fid_5ffilter_5ft',['cy_stc_id_filter_t',['../structcy__stc__id__filter__t.html',1,'']]],
   ['cy_5fstc_5flegacy_5fcharging_5fcfg_5ft',['cy_stc_legacy_charging_cfg_t',['../structcy__stc__legacy__charging__cfg__t.html',1,'']]],
   ['cy_5fstc_5fmsc_5fbase_5fconfig_5ft',['cy_stc_msc_base_config_t',['../structcy__stc__msc__base__config__t.html',1,'']]],

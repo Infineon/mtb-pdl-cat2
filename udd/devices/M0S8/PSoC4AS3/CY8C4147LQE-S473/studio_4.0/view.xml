@@ -23,8 +23,8 @@
   <Param name="Comp_REMOVED" value="NA" />
   <Param name="DAC8_Count" value="2" />
   <Param name="DAC8_removed" value="NA" />
-  <Param name="SCB_Count" value="4" />
-  <Param name="SCB_removed" value="4" />
+  <Param name="SCB_Count" value="5" />
+  <Param name="SCB_removed" value="NA" />
   <Param name="TimerCounterPWM_Count" value="8" />
   <Param name="TimerCounterPWM_removed" value="NA" />
   <Param name="CAN20B_Count" value="1" />

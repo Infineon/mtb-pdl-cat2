@@ -5,7 +5,7 @@
 * CYPM1322-97BZXIT device header
 *
 * \note
-* Generator version: 1.6.0.453
+* Generator version: 1.6.0.483
 *
 ********************************************************************************
 * \copyright
@@ -166,7 +166,7 @@ typedef enum {
 #define CY_IP_MXUSBPD_VERSION           1u
 
 #include "pmg1s3_config.h"
-#include "gpio_pmg1s3_97_bga.h"
+#include "gpio_pmg1s3_97_bga_cypm1322.h"
 
 #define CY_DEVICE_PMG1S3
 #define CY_SILICON_ID                   0x350011C5UL
@@ -319,12 +319,12 @@ typedef enum {
 #define LPCOMP                                  ((LPCOMP_Type*) LPCOMP_BASE)                                      /* 0x402B0000 */
 
 /*******************************************************************************
-*                                   USBDEVV2
+*                                    USBFS
 *******************************************************************************/
 
-#define USBDEVV2_BASE                           0x402C0000UL
-#define USBDEVV2                                ((USBDEVV2_Type*) USBDEVV2_BASE)                                  /* 0x402C0000 */
-#define USBDEVV2_USB                            ((USBDEVV2_USB_Type*) &USBDEVV2->USB)                             /* 0x402C2000 */
+#define USBFS_BASE                              0x402C0000UL
+#define USBFS                                   ((USBFS_Type*) USBFS_BASE)                                        /* 0x402C0000 */
+#define USBFS_BCD                               ((USBFS_BCD_Type*) &USBFS->BCD)                                   /* 0x402C2000 */
 
 /*******************************************************************************
 *                                  CRYPTOLITE

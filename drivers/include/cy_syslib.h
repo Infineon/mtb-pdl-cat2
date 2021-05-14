@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 2.10
+* \version 2.10.1
 *
 * Provides an API declaration of the SysLib driver.
 *
@@ -108,6 +108,11 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>2.10.1</td>
+*     <td>Updated the CY_ASSERT_LX macroses implementation.</td>
+*     <td>Replaced "0" with "false" in the do{}while(...) macro.</td>
+*   </tr>
 *   <tr>
 *     <td>2.10</td>
 *     <td>Updated \ref Cy_SysLib_DelayCycles() with Cortex-M0 devices support.</td>
@@ -293,17 +298,17 @@ typedef double   float64_t; /**< Specific-length typedef for the basic numerical
 #endif /* CY_ASSERT_LEVEL */
 
 #if (CY_ASSERT_LEVEL == CY_ASSERT_CLASS_1)
-    #define CY_ASSERT_L1(x)         CY_ASSERT(x)     /**< Assert Level 1 */
-    #define CY_ASSERT_L2(x)         do{} while(0)    /**< Assert Level 2 */
-    #define CY_ASSERT_L3(x)         do{} while(0)    /**< Assert Level 3 */
+    #define CY_ASSERT_L1(x)         CY_ASSERT(x)        /**< Assert Level 1 */
+    #define CY_ASSERT_L2(x)         do{} while(false)   /**< Assert Level 2 */
+    #define CY_ASSERT_L3(x)         do{} while(false)   /**< Assert Level 3 */
 #elif (CY_ASSERT_LEVEL == CY_ASSERT_CLASS_2)
-    #define CY_ASSERT_L1(x)         CY_ASSERT(x)     /**< Assert Level 1 */
-    #define CY_ASSERT_L2(x)         CY_ASSERT(x)     /**< Assert Level 2 */
-    #define CY_ASSERT_L3(x)         do{} while(0)    /**< Assert Level 3 */
+    #define CY_ASSERT_L1(x)         CY_ASSERT(x)        /**< Assert Level 1 */
+    #define CY_ASSERT_L2(x)         CY_ASSERT(x)        /**< Assert Level 2 */
+    #define CY_ASSERT_L3(x)         do{} while(false)   /**< Assert Level 3 */
 #else /* Default is Level 3 */
-    #define CY_ASSERT_L1(x)         CY_ASSERT(x)     /**< Assert Level 1 */
-    #define CY_ASSERT_L2(x)         CY_ASSERT(x)     /**< Assert Level 2 */
-    #define CY_ASSERT_L3(x)         CY_ASSERT(x)     /**< Assert Level 3 */
+    #define CY_ASSERT_L1(x)         CY_ASSERT(x)        /**< Assert Level 1 */
+    #define CY_ASSERT_L2(x)         CY_ASSERT(x)        /**< Assert Level 2 */
+    #define CY_ASSERT_L3(x)         CY_ASSERT(x)        /**< Assert Level 3 */
 #endif /* CY_ASSERT_LEVEL == CY_ASSERT_CLASS_1 */
 
 /** \} group_syslib_macros_assert */

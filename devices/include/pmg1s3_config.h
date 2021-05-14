@@ -5,7 +5,7 @@
 * PMG1S3 device configuration header
 *
 * \note
-* Generator version: 1.6.0.453
+* Generator version: 1.6.0.483
 *
 ********************************************************************************
 * \copyright
@@ -56,14 +56,13 @@ typedef enum
     PCLK_USBPD0_CLOCK_FILTER1       = 0x0016u,  /* usbpd[0].clock_filter1 */
     PCLK_USBPD0_CLOCK_FILTER2       = 0x0017u,  /* usbpd[0].clock_filter2 */
     PCLK_USBPD0_CLOCK_REFGEN        = 0x0018u,  /* usbpd[0].clock_refgen */
-    PCLK_USBPD0_CLOCK_FRS_EN_SEQ    = 0x0019u,  /* usbpd[0].clock_frs_en_seq */
+    PCLK_USBPD0_CLOCK_BCH_DET       = 0x0019u,  /* usbpd[0].clock_bch_det */
     PCLK_USBPD1_CLOCK_RX            = 0x001Au,  /* usbpd[1].clock_rx */
     PCLK_USBPD1_CLOCK_TX            = 0x001Bu,  /* usbpd[1].clock_tx */
     PCLK_USBPD1_CLOCK_SAR           = 0x001Cu,  /* usbpd[1].clock_sar */
     PCLK_USBPD1_CLOCK_SWAP          = 0x001Du,  /* usbpd[1].clock_swap */
     PCLK_USBPD1_CLOCK_FILTER1       = 0x001Eu,  /* usbpd[1].clock_filter1 */
-    PCLK_USBPD1_CLOCK_FILTER2       = 0x001Fu,  /* usbpd[1].clock_filter2 */
-    PCLK_USBPD1_CLOCK_FRS_EN_SEQ    = 0x0020u   /* usbpd[1].clock_frs_en_seq */
+    PCLK_USBPD1_CLOCK_FILTER2       = 0x001Fu   /* usbpd[1].clock_filter2 */
 } en_clk_dst_t;
 
 /* Trigger Group */
@@ -331,7 +330,7 @@ typedef enum
 #include "ip/cyip_scb_v2.h"
 #include "ip/cyip_csd_v2.h"
 #include "ip/cyip_lpcomp_v2.h"
-#include "ip/cyip_usbdevv2_v2.h"
+#include "ip/cyip_usbfs_v2.h"
 #include "ip/cyip_cryptolite.h"
 #include "ip/cyip_ctbm_v2.h"
 #include "ip/cyip_sar_v2.h"
@@ -444,7 +443,7 @@ typedef enum
 #define CPUSS_SPCIF_SRSSLT              1u
 /* Use 2X?? Option for FLASH to allow parallel code execution and programming of
    FLASH */
-#define CPUSS_SPCIF_FLASH_PARALLEL_PGM_EN 0u
+#define CPUSS_SPCIF_FLASH_PARALLEL_PGM_EN 1u
 /* Flash type is FMLT or S8FS */
 #define CPUSS_SPCIF_FMLT_OR_S8FS        1u
 /* Product uses FLASH-Lite (1) or regular FLASH (0) */
@@ -1106,7 +1105,7 @@ typedef enum
 /* Range detect logic present in SAR */
 #define PASS0_SAR_SAR_RANGEDET          1u
 /* Number of programmable clocks (outputs) */
-#define PERI_PCLK_CLOCK_NR              33u
+#define PERI_PCLK_CLOCK_NR              32u
 /* Number of 8.0 dividers */
 #define PERI_PCLK_DIV_8_NR              12u
 /* Number of 16.0 dividers */
@@ -1795,11 +1794,11 @@ typedef enum
 /* Number of USBPD AMUX DENFET hard IP is instantiated */
 #define USBPD0_AGNOSTIC_phase8_USB_AMUX_DENFET_NUM 1u
 /* Total number of CLK_FILTER Filter */
-#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_FILT_NUM 2u
+#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_FILT_NUM 3u
 /* Total number of CLK_FILTER 1-bit CFG bits */
-#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_LOG1 2u
+#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_LOG1 3u
 /* Total number of CLK_FILTER 12-bit Lower CFG bits */
-#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_FILT_NUM_LOG1_12 2u
+#define USBPD0_AGNOSTIC_phase8_CLK_FILTER_FILT_NUM_LOG1_12 3u
 /* Total number of CLK_FILTER 12-bit Upper CFG bits */
 #define USBPD0_AGNOSTIC_phase8_CLK_FILTER_FILT_NUM_LOG2_12 0u
 /* Total number of CLK_LF Filter */

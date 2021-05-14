@@ -5,6 +5,7 @@ var modules =
     [ "DMAC         (Direct Memory Access Controller)", "group__group__dmac.html", "group__group__dmac" ],
     [ "Flash        (Flash System Routine)", "group__group__flash.html", "group__group__flash" ],
     [ "GPIO         (General Purpose Input Output)", "group__group__gpio.html", "group__group__gpio" ],
+    [ "I2S          (Inter-IC Sound)", "group__group__i2s.html", "group__group__i2s" ],
     [ "MSC          (Multi-Sense Converter)", "group__group__msc.html", "group__group__msc" ],
     [ "SAR          (SAR ADC)", "group__group__sar.html", "group__group__sar" ],
     [ "SCB          (Serial Communication Block)", "group__group__scb.html", "group__group__scb" ],

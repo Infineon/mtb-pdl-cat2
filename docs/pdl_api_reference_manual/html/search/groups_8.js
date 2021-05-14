@@ -4,6 +4,8 @@ var searchData=
   ['interrupt_20masks',['Interrupt Masks',['../group__group__dmac__macros__interrupt__masks.html',1,'']]],
   ['initialization_20functions',['Initialization Functions',['../group__group__gpio__functions__init.html',1,'']]],
   ['interrupt_20trigger_20type',['Interrupt trigger type',['../group__group__gpio__interrupt_trigger.html',1,'']]],
+  ['i2s_20_20_20_20_20_20_20_20_20_20_28inter_2dic_20sound_29',['I2S          (Inter-IC Sound)',['../group__group__i2s.html',1,'']]],
+  ['interrupt_20masks',['Interrupt Masks',['../group__group__i2s__macros__interrupt__masks.html',1,'']]],
   ['initialization_20and_20basic_20functions',['Initialization and Basic Functions',['../group__group__sar__functions__basic.html',1,'']]],
   ['interrupt_20functions',['Interrupt Functions',['../group__group__sar__functions__interrupt.html',1,'']]],
   ['interrupt_20masks',['Interrupt Masks',['../group__group__sar__macros__interrupt.html',1,'']]],

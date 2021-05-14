@@ -25,6 +25,7 @@ var searchData=
   ['functions',['Functions',['../group__group__flash__functions.html',1,'']]],
   ['flash_20general_20parameters',['Flash general parameters',['../group__group__flash__general__macros.html',1,'']]],
   ['functions',['Functions',['../group__group__gpio__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__i2s__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__msc__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__sar__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__scb__common__functions.html',1,'']]],

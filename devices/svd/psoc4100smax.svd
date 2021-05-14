@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator version: 1.6.0.453 -->
+<!-- Generator version: 1.6.0.483 -->
 <device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
   <vendor>Cypress Semiconductor</vendor>
   <vendorID>Cypress</vendorID>
@@ -950,9 +950,9 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
             </field>
             <field>
               <name>TEST_MODE</name>
-              <description>0: Normal operation mode
-1: Test mode (any test mode)
-Setting this bit will prevent BootROM from yielding execution to Flash image.</description>
+              <description>Setting this bit will prevent BootROM from yielding execution to Flash image.
+0: Normal operation mode
+1: Test mode (any test mode)</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -7269,7 +7269,7 @@ In EZ mode (for both SPI and I2C), the only valid value is 7.</description>
 '1': Open drain operation mode. Typically this operation mode is used for IO cells that are connected to (board) wires/lines that are driven by multiple IO cells (possibly on multiple chips). In this operation mode, for and IO cell 'xxx' that is used as an output, the 'xxx_out_en' output controls the outputted value. Typically, open drain operation mode drives low/'0' and the 'xxx_out' output is constant '1'. In other words, in open drain operation mode, the 'xxx_out_en' output is used to control the IO cell output value: in drive low/'0' mode: 'xxx_out_en' is '1' (drive enabled) to drive an IO cell output value of '0' and 'xxx_out_en' is '1' (drive disabled) to not drive an IO cell output value (another IO cell can drive the wire/line or a pull up results in a wire/line value '1').
 
 The open drain mode is supported for:
-- UART mode, 'uart_tx' IO cell (SPI slave).
+- UART mode, 'uart_tx' IO cell.
 - SPI mode, 'spi_miso' IO cell.
 
 this bit is not applicable to I2C mode, 'i2c_scl' and 'i2c_sda' IO cells.</description>

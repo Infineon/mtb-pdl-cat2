@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<baseview>
+  <mcu>CortexM0</mcu>
+  <vendor>Cypress</vendor>
+  <flash>131072</flash>
+  <ram>8192</ram>
+  <package>42-CSP-PMG1-S2</package>
+  <minvoltage>1710</minvoltage>
+  <maxvoltage>5500</maxvoltage>
+  <description>The CYPM1211-42FNXIT device.</description>
+</baseview>

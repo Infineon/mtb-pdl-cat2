@@ -49,6 +49,7 @@ var searchData=
   ['data_20structures',['Data Structures',['../group__group__dmac__data__structures.html',1,'']]],
   ['descriptor_20functions',['Descriptor Functions',['../group__group__dmac__descriptor__functions.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__gpio__data__structures.html',1,'']]],
+  ['data_20structures',['Data Structures',['../group__group__i2s__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__msc__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__sar__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__scb__common__data__structures.html',1,'']]],

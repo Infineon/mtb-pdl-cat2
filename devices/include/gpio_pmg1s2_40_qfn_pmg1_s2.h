@@ -5,7 +5,7 @@
 * PMG1S2 device GPIO header for 40-QFN-PMG1-S2 package
 *
 * \note
-* Generator version: 1.6.0.464
+* Generator version: 1.6.0.494
 *
 ********************************************************************************
 * \copyright
@@ -182,13 +182,13 @@ typedef enum
     HSIOM_SEL_CSD_SENSE             =  4,       /* CSD sense connection (analog mode) */
     HSIOM_SEL_CSD_SHIELD            =  5,       /* CSD shield connection (analog mode) */
     HSIOM_SEL_AMUXA                 =  6,       /* AMUXBUS A connection. */
-    HSIOM_SEL_AMUXB                 =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    HSIOM_SEL_AMUXB                 =  7,       /* AMUXBUS B connection. */
     HSIOM_SEL_ACT_0                 =  8,       /* Chip specific Active source 0 connection. */
     HSIOM_SEL_ACT_1                 =  9,       /* Chip specific Active source 1 connection. */
     HSIOM_SEL_ACT_2                 = 10,       /* Chip specific Active source 2 connection. */
     HSIOM_SEL_ACT_3                 = 11,       /* Chip specific Active source 3 connection. */
-    HSIOM_SEL_LCD_COM               = 12,       /* LCD common connection. This mode provides DeepSleep functionality  (provided that the LCD block is enabled and properly configured). */
-    HSIOM_SEL_LCD_SEG               = 13,       /* LCD segment connection. This mode provides DeepSleep functionality  (provided that the LCD block is enabled and properly configured). */
+    HSIOM_SEL_LCD_COM               = 12,       /* LCD common connection. */
+    HSIOM_SEL_LCD_SEG               = 13,       /* LCD segment connection. */
     HSIOM_SEL_DS_0                  = 12,       /* Chip specific DeepSleep source 0 connection. */
     HSIOM_SEL_DS_1                  = 13,       /* Chip specific DeepSleep source 1 connection. */
     HSIOM_SEL_DS_2                  = 14,       /* Chip specific DeepSleep source 2 connection. */

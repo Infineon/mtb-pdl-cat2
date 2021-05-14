@@ -5,7 +5,7 @@
 * Common header file to be included by the drivers.
 *
 * \note
-* Generator version: 1.6.0.453
+* Generator version: 1.6.0.483
 *
 ********************************************************************************
 * \copyright
@@ -130,6 +130,8 @@
     #include "cy8c4146lqi_s433.h"
 #elif defined (CY8C4146AZI_S433)
     #include "cy8c4146azi_s433.h"
+#elif defined (CY8C4146FNI_S443)
+    #include "cy8c4146fni_s443.h"
 #elif defined (CY8C4125AXI_S423)
     #include "cy8c4125axi_s423.h"
 #elif defined (CY8C4125AXI_S433)
@@ -638,6 +640,114 @@
     #include "cy8c4146lqq_s422.h"
 #elif defined (CY8C4146LQQ_S432)
     #include "cy8c4146lqq_s432.h"
+#elif defined (CY8C4126LQA_S455)
+    #include "cy8c4126lqa_s455.h"
+#elif defined (CY8C4146LQA_S245)
+    #include "cy8c4146lqa_s245.h"
+#elif defined (CY8C4146LQA_S255)
+    #include "cy8c4146lqa_s255.h"
+#elif defined (CY8C4146LQA_S265)
+    #include "cy8c4146lqa_s265.h"
+#elif defined (CY8C4146LQA_S275)
+    #include "cy8c4146lqa_s275.h"
+#elif defined (CY8C4146LQA_S455)
+    #include "cy8c4146lqa_s455.h"
+#elif defined (CY8C4127LQA_S445)
+    #include "cy8c4127lqa_s445.h"
+#elif defined (CY8C4127LQA_S455)
+    #include "cy8c4127lqa_s455.h"
+#elif defined (CY8C4147LQA_S245)
+    #include "cy8c4147lqa_s245.h"
+#elif defined (CY8C4147LQA_S255)
+    #include "cy8c4147lqa_s255.h"
+#elif defined (CY8C4147LQA_S265)
+    #include "cy8c4147lqa_s265.h"
+#elif defined (CY8C4147LQA_S275)
+    #include "cy8c4147lqa_s275.h"
+#elif defined (CY8C4147LQA_S285)
+    #include "cy8c4147lqa_s285.h"
+#elif defined (CY8C4147LQA_S295)
+    #include "cy8c4147lqa_s295.h"
+#elif defined (CY8C4147LQA_S445)
+    #include "cy8c4147lqa_s445.h"
+#elif defined (CY8C4147LQA_S455)
+    #include "cy8c4147lqa_s455.h"
+#elif defined (CY8C4147LQA_S465)
+    #include "cy8c4147lqa_s465.h"
+#elif defined (CY8C4147LQA_S475)
+    #include "cy8c4147lqa_s475.h"
+#elif defined (CY8C4126LQS_S455)
+    #include "cy8c4126lqs_s455.h"
+#elif defined (CY8C4146LQS_S245)
+    #include "cy8c4146lqs_s245.h"
+#elif defined (CY8C4146LQS_S255)
+    #include "cy8c4146lqs_s255.h"
+#elif defined (CY8C4146LQS_S265)
+    #include "cy8c4146lqs_s265.h"
+#elif defined (CY8C4146LQS_S275)
+    #include "cy8c4146lqs_s275.h"
+#elif defined (CY8C4146LQS_S455)
+    #include "cy8c4146lqs_s455.h"
+#elif defined (CY8C4127LQS_S445)
+    #include "cy8c4127lqs_s445.h"
+#elif defined (CY8C4127LQS_S455)
+    #include "cy8c4127lqs_s455.h"
+#elif defined (CY8C4147LQS_S245)
+    #include "cy8c4147lqs_s245.h"
+#elif defined (CY8C4147LQS_S255)
+    #include "cy8c4147lqs_s255.h"
+#elif defined (CY8C4147LQS_S265)
+    #include "cy8c4147lqs_s265.h"
+#elif defined (CY8C4147LQS_S275)
+    #include "cy8c4147lqs_s275.h"
+#elif defined (CY8C4147LQS_S285)
+    #include "cy8c4147lqs_s285.h"
+#elif defined (CY8C4147LQS_S295)
+    #include "cy8c4147lqs_s295.h"
+#elif defined (CY8C4147LQS_S445)
+    #include "cy8c4147lqs_s445.h"
+#elif defined (CY8C4147LQS_S455)
+    #include "cy8c4147lqs_s455.h"
+#elif defined (CY8C4147LQS_S465)
+    #include "cy8c4147lqs_s465.h"
+#elif defined (CY8C4147LQS_S475)
+    #include "cy8c4147lqs_s475.h"
+#elif defined (CY8C4126LQE_S455)
+    #include "cy8c4126lqe_s455.h"
+#elif defined (CY8C4146LQE_S245)
+    #include "cy8c4146lqe_s245.h"
+#elif defined (CY8C4146LQE_S255)
+    #include "cy8c4146lqe_s255.h"
+#elif defined (CY8C4146LQE_S265)
+    #include "cy8c4146lqe_s265.h"
+#elif defined (CY8C4146LQE_S275)
+    #include "cy8c4146lqe_s275.h"
+#elif defined (CY8C4146LQE_S455)
+    #include "cy8c4146lqe_s455.h"
+#elif defined (CY8C4127LQE_S445)
+    #include "cy8c4127lqe_s445.h"
+#elif defined (CY8C4127LQE_S455)
+    #include "cy8c4127lqe_s455.h"
+#elif defined (CY8C4147LQE_S245)
+    #include "cy8c4147lqe_s245.h"
+#elif defined (CY8C4147LQE_S255)
+    #include "cy8c4147lqe_s255.h"
+#elif defined (CY8C4147LQE_S265)
+    #include "cy8c4147lqe_s265.h"
+#elif defined (CY8C4147LQE_S275)
+    #include "cy8c4147lqe_s275.h"
+#elif defined (CY8C4147LQE_S285)
+    #include "cy8c4147lqe_s285.h"
+#elif defined (CY8C4147LQE_S295)
+    #include "cy8c4147lqe_s295.h"
+#elif defined (CY8C4147LQE_S445)
+    #include "cy8c4147lqe_s445.h"
+#elif defined (CY8C4147LQE_S455)
+    #include "cy8c4147lqe_s455.h"
+#elif defined (CY8C4147LQE_S465)
+    #include "cy8c4147lqe_s465.h"
+#elif defined (CY8C4147LQE_S475)
+    #include "cy8c4147lqe_s475.h"
 #elif defined (CY8C4546AZI_S473)
     #include "cy8c4546azi_s473.h"
 #elif defined (CY8C4546AZI_S475)
@@ -826,8 +936,8 @@
     #include "cypm1311_48lqxi.h"
 #elif defined (CYPD8225_97BZXIT)
     #include "cypd8225_97bzxit.h"
-#elif defined (CYPD8125_48LQXI)
-    #include "cypd8125_48lqxi.h"
+#elif defined (CYPM1211_42FNXIT)
+    #include "cypm1211_42fnxit.h"
 #else
     #error Undefined part number
 #endif

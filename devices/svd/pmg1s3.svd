@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator version: 1.6.0.453 -->
+<!-- Generator version: 1.6.0.483 -->
 <device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
   <vendor>Cypress Semiconductor</vendor>
   <vendorID>Cypress</vendorID>
@@ -950,9 +950,9 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
             </field>
             <field>
               <name>TEST_MODE</name>
-              <description>0: Normal operation mode
-1: Test mode (any test mode)
-Setting this bit will prevent BootROM from yielding execution to Flash image.</description>
+              <description>Setting this bit will prevent BootROM from yielding execution to Flash image.
+0: Normal operation mode
+1: Test mode (any test mode)</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -9981,7 +9981,7 @@ Note that in DeepSleep mode this bit needs to be set to observe the DSI output o
       </registers>
     </peripheral>
     <peripheral>
-      <name>USBDEVV2</name>
+      <name>USBFS</name>
       <description>USB Device Controller</description>
       <baseAddress>0x402C0000</baseAddress>
       <addressBlock>
@@ -15081,7 +15081,7 @@ error/ CRC error/ bit-stuff error scenario). This bit is cleared by any writes t
           </fields>
         </register>
         <cluster>
-          <name>USB</name>
+          <name>BCD</name>
           <description>USB Device Controller Battery Charger Detect</description>
           <addressOffset>0x00002000</addressOffset>
           <register>

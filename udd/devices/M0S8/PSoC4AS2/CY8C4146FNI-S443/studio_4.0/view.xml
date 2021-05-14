@@ -4,7 +4,7 @@
   <Param name="PartAvailability" value="Active" />
   <Param name="DeviceDie" value="PSoC4AS2" />
   <Param name="Silicon_Revision" value="PRODUCTION" />
-  <Param name="Package" value="35-WLCSP-Apple" />
+  <Param name="Package" value="35-WLCSP-2" />
   <Param name="CPU" value="ARM CM0+" />
   <Param name="DeviceSeries" value="PSoC 4100S" />
   <Param name="Speed_MHz" value="48" />
@@ -44,9 +44,9 @@
   <Param name="TempMax_Celsius" value="85" />
   <Param name="Automotive_qualified" value="No (Industrial Grade Only)" />
   <Param name="SiliconID" value="0x1B1D11AB" />
-  <Param name="REQUIRED_KITS" value="P4_S2_Apple" />
+  <Param name="REQUIRED_KITS" value="None" />
   <Param name="Next_Best_Alt_Part" value="None" />
-  <Param name="DATASHEET" value="http://www.cypress.com/go/cy8c41Sdatasheet" />
+  <Param name="DATASHEET" value="https://www.cypress.com/documentation/datasheets/psoc-4-psoc-cy8c4146-fni-s443-datasheet-programmable-system-chip-psoc" />
   <Param name="EDITING_SUPPORT" value="Schematic" />
   <Param name="PROJECT_TEMPLATE" value="P41S_43x.zip" />
 </Parameters>

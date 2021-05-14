@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator version: 1.6.0.437 -->
+<!-- Generator version: 1.6.0.483 -->
 <device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
   <vendor>Cypress Semiconductor</vendor>
   <vendorID>Cypress</vendorID>
@@ -7,7 +7,7 @@
   <series>PSoC4100Sp256KB</series>
   <version>1.0</version>
   <description>PSoC4100Sp256KB</description>
-  <licenseText>Copyright 2016-2020 Cypress Semiconductor Corporation\n
+  <licenseText>Copyright 2016-2021 Cypress Semiconductor Corporation\n
     SPDX-License-Identifier: Apache-2.0\n
 \n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -950,9 +950,9 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
             </field>
             <field>
               <name>TEST_MODE</name>
-              <description>0: Normal operation mode
-1: Test mode (any test mode)
-Setting this bit will prevent BootROM from yielding execution to Flash image.</description>
+              <description>Setting this bit will prevent BootROM from yielding execution to Flash image.
+0: Normal operation mode
+1: Test mode (any test mode)</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>

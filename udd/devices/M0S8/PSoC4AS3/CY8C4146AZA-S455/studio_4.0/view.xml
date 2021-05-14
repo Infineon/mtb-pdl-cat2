@@ -30,7 +30,7 @@
   <Param name="CAN20B_Count" value="0" />
   <Param name="CAN20B_Removed" value="0" />
   <Param name="CapSense" value="Y" />
-  <Param name="TMG" value="N" />
+  <Param name="TMG" value="Y" />
   <Param name="CapSenseADC" value="Y" />
   <Param name="IndSense" value="N" />
   <Param name="IndSense_Sensors" value="0" />

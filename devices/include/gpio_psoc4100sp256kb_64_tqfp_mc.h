@@ -5,11 +5,11 @@
 * PSoC4100Sp256KB device GPIO header for 64-TQFP-MC package
 *
 * \note
-* Generator version: 1.6.0.206
+* Generator version: 1.6.0.494
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* Copyright 2016-2021 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -406,13 +406,13 @@ typedef enum
     HSIOM_SEL_CSD_SENSE             =  4,       /* CSD sense connection (analog mode) */
     HSIOM_SEL_CSD_SHIELD            =  5,       /* CSD shield connection (analog mode) */
     HSIOM_SEL_AMUXA                 =  6,       /* AMUXBUS A connection. */
-    HSIOM_SEL_AMUXB                 =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    HSIOM_SEL_AMUXB                 =  7,       /* AMUXBUS B connection. */
     HSIOM_SEL_ACT_0                 =  8,       /* Chip specific Active source 0 connection. */
     HSIOM_SEL_ACT_1                 =  9,       /* Chip specific Active source 1 connection. */
     HSIOM_SEL_ACT_2                 = 10,       /* Chip specific Active source 2 connection. */
     HSIOM_SEL_ACT_3                 = 11,       /* Chip specific Active source 3 connection. */
-    HSIOM_SEL_LCD_COM               = 12,       /* LCD common connection. This mode provides DeepSleep functionality  (provided that the LCD block is enabled and properly configured). */
-    HSIOM_SEL_LCD_SEG               = 13,       /* LCD segment connection. This mode provides DeepSleep functionality  (provided that the LCD block is enabled and properly configured). */
+    HSIOM_SEL_LCD_COM               = 12,       /* LCD common connection. */
+    HSIOM_SEL_LCD_SEG               = 13,       /* LCD segment connection. */
     HSIOM_SEL_DS_0                  = 12,       /* Chip specific DeepSleep source 0 connection. */
     HSIOM_SEL_DS_1                  = 13,       /* Chip specific DeepSleep source 1 connection. */
     HSIOM_SEL_DS_2                  = 14,       /* Chip specific DeepSleep source 2 connection. */
@@ -423,7 +423,7 @@ typedef enum
     P0_0_CSD_SENSE                  =  4,       /* csd.sense:0 */
     P0_0_CSD_SHIELD                 =  5,       /* csd.shield:0 */
     P0_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_0_TCPWM_TR_IN0               =  9,       /* Digital Active - tcpwm.tr_in[0] */
     P0_0_PASS0_DSI_SAR_DATA_VALID   = 10,       /* Digital Active - pass[0].dsi_sar_data_valid:0 */
     P0_0_SCB2_UART_CTS              = 11,       /* Digital Active - scb[2].uart_cts:0 */
@@ -437,7 +437,7 @@ typedef enum
     P0_1_CSD_SENSE                  =  4,       /* csd.sense:1 */
     P0_1_CSD_SHIELD                 =  5,       /* csd.shield:1 */
     P0_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_1_TCPWM_TR_IN1               =  9,       /* Digital Active - tcpwm.tr_in[1] */
     P0_1_PASS1_DSI_SAR_DATA_VALID   = 10,       /* Digital Active - pass[1].dsi_sar_data_valid:0 */
     P0_1_SCB2_UART_RTS              = 11,       /* Digital Active - scb[2].uart_rts:0 */
@@ -451,7 +451,7 @@ typedef enum
     P0_2_CSD_SENSE                  =  4,       /* csd.sense:2 */
     P0_2_CSD_SHIELD                 =  5,       /* csd.shield:2 */
     P0_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_2_PASS1_DSI_SAR_DATA2        = 10,       /* Digital Active - pass[1].dsi_sar_data[2]:0 */
     P0_2_LCD_COM2                   = 12,       /* Digital Deep Sleep - lcd.com[2] */
     P0_2_LCD_SEG2                   = 13,       /* Digital Deep Sleep - lcd.seg[2] */
@@ -462,7 +462,7 @@ typedef enum
     P0_3_CSD_SENSE                  =  4,       /* csd.sense:3 */
     P0_3_CSD_SHIELD                 =  5,       /* csd.shield:3 */
     P0_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_3_PASS1_DSI_SAR_DATA0        = 10,       /* Digital Active - pass[1].dsi_sar_data[0]:0 */
     P0_3_LCD_COM3                   = 12,       /* Digital Deep Sleep - lcd.com[3]:0 */
     P0_3_LCD_SEG3                   = 13,       /* Digital Deep Sleep - lcd.seg[3] */
@@ -473,7 +473,7 @@ typedef enum
     P0_4_CSD_SENSE                  =  4,       /* csd.sense:4 */
     P0_4_CSD_SHIELD                 =  5,       /* csd.shield:4 */
     P0_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_4_SCB1_UART_RX               =  9,       /* Digital Active - scb[1].uart_rx:0 */
     P0_4_PASS0_DSI_SAR_DATA0        = 10,       /* Digital Active - pass[0].dsi_sar_data[0]:0 */
     P0_4_SCB2_UART_RX               = 11,       /* Digital Active - scb[2].uart_rx:0 */
@@ -487,7 +487,7 @@ typedef enum
     P0_5_CSD_SENSE                  =  4,       /* csd.sense:5 */
     P0_5_CSD_SHIELD                 =  5,       /* csd.shield:5 */
     P0_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_5_SCB1_UART_TX               =  9,       /* Digital Active - scb[1].uart_tx:0 */
     P0_5_PASS0_DSI_SAR_DATA1        = 10,       /* Digital Active - pass[0].dsi_sar_data[1]:0 */
     P0_5_SCB2_UART_TX               = 11,       /* Digital Active - scb[2].uart_tx:0 */
@@ -501,7 +501,7 @@ typedef enum
     P0_6_CSD_SENSE                  =  4,       /* csd.sense:6 */
     P0_6_CSD_SHIELD                 =  5,       /* csd.shield:6 */
     P0_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_6_SRSS_EXT_CLK               =  8,       /* Digital Active - srss.ext_clk */
     P0_6_SCB1_UART_CTS              =  9,       /* Digital Active - scb[1].uart_cts:0 */
     P0_6_EXCO_PLL_REF_IN            = 10,       /* Digital Active - exco.pll_ref_in */
@@ -515,7 +515,7 @@ typedef enum
     P0_7_CSD_SENSE                  =  4,       /* csd.sense:7 */
     P0_7_CSD_SHIELD                 =  5,       /* csd.shield:7 */
     P0_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P0_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P0_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_7_TCPWM_LINE0                =  8,       /* Digital Active - tcpwm.line[0]:3 */
     P0_7_SCB1_UART_RTS              =  9,       /* Digital Active - scb[1].uart_rts:0 */
     P0_7_PASS1_DSI_SAR_DATA1        = 10,       /* Digital Active - pass[1].dsi_sar_data[1]:0 */
@@ -528,7 +528,7 @@ typedef enum
     P1_0_CSD_SENSE                  =  4,       /* csd.sense:14 */
     P1_0_CSD_SHIELD                 =  5,       /* csd.shield:14 */
     P1_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_0_TCPWM_LINE2                =  8,       /* Digital Active - tcpwm.line[2]:1 */
     P1_0_SCB0_UART_RX               =  9,       /* Digital Active - scb[0].uart_rx:1 */
     P1_0_LCD_COM8                   = 12,       /* Digital Deep Sleep - lcd.com[8] */
@@ -541,7 +541,7 @@ typedef enum
     P1_1_CSD_SENSE                  =  4,       /* csd.sense:15 */
     P1_1_CSD_SHIELD                 =  5,       /* csd.shield:15 */
     P1_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_1_TCPWM_LINE_COMPL2          =  8,       /* Digital Active - tcpwm.line_compl[2]:1 */
     P1_1_SCB0_UART_TX               =  9,       /* Digital Active - scb[0].uart_tx:1 */
     P1_1_PASS1_TR_SAR_OUT           = 10,       /* Digital Active - pass[1].tr_sar_out:0 */
@@ -555,7 +555,7 @@ typedef enum
     P1_2_CSD_SENSE                  =  4,       /* csd.sense:16 */
     P1_2_CSD_SHIELD                 =  5,       /* csd.shield:16 */
     P1_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_2_TCPWM_LINE3                =  8,       /* Digital Active - tcpwm.line[3]:1 */
     P1_2_SCB0_UART_CTS              =  9,       /* Digital Active - scb[0].uart_cts:1 */
     P1_2_PASS1_DSI_SAR_SAMPLE_DONE  = 10,       /* Digital Active - pass[1].dsi_sar_sample_done:0 */
@@ -570,7 +570,7 @@ typedef enum
     P1_3_CSD_SENSE                  =  4,       /* csd.sense:17 */
     P1_3_CSD_SHIELD                 =  5,       /* csd.shield:17 */
     P1_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_3_TCPWM_LINE_COMPL3          =  8,       /* Digital Active - tcpwm.line_compl[3]:1 */
     P1_3_SCB0_UART_RTS              =  9,       /* Digital Active - scb[0].uart_rts:1 */
     P1_3_PASS0_DSI_SAR_SAMPLE_DONE  = 10,       /* Digital Active - pass[0].dsi_sar_sample_done:0 */
@@ -585,7 +585,7 @@ typedef enum
     P1_4_CSD_SENSE                  =  4,       /* csd.sense:18 */
     P1_4_CSD_SHIELD                 =  5,       /* csd.shield:18 */
     P1_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_4_TCPWM_LINE6                =  8,       /* Digital Active - tcpwm.line[6]:1 */
     P1_4_PASS0_TR_SAR_OUT           = 10,       /* Digital Active - pass[0].tr_sar_out:0 */
     P1_4_LCD_COM12                  = 12,       /* Digital Deep Sleep - lcd.com[12] */
@@ -598,7 +598,7 @@ typedef enum
     P1_5_CSD_SENSE                  =  4,       /* csd.sense:19 */
     P1_5_CSD_SHIELD                 =  5,       /* csd.shield:19 */
     P1_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_5_TCPWM_LINE_COMPL6          =  8,       /* Digital Active - tcpwm.line_compl[6]:1 */
     P1_5_LCD_COM13                  = 12,       /* Digital Deep Sleep - lcd.com[13] */
     P1_5_LCD_SEG13                  = 13,       /* Digital Deep Sleep - lcd.seg[13] */
@@ -610,7 +610,7 @@ typedef enum
     P1_6_CSD_SENSE                  =  4,       /* csd.sense:20 */
     P1_6_CSD_SHIELD                 =  5,       /* csd.shield:20 */
     P1_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_6_TCPWM_LINE7                =  8,       /* Digital Active - tcpwm.line[7]:1 */
     P1_6_PASS1_DSI_SAR_DATA11       = 10,       /* Digital Active - pass[1].dsi_sar_data[11]:0 */
     P1_6_LCD_COM14                  = 12,       /* Digital Deep Sleep - lcd.com[14] */
@@ -622,7 +622,7 @@ typedef enum
     P1_7_CSD_SENSE                  =  4,       /* csd.sense:21 */
     P1_7_CSD_SHIELD                 =  5,       /* csd.shield:21 */
     P1_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P1_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P1_7_TCPWM_LINE_COMPL7          =  8,       /* Digital Active - tcpwm.line_compl[7]:1 */
     P1_7_LCD_COM15                  = 12,       /* Digital Deep Sleep - lcd.com[15] */
     P1_7_LCD_SEG15                  = 13,       /* Digital Deep Sleep - lcd.seg[15] */
@@ -633,7 +633,7 @@ typedef enum
     P2_0_CSD_SENSE                  =  4,       /* csd.sense:22 */
     P2_0_CSD_SHIELD                 =  5,       /* csd.shield:22 */
     P2_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_0_TCPWM_LINE4                =  8,       /* Digital Active - tcpwm.line[4]:0 */
     P2_0_CSD_COMP                   =  9,       /* Digital Active - csd.comp */
     P2_0_PASS1_DSI_SAR_DATA10       = 10,       /* Digital Active - pass[1].dsi_sar_data[10]:0 */
@@ -648,7 +648,7 @@ typedef enum
     P2_1_CSD_SENSE                  =  4,       /* csd.sense:23 */
     P2_1_CSD_SHIELD                 =  5,       /* csd.shield:23 */
     P2_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_1_TCPWM_LINE_COMPL4          =  8,       /* Digital Active - tcpwm.line_compl[4]:0 */
     P2_1_PASS1_DSI_SAR_DATA5        = 10,       /* Digital Active - pass[1].dsi_sar_data[5]:0 */
     P2_1_TCPWM_TR_IN5               = 11,       /* Digital Active - tcpwm.tr_in[5] */
@@ -662,7 +662,7 @@ typedef enum
     P2_2_CSD_SENSE                  =  4,       /* csd.sense:24 */
     P2_2_CSD_SHIELD                 =  5,       /* csd.shield:24 */
     P2_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_2_TCPWM_LINE5                =  8,       /* Digital Active - tcpwm.line[5]:1 */
     P2_2_PASS1_DSI_SAR_DATA6        = 10,       /* Digital Active - pass[1].dsi_sar_data[6]:0 */
     P2_2_LCD_COM18                  = 12,       /* Digital Deep Sleep - lcd.com[18] */
@@ -674,7 +674,7 @@ typedef enum
     P2_3_CSD_SENSE                  =  4,       /* csd.sense:25 */
     P2_3_CSD_SHIELD                 =  5,       /* csd.shield:25 */
     P2_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_3_TCPWM_LINE_COMPL5          =  8,       /* Digital Active - tcpwm.line_compl[5]:1 */
     P2_3_PASS1_DSI_SAR_DATA7        = 10,       /* Digital Active - pass[1].dsi_sar_data[7]:0 */
     P2_3_LCD_COM19                  = 12,       /* Digital Deep Sleep - lcd.com[19] */
@@ -686,7 +686,7 @@ typedef enum
     P2_4_CSD_SENSE                  =  4,       /* csd.sense:26 */
     P2_4_CSD_SHIELD                 =  5,       /* csd.shield:26 */
     P2_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_4_TCPWM_LINE0                =  8,       /* Digital Active - tcpwm.line[0]:1 */
     P2_4_SCB3_UART_RX               =  9,       /* Digital Active - scb[3].uart_rx:1 */
     P2_4_LCD_COM20                  = 12,       /* Digital Deep Sleep - lcd.com[20] */
@@ -698,7 +698,7 @@ typedef enum
     P2_5_CSD_SENSE                  =  4,       /* csd.sense:27 */
     P2_5_CSD_SHIELD                 =  5,       /* csd.shield:27 */
     P2_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_5_TCPWM_LINE_COMPL0          =  8,       /* Digital Active - tcpwm.line_compl[0]:1 */
     P2_5_SCB3_UART_TX               =  9,       /* Digital Active - scb[3].uart_tx:1 */
     P2_5_LCD_COM21                  = 12,       /* Digital Deep Sleep - lcd.com[21] */
@@ -710,7 +710,7 @@ typedef enum
     P2_6_CSD_SENSE                  =  4,       /* csd.sense:28 */
     P2_6_CSD_SHIELD                 =  5,       /* csd.shield:28 */
     P2_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_6_TCPWM_LINE1                =  8,       /* Digital Active - tcpwm.line[1]:1 */
     P2_6_SCB3_UART_CTS              =  9,       /* Digital Active - scb[3].uart_cts:1 */
     P2_6_PASS1_DSI_SAR_DATA8        = 10,       /* Digital Active - pass[1].dsi_sar_data[8]:0 */
@@ -723,7 +723,7 @@ typedef enum
     P2_7_CSD_SENSE                  =  4,       /* csd.sense:29 */
     P2_7_CSD_SHIELD                 =  5,       /* csd.shield:29 */
     P2_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P2_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P2_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P2_7_TCPWM_LINE_COMPL1          =  8,       /* Digital Active - tcpwm.line_compl[1]:1 */
     P2_7_SCB3_UART_RTS              =  9,       /* Digital Active - scb[3].uart_rts:1 */
     P2_7_PASS1_DSI_SAR_DATA9        = 10,       /* Digital Active - pass[1].dsi_sar_data[9]:0 */
@@ -737,7 +737,7 @@ typedef enum
     P3_0_CSD_SENSE                  =  4,       /* csd.sense:36 */
     P3_0_CSD_SHIELD                 =  5,       /* csd.shield:36 */
     P3_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_0_TCPWM_LINE0                =  8,       /* Digital Active - tcpwm.line[0]:0 */
     P3_0_SCB1_UART_RX               =  9,       /* Digital Active - scb[1].uart_rx:1 */
     P3_0_PASS0_DSI_SAR_DATA11       = 10,       /* Digital Active - pass[0].dsi_sar_data[11]:0 */
@@ -751,7 +751,7 @@ typedef enum
     P3_1_CSD_SENSE                  =  4,       /* csd.sense:37 */
     P3_1_CSD_SHIELD                 =  5,       /* csd.shield:37 */
     P3_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_1_TCPWM_LINE_COMPL0          =  8,       /* Digital Active - tcpwm.line_compl[0]:0 */
     P3_1_SCB1_UART_TX               =  9,       /* Digital Active - scb[1].uart_tx:1 */
     P3_1_PASS0_DSI_SAR_DATA9        = 10,       /* Digital Active - pass[0].dsi_sar_data[9]:0 */
@@ -765,7 +765,7 @@ typedef enum
     P3_2_CSD_SENSE                  =  4,       /* csd.sense:38 */
     P3_2_CSD_SHIELD                 =  5,       /* csd.shield:38 */
     P3_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_2_TCPWM_LINE1                =  8,       /* Digital Active - tcpwm.line[1]:0 */
     P3_2_SCB1_UART_CTS              =  9,       /* Digital Active - scb[1].uart_cts:1 */
     P3_2_PASS0_DSI_SAR_DATA10       = 10,       /* Digital Active - pass[0].dsi_sar_data[10]:0 */
@@ -779,7 +779,7 @@ typedef enum
     P3_3_CSD_SENSE                  =  4,       /* csd.sense:39 */
     P3_3_CSD_SHIELD                 =  5,       /* csd.shield:39 */
     P3_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_3_TCPWM_LINE_COMPL1          =  8,       /* Digital Active - tcpwm.line_compl[1]:0 */
     P3_3_SCB1_UART_RTS              =  9,       /* Digital Active - scb[1].uart_rts:1 */
     P3_3_PASS0_DSI_SAR_DATA8        = 10,       /* Digital Active - pass[0].dsi_sar_data[8]:0 */
@@ -793,7 +793,7 @@ typedef enum
     P3_4_CSD_SENSE                  =  4,       /* csd.sense:40 */
     P3_4_CSD_SHIELD                 =  5,       /* csd.shield:40 */
     P3_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_4_TCPWM_LINE2                =  8,       /* Digital Active - tcpwm.line[2]:0 */
     P3_4_PASS0_DSI_CTB_CMP0         = 10,       /* Digital Active - pass[0].dsi_ctb_cmp0:0 */
     P3_4_TCPWM_TR_IN6               = 11,       /* Digital Active - tcpwm.tr_in[6] */
@@ -806,7 +806,7 @@ typedef enum
     P3_5_CSD_SENSE                  =  4,       /* csd.sense:41 */
     P3_5_CSD_SHIELD                 =  5,       /* csd.shield:41 */
     P3_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_5_TCPWM_LINE_COMPL2          =  8,       /* Digital Active - tcpwm.line_compl[2]:0 */
     P3_5_PASS0_DSI_CTB_CMP1         = 10,       /* Digital Active - pass[0].dsi_ctb_cmp1:0 */
     P3_5_LCD_COM29                  = 12,       /* Digital Deep Sleep - lcd.com[29] */
@@ -818,7 +818,7 @@ typedef enum
     P3_6_CSD_SENSE                  =  4,       /* csd.sense:42 */
     P3_6_CSD_SHIELD                 =  5,       /* csd.shield:42 */
     P3_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_6_TCPWM_LINE3                =  8,       /* Digital Active - tcpwm.line[3]:0 */
     P3_6_PASS0_DSI_SAR_DATA6        = 10,       /* Digital Active - pass[0].dsi_sar_data[6]:0 */
     P3_6_LCD_COM30                  = 12,       /* Digital Deep Sleep - lcd.com[30] */
@@ -831,7 +831,7 @@ typedef enum
     P3_7_CSD_SENSE                  =  4,       /* csd.sense:43 */
     P3_7_CSD_SHIELD                 =  5,       /* csd.shield:43 */
     P3_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P3_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P3_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P3_7_TCPWM_LINE_COMPL3          =  8,       /* Digital Active - tcpwm.line_compl[3]:0 */
     P3_7_PASS0_DSI_SAR_DATA7        = 10,       /* Digital Active - pass[0].dsi_sar_data[7]:0 */
     P3_7_LCD_COM31                  = 12,       /* Digital Deep Sleep - lcd.com[31] */
@@ -844,7 +844,7 @@ typedef enum
     P4_0_CSD_SENSE                  =  4,       /* csd.sense:44 */
     P4_0_CSD_SHIELD                 =  5,       /* csd.shield:44 */
     P4_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_0_SCB0_UART_RX               =  9,       /* Digital Active - scb[0].uart_rx:0 */
     P4_0_PASS0_DSI_SAR_DATA5        = 10,       /* Digital Active - pass[0].dsi_sar_data[5]:0 */
     P4_0_LCD_COM32                  = 12,       /* Digital Deep Sleep - lcd.com[32] */
@@ -857,7 +857,7 @@ typedef enum
     P4_1_CSD_SENSE                  =  4,       /* csd.sense:45 */
     P4_1_CSD_SHIELD                 =  5,       /* csd.shield:45 */
     P4_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_1_SCB0_UART_TX               =  9,       /* Digital Active - scb[0].uart_tx:0 */
     P4_1_PASS0_DSI_SAR_DATA4        = 10,       /* Digital Active - pass[0].dsi_sar_data[4]:0 */
     P4_1_LCD_COM33                  = 12,       /* Digital Deep Sleep - lcd.com[33] */
@@ -870,7 +870,7 @@ typedef enum
     P4_2_CSD_SENSE                  =  4,       /* csd.sense:46 */
     P4_2_CSD_SHIELD                 =  5,       /* csd.shield:46 */
     P4_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_2_SCB0_UART_CTS              =  9,       /* Digital Active - scb[0].uart_cts:0 */
     P4_2_PASS0_DSI_SAR_DATA3        = 10,       /* Digital Active - pass[0].dsi_sar_data[3]:0 */
     P4_2_LCD_COM34                  = 12,       /* Digital Deep Sleep - lcd.com[34] */
@@ -883,7 +883,7 @@ typedef enum
     P4_3_CSD_SENSE                  =  4,       /* csd.sense:47 */
     P4_3_CSD_SHIELD                 =  5,       /* csd.shield:47 */
     P4_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_3_SCB0_UART_RTS              =  9,       /* Digital Active - scb[0].uart_rts:0 */
     P4_3_PASS0_DSI_SAR_DATA2        = 10,       /* Digital Active - pass[0].dsi_sar_data[2]:0 */
     P4_3_LCD_COM35                  = 12,       /* Digital Deep Sleep - lcd.com[35] */
@@ -896,7 +896,7 @@ typedef enum
     P4_4_CSD_SENSE                  =  4,       /* csd.sense:48 */
     P4_4_CSD_SHIELD                 =  5,       /* csd.shield:48 */
     P4_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_4_SCB4_UART_RX               =  9,       /* Digital Active - scb[4].uart_rx */
     P4_4_LCD_COM36                  = 12,       /* Digital Deep Sleep - lcd.com[36] */
     P4_4_LCD_SEG36                  = 13,       /* Digital Deep Sleep - lcd.seg[36] */
@@ -908,7 +908,7 @@ typedef enum
     P4_5_CSD_SENSE                  =  4,       /* csd.sense:49 */
     P4_5_CSD_SHIELD                 =  5,       /* csd.shield:49 */
     P4_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_5_SCB4_UART_TX               =  9,       /* Digital Active - scb[4].uart_tx */
     P4_5_LCD_COM37                  = 12,       /* Digital Deep Sleep - lcd.com[37] */
     P4_5_LCD_SEG37                  = 13,       /* Digital Deep Sleep - lcd.seg[37] */
@@ -920,7 +920,7 @@ typedef enum
     P4_6_CSD_SENSE                  =  4,       /* csd.sense:50 */
     P4_6_CSD_SHIELD                 =  5,       /* csd.shield:50 */
     P4_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_6_TCPWM_LINE6                =  8,       /* Digital Active - tcpwm.line[6]:0 */
     P4_6_SCB4_UART_CTS              =  9,       /* Digital Active - scb[4].uart_cts */
     P4_6_LCD_COM38                  = 12,       /* Digital Deep Sleep - lcd.com[38] */
@@ -933,7 +933,7 @@ typedef enum
     P4_7_CSD_SENSE                  =  4,       /* csd.sense:51 */
     P4_7_CSD_SHIELD                 =  5,       /* csd.shield:51 */
     P4_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P4_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P4_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_7_TCPWM_LINE_COMPL6          =  8,       /* Digital Active - tcpwm.line_compl[6]:0 */
     P4_7_SCB4_UART_RTS              =  9,       /* Digital Active - scb[4].uart_rts */
     P4_7_LCD_COM39                  = 12,       /* Digital Deep Sleep - lcd.com[39] */
@@ -946,7 +946,7 @@ typedef enum
     P5_0_CSD_SENSE                  =  4,       /* csd.sense:8 */
     P5_0_CSD_SHIELD                 =  5,       /* csd.shield:8 */
     P5_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_0_TCPWM_LINE4                =  8,       /* Digital Active - tcpwm.line[4]:2 */
     P5_0_PASS1_DSI_CTB_CMP0         = 10,       /* Digital Active - pass[1].dsi_ctb_cmp0:0 */
     P5_0_SCB2_UART_RX               = 11,       /* Digital Active - scb[2].uart_rx:1 */
@@ -960,7 +960,7 @@ typedef enum
     P5_1_CSD_SENSE                  =  4,       /* csd.sense:9 */
     P5_1_CSD_SHIELD                 =  5,       /* csd.shield:9 */
     P5_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_1_TCPWM_LINE_COMPL4          =  8,       /* Digital Active - tcpwm.line_compl[4]:2 */
     P5_1_PASS1_DSI_CTB_CMP1         = 10,       /* Digital Active - pass[1].dsi_ctb_cmp1:0 */
     P5_1_SCB2_UART_TX               = 11,       /* Digital Active - scb[2].uart_tx:2 */
@@ -974,7 +974,7 @@ typedef enum
     P5_2_CSD_SENSE                  =  4,       /* csd.sense:10 */
     P5_2_CSD_SHIELD                 =  5,       /* csd.shield:10 */
     P5_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_2_TCPWM_LINE5                =  8,       /* Digital Active - tcpwm.line[5]:2 */
     P5_2_SCB2_UART_CTS              = 11,       /* Digital Active - scb[2].uart_cts:1 */
     P5_2_LCD_COM42                  = 12,       /* Digital Deep Sleep - lcd.com[42] */
@@ -987,7 +987,7 @@ typedef enum
     P5_3_CSD_SENSE                  =  4,       /* csd.sense:11 */
     P5_3_CSD_SHIELD                 =  5,       /* csd.shield:11 */
     P5_3_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_3_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_3_TCPWM_LINE_COMPL5          =  8,       /* Digital Active - tcpwm.line_compl[5]:2 */
     P5_3_SCB2_UART_RTS              = 11,       /* Digital Active - scb[2].uart_rts:1 */
     P5_3_LCD_COM43                  = 12,       /* Digital Deep Sleep - lcd.com[43] */
@@ -1000,7 +1000,7 @@ typedef enum
     P5_5_CSD_SENSE                  =  4,       /* csd.sense:13 */
     P5_5_CSD_SHIELD                 =  5,       /* csd.shield:13 */
     P5_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_5_TCPWM_LINE_COMPL6          =  8,       /* Digital Active - tcpwm.line_compl[6]:2 */
     P5_5_LCD_COM45                  = 12,       /* Digital Deep Sleep - lcd.com[45] */
     P5_5_LCD_SEG45                  = 13,       /* Digital Deep Sleep - lcd.seg[45] */
@@ -1011,7 +1011,7 @@ typedef enum
     P5_6_CSD_SENSE                  =  4,       /* csd.sense:52 */
     P5_6_CSD_SHIELD                 =  5,       /* csd.shield:52 */
     P5_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_6_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_6_TCPWM_LINE7                =  8,       /* Digital Active - tcpwm.line[7]:0 */
     P5_6_LCD_COM46                  = 12,       /* Digital Deep Sleep - lcd.com[46] */
     P5_6_LCD_SEG46                  = 13,       /* Digital Deep Sleep - lcd.seg[46] */
@@ -1023,7 +1023,7 @@ typedef enum
     P5_7_CSD_SENSE                  =  4,       /* csd.sense:53 */
     P5_7_CSD_SHIELD                 =  5,       /* csd.shield:53 */
     P5_7_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P5_7_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P5_7_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P5_7_TCPWM_LINE_COMPL7          =  8,       /* Digital Active - tcpwm.line_compl[7]:0 */
     P5_7_LCD_COM47                  = 12,       /* Digital Deep Sleep - lcd.com[47] */
     P5_7_LCD_SEG47                  = 13,       /* Digital Deep Sleep - lcd.seg[47] */
@@ -1035,7 +1035,7 @@ typedef enum
     P6_1_CSD_SENSE                  =  4,       /* csd.sense:31 */
     P6_1_CSD_SHIELD                 =  5,       /* csd.shield:31 */
     P6_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P6_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P6_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P6_1_TCPWM_LINE_COMPL4          =  8,       /* Digital Active - tcpwm.line_compl[4]:1 */
     P6_1_SCB3_UART_TX               =  9,       /* Digital Active - scb[3].uart_tx:0 */
     P6_1_LCD_COM49                  = 12,       /* Digital Deep Sleep - lcd.com[49] */
@@ -1048,7 +1048,7 @@ typedef enum
     P6_2_CSD_SENSE                  =  4,       /* csd.sense:32 */
     P6_2_CSD_SHIELD                 =  5,       /* csd.shield:32 */
     P6_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P6_2_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P6_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P6_2_TCPWM_LINE5                =  8,       /* Digital Active - tcpwm.line[5]:0 */
     P6_2_SCB3_UART_CTS              =  9,       /* Digital Active - scb[3].uart_cts:0 */
     P6_2_LCD_COM50                  = 12,       /* Digital Deep Sleep - lcd.com[50] */
@@ -1060,7 +1060,7 @@ typedef enum
     P6_4_CSD_SENSE                  =  4,       /* csd.sense:34 */
     P6_4_CSD_SHIELD                 =  5,       /* csd.shield:34 */
     P6_4_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P6_4_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P6_4_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P6_4_TCPWM_LINE6                =  8,       /* Digital Active - tcpwm.line[6]:3 */
     P6_4_LCD_COM52                  = 12,       /* Digital Deep Sleep - lcd.com[52] */
     P6_4_LCD_SEG52                  = 13,       /* Digital Deep Sleep - lcd.seg[52] */
@@ -1072,7 +1072,7 @@ typedef enum
     P6_5_CSD_SENSE                  =  4,       /* csd.sense:35 */
     P6_5_CSD_SHIELD                 =  5,       /* csd.shield:35 */
     P6_5_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P6_5_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P6_5_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P6_5_TCPWM_LINE_COMPL6          =  8,       /* Digital Active - tcpwm.line_compl[6]:3 */
     P6_5_LCD_COM53                  = 12,       /* Digital Deep Sleep - lcd.com[53] */
     P6_5_LCD_SEG53                  = 13,       /* Digital Deep Sleep - lcd.seg[53] */
@@ -1084,7 +1084,7 @@ typedef enum
     P7_0_CSD_SENSE                  =  4,       /* csd.sense:54 */
     P7_0_CSD_SHIELD                 =  5,       /* csd.shield:54 */
     P7_0_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P7_0_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P7_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P7_0_TCPWM_LINE0                =  8,       /* Digital Active - tcpwm.line[0]:2 */
     P7_0_SCB3_UART_RX               =  9,       /* Digital Active - scb[3].uart_rx:2 */
     P7_0_PASS1_DSI_SAR_DATA3        = 10,       /* Digital Active - pass[1].dsi_sar_data[3]:0 */
@@ -1098,7 +1098,7 @@ typedef enum
     P7_1_CSD_SENSE                  =  4,       /* csd.sense:55 */
     P7_1_CSD_SHIELD                 =  5,       /* csd.shield:55 */
     P7_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P7_1_AMUXB                      =  7,       /* AMUXBUS B connection. This mode is also used for CSD GPIO charging.  When CSD GPIO charging is enabled in CSD_CONTROL, 'oe_n' is connected to '!csd_charge' signal (and IO pad is also still connected to AMUXBUS B). */
+    P7_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P7_1_TCPWM_LINE_COMPL0          =  8,       /* Digital Active - tcpwm.line_compl[0]:2 */
     P7_1_SCB3_UART_TX               =  9,       /* Digital Active - scb[3].uart_tx:2 */
     P7_1_PASS1_DSI_SAR_DATA4        = 10,       /* Digital Active - pass[1].dsi_sar_data[4]:0 */

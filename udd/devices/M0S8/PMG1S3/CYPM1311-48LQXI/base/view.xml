@@ -4,7 +4,7 @@
   <vendor>Cypress</vendor>
   <flash>262144</flash>
   <ram>32768</ram>
-  <package>48-QFN</package>
+  <package>48-QFN-CYPM1311</package>
   <minvoltage>1710</minvoltage>
   <maxvoltage>5500</maxvoltage>
   <description>The CYPM1311-48LQXI device.</description>

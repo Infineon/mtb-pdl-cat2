@@ -96,7 +96,7 @@
     <ParamString id="MultiProcParity" name="Parity" group="General" default="None" visible="`${Standard &amp;&amp; (DataWidth eq 9)}`" editable="false" desc="Multi Processor Mode supports Parity = None" />    
     <ParamString id="SmartCardParity" name="Parity" group="General" default="Even" visible="`${SmartCard}`" editable="false" desc="SmartCard supports Parity = Even" />
     <ParamString id="IrdaCardParity"  name="Parity" group="General" default="None" visible="`${IrDA}`" editable="false" desc="IrDA supports Parity = None" />
-    <ParamChoice id="StopBits" name="Stop Bits" group="General" default="CY_SCB_UART_STOP_BITS_1" visible="`${!SmartCard}`" editable="true" desc="This parameter defines the number of stop bits.">
+    <ParamChoice id="StopBits" name="Stop Bits" group="General" default="CY_SCB_UART_STOP_BITS_1" visible="`${!SmartCard}`" editable="true" desc="This parameter defines the number of stop bits. The stop bits error detection is performed only if stop bits equal or more than 1.5 bits.">
       <Entry name="1 bit"    value="CY_SCB_UART_STOP_BITS_1"   visible="true" />
       <Entry name="1.5 bits" value="CY_SCB_UART_STOP_BITS_1_5" visible="true" />
       <Entry name="2 bits"   value="CY_SCB_UART_STOP_BITS_2"   visible="true" />
@@ -275,7 +275,7 @@
     <ParamBool id="DropOnParityErr" name="Drop on Parity Error" group="Advanced" default="false" visible="true" editable="true" desc="This parameter determines if the data is dropped from the RX FIFO on a parity error event." />
 
     <!--Break Width-->
-    <ParamRange id="BreakSignalBits" name="Break Signal Bits" group="Advanced" default="11" min="7" max="16" resolution="1" visible="`${Standard}`" editable="true" desc="This parameter specifies the break width in bits. The range: 7-16." />
+    <ParamRange id="BreakSignalBits" name="Break Signal Bits" group="Advanced" default="11" min="7" max="16" resolution="1" visible="`${Standard}`" editable="true" desc="This parameter specifies the break width in bits. The range: 7-16. The actual break width may be up to one bit less than the specified break width." />
 
     <!--Smart Card-->
     <ParamBool id="SmCardRetryOnNack" name="Retry on Nack" group="Advanced" default="false" visible="`${SmartCard}`" editable="true" desc="This parameter defines whether to send a message again when a NACK response is received. Only applicable when Com Mode is SmartCard." />

@@ -19,7 +19,7 @@
   <Param name="OpAmp_Removed" value="NA" />
   <Param name="LPComp_Count" value="2" />
   <Param name="LPComp_REMOVED" value="NA" />
-  <Param name="Comp_Count" value="0" />
+  <Param name="Comp_Count" value="2" />
   <Param name="Comp_REMOVED" value="NA" />
   <Param name="DAC8_Count" value="0" />
   <Param name="DAC8_removed" value="NA" />
@@ -37,7 +37,7 @@
   <Param name="IndSense" value="N" />
   <Param name="IndSense_Sensors" value="0" />
   <Param name="DirDriveLCD" value="Y" />
-  <Param name="DMAchannels_count" value="8" />
+  <Param name="DMAchannels_count" value="16" />
   <Param name="PLL_Count" value="1" />
   <Param name="IO_Count" value="54" />
   <Param name="Vddmin_volts" value="1.71" />

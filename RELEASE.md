@@ -1,4 +1,4 @@
-# MTB CAT2 Peripheral Driver Library v1.1.0
+# MTB CAT2 Peripheral Driver Library v1.2.0
 
 Please refer to the [README.md](./README.md) and the
 [PDL API Reference Manual](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,44 +6,28 @@ for a complete description of the Peripheral Driver Library.
 
 ## What's Included?
 
-### New Features
-
-Add support of the following PMG1 device series (full device support available
-starting from ModusToolbox 2.3):
-
-* PMG1-S0
-* PMG1-S1
-* PMG1-S2
-* PMG1-S3
-
 ### New Personalities
 
-* USBPD 1.0
+* I2S 1.0
 
 ### Updated Personalities
 
-* Counter - Minor enhancements of the input parameters check.
-* SPI - Enhanced TX/RX FIFO Level default values.
-* UART - Enhanced several default values and added new parameter for LIN Mode.
-* PWM - Minor enhancements of the input parameters check.
-* Quadrature Decoder - Minor enhancements of the input parameters check.
-* SAR - Enhanced code generation for vrefSel field of the configuration structure.
+* UART - Updated description for fields Break Signal Bits and Stop Bits.
+* ECO - Removed double pins initialization for this personality.
+* WCO - Removed double pins initialization for this personality.
 
 ### Added Drivers
 
-* [USBPD 1.0 (USB Power Delivery)](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+* [I2S 1.0 (Inter-IC Sound)](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__i2s.html)
 
 ### Updated Drivers
 
-* [SCB 3.0](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
-* [SysTick 1.20](https://cypresssemiconductorco.github.io/mtb-pdl-cat1/pdl_api_reference_manual/html/group__group__arm__system__timer.html)
-* [SysLib 2.10](https://cypresssemiconductorco.github.io/mtb-pdl-cat1/pdl_api_reference_manual/html/group__group__syslib.html)
+* [SysClk 1.20](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
 
 ### Drivers with patch version updates
 
-* [SAR 1.0](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
-* [Startup 1.10](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__system__config.html)
-* [WDT 1.0](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdt.html)
+* [SCB 3.0](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+* [SysLib 2.10](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
 
 ## Known Issues/Limitations
 

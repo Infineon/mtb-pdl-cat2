@@ -4,7 +4,7 @@
   <vendor>Cypress</vendor>
   <flash>262144</flash>
   <ram>32768</ram>
-  <package>97-BGA</package>
+  <package>97-BGA-CYPD8225</package>
   <minvoltage>1710</minvoltage>
   <maxvoltage>5500</maxvoltage>
   <description>The CYPD8225-97BZXIT device.</description>

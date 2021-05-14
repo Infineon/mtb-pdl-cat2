@@ -6,6 +6,7 @@ var searchData=
   ['enumerated_20types',['Enumerated Types',['../group__group__dmac__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__flash__enumerated__types.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__gpio__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__i2s__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__msc__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__sar__enums.html',1,'']]],
   ['ezi2c_20_28scb_29',['EZI2C (SCB)',['../group__group__scb__ezi2c.html',1,'']]],

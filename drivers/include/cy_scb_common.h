@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 3.0
+* \version 3.0.1
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -57,6 +57,23 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">3.0.1</td>
+*     <td>UART: Added information that for PSoC 4000S, PSoC 4100S, PSoC 4100S
+*         Plus, and PSoC 4500S series, a stop bits error is detected only if
+*         the stop bits length equals or exceeds 1.5 bits.</td>
+*     <td>Documentation updates.</td>
+*   </tr>
+*   <tr>
+*     <td>UART: Added information that for PSoC 4000S, PSoC 4100S, PSoC 4100S
+*         Plus, and PSoC 4500S series, the actual break width may be up to one
+*         bit less than the specified break width.</td>
+*     <td>Documentation updates.</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="2">3.0</td>
 *     <td>Added support of SCB blocks with FIFO buffers size other than 32 byte.</td>
 *     <td>New device support.</td>
@@ -64,7 +81,7 @@
 *   <tr>
 *     <td>Added \ref Cy_SCB_UART_GetBaudRateCount() to get number of peripheral
 *         clock periods that constitutes the transmission of the LIN's sync byte. \n
-*         Added enableLinMode member to \ref cy_stc_scb_uart_config_t. 
+*         Added enableLinMode member to \ref cy_stc_scb_uart_config_t.
 *         \note enableLinMode has effect on \ref CY_SCB_UART_TX_ARB_LOST and
 *         \ref CY_SCB_UART_RX_BREAK_DETECT interrupts.
 *     </td>

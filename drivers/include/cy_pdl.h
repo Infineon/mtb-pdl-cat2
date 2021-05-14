@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_pdl.h
-* \version 1.10
+* \version 1.20
 *
 * Include this file in all of your source files that access PDL.
 *
@@ -33,6 +33,7 @@
 #include "cy_dmac.h"
 #include "cy_flash.h"
 #include "cy_gpio.h"
+#include "cy_i2s.h"
 #include "cy_msc.h"
 #include "cy_sar.h"
 #include "cy_scb_ezi2c.h"
@@ -49,11 +50,11 @@
 #include "cy_tcpwm_pwm.h"
 #include "cy_tcpwm_quaddec.h"
 #include "cy_trigmux.h"
-#include "cy_wdc.h"
-#include "cy_wdt.h"
 #include "cy_usbpd_bch.h"
 #include "cy_usbpd_phy.h"
 #include "cy_usbpd_typec.h"
 #include "cy_usbpd_vbus_ctrl.h"
+#include "cy_wdc.h"
+#include "cy_wdt.h"
 
 #endif /* CY_PDL_H */

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" template="Empty (17&quot; x 11&quot;)" xmlns="http://cypress.com/xsd/cyvis">
-  <Page index="0" name="Architecture" enabled="true" shapeCount="439">
+  <Page index="0" name="Architecture" enabled="true" shapeCount="455">
     <Instance shapeName="Shape_9" zorder="18" guid="65565b94-93b7-423a-81e2-ff0508b6c64b" name="PASS0_CTB0_OA0" component="cy_m0s8_opamp">
       <Location x="342" y="198" />
       <Size width="96" height="156" />
@@ -380,16 +380,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_11" zorder="336" guid="067c1b47-54fe-4ffb-bb30-a3275a288692" name="GPIO_P4_0" component="cy_all_pin">
-      <Location x="36" y="270" />
+      <Location x="36" y="276" />
       <Size width="29.99999" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="36" y="282" />
-          <Point x="60" y="282" />
-          <Point x="65.99999" y="276" />
-          <Point x="60" y="270" />
-          <Point x="36" y="270" />
-          <Point x="36" y="282" />
+          <Point x="36" y="288" />
+          <Point x="60" y="288" />
+          <Point x="65.99999" y="282" />
+          <Point x="60" y="276" />
+          <Point x="36" y="276" />
+          <Point x="36" y="288" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -398,7 +398,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="48" y="276" />
+          <Location x="48" y="282" />
           <Text>P4[0]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -411,16 +411,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_12" zorder="335" guid="ad435fc5-17a6-4c95-969e-d4bead04bd22" name="GPIO_P4_1" component="cy_all_pin">
-      <Location x="36" y="252" />
+      <Location x="36" y="258" />
       <Size width="29.99999" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="36" y="264" />
-          <Point x="60" y="264" />
-          <Point x="65.99999" y="258" />
-          <Point x="60" y="252" />
-          <Point x="36" y="252" />
-          <Point x="36" y="264" />
+          <Point x="36" y="270" />
+          <Point x="60" y="270" />
+          <Point x="65.99999" y="264" />
+          <Point x="60" y="258" />
+          <Point x="36" y="258" />
+          <Point x="36" y="270" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -429,7 +429,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="48" y="258" />
+          <Location x="48" y="264" />
           <Text>P4[1]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -1107,11 +1107,11 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_48" zorder="427" guid="28ac28c7-bd22-4571-9ac5-12e701475574" name="LPCOMP1" component="cy_m0s8_lpcomp">
-      <Location x="144" y="222" />
+      <Location x="144" y="390" />
       <Size width="72" height="54" />
       <SubShapes>
         <Rectangle>
-          <Location x="144" y="264" />
+          <Location x="144" y="432" />
           <Size width="72" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="176, 176, 176" />
@@ -1121,7 +1121,7 @@
           </Fill>
         </Rectangle>
         <Rectangle>
-          <Location x="144" y="222" />
+          <Location x="144" y="390" />
           <Size width="72" height="42" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="176, 176, 176" />
@@ -1131,7 +1131,7 @@
           </Fill>
         </Rectangle>
         <Annotation>
-          <Location x="144" y="264" />
+          <Location x="144" y="432" />
           <Size width="72" height="12" />
           <Text>LPCOMP1</Text>
           <Vertical value="false" />
@@ -1143,35 +1143,35 @@
           <TextAlignment value="MiddleCenter" />
         </Annotation>
         <Annotation>
-          <Location x="213" y="252" />
-          <Text>vminus</Text>
+          <Location x="147" y="420" />
+          <Text>vplus</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($InvertTerminals) ? "vminus" : "vplus"`]]></Expression>
           <Fill>
             <SolidBrush color="0, 0, 0" />
           </Fill>
           <Font value="Microsoft Sans Serif, 10pt" />
-          <TextAlignment value="MiddleRight" />
+          <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Annotation>
-          <Location x="213" y="234" />
-          <Text>vplus</Text>
+          <Location x="147" y="402" />
+          <Text>vminus</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=(!$InvertTerminals) ? "vminus" : "vplus"`]]></Expression>
           <Fill>
             <SolidBrush color="0, 0, 0" />
           </Fill>
           <Font value="Microsoft Sans Serif, 10pt" />
-          <TextAlignment value="MiddleRight" />
+          <TextAlignment value="MiddleLeft" />
         </Annotation>
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_49" zorder="428" guid="d9dd1d92-6ba8-452b-96e2-c46a7b5aa53c" name="LPCOMP0" component="cy_m0s8_lpcomp">
-      <Location x="144" y="156" />
+      <Location x="144" y="306" />
       <Size width="72" height="54" />
       <SubShapes>
         <Rectangle>
-          <Location x="144" y="156" />
+          <Location x="144" y="306" />
           <Size width="72" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="176, 176, 176" />
@@ -1181,7 +1181,7 @@
           </Fill>
         </Rectangle>
         <Rectangle>
-          <Location x="144" y="168" />
+          <Location x="144" y="318" />
           <Size width="72" height="42" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="176, 176, 176" />
@@ -1191,7 +1191,7 @@
           </Fill>
         </Rectangle>
         <Annotation>
-          <Location x="144" y="156" />
+          <Location x="144" y="306" />
           <Size width="72" height="12" />
           <Text>LPCOMP0</Text>
           <Vertical value="false" />
@@ -1203,8 +1203,8 @@
           <TextAlignment value="MiddleCenter" />
         </Annotation>
         <Annotation>
-          <Location x="147" y="180" />
-          <Text>vminus</Text>
+          <Location x="147" y="330" />
+          <Text>vplus</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($InvertTerminals) ? "vminus" : "vplus"`]]></Expression>
           <Fill>
@@ -1214,8 +1214,8 @@
           <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Annotation>
-          <Location x="147" y="198" />
-          <Text>vplus</Text>
+          <Location x="147" y="348" />
+          <Text>vminus</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=(!$InvertTerminals) ? "vminus" : "vplus"`]]></Expression>
           <Fill>
@@ -1324,7 +1324,7 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_51" zorder="551" guid="c65075c9-40d0-4e36-8601-c58c69af1b03" name="PASS0_SARMUX0_TEMP_SENSOR0" component="cy_m0s8_temp">
+    <Instance shapeName="Shape_51" zorder="541" guid="c65075c9-40d0-4e36-8601-c58c69af1b03" name="PASS0_SARMUX0_TEMP_SENSOR0" component="cy_m0s8_temp">
       <Location x="684" y="480" />
       <Size width="72" height="54" />
       <SubShapes>
@@ -1382,7 +1382,7 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_52" zorder="552" guid="556421a2-0151-4f99-b230-038fde3954cb" name="PASS0_SAR0_SARADC0" component="cy_m0s8_saradc">
+    <Instance shapeName="Shape_52" zorder="542" guid="556421a2-0151-4f99-b230-038fde3954cb" name="PASS0_SAR0_SARADC0" component="cy_m0s8_saradc">
       <Location x="684" y="540" />
       <Size width="72" height="72" />
       <SubShapes>
@@ -1583,11 +1583,11 @@
     </Instance>
     <Instance shapeName="Shape_72" zorder="39" guid="06e9f287-89d1-42ad-8346-b4ace51aa5d3" name="ioss0_port3_p3_p41" component="swh">
       <Location x="510" y="654" />
-      <Size width="11.99997" height="12" />
+      <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
           <Location x="510" y="654" />
-          <Size width="11.99997" height="12" />
+          <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -1599,11 +1599,11 @@
     </Instance>
     <Instance shapeName="Shape_73" zorder="40" guid="4ed9b392-14c8-458e-8747-4819f58ddfd1" name="ioss0_port3_p3_p51" component="swh">
       <Location x="510" y="636" />
-      <Size width="11.99997" height="12" />
+      <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
           <Location x="510" y="636" />
-          <Size width="11.99997" height="12" />
+          <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -1746,12 +1746,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_82" zorder="49" guid="f4c55743-1700-47f2-be9b-67908cb38dc3" name="ioss0_port3_p3_p46" component="swh">
-      <Location x="420.0001" y="654" />
-      <Size width="11.99997" height="12" />
+      <Location x="420" y="654" />
+      <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
-          <Location x="420.0001" y="654" />
-          <Size width="11.99997" height="12" />
+          <Location x="420" y="654" />
+          <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -1762,12 +1762,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_83" zorder="50" guid="e7d9eb75-f683-430d-b2ab-973772b76e19" name="ioss0_port3_p3_p56" component="swh">
-      <Location x="420.0001" y="636" />
-      <Size width="11.99997" height="12" />
+      <Location x="420" y="636" />
+      <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
-          <Location x="420.0001" y="636" />
-          <Size width="11.99997" height="12" />
+          <Location x="420" y="636" />
+          <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -1778,11 +1778,11 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_84" zorder="51" guid="1e5600f9-690e-430e-83b6-3bbb5797792c" name="ioss0_port3_p3_p47" component="swh">
-      <Location x="402.0001" y="654" />
+      <Location x="402" y="654" />
       <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
-          <Location x="402.0001" y="654" />
+          <Location x="402" y="654" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -1794,11 +1794,11 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_85" zorder="52" guid="ef895d2a-c5a1-4153-9176-64b43365d993" name="ioss0_port3_p3_p57" component="swh">
-      <Location x="402.0001" y="636" />
+      <Location x="402" y="636" />
       <Size width="12" height="12" />
       <SubShapes>
         <Ellipse>
-          <Location x="402.0001" y="636" />
+          <Location x="402" y="636" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -1812,7 +1812,7 @@
     <Instance shapeName="Shape_102" zorder="351" guid="57f67b74-cc8a-43df-9cf4-f33e92cb4928" name="ioss0_port1_p1_p46" component="swh">
       <Location x="65.99999" y="324" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[6]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[6], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="65.99999" y="324" />
@@ -1829,7 +1829,7 @@
     <Instance shapeName="Shape_103" zorder="352" guid="fecc2120-45e6-4f88-a599-543a1074a2a0" name="ioss0_port1_p1_p56" component="swh">
       <Location x="83.99999" y="324" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[6]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[6], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="83.99999" y="324" />
@@ -1846,7 +1846,7 @@
     <Instance shapeName="Shape_104" zorder="353" guid="74620a5b-24f8-41dd-b2f9-13280e958b45" name="ioss0_port1_p1_p45" component="swh">
       <Location x="65.99999" y="342" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[5]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[5], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="65.99999" y="342" />
@@ -1863,7 +1863,7 @@
     <Instance shapeName="Shape_105" zorder="354" guid="4c1e0004-7dab-48db-a6e0-6d755dbca6fe" name="ioss0_port1_p1_p55" component="swh">
       <Location x="83.99999" y="342" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[5]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[5], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="83.99999" y="342" />
@@ -2892,12 +2892,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_182" zorder="429" guid="80fab830-6ac3-4c63-a539-f632e4f55e6a" name="MUX_BKG_17" component="cy_all_mux_bkg">
-      <Location x="107" y="99" />
+      <Location x="131" y="99" />
       <Size width="14" height="36" />
-      <ShapeTags>wl:ioss[0].port[7].pin[0], wl:lpcomp[0].comp[0]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[0]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="107" y="99" />
+          <Location x="131" y="99" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -2909,12 +2909,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_183" zorder="431" guid="e50ea987-4e31-47b9-9789-1fe747893553" name="MUX_BKG_19" component="cy_all_mux_bkg">
-      <Location x="155" y="99" />
+      <Location x="167" y="99" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[7].pin[2]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="155" y="99" />
+          <Location x="167" y="99" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -3073,11 +3073,11 @@
         <TextAlignment value="BottomLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_295" zorder="553" effectiveName="pass0_vssa_kelvin0" type="Digital">
+    <Wire shapeName="Shape_295" zorder="543" effectiveName="pass0_vssa_kelvin0" type="Digital">
       <Point1 x="636" y="522" />
       <Point2 x="684" y="522" />
       <ShapeTags>wl:pass[0].sarmux[0].tempsensor[0]</ShapeTags>
-      <Annotation zorder="554">
+      <Annotation zorder="544">
         <Location x="660" y="516" />
         <Text>pass0_vssa_kelvin0</Text>
         <Vertical value="false" />
@@ -3134,51 +3134,47 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_319" zorder="555" effectiveName="pass0_sarmux0_temp0" type="Digital">
+    <Wire shapeName="Shape_319" zorder="545" effectiveName="pass0_sarmux0_temp0" type="Digital">
       <Point1 x="654" y="504" />
       <Point2 x="684" y="504" />
       <ShapeTags>wl:pass[0].sarmux[0].tempsensor[0]</ShapeTags>
-      <Annotation zorder="556">
+      <Annotation zorder="546">
         <Location x="666" y="498" />
         <Text>pass0_sarmux0_temp0</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_320" zorder="557" effectiveName="pass0_sar_vplus0" type="Analog">
+    <Wire shapeName="Shape_320" zorder="547" effectiveName="pass0_sar_vplus0" type="Analog">
       <Point1 x="660" y="564" />
       <Point2 x="684" y="564" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
-      <Annotation zorder="558">
+      <Annotation zorder="548">
         <Location x="660" y="558" />
         <Text>pass0_sar_vplus0</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_322" zorder="561" effectiveName="pass0_sar_vminus0" type="Analog">
+    <Wire shapeName="Shape_322" zorder="551" effectiveName="pass0_sar_vminus0" type="Analog">
       <Point1 x="642" y="582" />
       <Point2 x="684" y="582" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
-      <Annotation zorder="562">
+      <Annotation zorder="552">
         <Location x="660" y="576" />
         <Text>pass0_sar_vminus0</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_324" zorder="565" effectiveName="p3_0" type="Analog">
+    <Wire shapeName="Shape_324" zorder="555" effectiveName="p3_0" type="Analog">
       <Point1 x="624" y="600" />
       <Point2 x="684" y="600" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_337" zorder="184" effectiveName="amuxbus_b_pass" type="Analog">
+    <Wire shapeName="Shape_337" zorder="184" effectiveName="amuxbus_b_csd" type="Analog">
       <Point1 x="564" y="504" />
-      <Point2 x="624" y="504" />
-    </Wire>
-    <Wire shapeName="Shape_338" zorder="595" effectiveName="amuxbus_b_pass" type="Analog">
-      <Point1 x="624" y="126" solderDot="true" />
-      <Point2 x="624" y="504" />
+      <Point2 x="594" y="504" />
     </Wire>
     <Wire shapeName="Shape_342" zorder="188" effectiveName="pass0_sarbus1" type="Digital">
       <Point1 x="486" y="396" />
@@ -3229,7 +3225,7 @@
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_364" zorder="577" effectiveName="p3_5" type="Analog">
+    <Wire shapeName="Shape_364" zorder="559" effectiveName="p3_5" type="Analog">
       <Point1 x="330" y="678" />
       <Point2 x="444" y="678" solderDot="true" />
       <ShapeTags>wl:pass[0].ctb[0].oa[0]</ShapeTags>
@@ -3284,13 +3280,9 @@
       <Point2 x="582" y="228" />
       <ShapeTags>wl:pass[0].ctb[0].oa[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_411" zorder="246" effectiveName="amuxbus_a_pass" type="Analog">
-      <Point1 x="318" y="384" />
+    <Wire shapeName="Shape_411" zorder="246" effectiveName="amuxbus_a_csd" type="Analog">
+      <Point1 x="348" y="384" />
       <Point2 x="378" y="384" />
-    </Wire>
-    <Wire shapeName="Shape_412" zorder="593" effectiveName="amuxbus_a_pass" type="Analog">
-      <Point1 x="318" y="108" solderDot="true" />
-      <Point2 x="318" y="384" />
     </Wire>
     <Instance shapeName="Shape_476" zorder="250" guid="f46821a4-a138-49da-ad16-fc0c54552ea0" name="cy_shapetag_disconnect_10" component="cy_all_shapetag_disconnect">
       <Location x="447" y="357" />
@@ -3420,7 +3412,7 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_528" zorder="567" guid="608687d2-b637-4803-bb5d-d870532f58a2" name="cy_shapetag_disconnect_20" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_528" zorder="557" guid="608687d2-b637-4803-bb5d-d870532f58a2" name="cy_shapetag_disconnect_20" component="cy_all_shapetag_disconnect">
       <Location x="639" y="525" />
       <Size width="9" height="6" />
       <ShapeTags>wl:pass[0].sarmux[0].tempsensor[0]</ShapeTags>
@@ -3431,12 +3423,12 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_530" zorder="563" effectiveName="pass0_sar_vminus0" type="Analog">
+    <Wire shapeName="Shape_530" zorder="553" effectiveName="pass0_sar_vminus0" type="Analog">
       <Point1 x="642" y="528" solderDot="true" />
       <Point2 x="642" y="582" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
     </Wire>
-    <Instance shapeName="Shape_531" zorder="568" guid="7341f6f3-7e01-4650-8504-046237b266e2" name="cy_shapetag_disconnect_21" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_531" zorder="558" guid="7341f6f3-7e01-4650-8504-046237b266e2" name="cy_shapetag_disconnect_21" component="cy_all_shapetag_disconnect">
       <Location x="657" y="507" />
       <Size width="9" height="6" />
       <ShapeTags>wl:pass[0].sarmux[0].tempsensor[0]</ShapeTags>
@@ -3447,7 +3439,7 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_533" zorder="559" effectiveName="pass0_sar_vplus0" type="Analog">
+    <Wire shapeName="Shape_533" zorder="549" effectiveName="pass0_sar_vplus0" type="Analog">
       <Point1 x="660" y="510" solderDot="true" />
       <Point2 x="660" y="564" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
@@ -3514,7 +3506,7 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_658" zorder="463" guid="8bc23902-f8c9-4a91-a4e7-20f1dd28ad55" name="P7_Pin6" component="cy_all_pin">
+    <Instance shapeName="Shape_658" zorder="459" guid="8bc23902-f8c9-4a91-a4e7-20f1dd28ad55" name="P7_Pin6" component="cy_all_pin">
       <Location x="240" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
@@ -3545,7 +3537,7 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_659" zorder="464" guid="f908fbd2-2095-4b00-b353-1937dc1d8053" name="P7_Pin5" component="cy_all_pin">
+    <Instance shapeName="Shape_659" zorder="460" guid="f908fbd2-2095-4b00-b353-1937dc1d8053" name="P7_Pin5" component="cy_all_pin">
       <Location x="222" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
@@ -3576,17 +3568,17 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_660" zorder="465" guid="6e1dff03-beed-4691-a5f5-68d771c2ab2e" name="P7_Pin4" component="cy_all_pin">
-      <Location x="192" y="72" />
+    <Instance shapeName="Shape_660" zorder="461" guid="6e1dff03-beed-4691-a5f5-68d771c2ab2e" name="P7_Pin4" component="cy_all_pin">
+      <Location x="204" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
         <ClosedShape>
-          <Point x="192" y="72" />
-          <Point x="192" y="95.99999" />
-          <Point x="198" y="102" />
-          <Point x="204" y="95.99999" />
           <Point x="204" y="72" />
-          <Point x="192" y="72" />
+          <Point x="204" y="95.99999" />
+          <Point x="210" y="102" />
+          <Point x="216" y="95.99999" />
+          <Point x="216" y="72" />
+          <Point x="204" y="72" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -3595,7 +3587,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="198" y="84" />
+          <Location x="210" y="84" />
           <Text>P7[4]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -3607,17 +3599,17 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_661" zorder="466" guid="58c5f3b4-c3f1-466a-89bd-c318bef4db50" name="P7_Pin3" component="cy_all_pin">
-      <Location x="174" y="72" />
+    <Instance shapeName="Shape_661" zorder="462" guid="58c5f3b4-c3f1-466a-89bd-c318bef4db50" name="P7_Pin3" component="cy_all_pin">
+      <Location x="186" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
         <ClosedShape>
-          <Point x="174" y="72" />
-          <Point x="174" y="95.99999" />
-          <Point x="180" y="102" />
-          <Point x="186" y="95.99999" />
           <Point x="186" y="72" />
-          <Point x="174" y="72" />
+          <Point x="186" y="95.99999" />
+          <Point x="192" y="102" />
+          <Point x="198" y="95.99999" />
+          <Point x="198" y="72" />
+          <Point x="186" y="72" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -3626,7 +3618,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="180" y="84" />
+          <Location x="192" y="84" />
           <Text>P7[3]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -3638,10 +3630,10 @@
         </Annotation>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_665" zorder="455" guid="f0f32e88-de70-426b-bcf9-67a35dba2c9f" name="ioss0_port7_p7_p55" component="swh">
+    <Instance shapeName="Shape_665" zorder="451" guid="f0f32e88-de70-426b-bcf9-67a35dba2c9f" name="ioss0_port7_p7_p55" component="swh">
       <Location x="222" y="120" />
       <Size width="12" height="11.99999" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[5]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="222" y="120" />
@@ -3655,10 +3647,10 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_666" zorder="456" guid="e12639a5-7e28-4db6-9634-ebb1675866d8" name="ioss0_port7_p7_p56" component="swh">
+    <Instance shapeName="Shape_666" zorder="452" guid="e12639a5-7e28-4db6-9634-ebb1675866d8" name="ioss0_port7_p7_p56" component="swh">
       <Location x="240" y="120" />
       <Size width="12" height="11.99999" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[6]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="240" y="120" />
@@ -3672,10 +3664,10 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_669" zorder="457" guid="a69fbd11-fc58-4afb-9a8c-361cbe1e5fbb" name="ioss0_port7_p7_p46" component="swh">
+    <Instance shapeName="Shape_669" zorder="453" guid="a69fbd11-fc58-4afb-9a8c-361cbe1e5fbb" name="ioss0_port7_p7_p46" component="swh">
       <Location x="240" y="102" />
       <Size width="12" height="12" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[6]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="240" y="102" />
@@ -3689,10 +3681,10 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_670" zorder="458" guid="ab49089d-d4f4-4e51-be77-4c0b6838eb00" name="ioss0_port7_p7_p45" component="swh">
+    <Instance shapeName="Shape_670" zorder="454" guid="ab49089d-d4f4-4e51-be77-4c0b6838eb00" name="ioss0_port7_p7_p45" component="swh">
       <Location x="222" y="102" />
       <Size width="12" height="12" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[5]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="222" y="102" />
@@ -3706,13 +3698,13 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_671" zorder="459" guid="1f32ed62-36f5-4011-b2f9-3e81fe65b592" name="ioss0_port7_p7_p44" component="swh">
-      <Location x="192" y="102" />
+    <Instance shapeName="Shape_671" zorder="455" guid="1f32ed62-36f5-4011-b2f9-3e81fe65b592" name="ioss0_port7_p7_p44" component="swh">
+      <Location x="204" y="102" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[7].pin[4]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="192" y="102" />
+          <Location x="204" y="102" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3723,13 +3715,13 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_672" zorder="460" guid="73429323-c4f1-4cff-948b-226e5aec22a1" name="ioss0_port7_p7_p54" component="swh">
-      <Location x="192" y="120" />
+    <Instance shapeName="Shape_672" zorder="456" guid="73429323-c4f1-4cff-948b-226e5aec22a1" name="ioss0_port7_p7_p54" component="swh">
+      <Location x="204" y="120" />
       <Size width="12" height="11.99999" />
       <ShapeTags>wl:ioss[0].port[7].pin[4]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="192" y="120" />
+          <Location x="204" y="120" />
           <Size width="12" height="11.99999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3740,13 +3732,13 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_673" zorder="461" guid="c3820805-d907-4cde-a17a-b78ae4132914" name="ioss0_port7_p7_p53" component="swh">
-      <Location x="174" y="120" />
+    <Instance shapeName="Shape_673" zorder="457" guid="c3820805-d907-4cde-a17a-b78ae4132914" name="ioss0_port7_p7_p53" component="swh">
+      <Location x="186" y="120" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[7].pin[3]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="174" y="120" />
+          <Location x="186" y="120" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3757,13 +3749,13 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_674" zorder="462" guid="888577f6-b6d3-4711-aa8b-532f8d511b2d" name="ioss0_port7_p7_p43" component="swh">
-      <Location x="174" y="102" />
+    <Instance shapeName="Shape_674" zorder="458" guid="888577f6-b6d3-4711-aa8b-532f8d511b2d" name="ioss0_port7_p7_p43" component="swh">
+      <Location x="186" y="102" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[7].pin[3]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="174" y="102" />
+          <Location x="186" y="102" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3774,10 +3766,10 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_901" zorder="511" effectiveName="amuxbus_a_pass" type="Analog">
+    <Wire shapeName="Shape_901" zorder="501" effectiveName="amuxbus_a_pass" type="Analog">
       <Point1 x="678" y="108" solderDot="true" />
       <Point2 x="804" y="108" />
-      <Annotation zorder="512">
+      <Annotation zorder="502">
         <Location x="744" y="102" />
         <Text>amuxbus_a_pass</Text>
         <Vertical value="false" />
@@ -3849,12 +3841,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_919" zorder="327" guid="4c5511f5-ad99-425d-b612-e803e9345ebf" name="ioss0_port4_p4_p41" component="swh">
-      <Location x="65.99999" y="252" />
+      <Location x="65.99999" y="258" />
       <Size width="12" height="11.99997" />
       <ShapeTags>wl:ioss[0].port[4].pin[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="65.99999" y="252" />
+          <Location x="65.99999" y="258" />
           <Size width="12" height="11.99997" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3866,12 +3858,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_920" zorder="328" guid="f656ff95-248e-4039-b2be-6ecb75c8f72c" name="ioss0_port4_p4_p51" component="swh">
-      <Location x="83.99999" y="252" />
+      <Location x="83.99999" y="258" />
       <Size width="12" height="11.99997" />
       <ShapeTags>wl:ioss[0].port[4].pin[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="83.99999" y="252" />
+          <Location x="83.99999" y="258" />
           <Size width="12" height="11.99997" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3883,23 +3875,23 @@
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_921" zorder="329" effectiveName="p4_1" type="Analog">
-      <Point1 x="66" y="258" />
-      <Point2 x="96" y="258" />
+      <Point1 x="66" y="264" />
+      <Point2 x="96" y="264" />
       <ShapeTags>wl:ioss[0].port[4].pin[1]</ShapeTags>
       <Annotation zorder="330">
-        <Location x="66" y="252" />
+        <Location x="66" y="258" />
         <Text>p4_1</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
     <Instance shapeName="Shape_924" zorder="331" guid="61ca4c0b-96fb-4a8a-97a4-e6e5d9c186a7" name="ioss0_port4_p4_p40" component="swh">
-      <Location x="65.99999" y="270" />
+      <Location x="65.99999" y="276" />
       <Size width="12" height="11.99997" />
       <ShapeTags>wl:ioss[0].port[4].pin[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="65.99999" y="270" />
+          <Location x="65.99999" y="276" />
           <Size width="12" height="11.99997" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3911,12 +3903,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_925" zorder="332" guid="0d8a68d8-585a-41f2-b1f7-627b4e629e8e" name="ioss0_port4_p4_p50" component="swh">
-      <Location x="83.99999" y="270" />
+      <Location x="83.99999" y="276" />
       <Size width="12" height="11.99997" />
       <ShapeTags>wl:ioss[0].port[4].pin[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="83.99999" y="270" />
+          <Location x="83.99999" y="276" />
           <Size width="12" height="11.99997" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -3928,11 +3920,11 @@
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_926" zorder="333" effectiveName="p4_0" type="Analog">
-      <Point1 x="66" y="276" />
-      <Point2 x="96" y="276" />
+      <Point1 x="66" y="282" />
+      <Point2 x="96" y="282" />
       <ShapeTags>wl:ioss[0].port[4].pin[0]</ShapeTags>
       <Annotation zorder="334">
-        <Location x="66" y="270" />
+        <Location x="66" y="276" />
         <Text>p4_0</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
@@ -4199,16 +4191,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_958" zorder="266" guid="2f81c192-ab76-4205-b6b5-4dd698ab72f4" name="GPIO_P5_4" component="cy_all_pin">
-      <Location x="126" y="702" />
+      <Location x="204" y="702" />
       <Size width="12" height="29.99994" />
       <SubShapes>
         <ClosedShape>
-          <Point x="126" y="731.9999" />
-          <Point x="126" y="708" />
-          <Point x="132" y="702" />
-          <Point x="138" y="708" />
-          <Point x="138" y="731.9999" />
-          <Point x="126" y="731.9999" />
+          <Point x="204" y="731.9999" />
+          <Point x="204" y="708" />
+          <Point x="210" y="702" />
+          <Point x="216" y="708" />
+          <Point x="216" y="731.9999" />
+          <Point x="204" y="731.9999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -4217,7 +4209,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="132" y="720" />
+          <Location x="210" y="720" />
           <Text>P5[4]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -4230,12 +4222,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_959" zorder="267" guid="7c2e4426-f733-42e4-be37-02161ec01e4b" name="ioss0_port5_p5_p44" component="swh">
-      <Location x="126" y="654" />
+      <Location x="204" y="654" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[5].pin[4]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="126" y="654" />
+          <Location x="204" y="654" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4247,12 +4239,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_960" zorder="268" guid="d4d17951-ea82-484e-9fa3-72f451253d35" name="ioss0_port5_p5_p54" component="swh">
-      <Location x="126" y="636" />
+      <Location x="204" y="636" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[5].pin[4]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="126" y="636" />
+          <Location x="204" y="636" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4264,27 +4256,27 @@
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_961" zorder="269" effectiveName="p5_4" type="Digital">
-      <Point1 x="132" y="636" />
-      <Point2 x="132" y="702" />
+      <Point1 x="210" y="636" />
+      <Point2 x="210" y="702" />
       <ShapeTags>wl:ioss[0].port[5].pin[4]</ShapeTags>
       <Annotation zorder="270">
-        <Location x="138" y="702" />
+        <Location x="216" y="702" />
         <Text>p5_4</Text>
         <Vertical value="true" />
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
     <Instance shapeName="Shape_963" zorder="271" guid="73773399-de50-457e-bf15-2131eac1850a" name="GPIO_P5_5" component="cy_all_pin">
-      <Location x="108" y="702" />
+      <Location x="144" y="702" />
       <Size width="12" height="29.99994" />
       <SubShapes>
         <ClosedShape>
-          <Point x="108" y="731.9999" />
-          <Point x="108" y="708" />
-          <Point x="114" y="702" />
-          <Point x="120" y="708" />
-          <Point x="120" y="731.9999" />
-          <Point x="108" y="731.9999" />
+          <Point x="144" y="731.9999" />
+          <Point x="144" y="708" />
+          <Point x="150" y="702" />
+          <Point x="156" y="708" />
+          <Point x="156" y="731.9999" />
+          <Point x="144" y="731.9999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -4293,7 +4285,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="114" y="720" />
+          <Location x="150" y="720" />
           <Text>P5[5]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -4306,12 +4298,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_964" zorder="272" guid="83756e4f-d912-460f-8099-a6e39eb5911b" name="ioss0_port5_p5_p45" component="swh">
-      <Location x="108" y="654" />
+      <Location x="144" y="654" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[5].pin[5]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="108" y="654" />
+          <Location x="144" y="654" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4323,12 +4315,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_965" zorder="273" guid="d23c5752-e730-4cc6-a763-42d4f74deb70" name="ioss0_port5_p5_p55" component="swh">
-      <Location x="108" y="636" />
+      <Location x="144" y="636" />
       <Size width="12" height="12" />
       <ShapeTags>wl:ioss[0].port[5].pin[5]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="108" y="636" />
+          <Location x="144" y="636" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4340,27 +4332,27 @@
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_966" zorder="274" effectiveName="p5_5" type="Digital">
-      <Point1 x="114" y="636" />
-      <Point2 x="114" y="702" />
+      <Point1 x="150" y="636" />
+      <Point2 x="150" y="702" />
       <ShapeTags>wl:ioss[0].port[5].pin[5]</ShapeTags>
       <Annotation zorder="275">
-        <Location x="120" y="702" />
+        <Location x="156" y="702" />
         <Text>p5_5</Text>
         <Vertical value="true" />
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_1013" zorder="432" guid="ade51794-71fb-40ba-b8ef-58f169702923" name="GPIO_P7_0" component="cy_all_pin">
-      <Location x="108" y="72" />
-      <Size width="12" height="29.99999" />
+    <Instance shapeName="Shape_978" zorder="581" guid="18a49409-ecf3-4368-875d-f8ad562383f7" name="GPIO_P6_0" component="cy_all_pin">
+      <Location x="36" y="216" />
+      <Size width="29.99997" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="120" y="72" />
-          <Point x="120" y="95.99999" />
-          <Point x="114" y="102" />
-          <Point x="108" y="95.99999" />
-          <Point x="108" y="72" />
-          <Point x="120" y="72" />
+          <Point x="36" y="216" />
+          <Point x="59.99997" y="216" />
+          <Point x="65.99997" y="222" />
+          <Point x="59.99997" y="228" />
+          <Point x="36" y="228" />
+          <Point x="36" y="216" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -4369,7 +4361,289 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="114" y="84" />
+          <Location x="48" y="222" />
+          <Text>P6[0]</Text>
+          <Vertical value="false" />
+          <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
+          <Fill>
+            <SolidBrush color="0, 0, 0" />
+          </Fill>
+          <Font value="Microsoft Sans Serif, 8pt" />
+          <TextAlignment value="MiddleCenter" />
+        </Annotation>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_979" zorder="582" guid="3a4034be-2a35-4626-bb97-2228f8f819f8" name="ioss0_port6_p6_p40" component="swh">
+      <Location x="65.99997" y="216" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[0]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="65.99997" y="216" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_980" zorder="583" guid="8342c312-3f7d-41f3-ab78-566051937cb6" name="ioss0_port6_p6_p50" component="swh">
+      <Location x="83.99997" y="216" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[0]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="83.99997" y="216" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_983" zorder="586" guid="fc96c564-36ba-45d1-9f59-bbe40861dcbc" name="GPIO_P6_1" component="cy_all_pin">
+      <Location x="36" y="198" />
+      <Size width="29.99997" height="12" />
+      <SubShapes>
+        <ClosedShape>
+          <Point x="36" y="198" />
+          <Point x="59.99997" y="198" />
+          <Point x="65.99997" y="204" />
+          <Point x="59.99997" y="210" />
+          <Point x="36" y="210" />
+          <Point x="36" y="198" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </ClosedShape>
+        <Annotation>
+          <Location x="48" y="204" />
+          <Text>P6[1]</Text>
+          <Vertical value="false" />
+          <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
+          <Fill>
+            <SolidBrush color="0, 0, 0" />
+          </Fill>
+          <Font value="Microsoft Sans Serif, 8pt" />
+          <TextAlignment value="MiddleCenter" />
+        </Annotation>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_984" zorder="587" guid="b640f360-3197-4c8e-a4e6-05bc53f3f2fe" name="ioss0_port6_p6_p41" component="swh">
+      <Location x="65.99997" y="198" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[1]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="65.99997" y="198" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_985" zorder="588" guid="06c22a6b-6a0a-4418-b298-59ee285a8355" name="ioss0_port6_p6_p51" component="swh">
+      <Location x="83.99997" y="198" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[1]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="83.99997" y="198" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_988" zorder="589" guid="42000907-0f71-4739-8d24-6b29c285a489" name="GPIO_P6_2" component="cy_all_pin">
+      <Location x="36" y="180" />
+      <Size width="29.99997" height="12" />
+      <SubShapes>
+        <ClosedShape>
+          <Point x="36" y="180" />
+          <Point x="59.99997" y="180" />
+          <Point x="65.99997" y="186" />
+          <Point x="59.99997" y="192" />
+          <Point x="36" y="192" />
+          <Point x="36" y="180" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </ClosedShape>
+        <Annotation>
+          <Location x="48" y="186" />
+          <Text>P6[2]</Text>
+          <Vertical value="false" />
+          <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
+          <Fill>
+            <SolidBrush color="0, 0, 0" />
+          </Fill>
+          <Font value="Microsoft Sans Serif, 8pt" />
+          <TextAlignment value="MiddleCenter" />
+        </Annotation>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_989" zorder="590" guid="639bf1f3-49fe-4ca9-9b0a-9c66b538238f" name="ioss0_port6_p6_p42" component="swh">
+      <Location x="65.99997" y="180" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[2]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="65.99997" y="180" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_990" zorder="591" guid="20a1f508-9a7c-42e4-be1d-b59669c6c0ad" name="ioss0_port6_p6_p52" component="swh">
+      <Location x="83.99997" y="180" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[2]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="83.99997" y="180" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Wire shapeName="Shape_991" zorder="592" effectiveName="p6_2" type="Analog">
+      <Point1 x="66" y="186" />
+      <Point2 x="96" y="186" />
+      <ShapeTags>wl:ioss[0].port[6].pin[2]</ShapeTags>
+      <Annotation zorder="593">
+        <Location x="68" y="192" />
+        <Text>p6_2</Text>
+        <Vertical value="false" />
+        <TextAlignment value="BottomLeft" />
+      </Annotation>
+    </Wire>
+    <Instance shapeName="Shape_993" zorder="594" guid="21e3c845-ede7-4bdb-aaf2-12c162e190a2" name="GPIO_P6_3" component="cy_all_pin">
+      <Location x="36" y="162" />
+      <Size width="29.99997" height="12" />
+      <SubShapes>
+        <ClosedShape>
+          <Point x="36" y="162" />
+          <Point x="59.99997" y="162" />
+          <Point x="65.99997" y="168" />
+          <Point x="59.99997" y="174" />
+          <Point x="36" y="174" />
+          <Point x="36" y="162" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </ClosedShape>
+        <Annotation>
+          <Location x="48" y="168" />
+          <Text>P6[3]</Text>
+          <Vertical value="false" />
+          <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
+          <Fill>
+            <SolidBrush color="0, 0, 0" />
+          </Fill>
+          <Font value="Microsoft Sans Serif, 8pt" />
+          <TextAlignment value="MiddleCenter" />
+        </Annotation>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_994" zorder="595" guid="a6ae6287-c336-4834-adbc-072d27d5950e" name="ioss0_port6_p6_p43" component="swh">
+      <Location x="65.99997" y="162" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[3]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="65.99997" y="162" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_995" zorder="596" guid="fcf29ec8-1c24-4149-8f50-05ec59794822" name="ioss0_port6_p6_p53" component="swh">
+      <Location x="83.99997" y="162" />
+      <Size width="12" height="12" />
+      <ShapeTags>wl:ioss[0].port[6].pin[3]</ShapeTags>
+      <SubShapes>
+        <Ellipse>
+          <Location x="83.99997" y="162" />
+          <Size width="12" height="12" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
+            <SolidBrush color="0, 0, 0" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </Ellipse>
+      </SubShapes>
+    </Instance>
+    <Wire shapeName="Shape_996" zorder="597" effectiveName="p6_3" type="Analog">
+      <Point1 x="66" y="168" />
+      <Point2 x="96" y="168" />
+      <ShapeTags>wl:ioss[0].port[6].pin[3]</ShapeTags>
+      <Annotation zorder="598">
+        <Location x="68" y="174" />
+        <Text>p6_3</Text>
+        <Vertical value="false" />
+        <TextAlignment value="BottomLeft" />
+      </Annotation>
+    </Wire>
+    <Instance shapeName="Shape_1013" zorder="432" guid="ade51794-71fb-40ba-b8ef-58f169702923" name="GPIO_P7_0" component="cy_all_pin">
+      <Location x="132" y="72" />
+      <Size width="12" height="29.99999" />
+      <SubShapes>
+        <ClosedShape>
+          <Point x="144" y="72" />
+          <Point x="144" y="95.99999" />
+          <Point x="138" y="102" />
+          <Point x="132" y="95.99999" />
+          <Point x="132" y="72" />
+          <Point x="144" y="72" />
+          <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <SolidBrush color="255, 255, 255" />
+          </Fill>
+        </ClosedShape>
+        <Annotation>
+          <Location x="138" y="84" />
           <Text>P7[0]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -4382,13 +4656,13 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1014" zorder="433" guid="90d888e2-f22d-4bd8-b722-b46333a0e1ed" name="ioss0_port7_p7_p40" component="swh">
-      <Location x="108" y="102" />
-      <Size width="11.99999" height="12" />
-      <ShapeTags>wl:ioss[0].port[7].pin[0], wl:lpcomp[0].comp[0]</ShapeTags>
+      <Location x="132" y="102" />
+      <Size width="11.99998" height="12" />
+      <ShapeTags>wl:ioss[0].port[7].pin[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="108" y="102" />
-          <Size width="11.99999" height="12" />
+          <Location x="132" y="102" />
+          <Size width="11.99998" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -4399,13 +4673,13 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1015" zorder="434" guid="b6c02be4-96e1-4264-93fc-ea48c33abaf6" name="ioss0_port7_p7_p50" component="swh">
-      <Location x="108" y="120" />
-      <Size width="11.99999" height="11.99999" />
-      <ShapeTags>wl:ioss[0].port[7].pin[0], wl:lpcomp[0].comp[0]</ShapeTags>
+      <Location x="132" y="120" />
+      <Size width="11.99998" height="11.99999" />
+      <ShapeTags>wl:ioss[0].port[7].pin[0]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="108" y="120" />
-          <Size width="11.99999" height="11.99999" />
+          <Location x="132" y="120" />
+          <Size width="11.99998" height="11.99999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
           </Outline>
@@ -4416,16 +4690,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1018" zorder="437" guid="8843ab35-11a7-44b5-9818-f579978ddac9" name="GPIO_P7_1" component="cy_all_pin">
-      <Location x="126" y="72" />
+      <Location x="150" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
         <ClosedShape>
-          <Point x="138" y="72" />
-          <Point x="138" y="95.99999" />
-          <Point x="132" y="102" />
-          <Point x="126" y="95.99999" />
-          <Point x="126" y="72" />
-          <Point x="138" y="72" />
+          <Point x="162" y="72" />
+          <Point x="162" y="95.99999" />
+          <Point x="156" y="102" />
+          <Point x="150" y="95.99999" />
+          <Point x="150" y="72" />
+          <Point x="162" y="72" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -4434,7 +4708,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="132" y="84" />
+          <Location x="156" y="84" />
           <Text>P7[1]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -4447,12 +4721,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1019" zorder="438" guid="ad17c740-b743-4d1d-b648-a55f723cd8ea" name="ioss0_port7_p7_p41" component="swh">
-      <Location x="126" y="102" />
+      <Location x="150" y="102" />
       <Size width="11.99998" height="12" />
-      <ShapeTags>wl:ioss[0].port[7].pin[1], wl:lpcomp[0].comp[0]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="126" y="102" />
+          <Location x="150" y="102" />
           <Size width="11.99998" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4464,12 +4738,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1020" zorder="439" guid="57ac0826-f7e7-456e-88d0-db453e94cdc9" name="ioss0_port7_p7_p51" component="swh">
-      <Location x="126" y="120" />
+      <Location x="150" y="120" />
       <Size width="11.99998" height="11.99999" />
-      <ShapeTags>wl:ioss[0].port[7].pin[1], wl:lpcomp[0].comp[0]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="126" y="120" />
+          <Location x="150" y="120" />
           <Size width="11.99998" height="11.99999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4481,16 +4755,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1023" zorder="442" guid="afff0d7b-381f-41c8-abec-fda4e1aec1ee" name="GPIO_P7_2" component="cy_all_pin">
-      <Location x="156" y="72" />
+      <Location x="168" y="72" />
       <Size width="12" height="29.99999" />
       <SubShapes>
         <ClosedShape>
-          <Point x="168" y="72" />
+          <Point x="180" y="72" />
+          <Point x="180" y="95.99999" />
+          <Point x="174" y="102" />
           <Point x="168" y="95.99999" />
-          <Point x="162" y="102" />
-          <Point x="156" y="95.99999" />
-          <Point x="156" y="72" />
           <Point x="168" y="72" />
+          <Point x="180" y="72" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -4499,7 +4773,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="162" y="84" />
+          <Location x="174" y="84" />
           <Text>P7[2]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -4512,12 +4786,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1024" zorder="443" guid="9c2bcf8b-8611-4282-ad3d-86f4f78bbf4f" name="ioss0_port7_p7_p42" component="swh">
-      <Location x="156" y="102" />
+      <Location x="168" y="102" />
       <Size width="11.99998" height="12" />
       <ShapeTags>wl:ioss[0].port[7].pin[2]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="156" y="102" />
+          <Location x="168" y="102" />
           <Size width="11.99998" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4529,12 +4803,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1025" zorder="444" guid="0946bebf-88e5-492f-93d1-fdb43033ca60" name="ioss0_port7_p7_p52" component="swh">
-      <Location x="156" y="120" />
+      <Location x="168" y="120" />
       <Size width="11.99998" height="11.99999" />
       <ShapeTags>wl:ioss[0].port[7].pin[2]</ShapeTags>
       <SubShapes>
         <Ellipse>
-          <Location x="156" y="120" />
+          <Location x="168" y="120" />
           <Size width="11.99998" height="11.99999" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1.5">
             <SolidBrush color="0, 0, 0" />
@@ -4546,11 +4820,11 @@
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_1026" zorder="445" effectiveName="p7_2" type="Digital">
-      <Point1 x="162" y="102" />
-      <Point2 x="162" y="132" />
+      <Point1 x="174" y="102" />
+      <Point2 x="174" y="132" />
       <ShapeTags>wl:ioss[0].port[7].pin[2]</ShapeTags>
       <Annotation zorder="446">
-        <Location x="156" y="102" />
+        <Location x="168" y="102" />
         <Text>p7_2</Text>
         <Vertical value="true" />
         <TextAlignment value="TopLeft" />
@@ -4883,12 +5157,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1072" zorder="264" guid="b63778bb-acc8-4bf7-99fd-a8432aef93ef" name="MUX_BKG_43" component="cy_all_mux_bkg">
-      <Location x="107" y="633" />
+      <Location x="143" y="633" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[5].pin[5]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="107" y="633" />
+          <Location x="143" y="633" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -4900,12 +5174,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_1073" zorder="265" guid="d87ffd65-a683-40ab-9811-0942420be93b" name="MUX_BKG_44" component="cy_all_mux_bkg">
-      <Location x="125" y="633" />
+      <Location x="203" y="633" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[5].pin[4]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="125" y="633" />
+          <Location x="203" y="633" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -5068,7 +5342,7 @@
     <Instance shapeName="Shape_1554" zorder="342" guid="38c4ee93-95f7-481a-915b-b9d5500e5ac5" name="GND_2" component="cy_all_mux_bkg">
       <Location x="63" y="413" />
       <Size width="36" height="14" />
-      <ShapeTags>wl:ioss[0].port[1].pin[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="63" y="413" />
@@ -5085,7 +5359,7 @@
     <Instance shapeName="Shape_1555" zorder="341" guid="12c3ff94-eb23-47e8-b95c-4a1c752228c6" name="GND_3" component="cy_all_mux_bkg">
       <Location x="63" y="395" />
       <Size width="36" height="14" />
-      <ShapeTags>wl:ioss[0].port[1].pin[2]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="63" y="395" />
@@ -5136,7 +5410,7 @@
     <Instance shapeName="Shape_1558" zorder="338" guid="96894239-bd20-4acb-a993-687d296df898" name="GND_6" component="cy_all_mux_bkg">
       <Location x="63" y="341" />
       <Size width="36" height="14" />
-      <ShapeTags>wl:ioss[0].port[1].pin[5]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[5], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="63" y="341" />
@@ -5153,7 +5427,7 @@
     <Instance shapeName="Shape_1559" zorder="337" guid="47f0da8e-90a7-4c41-9d9a-8f0a0fc63b8b" name="GND_7" component="cy_all_mux_bkg">
       <Location x="63" y="323" />
       <Size width="36" height="14" />
-      <ShapeTags>wl:ioss[0].port[1].pin[6]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[6], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="63" y="323" />
@@ -5167,24 +5441,116 @@
         </Rectangle>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_1758" zorder="469" effectiveName="p7_4" type="Analog">
-      <Point1 x="198" y="102" />
-      <Point2 x="198" y="132" />
+    <Wire shapeName="Shape_1758" zorder="465" effectiveName="p7_4" type="Analog">
+      <Point1 x="210" y="102" />
+      <Point2 x="210" y="132" />
       <ShapeTags>wl:ioss[0].port[7].pin[4]</ShapeTags>
-      <Annotation zorder="470">
-        <Location x="204" y="129" />
+      <Annotation zorder="466">
+        <Location x="216" y="129" />
         <Text>p7_4</Text>
         <Vertical value="true" />
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
+    <Instance shapeName="Shape_1830" zorder="577" guid="0fa044f6-e0d5-4be6-8f9c-51a06c21afca" name="GND_11" component="cy_all_mux_bkg">
+      <Location x="63" y="161" />
+      <Size width="36" height="14" />
+      <ShapeTags>wl:ioss[0].port[6].pin[3]</ShapeTags>
+      <SubShapes>
+        <Rectangle>
+          <Location x="63" y="161" />
+          <Size width="36" height="14" />
+          <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <HatchBrush backColor="255, 255, 255" foreColor="192, 192, 192" style="Percent25" />
+          </Fill>
+        </Rectangle>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_1831" zorder="578" guid="7cfd5a5a-19fe-4bdd-9330-7ec01c948fdc" name="GND_12" component="cy_all_mux_bkg">
+      <Location x="63" y="179" />
+      <Size width="36" height="14" />
+      <ShapeTags>wl:ioss[0].port[6].pin[2]</ShapeTags>
+      <SubShapes>
+        <Rectangle>
+          <Location x="63" y="179" />
+          <Size width="36" height="14" />
+          <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <HatchBrush backColor="255, 255, 255" foreColor="192, 192, 192" style="Percent25" />
+          </Fill>
+        </Rectangle>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_1832" zorder="579" guid="3dd5f5c8-2594-4ad1-b1f5-a2e8a64ad77c" name="GND_13" component="cy_all_mux_bkg">
+      <Location x="63" y="197" />
+      <Size width="36" height="14" />
+      <ShapeTags>wl:ioss[0].port[6].pin[1]</ShapeTags>
+      <SubShapes>
+        <Rectangle>
+          <Location x="63" y="197" />
+          <Size width="36" height="14" />
+          <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <HatchBrush backColor="255, 255, 255" foreColor="192, 192, 192" style="Percent25" />
+          </Fill>
+        </Rectangle>
+      </SubShapes>
+    </Instance>
+    <Instance shapeName="Shape_1833" zorder="580" guid="69debb82-9f47-410c-93d3-b74c22a2b0a0" name="GND_14" component="cy_all_mux_bkg">
+      <Location x="63" y="215" />
+      <Size width="36" height="14" />
+      <ShapeTags>wl:ioss[0].port[6].pin[0]</ShapeTags>
+      <SubShapes>
+        <Rectangle>
+          <Location x="63" y="215" />
+          <Size width="36" height="14" />
+          <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
+            <SolidBrush color="176, 176, 176" />
+          </Outline>
+          <Fill>
+            <HatchBrush backColor="255, 255, 255" foreColor="192, 192, 192" style="Percent25" />
+          </Fill>
+        </Rectangle>
+      </SubShapes>
+    </Instance>
+    <Wire shapeName="Shape_1861" zorder="599" effectiveName="p6_1" type="Analog">
+      <Point1 x="66" y="204" />
+      <Point2 x="96" y="204" />
+      <ShapeTags>wl:ioss[0].port[6].pin[1]</ShapeTags>
+      <Annotation zorder="600">
+        <Location x="92" y="210" />
+        <Text>p6_1</Text>
+        <Vertical value="false" />
+        <Expression>p1_1</Expression>
+        <TextAlignment value="BottomRight" />
+      </Annotation>
+    </Wire>
+    <Wire shapeName="Shape_1875" zorder="584" effectiveName="p6_0" type="Analog">
+      <Point1 x="66" y="222" />
+      <Point2 x="96" y="222" />
+      <ShapeTags>wl:ioss[0].port[6].pin[0]</ShapeTags>
+      <Annotation zorder="585">
+        <Location x="92" y="228" />
+        <Text>p6_0</Text>
+        <Vertical value="false" />
+        <Expression>p1_0</Expression>
+        <TextAlignment value="BottomRight" />
+      </Annotation>
+    </Wire>
     <Instance shapeName="Shape_2999" zorder="430" guid="57cdd5bc-77ec-4aae-953e-bc96905dcc23" name="MUX_BKG_18" component="cy_all_mux_bkg">
-      <Location x="125" y="99" />
+      <Location x="149" y="99" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[7].pin[1]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="125" y="99" />
+          <Location x="149" y="99" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -5196,12 +5562,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3015" zorder="325" guid="102331eb-1126-47ca-91cf-bc7401370e5a" name="MUX_BKG_26" component="cy_all_mux_bkg">
-      <Location x="63" y="269" />
+      <Location x="63" y="275" />
       <Size width="36" height="14" />
       <ShapeTags>wl:ioss[0].port[4].pin[0]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="63" y="269" />
+          <Location x="63" y="275" />
           <Size width="36" height="14" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -5213,12 +5579,12 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3016" zorder="326" guid="a48442ae-ec88-4705-a85b-72942cb283f6" name="MUX_BKG_27" component="cy_all_mux_bkg">
-      <Location x="63" y="251" />
+      <Location x="63" y="257" />
       <Size width="36" height="14" />
       <ShapeTags>wl:ioss[0].port[4].pin[1]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="63" y="251" />
+          <Location x="63" y="257" />
           <Size width="36" height="14" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -5300,7 +5666,7 @@
     <Wire shapeName="Shape_3032" zorder="377" effectiveName="p1_6" type="Analog">
       <Point1 x="66" y="330" />
       <Point2 x="96" y="330" />
-      <ShapeTags>wl:ioss[0].port[1].pin[6]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[6], wl:lpcomp[0].comp[0]</ShapeTags>
       <Annotation zorder="378">
         <Location x="66" y="324" />
         <Text>p1_6</Text>
@@ -5311,7 +5677,7 @@
     <Wire shapeName="Shape_3035" zorder="375" effectiveName="p1_5" type="Analog">
       <Point1 x="66" y="348" />
       <Point2 x="96" y="348" />
-      <ShapeTags>wl:ioss[0].port[1].pin[5]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[5], wl:lpcomp[0].comp[0]</ShapeTags>
       <Annotation zorder="376">
         <Location x="66" y="342" />
         <Text>p1_5</Text>
@@ -5344,7 +5710,7 @@
     <Wire shapeName="Shape_3044" zorder="369" effectiveName="p1_2" type="Analog">
       <Point1 x="66" y="402" />
       <Point2 x="96" y="402" />
-      <ShapeTags>wl:ioss[0].port[1].pin[2]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <Annotation zorder="370">
         <Location x="66" y="396" />
         <Text>p1_2</Text>
@@ -5355,7 +5721,7 @@
     <Wire shapeName="Shape_3047" zorder="365" effectiveName="p1_1" type="Analog">
       <Point1 x="66" y="420" />
       <Point2 x="96" y="420" />
-      <ShapeTags>wl:ioss[0].port[1].pin[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <Annotation zorder="366">
         <Location x="66" y="414" />
         <Text>p1_1</Text>
@@ -5374,56 +5740,56 @@
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3259" zorder="447" guid="c7adfaa1-7f2d-42c0-860f-10a24a367a5a" name="cy_all_shapetag_disconnect_5" component="cy_all_shapetag_disconnect">
-      <Location x="129" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[1], wl:lpcomp[0].comp[0]</ShapeTags>
+    <Instance shapeName="Shape_3259" zorder="601" guid="c7adfaa1-7f2d-42c0-860f-10a24a367a5a" name="cy_all_shapetag_disconnect_5" component="cy_all_shapetag_disconnect">
+      <Location x="93" y="327" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[6], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_5.a" type="Instance Analog InOut">
-          <Location x="132" y="132" />
+          <Location x="96" y="330" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3260" zorder="448" guid="e826f268-af07-4482-979e-f37c8f94fbbb" name="cy_all_shapetag_disconnect_6" component="cy_all_shapetag_disconnect">
-      <Location x="111" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[0], wl:lpcomp[0].comp[0]</ShapeTags>
+    <Instance shapeName="Shape_3260" zorder="602" guid="e826f268-af07-4482-979e-f37c8f94fbbb" name="cy_all_shapetag_disconnect_6" component="cy_all_shapetag_disconnect">
+      <Location x="93" y="345" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[5], wl:lpcomp[0].comp[0]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_6.a" type="Instance Analog InOut">
-          <Location x="114" y="132" />
+          <Location x="96" y="348" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3261" zorder="449" guid="f0c5d8eb-cebf-44d3-9648-28946dc5dfbc" name="cy_all_shapetag_disconnect_7" component="cy_all_shapetag_disconnect">
-      <Location x="225" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
+    <Instance shapeName="Shape_3261" zorder="603" guid="f0c5d8eb-cebf-44d3-9648-28946dc5dfbc" name="cy_all_shapetag_disconnect_7" component="cy_all_shapetag_disconnect">
+      <Location x="90" y="399" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_7.a" type="Instance Analog InOut">
-          <Location x="228" y="132" />
+          <Location x="96" y="402" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3262" zorder="450" guid="a56de717-d055-44e5-b470-6de5f9fbff02" name="cy_all_shapetag_disconnect_8" component="cy_all_shapetag_disconnect">
-      <Location x="243" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
+    <Instance shapeName="Shape_3262" zorder="604" guid="a56de717-d055-44e5-b470-6de5f9fbff02" name="cy_all_shapetag_disconnect_8" component="cy_all_shapetag_disconnect">
+      <Location x="90" y="417" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_8.a" type="Instance Analog InOut">
-          <Location x="246" y="132" />
+          <Location x="96" y="420" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_3263" zorder="467" effectiveName="p7_3" type="Analog">
-      <Point1 x="180" y="102" />
-      <Point2 x="180" y="132" />
+    <Wire shapeName="Shape_3263" zorder="463" effectiveName="p7_3" type="Analog">
+      <Point1 x="192" y="102" />
+      <Point2 x="192" y="132" />
       <ShapeTags>wl:ioss[0].port[7].pin[3]</ShapeTags>
-      <Annotation zorder="468">
-        <Location x="186" y="129" />
+      <Annotation zorder="464">
+        <Location x="198" y="129" />
         <Text>p7_3</Text>
         <Vertical value="true" />
         <TextAlignment value="BottomRight" />
@@ -5733,24 +6099,24 @@
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3296" zorder="475" guid="f9106e7e-c766-4de1-851d-2e17726ae481" name="cy_all_shapetag_disconnect_9" component="cy_all_shapetag_disconnect">
-      <Location x="225" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
+    <Instance shapeName="Shape_3296" zorder="605" guid="f9106e7e-c766-4de1-851d-2e17726ae481" name="cy_all_shapetag_disconnect_9" component="cy_all_shapetag_disconnect">
+      <Location x="90" y="399" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_9.a" type="Instance Analog InOut">
-          <Location x="228" y="132" />
+          <Location x="96" y="402" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3297" zorder="476" guid="92a8a7bd-1442-41f4-86a0-a0d6f5cd600d" name="cy_all_shapetag_disconnect_10" component="cy_all_shapetag_disconnect">
-      <Location x="243" y="129" />
-      <Size width="6" height="9" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
+    <Instance shapeName="Shape_3297" zorder="606" guid="92a8a7bd-1442-41f4-86a0-a0d6f5cd600d" name="cy_all_shapetag_disconnect_10" component="cy_all_shapetag_disconnect">
+      <Location x="90" y="417" />
+      <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_10.a" type="Instance Analog InOut">
-          <Location x="246" y="132" />
+          <Location x="96" y="420" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
@@ -5799,20 +6165,20 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_3320" zorder="479" effectiveName="amuxbus_a_gpio" type="Digital">
+    <Wire shapeName="Shape_3320" zorder="473" effectiveName="amuxbus_a_gpio" type="Analog">
       <Point1 x="72" y="108" />
       <Point2 x="282" y="108" />
-      <Annotation zorder="480">
+      <Annotation zorder="474">
         <Location x="18" y="102" />
         <Text>amuxbus_a_gpio</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_3321" zorder="477" effectiveName="amuxbus_b_gpio" type="Digital">
+    <Wire shapeName="Shape_3321" zorder="471" effectiveName="amuxbus_b_gpio" type="Digital">
       <Point1 x="90" y="126" />
       <Point2 x="282" y="126" />
-      <Annotation zorder="478">
+      <Annotation zorder="472">
         <Location x="30" y="120" />
         <Text>amuxbus_b_gpio</Text>
         <Vertical value="false" />
@@ -6039,7 +6405,7 @@
     <Instance shapeName="Shape_3506" zorder="359" guid="3aa049a7-9c4b-430e-b24f-8c61291b6806" name="ioss0_port1_p1_p42" component="swh">
       <Location x="65.99999" y="396" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[2]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="65.99999" y="396" />
@@ -6056,7 +6422,7 @@
     <Instance shapeName="Shape_3507" zorder="360" guid="398deb2a-b6aa-4947-b8d2-d5e9f8ed108a" name="ioss0_port1_p1_p52" component="swh">
       <Location x="83.99999" y="396" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[2]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[2], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="83.99999" y="396" />
@@ -6073,7 +6439,7 @@
     <Instance shapeName="Shape_3508" zorder="361" guid="ef338298-8142-4821-8152-3b8a57e37b39" name="ioss0_port1_p1_p41" component="swh">
       <Location x="65.99999" y="414" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="65.99999" y="414" />
@@ -6090,7 +6456,7 @@
     <Instance shapeName="Shape_3509" zorder="362" guid="577b56a2-4780-46a7-88bc-013b11048f65" name="ioss0_port1_p1_p51" component="swh">
       <Location x="83.99999" y="414" />
       <Size width="12" height="11.99997" />
-      <ShapeTags>wl:ioss[0].port[1].pin[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[1].pin[1], wl:lpcomp[0].comp[1]</ShapeTags>
       <SubShapes>
         <Ellipse>
           <Location x="83.99999" y="414" />
@@ -6271,172 +6637,132 @@
         </Ellipse>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_3562" zorder="485" effectiveName="amuxbus_b_gpio" type="Digital">
+    <Wire shapeName="Shape_3562" zorder="475" effectiveName="amuxbus_b_gpio" type="Digital">
       <Point1 x="90" y="642" />
       <Point2 x="168" y="642" />
     </Wire>
-    <Wire shapeName="Shape_3563" zorder="487" effectiveName="amuxbus_a_gpio" type="Digital">
+    <Wire shapeName="Shape_3563" zorder="477" effectiveName="amuxbus_a_gpio" type="Analog">
       <Point1 x="72" y="660" />
       <Point2 x="168" y="660" />
     </Wire>
-    <Wire shapeName="Shape_3564" zorder="481" effectiveName="amuxbus_b_gpio" type="Digital">
+    <Wire shapeName="Shape_3564" zorder="607" effectiveName="amuxbus_b_gpio" type="Digital">
       <Point1 x="90" y="126" />
       <Point2 x="90" y="642" />
     </Wire>
-    <Wire shapeName="Shape_3565" zorder="483" effectiveName="amuxbus_a_gpio" type="Digital">
+    <Wire shapeName="Shape_3565" zorder="609" effectiveName="amuxbus_a_gpio" type="Analog">
       <Point1 x="72" y="108" />
       <Point2 x="72" y="660" />
     </Wire>
-    <Wire shapeName="Shape_3572" zorder="513" effectiveName="p7_0" type="Analog">
-      <Point1 x="114" y="198" />
-      <Point2 x="144" y="198" />
+    <Wire shapeName="Shape_3572" zorder="503" effectiveName="p1_5" type="Analog">
+      <Point1 x="96" y="348" solderDot="true" />
+      <Point2 x="144" y="348" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3573" zorder="515" effectiveName="p7_1" type="Analog">
-      <Point1 x="132" y="180" />
-      <Point2 x="144" y="180" />
+    <Wire shapeName="Shape_3573" zorder="505" effectiveName="p1_6" type="Analog">
+      <Point1 x="96" y="330" solderDot="true" />
+      <Point2 x="144" y="330" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3574" zorder="517" effectiveName="p7_5" type="Analog">
-      <Point1 x="216" y="234" />
-      <Point2 x="228" y="234" />
+    <Wire shapeName="Shape_3574" zorder="507" effectiveName="p1_2" type="Analog">
+      <Point1 x="96" y="402" solderDot="true" />
+      <Point2 x="144" y="402" />
       <ShapeTags>wl:lpcomp[0].comp[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3575" zorder="519" effectiveName="p7_6" type="Analog">
-      <Point1 x="216" y="252" />
-      <Point2 x="246" y="252" />
+    <Wire shapeName="Shape_3575" zorder="509" effectiveName="p1_1" type="Analog">
+      <Point1 x="96" y="420" solderDot="true" />
+      <Point2 x="144" y="420" />
       <ShapeTags>wl:lpcomp[0].comp[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3606" zorder="521" effectiveName="p5_3" type="Analog">
+    <Wire shapeName="Shape_3606" zorder="511" effectiveName="p5_3" type="Analog">
       <Point1 x="216" y="600" />
       <Point2 x="228" y="600" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3607" zorder="523" effectiveName="p5_2" type="Analog">
+    <Wire shapeName="Shape_3607" zorder="513" effectiveName="p5_2" type="Analog">
       <Point1 x="216" y="582" />
       <Point2 x="246" y="582" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3608" zorder="525" effectiveName="p5_1" type="Analog">
+    <Wire shapeName="Shape_3608" zorder="515" effectiveName="p5_1" type="Analog">
       <Point1 x="216" y="564" />
       <Point2 x="264" y="564" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3609" zorder="527" effectiveName="p5_0" type="Analog">
+    <Wire shapeName="Shape_3609" zorder="517" effectiveName="p5_0" type="Analog">
       <Point1 x="216" y="546" />
       <Point2 x="282" y="546" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3610" zorder="529" effectiveName="amuxbus_b_csd" type="Analog">
+    <Wire shapeName="Shape_3610" zorder="519" effectiveName="amuxbus_b_csd" type="Analog">
       <Point1 x="216" y="528" />
       <Point2 x="300" y="528" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3611" zorder="531" effectiveName="amuxbus_a_csd" type="Digital">
+    <Wire shapeName="Shape_3611" zorder="521" effectiveName="amuxbus_a_csd" type="Digital">
       <Point1 x="216" y="510" />
       <Point2 x="318" y="510" />
       <ShapeTags>wl:lpcomp[0].comp[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_3612" zorder="533" effectiveName="p5_3" type="Analog">
+    <Wire shapeName="Shape_3612" zorder="523" effectiveName="p5_3" type="Analog">
       <Point1 x="228" y="600" />
       <Point2 x="228" y="636" />
     </Wire>
-    <Wire shapeName="Shape_3613" zorder="535" effectiveName="p5_2" type="Analog">
+    <Wire shapeName="Shape_3613" zorder="525" effectiveName="p5_2" type="Analog">
       <Point1 x="246" y="582" />
       <Point2 x="246" y="636" />
     </Wire>
-    <Wire shapeName="Shape_3614" zorder="537" effectiveName="p5_1" type="Analog">
+    <Wire shapeName="Shape_3614" zorder="527" effectiveName="p5_1" type="Analog">
       <Point1 x="264" y="564" />
       <Point2 x="264" y="636" />
     </Wire>
-    <Wire shapeName="Shape_3615" zorder="539" effectiveName="p5_0" type="Analog">
+    <Wire shapeName="Shape_3615" zorder="529" effectiveName="p5_0" type="Analog">
       <Point1 x="282" y="546" />
       <Point2 x="282" y="636" />
     </Wire>
-    <Wire shapeName="Shape_3616" zorder="541" effectiveName="amuxbus_b_csd" type="Digital">
+    <Wire shapeName="Shape_3616" zorder="531" effectiveName="amuxbus_b_csd" type="Digital">
       <Point1 x="300" y="528" />
       <Point2 x="300" y="642" solderDot="true" />
+      <Annotation zorder="532">
+        <Location x="300" y="588" />
+        <Text />
+        <Vertical value="false" />
+        <Expression>amuxbus_b_csd</Expression>
+        <TextAlignment value="TopLeft" />
+      </Annotation>
     </Wire>
-    <Wire shapeName="Shape_3617" zorder="543" effectiveName="amuxbus_a_csd" type="Digital">
+    <Wire shapeName="Shape_3617" zorder="533" effectiveName="amuxbus_a_csd" type="Digital">
       <Point1 x="318" y="510" />
       <Point2 x="318" y="660" solderDot="true" />
     </Wire>
-    <Wire shapeName="Shape_3624" zorder="509" effectiveName="amuxbus_b_pass" type="Analog">
+    <Wire shapeName="Shape_3624" zorder="499" effectiveName="amuxbus_b_pass" type="Analog">
       <Point1 x="696" y="126" solderDot="true" />
       <Point2 x="786" y="126" />
-      <Annotation zorder="510">
+      <Annotation zorder="500">
         <Location x="708" y="120" />
         <Text>amuxbus_b_pass</Text>
         <Vertical value="false" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_3625" zorder="505" effectiveName="amuxbus_b_pass" type="Analog">
+    <Wire shapeName="Shape_3625" zorder="495" effectiveName="amuxbus_b_pass" type="Analog">
       <Point1 x="786" y="126" />
       <Point2 x="786" y="642" />
     </Wire>
-    <Wire shapeName="Shape_3626" zorder="507" effectiveName="amuxbus_a_pass" type="Analog">
+    <Wire shapeName="Shape_3626" zorder="497" effectiveName="amuxbus_a_pass" type="Analog">
       <Point1 x="804" y="108" />
       <Point2 x="804" y="660" />
     </Wire>
-    <Wire shapeName="Shape_3627" zorder="545" effectiveName="amuxbus_b_pass" type="Analog">
+    <Wire shapeName="Shape_3627" zorder="535" effectiveName="amuxbus_b_pass" type="Analog">
       <Point1 x="732" y="642" />
       <Point2 x="786" y="642" />
     </Wire>
-    <Wire shapeName="Shape_3629" zorder="549" effectiveName="amuxbus_a_pass" type="Analog">
+    <Wire shapeName="Shape_3629" zorder="539" effectiveName="amuxbus_a_pass" type="Analog">
       <Point1 x="732" y="660" />
       <Point2 x="804" y="660" />
     </Wire>
-    <Wire shapeName="Shape_3652" zorder="591" effectiveName="p3_0" type="Analog">
-      <Point1 x="534" y="696" solderDot="true" />
-      <Point2 x="624" y="696" />
-      <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
-    </Wire>
-    <Wire shapeName="Shape_3681" zorder="491" effectiveName="amuxbus_b_csd" type="Analog">
+    <Wire shapeName="Shape_3681" zorder="483" effectiveName="amuxbus_b_csd" type="Analog">
       <Point1 x="192" y="642" />
       <Point2 x="300" y="642" solderDot="true" />
-    </Wire>
-    <Wire shapeName="Shape_3682" zorder="489" effectiveName="amuxbus_b_csd" type="Analog">
-      <Point1 x="300" y="642" solderDot="true" />
-      <Point2 x="708" y="642" />
-      <Annotation zorder="490">
-        <Location x="624" y="636" />
-        <Text>amuxbus_b_csd</Text>
-        <Vertical value="false" />
-        <Expression />
-        <TextAlignment value="TopLeft" />
-      </Annotation>
-    </Wire>
-    <Wire shapeName="Shape_3683" zorder="495" effectiveName="amuxbus_a_csd" type="Analog">
-      <Point1 x="192" y="660" />
-      <Point2 x="318" y="660" solderDot="true" />
-      <Annotation zorder="496">
-        <Location x="624" y="654" />
-        <Text>amuxbus_a_csd</Text>
-        <Vertical value="false" />
-        <Expression />
-        <TextAlignment value="TopLeft" />
-      </Annotation>
-    </Wire>
-    <Wire shapeName="Shape_3684" zorder="493" effectiveName="amuxbus_a_csd" type="Analog">
-      <Point1 x="318" y="660" solderDot="true" />
-      <Point2 x="708" y="660" />
-    </Wire>
-    <Wire shapeName="Shape_3829" zorder="569" effectiveName="p7_1" type="Analog">
-      <Point1 x="132" y="132" solderDot="true" />
-      <Point2 x="132" y="180" />
-    </Wire>
-    <Wire shapeName="Shape_3831" zorder="571" effectiveName="p7_0" type="Analog">
-      <Point1 x="114" y="132" solderDot="true" />
-      <Point2 x="114" y="198" />
-    </Wire>
-    <Wire shapeName="Shape_3833" zorder="573" effectiveName="p7_5" type="Analog">
-      <Point1 x="228" y="132" solderDot="true" />
-      <Point2 x="228" y="234" />
-    </Wire>
-    <Wire shapeName="Shape_3835" zorder="575" effectiveName="p7_6" type="Analog">
-      <Point1 x="246" y="132" solderDot="true" />
-      <Point2 x="246" y="252" />
     </Wire>
     <Wire shapeName="Shape_3838" zorder="142" effectiveName="p3_3" type="Analog">
       <Point1 x="480" y="666" solderDot="true" />
@@ -6460,9 +6786,10 @@
         <TextAlignment value="BottomLeft" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3869" zorder="579" guid="917d63f8-7eb7-45ac-917a-982b4de0f9a6" name="cy_all_shapetag_disconnect_11" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_3869" zorder="561" guid="917d63f8-7eb7-45ac-917a-982b4de0f9a6" name="cy_all_shapetag_disconnect_11" component="cy_all_shapetag_disconnect">
       <Location x="243" y="99" />
       <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[7].pin[6]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_11.a" type="Instance Analog InOut">
           <Location x="246" y="102" />
@@ -6470,20 +6797,21 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_3871" zorder="473" effectiveName="p7_6" type="Analog">
+    <Wire shapeName="Shape_3871" zorder="469" effectiveName="p7_6" type="Analog">
       <Point1 x="246" y="102" />
       <Point2 x="246" y="132" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
-      <Annotation zorder="474">
+      <ShapeTags>wl:ioss[0].port[7].pin[6]</ShapeTags>
+      <Annotation zorder="470">
         <Location x="252" y="129" />
         <Text>p7_6</Text>
         <Vertical value="true" />
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3872" zorder="580" guid="3cfbeb6f-f470-4c2a-94a8-62d2c325b273" name="cy_all_shapetag_disconnect_12" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_3872" zorder="562" guid="3cfbeb6f-f470-4c2a-94a8-62d2c325b273" name="cy_all_shapetag_disconnect_12" component="cy_all_shapetag_disconnect">
       <Location x="225" y="99" />
       <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[7].pin[5]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_12.a" type="Instance Analog InOut">
           <Location x="228" y="102" />
@@ -6491,11 +6819,11 @@
         </Terminal>
       </SubShapes>
     </Instance>
-    <Wire shapeName="Shape_3874" zorder="471" effectiveName="p7_5" type="Analog">
+    <Wire shapeName="Shape_3874" zorder="467" effectiveName="p7_5" type="Analog">
       <Point1 x="228" y="102" />
       <Point2 x="228" y="132" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
-      <Annotation zorder="472">
+      <ShapeTags>wl:ioss[0].port[7].pin[5]</ShapeTags>
+      <Annotation zorder="468">
         <Location x="234" y="129" />
         <Text>p7_5</Text>
         <Vertical value="true" />
@@ -6503,52 +6831,54 @@
         <TextAlignment value="BottomRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3875" zorder="581" guid="0ac0d9f3-3ac4-4299-9a4c-86869b54cf10" name="cy_all_shapetag_disconnect_13" component="cy_all_shapetag_disconnect">
-      <Location x="129" y="99" />
+    <Instance shapeName="Shape_3875" zorder="563" guid="0ac0d9f3-3ac4-4299-9a4c-86869b54cf10" name="cy_all_shapetag_disconnect_13" component="cy_all_shapetag_disconnect">
+      <Location x="153" y="99" />
       <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[7].pin[1]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_13.a" type="Instance Analog InOut">
-          <Location x="132" y="102" />
+          <Location x="156" y="102" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_3877" zorder="440" effectiveName="p7_1" type="Analog">
-      <Point1 x="132" y="102" />
-      <Point2 x="132" y="132" />
-      <ShapeTags>wl:ioss[0].port[7].pin[1], wl:lpcomp[0].comp[0]</ShapeTags>
+      <Point1 x="156" y="102" />
+      <Point2 x="156" y="132" />
+      <ShapeTags>wl:ioss[0].port[7].pin[1]</ShapeTags>
       <Annotation zorder="441">
-        <Location x="126" y="104" />
+        <Location x="150" y="104" />
         <Text>p7_1</Text>
         <Vertical value="true" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3878" zorder="582" guid="0f0d4035-4d7e-4d12-b702-fec25806cb8f" name="cy_all_shapetag_disconnect_14" component="cy_all_shapetag_disconnect">
-      <Location x="111" y="99" />
+    <Instance shapeName="Shape_3878" zorder="564" guid="0f0d4035-4d7e-4d12-b702-fec25806cb8f" name="cy_all_shapetag_disconnect_14" component="cy_all_shapetag_disconnect">
+      <Location x="135" y="99" />
       <Size width="9" height="6" />
+      <ShapeTags>wl:ioss[0].port[7].pin[0]</ShapeTags>
       <SubShapes>
         <Terminal name="cy_all_shapetag_disconnect_14.a" type="Instance Analog InOut">
-          <Location x="114" y="102" />
+          <Location x="138" y="102" />
           <ShowWireGuide value="false" />
         </Terminal>
       </SubShapes>
     </Instance>
     <Wire shapeName="Shape_3880" zorder="435" effectiveName="p7_0" type="Analog">
-      <Point1 x="114" y="102" />
-      <Point2 x="114" y="132" />
-      <ShapeTags>wl:ioss[0].port[7].pin[0], wl:lpcomp[0].comp[0]</ShapeTags>
+      <Point1 x="138" y="102" />
+      <Point2 x="138" y="132" />
+      <ShapeTags>wl:ioss[0].port[7].pin[0]</ShapeTags>
       <Annotation zorder="436">
-        <Location x="108" y="102" />
+        <Location x="132" y="102" />
         <Text>p7_0</Text>
         <Vertical value="true" />
         <TextAlignment value="TopLeft" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_3985" zorder="451" guid="40843d2f-2f96-47b0-9a04-9dcb0433096e" name="MUX_BKG_28" component="cy_all_mux_bkg">
+    <Instance shapeName="Shape_3985" zorder="447" guid="40843d2f-2f96-47b0-9a04-9dcb0433096e" name="MUX_BKG_28" component="cy_all_mux_bkg">
       <Location x="239" y="99" />
       <Size width="14" height="36" />
-      <ShapeTags>wl:ioss[0].port[7].pin[6], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[6]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="239" y="99" />
@@ -6562,10 +6892,10 @@
         </Rectangle>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3986" zorder="452" guid="96698468-683b-43c9-a690-ebcec6faf95c" name="MUX_BKG_29" component="cy_all_mux_bkg">
+    <Instance shapeName="Shape_3986" zorder="448" guid="96698468-683b-43c9-a690-ebcec6faf95c" name="MUX_BKG_29" component="cy_all_mux_bkg">
       <Location x="221" y="99" />
       <Size width="14" height="36" />
-      <ShapeTags>wl:ioss[0].port[7].pin[5], wl:lpcomp[0].comp[1]</ShapeTags>
+      <ShapeTags>wl:ioss[0].port[7].pin[5]</ShapeTags>
       <SubShapes>
         <Rectangle>
           <Location x="221" y="99" />
@@ -6579,13 +6909,13 @@
         </Rectangle>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3987" zorder="453" guid="c1cf55cc-cd78-4d66-85b9-0da147be0ed8" name="MUX_BKG_30" component="cy_all_mux_bkg">
-      <Location x="191" y="99" />
+    <Instance shapeName="Shape_3987" zorder="449" guid="c1cf55cc-cd78-4d66-85b9-0da147be0ed8" name="MUX_BKG_30" component="cy_all_mux_bkg">
+      <Location x="203" y="99" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[7].pin[4]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="191" y="99" />
+          <Location x="203" y="99" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -6596,13 +6926,13 @@
         </Rectangle>
       </SubShapes>
     </Instance>
-    <Instance shapeName="Shape_3988" zorder="454" guid="3b663342-aaa9-414f-8397-3477fa683f9c" name="MUX_BKG_31" component="cy_all_mux_bkg">
-      <Location x="173" y="99" />
+    <Instance shapeName="Shape_3988" zorder="450" guid="3b663342-aaa9-414f-8397-3477fa683f9c" name="MUX_BKG_31" component="cy_all_mux_bkg">
+      <Location x="185" y="99" />
       <Size width="14" height="36" />
       <ShapeTags>wl:ioss[0].port[7].pin[3]</ShapeTags>
       <SubShapes>
         <Rectangle>
-          <Location x="173" y="99" />
+          <Location x="185" y="99" />
           <Size width="14" height="36" />
           <Outline dashStyle="Dash" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
@@ -6655,27 +6985,27 @@
       <Point2 x="582" y="216" solderDot="true" />
       <ShapeTags>wl:pass[0].ctb[0].oa[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4502" zorder="547" effectiveName="p3_4" type="Analog">
+    <Wire shapeName="Shape_4502" zorder="537" effectiveName="p3_4" type="Analog">
       <Point1 x="462" y="684" solderDot="true" />
       <Point2 x="612" y="684" />
       <ShapeTags>wl:pass[0].ctb[0].oa[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4647" zorder="583" effectiveName="p3_5" type="Analog">
+    <Wire shapeName="Shape_4647" zorder="565" effectiveName="p3_5" type="Analog">
       <Point1 x="330" y="180" />
       <Point2 x="330" y="678" />
       <ShapeTags>wl:pass[0].ctb[0].oa[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4648" zorder="585" effectiveName="p3_5" type="Analog">
+    <Wire shapeName="Shape_4648" zorder="567" effectiveName="p3_5" type="Analog">
       <Point1 x="330" y="180" />
       <Point2 x="360" y="180" />
       <ShapeTags>wl:pass[0].ctb[0].oa[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4652" zorder="587" effectiveName="p3_4" type="Analog">
+    <Wire shapeName="Shape_4652" zorder="569" effectiveName="p3_4" type="Analog">
       <Point1 x="612" y="180" />
       <Point2 x="612" y="684" />
       <ShapeTags>wl:pass[0].ctb[0].oa[1]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4653" zorder="589" effectiveName="p3_4" type="Analog">
+    <Wire shapeName="Shape_4653" zorder="571" effectiveName="p3_4" type="Analog">
       <Point1 x="582" y="180" />
       <Point2 x="612" y="180" />
       <ShapeTags>wl:pass[0].ctb[0].oa[1]</ShapeTags>
@@ -6684,15 +7014,15 @@
       <Point1 x="408" y="486" />
       <Point2 x="408" y="666" />
     </Wire>
-    <Wire shapeName="Shape_4656" zorder="112" effectiveName="p3_6" type="Analog">
+    <Wire shapeName="Shape_4656" zorder="114" effectiveName="p3_6" type="Analog">
       <Point1 x="426" y="450" />
       <Point2 x="426" y="666" />
     </Wire>
-    <Wire shapeName="Shape_4657" zorder="110" effectiveName="p3_1" type="Analog">
+    <Wire shapeName="Shape_4657" zorder="112" effectiveName="p3_1" type="Analog">
       <Point1 x="516" y="666" solderDot="true" />
       <Point2 x="516" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[1]</ShapeTags>
-      <Annotation zorder="111">
+      <Annotation zorder="113">
         <Location x="522" y="678" />
         <Text>p3_1</Text>
         <Vertical value="true" />
@@ -6704,11 +7034,11 @@
       <Point1 x="516" y="510" />
       <Point2 x="516" y="666" />
     </Wire>
-    <Wire shapeName="Shape_4664" zorder="122" effectiveName="p3_6" type="Analog">
+    <Wire shapeName="Shape_4664" zorder="124" effectiveName="p3_6" type="Analog">
       <Point1 x="426" y="666" solderDot="true" />
       <Point2 x="426" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[6]</ShapeTags>
-      <Annotation zorder="123">
+      <Annotation zorder="125">
         <Location x="432" y="678" />
         <Text>p3_6</Text>
         <Vertical value="true" />
@@ -6716,15 +7046,11 @@
         <TextAlignment value="BottomLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_4665" zorder="126" effectiveName="p3_0" type="Analog">
-      <Point1 x="534" y="486" />
-      <Point2 x="534" y="666" />
-    </Wire>
-    <Wire shapeName="Shape_4666" zorder="124" effectiveName="p3_7" type="Analog">
+    <Wire shapeName="Shape_4666" zorder="126" effectiveName="p3_7" type="Analog">
       <Point1 x="408" y="666" solderDot="true" />
       <Point2 x="408" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[7]</ShapeTags>
-      <Annotation zorder="125">
+      <Annotation zorder="127">
         <Location x="414" y="678" />
         <Text>p3_7</Text>
         <Vertical value="true" />
@@ -6737,23 +7063,7 @@
       <Point2 x="624" y="696" />
       <ShapeTags>wl:pass[0].sar[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4674" zorder="503" effectiveName="amuxbus_a_pass" type="Analog">
-      <Point1 x="306" y="108" />
-      <Point2 x="318" y="108" solderDot="true" />
-    </Wire>
-    <Wire shapeName="Shape_4675" zorder="501" effectiveName="amuxbus_a_pass" type="Analog">
-      <Point1 x="318" y="108" solderDot="true" />
-      <Point2 x="678" y="108" solderDot="true" />
-    </Wire>
-    <Wire shapeName="Shape_4676" zorder="499" effectiveName="amuxbus_b_pass" type="Analog">
-      <Point1 x="306" y="126" />
-      <Point2 x="624" y="126" solderDot="true" />
-    </Wire>
-    <Wire shapeName="Shape_4677" zorder="497" effectiveName="amuxbus_b_pass" type="Analog">
-      <Point1 x="624" y="126" solderDot="true" />
-      <Point2 x="696" y="126" solderDot="true" />
-    </Wire>
-    <Instance shapeName="Shape_4679" zorder="597" guid="f3757bc5-bf84-49d6-8c8e-b5ee0fe3079f" name="cy_all_shapetag_disconnect_15" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_4679" zorder="573" guid="f3757bc5-bf84-49d6-8c8e-b5ee0fe3079f" name="cy_all_shapetag_disconnect_15" component="cy_all_shapetag_disconnect">
       <Location x="279" y="663" />
       <Size width="9" height="6" />
       <SubShapes>
@@ -6779,7 +7089,7 @@
         <TextAlignment value="TopRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_4682" zorder="598" guid="a806b3b5-0a31-41c9-a469-b1bb2cc9a067" name="cy_all_shapetag_disconnect_16" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_4682" zorder="574" guid="a806b3b5-0a31-41c9-a469-b1bb2cc9a067" name="cy_all_shapetag_disconnect_16" component="cy_all_shapetag_disconnect">
       <Location x="261" y="663" />
       <Size width="9" height="6" />
       <SubShapes>
@@ -6805,7 +7115,7 @@
         <TextAlignment value="TopRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_4685" zorder="599" guid="2779796e-dec8-477a-aba6-613ec0a75561" name="cy_all_shapetag_disconnect_17" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_4685" zorder="575" guid="2779796e-dec8-477a-aba6-613ec0a75561" name="cy_all_shapetag_disconnect_17" component="cy_all_shapetag_disconnect">
       <Location x="243" y="663" />
       <Size width="9" height="6" />
       <SubShapes>
@@ -6831,7 +7141,7 @@
         <TextAlignment value="TopRight" />
       </Annotation>
     </Wire>
-    <Instance shapeName="Shape_4688" zorder="600" guid="115670cc-0c3d-4881-a77f-8ad67a5eecd1" name="cy_all_shapetag_disconnect_18" component="cy_all_shapetag_disconnect">
+    <Instance shapeName="Shape_4688" zorder="576" guid="115670cc-0c3d-4881-a77f-8ad67a5eecd1" name="cy_all_shapetag_disconnect_18" component="cy_all_shapetag_disconnect">
       <Location x="225" y="663" />
       <Size width="9" height="6" />
       <SubShapes>
@@ -6865,27 +7175,16 @@
       <Point1 x="480" y="450" />
       <Point2 x="480" y="666" />
     </Wire>
-    <Wire shapeName="Shape_4713" zorder="108" effectiveName="p3_0" type="Analog">
-      <Point1 x="534" y="666" solderDot="true" />
-      <Point2 x="534" y="696" solderDot="true" />
-      <ShapeTags>wl:ioss[0].port[3].pin[0], wl:pass[0].sar[0]</ShapeTags>
-      <Annotation zorder="109">
-        <Location x="528" y="666" />
-        <Text>p3_0</Text>
-        <Vertical value="true" />
-        <TextAlignment value="TopLeft" />
-      </Annotation>
-    </Wire>
-    <Wire shapeName="Shape_4714" zorder="106" effectiveName="p3_0" type="Analog">
+    <Wire shapeName="Shape_4714" zorder="108" effectiveName="p3_0" type="Analog">
       <Point1 x="534" y="696" solderDot="true" />
       <Point2 x="534" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[0]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4715" zorder="116" effectiveName="p3_4" type="Analog">
+    <Wire shapeName="Shape_4715" zorder="118" effectiveName="p3_4" type="Analog">
       <Point1 x="462" y="636" />
       <Point2 x="462" y="684" solderDot="true" />
       <ShapeTags>wl:ioss[0].port[3].pin[4], wl:pass[0].ctb[0].oa[1]</ShapeTags>
-      <Annotation zorder="117">
+      <Annotation zorder="119">
         <Location x="468" y="678" />
         <Text>p3_4</Text>
         <Vertical value="true" />
@@ -6893,16 +7192,16 @@
         <TextAlignment value="BottomLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_4716" zorder="114" effectiveName="p3_4" type="Analog">
+    <Wire shapeName="Shape_4716" zorder="116" effectiveName="p3_4" type="Analog">
       <Point1 x="462" y="684" solderDot="true" />
       <Point2 x="462" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[4]</ShapeTags>
     </Wire>
-    <Wire shapeName="Shape_4717" zorder="120" effectiveName="p3_5" type="Analog">
+    <Wire shapeName="Shape_4717" zorder="122" effectiveName="p3_5" type="Analog">
       <Point1 x="444" y="636" />
       <Point2 x="444" y="678" solderDot="true" />
       <ShapeTags>wl:ioss[0].port[3].pin[5], wl:pass[0].ctb[0].oa[0]</ShapeTags>
-      <Annotation zorder="121">
+      <Annotation zorder="123">
         <Location x="450" y="678" />
         <Text>p3_5</Text>
         <Vertical value="true" />
@@ -6910,10 +7209,81 @@
         <TextAlignment value="BottomLeft" />
       </Annotation>
     </Wire>
-    <Wire shapeName="Shape_4718" zorder="118" effectiveName="p3_5" type="Analog">
+    <Wire shapeName="Shape_4718" zorder="120" effectiveName="p3_5" type="Analog">
       <Point1 x="444" y="678" solderDot="true" />
       <Point2 x="444" y="702" />
       <ShapeTags>wl:ioss[0].port[3].pin[5]</ShapeTags>
+    </Wire>
+    <Wire shapeName="Shape_4720" zorder="110" effectiveName="p3_0" type="Analog">
+      <Point1 x="534" y="486" />
+      <Point2 x="534" y="666" />
+      <ShapeTags>wl:ioss[0].port[3].pin[0], wl:pass[0].sar[0]</ShapeTags>
+      <Annotation zorder="111">
+        <Location x="528" y="666" />
+        <Text>p3_0</Text>
+        <Vertical value="true" />
+        <Expression>p1_7</Expression>
+        <TextAlignment value="TopLeft" />
+      </Annotation>
+    </Wire>
+    <Wire shapeName="Shape_4721" zorder="106" effectiveName="p3_0" type="Analog">
+      <Point1 x="534" y="666" solderDot="true" />
+      <Point2 x="534" y="696" solderDot="true" />
+      <ShapeTags>wl:ioss[0].port[3].pin[0], wl:pass[0].sar[0]</ShapeTags>
+    </Wire>
+    <Wire shapeName="Shape_4752" zorder="611" effectiveName="p3_0" type="Analog">
+      <Point1 x="534" y="696" solderDot="true" />
+      <Point2 x="624" y="696" />
+    </Wire>
+    <Wire shapeName="Shape_4753" zorder="493" effectiveName="amuxbus_a_pass" type="Analog">
+      <Point1 x="306" y="108" />
+      <Point2 x="678" y="108" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4754" zorder="613" effectiveName="amuxbus_a_csd" type="Analog">
+      <Point1 x="348" y="384" />
+      <Point2 x="348" y="660" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4755" zorder="489" effectiveName="amuxbus_a_csd" type="Analog">
+      <Point1 x="192" y="660" />
+      <Point2 x="318" y="660" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4758" zorder="487" effectiveName="amuxbus_a_csd" type="Analog">
+      <Point1 x="318" y="660" solderDot="true" />
+      <Point2 x="348" y="660" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4759" zorder="485" effectiveName="amuxbus_a_csd" type="Analog">
+      <Point1 x="348" y="660" solderDot="true" />
+      <Point2 x="708" y="660" />
+      <Annotation zorder="486">
+        <Location x="624" y="654" />
+        <Text>amuxbus_a_csd</Text>
+        <Vertical value="false" />
+        <Expression />
+        <TextAlignment value="TopLeft" />
+      </Annotation>
+    </Wire>
+    <Wire shapeName="Shape_4760" zorder="491" effectiveName="amuxbus_b_pass" type="Analog">
+      <Point1 x="306" y="126" />
+      <Point2 x="696" y="126" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4761" zorder="615" effectiveName="amuxbus_b_csd" type="Analog">
+      <Point1 x="594" y="504" />
+      <Point2 x="594" y="642" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4762" zorder="481" effectiveName="amuxbus_b_csd" type="Analog">
+      <Point1 x="300" y="642" solderDot="true" />
+      <Point2 x="594" y="642" solderDot="true" />
+    </Wire>
+    <Wire shapeName="Shape_4763" zorder="479" effectiveName="amuxbus_b_csd" type="Analog">
+      <Point1 x="594" y="642" solderDot="true" />
+      <Point2 x="708" y="642" />
+      <Annotation zorder="480">
+        <Location x="624" y="636" />
+        <Text>amuxbus_b_csd</Text>
+        <Vertical value="false" />
+        <Expression />
+        <TextAlignment value="TopLeft" />
+      </Annotation>
     </Wire>
   </Page>
 </Document>

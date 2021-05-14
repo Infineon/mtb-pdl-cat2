@@ -36,10 +36,13 @@
     <ExposedMember key="accuracy"  paramId="accuracy" />
     <ExposedMember key="error"     paramId="error" />
     <ExposedMember key="gpio_in"   paramId="gpio_in" />
+    <ExposedMember key="suppressCodeGen" paramId="suppressCodeGen" />
   </ExposedMembers>
   <Parameters>
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__sysclk__eco.html" linkText="Open ECO Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal" default="true" visible="false" editable="false" desc="Prevents pins connected to this personality to generate configuration code" />
 
     <ParamRange id="ecoFrequency" name="Frequency (MHz)" group="General" default="4.0000" visible="true" editable="true" min="4" max="33" resolution="0.0001" desc="The crystal nominal frequency" />
     <ParamRange id="frequency" name="Frequency (Hz)" group="Internal" default="`${ecoFrequency * 1000000}`" visible="false" editable="false" min="4000000" max="33333000" resolution="1" desc="" />

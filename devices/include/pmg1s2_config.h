@@ -5,7 +5,7 @@
 * PMG1S2 device configuration header
 *
 * \note
-* Generator version: 1.6.0.464
+* Generator version: 1.6.0.480
 *
 ********************************************************************************
 * \copyright
@@ -54,7 +54,7 @@ typedef enum
 #include "ip/cyip_scb_v2.h"
 #include "ip/cyip_tcpwm_v2.h"
 #include "ip/cyip_crypto_v2.h"
-#include "ip/cyip_usbdevv2_v2.h"
+#include "ip/cyip_usbfs_v2.h"
 #include "ip/cyip_cpuss_v3.h"
 #include "ip/cyip_dmac_v3.h"
 #include "ip/cyip_spcif_v3.h"
