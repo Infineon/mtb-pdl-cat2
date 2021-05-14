@@ -31,7 +31,7 @@ for a complete description of the Peripheral Driver Library.
 
 ## Known Issues/Limitations
 
-No known issues
+* For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S series, the CY_SCB_TX_INTR_UNDERFLOW interrupt is triggered for the SPI slave when all data has been transferred from the TX FIFO and Master doesn't request additional data. <br/>Workaround: Ignore the CY_SCB_SPI_TRANSFER_ERR_EVENT callback even when Cy_SCB_SPI_GetTransferStatus() returns the CY_SCB_SPI_TRANSFER_UNDERFLOW status.
 
 ## Defect Fixes
 
