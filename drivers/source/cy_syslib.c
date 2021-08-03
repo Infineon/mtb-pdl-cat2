@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 2.10.1
+* \version 2.10.2
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
 *
 ********************************************************************************
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -108,10 +110,8 @@ void Cy_SysLib_DelayUs(uint16_t microseconds)
 *
 * This function invalidates the flash cache and buffer. It ensures the valid
 * data is read from flash instead of using outdated data from the cache.
-* The caches' LRU structure is also reset to their default state.
-*
-* \note The operation takes a maximum of three clock cycles on the slowest of
-*       the clk_slow and clk_fast clocks.
+* The caches' Least Recently Used (LRU)  structure is also reset to their
+* default state.
 *
 *******************************************************************************/
 void Cy_SysLib_ClearFlashCacheAndBuffer(void)
@@ -243,7 +243,7 @@ __WEAK void Cy_SysLib_ProcessingFault(void)
 * SYSCLK clock frequency. It can optionally be called after lowering SYSCLK
 * clock frequency in order to improve the CPU performance.
 *
-* \param clkHfMHz  The ClkSys clock frequency in MHz. Specifying a frequency
+* \param clkHfMHz  The SYSCLK clock frequency in MHz. Specifying a frequency
 *                  above the supported maximum will set the wait states as for
 *                  the maximum frequency.
 *

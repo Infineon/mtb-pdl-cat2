@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 1.0
+* \version 1.10
 *
 * Provides API declarations of the USBPD Type C driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,23 +44,24 @@
 * callbacks/hooks requested by the PDStack middleware to operate.
 *
 * The functions of the USBPD driver include
-* 1. Configure the terminations on the CC pins of the PMG1 device, including support for automatic Rp-Rd toggle on parts that support Dual Role Port (DRP) functionality. 
-* 2. Determine the external terminations applied on the CC pins using the line comparators. 
+* 1. Configure the terminations on the CC pins of the PMG1 device, including support for automatic Rp-Rd toggle on parts that support Dual Role Port (DRP) functionality.
+* 2. Determine the external terminations applied on the CC pins using the line comparators.
 * 3. Measure Type-C VBus voltage using the 8-bit ADC.
 * 4. Configure the USB-PD Transceiver (PHY) and send/receive messages, including support for Extended Data Messages.
 * 5. Configure the gate driver outputs of the PMG1 device to enable power output or charging paths.
 * 6. Configure the comparators and cut-off circuits to provide Over-Voltage (OV), Under-Voltage (UV), Over-Current (OC), Short-Circuit (SC) and Reverse-Current (RC) Protection.
-* 7. Configure the in-built USB 2.0 and Side Band Use (SBU) Multiplexers for USB, Display and Thunderbolt data connections. 
-* 8. Configure the terminations and measure the voltages on the D+/D- pins for BC 1.2. 
+* 7. Configure the in-built USB 2.0 and Side Band Use (SBU) Multiplexers for USB, Display and Thunderbolt data connections.
+* 8. Drive/detect transitions on the HotPlug Detect (HPD) pin as required by the Display function.
+* 9. Configure the terminations and measure the voltages on the D+/D- pins for BC 1.2.
 * Most of the USBPD driver functions are not intended to be called directly
 * from the user application as the PDStack middleware makes use of them to
-* manage the functionality in a specification compliant manner. 
+* manage the functionality in a specification compliant manner.
 *
 * \section group_usbpd_section_configuration Configuration Considerations
 *
 * \subsection group_usbpd_section_configuration_personalities Use ModusToolbox Device Configurator Tool to generate initialization code
 * The following are the steps to generate initialization code using the
-* ModusToolbox Device Configurator Tool: 
+* ModusToolbox Device Configurator Tool:
 * 1. Launch the ModusToolbox Device Configurator Tool
 * 2. Switch to the Peripherals tab. Enable the USB-C Power Delivery personality
 * under Communication
@@ -72,7 +75,7 @@
 * 4. Perform File->Save for the initialization code to generate
 *
 * Now, all required USBPD driver initialization code and configuration
-* prerequisites will be generated: 
+* prerequisites will be generated:
 *
 * 1. The Peripheral Clock Divider assignment and analog routing are parts of
 * the init_cycfg_all() routine. Place the call of cybsp_init () function
@@ -94,6 +97,24 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">1.10</td>
+*     <td>Added drivers for HPD and MUX feature.
+*         </td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
+*     <td>Added support for VBus Over Current Protection, VBus Short Circuit
+*     Protection, VBus Reverse Current Protection and VConn Over Current
+*     Protection.
+*         </td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
+*     <td>Added support for PMG1S3 device.
+*         </td>
+*     <td>New device support.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -101,10 +122,12 @@
 * </table>
 *
 * \defgroup group_usbpd_common Common
-* \defgroup group_usbpd_typec Type C (USBPD)
-* \defgroup group_usbpd_phy Phy (USBPD)
-* \defgroup group_usbpd_vbus_ctrl VBus Ctrl (USBPD)
+* \defgroup group_usbpd_hpd HPD (USBPD)
 * \defgroup group_usbpd_legacy Legacy Charging (USBPD)
+* \defgroup group_usbpd_mux MUX (USBPD)
+* \defgroup group_usbpd_phy Phy (USBPD)
+* \defgroup group_usbpd_typec Type C (USBPD)
+* \defgroup group_usbpd_vbus_ctrl VBus Ctrl (USBPD)
 *
 */
 
@@ -113,6 +136,8 @@
 /**
 * \addtogroup group_usbpd_typec
 * \{
+* USBPD Type C driver.
+*
 * \defgroup group_usbpd_typec_macros Macros
 * \defgroup group_usbpd_typec_functions Functions
 *
@@ -157,6 +182,16 @@
 #define PD_CMP_VSEL_1_77_V              (6u)
 #define PD_CMP_VSEL_2_6_V               (7u)
 /** \endcond */
+
+
+/** The USBPD driver major version */
+#define CY_USBPD_DRV_VERSION_MAJOR                       1
+
+/** The USBPD driver minor version */
+#define CY_USBPD_DRV_VERSION_MINOR                       10
+
+/** The USBPD driver identifier */
+#define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
 
 /*******************************************************************************
  * PMG1 Device Specific Constants.
@@ -227,7 +262,7 @@ void Cy_USBPD_TypeC_RdEnable(
         cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_TypeC_ChangeRp (
-        cy_stc_usbpd_context_t *context, 
+        cy_stc_usbpd_context_t *context,
         cy_en_pd_rp_term_t rp);
 
 void Cy_USBPD_TypeC_SnkUpdateTrim(
@@ -287,13 +322,13 @@ cy_en_usbpd_status_t Cy_USBPD_SetSupplyChange_EvtCb(
         cy_usbpd_supply_change_cbk_t cb);
 
 void Cy_USBPD_Pump_Disable (
-        cy_stc_usbpd_context_t *context, 
+        cy_stc_usbpd_context_t *context,
         uint8_t index);
 
 void Cy_USBPD_Pump_Enable (
         cy_stc_usbpd_context_t *context,
         uint8_t index);
-        
+
 /** \cond DOXYGEN_HIDE */
 bool Cy_USBPD_IsVsysUp (
         cy_stc_usbpd_context_t *context);

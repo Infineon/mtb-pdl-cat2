@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_tcpwm_pwm.h
-* \version 1.10
+* \version 1.10.1
 *
 * \brief
 * The header file of the TCPWM PWM driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,8 +74,10 @@ typedef struct cy_stc_tcpwm_pwm_config
     bool        enableCompareSwap;  /**< If enabled, the compare values are swapped on the terminal count */
     /** Enables an interrupt on the terminal count, capture or compare. See \ref group_tcpwm_interrupt_sources */
     uint32_t    interruptSources;
-    uint32_t    invertPWMOut;       /**< Inverts the PWM output */
-    uint32_t    invertPWMOutN;      /**< Inverts the PWM_n output */
+    /** Inverts the PWM output. This field also defines the state of the PWM output while PWM is enabled, but not running. */
+    uint32_t    invertPWMOut;
+    /** Inverts the PWM_n output. This field also defines the state of the PWM_n output while PWM is enabled, but not running. */
+    uint32_t    invertPWMOutN;
     uint32_t    killMode;           /**< Configures the PWM kill modes. See \ref group_tcpwm_pwm_kill_modes */
     uint32_t    swapInputMode;      /**< Configures how the swap input behaves. See \ref group_tcpwm_input_modes */
     /** Selects which input the swap uses. Inputs are device-specific. See \ref group_tcpwm_input_selection */
@@ -108,7 +112,7 @@ typedef struct cy_stc_tcpwm_pwm_config
 * \{
 * Sets the PWM modes.
 */
-#define CY_TCPWM_PWM_MODE_PWM           (4U) /**< Standard PWM Mode*/
+#define CY_TCPWM_PWM_MODE_PWM           (4U)    /**< Standard PWM Mode*/
 #define CY_TCPWM_PWM_MODE_DEADTIME      (5U)    /**< PWM with deadtime mode*/
 #define CY_TCPWM_PWM_MODE_PSEUDORANDOM  (6U)    /**< Pseudo Random PWM */
 /** \} group_tcpwm_pwm_modes */
@@ -117,8 +121,8 @@ typedef struct cy_stc_tcpwm_pwm_config
 * Sets the alignment of the PWM.
 * \{
 */
-#define CY_TCPWM_PWM_LEFT_ALIGN         (0U)     /**< PWM is left aligned, meaning it starts high */
-#define CY_TCPWM_PWM_RIGHT_ALIGN        (1U)        /**< PWM is right aligned, meaning it starts low */
+#define CY_TCPWM_PWM_LEFT_ALIGN         (0U)    /**< PWM is left-aligned, meaning it starts high */
+#define CY_TCPWM_PWM_RIGHT_ALIGN        (1U)    /**< PWM is right-aligned, meaning it starts low */
 /** PWM is centered aligned, terminal count only occurs on underflow */
 #define CY_TCPWM_PWM_CENTER_ALIGN       (2U)
 /** PWM is asymmetrically aligned, terminal count occurs on overflow and underflow */
@@ -256,6 +260,10 @@ __STATIC_INLINE void Cy_TCPWM_PWM_Enable(TCPWM_Type *base, uint32_t cntNum)
 ****************************************************************************//**
 *
 * Disables the counter in the TCPWM block.
+*
+* \note This function sets connected PWM output pins Drive modes to High-Z state.
+* To disable PWM without changing pins drive modes, use the
+* \ref Cy_TCPWM_TriggerStopOrKill function.
 *
 * \param base
 * The pointer to a TCPWM instance.

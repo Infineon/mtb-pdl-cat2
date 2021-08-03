@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file lpcomp.cypersonality
+* \version 1.0
+*
+* \brief
+* Low-power comparator personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8lpc" name="Low-Power Comparator" version="1.0" path="Analog/Comparators" xmlns="http://cypress.com/xsd/cyhwpersonality_v1">
+  <Dependencies>
+    <IpBlock name="m0s8lpcomp_ver2" />
+    <Resource name="lpcomp\.comp" used="true" />
+  </Dependencies>
+  <ExposedMembers />
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__lpcomp.html" linkText="Open LPComp Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- Internal parameters -->
+    <ParamBool id="hasHsiomPump" name="hasHsiomPump" group="Internal" default="`${hasBlock(&quot;ioss[0].hsiom_pump[0]&quot;)}`" visible="false" editable="false" desc="IOSS has HSIOM pump." />
+    <ParamBool id="isPowerEnabled" name="isPowerEnabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="false" editable="false" desc="Power resource is enabled." />
+
+  <!-- Public parameters -->
+    <ParamBool id="Hysteresis" name="Hysteresis" group="General" default="true" visible="true" editable="true" desc="Allows to add approximately 10 mV of hysteresis to the comparator. This helps to ensure that slowly moving voltages or slightly noisy voltages will not cause the output of the LPComp to oscillate when the two input voltages are nearly equal." />
+    <ParamChoice id="OutputConfiguration" name="Output Configuration" group="General" default="CY_LPCOMP_OUT_DIRECT" visible="true" editable="true" desc="Defines mode of the comparator output: Direct, Synchronized, or Pulse." >
+      <Entry name="Pulse" value="CY_LPCOMP_OUT_PULSE" visible="true" />
+      <Entry name="Direct" value="CY_LPCOMP_OUT_DIRECT" visible="true" />
+      <Entry name="Synchronized" value="CY_LPCOMP_OUT_SYNC" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PowerSpeed" name="Power/Speed" group="General" default="CY_LPCOMP_MODE_ULP" visible="true" editable="true" desc="The comparator speed and power setting." >
+      <Entry name="Low Power/Normal" value="CY_LPCOMP_MODE_SLOW" visible="true" />
+      <Entry name="Normal Power/Fast" value="CY_LPCOMP_MODE_FAST" visible="true" />
+      <Entry name="Ultra-Low Power/Slow" value="CY_LPCOMP_MODE_ULP" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PulseInterruptConfiguration" name="Pulse/Interrupt Configuration" group="General" default="CY_LPCOMP_INTR_DISABLE" visible="true" editable="true" desc="Defines the transition that will cause a pulse to be generated on the interrupt terminal or direct comparator output. Allows to select interrupt/output mode: Disabled, Rising edge, Falling edge, or Both edges." >
+      <Entry name="Rising Edge" value="CY_LPCOMP_INTR_RISING" visible="true" />
+      <Entry name="Falling Edge" value="CY_LPCOMP_INTR_FALLING" visible="true" />
+      <Entry name="Either Edge" value="CY_LPCOMP_INTR_BOTH" visible="true" />
+      <Entry name="Disabled" value="CY_LPCOMP_INTR_DISABLE" visible="true" />
+    </ParamChoice>
+
+    <ParamSignal name="Positive Input (inp)" group="Connections" port="inp[0]" visible="true" desc="This analog input is usually connected to the voltage that is being compared." canBeEmpty="true" />
+    <ParamSignal name="Negative Input (inn)" group="Connections" port="inn[0]" visible="true" desc="This analog input is usually connected to the the reference voltage." canBeEmpty="true" />
+    <ParamSignal name="Compare Output (comp)" group="Connections" port="comp[0]" visible="true" desc="This digital output is configured by the 'Output Configuration' parameter can be used to trigger an interrupt, routed to digital logic or sent to a pin." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="DEFAULT" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+  </Parameters>
+
+  <!-- Error checking   -->
+  <DRCs>
+    <DRC type="INFO" text="Enable the Power resource if AMUXBUS is used. For some VDDA values, enable the charge pump." condition="`${hasHsiomPump &amp;&amp; !isPowerEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="m0s8power-1.0" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_lpcomp.h" include="true" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <!-- There can be only one instance of the LPComp block on a device -->
+    <ConfigDefine name="`${INST_NAME . &quot;_HW&quot;}`" value="LPCOMP" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME . &quot;_CHANNEL&quot;}`" value="CY_LPCOMP_CHANNEL_`${getInstNumber(&quot;comp&quot;)}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="lpcomp_interrupt_IRQn" public="true" include="true" />
+    <ConfigStruct name="`${INST_NAME . &quot;_config&quot;}`" type="cy_stc_lpcomp_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="outputMode" value="`${OutputConfiguration}`" />
+      <Member name="hysteresis" value="`${Hysteresis ? &quot;CY_LPCOMP_HYST_ENABLE&quot; : &quot;CY_LPCOMP_HYST_DISABLE&quot;}`" />
+      <Member name="power" value="`${PowerSpeed}`" />
+      <Member name="intType" value="`${PulseInterruptConfiguration}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_LPCOMP" />
+      <Member name="block_num" value="`${getInstNumber(&quot;lpcomp&quot;)}`U" />
+      <Member name="channel_num" value="`${getInstNumber(&quot;comp&quot;)}`U" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+</Personality>

@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,8 +60,8 @@
     <ParamBool id="AllowCallbackDS" name="Allow Callback DS" group="Internal" default="`${AllowEnableWakeup &amp;&amp; CallbackDS}`" visible="false" editable="false" desc="This parameter return true if Callback Generation is allowed." />
     <ParamString id="CallbackDSName" name="Deep Sleep Clock Config Callback" group="General" default="DsClockConfigCallback" visible="`${CallbackDS}`" editable="true" desc="Name of Deep Sleep callback function" />
 
-    <ParamBool id="ManualDataRateCtrl" name="Manual Data Rate Control" group="General" default="false" visible="`${Master}`" editable="true" desc="This parameter enables the user to configure data rate ralated parameters for the master modes." />
-    <ParamBool id="ManualDataRate" name="ManualDataRate" group="Internal" default="`${Master &amp;&amp; ManualDataRateCtrl}`" visible="false" editable="false" desc="This parameter enables the user to configure data rate ralated parameters for the master modes." />
+    <ParamBool id="ManualDataRateCtrl" name="Manual Data Rate Control" group="General" default="false" visible="`${Master}`" editable="true" desc="This parameter enables the user to configure data rate related parameters for the master modes." />
+    <ParamBool id="ManualDataRate" name="ManualDataRate" group="Internal" default="`${Master &amp;&amp; ManualDataRateCtrl}`" visible="false" editable="false" desc="This parameter enables the user to configure data rate related parameters for the master modes." />
 
     <ParamBool id="ManualDigitalFilter" name="Enable Digital Filter" group="Manual DataRate Control" default="true" visible="`${ManualDataRate}`" editable="true" desc="This parameter enables digital (3-tap median) filter on I2C input lines. An analog filter is disabled when digital filter is enabled and vice versa." />
     <ParamRange id="ManualLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Manual DataRate Control" default="16" min="1" max="16" resolution="1" visible="`${ManualDataRate}`" editable="true" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes)." />
@@ -67,11 +69,12 @@
 
     <ParamRange id="DataRate" name="Data Rate (kbps)" group="General" default="100" min="1" max="1000" resolution="1" visible="`${!ManualDataRate}`" editable="true" desc="Data rate that I2C operates. Maximum data rate is 1000 kbps." />
 
-    <ParamBool id="EnableTxFifo" name="Use TX FIFO" group="General" default="true" visible="true" editable="true" desc="This parameter defines if the TX FIFO capabilites are used. Usage of the TX FIFO reduces the possibility of clock stretching and interrupt overhead." />
+    <ParamBool id="EnableTxFifo" name="Use TX FIFO" group="General" default="true" visible="true" editable="true" desc="This parameter defines if the TX FIFO capabilities are used. Usage of the TX FIFO reduces the possibility of clock stretching and interrupt overhead." />
 
     <ParamBool id="AcceptAddress" name="Accept Matching Address in RX FIFO" group="General" default="false" visible="`${Slave}`" editable="true" desc="This parameter determines whether to accept the match slave address in the RX FIFO or not. This feature is useful when more than one address support is required. The user has to register the callback function to handle the accepted addresses." />
+    <ParamRange id="RxAddressFifoDelay" name="Delay of Address Matching Event" group="General" default="6" min="0" max="65535" resolution="1" visible="`${AcceptAddress}`" editable="true" desc="This is the check delay of the address matching event in the micro seconds (us). Default value for 100 kHz is 6us. The desired delay must be equal or more then the duration of high period of the SCL clock." />
     <ParamBool id="IsEnableRxFifoVisible" name="Is Enable Rx Fifo Visible" group="Internal" default="`${(ModeUser eq CY_SCB_I2C_MASTER) || !AcceptAddress}`" visible="false" editable="false" desc="This parameter specifies the visibility of EnableRxFifo parameter." />
-    <ParamBool id="EnableRxFifo" name="Use RX FIFO" group="General" default="true" visible="`${IsEnableRxFifoVisible}`" editable="true" desc="This parameter defines if the RX FIFO capabilites are used. Usage of the RX FIFO reduces the possibility of clock stretching and interrupt overhead." />
+    <ParamBool id="EnableRxFifo" name="Use RX FIFO" group="General" default="true" visible="`${IsEnableRxFifoVisible}`" editable="true" desc="This parameter defines if the RX FIFO capabilities are used. Usage of the RX FIFO reduces the possibility of clock stretching and interrupt overhead." />
 
     <!-- Slave -->
     <ParamRange id="SlaveAddress" name="Slave Address (7-bit)" group="Slave" default="16" min="8" max="120" resolution="1" visible="`${Slave}`" editable="true" desc="This parameter specifies the 7-bit right justified slave address.
@@ -139,16 +142,16 @@
 
     <!--  I2C Master Duty Cycle constrains -->
     <ParamString id="i2c_solver" name="i2c_solver" group="Internal" default="`${runTcl(&quot;i2c_solver-1.0.tcl&quot;, Master ? &quot;Master&quot; : &quot;Slave&quot;, DataRate * 1000, scbClkHz)}`" visible="false" editable="false" desc="I2C master data rate configurator." />
-    <ParamBool id="AutoDigitalFilter" name="Digital Filter" group="Internal" default="`${getTclVar(&quot;digitalFilter&quot;, i2c_solver)}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) fitler. An analog filter is disabled when digital filter is enabled. It is calculated by i2c_solver." />
+    <ParamBool id="AutoDigitalFilter" name="Digital Filter" group="Internal" default="`${getTclVar(&quot;digitalFilter&quot;, i2c_solver)}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) filter. An analog filter is disabled when digital filter is enabled. It is calculated by i2c_solver." />
     <ParamRange id="AutoLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;lowOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes). It is calculated by i2c_solver." />
     <ParamRange id="AutoHighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;highOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL high phase (only applicable for the master modes). It is calculated by i2c_solver." />
 
-    <ParamBool id="DigitalFilter" name="Digital Filter" group="Internal" default="`${ManualDataRate ? ManualDigitalFilter : AutoDigitalFilter}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) fitler. An analog filter is disabled when digital filter is enabled." />
+    <ParamBool id="DigitalFilter" name="Digital Filter" group="Internal" default="`${ManualDataRate ? ManualDigitalFilter : AutoDigitalFilter}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) filter. An analog filter is disabled when digital filter is enabled." />
     <ParamRange id="LowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualLowPhaseDutyCycle : AutoLowPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes)." />
     <ParamRange id="HighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualHighPhaseDutyCycle : AutoHighPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL high phase (only applicable for the master modes)." />
 
     <!-- Actual Data Rate -->
-    <ParamRange id="actualDataRate" name="Actual Data Rate (kbps)" group="Actual Data Rate" default="`${Master ? (scbClkHz / ((LowPhaseDutyCycle + HighPhaseDutyCycle) * 1000)) : (((DataRate &lt; 100) || (DataRate eq 100)) ? 100 : ((DataRate &gt; 100) &amp;&amp; (DataRate &lt; 400) || (DataRate eq 400)) ? 400 : 1000)}`" min="0" max="10000" resolution="1" visible="true" editable="false" desc="The actual data rate displays the data rate at which the I2C operates with current settings. For the master modes actual data rate does not take into account the I2C bus charcteristics and may differ from the observed on the bus. If this is the case enable Manual Data Rate Control to configure/adjust data rate related parameters. Refer to the section I2C sub-section Oversampling and Bit Rate in the selected device TRM for more information." />
+    <ParamRange id="actualDataRate" name="Actual Data Rate (kbps)" group="Actual Data Rate" default="`${Master ? (scbClkHz / ((LowPhaseDutyCycle + HighPhaseDutyCycle) * 1000)) : (((DataRate &lt; 100) || (DataRate eq 100)) ? 100 : ((DataRate &gt; 100) &amp;&amp; (DataRate &lt; 400) || (DataRate eq 400)) ? 400 : 1000)}`" min="0" max="10000" resolution="1" visible="true" editable="false" desc="The actual data rate displays the data rate at which the I2C operates with current settings. For the master modes actual data rate does not take into account the I2C bus characteristics and may differ from the observed on the bus. If this is the case enable Manual Data Rate Control to configure/adjust data rate related parameters. Refer to the section I2C sub-section Oversampling and Bit Rate in the selected device TRM for more information." />
     <ParamRange id="sclLow" name="tLow (us)" group="Actual Data Rate" default="`${((1000000000.0 / scbClkHz) * LowPhaseDutyCycle)}`" min="0" max="4294967295" resolution="1" visible="`${Master}`" editable="false" desc="tLow parameter (the LOW period of the SCL clock, including falling edge)." />
     <ParamRange id="sclHigh" name="tHigh (us)" group="Actual Data Rate" default="`${((1000000000.0 / scbClkHz) * HighPhaseDutyCycle)}`" min="0" max="4294967295" resolution="1" visible="`${Master}`" editable="false" desc="tHigh parameter (the HIGH period of the SCL clock, including raising edge). tHigh value might be less than observed on the bus due to clock synchronization in the device. The device resets its internal counter of tHigh when it detects a low level on SCL line while expecting high level." />
 
@@ -168,7 +171,7 @@
   <DRCs>
     <!--SlaveAddressMask DRCs-->
     <DRC type="ERROR" paramId="SlaveAddressMask" text="The I2C slave address mask must be even." condition="`${(SlaveAddressMask % 2) ne 0}`" />
-    <DRC type="ERROR" paramId="clock[0]" text="The actual data rate `${actualDataRate}` kpbs is greater than desired `${DataRate}` kpbs. Increase clock divider to produce lower clock frequency or adjust desired Data Rate." condition="`${Master ? (!ManualDataRate &amp;&amp; (actualDataRate &gt; DataRate) ) : false}`" />
+    <DRC type="ERROR" paramId="clock[0]" text="The actual data rate `${actualDataRate}` kbps is greater than desired `${DataRate}` kbps. Increase clock divider to produce lower clock frequency or adjust desired Data Rate." condition="`${Master ? (!ManualDataRate &amp;&amp; (actualDataRate &gt; DataRate) ) : false}`" />
   </DRCs>
 
   <ConfigFirmware>
@@ -190,6 +193,7 @@
       <Member name="enableDigitalFilter" value="`${DigitalFilter ? &quot;true&quot; : &quot;false&quot;}`" />
       <Member name="lowPhaseDutyCycle" value="`${LowPhaseDutyCycle}`" />
       <Member name="highPhaseDutyCycle" value="`${HighPhaseDutyCycle}`" />
+      <Member name="delayInFifoAddress" value="`${AcceptAddress ? RxAddressFifoDelay : &quot;0&quot;}`" />
     </ConfigStruct>
 
     <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">

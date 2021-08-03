@@ -988,6 +988,9 @@
       <Parameter name="InvertTerminals">
         <Value>false</Value>
       </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
+      </Parameter>
     </Instance>
     <Instance guid="2a15dcfa-12b8-4222-8174-f15874713aac" name="AMUXT0_AA_SL" component="swh">
       <Parameter name="CY_COMMENT">
@@ -4509,6 +4512,9 @@
       <Parameter name="InvertTerminals">
         <Value>false</Value>
       </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
+      </Parameter>
     </Instance>
     <Instance guid="d9fb584b-e0b0-45b2-b973-2a6a6d5e1615" name="GPIO_P5_3" component="cy_all_pin">
       <Parameter name="CY_COMMENT">
@@ -5344,7 +5350,7 @@
   </Instances>
   <Signals count="68">
     <Signal name="amuxbus_a_csd" type="" terminalCount="0" />
-    <Signal name="amuxbus_a_gpio" type="Analog" terminalCount="0" />
+    <Signal name="amuxbus_a_gpio" type="" terminalCount="0" />
     <Signal name="amuxbus_a_pass" type="" terminalCount="0" />
     <Signal name="amuxbus_b_csd" type="" terminalCount="0" />
     <Signal name="amuxbus_b_gpio" type="" terminalCount="0" />
@@ -5359,12 +5365,12 @@
     <Signal name="p0_7" type="" terminalCount="0" />
     <Signal name="p1_0" type="" terminalCount="0" />
     <Signal name="p1_1" type="Analog" terminalCount="2">
-      <Terminal name="cy_all_shapetag_disconnect_10.a" type="Instance Analog InOut" />
       <Terminal name="cy_all_shapetag_disconnect_8.a" type="Instance Analog InOut" />
+      <Terminal name="cy_all_shapetag_disconnect_10.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p1_2" type="Analog" terminalCount="2">
-      <Terminal name="cy_all_shapetag_disconnect_9.a" type="Instance Analog InOut" />
       <Terminal name="cy_all_shapetag_disconnect_7.a" type="Instance Analog InOut" />
+      <Terminal name="cy_all_shapetag_disconnect_9.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p1_3" type="" terminalCount="0" />
     <Signal name="p1_4" type="" terminalCount="0" />

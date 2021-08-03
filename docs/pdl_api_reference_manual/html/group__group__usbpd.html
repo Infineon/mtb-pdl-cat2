@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -102,6 +102,7 @@ USBPD Driver Solution</div></div>
 <li>Configure the gate driver outputs of the PMG1 device to enable power output or charging paths.</li>
 <li>Configure the comparators and cut-off circuits to provide Over-Voltage (OV), Under-Voltage (UV), Over-Current (OC), Short-Circuit (SC) and Reverse-Current (RC) Protection.</li>
 <li>Configure the in-built USB 2.0 and Side Band Use (SBU) Multiplexers for USB, Display and Thunderbolt data connections.</li>
+<li>Drive/detect transitions on the HotPlug Detect (HPD) pin as required by the Display function.</li>
 <li>Configure the terminations and measure the voltages on the D+/D- pins for BC 1.2. Most of the USBPD driver functions are not intended to be called directly from the user application as the PDStack middleware makes use of them to manage the functionality in a specification compliant manner.</li>
 </ol>
 <h1><a class="anchor" id="group_usbpd_section_configuration"></a>
@@ -136,6 +137,12 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td rowspan="3">1.10 </td><td>Added drivers for HPD and MUX feature.  </td><td>New feature support.  </td></tr>
+<tr>
+<td>Added support for VBus Over Current Protection, VBus Short Circuit Protection, VBus Reverse Current Protection and VConn Over Current Protection.  </td><td>New feature support.  </td></tr>
+<tr>
+<td>Added support for PMG1S3 device.  </td><td>New device support.  </td></tr>
+<tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
 </table>
 <table class="memberdecls">
@@ -144,16 +151,23 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__usbpd__common"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common.html">Common</a></td></tr>
 <tr class="memdesc:group__group__usbpd__common"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD driver common data structures. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__usbpd__typec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec.html">Type C (USBPD)</a></td></tr>
+<tr class="memitem:group__group__usbpd__hpd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd.html">HPD (USBPD)</a></td></tr>
+<tr class="memdesc:group__group__usbpd__hpd"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD Hot-Plug Detect driver. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__usbpd__legacy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__legacy.html">Legacy Charging (USBPD)</a></td></tr>
+<tr class="memdesc:group__group__usbpd__legacy"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD Legacy Charging driver. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__usbpd__mux"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__mux.html">MUX (USBPD)</a></td></tr>
+<tr class="memdesc:group__group__usbpd__mux"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD MUX Control driver. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__usbpd__phy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__phy.html">Phy (USBPD)</a></td></tr>
 <tr class="memdesc:group__group__usbpd__phy"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD Phy transceiver driver. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__usbpd__typec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec.html">Type C (USBPD)</a></td></tr>
+<tr class="memdesc:group__group__usbpd__typec"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD Type C driver. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__usbpd__vbus__ctrl"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl.html">VBus Ctrl (USBPD)</a></td></tr>
 <tr class="memdesc:group__group__usbpd__vbus__ctrl"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD VBus Control driver. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__usbpd__legacy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__legacy.html">Legacy Charging (USBPD)</a></td></tr>
-<tr class="memdesc:group__group__usbpd__legacy"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD Legacy Charging driver. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
@@ -162,7 +176,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

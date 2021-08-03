@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_syspm.h
-* \version 1.0
+* \version 2.0
 *
 * Provides the function definitions for the power management API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -394,6 +396,13 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.0</td>
+*     <td>\ref Cy_SysPm_CpuEnterDeepSleep is changed so that the
+*         \ref Cy_SysClk_DeepSleepCallback registration is needed.
+*         The clock tree manipulation code is removed.</td>
+*     <td>SysClk enhancement, see \ref group_sysclk_pm</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -436,7 +445,7 @@ extern "C" {
 */
 
 /** Driver major version */
-#define CY_SYSPM_DRV_VERSION_MAJOR       1
+#define CY_SYSPM_DRV_VERSION_MAJOR       2
 
 /** Driver minor version */
 #define CY_SYSPM_DRV_VERSION_MINOR       0

@@ -2,6 +2,7 @@ var group__group__msc__functions =
 [
     [ "Cy_MSC_Init", "group__group__msc__functions.html#gacc0ea745c376a5f6b52d4fe2c26137d2", null ],
     [ "Cy_MSC_DeInit", "group__group__msc__functions.html#ga5340dcf9daffa8d3c7543983f13d3ffe", null ],
+    [ "Cy_MSC_Capture", "group__group__msc__functions.html#ga0921e6a5b84094b5b7ca967bb0f20c35", null ],
     [ "Cy_MSC_Configure", "group__group__msc__functions.html#ga57386557c58662fa1c54a8ae1081a8c1", null ],
     [ "Cy_MSC_ConfigureScan", "group__group__msc__functions.html#ga978f18dbbf24f2931a6129fc9339a24a", null ],
     [ "Cy_MSC_GetLockStatus", "group__group__msc__functions.html#ga7300f00209d19dd41ad65b90b1d5d422", null ],

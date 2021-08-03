@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -103,6 +103,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0950546e50604fc6daa33b2bdb155e5d"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#ga0950546e50604fc6daa33b2bdb155e5d">Cy_SAR_CountsTo_uVolts</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t adcCounts)</td></tr>
 <tr class="memdesc:ga0950546e50604fc6daa33b2bdb155e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the ADC output to microvolts as a int32.  <a href="#ga0950546e50604fc6daa33b2bdb155e5d">More...</a><br /></td></tr>
 <tr class="separator:ga0950546e50604fc6daa33b2bdb155e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7f77eecc3a287304c89c9e064f416a0d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t adcCounts)</td></tr>
+<tr class="memdesc:ga7f77eecc3a287304c89c9e064f416a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the ADC output to degrees Celsius.  <a href="#ga7f77eecc3a287304c89c9e064f416a0d">More...</a><br /></td></tr>
+<tr class="separator:ga7f77eecc3a287304c89c9e064f416a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__sar__enums.html#ga4061024a91b0f2e3aca4716fce722b57">cy_en_sar_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#gaf8617e3aa90b4069b0b6605802a3ac08">Cy_SAR_SetChannelOffset</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t offsetCount)</td></tr>
 <tr class="memdesc:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store the channel offset for the voltage conversion functions.  <a href="#gaf8617e3aa90b4069b0b6605802a3ac08">More...</a><br /></td></tr>
 <tr class="separator:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,7 +216,7 @@ Functions</h2></td></tr>
 <li>TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.</li>
 <li>Gain: Value stored by the <a class="el" href="group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635">Cy_SAR_SetChannelGain</a> function.</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>This funtion is only valid when result alignment is right aligned.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is only valid when result alignment is right aligned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
@@ -227,8 +230,8 @@ Functions</h2></td></tr>
 <li>If channel is left aligned, 0 is returned.</li>
 </ul>
 </dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    </div><div class="line">    <span class="comment">/* Scenario: ADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on channel 0 and convert it to volts. */</span></div><div class="line">    uint32_t chan = 0UL;</div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> resultVolts;</div><div class="line">    resultVolts = <a class="code" href="group__group__sar__functions__countsto.html#gaf9e34e8b68020602396686ec699314a1">Cy_SAR_CountsTo_Volts</a>(SAR0, chan, <a class="code" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a>(SAR0, chan));</div></div><!-- fragment -->
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: ADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on channel 0 and convert it to volts. */</span></div><div class="line">    uint32_t chan = 0UL;</div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> resultVolts;</div><div class="line">    resultVolts = <a class="code" href="group__group__sar__functions__countsto.html#gaf9e34e8b68020602396686ec699314a1">Cy_SAR_CountsTo_Volts</a>(SAR0, chan, <a class="code" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a>(SAR0, chan));</div></div><!-- fragment --></dd></dl>
+
 </div>
 </div>
 <a id="ga8f1189056459a76c4b9f9917dc3a9e6e"></a>
@@ -277,7 +280,7 @@ mV = V * 1000
 <li>TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.</li>
 <li>Gain: Value stored by the <a class="el" href="group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635">Cy_SAR_SetChannelGain</a> function.</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>This funtion is only valid when result alignment is right aligned.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is only valid when result alignment is right aligned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
@@ -291,8 +294,8 @@ mV = V * 1000
 <li>If channel is left aligned, 0 is returned.</li>
 </ul>
 </dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    <span class="comment">/* Scenario: ADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on channel 0 and convert it to millivolts. */</span></div><div class="line">    uint32_t chan = 0UL;</div><div class="line">    int16_t resultmVolts;</div><div class="line">    resultmVolts = <a class="code" href="group__group__sar__functions__countsto.html#ga8f1189056459a76c4b9f9917dc3a9e6e">Cy_SAR_CountsTo_mVolts</a>(SAR0, chan, <a class="code" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a>(SAR0, chan));</div></div><!-- fragment -->
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: ADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on channel 0 and convert it to millivolts. */</span></div><div class="line">    uint32_t chan = 0UL;</div><div class="line">    int16_t resultmVolts;</div><div class="line">    resultmVolts = <a class="code" href="group__group__sar__functions__countsto.html#ga8f1189056459a76c4b9f9917dc3a9e6e">Cy_SAR_CountsTo_mVolts</a>(SAR0, chan, <a class="code" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a>(SAR0, chan));</div></div><!-- fragment --></dd></dl>
+
 </div>
 </div>
 <a id="ga0950546e50604fc6daa33b2bdb155e5d"></a>
@@ -341,7 +344,7 @@ uV = V * 1000000
 <li>TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.</li>
 <li>Gain: Value stored by the <a class="el" href="group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635">Cy_SAR_SetChannelGain</a> function.</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>This funtion is only valid when result alignment is right aligned.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is only valid when result alignment is right aligned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
@@ -351,12 +354,59 @@ uV = V * 1000000
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Result in microvolts.<ul>
-<li>If channel number is valid, 0 is returned.</li>
+<li>If channel number is invalid, 0 is returned.</li>
 <li>If channel is left aligned, 0 is returned.</li>
 </ul>
 </dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
 <div class="fragment"><div class="line">    <span class="comment">/* Scenario: ADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on channel 0 and convert it to microvolts. */</span></div><div class="line">    uint32_t chan = 0UL;</div><div class="line">    int32_t resultuVolts;</div><div class="line">    resultuVolts = <a class="code" href="group__group__sar__functions__countsto.html#ga0950546e50604fc6daa33b2bdb155e5d">Cy_SAR_CountsTo_uVolts</a>(SAR0, chan, <a class="code" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a>(SAR0, chan));</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ga7f77eecc3a287304c89c9e064f416a0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7f77eecc3a287304c89c9e064f416a0d">&#9670;&nbsp;</a></span>Cy_SAR_CountsTo_degreeC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t Cy_SAR_CountsTo_degreeC </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>chan</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>adcCounts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts the ADC output to degrees Celsius. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">chan</td><td>The channel number, between 0 and <a class="el" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a></td></tr>
+    <tr><td class="paramname">adcCounts</td><td>Conversion result from <a class="el" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>In case of ADC Vref doesn't match the DieTemp sensor Vref this function automatically corrects the adcCounts to match the DieTemp Vref.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The die temperature in degrees Celsius. If any of base or chan parameters is valid, 0 is returned.</dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    int16_t temp = <a class="code" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a>(SAR0, <a class="code" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a>, injResult);</div><div class="line">    <span class="comment">/* now temp contains the die temperature is degrees Celsius */</span></div></div><!-- fragment --></dd></dl>
+
 </div>
 </div>
 <a id="gaf8617e3aa90b4069b0b6605802a3ac08"></a>
@@ -468,7 +518,7 @@ uV = V * 1000000
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

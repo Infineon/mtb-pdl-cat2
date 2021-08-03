@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -127,7 +127,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Enables the ILO. </p>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: watchdog counter needs to be sourced by the ILO instead of the WCO. */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Enable the ILO */</span></div><div class="line">    <a class="code" href="group__group__sysclk__ilo__funcs.html#gaabb2612adc103562da7d6dc451a33caa">Cy_SysClk_IloEnable</a>();</div><div class="line"></div><div class="line">    <span class="comment">/* Now switch the watchdog counter clocking to ILO */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Disable the WCO */</span></div><div class="line">    <a class="code" href="group__group__sysclk__wco__funcs.html#ga855b936e5f17dc77abd2c44ec0660e2a">Cy_SysClk_WcoDisable</a>();</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: The WDC timers needs to be sourced by the ILO instead of the WCO.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Enable the ILO */</span></div><div class="line">    <a class="code" href="group__group__sysclk__ilo__funcs.html#gaabb2612adc103562da7d6dc451a33caa">Cy_SysClk_IloEnable</a>();</div><div class="line"></div><div class="line">    <span class="comment">/* Now switch the WDC timers clocking to ILO */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Disable the WCO */</span></div><div class="line">    <a class="code" href="group__group__sysclk__wco__funcs.html#ga855b936e5f17dc77abd2c44ec0660e2a">Cy_SysClk_WcoDisable</a>();</div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -170,7 +170,7 @@ Functions</h2></td></tr>
 
 <p>Disables the ILO. </p>
 <p>ILO can't be disabled if WDT is enabled.</p>
-<dl class="section return"><dt>Returns</dt><dd>Error / status code: <br />
+<dl class="section return"><dt>Returns</dt><dd>Error / status code, <a class="el" href="group__group__sysclk__returns.html#gad6699a184e2e3c01433251b0981558f3">cy_en_sysclk_status_t</a> <br />
 CY_SYSCLK_SUCCESS - ILO successfully disabled <br />
 CY_SYSCLK_INVALID_STATE - Cannot disable the ILO if the WDT is enabled.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Do not call this function if the WDT is enabled, because the WDT is clocked by the ILO.</dd></dl>
@@ -258,7 +258,7 @@ CY_SYSCLK_INVALID_STATE - Cannot disable the ILO if the WDT is enabled.</dd></dl
 If the System clock frequency is changed in runtime, the <a class="el" href="group__group__system__config__system__functions.html#gae0c36a9591fe6e9c45ecb21a794f0f0f">SystemCoreClockUpdate()</a> should be called before calling a next <a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4" title="Measures the current ILO accuracy. ">Cy_SysClk_IloCompensate()</a>.</dd>
 <dd>
 For a correct WDT or DeepSleep Timers functioning with ILO compensating the <a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4">Cy_SysClk_IloCompensate()</a> should be called before WDT or DeepSleep Timers enabling.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Do not enter deep sleep mode until the function returns CY_SYSCLK_SUCCESS.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Do not enter Deep Sleep mode until the function returns CY_SYSCLK_SUCCESS.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">desiredDelay</td><td>Required delay in microseconds. Valid range is 100 ... 2 000 000 us.</td></tr>
@@ -294,7 +294,7 @@ Therefore, the range 1ms..1s (1000...1000000) is recommended as practically appl
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_wdc.c
-* \version 1.0
+* \version 1.0.1
 *
 *  This file provides the source code to the API for the WDC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,11 +47,11 @@ extern "C" {
 *  The pointer to a structure that contains component configuration data.
 *
 * \return cy_en_wdc_status_t
-* Returns an error if any of the structure pointers is NULL.
+*  Returns an error if any of the structure pointers is NULL.
 *
 *  \note
-*  Do not call this function when the counters are running. First, disable 
-*  counters uning \ref Cy_WDC_Disable.
+*  Do not call this function when the counters are running. First, disable
+*  counters using \ref Cy_WDC_Disable.
 *
 *  \note
 *  This function waits four WDC clock source cycles in order to
@@ -96,8 +98,8 @@ cy_en_wdc_status_t Cy_WDC_Init(WCO_Type *base, cy_stc_wdc_config_t const *config
 *  The base pointer to a structure that describes the registers.
 *
 *  \note
-*  Do not call this function when the counters are running. First, disable 
-*  counters uning \ref Cy_WDC_Disable.
+*  Do not call this function when the counters are running. First, disable
+*  counters using \ref Cy_WDC_Disable.
 *
 *  \note
 *  Call this function only after calling the \ref Cy_WDC_Init() function.

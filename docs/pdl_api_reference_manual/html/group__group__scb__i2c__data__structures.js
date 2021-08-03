@@ -12,7 +12,8 @@ var group__group__scb__i2c__data__structures =
       [ "enableWakeFromSleep", "structcy__stc__scb__i2c__config__t.html#a5349cece2450d79a40dbe36dda778bd7", null ],
       [ "enableDigitalFilter", "structcy__stc__scb__i2c__config__t.html#a1414232f520fb70d07f67218c627a586", null ],
       [ "lowPhaseDutyCycle", "structcy__stc__scb__i2c__config__t.html#a8b742ccfd88a2a9216e9ad7b018a6d51", null ],
-      [ "highPhaseDutyCycle", "structcy__stc__scb__i2c__config__t.html#a275201ed69def1d0e7432eef35cfd64c", null ]
+      [ "highPhaseDutyCycle", "structcy__stc__scb__i2c__config__t.html#a275201ed69def1d0e7432eef35cfd64c", null ],
+      [ "delayInFifoAddress", "structcy__stc__scb__i2c__config__t.html#a1bea2e563a67e600e1b83711a2308600", null ]
     ] ],
     [ "cy_stc_scb_i2c_context_t", "structcy__stc__scb__i2c__context__t.html", null ],
     [ "cy_stc_scb_i2c_master_xfer_config_t", "structcy__stc__scb__i2c__master__xfer__config__t.html", [

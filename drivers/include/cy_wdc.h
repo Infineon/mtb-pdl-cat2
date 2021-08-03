@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_wdc.h
-* \version 1.0
+* \version 1.0.1
 *
 *  This file provides constants and parameter values for the WDC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +28,7 @@
 /**
 * \addtogroup group_wdc
 * \{
-* Watchdog Counters (WDC) are general-purpose timers clocked from a low- 
+* Watchdog Counters (WDC) are general-purpose timers clocked from a low-
 * frequency clock source and capable of generating interrupts.
 *
 * Features:
@@ -58,17 +60,17 @@
 * A simplified diagram of the WDC hardware is shown below:
 * \image html wdc.png
 * The frequency of the periodic interrupts for C0 and C1 counters can be configured using the Match
-* value using \ref Cy_WDC_SetMatch() together with Clear on match option, which can be set 
+* value using \ref Cy_WDC_SetMatch() together with Clear on match option, which can be set
 * using \ref Cy_WDC_SetClearOnMatch() function. When Clear on match option
 * is not set, the periodic interrupts of the C0 and C1 16-bit sub-counters occur
 * after 65535 counts and the match value defines the shift between interrupts
 * (see the figure below). The enabled Clear on match option
 * resets the counter when the interrupt occurs.
 *
-* <b>Clear on match is disabled: </b> 
+* <b>Clear on match is disabled: </b>
 * \image html wdc_C0_C1_NoClearOnMatch.png
 *
-* <b>Clear on match is enabled: </b> 
+* <b>Clear on match is enabled: </b>
 * \image html wdc_C0_C1_ClearOnMatch.png
 *
 * 32-bit sub-counter C2 does not have the Clear on match option.
@@ -94,42 +96,42 @@
 * \snippet wdc/snippet/main.c snippet_Cy_WDC_Init
 *
 * \note Before initialization of WDC, ensure that the selected WDC clock source is enabled.
-*       Refer to \ref group_sysclk_ilo and \ref group_sysclk_wco sections of 
+*       Refer to \ref group_sysclk_ilo and \ref group_sysclk_wco sections of
 *       SysClk driver documentation.
 *
 ********************************************************************************
 * \subsection group_wdc_cascade Counters Cascading
 ********************************************************************************
 * The WDC counter can be cascaded in order to achieve longer wait periods.
-* When a counter is cascaded, it uses the previous counter event signal in order to 
+* When a counter is cascaded, it uses the previous counter event signal in order to
 * perform the increment operation instead of the WDC clock source.
 * For example, to configure a WDC to generate interrupts approx. every 20 seconds
-* using ILO clock source (40KHz), the total timer period should be set to 
+* using ILO clock source (40KHz), the total timer period should be set to
 * 40000 * 20 = 800000 counts, which is above the 16-bit single timer resolution.
 * For a long period delays, 32-bit counter 2 can be used, but it only allows fixed period values.
-* In our case, it will generate interrupts with 13.1 seconds (2^19 = 524288) 
+* In our case, it will generate interrupts with 13.1 seconds (2^19 = 524288)
 * or 26.2 seconds (2^20 = 1048576) periods.
 * To achieve higher timing precision, counters 0 and 1 can be cascaded.
 * In this case, the following configuration structure can be used:
 *
 * \snippet wdc/snippet/main.c snippet_Cy_WDC_StructCascade
-* 
-* Alternatively, the same settings can be applied using the corresponding WDC 
+*
+* Alternatively, the same settings can be applied using the corresponding WDC
 * functions after calling the \ref Cy_WDC_Init function.
 * Refer to \ref group_wdc_functions for details.
 *
 * There are four possible cascading options:
 * - \ref CY_WDC_CASCADE_NONE - all counters work independently
-* - \ref CY_WDC_CASCADE_COUNTERS01 - counters 0 and 1 are cascaded. If Clean on match 
-*   is set for both counters total cascaded period will be equal to 
+* - \ref CY_WDC_CASCADE_COUNTERS01 - counters 0 and 1 are cascaded. If Clean on match
+*   is set for both counters total cascaded period will be equal to
 *   (C0_Match + 1) * C1_Match
-* - \ref CY_WDC_CASCADE_COUNTERS12 - counters 1 and 2 are cascaded. If Clean on match 
-*   is set for counter 1 total cascaded period will be equal to 
+* - \ref CY_WDC_CASCADE_COUNTERS12 - counters 1 and 2 are cascaded. If Clean on match
+*   is set for counter 1 total cascaded period will be equal to
 *   (C1_Match + 1) * 2<sup>C2_Toggle_bit</sup>
-* - \ref CY_WDC_CASCADE_ALL - counters 0, 1 and 2 are cascaded. If Clean on match 
-*   is set for counters 0 and 1 counters total cascaded period will be equal to 
+* - \ref CY_WDC_CASCADE_ALL - counters 0, 1 and 2 are cascaded. If Clean on match
+*   is set for counters 0 and 1 counters total cascaded period will be equal to
 *   (C0_Match + 1) * C1_Match * 2<sup>C2_Toggle_bit</sup>.
-* 
+*
 ********************************************************************************
 * \subsection group_wdc_interrupt Configure Interrupt
 ********************************************************************************
@@ -162,6 +164,11 @@
 * \section group_wdc_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Corrected source code comments text.</td>
+*     <td></td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
@@ -411,7 +418,7 @@ __STATIC_INLINE cy_en_wdc_clock_t   Cy_WDC_GetClockSource(WCO_Type const *base);
 *  The base pointer to a structure that describes registers.
 *
 *  \param counters
-*  OR of all counters to enable. See the \ref CY_WDC_COUNTER0_Msk, 
+*  OR of all counters to enable. See the \ref CY_WDC_COUNTER0_Msk,
 *  \ref CY_WDC_COUNTER1_Msk, and \ref CY_WDC_COUNTER2_Msk macros.
 *
 *  \param waitUs
@@ -450,7 +457,7 @@ __STATIC_INLINE void Cy_WDC_Enable(WCO_Type *base, uint32_t counters, uint16_t w
 *  The base pointer to a structure describing registers.
 *
 *  \param counters
-*  OR of all counters to disable. See the \ref CY_WDC_COUNTER0_Msk, 
+*  OR of all counters to disable. See the \ref CY_WDC_COUNTER0_Msk,
 *  \ref CY_WDC_COUNTER1_Msk, and \ref CY_WDC_COUNTER2_Msk macros.
 *
 *  \param waitUs
@@ -704,11 +711,11 @@ __STATIC_INLINE uint32_t Cy_WDC_GetClearOnMatch(WCO_Type const *base, cy_en_wdc_
 *
 *  \note
 *  Do not call this function when the counters are running.
-*  Disable counters to be cascaded prior to calling this function 
+*  Disable counters to be cascaded prior to calling this function
 *  using \ref Cy_WDC_Disable.
 *
 *  \note
-*  When cascading all three counters, enable the Clear on match option for 
+*  When cascading all three counters, enable the Clear on match option for
 *  counter 1.
 *
 *******************************************************************************/
@@ -919,7 +926,7 @@ __STATIC_INLINE uint32_t Cy_WDC_GetCount(WCO_Type const *base, cy_en_wdc_ctr_t c
 *  The base pointer to a structure that describes registers.
 *
 *  \param counters
-*  OR of all counters to reset. See the \ref CY_WDC_COUNTER0_Msk, 
+*  OR of all counters to reset. See the \ref CY_WDC_COUNTER0_Msk,
 *  \ref CY_WDC_COUNTER1_Msk, and \ref CY_WDC_COUNTER2_Msk  macros.
 *
 *  \param waitUs
@@ -958,20 +965,20 @@ __STATIC_INLINE void Cy_WDC_ResetCounters(WCO_Type *base, uint32_t counters, uin
 *  The base pointer to a structure that describes registers.
 *
 *  \return
-*  The OR'd state of the interrupts. See the \ref CY_WDC_COUNTER0_Msk, 
+*  The OR'd state of the interrupts. See the \ref CY_WDC_COUNTER0_Msk,
 *  \ref CY_WDC_COUNTER1_Msk, and \ref CY_WDC_COUNTER2_Msk macros.
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_WDC_GetInterruptStatus(WCO_Type const *base)
 {
     uint32_t status;
-    
+
     status = WCO_WDT_CONTROL(base);
-    
+
     status = (_FLD2VAL(WCO_WDT_CONTROL_WDT_INT0, status) << CY_WDC_CTR0_Pos) |
              (_FLD2VAL(WCO_WDT_CONTROL_WDT_INT1, status) << CY_WDC_CTR1_Pos) |
              (_FLD2VAL(WCO_WDT_CONTROL_WDT_INT2, status) << CY_WDC_CTR2_Pos);
-    
+
     return (status);
 }
 

@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -87,12 +87,30 @@ $(document).ready(function(){initNavTree('group__group__sysclk__wco.html','');})
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p>The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes (excluding the Off mode). </p>
-<p>It is the primary clock source for the backup domain clock, which is used by the real-time clock (RTC). The WCO can also be used as a source for the low-frequency clock to support other low power mode peripherals.</p>
+<p>The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes. </p>
+<p>The WCO can be used as a source for the <a class="el" href="group__group__wdc.html">WDC (Watchdog Counters)</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>Please refer to the product Datasheet about presence of WCO in your device.</dd></dl>
 <div class="image">
-<img src="sysclk_backup.png" alt="sysclk_backup.png"/>
+<img src="wco_clk.png" alt="wco_clk.png"/>
 </div>
-<p>The WCO requires the configuration of the dedicated WCO pins (SRSS_WCO_IN_PIN, SRSS_WCO_OUT_PIN). These must be configured as Analog Hi-Z drive modes and the HSIOM selection set to GPIO. The WCO can also be used in bypass mode, where an external 32.768 kHz square wave is brought in directly through the SRSS_WCO_OUT_PIN pin. </p>
+<p>The WCO requires the configuration of the dedicated WCO pins (wco_in, wco_out). These must be configured as Analog Hi-Z drive modes and the HSIOM selection set to GPIO.</p>
+<h1><a class="anchor" id="group_sysclk_WCO_bypass_mode"></a>
+Bypass mode</h1>
+<p>The WCO can also be used in bypass mode, where an external square wave is brought in directly through the wco_out pin. Even though driving wco_in pin would work, better performance will be achieved using wco_out pin since we can bypass the feedback resistor which causes an RC delay and duty cycle variation. The wco_in pin should be floating, however, if floating is not desirable, then a minimum input impedance of 500kOhm to ground is required on the wco_in pin. An external clock source should toggles from 0V to a minimum of 1.0V and 0V to a maximum of 1.6V with duty cycle 20% to 80%. For stable WCO operation using an external clock source, the VDDA/VDDD external supply should be in the range of 1.65V to 5V.</p>
+<h2><a class="anchor" id="group_sysclk_WCO_configuration"></a>
+Configuration Considerations</h2>
+<p>Start up sequence of the WCO in bypass mode:</p><ul>
+<li>Configure wco_out pin in Analog Hi-Z drive mode and with the HSIOM selection set to GPIO;</li>
+<li>Disable the WCO by calling function <a class="el" href="group__group__sysclk__wco__funcs.html#ga855b936e5f17dc77abd2c44ec0660e2a" title="Disables the WCO. ">Cy_SysClk_WcoDisable()</a>;</li>
+<li>Drive the wco_out pin to a voltage between 1.0V and 1.6V since this would be the range of the high potential specified when forcing the external clock;</li>
+<li>Configure WCO in bypass mode by calling function <a class="el" href="group__group__sysclk__wco__funcs.html#gacc3559fbeb07e4ceedeff368001b30f8" title="Enables/disables external clock input through the WCO input pin. ">Cy_SysClk_WcoBypass()</a> with parameter "true";</li>
+<li>Enable the WCO with delay at least 15us by calling function <a class="el" href="group__group__sysclk__wco__funcs.html#ga55c680002d6169929659f3a13c538f1a" title="Enables the WCO. ">Cy_SysClk_WcoEnable()</a> with parameter "15";</li>
+<li>Start clocking wco_out pin with desired frequency;</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Do not use oscillator output clock prior to the 15us delay. <br />
+ There are no limitations on the external clock frequency. <br />
+ When external clock source was selected to drive WCO block the IMO can be trimmed only when external clock source period is equal to WCO external crystal period. <br />
+ Also accuracy of the external clock source should be higher or equal to the accuracy of WCO external crystal. </dd></dl>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
@@ -105,7 +123,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

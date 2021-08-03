@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -109,13 +109,39 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td rowspan="13">2.0 </td><td>Added the <a class="el" href="group__group__sysclk__pm__funcs.html#ga34bd0e837cdf7d0953a7e0f5219905b5">Cy_SysClk_DeepSleepCallback</a> and <a class="el" href="group__group__sysclk__pm__funcs.html#ga17871ebcd4be248f9b7d3be4399e4909">Cy_SysClk_RegisterCallback</a> functions </td><td>Power management performance enhancement, see <a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a>  </td></tr>
+<tr>
+<td>The next functions are changed: <a class="el" href="group__group__sysclk__ext__clk__funcs.html#gad4b77c61d47878007b5c50e3baf13e51">Cy_SysClk_ExtClkSetFrequency</a> and <a class="el" href="group__group__sysclk__ext__ref__funcs.html#ga32761fd7bee203f267173a48e5ecc828">Cy_SysClk_ExtRefSetFrequency</a> - now there are opportunities to set a zero frequency which means the clock signal is disabled </td><td>Clock system management enhancement  </td></tr>
+<tr>
+<td>The next API are changed: <a class="el" href="group__group__sysclk__clk__hf__enums.html#ga8eb50d7b30cd3bddaad51c73e0da3125">cy_en_sysclk_clkhf_src_t</a> and <a class="el" href="group__group__sysclk__pll__enums.html#ga944fb2dbdd2d6d490b4df48afb20985a">cy_en_sysclk_pll_bypass_t</a>, the backward compatibility of the <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga55b20a2add73fd288bb8b64b6eae8331">Cy_SysClk_ClkHfSetSource</a> and <a class="el" href="group__group__sysclk__pll__funcs.html#ga0606938498facb002409c69b60ac2317">Cy_SysClk_PllBypass</a> functions is preserved, however the deprecated interface items are strongly not recommended for new designs </td><td>Clock switching management bugs fixes  </td></tr>
+<tr>
+<td>The <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4">Cy_SysClk_PllConfigure</a> is changed do that the PLL output frequency could never overcome 48MHz </td><td>Documentation improvements, bug fixes  </td></tr>
+<tr>
+<td>Updated the <a class="el" href="group__group__sysclk__pll__funcs.html#gaa6c49eaf65abda2e653538e2242ff529">Cy_SysClk_PllGetFrequency()</a> function - now it returns a more precise result </td><td>Usability improvement  </td></tr>
+<tr>
+<td>Updated the <a class="el" href="group__group__sysclk__pll__funcs.html#gac1e9b87cbc94efa1b1cb9693ca181c2b">Cy_SysClk_PllSetSource()</a> and <a class="el" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a> functions - now they check the source validness even it is already connected </td><td>Usability improvement  </td></tr>
+<tr>
+<td>Updated the <a class="el" href="group__group__sysclk__pll__funcs.html#ga0255e5827933a01386e969e3be0f03bd">Cy_SysClk_PllDisable()</a> function </td><td>Code optimization  </td></tr>
+<tr>
+<td>Updated the <a class="el" href="group__group__sysclk__wco__funcs.html#ga55c680002d6169929659f3a13c538f1a">Cy_SysClk_WcoEnable()</a> function - now the WCO startup delay recommended by the TRM is supported </td><td>Performance improvement  </td></tr>
+<tr>
+<td>The external PLL reference clock (EXTREF) frequency maximum is reduced to 48MHz </td><td>Bug fix  </td></tr>
+<tr>
+<td>The external clock input (EXTCLK) frequency minimum is reduced to 0MHz </td><td>Bug fix  </td></tr>
+<tr>
+<td>The external crystal oscillator (ECO) frequency maximum is reduced to 33.33MHz </td><td>Bug fix  </td></tr>
+<tr>
+<td>Updated the WCO documentation, especially the Bypass feature, see <a class="el" href="group__group__sysclk__wco.html#group_sysclk_WCO_bypass_mode">Bypass mode</a> </td><td>Documentation improvement  </td></tr>
+<tr>
+<td>Minor documentation updates </td><td>Documentation enhancement  </td></tr>
+<tr>
 <td>1.20 </td><td>Fixed the <a class="el" href="group__group__sysclk__imo__funcs.html#ga7d2be0cd7cb4d706bd0dedaa99e647ec">Cy_SysClk_ImoLock</a> function to properly lock IMO. </td><td>Defect fix.  </td></tr>
 <tr>
 <td rowspan="2">1.10 </td><td>New feature is added: external reference signal for PLL.<br />
  New items: <a class="el" href="group__group__sysclk__pll__enums.html#ggabe786e77ddd64a3629a71ade1683f0d1a3a92b61c8278502e667c6feabd432fd8">CY_SYSCLK_PLL_SRC_EXTREF</a>, <a class="el" href="group__group__sysclk__ext__ref__funcs.html#ga32761fd7bee203f267173a48e5ecc828">Cy_SysClk_ExtRefSetFrequency</a> and <a class="el" href="group__group__sysclk__ext__ref__funcs.html#gaede943cd943e907379013866bd173f2e">Cy_SysClk_ExtRefGetFrequency</a><br />
  Updated functions: <a class="el" href="group__group__sysclk__pll__funcs.html#gac1e9b87cbc94efa1b1cb9693ca181c2b">Cy_SysClk_PllSetSource</a> and <a class="el" href="group__group__sysclk__pll__funcs.html#gaa6c49eaf65abda2e653538e2242ff529">Cy_SysClk_PllGetFrequency</a>. </td><td>Added support of PSoC 4500S device EXCO block.  </td></tr>
 <tr>
-<td>The implementation of <a class="el" href="group__group__sysclk__ext__clk__funcs.html#gad4b77c61d47878007b5c50e3baf13e51">Cy_SysClk_ExtClkSetFrequency</a>, <a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4">Cy_SysClk_IloCompensate</a>, <a class="el" href="group__group__sysclk__eco__funcs.html#ga98d131a40b66646c6fa4c1c18d0720a9">Cy_SysClk_EcoConfigure</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#gac1e9b87cbc94efa1b1cb9693ca181c2b">Cy_SysClk_PllSetSource</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4">Cy_SysClk_PllConfigure</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga55b20a2add73fd288bb8b64b6eae8331">Cy_SysClk_ClkHfSetSource</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga7c420ee0ea20656a701c9ef5914c04dd">Cy_SysClk_ClkHfGetSource</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#gac8f410d1745006bb7bb77964ae28a490">Cy_SysClk_ClkHfGetFrequency</a>, and <a class="el" href="group__group__sysclk__clk__hf__funcs.html#gac8f410d1745006bb7bb77964ae28a490">Cy_SysClk_ClkHfGetFrequency</a> functions is updated. </td><td>Bug fixing and code optimization.  </td></tr>
+<td>The implementation of <a class="el" href="group__group__sysclk__ext__clk__funcs.html#gad4b77c61d47878007b5c50e3baf13e51">Cy_SysClk_ExtClkSetFrequency</a>, <a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4">Cy_SysClk_IloCompensate</a>, <a class="el" href="group__group__sysclk__eco__funcs.html#ga98d131a40b66646c6fa4c1c18d0720a9">Cy_SysClk_EcoConfigure</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#gac1e9b87cbc94efa1b1cb9693ca181c2b">Cy_SysClk_PllSetSource</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4">Cy_SysClk_PllConfigure</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga55b20a2add73fd288bb8b64b6eae8331">Cy_SysClk_ClkHfSetSource</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga7c420ee0ea20656a701c9ef5914c04dd">Cy_SysClk_ClkHfGetSource</a> and <a class="el" href="group__group__sysclk__clk__hf__funcs.html#gac8f410d1745006bb7bb77964ae28a490">Cy_SysClk_ClkHfGetFrequency</a> functions is updated. </td><td>Bug fixing and code optimization.  </td></tr>
 <tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
 </table>
@@ -145,10 +171,10 @@ API Reference</h2></td></tr>
 <tr class="memdesc:group__group__sysclk__ilo"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILO operates with no external components and outputs a clock signal at roughly 40 kHz. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__sysclk__wco"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco.html">Watch Crystal Oscillator (WCO)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__wco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes (excluding the Off mode). <br /></td></tr>
+<tr class="memdesc:group__group__sysclk__wco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__clk__hf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clocks</a></td></tr>
-<tr class="memdesc:group__group__sysclk__clk__hf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The high frequency clock ClkHf is a source for the system clock for CPU and the peropheral clock didviders. <br /></td></tr>
+<tr class="memitem:group__group__sysclk__clk__hf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clock</a></td></tr>
+<tr class="memdesc:group__group__sysclk__clk__hf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The high frequency clock HFCLK is a source for the system clock for CPU and the peripheral clock dividers. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__sysclk__clk__peripheral"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__peripheral.html">Peripherals Clock Dividers</a></td></tr>
 <tr class="memdesc:group__group__sysclk__clk__peripheral"><td class="mdescLeft">&#160;</td><td class="mdescRight">There are multiple peripheral clock dividers that, in effect, create multiple separate peripheral clocks: <br /></td></tr>
@@ -159,6 +185,9 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__sysclk__clk__pump"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__pump.html">Pump Clock</a></td></tr>
 <tr class="memdesc:group__group__sysclk__clk__pump"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pump clock is a clock source used to provide analog precision in low voltage applications. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__pm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a></td></tr>
+<tr class="memdesc:group__group__sysclk__pm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entering and exiting low power modes require compatible clock configurations to be set before entering low power and restored upon wakeup and exit. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -166,7 +195,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

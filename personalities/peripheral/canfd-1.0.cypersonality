@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,10 +38,10 @@
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__canfd.html" linkText="Open CAN FD Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
 
-    <!-- Calback functions -->
-    <ParamString id="txCallback" name="TxCallback Function" group="Calback functions" default="NULL" visible="true" editable="true" desc="The Callback function for transmit completed." />
-    <ParamString id="rxCallback" name="RxCallback Function" group="Calback functions" default="NULL" visible="true" editable="true" desc="The Callback function for receive completed." />
-    <ParamString id="errorCallback" name="ErrorCallback Function" group="Calback functions" default="NULL" visible="true" editable="true" desc="The Callback function for CAN related errors." />
+    <!-- Callback functions -->
+    <ParamString id="txCallback" name="TxCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for transmit completed." />
+    <ParamString id="rxCallback" name="RxCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for receive completed." />
+    <ParamString id="errorCallback" name="ErrorCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for CAN related errors." />
 
     <!-- Mode -->
     <ParamBool id="mode" name="CAN FD Mode" group="Mode" default="false" visible="true" editable="true" desc="Set if CAN FD, reset if Classic CAN mode." />
@@ -386,8 +388,8 @@ treated.">
     <ConfigDefine name="`${INST_NAME}`_STD_ID_FILTER_ID_$idx" value="$idx" public="true" include="`${numberOfSIDFilters &gt; $idx}`" repeatCount="128"/>
     <ConfigDefine name="`${INST_NAME}`_EXT_ID_FILTER_ID_$idx" value="$idx" public="true" include="`${numberOfEXTIDFilters &gt; $idx}`" repeatCount="64"/>
     <ConfigDefine name="`${INST_NAME}`_DATA_$idx" value="$idx" public="true" include="true" repeatCount="16"/>
-    <ConfigDefine name="`${INST_NAME}`_IRQ_0" value="canfd_`${instNumber}`_interrupts0_`${channel}`_IRQn" public="true" include="true" />
-    <ConfigDefine name="`${INST_NAME}`_IRQ_1" value="canfd_`${instNumber}`_interrupts1_`${channel}`_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ_0" value="canfd_interrupts0_`${channel}`_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ_1" value="canfd_interrupts1_`${channel}`_IRQn" public="true" include="true" />
 
     <ConfigDefine name="STD_ID_FILTER_$idx" public="false"
     include="`${numberOfSIDFilters &gt; $idx}`" repeatCount="128" value="\&#xA;{\&#xA;

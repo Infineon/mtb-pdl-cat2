@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -101,13 +101,11 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr class="separator:gabe786e77ddd64a3629a71ade1683f0d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga944fb2dbdd2d6d490b4df48afb20985a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll__enums.html#ga944fb2dbdd2d6d490b4df48afb20985a">cy_en_sysclk_pll_bypass_t</a> { <br />
-&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aaa46f0dc529844a365bbe04a892a52263">CY_SYSCLK_PLL_OUTPUT_AUTO</a> = 0U, 
+&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aadab1c2af864845b43479b03b08fca021">CY_SYSCLK_PLL_BYP_AUTO</a> = 0U, 
 <br />
-&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aa55f7303f9a5e7ab00cecd202afe47fdd">CY_SYSCLK_PLL_OUTPUT_AUTO1</a> = 1U, 
+&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aa005bc7d34912652f686488188bbdadbc">CY_SYSCLK_PLL_BYP_ECO</a> = 2U, 
 <br />
-&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aa8520ab00b65e540308c6fb7fec7a86a4">CY_SYSCLK_PLL_OUTPUT_INPUT</a> = 2U, 
-<br />
-&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aabc16f3ebdc2839623b6d855379fa35c6">CY_SYSCLK_PLL_OUTPUT_OUTPUT</a> = 3U
+&#160;&#160;<a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aa2e72f39e94986779b820866186f8c6f3">CY_SYSCLK_PLL_BYP_PLL</a> = 3U
 <br />
  }<tr class="memdesc:ga944fb2dbdd2d6d490b4df48afb20985a"><td class="mdescLeft">&#160;</td><td class="mdescRight">PLL bypass mode.  <a href="group__group__sysclk__pll__enums.html#ga944fb2dbdd2d6d490b4df48afb20985a">More...</a><br /></td></tr>
 </td></tr>
@@ -155,14 +153,14 @@ Enumerations</h2></td></tr>
 <p>PLL bypass mode. </p>
 <p>See register CLK_PLL_CONFIG, bits BYPASS_SEL. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aaa46f0dc529844a365bbe04a892a52263"></a>CY_SYSCLK_PLL_OUTPUT_AUTO&#160;</td><td class="fielddoc"><p>Output PLL input source when not locked, and PLL output when locked. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aadab1c2af864845b43479b03b08fca021"></a>CY_SYSCLK_PLL_BYP_AUTO&#160;</td><td class="fielddoc"><p>ECO when PLL is not locked, and PLL output when locked. </p>
+<p>Not valid if ECO is disabled. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aa55f7303f9a5e7ab00cecd202afe47fdd"></a>CY_SYSCLK_PLL_OUTPUT_AUTO1&#160;</td><td class="fielddoc"><p>Same as AUTO. </p>
+<tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aa005bc7d34912652f686488188bbdadbc"></a>CY_SYSCLK_PLL_BYP_ECO&#160;</td><td class="fielddoc"><p>ECO regardless of PLL lock/enable status. </p>
+<p>Not valid if ECO is disabled. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aa8520ab00b65e540308c6fb7fec7a86a4"></a>CY_SYSCLK_PLL_OUTPUT_INPUT&#160;</td><td class="fielddoc"><p>Output PLL input source regardless of lock status. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aabc16f3ebdc2839623b6d855379fa35c6"></a>CY_SYSCLK_PLL_OUTPUT_OUTPUT&#160;</td><td class="fielddoc"><p>Output PLL output regardless of lock status. </p>
-<p>This can be dangerous, because PLL output may be unstable </p>
+<tr><td class="fieldname"><a id="gga944fb2dbdd2d6d490b4df48afb20985aa2e72f39e94986779b820866186f8c6f3"></a>CY_SYSCLK_PLL_BYP_PLL&#160;</td><td class="fielddoc"><p>PLL Output regardless of lock status. </p>
+<p>In case of ECO is enabled - this option can be dangerous, because PLL output may be unstable, so the <a class="el" href="group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aadab1c2af864845b43479b03b08fca021">CY_SYSCLK_PLL_BYP_AUTO</a> is preferable; In case of ECO is disabled - this is the only valid PLL bypass option. </p>
 </td></tr>
 </table>
 
@@ -174,7 +172,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

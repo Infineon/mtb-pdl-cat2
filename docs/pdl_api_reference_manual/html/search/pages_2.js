@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['introducing_20psoc_204',['Introducing PSoC 4',['../page_introducing_psoc_4.html',1,'']]]
+  ['infineon_20resources',['Infineon Resources',['../page_infineon_resources.html',1,'']]],
+  ['introducing_20psoc™_204_20mcu',['Introducing PSoC™ 4 MCU',['../page_introducing_psoc_4.html',1,'']]]
 ];

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.c
-* \version 3.0.1
+* \version 3.10
 *
 * Provides I2C API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +39,8 @@ extern "C" {
 static void SlaveHandleAddress     (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 static void SlaveHandleDataReceive (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 static void SlaveHandleDataTransmit(CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
-static void SlaveHandleStop        (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
+static void SlaveHandleStop        (CySCB_Type *base, bool slaveAddrInFifo,
+                                    cy_stc_scb_i2c_context_t *context);
 #ifdef CY_IP_MXSCB
 static void SlaveHandleHsMode      (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 #endif /* CY_IP_MXSCB */
@@ -158,6 +161,7 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_Init(CySCB_Type *base, cy_stc_scb_i2c_config_t
         /* Initialize the context */
         context->useRxFifo = config->useRxFifo;
         context->useTxFifo = config->useTxFifo;
+        context->delayInFifoAddress = config->delayInFifoAddress;
 #ifdef CY_IP_MXSCB
         context->hsEnable = enableSStretchHs;
 #endif /* CY_IP_MXSCB */
@@ -307,7 +311,7 @@ void Cy_SCB_I2C_Disable(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
 *   Cy_SCB_I2C_RegisterDSClockConfig. Callback function must disable or
 *   enable the clock divider depending on the event \ref
 *   group_scb_i2c_macros_deep_sleep_callback_events.
-*   Not applicable for PSoC 4 4100S MAX.
+*   Not applicable for PSoC 4100S Max.
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SCB_I2C_DeepSleepCallback(cy_stc_syspm_callback_params_t const *callbackParams, cy_en_syspm_callback_mode_t mode)
@@ -753,7 +757,7 @@ uint32_t Cy_SCB_I2C_GetDataRate(CySCB_Type const *base, uint32_t scbClockHz)
 * The data rate in Hz. \n
 * When zero value is returned the clk_scb is out of valid range.
 *
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 *
 * \note Only applicable for Slave mode.
 *
@@ -1902,7 +1906,7 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_MasterSendReStart(CySCB_Type *base,
         /* Previous transfer was a write */
         if (false == _FLD2BOOL(SCB_I2C_STATUS_M_READ, SCB_I2C_STATUS(base)))
         {
-            /* Cypress ID #295908: Wait until ReStart is generated to complete
+            /* ID #295908: Wait until ReStart is generated to complete
             * the previous write transfer. This ensures that the address byte
             * will not be interpreted as the data byte of the previous
             * transfer.
@@ -2229,6 +2233,8 @@ void Cy_SCB_I2C_SlaveInterrupt(CySCB_Type *base, cy_stc_scb_i2c_context_t *conte
 {
     uint32_t slaveIntrStatus;
 
+    bool slaveAddrInFifo = false;
+
     /* Handle an I2C wake-up event */
     if (0UL != (CY_SCB_I2C_INTR_WAKEUP & Cy_SCB_GetI2CInterruptStatusMasked(base)))
     {
@@ -2282,15 +2288,37 @@ void Cy_SCB_I2C_SlaveInterrupt(CySCB_Type *base, cy_stc_scb_i2c_context_t *conte
     /* Handle the receive direction (master writes data) */
     if (0UL != (CY_SCB_RX_INTR_LEVEL & Cy_SCB_GetRxInterruptStatusMasked(base)))
     {
-        SlaveHandleDataReceive(base, context);
+        /* Check if SCB configured to accept the slave address in the RX FIFO */
+        if (_FLD2BOOL(SCB_CTRL_ADDR_ACCEPT, SCB_CTRL(base)))
+        {
+        #ifndef CY_IP_MXSCB
+            /* Delay is needed for M0S8SCB only */
+            if (context->delayInFifoAddress > 0UL)
+            {
+                /* Wait one HIGH period of the SCL clock. */
+                Cy_SysLib_DelayUs(context->delayInFifoAddress);
+            }
+        #endif /* CY_IP_MXSCB */
 
-        Cy_SCB_ClearRxInterrupt(base, CY_SCB_RX_INTR_LEVEL);
+            slaveAddrInFifo = (0UL != (CY_SCB_SLAVE_INTR_I2C_ADDR_MATCH &
+                                    Cy_SCB_GetSlaveInterruptStatusMasked(base)));
+        }
+
+        /* Process data bytes, but skip processing in case slave address is in RX FIFO.
+        *  Leave the address to be processed by the function SlaveHandleAddress().
+        */
+        if (!slaveAddrInFifo)
+        {
+            SlaveHandleDataReceive(base, context);
+
+            Cy_SCB_ClearRxInterrupt(base, CY_SCB_RX_INTR_LEVEL);
+        }
     }
 
     /* Handle the transfer completion */
     if (0UL != (CY_SCB_SLAVE_INTR_I2C_STOP & slaveIntrStatus))
     {
-        SlaveHandleStop(base, context);
+        SlaveHandleStop(base, slaveAddrInFifo, context);
 
         Cy_SCB_ClearSlaveInterrupt(base, CY_SCB_SLAVE_INTR_I2C_STOP);
 
@@ -2368,7 +2396,7 @@ static void SlaveHandleHsMode(CySCB_Type *base, cy_stc_scb_i2c_context_t *contex
             /* Disable automatically ACK/NACK on slave address */
             SCB_I2C_CTRL(base) &= ~(SCB_I2C_CTRL_S_READY_ADDR_ACK_Msk | SCB_I2C_CTRL_S_NOT_READY_DATA_NACK_Msk);
 
-            /* Enable streching SCL line after Start, Master code, NACK */
+            /* Enable stretching SCL line after Start, Master code, NACK */
             SCB_I2C_S_CMD(base) |= SCB_I2C_S_CMD_S_STRETCH_HS_Msk;
 
             Cy_SCB_ClearSlaveInterrupt(base, CY_SCB_SLAVE_INTR_I2C_HS_EXIT);
@@ -2799,6 +2827,9 @@ static void SlaveHandleDataTransmit(CySCB_Type *base, cy_stc_scb_i2c_context_t *
 * \param base
 * The pointer to the I2C SCB instance.
 *
+* \param slaveAddrInFifo
+* Indicates that data in FIFO is a slave address
+*
 * \param context
 * The pointer to the context structure \ref cy_stc_scb_i2c_context_t allocated
 * by the user. The structure is used during the I2C operation for internal
@@ -2806,7 +2837,7 @@ static void SlaveHandleDataTransmit(CySCB_Type *base, cy_stc_scb_i2c_context_t *
 * in this structure.
 *
 *******************************************************************************/
-static void SlaveHandleStop(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
+static void SlaveHandleStop(CySCB_Type *base, bool slaveAddrInFifo, cy_stc_scb_i2c_context_t *context)
 {
     uint32_t locEvents;
 #ifdef CY_IP_MXSCB
@@ -2818,24 +2849,31 @@ static void SlaveHandleStop(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
         /* If any data is left in RX FIFO, this is an overflow */
         if (Cy_SCB_GetNumInRxFifo(base) > 0UL)
         {
-            context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_OVRFL;
-
 #ifdef CY_IP_M0S8SCB
             if (context->useRxFifo)
 #else /* CY_IP_MXSCB */
             if (!context->useRxFifo && hsMode)
             {
+                context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_OVRFL;
                 Cy_SCB_SetRxFifoLevel(base, 0U);
             }
             else if (context->useRxFifo)
 #endif /* CY_IP_M0S8SCB */
             {
+                /* Leave the slave address to be processed by the further */
+                context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_OVRFL;
                 Cy_SCB_ClearRxFifo(base);
             }
             else
             {
-                (void) Cy_SCB_ReadRxFifo(base);
+                /* Process data in FIFO in case if there is no address */
+                if(!slaveAddrInFifo)
+                {
+                    context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_OVRFL;
+                    (void) Cy_SCB_ReadRxFifo(base);
+                }
             }
+
         }
 
         locEvents             = (uint32_t)  CY_SCB_I2C_SLAVE_WR_CMPLT_EVENT;
@@ -3187,7 +3225,7 @@ static void MasterHandleDataTransmit(CySCB_Type *base, cy_stc_scb_i2c_context_t 
         {
             if (context->masterPause)
             {
-                /* Wait until data is transfered onto the bus */
+                /* Wait until data is transferred onto the bus */
                 Cy_SCB_SetTxInterruptMask(base, CY_SCB_TX_INTR_UNDERFLOW);
 
                 context->state = CY_SCB_I2C_MASTER_TX_DONE;

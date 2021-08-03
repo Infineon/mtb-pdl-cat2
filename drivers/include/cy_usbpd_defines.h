@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 1.0
+* \version 1.10
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -151,11 +153,15 @@
 
 #ifndef PSVP_FPGA_ENABLE
 #ifdef CY_DEVICE_PMG1S3
-#define PSVP_FPGA_ENABLE                (1u)
+#define PSVP_FPGA_ENABLE                (0u)
 #else
 #define PSVP_FPGA_ENABLE                (0u)
 #endif /* CY_DEVICE_PMG1S3 */
 #endif /* PSVP_FPGA_ENABLE */
+
+#ifndef CY_PD_EPR_ENABLE
+#define CY_PD_EPR_ENABLE                (0u)
+#endif /* CY_PD_EPR_ENABLE */
 
 /*******************************************************************************
  * MACRO Definitions
@@ -260,6 +266,8 @@
 #define CY_PD_CTRL_MSG_DATA_RESET_MASK            (0x1UL << CY_PD_CTRL_MSG_DATA_RESET)
 #define CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD_MASK      (0x1UL << CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD)
 #define CY_PD_CTRL_MSG_DATA_RESET_COMPLETE_MASK   (0x1UL << CY_PD_CTRL_MSG_DATA_RESET_COMPLETE)
+#define CY_PD_CTRL_MSG_GET_SOURCE_INFO_MASK       (0x1UL << CY_PD_CTRL_MSG_GET_SOURCE_INFO)
+#define CY_PD_CTRL_MSG_GET_REVISION_MASK          (0x1UL << CY_PD_CTRL_MSG_GET_REVISION)
 
 /** @endcond */
 
@@ -323,7 +331,7 @@ typedef enum
 } cy_en_pd_pd_rev_t;
 
 /**
- * 
+ *
  * @brief Enum of the attached device type.
  */
 typedef enum
@@ -364,7 +372,9 @@ typedef enum
     CY_PD_CTRL_MSG_FR_SWAP = 19UL,             /**< 0x13: FR_Swap message. */
     CY_PD_CTRL_MSG_GET_PPS_STATUS = 20UL,      /**< 0x14: Get_PPS_Status message. */
     CY_PD_CTRL_MSG_GET_COUNTRY_CODES = 21UL,   /**< 0x15: Get_Country_Codes message. */
-    CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD = 22UL     /**< 0x16: Get_Sink_Cap_Extended message. */
+    CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD = 22UL,    /**< 0x16: Get_Sink_Cap_Extended message. */
+    CY_PD_CTRL_MSG_GET_SOURCE_INFO = 23UL,     /**< 0x17: Get_Source_Info message. */
+    CY_PD_CTRL_MSG_GET_REVISION = 24UL          /**< 0x18: Get_Revision message. */
 } cy_en_pd_ctrl_msg_t;
 
 /**
@@ -465,7 +475,12 @@ typedef union
         uint32_t maxCurrent               : 10;     /**< Maximum current in 100mA units. */
         uint32_t voltage                  : 10;     /**< Voltage in 50mV units. */
         uint32_t pkCurrent                : 2;      /**< Peak current. */
-        uint32_t reserved                 : 2;      /**< Reserved field. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t rsrvd                    : 1;      /**< Reserved field. */
+        uint32_t eprModeCapable           : 1;      /**< EPR mode capable. */
+#else
+        uint32_t rsrvd                    : 2;      /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
         uint32_t unchunkSup               : 1;      /**< Unchunked extended messages supported. */
         uint32_t drSwap                   : 1;      /**< Data Role Swap supported. */
         uint32_t usbCommCap               : 1;      /**< USB communication capability. */
@@ -540,14 +555,23 @@ typedef union
     {
         uint32_t maxOpCurrent               : 10;   /**< Maximum operating current in 10mA units. */
         uint32_t opCurrent                  : 10;   /**< Operating current in 10mA units. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t rsrvd1                     : 2;    /**< Reserved field. */
+        uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
+#else
         uint32_t rsrvd1                     : 3;    /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
         uint32_t unchunkSup                 : 1;    /**< Unchunked extended messages supported. */
         uint32_t noUsbSuspend               : 1;    /**< No USB suspend. */
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 0. */
         uint32_t objPos                     : 3;    /**< Object position. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
+#else
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
     } rdo_fix_var;                                  /**< DO interpreted as a fixed/variable request. */
 
     /** @brief Structure representing a Fixed or Variable Request Data Object with GiveBack. */
@@ -600,14 +624,23 @@ typedef union
     {
         uint32_t minMaxPowerCur             : 10;   /**< Min/Max power or current requirement. */
         uint32_t opPowerCur                 : 10;   /**< Operating power or current requirement. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t rsrvd1                     : 2;    /**< Reserved field. */
+        uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
+#else
         uint32_t rsrvd1                     : 3;    /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
         uint32_t unchunkSup                 : 1;    /**< Unchunked extended messages supported. */
         uint32_t noUsbSuspend               : 1;    /**< No USB suspend. */
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack supported flag = 0. */
         uint32_t objPos                     : 3;    /**< Object position. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
+#else
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
     } rdo_gen;                                      /**< DO interpreted as a generic request message. */
 
     /** @brief Structure representing a Generic Request Data Object with GiveBack. */
@@ -638,7 +671,7 @@ typedef union
         uint32_t svid                       : 16;   /**< SVID associated with VDM. */
     } std_vdm_hdr;                                  /**< DO interpreted as a Structured VDM header. */
 
-    /** @brief Structure representing an Unstructured VDM header data object as defined by Cypress. */
+    /** @brief Structure representing an Unstructured VDM header data object as defined by Infineon. */
     struct USTD_VDM_HDR
     {
         uint32_t cmd                        : 5;    /**< Command id. */
@@ -648,7 +681,7 @@ typedef union
         uint32_t vdmVer                     : 2;    /**< VDM version. */
         uint32_t vdmType                    : 1;    /**< VDM type = Unstructured. */
         uint32_t svid                       : 16;   /**< SVID associated with VDM. */
-    } ustd_vdm_hdr;                                 /**< DO interpreted as a Cypress unstructured VDM header. */
+    } ustd_vdm_hdr;                                 /**< DO interpreted as a Infineon unstructured VDM header. */
 
     /** @brief Structure representing an Unstructured VDM header data object as defined by QC 4.0 spec. */
     struct USTD_QC_4_0_HDR
@@ -727,7 +760,11 @@ typedef union
         uint32_t maxVbusVolt                : 2;    /**< Max. VBus voltage supported. */
         uint32_t cblTerm                    : 2;    /**< Cable termination and VConn power requirement. */
         uint32_t cblLatency                 : 4;    /**< Cable latency. */
+#if (CY_PD_EPR_ENABLE)
+        uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
+#else
         uint32_t typecPlug                  : 1;    /**< Reserved field. */
+#endif /* CY_PD_EPR_ENABLE */
         uint32_t typecAbc                   : 2;    /**< Cable plug type. */
         uint32_t rsvd3                      : 1;    /**< Reserved field. */
         uint32_t vdoVersion                 : 3;    /**< VDO version. */
@@ -783,10 +820,10 @@ typedef union
         uint32_t ssLanes                    : 1;    /**< Whether cable supports 1 or 2 USB 3.2 lanes. */
         uint32_t ssSupp                     : 1;    /**< Whether cable supports USB 3.2 signaling. */
         uint32_t usb2Supp                   : 1;    /**< Whether cable supports USB 2.0 data. */
-        uint32_t usb2HubHops                : 2;    /**< Number of USB 2.0 hub hops contributed by the cable. */   
+        uint32_t usb2HubHops                : 2;    /**< Number of USB 2.0 hub hops contributed by the cable. */
         uint32_t usb4Supp                   : 1;    /**< Whether cable supports USB 4. */
-        uint32_t activeEl                   : 1;    /**< Active element. */   
-        uint32_t phyConn                    : 1;    /**< Physical connection. */        
+        uint32_t activeEl                   : 1;    /**< Active element. */
+        uint32_t phyConn                    : 1;    /**< Physical connection. */
         uint32_t u3U0Trans                  : 1;    /**< Type of USB U3 to U0 transition. */
         uint32_t u3Power                    : 3;    /**< USB 3.2 U3 power. */
         uint32_t rsvd1                      : 1;    /**< Reserved field. */
@@ -952,7 +989,7 @@ typedef union
         uint32_t rsvd1                      : 3;    /**< Reserved field. */
         uint32_t rsvd2                      : 2;    /**< Reserved field. */
     } tbt_vdo;                                      /**< DO interpreted as a Thunderbolt Discovery response. */
-    
+
     /** @brief Thunderbolt Discover Modes Response Data Object. */
     struct TBT_CBL_VDO
     {
@@ -963,7 +1000,7 @@ typedef union
         uint32_t b22RetimerCbl              : 1;    /**< Type of Type-C cable: Redriver or Retimer. */
         uint32_t linkTraining               : 1;    /**< Type of link training supported by active cable. */
         uint32_t rsvd1                      : 8;    /**< Reserved field. */
-    } tbt_cbl_vdo;                                  /**< DO interpreted as a Thunderbolt Discovery response. */ 
+    } tbt_cbl_vdo;                                  /**< DO interpreted as a Thunderbolt Discovery response. */
 
     /** @brief UFP VDO #1 */
     struct UFP_VDO_1
@@ -1004,6 +1041,14 @@ typedef union
         uint32_t usbMode                    : 3;    /**< Mode of USB communication (2.0, 3.2 or 4.0) */
         uint32_t rsvd3                      : 1;    /**< Reserved field. */
     } enterusb_vdo;                                 /**< DO interpreted as an Enter USB Data Object. */
+
+    /** @brief EPR Mode Data Object. */
+    struct EPRMODE_DO
+    {
+        uint32_t rsvd                       : 16;   /**< Reserved field. */
+        uint32_t data                       : 8;    /**< command parameter or failure cause. */
+        uint32_t action                     : 8;    /**< Required action. */
+    } eprmdo;                                       /**< DO interpreted as EPR Mode Data Object. */
 
     /** @cond DOXYGEN_HIDE */
     struct SLICE_VDO
@@ -1122,7 +1167,7 @@ typedef struct
  * None
  *
  * \return cy_stc_pd_dpm_config_t
- * Pointer to the DPM configuration information trhough \ref cy_stc_pd_dpm_config_t structure.
+ * Pointer to the DPM configuration information through \ref cy_stc_pd_dpm_config_t structure.
  *
  */
 typedef cy_stc_pd_dpm_config_t * (*cy_cb_pd_dpm_get_config_t)(void);

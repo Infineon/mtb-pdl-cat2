@@ -3,6 +3,7 @@ var group__group__msc__macros =
     [ "Registers Constants", "group__group__msc__reg__const.html", "group__group__msc__reg__const" ],
     [ "CY_MSC_DRV_VERSION_MAJOR", "group__group__msc__macros.html#gac55d4bc148e1ab8103ace619038ea7f6", null ],
     [ "CY_MSC_DRV_VERSION_MINOR", "group__group__msc__macros.html#ga19981405e40fe8f00d7b13b44f1cd887", null ],
+    [ "CY_MSC_DRV2_VERSION", "group__group__msc__macros.html#gaa80243d134fefd6e46572879da9f98f5", null ],
     [ "CY_MSC_DRV_VERSION", "group__group__msc__macros.html#ga8fc484bbd040249408fb63a56e088e35", null ],
     [ "CY_MSC_ID", "group__group__msc__macros.html#ga1d3709f5fd7172056e3130919834c44b", null ],
     [ "CY_MSC_CONTEXT_INIT_VALUE", "group__group__msc__macros.html#ga102e30b380f9b4783ae736b86c1d4c7c", null ],

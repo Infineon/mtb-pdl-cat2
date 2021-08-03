@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -83,7 +83,7 @@ $(document).ready(function(){initNavTree('group__group__sysclk__clk__hf__enums.h
   <div class="summary">
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
-<div class="title">Enumerated Types<div class="ingroups"><a class="el" href="group__group__sysclk.html">SysClk       (System Clock)</a> &raquo; <a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clocks</a></div></div>  </div>
+<div class="title">Enumerated Types<div class="ingroups"><a class="el" href="group__group__sysclk.html">SysClk       (System Clock)</a> &raquo; <a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clock</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -95,11 +95,9 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__sysclk__clk__hf__enums.html#gga8eb50d7b30cd3bddaad51c73e0da3125a1d3267050409929b2d5d03398d55aa93">CY_SYSCLK_CLKHF_IN_EXTCLK</a> = 1U, 
 <br />
-&#160;&#160;<a class="el" href="group__group__sysclk__clk__hf__enums.html#gga8eb50d7b30cd3bddaad51c73e0da3125aec0d24ce409b2572c80428a851a7ee95">CY_SYSCLK_CLKHF_IN_ECO</a> = 2U, 
+&#160;&#160;<a class="el" href="group__group__sysclk__clk__hf__enums.html#gga8eb50d7b30cd3bddaad51c73e0da3125a645544438f8fcf88242d1fda034b3dd2">CY_SYSCLK_CLKHF_IN_EXCO</a> = 2U
 <br />
-&#160;&#160;<a class="el" href="group__group__sysclk__clk__hf__enums.html#gga8eb50d7b30cd3bddaad51c73e0da3125ab7c20fcdee407dd8d63c5a4cde8183db">CY_SYSCLK_CLKHF_IN_PLL</a> = 6U
-<br />
- }<tr class="memdesc:ga8eb50d7b30cd3bddaad51c73e0da3125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects which ClkHf input to configure.  <a href="group__group__sysclk__clk__hf__enums.html#ga8eb50d7b30cd3bddaad51c73e0da3125">More...</a><br /></td></tr>
+ }<tr class="memdesc:ga8eb50d7b30cd3bddaad51c73e0da3125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects which HFCLK input to configure.  <a href="group__group__sysclk__clk__hf__enums.html#ga8eb50d7b30cd3bddaad51c73e0da3125">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga8eb50d7b30cd3bddaad51c73e0da3125"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga689bed3bb3081693ac5e21ba587faeec"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__hf__enums.html#ga689bed3bb3081693ac5e21ba587faeec">cy_en_sysclk_dividers_t</a> { <br />
@@ -128,7 +126,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Selects which ClkHf input to configure. </p>
+<p>Selects which HFCLK input to configure. </p>
 <p>Used with functions <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga55b20a2add73fd288bb8b64b6eae8331">Cy_SysClk_ClkHfSetSource</a> and <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga7c420ee0ea20656a701c9ef5914c04dd">Cy_SysClk_ClkHfGetSource</a>. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a2fed7d86c30b848e31f26347eff48eac"></a>CY_SYSCLK_CLKHF_IN_IMO&#160;</td><td class="fielddoc"><p>IMO - Internal R/C Oscillator. </p>
@@ -136,10 +134,7 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a1d3267050409929b2d5d03398d55aa93"></a>CY_SYSCLK_CLKHF_IN_EXTCLK&#160;</td><td class="fielddoc"><p>EXTCLK - External Clock Pin. </p>
 <p>Note that there may be HW collisions with the ECO connection (if supported) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125aec0d24ce409b2572c80428a851a7ee95"></a>CY_SYSCLK_CLKHF_IN_ECO&#160;</td><td class="fielddoc"><p>ECO - External Crystal Oscillator. </p>
-<p>To use ECO clock the PLL should be disabled or bypassed. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125ab7c20fcdee407dd8d63c5a4cde8183db"></a>CY_SYSCLK_CLKHF_IN_PLL&#160;</td><td class="fielddoc"><p>PLL subsystem direct output, independent on PLL lock status or bypass state. </p>
+<tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a645544438f8fcf88242d1fda034b3dd2"></a>CY_SYSCLK_CLKHF_IN_EXCO&#160;</td><td class="fielddoc"><p>EXCO block output, ECO or PLL, use <a class="el" href="group__group__sysclk__pll__funcs.html#ga0606938498facb002409c69b60ac2317">Cy_SysClk_PllBypass</a> to select between them. </p>
 </td></tr>
 </table>
 
@@ -178,7 +173,7 @@ Enumerations</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

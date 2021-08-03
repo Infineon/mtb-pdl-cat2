@@ -112,7 +112,7 @@
         <Value>1</Value>
       </Parameter>
       <Parameter name="ToolTip">
-        <Value>System Clock: A high-frequency clock output driving specific peripherals.</Value>
+        <Value>System Clock: the CPU clock source.</Value>
       </Parameter>
     </Instance>
     <Instance guid="223402ba-e913-40ed-b383-b7764ec49905" name="ECO_1" component="clock_side">
@@ -188,7 +188,7 @@
         <Value>1</Value>
       </Parameter>
       <Parameter name="ToolTip">
-        <Value>Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes.</Value>
+        <Value>Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep power mode.</Value>
       </Parameter>
     </Instance>
     <Instance guid="3dd53e37-e08f-47a2-9422-fff6618f21f0" name="mux_3" component="mux_3">
@@ -299,7 +299,7 @@
         <Value>0</Value>
       </Parameter>
       <Parameter name="ToolTip">
-        <Value>SYSTICK: Provides an optional external source for the CM4/CM0+ SysTick timers.</Value>
+        <Value>SYSTICK: Provides an optional external source for the CM0+ SysTick timers.</Value>
       </Parameter>
     </Instance>
     <Instance guid="6e9487ee-9e65-4558-9fb7-126fb35dcd0e" name="mux_1" component="mux_3">
@@ -407,7 +407,7 @@
         <Value>2</Value>
       </Parameter>
       <Parameter name="ToolTip">
-        <Value>Low Frequency Clock: This clock is the source for the multi-counter watchdog timers (MCWDT), and can also be a source for the RTC.</Value>
+        <Value>Low Frequency Clock: This clock is the source for the WDT and SYSTICK.</Value>
       </Parameter>
     </Instance>
     <Instance guid="b1019878-cbc4-4ca5-9df2-4fee320fa13c" name="PUMPCLK" component="clock_side">
@@ -553,7 +553,7 @@
         <Value>1</Value>
       </Parameter>
       <Parameter name="ToolTip">
-        <Value>External Clock: This is an off-chip clock (not an oscillator). This clock is stopped in the deep sleep and hibernate power modes.</Value>
+        <Value>External Clock: This is an off-chip clock (not an oscillator). This clock is stopped in the deep sleep power mode.</Value>
       </Parameter>
     </Instance>
     <Instance guid="ed430eaa-9543-4b06-83b3-be75bac9b7e1" name="HFCLK" component="clock_side">

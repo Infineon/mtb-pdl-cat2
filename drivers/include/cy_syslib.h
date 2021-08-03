@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 2.10.1
+* \version 2.10.2
 *
 * Provides an API declaration of the SysLib driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,14 +53,14 @@
 * Use the CY_ASSERT() macro to check expressions that must be true as long as the
 * program is running correctly. It is a convenient way to insert sanity checks.
 * The CY_ASSERT() macro is defined in the cy_utils.h file which is part of the
-* <a href="https://github.com/cypresssemiconductorco/core-lib">Cypress Core Library (core-lib)</a>.
+* <a href="https://github.com/Infineon/core-lib">Core Library (core-lib)</a>.
 * The behavior of the macro is as follows: if the expression passed
 *  to the macro is false the CPU will be halted. \n
 *
 * The PDL source code uses this assert mechanism extensively. It is recommended
 * that you enable asserts when debugging firmware. \n
 * <b> Assertion Classes and Levels </b> <br />
-* The <a href="https://github.com/cypresssemiconductorco/core-lib">Cypress Core Library</a>
+* The <a href="https://github.com/Infineon/core-lib">Infineon Core Library</a>
 * defines three assert classes, which correspond to different
 * kinds of parameters. There is a corresponding assert "level" for each class.
 * <table class="doxtable">
@@ -109,8 +111,13 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.10.2</td>
+*     <td>Corrected source code comments text.</td>
+*     <td></td>
+*   </tr>
+*   <tr>
 *     <td>2.10.1</td>
-*     <td>Updated the CY_ASSERT_LX macroses implementation.</td>
+*     <td>Updated the CY_ASSERT_LX macros implementation.</td>
 *     <td>Replaced "0" with "false" in the do{}while(...) macro.</td>
 *   </tr>
 *   <tr>
@@ -122,7 +129,7 @@
 *     <td>2.0</td>
 *     <td>Removed redundant functions Cy_SysLib_Halt(), Cy_SysLib_AssertFailed()</td>
 *     <td>CY_ASSERT() and CY_HALT() functions of the
-*         [Cypress Core Library](https://cypresssemiconductorco.github.io/core-lib/html/group__group__utils.html)
+*         [core library](https://infineon.github.io/core-lib/html/group__group__utils.html)
 *         should be used instead.</td>
 *   </tr>
 *   <tr>
@@ -168,7 +175,7 @@ extern "C" {
 * Macros
 *****************************************************************************/
 
-#define CY_CPU_CORTEX_M0P   (__CORTEX_M == 0)    /**< CM0+ core CPU Code */
+#define CY_CPU_CORTEX_M0P   (__CORTEX_M == 0)    /**< Arm Cortex M0/M0+ CPU core */
 
 /** The macro to disable the Fault Handler */
 #define CY_ARM_FAULT_DEBUG_DISABLED    (0U)

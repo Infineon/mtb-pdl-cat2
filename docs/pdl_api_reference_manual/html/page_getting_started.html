@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -84,7 +84,7 @@ $(document).ready(function(){initNavTree('page_getting_started.html','');});
 <div class="title">Getting Started </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>PDL depends on the Core Library. Download it from <a href="https://github.com/cypresssemiconductorco/core-lib">https://github.com/cypresssemiconductorco/core-lib</a> and add cy_utils.h to the include search path.</p>
+<div class="textblock"><p>PDL depends on the Core Library. Download it from <a href="https://github.com/Infineon/core-lib">https://github.com/Infineon/core-lib</a> and add cy_utils.h to the include search path.</p>
 <p>Include cy_pdl.h in your source code to use the library.</p>
 <p>To successfully develop software for the PSoC 4 and PMG1 families of devices, you must configure the peripherals to implement desired behavior. In addition, you must configure clocks, GPIO, and interrupts, as well as route signals from one peripheral to another.</p>
 <p>This introduction covers some high level concepts that help you understand and use the PDL to accomplish these tasks. The topics are:</p><ul>
@@ -140,9 +140,9 @@ $(document).ready(function(){initNavTree('page_getting_started.html','');});
 <p><a class="anchor" id="page_getting_started_memory_allocation"></a></p><h1>Memory Allocation</h1>
 <p>A direct effect of the context structure described in the PDL Design section is that the PDL drivers do not dynamically allocate memory. The user allocates the memory required by the driver, by declaring a context structure.</p>
 <p><a class="anchor" id="page_getting_started_clk_and_periph"></a></p><h1>Clocks and Peripherals</h1>
-<p>PSoC 4 and PMG1 devices have several source clocks, and one or more phase lock loops (PLL). Firmware configures and enables the source clocks and clock dividers based on design requirements. The clocks and clock tree are fully documented in the <em>Clocking System</em> chapter of the <em>Technical Reference Manual</em> (TRM).</p>
+<p>PSoC 4 and PMG1 devices have several source clocks. Firmware configures and enables the source clocks and clock dividers based on design requirements. The clocks and clock tree are fully documented in the <em>Clocking System</em> chapter of the <em>Technical Reference Manual</em> (TRM).</p>
 <p>A peripheral can only be clocked by a peripheral clock divider. For example, the PSoC® 4100S Plus has 12 peripheral clock dividers. CLK_HF is the source clock for all programmable peripheral clock dividers. The output of any divider can be routed to any peripheral.</p>
-<p>The ModusToolbox Device Configurator provides a friendly user interface for managing clocks on the System and Peripheral-Clocks tabs. The Device Configurator generates the required code based upon your design (../GeneratedSources/cycfg_system.c/.h and cycfg_clocks.c/.h files correspondently).</p>
+<p>The ModusToolbox Device Configurator provides a friendly user interface for managing clocks on the System and Peripheral-Clocks tabs. The Device Configurator generates the required code based upon your design (../GeneratedSources/cycfg_system.c/.h and cycfg_clocks.c/.h files correspondingly).</p>
 <p>If you create your design without the Device Configurator you must manage the clock configuration via code you write. The PDL provides the <a href="group__group__sysclk.html">System Clock</a> (SysClk) driver for this purpose.</p>
 <p><a class="anchor" id="page_getting_started_gpio"></a></p><h1>GPIO</h1>
 <p>The PSoC 4 and PMG1 I/O system provides the interface between the CPU core and peripheral components to the outside world. With these devices firmware can route most signals to most pins, which greatly simplifies circuit design and board layout.</p>
@@ -170,7 +170,7 @@ $(document).ready(function(){initNavTree('page_getting_started.html','');});
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -106,6 +106,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, <a class="el" href="group__group__sar__range__thres__register__enums.html#gaccf649d65a86e17939c3d20a684cd9cd">cy_en_sar_range_detect_condition_t</a> cond)</td></tr>
 <tr class="memdesc:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the condition in which range detection interrupts are triggered.  <a href="#ga7fc7fe5bfdf2f43c218f839592f3afa8">More...</a><br /></td></tr>
 <tr class="separator:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga32066ec770ec802855b3ca2b48d259e7"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga32066ec770ec802855b3ca2b48d259e7">Cy_SAR_EnableChannels</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chanMask)</td></tr>
+<tr class="memdesc:ga32066ec770ec802855b3ca2b48d259e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the specified channels.  <a href="#ga32066ec770ec802855b3ca2b48d259e7">More...</a><br /></td></tr>
+<tr class="separator:ga32066ec770ec802855b3ca2b48d259e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf83a95fb4e6064e7a3a43e95203896da"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#gaf83a95fb4e6064e7a3a43e95203896da">Cy_SAR_DisableChannels</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chanMask)</td></tr>
+<tr class="memdesc:gaf83a95fb4e6064e7a3a43e95203896da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the specified channels.  <a href="#gaf83a95fb4e6064e7a3a43e95203896da">More...</a><br /></td></tr>
+<tr class="separator:gaf83a95fb4e6064e7a3a43e95203896da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaabd68168933e0922c739ee8ebe3cddd6"></a>
@@ -192,9 +198,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Channels 0 and 1 have been configured during initialization.</span></div><div class="line"><span class="comment">     * Channel 1 only needs to be scanned periodically. Disable it and only scan channel 0. */</span></div><div class="line">    </div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga4808c2e7e72e2648c0efbf3eb025366f">Cy_SAR_SetChanMask</a>(SAR0, 1UL);</div><div class="line">    </div></div><!-- fragment -->
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Channels 0 and 1 have been configured during initialization.</span></div><div class="line"><span class="comment">     * Channel 1 only needs to be scanned periodically. Disable it and only scan channel 0. */</span></div><div class="line">    </div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga4808c2e7e72e2648c0efbf3eb025366f">Cy_SAR_SetChanMask</a>(SAR0, 1UL);</div></div><!-- fragment --></dd></dl>
+
 </div>
 </div>
 <a id="gaff69993327b0aba19490c7ac9708138c"></a>
@@ -234,7 +239,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    </div><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Adjust the the low limit of the range detection to 0x300 and the high limit to 0xC00. */</span></div><div class="line">    </div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a>(SAR0, 0x300UL);</div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a>(SAR0, 0xC00UL);</div><div class="line">    </div></div><!-- fragment -->
+<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Adjust the the low limit of the range detection to 0x300 and the high limit to 0xC00. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a>(SAR0, 0x300UL);</div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a>(SAR0, 0xC00UL);</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ga1010c3aa3528648ac3715481c0339e28"></a>
@@ -274,7 +279,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    </div><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Adjust the the low limit of the range detection to 0x300 and the high limit to 0xC00. */</span></div><div class="line">    </div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a>(SAR0, 0x300UL);</div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a>(SAR0, 0xC00UL);</div><div class="line">    </div></div><!-- fragment -->
+<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Adjust the the low limit of the range detection to 0x300 and the high limit to 0xC00. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a>(SAR0, 0x300UL);</div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a>(SAR0, 0xC00UL);</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ga7fc7fe5bfdf2f43c218f839592f3afa8"></a>
@@ -311,9 +316,84 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
-<div class="fragment"><div class="line">    </div><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Set the range condition to be outside; a range interrupt is detected</span></div><div class="line"><span class="comment">     * when (result &lt; lowLimit) || (highLimit &lt;= result). */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a>(SAR0, <a class="code" href="group__group__sar__range__thres__register__enums.html#ggaccf649d65a86e17939c3d20a684cd9cda05ef1644deb92e634e163532a3b2179e">CY_SAR_RANGE_COND_OUTSIDE</a>);</div><div class="line">    </div></div><!-- fragment -->
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Set the range condition to be outside; a range interrupt is detected</span></div><div class="line"><span class="comment">     * when (result &lt; lowLimit) || (highLimit &lt;= result). */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a>(SAR0, <a class="code" href="group__group__sar__range__thres__register__enums.html#ggaccf649d65a86e17939c3d20a684cd9cda05ef1644deb92e634e163532a3b2179e">CY_SAR_RANGE_COND_OUTSIDE</a>);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga32066ec770ec802855b3ca2b48d259e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga32066ec770ec802855b3ca2b48d259e7">&#9670;&nbsp;</a></span>Cy_SAR_EnableChannels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_SAR_EnableChannels </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>chanMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable the specified channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">chanMask</td><td>Combined mask of all channels to be enabled.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Channels 0 and 1 have been configured during initialization.</span></div><div class="line"><span class="comment">     * Channel 1 only needs to be scanned periodically. Disable it and only scan channel 0.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaf83a95fb4e6064e7a3a43e95203896da">Cy_SAR_DisableChannels</a>(SAR0, 2UL);</div><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Now channels 1 is needed again. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga32066ec770ec802855b3ca2b48d259e7">Cy_SAR_EnableChannels</a>(SAR0, 2UL);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="gaf83a95fb4e6064e7a3a43e95203896da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf83a95fb4e6064e7a3a43e95203896da">&#9670;&nbsp;</a></span>Cy_SAR_DisableChannels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_SAR_DisableChannels </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>chanMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disable the specified channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">chanMask</td><td>Combined mask of all channels to be disabled.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Channels 0 and 1 have been configured during initialization.</span></div><div class="line"><span class="comment">     * Channel 1 only needs to be scanned periodically. Disable it and only scan channel 0.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaf83a95fb4e6064e7a3a43e95203896da">Cy_SAR_DisableChannels</a>(SAR0, 2UL);</div><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Now channels 1 is needed again. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga32066ec770ec802855b3ca2b48d259e7">Cy_SAR_EnableChannels</a>(SAR0, 2UL);</div></div><!-- fragment --></dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->
@@ -322,7 +402,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

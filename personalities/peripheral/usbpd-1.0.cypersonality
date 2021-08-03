@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -122,7 +124,7 @@
     <ParamRange id="OcpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusOcp}`" editable="true" desc="Retry Count" />
     <ParamChoice id="OcpSenseRes" name="-- Sense Resistance" group="Fault Protection" default="10" visible="`${VbusOcp}`" editable="true" desc="Configures the sense resistance in milli-ohms" >
       <Entry name="10 milli-ohm" value="10" visible="true" />
-      <Entry name="5 milli-ohm" value="20" visible="true" />
+      <Entry name="5 milli-ohm" value="5" visible="true" />
     </ParamChoice>    
 
     <!-- VBUS SCP Fault Protection Configuration -->
@@ -133,6 +135,10 @@
     </ParamChoice>
     <ParamRange id="ScpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VbusScp}`" editable="true" desc="Debounce period in us" />
     <ParamRange id="ScpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusScp}`" editable="true" desc="Retry Count" />
+    <ParamChoice id="ScpSenseRes" name="-- Sense Resistance" group="Fault Protection" default="10" visible="`${VbusScp}`" editable="true" desc="Configures the sense resistance in milli-ohms" >
+      <Entry name="10 milli-ohm" value="10" visible="true" />
+      <Entry name="5 milli-ohm" value="5" visible="true" />
+    </ParamChoice>    
     
     <!-- VBUS RCP Fault Protection Configuration -->
     <ParamBool id="VbusRcp" name="VBus Reverse Current Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS RCP Feature." />
@@ -202,6 +208,7 @@
     
     <ConfigStruct name="`${USBPD_INST_NAME}`_scp_config" type="cy_stc_fault_vbus_scp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusScp}`">
         <Member name="enable" value="`${VbusScp}`" />
+        <Member name="senseRes" value="`${ScpSenseRes}`" />
         <Member name="threshold" value="`${ScpThresh}`" />
         <Member name="debounce" value="`${ScpDebounce}`" />
         <Member name="retryCount" value="`${ScpRetry}`" />

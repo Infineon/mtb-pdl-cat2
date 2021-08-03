@@ -1,65 +1,131 @@
-# MTB CAT2 Peripheral Driver Library v1.2.0
+# mtb-pdl-cat2 peripheral driver library v1.3.0
 
-Please refer to the [README.md](./README.md) and the
-[PDL API Reference Manual](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
-for a complete description of the Peripheral Driver Library.
+See the [README.md](./README.md) and the
+[PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
+for a complete description of the peripheral driver library.
 
-## What's Included?
+## What's included?
 
-### New Personalities
+### New personalities
 
-* I2S 1.0
+- CTBm (supported by ModusToolbox 2.3.1 or later)
+- Comparator (supported by ModusToolbox 2.3.1 or later)
+- DieTemp (supported by ModusToolbox 2.3.1 or later)
+- Emulated EEPROM
+- Follower (supported by ModusToolbox 2.3.1 or later)
+- Low-Power Comparator
+- OpAmp (supported by ModusToolbox 2.3.1 or later)
+- Programmable Analog
+- Segment LCD
+- USBFS Device
 
-### Updated Personalities
+### Updated personalities
 
-* UART - Updated description for fields Break Signal Bits and Stop Bits.
-* ECO - Removed double pins initialization for this personality.
-* WCO - Removed double pins initialization for this personality.
+- CAN FD - Fixed the name of the IRQ define.
+- CSD - Added a check if Power personality is enabled. Fixed the typos in the description.
+- Counter - Fixed the capture terminal display.
+- DMAC - Fixed the typos in the description.
+- ECO - Increased the startup timeout because ECO may take longer to become stable.
+- EXTCLK - Set the minimum allowed frequency to 0 MHz.
+- EXTREF - Corrected the maximum external frequency to 48 MHz
+- HFCLK - Updated in accordance with the SysClk driver updates.
+- I2C - Added a delay of the address-matching event parameter. Fixed the typos in the description.
+- MSC - Improved the DMAC triggers configuration. Fixed the typos in the description.
+- PIN - Corrected the name of Analog drive mode.
+- PLL - Decreased the startup timeout to match the specification.
+- Power - Added the AMUXBUS charge pump.
+- SAR - Updated to support interconnection with CTBm and DieTemp (supported by ModusToolbox 2.3.1 or later).
+- SPI - Fixed the typos in the description.
+- Smart I/O - Fixed the issue in the selection of an instance.
+- SysClocks - Fixed the ILO and ECO configurations. Removed unused code.
+- UART - Fixed the typos in the description.
+- USBPD - Updated the sense-resistance option parameters.
+- WCO - Added a nominal frequency and startup delay.
 
-### Added Drivers
+### Added drivers
 
-* [I2S 1.0 (Inter-IC Sound)](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__i2s.html)
+- [CTB (Continuous time block)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ctb.html)
 
-### Updated Drivers
+- [Crypto](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__crypto.html)
 
-* [SysClk 1.20](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [LPCOMP (Low-power comparator)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__lpcomp.html)
+
+- [SegLCD (Segment LCD)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__seglcd.html)
+
+- [USBFS (USB Full-Speed Device)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs.html)
+
+### Updated drivers
+
+- [CSD (CapSense Sigma Delta) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__csd.html)
+
+- [GPIO 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__gpio.html)
+
+- [MSC (Multi-Sense Converter) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__msc.html)
+
+- [SAR (SAR ADC) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+
+- [SCB 3.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+
+- [SysClk (System Clock) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+
+- [SysPm (System Power Management) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
+
+- [USBPD (USB Power Delivery) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 ### Drivers with patch version updates
 
-* [SCB 3.0](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
-* [SysLib 2.10](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
+- [CAN FD (CAN with Flexible Data-Rate) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
 
-## Known Issues/Limitations
+- [DMAC (Direct Memory Access Controller) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dmac.html)
 
-* For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S series, the CY_SCB_TX_INTR_UNDERFLOW interrupt is triggered for the SPI slave when all data has been transferred from the TX FIFO and Master doesn't request additional data. <br/>Workaround: Ignore the CY_SCB_SPI_TRANSFER_ERR_EVENT callback even when Cy_SCB_SPI_GetTransferStatus() returns the CY_SCB_SPI_TRANSFER_UNDERFLOW status.
+- [SysLib (System Library) 2.10.2](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
 
-## Defect Fixes
+- [TCPWM (Timer Counter PWM) 1.10.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__tcpwm.html)
 
-See the Changelog section of each Driver in the [PDL API Reference](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
+- [WDC 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdc.html)
 
-## Supported Software and Tools
+## Known issues/limitations
 
-This version of PDL was validated for compatibility with the following Software and Tools:
+For the PSoC P4000S, P4100S, P4100S Plus, and PSoC 4500S devices, the SCB in
+Master mode may stick in the CY_SCB_I2C_MASTER_BUSY state, if the
+Cy_SCB_I2C_MasterAbortWrite() or Cy_SCB_I2C_MasterAbortRead() functions are
+called during an address transfer. The SCB instance re-initialization is
+required to restore the instance operation.
 
-| Software and Tools                                                            | Version      |
+## Defect fixes
+
+See the Changelog section of each driver in the [PDL API reference](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
+
+
+## Supported software and tools
+
+This version of PDL was validated for compatibility with the following software and tools:
+
+| Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| [Cypress Core Library](https://github.com/cypresssemiconductorco/core-lib)    | 1.1.4        |
+| [core library](https://github.com/Infineon/core-lib)                          | 1.2.0        |
 | CMSIS-Core(M)                                                                 | 5.4.0        |
-| GCC Compiler                                                                  | 9.3.1        |
-| IAR Compiler                                                                  | 8.42.2       |
-| ARM Compiler 6                                                                | 6.13         |
+| GCC compiler                                                                  | 9.3.1        |
+| IAR compiler                                                                  | 8.42.2       |
+| Arm&reg; compiler 6                                                           | 6.13         |
 
 ## More information
 
-* [Peripheral Driver Library README.md](./README.md)
-* [Peripheral Driver Library API Reference Manual](https://cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
-* [ModusToolbox Software Environment, Quick Start Guide, Documentation, and Videos](https://www.cypress.com/products/modustoolbox-software-environment)
-* [ModusToolbox Device Configurator Tool Guide](https://www.cypress.com/ModusToolboxDeviceConfig)
-* [AN79953 - Getting Started with PSoC® 4](https://www.cypress.com/an79953)
-* [PSoC 4 Technical Reference Manuals](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=resource_meta_type%3A583&f%5B2%5D=field_related_products%3A1314)
-* [PSoC 4 MCU Datasheets](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=field_related_products%3A1297&f%5B2%5D=resource_meta_type%3A575)
-* [PMG1 Device Family](http://www.cypress.com/PMG1)
-* [Cypress Semiconductor](http://www.cypress.com)
+- [Peripheral driver library README.md](./README.md)
+
+- [Peripheral driver library API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
+
+- [ModusToolbox&trade; software environment, quick start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
+
+- [ModusToolbox&trade; device configurator tool guide](https://www.cypress.com/ModusToolboxDeviceConfig)
+
+- [AN79953 - Getting started with PSoC&trade; 4](https://www.cypress.com/an79953)
+
+- [PSoC&trade; 4 technical reference manuals](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=resource_meta_type%3A583&f%5B2%5D=field_related_products%3A1314)
+
+- [PSoC&trade; 4 datasheets](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=field_related_products%3A1297&f%5B2%5D=resource_meta_type%3A575)
+
+- [PMG1 device family](http://www.cypress.com/PMG1)
 
 ---
-© Cypress Semiconductor Corporation, 2019-2021.
+© 2020-2021, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

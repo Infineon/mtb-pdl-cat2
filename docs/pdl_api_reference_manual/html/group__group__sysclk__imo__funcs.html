@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -140,14 +140,15 @@ __STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Call <a class="el" href="group__group__system__config__system__functions.html#gae0c36a9591fe6e9c45ecb21a794f0f0f">SystemCoreClockUpdate</a> after this function calling if it affects the ClkSys frequency.</dd>
+<dl class="section note"><dt>Note</dt><dd>Call <a class="el" href="group__group__system__config__system__functions.html#gae0c36a9591fe6e9c45ecb21a794f0f0f">SystemCoreClockUpdate</a> after this function calling if it affects the SYSCLK frequency.</dd>
 <dd>
-Call <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates</a> before calling this function if ClkSys frequency is increasing.</dd>
+Call <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates</a> before calling this function if SYSCLK frequency is increasing.</dd>
 <dd>
-Call <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates</a> after calling this function if ClkSys frequency is decreasing.</dd></dl>
+Call <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates</a> after calling this function if SYSCLK frequency is decreasing.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Error / status code <a class="el" href="group__group__sysclk__returns.html#gad6699a184e2e3c01433251b0981558f3">cy_en_sysclk_status_t</a> : <br />
 CY_SYSCLK_SUCCESS - the frequency is set as requested <br />
-CY_SYSCLK_BAD_PARAM - Invalid parameter. CY_SYSCLK_INVALID_STATE - IMO is not enabled. </dd></dl>
+CY_SYSCLK_BAD_PARAM - Invalid parameter <br />
+CY_SYSCLK_INVALID_STATE - IMO is not enabled </dd></dl>
 
 </div>
 </div>
@@ -229,7 +230,7 @@ CY_SYSCLK_INVALID_STATE - Invalid state (IMO or WCO is not enabled, etc.) </dd><
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

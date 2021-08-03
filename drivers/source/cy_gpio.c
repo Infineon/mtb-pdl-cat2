@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_gpio.c
-* \version 1.10
+* \version 1.20
 *
 * Provides an API implementation of the GPIO driver
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
-* SPDX-License-Identifier: Apache-2.0
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.

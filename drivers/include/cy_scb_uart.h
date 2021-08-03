@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 3.0.1
+* \version 3.10
 *
 * Provides UART API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -406,7 +408,7 @@ typedef struct stc_scb_uart_config
     * increments.
     *
     * \note For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S
-    * series, a stop bits error is detected only if the stop bits lenght equals
+    * series, a stop bits error is detected only if the stop bits length equals
     * or exceeds 1.5 bits.
     */
     cy_en_scb_uart_stop_bits_t    stopBits;
@@ -479,7 +481,7 @@ typedef struct stc_scb_uart_config
     /** 
     * When enabled, allows to use baud rate detection, see
     * \ref Cy_SCB_UART_GetBaudRateCount.
-    * \note Only applicable in Standart mode.
+    * \note Only applicable in Standard mode.
     */
     bool        enableLinMode;
 
@@ -512,7 +514,7 @@ typedef struct stc_scb_uart_config
 
     /** Specifies the low or high level pulse detection for break condition.
     *
-    * \note Only applicable for PSoC 4100S MAX.
+    * \note Only applicable for PSoC 4100S Max.
     */
     bool        breakLevel;
 

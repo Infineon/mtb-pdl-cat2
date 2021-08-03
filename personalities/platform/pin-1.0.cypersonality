@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,7 +50,7 @@
       <Entry name="Strong Drive. Input buffer on"             value="CY_GPIO_DM_STRONG"               visible="true" />
       <Entry name="Strong Drive. Input buffer off"            value="CY_GPIO_DM_STRONG_IN_OFF"        visible="true" />
       <Entry name="Digital High-Z. Input buffer on"           value="CY_GPIO_DM_HIGHZ"                visible="true" />
-      <Entry name="Digital High-Z. Input buffer off"          value="CY_GPIO_DM_ANALOG"               visible="true" />
+      <Entry name="Analog High-Z. Input buffer off"           value="CY_GPIO_DM_ANALOG"               visible="true" />
       <Entry name="Open Drain, Drives Low. Input buffer off"  value="CY_GPIO_DM_OD_DRIVESLOW_IN_OFF"  visible="true" />
       <Entry name="Open Drain, Drives High. Input buffer off" value="CY_GPIO_DM_OD_DRIVESHIGH_IN_OFF" visible="true" />
       <Entry name="Open Drain, Drives Low. Input buffer on"   value="CY_GPIO_DM_OD_DRIVESLOW"         visible="true" />

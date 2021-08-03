@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -307,7 +309,8 @@
     <!-- Peripheral clock divider connection -->
     <ParamString id="pclk" name="PCLK" group="Internal" default="`${getBlockFromSignal(&quot;clock[0]&quot;)}`" visible="false" editable="false" desc="Connected peripheral clock divider (PCLK)." />
     <ParamBool id="pclkOk" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock&quot;, 0) &amp;&amp; isBlockUsed(pclk)}`" visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
-    <ParamString id="pclkDst" name="PCLK Destination" group="Internal" default="PCLK_PRGIO_CLOCK_PRGIO_`${getInstNumber(&quot;smartio&quot;)}`" visible="false" editable="false" desc="Generates PCLK connection define." />
+    <ParamString id="PortNumber" name="PortNumber" group="Internal" default="`${lookupExpression(&quot;PRGIO[&quot; . InstNumber . &quot;].PORT&quot;)}`" visible="false" editable="false" desc="SmartIO port number." />
+    <ParamString id="pclkDst" name="PCLK Destination" group="Internal" default="PCLK_PRGIO_CLOCK_PRGIO_`${PortNumber}`" visible="false" editable="false" desc="Generates PCLK connection define." />
   </Parameters>
 
   <DRCs>

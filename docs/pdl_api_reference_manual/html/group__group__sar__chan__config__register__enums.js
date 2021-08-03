@@ -20,5 +20,15 @@ var group__group__sar__chan__config__register__enums =
       [ "CY_SAR_ADDR_SARMUX_DIE_TEMP", "group__group__sar__chan__config__register__enums.html#gga46276a7af3b10d2f3959f5ab94bb5c2ba80032f32f3eee5f9d14ec295c7288471", null ],
       [ "CY_SAR_ADDR_SARMUX_AMUXBUS_A", "group__group__sar__chan__config__register__enums.html#gga46276a7af3b10d2f3959f5ab94bb5c2ba8e5f2a4f81d2961325d46cbccabf1b6a", null ],
       [ "CY_SAR_ADDR_SARMUX_AMUXBUS_B", "group__group__sar__chan__config__register__enums.html#gga46276a7af3b10d2f3959f5ab94bb5c2bafd28f9b7d3c1c6c37e27ac108e6026b1", null ]
+    ] ],
+    [ "cy_en_sar_channel_ctrl_resolution_t", "group__group__sar__chan__config__register__enums.html#ga9b30477f4cba237de0af0cb55e3976e3", [
+      [ "CY_SAR_MAX_RES", "group__group__sar__chan__config__register__enums.html#gga9b30477f4cba237de0af0cb55e3976e3a23dbb7d1e1f7170d2dc23eb877af139c", null ],
+      [ "CY_SAR_SUB_RES", "group__group__sar__chan__config__register__enums.html#gga9b30477f4cba237de0af0cb55e3976e3a3c8d7fa21aea5d64f9e6fcfa37aa74f7", null ]
+    ] ],
+    [ "cy_en_sar_channel_sampletime_t", "group__group__sar__chan__config__register__enums.html#ga48271aaa2aaf1e22bce36c012bbb5fbe", [
+      [ "CY_SAR_SAMPLE_TIME_0", "group__group__sar__chan__config__register__enums.html#gga48271aaa2aaf1e22bce36c012bbb5fbea5de8b60a5b0f360378f85ad6e1835e1b", null ],
+      [ "CY_SAR_SAMPLE_TIME_1", "group__group__sar__chan__config__register__enums.html#gga48271aaa2aaf1e22bce36c012bbb5fbeae86a700784e3cf0b9912d54baa0c1b68", null ],
+      [ "CY_SAR_SAMPLE_TIME_2", "group__group__sar__chan__config__register__enums.html#gga48271aaa2aaf1e22bce36c012bbb5fbea0b48381a3efa8dc9c1672ea0c793cc38", null ],
+      [ "CY_SAR_SAMPLE_TIME_3", "group__group__sar__chan__config__register__enums.html#gga48271aaa2aaf1e22bce36c012bbb5fbea4f6c114817872e841dcab8bbf35bb299", null ]
     ] ]
 ];

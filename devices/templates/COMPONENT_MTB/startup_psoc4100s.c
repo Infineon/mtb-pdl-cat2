@@ -6,7 +6,9 @@
  ******************************************************************************/
 /*
  * Copyright (c) 2009-2019 Arm Limited. All rights reserved.
- * Copyright 2019-2021 Cypress Semiconductor Corporation
+ *
+ * (c) (2019-2021), Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -151,7 +153,7 @@ extern const cy_israddress __VECTOR_TABLE[CY_VECTOR_TABLE_SIZE];
 /* Provide empty __WEAK implementation for the low-level initialization
    routine required by the RTOS-enabled applications.
    clib-support library provides FreeRTOS-specific implementation:
-   https://github.com/cypresssemiconductorco/clib-support */
+   https://github.com/Infineon/clib-support */
 void cy_toolchain_init(void);
 __WEAK void cy_toolchain_init(void)
 {

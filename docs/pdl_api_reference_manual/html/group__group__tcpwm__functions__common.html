@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -309,6 +309,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Triggers a stop in the Timer Counter mode, or a kill in the PWM mode. </p>
+<dl class="section note"><dt>Note</dt><dd>The kill trigger behavior for PWM is defined by the <a class="el" href="structcy__stc__tcpwm__pwm__config__t.html#add150f9e27b83cc7549db22934cd4d00">cy_stc_tcpwm_pwm_config_t::killMode</a> field. The pins states after a kill trigger are defined by <a class="el" href="structcy__stc__tcpwm__pwm__config__t.html#a9bf7f3c7133ff0c6e1d51c6b52d05997">cy_stc_tcpwm_pwm_config_t::invertPWMOut</a> and <a class="el" href="structcy__stc__tcpwm__pwm__config__t.html#a3eb0cc962444244b8200dafa2e8e856b">cy_stc_tcpwm_pwm_config_t::invertPWMOutN</a> fields.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>The pointer to a TCPWM instance.</td></tr>
@@ -617,7 +618,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

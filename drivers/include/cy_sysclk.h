@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 1.20
+* \version 2.0
 *
 * Provides an API declaration of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,6 +59,63 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="13">2.0</td>
+*     <td>Added the \ref Cy_SysClk_DeepSleepCallback and \ref Cy_SysClk_RegisterCallback functions</td>
+*     <td>Power management performance enhancement, see \ref group_sysclk_pm</td>
+*   </tr>
+*   <tr>
+*     <td>The next functions are changed: \ref Cy_SysClk_ExtClkSetFrequency and \ref Cy_SysClk_ExtRefSetFrequency -
+*         now there are opportunities to set a zero frequency which means the clock signal is disabled</td>
+*     <td>Clock system management enhancement</td>
+*   </tr>
+*   <tr>
+*     <td>The next API are changed: \ref cy_en_sysclk_clkhf_src_t and \ref cy_en_sysclk_pll_bypass_t,
+*         the backward compatibility of the \ref Cy_SysClk_ClkHfSetSource and \ref Cy_SysClk_PllBypass
+*         functions is preserved, however the deprecated interface items are strongly not recommended for new designs</td>
+*     <td>Clock switching management bugs fixes</td>
+*   </tr>
+*   <tr>
+*     <td>The \ref Cy_SysClk_PllConfigure is changed do that the PLL output frequency could never overcome 48MHz</td>
+*     <td>Documentation improvements, bug fixes</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the \ref Cy_SysClk_PllGetFrequency() function - now it returns a more precise result</td>
+*     <td>Usability improvement</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the \ref Cy_SysClk_PllSetSource() and \ref Cy_SysClk_ClkPumpSetSource functions -
+*         now they check the source validness even it is already connected</td>
+*     <td>Usability improvement</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the \ref Cy_SysClk_PllDisable() function</td>
+*     <td>Code optimization</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the \ref Cy_SysClk_WcoEnable() function - now the WCO startup delay recommended by the TRM is supported</td>
+*     <td>Performance improvement</td>
+*   </tr>
+*   <tr>
+*     <td>The external PLL reference clock (EXTREF) frequency maximum is reduced to 48MHz</td>
+*     <td>Bug fix</td>
+*   </tr>
+*   <tr>
+*     <td>The external clock input (EXTCLK) frequency minimum is reduced to 0MHz</td>
+*     <td>Bug fix</td>
+*   </tr>
+*   <tr>
+*     <td>The external crystal oscillator (ECO) frequency maximum is reduced to 33.33MHz</td>
+*     <td>Bug fix</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the WCO documentation, especially the Bypass feature, see \ref group_sysclk_WCO_bypass_mode</td>
+*     <td>Documentation improvement</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates</td>
+*     <td>Documentation enhancement</td>
+*   </tr>
+*   <tr>
 *     <td>1.20</td>
 *     <td>Fixed the \ref Cy_SysClk_ImoLock function to properly lock IMO.</td>
 *     <td>Defect fix.</td>
@@ -75,8 +134,7 @@
 *                               \ref Cy_SysClk_PllSetSource,
 *                               \ref Cy_SysClk_PllConfigure,
 *                               \ref Cy_SysClk_ClkHfSetSource,
-*                               \ref Cy_SysClk_ClkHfGetSource,
-*                               \ref Cy_SysClk_ClkHfGetFrequency,
+*                               \ref Cy_SysClk_ClkHfGetSource
 *                           and \ref Cy_SysClk_ClkHfGetFrequency
 *         functions is updated.</td>
 *     <td>Bug fixing and code optimization.</td>
@@ -134,10 +192,10 @@
 * \{
 *   The External Crystal Oscillator (ECO) is a clock source that consists
 *   of an oscillator circuit that drives an external crystal through its
-*   dedicated ECO pins. The ECO is a source clock that can be used to
-*   source one or more clock paths (Refer to \ref group_sysclk_clk_hf).
-*   These clock paths can then source the processors and peripherals in
-*   the device.
+*   dedicated ECO pins.
+*
+*   The ECO is a source clock that can be used to drive the processor
+*   and peripherals.
 *
 *   The ECO relies on the presence of an external crystal. The pins
 *   connected to this crystal must be configured to operate in analog
@@ -151,14 +209,7 @@
 *   The PLL is a clock generation circuit that can be used to produce a
 *   higher frequency clock from a reference clock. The output clock exhibits
 *   characteristics of the reference clock such as the accuracy of the source
-*   and its phase. The PLL is similar in purpose to a (Frequency locked loop) FLL
-*   but they are not equivalent.
-*
-*   - They may have different frequency ranges.
-*   - The PLL starts up more slowly and consumes more current than the FLL.
-*   - The PLL requires a higher frequency source clock than PLL.
-*   ![](sysclk_pll.png)
-*
+*   and its phase.
 *   The SysClk driver supports two models for configuring the PLL. The first
 *   model is to call the Cy_SysClk_PllConfigure() function, which calculates the
 *   necessary parameters for the PLL at run-time. This may be necessary for dynamic
@@ -172,38 +223,71 @@
 *   \defgroup group_sysclk_pll_structs     Data Structures
 *   \defgroup group_sysclk_pll_enums       Enumerated Types
 * \}
+*
 * \defgroup group_sysclk_ilo             Internal Low-Speed Oscillator (ILO)
 * \{
 *   The ILO operates with no external components and outputs a clock signal at roughly
 *   40 kHz. The ILO is relatively low power and low accuracy. It is available
-*   in all power modes and can be used as a source for the WDT \ref group_wdt.
+*   in all power modes. The ILO can be used as a low-frequency clock (LFCLK)
+*   or as a source for the \ref group_wdt, \ref group_wdc.
 *
 *   \defgroup group_sysclk_ilo_funcs       Functions
 * \}
 * \defgroup group_sysclk_wco             Watch Crystal Oscillator (WCO)
 * \{
-*
 *   The WCO is a highly accurate 32.768 kHz clock source capable of operating
-*   in all power modes (excluding the Off mode). It is the primary clock source for
-*   the backup domain clock, which is used by the real-time clock (RTC). The
-*   WCO can also be used as a source for the low-frequency clock to support other
-*   low power mode peripherals.
+*   in all power modes. The WCO can be used as a source for the \ref group_wdc.
 *
-*   ![](sysclk_backup.png)
+*   \note Please refer to the product Datasheet about presence of WCO in your device.
 *
-*   The WCO requires the configuration of the dedicated WCO pins (SRSS_WCO_IN_PIN,
-*   SRSS_WCO_OUT_PIN). These must be configured as Analog Hi-Z drive modes and the
-*   HSIOM selection set to GPIO. The WCO can also be used in bypass mode, where
-*   an external 32.768 kHz square wave is brought in directly through the
-*   SRSS_WCO_OUT_PIN pin.
+*   ![](wco_clk.png)
+*
+*   The WCO requires the configuration of the dedicated WCO pins (wco_in,
+*   wco_out). These must be configured as Analog Hi-Z drive modes and the
+*   HSIOM selection set to GPIO.
+*
+*   \section group_sysclk_WCO_bypass_mode Bypass mode
+*   The WCO can also be used in bypass mode, where an external
+*   square wave is brought in directly through the wco_out pin.
+*   Even though driving wco_in pin would work, better performance will be achieved
+*   using wco_out pin since we can bypass the feedback resistor
+*   which causes an RC delay and duty cycle variation. The wco_in pin
+*   should be floating, however, if floating is not desirable,
+*   then a minimum input impedance of 500kOhm to ground is required on the wco_in pin.
+*   An external clock source should toggles from 0V to a minimum of 1.0V and 0V to
+*   a maximum of 1.6V with duty cycle 20% to 80%.
+*   For stable WCO operation using an external clock source,
+*   the VDDA/VDDD external supply should be in the range of 1.65V to 5V.
+*
+*   \subsection group_sysclk_WCO_configuration Configuration Considerations
+*   Start up sequence of the WCO in bypass mode:
+*   - Configure wco_out pin in Analog Hi-Z drive mode and
+*     with the HSIOM selection set to GPIO;
+*   - Disable the WCO by calling function Cy_SysClk_WcoDisable();
+*   - Drive the wco_out pin to a voltage between 1.0V and 1.6V
+*     since this would be the range of the high potential
+*     specified when forcing the external clock;
+*   - Configure WCO in bypass mode by calling function Cy_SysClk_WcoBypass()
+*     with parameter "true";
+*   - Enable the WCO with delay at least 15us by calling function
+*     Cy_SysClk_WcoEnable() with parameter "15";
+*   - Start clocking wco_out pin with desired frequency;
+*
+*   \note Do not use oscillator output clock prior to the 15us delay. \n
+*         There are no limitations on the external clock frequency. \n
+*         When external clock source was selected to drive WCO block
+*         the IMO can be trimmed only when external clock source period
+*         is equal to WCO external crystal period. \n
+*         Also accuracy of the external clock source should be
+*         higher or equal to the accuracy of WCO external crystal.
 *
 *   \defgroup group_sysclk_wco_funcs       Functions
 * \}
-* \defgroup group_sysclk_clk_hf          High-Frequency Clocks
+* \defgroup group_sysclk_clk_hf          High-Frequency Clock
 * \{
-*   The high frequency clock ClkHf is a source for the system clock for CPU and
-*   the peropheral clock didviders.
-*   High frequency clock can be sourced by IMO, PLL, ECO, EXTCLK, etc.
+*   The high frequency clock HFCLK is a source for the system clock for CPU and
+*   the peripheral clock dividers.
+*   The high frequency clock can be sourced by IMO, EXCO (PLL or ECO), EXTCLK, etc.
 *   Consult the Technical Reference Manual for your device for details.
 *
 *   \defgroup group_sysclk_clk_hf_funcs    Functions
@@ -219,19 +303,19 @@
 *   - Fractional 16.5-bit dividers (16 integer bits, 5 fractional bits)
 *   - Fractional 24.5-bit divider (24 integer bits, 5 fractional bits)
 *
-*   The availability and number of each type of dividers depends on teh certain device family.
+*   The availability and number of each type of dividers depends on the certain device family.
 *   Consult the Technical Reference Manual for your device for details.
 *
 *   The integer dividers work simply: a divider value of 1
 *   means the output frequency matches the input frequency (that is, there is
 *   no change). Otherwise the frequency is divided by the value of the divider.
-*   For example, if the input frequency is 50 MHz, and the divider is value 10,
-*   the output frequency is 5 MHz.
+*   For example, if the input frequency is 24 MHz, and the divider value is 10,
+*   the output frequency is 2.4 MHz.
 *
-*   The five fractional bits supports further precision in 1/32nd increments. For
+*   The five fractional bits support further precision in 1/32nd increments. For
 *   example, a divider with an integer value of 3 and a fractional value of
-*   4 (4/32) results in a divider of 3.125. Fractional dividers are useful when
-*   a high-precision clock is required, for example, for a UART/SPI serial
+*   4 (4/32 or 1/8) result in a divider of 3.125. Fractional dividers are useful when
+*   a high-precision clock frequency is required, for example, for a UART/SPI serial
 *   interface.
 *
 *   ![](sysclk_peri_divs.png)
@@ -266,6 +350,20 @@
 *   \defgroup group_sysclk_clk_pump_funcs  Functions
 *   \defgroup group_sysclk_clk_pump_enums  Enumerated Types
 * \}
+* \defgroup group_sysclk_pm              Low Power Callback
+* \{
+*   Entering and exiting low power modes require compatible clock configurations
+*   to be set before entering low power and restored upon wakeup and exit.
+*   The SysClk driver provides a \ref Cy_SysClk_DeepSleepCallback() function
+*   to support the Deep Sleep mode entry.
+*   This is needed especially in cases of PLL or/and ECO usage.
+*   Also there is a possibility of indication the PLL/ECO startup timeout
+*   after the wakeup, see \ref Cy_SysClk_RegisterCallback for details.
+*
+*   \defgroup group_sysclk_pm_events       Callback Timeout Events
+*   \defgroup group_sysclk_pm_structs      Data Structures
+*   \defgroup group_sysclk_pm_funcs        Functions
+* \}
 */
 
 #if !defined(CY_SYSCLK_H)
@@ -288,9 +386,9 @@ extern "C" {
 * \{
 */
 /** Driver major version */
-#define  CY_SYSCLK_DRV_VERSION_MAJOR   1
+#define  CY_SYSCLK_DRV_VERSION_MAJOR   2
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   20
+#define  CY_SYSCLK_DRV_VERSION_MINOR   0
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -446,7 +544,7 @@ __STATIC_INLINE void Cy_SysClk_ImoDisable(void)
 * \{
 */
 
-/** Defines IMO function return values */
+/** Defines return values for \ref Cy_SysClk_EcoGetStatus */
 typedef enum
 {
     CY_SYSCLK_ECO_STABLE         = 0U, /**< ECO is stable */
@@ -522,7 +620,7 @@ __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
 * \return \ref cy_en_sysclk_eco_stat_t
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoConfigure
+* \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_eco_stat_t Cy_SysClk_EcoGetStatus(void)
@@ -579,9 +677,6 @@ typedef enum
 
                 cy_en_sysclk_status_t  Cy_SysClk_PllSetSource(uint32_t pllNum, cy_en_sysclk_pll_src_t source);
 __STATIC_INLINE cy_en_sysclk_pll_src_t Cy_SysClk_PllGetSource(uint32_t pllNum);
-/** \cond */
-                                  void Cy_SysClk_EcoSeqGen(void);
-/** \endcond */
 
 /*******************************************************************************
 * Function Name: Cy_SysClk_PllGetSource
@@ -622,12 +717,22 @@ __STATIC_INLINE cy_en_sysclk_pll_src_t Cy_SysClk_PllGetSource(uint32_t pllNum)
 */
 
 /** PLL bypass mode. See register CLK_PLL_CONFIG, bits BYPASS_SEL. */
+
 typedef enum
 {
-    CY_SYSCLK_PLL_OUTPUT_AUTO   = 0U, /**< Output PLL input source when not locked, and PLL output when locked */
-    CY_SYSCLK_PLL_OUTPUT_AUTO1  = 1U, /**< Same as AUTO */
-    CY_SYSCLK_PLL_OUTPUT_INPUT  = 2U, /**< Output PLL input source regardless of lock status */
-    CY_SYSCLK_PLL_OUTPUT_OUTPUT = 3U  /**< Output PLL output regardless of lock status. This can be dangerous, because PLL output may be unstable */
+    CY_SYSCLK_PLL_BYP_AUTO      = 0U,     /**< ECO when PLL is not locked, and PLL output when locked. Not valid if ECO is disabled. */
+    CY_SYSCLK_PLL_BYP_ECO       = 2U,     /**< ECO regardless of PLL lock/enable status. Not valid if ECO is disabled. */
+    CY_SYSCLK_PLL_BYP_PLL       = 3U,     /**< PLL Output regardless of lock status.
+                                           *   In case of ECO is enabled - this option can be dangerous, because PLL output may be unstable,
+                                           *   so the \ref CY_SYSCLK_PLL_BYP_AUTO is preferable;
+                                           *   In case of ECO is disabled - this is the only valid PLL bypass option.
+                                           */
+/** \cond */
+    CY_SYSCLK_PLL_OUTPUT_AUTO   = 0U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_AUTO instead */
+    CY_SYSCLK_PLL_OUTPUT_AUTO1  = 1U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_AUTO instead */
+    CY_SYSCLK_PLL_OUTPUT_INPUT  = 2U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_ECO instead */
+    CY_SYSCLK_PLL_OUTPUT_OUTPUT = 3U      /* Deprecated, use CY_SYSCLK_PLL_BYP_PLL instead */
+/** \endcond */
 } cy_en_sysclk_pll_bypass_t;
 
 /** \} group_sysclk_pll_enums */
@@ -648,13 +753,16 @@ typedef struct
     uint32_t                       outputFreq; /**< Frequency of the PLL output, in Hz. */
 } cy_stc_sysclk_pll_config_t;
 
-/** Structure containing information for manual configuration of a PLL. */
+/** The structure containing information for PLL manual configuration.
+ *  The values are directly mapped onto the register bitfields,
+ *  see TRM for details.
+ */
 typedef struct
 {
     uint8_t                        feedbackDiv;  /**< EXCO_PLL_CONFIG.FEEDBACK_DIV (P) bits */
     uint8_t                        referenceDiv; /**< EXCO_PLL_CONFIG.REFERENCE_DIV (Q) bits */
     uint8_t                        outputDiv;    /**< EXCO_PLL_CONFIG.OUTPUT_DIV bits */
-    uint8_t                        icp;          /**< EXCO_PLL_CONFIG.ICP_SEL bits, usually CY_SYSCLK_IS_PLL_ICP_LT67MHZ value is recommended */
+    uint8_t                        icp;          /**< EXCO_PLL_CONFIG.ICP_SEL bits \cond usually CY_SYSCLK_IS_PLL_ICP_LT67MHZ value is recommended \endcond */
 } cy_stc_sysclk_pll_manual_config_t;
 /** \} group_sysclk_pll_structs */
 
@@ -675,7 +783,7 @@ cy_en_sysclk_status_t Cy_SysClk_PllEnable(uint32_t pllNum, uint32_t timeoutUs);
              uint32_t Cy_SysClk_PllGetFrequency(uint32_t pllNum);
  __STATIC_INLINE bool Cy_SysClk_PllIsEnabled(uint32_t pllNum);
  __STATIC_INLINE bool Cy_SysClk_PllIsLocked(uint32_t pllNum);
- __STATIC_INLINE void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode);
+                 void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode);
  __STATIC_INLINE cy_en_sysclk_pll_bypass_t Cy_SysClk_PllGetBypassState(uint32_t pllNum);
  __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t pllNum);
  __STATIC_INLINE void Cy_SysClk_PllDisable(uint32_t pllNum);
@@ -786,15 +894,15 @@ __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t pllNum)
 *
 * \note
 * Call \ref SystemCoreClockUpdate after this function calling
-* if it affects the CLK_HF0 frequency.
+* if it affects the HFCLK frequency.
 *
 * \note
 * Call \ref Cy_SysLib_SetWaitStates before calling this function if
-* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is increasing.
+* the PLL is the source of HFCLK and the HFCLK frequency is increasing.
 *
 * \note
 * Call \ref Cy_SysLib_SetWaitStates after calling this function if
-* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is decreasing.
+* the PLL is the source of HFCLK and the HFCLK frequency is decreasing.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
@@ -805,52 +913,7 @@ __STATIC_INLINE void Cy_SysClk_PllDisable(uint32_t pllNum)
     CY_ASSERT_L1(0UL == pllNum);
     if (0UL == pllNum)
     {
-        /* First bypass PLL */
-        if (CY_SYSCLK_PLL_OUTPUT_OUTPUT == Cy_SysClk_PllGetBypassState(pllNum))
-        {
-            Cy_SysClk_PllBypass(pllNum, CY_SYSCLK_PLL_OUTPUT_INPUT);
-        }
-        /* Wait at least 6 PLL clock cycles */
-        Cy_SysLib_DelayUs(1U);
-        /* And now disable the PLL itself */
         EXCO_PLL_CONFIG &= ~(EXCO_PLL_CONFIG_ENABLE_Msk | EXCO_PLL_CONFIG_ISOLATE_N_Msk);
-    }
-}
-
-
-/*******************************************************************************
-* Function Name: Cy_SysClk_PllBypass
-****************************************************************************//**
-*
-* Sets PLL bypass mode.
-*
-* \param pllNum the number of PLL instance, starting from 0.
-* If there is only one PLL in device - the 0 is the only valid number.
-*
-* \param mode the bypass mode \ref cy_en_sysclk_pll_bypass_t.
-*
-* \note
-* Call \ref SystemCoreClockUpdate after this function calling
-* if it affects the CLK_HF0 frequency.
-*
-* \note
-* Call \ref Cy_SysLib_SetWaitStates before calling this function if
-* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is increasing.
-*
-* \note
-* Call \ref Cy_SysLib_SetWaitStates after calling this function if
-* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is decreasing.
-*
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllDisable
-*
-*******************************************************************************/
-__STATIC_INLINE void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode)
-{
-    CY_ASSERT_L1(0UL == pllNum);
-    if (0UL == pllNum)
-    {
-        CY_REG32_CLR_SET(EXCO_PLL_CONFIG, EXCO_PLL_CONFIG_BYPASS_SEL, mode);
     }
 }
 
@@ -867,12 +930,12 @@ __STATIC_INLINE void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypas
 * \return The bypass state \ref cy_en_sysclk_pll_bypass_t.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllDisable
+* \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_pll_bypass_t Cy_SysClk_PllGetBypassState(uint32_t pllNum)
 {
-    cy_en_sysclk_pll_bypass_t retVal = CY_SYSCLK_PLL_OUTPUT_AUTO;
+    cy_en_sysclk_pll_bypass_t retVal = CY_SYSCLK_PLL_BYP_AUTO;
     CY_ASSERT_L1(0UL == pllNum);
     if (0UL == pllNum)
     {
@@ -940,7 +1003,7 @@ __STATIC_INLINE bool Cy_SysClk_IloIsEnabled(void)
 *
 * Disables the ILO. ILO can't be disabled if WDT is enabled.
 *
-* \return Error / status code: \n
+* \return Error / status code, \ref cy_en_sysclk_status_t \n
 * CY_SYSCLK_SUCCESS - ILO successfully disabled \n
 * CY_SYSCLK_INVALID_STATE - Cannot disable the ILO if the WDT is enabled.
 *
@@ -999,7 +1062,7 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass);
  *
  * Enables the WCO.
  *
- * \param timeoutUs - WCO startup delay in microseconds. Valid range 0..65535.
+ * \param timeoutUs - WCO startup delay in microseconds.
  *
  * \funcusage
  * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoEnable
@@ -1008,7 +1071,8 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass);
 __STATIC_INLINE void Cy_SysClk_WcoEnable(uint32_t timeoutUs)
 {
     WCO_CONFIG |= WCO_CONFIG_IP_ENABLE_Msk;
-    Cy_SysLib_DelayUs((uint16_t)timeoutUs);
+    Cy_SysLib_Delay(timeoutUs / 1000UL);
+    Cy_SysLib_DelayUs((uint16_t)(timeoutUs % 1000UL));
 }
 
 
@@ -1017,9 +1081,6 @@ __STATIC_INLINE void Cy_SysClk_WcoEnable(uint32_t timeoutUs)
 ****************************************************************************//**
 *
 * Returns the WCO enable/disable state.
-*
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoBypass
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_WcoIsEnabled(void)
@@ -1033,9 +1094,6 @@ __STATIC_INLINE bool Cy_SysClk_WcoIsEnabled(void)
 ****************************************************************************//**
 *
 * Disables the WCO.
-*
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_WcoDisable(void)
@@ -1075,14 +1133,14 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass)
 
 
 /* ========================================================================== */
-/* ==========================    ClkHf SECTION    =========================== */
+/* ==========================    HFCLK SECTION    =========================== */
 /* ========================================================================== */
 /**
 * \addtogroup group_sysclk_clk_hf_enums
 * \{
 */
 /**
-* Selects which ClkHf input to configure.
+* Selects which HFCLK input to configure.
 * Used with functions \ref Cy_SysClk_ClkHfSetSource and \ref Cy_SysClk_ClkHfGetSource.
 */
 typedef enum
@@ -1092,14 +1150,17 @@ typedef enum
                                       *   Note that there may be HW collisions with the ECO connection (if supported)
                                       */
 #if defined (CY_IP_M0S8EXCO)
-    CY_SYSCLK_CLKHF_IN_ECO    = 2U,  /**< ECO - External Crystal Oscillator.
-                                      *   To use ECO clock the PLL should be disabled or bypassed.
+    CY_SYSCLK_CLKHF_IN_EXCO   = 2U,  /**< EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them */
+    /** \cond */
+    CY_SYSCLK_CLKHF_IN_ECO   = 10U,  /* deprecated, use CY_SYSCLK_CLKHF_IN_EXCO and
+                                      * Cy_SysClk_PllBypass(CY_SYSCLK_PLL_BYP_ECO)
                                       */
 #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
-    CY_SYSCLK_CLKHF_IN_PLL    = 6U,  /**< PLL subsystem direct output,
-                                      *   independent on PLL lock status or bypass state.
+    CY_SYSCLK_CLKHF_IN_PLL    = 6U,  /* deprecated, use CY_SYSCLK_CLKHF_IN_EXCO and
+                                      * Cy_SysClk_PllBypass() with CY_SYSCLK_PLL_BYP_AUTO or CY_SYSCLK_PLL_BYP_PLL
                                       */
 #endif /* EXCO_PLL_PRESENT */
+    /** \endcond */
 #endif /* CY_IP_M0S8EXCO */
 } cy_en_sysclk_clkhf_src_t;
 
@@ -1143,19 +1204,19 @@ __STATIC_INLINE cy_en_sysclk_dividers_t Cy_SysClk_ClkHfGetDivider(void);
 * Function Name: Cy_SysClk_ClkHfSetDivider
 ****************************************************************************//**
 *
-* Sets a divider value for ClkHf.
+* Sets a divider value for HFCLK.
 *
 * \param divider \ref cy_en_sysclk_dividers_t
 *
-* \note Also call \ref Cy_SysClk_ClkHfSetSource to set the clkHf source.
+* \note Also call \ref Cy_SysClk_ClkHfSetSource to set the HFCLK source.
 *
 * \note Call \ref SystemCoreClockUpdate after this function calling.
 *
 * \note Call \ref Cy_SysLib_SetWaitStates before calling this function if
-* ClkSys frequency is increasing.
+* SYSCLK frequency is increasing.
 *
 * \note Call \ref Cy_SysLib_SetWaitStates after calling this function if
-* ClkSys frequency is decreasing.
+* SYSCLK frequency is decreasing.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
@@ -1174,7 +1235,7 @@ __STATIC_INLINE void Cy_SysClk_ClkHfSetDivider(cy_en_sysclk_dividers_t divider)
 * Function Name: Cy_SysClk_ClkHfGetDivider
 ****************************************************************************//**
 *
-* Returns the ClkHf divider value.
+* Returns the HFCLK divider value.
 *
 * \return \ref cy_en_sysclk_dividers_t
 *
@@ -1207,7 +1268,7 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void);
 * Function Name: Cy_SysClk_ClkSysGetFrequency
 ****************************************************************************//**
 *
-* Reports the frequency of the fast clock.
+* Reports the frequency of the SYSCLK clock.
 *
 * \return The frequency, in Hz.
 *
@@ -1217,9 +1278,9 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void);
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void)
 {
-    /* Convert the ClkSys divider enumeration value into a natural number */
+    /* Convert the SYSCLK divider enumeration value into a natural number */
     uint32_t locDiv = 1UL << (uint32_t)Cy_SysClk_ClkSysGetDivider();
-    /* Divide the ClkSys input frequency by the ClkSys divider */
+    /* Divide the SYSCLK input frequency by the SYSCLK divider */
     return (CY_SYSLIB_DIV_ROUND(Cy_SysClk_ClkHfGetFrequency(), locDiv));
 }
 
@@ -1228,21 +1289,21 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void)
 * Function Name: Cy_SysClk_ClkSysSetDivider
 ****************************************************************************//**
 *
-* Sets the ClkSys clock divider, which sources the main processor.
-* The source of this divider is ClkHf.
+* Sets the SYSCLK clock divider, which sources the main processor.
+* The source of this divider is HFCLK.
 *
-* \param divider - ClkSys divider value \ref cy_en_sysclk_dividers_t.
+* \param divider - SYSCLK divider value \ref cy_en_sysclk_dividers_t.
 *
 * \note
 * Call \ref SystemCoreClockUpdate after this function calling.
 *
 * \note
 * Call \ref Cy_SysLib_SetWaitStates before calling this function if
-* CLK_FAST frequency is increasing.
+* SYSCLK frequency is increasing.
 *
 * \note
 * Call \ref Cy_SysLib_SetWaitStates after calling this function if
-* CLK_FAST frequency is decreasing.
+* SYSCLK frequency is decreasing.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
@@ -1261,9 +1322,9 @@ __STATIC_INLINE void Cy_SysClk_ClkSysSetDivider(cy_en_sysclk_dividers_t divider)
 * Function Name: Cy_SysClk_ClkSysGetDivider
 ****************************************************************************//**
 *
-* Returns the ClkSys clock divider.
+* Returns the SYSCLK clock divider.
 *
-* \return The ClkSys divider value, \ref cy_en_sysclk_dividers_t.
+* \return The SYSCLK divider value, \ref cy_en_sysclk_dividers_t.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
@@ -1424,10 +1485,81 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkPumpGetFrequency(void)
 
     return (freq);
 }
-
-
 /** \} group_sysclk_clk_pump_funcs */
 
+/* ========================================================================== */
+/* ======================    POWER MANAGEMENT SECTION    ==================== */
+/* ========================================================================== */
+
+/**
+* \addtogroup group_sysclk_pm_events
+* \{
+*/
+#define CY_SYSCLK_ECO_TIMEOUT_EVENT (0x1UL) /**< ECO startup timeout at the waking up from Deep Sleep */
+#define CY_SYSCLK_PLL_TIMEOUT_EVENT (0x2UL) /**< PLL startup timeout at the waking up from Deep Sleep */
+/** \} group_sysclk_pm_events */
+
+/**
+* \addtogroup group_sysclk_pm_structs
+* \{
+*/
+
+/** The type for sysclk callback */
+typedef void (*cy_cb_sysclk_t) (uint32_t event);
+
+/** The context structure type to be passed into the \ref cy_stc_syspm_callback_params_t::context.
+ *  The user should not modify anything in this structure.
+ *  Use \ref Cy_SysClk_RegisterCallback to register a timeout callback.
+ */
+typedef struct
+{
+/** \cond */
+    cy_cb_sysclk_t callback; /*   The callback handler function
+                              *   See \ref Cy_SysClk_DeepSleepCallback for details.
+                              */
+/** \endcond */
+} cy_stc_sysclk_context_t;
+
+/** \} group_sysclk_pm_structs */
+
+/**
+* \addtogroup group_sysclk_pm_funcs
+* \{
+*/
+__STATIC_INLINE void Cy_SysClk_RegisterCallback(cy_cb_sysclk_t callback, cy_stc_sysclk_context_t * context);
+cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t * callbackParams, cy_en_syspm_callback_mode_t mode);
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_RegisterCallback
+****************************************************************************//**
+*
+* Registers a callback function that notifies that the timeout occurred in the
+* \ref Cy_SysClk_DeepSleepCallback.
+*
+* \param callback
+* The pointer to a callback function.
+* See \ref cy_cb_sysclk_t for the function prototype.
+*
+* \param context
+* The pointer to context structure \ref cy_stc_sysclk_context_t allocated by
+* the user. The user should not modify anything in this structure.
+*
+* \note To remove/unregister the callback, pass NULL as the pointer to the callback function.
+*
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_DeepSleepCallback_prep
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_DeepSleepCallback_reg
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_RegisterCallback(cy_cb_sysclk_t callback, cy_stc_sysclk_context_t * context)
+{
+    if (NULL != context)
+    {
+        context->callback = callback;
+    }
+}
+
+/** \} group_sysclk_pm_funcs */
 
 #if defined(__cplusplus)
 }

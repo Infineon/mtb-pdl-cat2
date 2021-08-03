@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_scb_spi.c
-* \version 3.0.1
+* \version 3.10
 *
 * Provides SPI API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -302,9 +304,7 @@ void Cy_SCB_SPI_Disable(CySCB_Type *base, cy_stc_scb_spi_context_t *context)
 *   corrupted data in the RX FIFO. Clear the RX FIFO after this callback is
 *   executed.
 *   Note that for proper SPI operation after Deep Sleep the source of
-*   hf_clk[0] must be stable, this includes the PLL. The SysClk callback
-*   ensures that hf_clk[0] gets stable and it must be called before
-*   \ref Cy_SCB_SPI_DeepSleepCallback.
+*   HFCLK must be stable, this includes the PLL.
 *   Only the SPI slave can be configured to be a wakeup source from Deep Sleep
 *   mode.
 * * <b>Not enable-wakeup</b>: the SPI is disabled. It is enabled when
@@ -335,7 +335,7 @@ void Cy_SCB_SPI_Disable(CySCB_Type *base, cy_stc_scb_spi_context_t *context)
 *   Cy_SCB_SPI_RegisterDSClockConfig. Callback function must disable or
 *   enable the clock divider depending on the event \ref
 *   group_scb_spi_macros_deep_sleep_callback_events.
-*   Not applicable for PSoC 4 4100S MAX.
+*   Not applicable for PSoC 4100S Max.
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SCB_SPI_DeepSleepCallback(cy_stc_syspm_callback_params_t const *callbackParams, cy_en_syspm_callback_mode_t mode)
@@ -544,6 +544,7 @@ cy_en_syspm_status_t Cy_SCB_SPI_DeepSleepCallback(cy_stc_syspm_callback_params_t
 *   transfer.
 * * This function overrides all RX and TX FIFO interrupt sources and changes
 *   the RX and TX FIFO level.
+* * This function clears RX FIFO buffer before start of the transfer.
 *
 *******************************************************************************/
 cy_en_scb_spi_status_t Cy_SCB_SPI_Transfer(CySCB_Type *base, void *txBuffer, void *rxBuffer, uint32_t size,
@@ -571,6 +572,9 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Transfer(CySCB_Type *base, void *txBuffer, voi
         context->rxBufSize = size;
         context->rxBufIdx  = 0UL;
 
+        /* Clear RX Fifo buffer */
+        Cy_SCB_SPI_ClearRxFifo(base);
+
         /* Set the TX interrupt when half of FIFO was transmitted */
         Cy_SCB_SetTxFifoLevel(base, fifoSize / 2UL);
 
@@ -590,7 +594,7 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Transfer(CySCB_Type *base, void *txBuffer, voi
 #else /* CY_IP_MXSCB */
             if (context->parityEnable == true)
             {
-                Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL | CY_SCB_SPI_TRANSFER_PARITY_ERR);
+                Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL | CY_SCB_RX_INTR_SPI_PARITY_ERROR);
             }
             else
             {
@@ -615,7 +619,7 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Transfer(CySCB_Type *base, void *txBuffer, voi
 #else /* CY_IP_MXSCB */
             if (context->parityEnable == true)
             {
-                Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL | CY_SCB_RX_INTR_OVERFLOW | CY_SCB_SPI_TRANSFER_PARITY_ERR);
+                Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL | CY_SCB_RX_INTR_OVERFLOW | CY_SCB_RX_INTR_SPI_PARITY_ERROR);
             }
             else
             {
@@ -790,12 +794,12 @@ void Cy_SCB_SPI_Interrupt(CySCB_Type *base, cy_stc_scb_spi_context_t *context)
 
 #ifdef CY_IP_MXSCB
     /* The parity error condition*/
-    if ((0UL != (CY_SCB_SPI_TRANSFER_PARITY_ERR & Cy_SCB_GetTxInterruptStatusMasked(base))))
+    if ((0UL != (CY_SCB_RX_INTR_SPI_PARITY_ERROR & Cy_SCB_GetRxInterruptStatusMasked(base))))
     {
         locXferErr = true;
         context->status |= CY_SCB_SPI_TRANSFER_PARITY_ERR;
 
-        Cy_SCB_ClearTxInterrupt(base, CY_SCB_SPI_TRANSFER_PARITY_ERR);
+        Cy_SCB_ClearRxInterrupt(base, CY_SCB_RX_INTR_SPI_PARITY_ERROR);
     }
 #endif /* CY_IP_MXSCB */
 

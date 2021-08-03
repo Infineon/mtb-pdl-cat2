@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['watch_20crystal_20oscillator_20_28wco_29',['Watch Crystal Oscillator (WCO)',['../group__group__sysclk__wco.html',1,'']]],
-  ['wdc_20_20_20_20_20_20_20_20_20_20_28watchdog_20counters_29',['WDC          (Watchdog Counters)',['../group__group__wdc.html',1,'']]],
-  ['wdt_20_20_20_20_20_20_20_20_20_20_28watchdog_20timer_29',['WDT          (Watchdog Timer)',['../group__group__wdt.html',1,'']]]
+  ['voltage_20trip_20mode',['Voltage trip mode',['../group__group__gpio__vtrip.html',1,'']]],
+  ['vbus_20ctrl_20_28usbpd_29',['VBus Ctrl (USBPD)',['../group__group__usbpd__vbus__ctrl.html',1,'']]]
 ];

@@ -14,9 +14,9 @@
   <Param name="SAR12_Count" value="1" />
   <Param name="SAR12_REMOVED" value="NA" />
   <Param name="SAR12Sample_ksps" value="1000" />
-  <Param name="OpAmp_Count" value="1" />
+  <Param name="OpAmp_Count" value="2" />
   <Param name="OpAmp_Removed" value="NA" />
-  <Param name="LPComp_Count" value="1" />
+  <Param name="LPComp_Count" value="2" />
   <Param name="LPComp_REMOVED" value="NA" />
   <Param name="DAC8_Count" value="0" />
   <Param name="DAC8_removed" value="NA" />

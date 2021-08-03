@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -105,10 +105,10 @@ $(document).ready(function(){initNavTree('group__group__syslib.html','');});
 <h1><a class="anchor" id="group_syslib_configuration"></a>
 Configuration Considerations</h1>
 <p><b> Assertion Usage </b> <br />
- Use the CY_ASSERT() macro to check expressions that must be true as long as the program is running correctly. It is a convenient way to insert sanity checks. The CY_ASSERT() macro is defined in the cy_utils.h file which is part of the <a href="https://github.com/cypresssemiconductorco/core-lib">Cypress Core Library (core-lib)</a>. The behavior of the macro is as follows: if the expression passed to the macro is false the CPU will be halted. <br />
+ Use the CY_ASSERT() macro to check expressions that must be true as long as the program is running correctly. It is a convenient way to insert sanity checks. The CY_ASSERT() macro is defined in the cy_utils.h file which is part of the <a href="https://github.com/Infineon/core-lib">Core Library (core-lib)</a>. The behavior of the macro is as follows: if the expression passed to the macro is false the CPU will be halted. <br />
  The PDL source code uses this assert mechanism extensively. It is recommended that you enable asserts when debugging firmware. <br />
 <b> Assertion Classes and Levels </b> <br />
- The <a href="https://github.com/cypresssemiconductorco/core-lib">Cypress Core Library</a> defines three assert classes, which correspond to different kinds of parameters. There is a corresponding assert "level" for each class. </p><table class="doxtable">
+ The <a href="https://github.com/Infineon/core-lib">Infineon Core Library</a> defines three assert classes, which correspond to different kinds of parameters. There is a corresponding assert "level" for each class. </p><table class="doxtable">
 <tr>
 <th>Class Macro</th><th>Level Macro</th><th>Type of check </th></tr>
 <tr>
@@ -130,11 +130,13 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
-<td>2.10.1 </td><td>Updated the CY_ASSERT_LX macroses implementation. </td><td>Replaced "0" with "false" in the do{}while(...) macro.  </td></tr>
+<td>2.10.2 </td><td>Corrected source code comments text. </td><td></td></tr>
+<tr>
+<td>2.10.1 </td><td>Updated the CY_ASSERT_LX macros implementation. </td><td>Replaced "0" with "false" in the do{}while(...) macro.  </td></tr>
 <tr>
 <td>2.10 </td><td>Updated <a class="el" href="group__group__syslib__functions.html#ga58e78e8abc25b8b598fb0b7d50e18c69">Cy_SysLib_DelayCycles()</a> with Cortex-M0 devices support. </td><td>Fixed incorrect delay provided by <a class="el" href="group__group__syslib__functions.html#ga58e78e8abc25b8b598fb0b7d50e18c69">Cy_SysLib_DelayCycles()</a> on Cortex-M0 devices.   </td></tr>
 <tr>
-<td>2.0 </td><td>Removed redundant functions Cy_SysLib_Halt(), Cy_SysLib_AssertFailed() </td><td>CY_ASSERT() and CY_HALT() functions of the <a href="https://cypresssemiconductorco.github.io/core-lib/html/group__group__utils.html">Cypress Core Library</a> should be used instead.  </td></tr>
+<td>2.0 </td><td>Removed redundant functions Cy_SysLib_Halt(), Cy_SysLib_AssertFailed() </td><td>CY_ASSERT() and CY_HALT() functions of the <a href="https://infineon.github.io/core-lib/html/group__group__utils.html">core library</a> should be used instead.  </td></tr>
 <tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
 </table>
@@ -156,7 +158,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 1.0
+* \version 1.10
 *
 * Provides Common Header File of the USBPD driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +45,6 @@
 * \defgroup group_usbpd_common_macros Macros
 * \defgroup group_usbpd_common_enums Enumerated Types
 * \defgroup group_usbpd_common_data_structures Data Structures
-* \defgroup group_usbpd_common_functions Functions
 */
 
 /**
@@ -77,7 +78,7 @@
 */
 
 /** Enum to hold SBU connection state. There is an internal switch to route SBU1/SBU2 signals
- * to AUX_P/AUX_N, LSTX/LSRX, or Isolate. Only applicable to PMG1S1 and PMG1S2. */
+ * to AUX_P/AUX_N, LSTX/LSRX, or Isolate. Only applicable to PMG1S1, PMG1S2 and PMG1S3. */
 typedef enum
 {
     CY_USBPD_SBU_NOT_CONNECTED,                  /**< SBU pin is isolated. */
@@ -103,18 +104,18 @@ typedef enum
 /**
  * Enum to hold resistor configuration for AUX1 and AUX2. Values assigned
  * are the bit position of corresponding configuration in sbu_ctrl register.
- * Only applicable to PMG1S2.
+ * Only applicable to PMG1S2 and PMG1S3.
  */
 typedef enum
 {
-    AUX_NO_RESISTOR = 0,                        /**< No resistor. */
-    AUX_1_1MEG_PU_RESISTOR = 9,                 /**< AUX1 1M0hm Pullup resistor. */
-    AUX_1_100K_PD_RESISTOR = 10,                /**< AUX1 100KOhm Pulldown resistor. */
-    AUX_1_470K_PD_RESISTOR = 11,                /**< AUX1 470KOhm Pulldown resistor. */
-    AUX_2_100K_PU_RESISTOR = 12,                /**< AUX2 100KOhm Pullup resistor. */
-    AUX_2_4P7MEG_PD_RESISTOR = 13,              /**< AUX2 4.7M0hm Pulldown resistor. */
-    AUX_2_1MEG_PD_RESISTOR = 14,                /**< AUX2 1M0hm Pulldown resistor. */
-    AUX_MAX_RESISTOR_CONFIG                     /**< Not supported. */
+    CY_USBPD_AUX_NO_RESISTOR = 0,                        /**< No resistor. */
+    CY_USBPD_AUX_1_1MEG_PU_RESISTOR = 9,                 /**< AUX1 1M0hm Pullup resistor. */
+    CY_USBPD_AUX_1_100K_PD_RESISTOR = 10,                /**< AUX1 100KOhm Pulldown resistor. */
+    CY_USBPD_AUX_1_470K_PD_RESISTOR = 11,                /**< AUX1 470KOhm Pulldown resistor. */
+    CY_USBPD_AUX_2_100K_PU_RESISTOR = 12,                /**< AUX2 100KOhm Pullup resistor. */
+    CY_USBPD_AUX_2_4P7MEG_PD_RESISTOR = 13,              /**< AUX2 4.7M0hm Pulldown resistor. */
+    CY_USBPD_AUX_2_1MEG_PD_RESISTOR = 14,                /**< AUX2 1M0hm Pulldown resistor. */
+    CY_USBPD_AUX_MAX_RESISTOR_CONFIG                     /**< Not supported. */
 } cy_en_usbpd_aux_resistor_config_t;
 
 /** List of HPD events detected by USBPD block. The UNPLUG, PLUG and IRQ events
@@ -127,7 +128,8 @@ typedef enum
     CY_USBPD_HPD_EVENT_UNPLUG,           /**< DP Unplug event. */
     CY_USBPD_HPD_EVENT_PLUG,             /**< DP Plug event. */
     CY_USBPD_HPD_EVENT_IRQ,              /**< DP IRQ event. */
-    CY_USBPD_HPD_COMMAND_DONE            /**< Requested HPD command is complete. */
+    CY_USBPD_HPD_COMMAND_DONE,           /**< Requested HPD command is complete. */
+    CY_USBPD_HPD_INPUT_CHANGE            /**< HPD IO raw status change. */
 } cy_en_usbpd_hpd_events_t;
 
 /** ADC block IDs */
@@ -159,7 +161,7 @@ typedef enum
 {
     CY_USBPD_ADC_INT_DISABLED,                /**< Comparator interrupt disabled. */
     CY_USBPD_ADC_INT_FALLING,                 /**< Comparator interrupt on falling edge. */
-    CY_USBPD_ADC_INT_RISING,                  /**< Comparator interrrupt on rising edge. */
+    CY_USBPD_ADC_INT_RISING,                  /**< Comparator interrupt on rising edge. */
     CY_USBPD_ADC_INT_BOTH                     /**< Comparator interrupt on either edge. */
 } cy_en_usbpd_adc_int_t;
 
@@ -192,6 +194,10 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_VBUS_DISCHARGE        = 3,    /**< Discharge comparator. Only available on PMG1S0. */
     CY_USBPD_VBUS_COMP_ID_LSCSA_SCP             = 4,    /**< SCP comparator. Only available on PMG1S0. */
     CY_USBPD_VBUS_COMP_ID_LSCSA_OCP             = 5,    /**< OCP comparator. Only available on PMG1S0. */
+#elif defined (CY_DEVICE_PMG1S3)
+    CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
+    CY_USBPD_VBUS_COMP_ID_P0_SBU1               = 3,    /**< Port-0 SBU1 Comparator. Only available on PMG1S3. */
+    CY_USBPD_VBUS_COMP_ID_P0_SBU2               = 4,    /**< Port-0 SBU2 Comparator. Only available on PMG1S3. */
 #else
     CY_USBPD_VBUS_COMP_ID_VBUS_MON              = 2,    /**< VBUS_MON comparator. Only available on PMG1S1. */
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 3,    /**< VSYS detection. Only available on PMG1S1. */
@@ -281,7 +287,7 @@ typedef enum
     CY_USBPD_PHY_EVT_RX_RST,                  /**< Reset was received. */
     CY_USBPD_PHY_EVT_FRS_SIG_RCVD,            /**< FRS signal was received. */
     CY_USBPD_PHY_EVT_FRS_SIG_SENT,            /**< FRS signal was transmitted. */
-    CY_USBPD_PHY_EVT_CRC_ERROR                /**< Message recieved with CRC error. */
+    CY_USBPD_PHY_EVT_CRC_ERROR                /**< Message received with CRC error. */
 } cy_en_usbpd_phy_events_t;
 
 /** USBPD Driver Events */
@@ -301,7 +307,7 @@ typedef enum cy_en_usbpd_status
     CY_USBPD_STAT_BAD_PARAM,                 /**< Bad input parameter. */
     CY_USBPD_STAT_INVALID_COMMAND = 3,       /**< Operation failed due to invalid command. */
     CY_USBPD_STAT_FLASH_UPDATE_FAILED = 5,   /**< Flash write operation failed. */
-    CY_USBPD_STAT_INVALID_FW,                /**< Special status code indcating invalid firmware */
+    CY_USBPD_STAT_INVALID_FW,                /**< Special status code indicating invalid firmware */
     CY_USBPD_STAT_INVALID_ARGUMENT,          /**< Operation failed due to invalid arguments. */
     CY_USBPD_STAT_NOT_SUPPORTED,             /**< Feature not supported. */
     CY_USBPD_STAT_INVALID_SIGNATURE,         /**< Invalid signature parameter identified. */
@@ -443,7 +449,7 @@ typedef enum
 typedef void (*cy_usbpd_supply_change_cbk_t)(void *context, cy_en_usbpd_supply_t supply_id, bool present);
 
 /**
- * Notifies the PD stack about the occurences of
+ * Notifies the PD stack about the occurrences of
  * \ref cy_en_usbpd_phy_events_t events.
  */
 typedef void(*cy_cb_usbpd_phy_handle_events_t)(void *context, cy_en_usbpd_phy_events_t event);
@@ -513,7 +519,7 @@ typedef void (*cy_usbpd_typec_evt_cbk_t) (
         cy_en_pd_typec_events_t event);
 
 
-/** Config structure for VBUS OVP paramaters */
+/** Config structure for VBUS OVP parameters */
 typedef struct
 {
     /** Whether to enable/disable VBUS OVP Feature
@@ -541,7 +547,7 @@ typedef struct
 
 } cy_stc_fault_vbus_ovp_cfg_t;
 
-/** Config structure for VBUS UVP paramaters */
+/** Config structure for VBUS UVP parameters */
 typedef struct
 {
     /** Whether to enable/disable VBUS UVP Feature
@@ -583,7 +589,7 @@ typedef struct
 
 } cy_stc_usbpd_legacy_charging_state_t;
 
-/** Config structure for VBUS OCP paramaters */
+/** Config structure for VBUS OCP parameters */
 typedef struct
 {
     /** Whether to enable/disable VBUS OCP Feature
@@ -619,7 +625,7 @@ typedef struct
 
 } cy_stc_fault_vbus_ocp_cfg_t;
 
-/** Config structure for VCONN OCP paramaters */
+/** Config structure for VCONN OCP parameters */
 typedef struct
 {
     /** Whether to enable/disable VConn OCP Feature
@@ -639,13 +645,16 @@ typedef struct
 
 } cy_stc_fault_vconn_ocp_cfg_t;
 
-/** Config structure for VBUS SCP paramaters */
+/** Config structure for VBUS SCP parameters */
 typedef struct
 {
     /** Whether to enable/disable VBUS SCP Feature
      *  1 - Enable
      *  0 - Disable */
     uint8_t enable;
+
+    /** Sense Resistor impedance in milli-Ohm units */
+    uint8_t senseRes;
 
     /** Current threshold percentage (0-100) above the contract current to
      * trigger fault. */
@@ -659,7 +668,7 @@ typedef struct
 
 } cy_stc_fault_vbus_scp_cfg_t;
 
-/** Config structure for VBUS RCP paramaters */
+/** Config structure for VBUS RCP parameters */
 typedef struct
 {
     /** Whether to enable/disable VBUS RCP Feature
@@ -672,7 +681,7 @@ typedef struct
 
 } cy_stc_fault_vbus_rcp_cfg_t;
 
-/** Config structure for CC OVP paramaters */
+/** Config structure for CC OVP parameters */
 typedef struct
 {
     /** Whether to enable/disable CC OVP Feature
@@ -685,7 +694,7 @@ typedef struct
 
 } cy_stc_fault_cc_ovp_cfg_t;
 
-/** Config structure for SBU OVP paramaters */
+/** Config structure for SBU OVP parameters */
 typedef struct
 {
     /** Whether to enable/disable SBU OVP Feature
@@ -698,7 +707,7 @@ typedef struct
 
 } cy_stc_fault_sbu_ovp_cfg_t;
 
-/** Config structure for legacy charging paramaters */
+/** Config structure for legacy charging parameters */
 typedef struct
 {
     uint8_t enable;           /**< Whether to enable/disable legacy charging Feature
@@ -843,22 +852,21 @@ typedef struct
      */
     uint8_t volatile rxReadLocation;
 
-    /** HPD transmit enable per PD port. */
-    bool hpd_transmit_enable;
+    /** HPD transmit enable. */
+    bool hpdTransmitEnable;
 
-    /** HPD receive enable per PD port. */
-    bool hpd_receive_enable; 
+    /** HPD receive enable. */
+    bool hpdReceiveEnable; 
 
-    /** HPD event callback per PD port. */
-    cy_cb_usbpd_hpd_events_t hpd_cbk;
+    /** HPD event callback. */
+    cy_cb_usbpd_hpd_events_t hpdCbk;
 
 
    /**
     * This flag keeps track of HPD Connection status. It is used in HPD CHANGE wakeup
     * interrupt.
-    * CDT 245126 workaround.
     */
-    bool hpd_state;
+    bool hpdState;
 
     /** BC phy callback. */
     cy_cb_bc_phy_events_t bcPhyCbk;
@@ -900,22 +908,22 @@ typedef struct
     uint8_t volatile typecStartPending;
 
     /** OVP fault pending on CC line. */
-    uint8_t volatile ccOvpPending;    
+    uint8_t volatile ccOvpPending;
     
     /** DP/DM MUX config per port */ 
-    cy_en_usbpd_dpdm_mux_cfg_t cur_dpdm_cfg; 
+    cy_en_usbpd_dpdm_mux_cfg_t curDpdmCfg; 
     
     /** SBU Switch 1 State per port */ 
-    cy_en_usbpd_sbu_switch_state_t sbu1_state;
+    cy_en_usbpd_sbu_switch_state_t sbu1State;
 
     /** SBU Switch 2 State per port */ 
-    cy_en_usbpd_sbu_switch_state_t sbu2_state;
+    cy_en_usbpd_sbu_switch_state_t sbu2State;
 
     /** Aux 1 Resistor State */
-    cy_en_usbpd_aux_resistor_config_t aux1_config; 
+    cy_en_usbpd_aux_resistor_config_t aux1Config; 
 
     /** Aux 2 Resistor State */
-    cy_en_usbpd_aux_resistor_config_t aux2_config; 
+    cy_en_usbpd_aux_resistor_config_t aux2Config; 
     
     /** Callback function for VCONN OCP fault */
     cy_cb_vbus_fault_t vconnOcpCbk;
@@ -931,6 +939,12 @@ typedef struct
     
     /** Callback function for CC/SBU OVP fault */
     cy_cb_vbus_fault_t ccSbuOvpCbk;
+
+    /** Callback function for VBUS RCP fault */
+    cy_cb_vbus_fault_t vbusRcpCbk;
+
+    /** Callback function for VBUS SCP fault */
+    cy_cb_vbus_fault_t vbusScpCbk;
 
     /** Callback function for USBPD driver events */
     cy_usbpd_evt_cbk_t usbpdEventsCbk;
@@ -953,17 +967,13 @@ typedef struct
 /** \} group_usbpd_common_data_structures */
 
 
-/**
-* \addtogroup group_usbpd_common_functions
-* \{
-*/
 /*******************************************************************************
 *                            Function Prototypes
 *******************************************************************************/
+/** \cond INTERNAL*/
 __STATIC_INLINE uint32_t Cy_USBPD_MmioRegUpdateField(uint32_t origval, uint32_t fld, uint32_t mask, uint8_t pos);
 
 __STATIC_INLINE void Cy_USBPD_MemCopyWord(uint32_t* dest, const uint32_t* source, uint32_t size);
-
 
 /*******************************************************************************
 *                     In-line Function Implementation
@@ -976,7 +986,7 @@ __STATIC_INLINE void Cy_USBPD_MemCopyWord(uint32_t* dest, const uint32_t* source
 * Updates a register field with a new value.
 *
 * \param origval
-* The current value of the regsiter.
+* The current value of the register.
 *
 * \param fld
 * The register field value to be updated.
@@ -985,7 +995,7 @@ __STATIC_INLINE void Cy_USBPD_MemCopyWord(uint32_t* dest, const uint32_t* source
 * Register field mask.
 *
 * \param pos
-* The regsiter field position to be updated.
+* The register field position to be updated.
 *
 * \return uint32_t
 * Returns the new value of the register
@@ -1020,7 +1030,8 @@ __STATIC_INLINE void Cy_USBPD_MemCopyWord(uint32_t* dest, const uint32_t* source
         dest[i] = source[i];
     }
 }
-/** \} group_usbpd_common_functions */
+
+/** \endcond */
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
 

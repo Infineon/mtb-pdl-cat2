@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -101,12 +101,15 @@ Macros</h2></td></tr>
 <tr class="memdesc:gabd413d016169c2c06de74f4df632ca15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver major version. <br /></td></tr>
 <tr class="separator:gabd413d016169c2c06de74f4df632ca15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga86c51e9ac8148c8b0063814943a22539"><td class="memItemLeft" align="right" valign="top"><a id="ga86c51e9ac8148c8b0063814943a22539"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga86c51e9ac8148c8b0063814943a22539">CY_CSD_DRV_VERSION_MINOR</a>&#160;&#160;&#160;(0)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga86c51e9ac8148c8b0063814943a22539">CY_CSD_DRV_VERSION_MINOR</a>&#160;&#160;&#160;(10)</td></tr>
 <tr class="memdesc:ga86c51e9ac8148c8b0063814943a22539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver minor version. <br /></td></tr>
 <tr class="separator:ga86c51e9ac8148c8b0063814943a22539"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga705518dd99fb696370b8dae32ccb6a07"><td class="memItemLeft" align="right" valign="top"><a id="ga705518dd99fb696370b8dae32ccb6a07"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga705518dd99fb696370b8dae32ccb6a07">CY_CSD_DRV_VERSION</a>&#160;&#160;&#160;(100)</td></tr>
-<tr class="memdesc:ga705518dd99fb696370b8dae32ccb6a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver version. <br /></td></tr>
+<tr class="memitem:ga69647cf4fe9cf4cd4082e53d4e14bfd8"><td class="memItemLeft" align="right" valign="top"><a id="ga69647cf4fe9cf4cd4082e53d4e14bfd8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga69647cf4fe9cf4cd4082e53d4e14bfd8">CY_CSD_DRV2_VERSION</a>&#160;&#160;&#160;(110)</td></tr>
+<tr class="memdesc:ga69647cf4fe9cf4cd4082e53d4e14bfd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver version. <br /></td></tr>
+<tr class="separator:ga69647cf4fe9cf4cd4082e53d4e14bfd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga705518dd99fb696370b8dae32ccb6a07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga705518dd99fb696370b8dae32ccb6a07">CY_CSD_DRV_VERSION</a>&#160;&#160;&#160;(100)</td></tr>
+<tr class="memdesc:ga705518dd99fb696370b8dae32ccb6a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to support the backward compatibility.  <a href="#ga705518dd99fb696370b8dae32ccb6a07">More...</a><br /></td></tr>
 <tr class="separator:ga705518dd99fb696370b8dae32ccb6a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2ac0cc6cd1325afb77ee58cd1037d26f"><td class="memItemLeft" align="right" valign="top"><a id="ga2ac0cc6cd1325afb77ee58cd1037d26f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__csd__macros.html#ga2ac0cc6cd1325afb77ee58cd1037d26f">CY_CSD_ID</a>&#160;&#160;&#160;(<a class="el" href="group__group__syslib__macros__status__codes.html#ga45c44ce91d1e20c64430f00fd8ad9b0e">CY_PDL_DRV_ID</a>(0x41U))</td></tr>
@@ -137,13 +140,31 @@ Macros</h2></td></tr>
 <tr class="memdesc:gacb4613d1c0785cb3424f3313940f6cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The lowest 8-bit mask. <br /></td></tr>
 <tr class="separator:gacb4613d1c0785cb3424f3313940f6cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga705518dd99fb696370b8dae32ccb6a07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga705518dd99fb696370b8dae32ccb6a07">&#9670;&nbsp;</a></span>CY_CSD_DRV_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_CSD_DRV_VERSION&#160;&#160;&#160;(100)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Macro to support the backward compatibility. </p>
+<p>Do not use for new designs. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

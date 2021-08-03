@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_dmac.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * The source code file for the DMAC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

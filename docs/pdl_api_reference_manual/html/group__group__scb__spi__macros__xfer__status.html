@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -109,7 +109,7 @@ Macros</h2></td></tr>
 <tr class="memitem:ga7c92f535a370f799c8723b9f221329e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__spi__macros__xfer__status.html#ga7c92f535a370f799c8723b9f221329e8">CY_SCB_SPI_TRANSFER_UNDERFLOW</a>&#160;&#160;&#160;(SCB_INTR_TX_UNDERFLOW_Msk)</td></tr>
 <tr class="memdesc:ga7c92f535a370f799c8723b9f221329e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applicable only for the slave mode.  <a href="#ga7c92f535a370f799c8723b9f221329e8">More...</a><br /></td></tr>
 <tr class="separator:ga7c92f535a370f799c8723b9f221329e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga792f5a5041ab021968e4f65cb23c1c60"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__spi__macros__xfer__status.html#ga792f5a5041ab021968e4f65cb23c1c60">CY_SCB_SPI_TRANSFER_PARITY_ERR</a>&#160;&#160;&#160;(SCB_INTR_RX_FRAME_ERROR_Msk)</td></tr>
+<tr class="memitem:ga792f5a5041ab021968e4f65cb23c1c60"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__spi__macros__xfer__status.html#ga792f5a5041ab021968e4f65cb23c1c60">CY_SCB_SPI_TRANSFER_PARITY_ERR</a>&#160;&#160;&#160;(SCB_INTR_RX_PARITY_ERROR_Msk)</td></tr>
 <tr class="memdesc:ga792f5a5041ab021968e4f65cb23c1c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parity error in received data frame.  <a href="#ga792f5a5041ab021968e4f65cb23c1c60">More...</a><br /></td></tr>
 <tr class="separator:ga792f5a5041ab021968e4f65cb23c1c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -160,7 +160,8 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Applicable only for the slave mode. </p>
-<p>The master tried to read more data elements than available in the TX FIFO. </p>
+<p>The master tried to read more data elements than available in the TX FIFO.</p>
+<dl class="section note"><dt>Note</dt><dd>For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S series, the SPI in the Motorola mode generates the spare <a class="el" href="group__group__scb__common__macros__tx__intr.html#gafc4090b887bf3aebb4a8eaf917754897">CY_SCB_TX_INTR_UNDERFLOW</a> interrupt at the end of the transmission (the TX FIFO buffer is empty and no additional data is requested by the Master) in <a class="el" href="group__group__scb__spi__enums.html#ggab34eae51343cebfec7c447a573cdf0baac7839625f0402b7b9685f3fc2c8a2305">CY_SCB_SPI_CPHA0_CPOL0</a> and <a class="el" href="group__group__scb__spi__enums.html#ggab34eae51343cebfec7c447a573cdf0baa71d20992e8e321b4268c6cccc2cc0738">CY_SCB_SPI_CPHA1_CPOL0</a> SCLK modes. On the Slave side, the application can ignore the first interrupt. On the Master side, the packet checksum can be used on the application level to verify if the underflow interrupt is valid. </dd></dl>
 
 </div>
 </div>
@@ -171,7 +172,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CY_SCB_SPI_TRANSFER_PARITY_ERR&#160;&#160;&#160;(SCB_INTR_RX_FRAME_ERROR_Msk)</td>
+          <td class="memname">#define CY_SCB_SPI_TRANSFER_PARITY_ERR&#160;&#160;&#160;(SCB_INTR_RX_PARITY_ERROR_Msk)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -186,7 +187,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

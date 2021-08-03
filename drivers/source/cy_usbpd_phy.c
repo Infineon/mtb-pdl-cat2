@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 1.0
+* \version 1.10
 *
 * The source file of the USBPD Transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,7 +103,7 @@
 /* CRC_COUNTER register configuration, 1ms. */
 #define CRC_COUNTER_CFG                 (300u)
 
-/* Bus Idle Configuraitons */
+/* Bus Idle Configurations */
 #define BUS_IDLE_CNT_VAL                (10UL)
 #define IDLE_COUNTER_VAL                (40UL)
 #define IFG_COUNTER_VAL                 (10UL)
@@ -160,7 +162,7 @@
                              PDSS_INTR0_RX_SRAM_HALF_END              | \
                              PDSS_INTR0_RX_OVER_RUN)
 
-/* PD Transmitter Iinterrupts */
+/* PD Transmitter Interrupts */
 #define TX_INTERRUPTS       (PDSS_INTR0_RCV_GOODCRC_MSG_COMPLETE | \
                              PDSS_INTR0_CRC_RX_TIMER_EXP         | \
                              PDSS_INTR0_COLLISION_TYPE1          | \
@@ -372,7 +374,7 @@ void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
              */
             if (
                     ((rev3) && (dpmConfig->vconnLogical != false)) ||
-                    ((!rev3) && (dpmConfig->curPortType == CY_PD_PRT_TYPE_DRP))
+                    ((!rev3) && (dpmConfig->curPortType == CY_PD_PRT_TYPE_DFP))
                )
             {
                 /* Enable SOP_PRIME GoodCRC. */
@@ -453,9 +455,9 @@ void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
 * Function Name: Cy_USBPD_Phy_LoadMsg
 ****************************************************************************//**
 *
-* Loads the PD message in FIFO and configures the
-* necessary registers in preparation to sending the message out. The actual
-* message sending has to be triggered by calling Cy_USBPD_Phy_LoadMsg().
+* Loads the PD message in FIFO and configures the necessary registers in
+* preparation to sending the message out. The actual message sending has to be
+* triggered by calling Cy_USBPD_Phy_SendMsg().
 *
 * \param context
 * The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
@@ -464,7 +466,7 @@ void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
 * in this structure.
 *
 * \param sop 
-* The phy event handler callback.
+* SOP Type.
 *
 * \param retries
 * Number of retries.
@@ -820,7 +822,7 @@ void Cy_USBPD_Phy_DisRx (cy_stc_usbpd_context_t *context, uint8_t hardResetEn)
         temp |= EN_RX_HARD_RESET_DET_VAL;
         pd->rx_order_set_ctrl = temp;
 
-        /* Enable only the Hard Reset received interrrupt. */
+        /* Enable only the Hard Reset received interrupt. */
         temp = pd->intr0_mask;
         temp &= ~RX_INTERRUPTS;
         temp |=  PDSS_INTR0_RCV_RST;
@@ -1304,7 +1306,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #if PD_CRC_ERR_HANDLING_ENABLE        
         if ((pd->intr0_masked & PDSS_INTR0_RCV_BAD_PACKET_COMPLETE) != 0u)
         {
-            /* Create a bad packet recieved event. */
+            /* Create a bad packet received event. */
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_CRC_ERROR);
             /* Clear the interrupt. */
             pd->intr0 = PDSS_INTR0_RCV_BAD_PACKET_COMPLETE;

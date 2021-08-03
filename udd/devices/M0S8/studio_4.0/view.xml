@@ -9,7 +9,7 @@
   <HasUserControllableMcu value="true" />
   <TrigMuxConnectTemplate value="Cy_TrigMux_Connect(${CyMarkIn}, ${CyMarkOut});" />
   <Profiles>
-    <Profile displayName="System" diagramType="CLOCKS" fileName="system" evalPriority="1" displayPriority="4" description="System configuration" resources="srss(\[\d+\])?\.(clock|power)(\[\d+\])?.*|cpuss(\[\d+\])?\.dap(\[\d+\])?|wco(\[\d+\])?$|exco(\[\d+\])?.*" />
+    <Profile displayName="System" diagramType="CLOCKS" fileName="system" evalPriority="1" displayPriority="4" description="System configuration" resources="srss(\[\d+\])?\.(clock|power|eeprom)(\[\d+\])?.*|cpuss(\[\d+\])?\.dap(\[\d+\])?|wco(\[\d+\])?$|exco(\[\d+\])?.*" />
     <Profile displayName="DMA" fileName="dmas" evalPriority="3" displayPriority="6" description="DMA configuration" resources="cpuss(\[\d+\])?\.(dw|dmac).*" />
     <Profile displayName="Peripheral-Clocks" fileName="clocks" evalPriority="2" displayPriority="5" description="Clock configuration" resources="peri(\[\d+\])?\.div_.*" />
     <Profile displayName="Pins" diagramType="PACKAGE" fileName="pins" evalPriority="6" displayPriority="2" description="Pin configuration" resources="ioss[\[\.].*" />

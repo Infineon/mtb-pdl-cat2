@@ -10,14 +10,14 @@ var searchData=
   ['hostpresent',['hostPresent',['../structcy__pd__pd__do__t_1_1_e_n_t_e_r_u_s_b___v_d_o.html#a629031e2e32b4aff5d0f3c495863c972',1,'cy_pd_pd_do_t::ENTERUSB_VDO']]],
   ['hosttbtsupp',['hostTbtSupp',['../structcy__pd__pd__do__t_1_1_e_n_t_e_r_u_s_b___v_d_o.html#a9b4f76fe7343b3635d745085dd841c19',1,'cy_pd_pd_do_t::ENTERUSB_VDO']]],
   ['hotswapbats',['hotSwapBats',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a70cd8cd7555ac7c9bfecfa4ece989ffb',1,'cy_pd_pd_do_t::ADO_ALERT']]],
-  ['hpd_5fcbk',['hpd_cbk',['../structcy__stc__usbpd__context__t.html#afd70f378a7fc5c9e1f2a6ffe31dfd95d',1,'cy_stc_usbpd_context_t']]],
-  ['hpd_5freceive_5fenable',['hpd_receive_enable',['../structcy__stc__usbpd__context__t.html#a8d531cd112d7fa33eda74beed6991d00',1,'cy_stc_usbpd_context_t']]],
-  ['hpd_5fstate',['hpd_state',['../structcy__stc__usbpd__context__t.html#a2583c28565a4baaccffbc406d338855d',1,'cy_stc_usbpd_context_t']]],
-  ['hpd_5ftransmit_5fenable',['hpd_transmit_enable',['../structcy__stc__usbpd__context__t.html#a66b8de2c85c396f4c4d3bcabc90c78a1',1,'cy_stc_usbpd_context_t']]],
+  ['hpdcbk',['hpdCbk',['../structcy__stc__usbpd__context__t.html#a7141df130dfd0456a5f781b6aebdad3b',1,'cy_stc_usbpd_context_t']]],
   ['hpdirq',['hpdIrq',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#aba8fa1e10f4a124d90be8ee0d88646fb',1,'cy_pd_pd_do_t::DP_STATUS_VDO']]],
-  ['hpdstate',['hpdState',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#a46af03d428daebe128d5076b662e0270',1,'cy_pd_pd_do_t::DP_STATUS_VDO']]],
+  ['hpdreceiveenable',['hpdReceiveEnable',['../structcy__stc__usbpd__context__t.html#a3887f1101720046c6f91e035a4d50e5d',1,'cy_stc_usbpd_context_t']]],
+  ['hpdstate',['hpdState',['../structcy__stc__usbpd__context__t.html#a79db40c081afc22159251f359772014d',1,'cy_stc_usbpd_context_t::hpdState()'],['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#a46af03d428daebe128d5076b662e0270',1,'cy_pd_pd_do_t::DP_STATUS_VDO::hpdState()']]],
+  ['hpdtransmitenable',['hpdTransmitEnable',['../structcy__stc__usbpd__context__t.html#afd6368256442f05852d4d769e5c92c80',1,'cy_stc_usbpd_context_t']]],
   ['hscmp',['hscmp',['../structcy__stc__csd__config__t.html#a6cda2035795ec00e3583d34dfc516411',1,'cy_stc_csd_config_t']]],
   ['hsenable',['hsEnable',['../structcy__stc__scb__i2c__config__t.html#a95c059a438d554552b585c89fb09beba',1,'cy_stc_scb_i2c_config_t']]],
   ['hsiom',['hsiom',['../structcy__stc__gpio__pin__config__t.html#af8a4f6b10a8e655125dfafd511c7af6e',1,'cy_stc_gpio_pin_config_t']]],
-  ['hwenabled',['hwEnabled',['../structcy__stc__sar__state__backup__t.html#a6ffea353bffaff5b3aff73a92c22d3d4',1,'cy_stc_sar_state_backup_t']]]
+  ['hwenabled',['hwEnabled',['../structcy__stc__sar__state__backup__t.html#a6ffea353bffaff5b3aff73a92c22d3d4',1,'cy_stc_sar_state_backup_t']]],
+  ['hysteresis',['hysteresis',['../structcy__stc__lpcomp__config__t.html#ad43e4f40af6d78d02b8c0a277cb10f96',1,'cy_stc_lpcomp_config_t']]]
 ];

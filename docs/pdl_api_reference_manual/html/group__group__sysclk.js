@@ -9,8 +9,9 @@ var group__group__sysclk =
     [ "Phase Locked Loop (PLL)", "group__group__sysclk__pll.html", "group__group__sysclk__pll" ],
     [ "Internal Low-Speed Oscillator (ILO)", "group__group__sysclk__ilo.html", "group__group__sysclk__ilo" ],
     [ "Watch Crystal Oscillator (WCO)", "group__group__sysclk__wco.html", "group__group__sysclk__wco" ],
-    [ "High-Frequency Clocks", "group__group__sysclk__clk__hf.html", "group__group__sysclk__clk__hf" ],
+    [ "High-Frequency Clock", "group__group__sysclk__clk__hf.html", "group__group__sysclk__clk__hf" ],
     [ "Peripherals Clock Dividers", "group__group__sysclk__clk__peripheral.html", "group__group__sysclk__clk__peripheral" ],
     [ "System Clock", "group__group__sysclk__clk__sys.html", "group__group__sysclk__clk__sys" ],
-    [ "Pump Clock", "group__group__sysclk__clk__pump.html", "group__group__sysclk__clk__pump" ]
+    [ "Pump Clock", "group__group__sysclk__clk__pump.html", "group__group__sysclk__clk__pump" ],
+    [ "Low Power Callback", "group__group__sysclk__pm.html", "group__group__sysclk__pm" ]
 ];

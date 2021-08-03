@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -176,6 +176,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initializes the counter in the TCPWM block for the PWM operation. </p>
+<dl class="section note"><dt>Note</dt><dd>After initialization, connected PWM output pins Drive modes are set to High-Z state. To set Drive modes as set by PWM output pins configuration, call the <a class="el" href="group__group__tcpwm__functions__pwm.html#ga802ebf3a49b1056e4bc5b057deb26e49">Cy_TCPWM_PWM_Enable</a> function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>The pointer to a TCPWM instance.</td></tr>
@@ -299,6 +300,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Disables the counter in the TCPWM block. </p>
+<dl class="section note"><dt>Note</dt><dd>This function sets connected PWM output pins Drive modes to High-Z state. To disable PWM without changing pins drive modes, use the <a class="el" href="group__group__tcpwm__functions__common.html#ga4515b7f271f25914e7e9050cb4055663">Cy_TCPWM_TriggerStopOrKill</a> function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>The pointer to a TCPWM instance.</td></tr>
@@ -865,7 +867,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

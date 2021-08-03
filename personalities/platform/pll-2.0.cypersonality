@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +45,7 @@
 
     <ParamString id="version" name="Version number" group="Internal" default="`${getVersion()}`" visible="false" editable="false" desc="Version of IP block" />
     <ParamBool id="excoVer2" name="Exco ver 2" group="Internal" default="`${(version eq 2) ? true : false}`" visible="false" editable="false" desc="True if exco has version 2" />
-    <ParamRange id="clockInst" name="PLL Instance" group="Interal" default="`${getInstNumber(&quot;pll&quot;)}`" min="0" max="1" resolution="1" visible="false" editable="false" desc="" /> 
+    <ParamRange id="clockInst" name="PLL Instance" group="Internal" default="`${getInstNumber(&quot;pll&quot;)}`" min="0" max="1" resolution="1" visible="false" editable="false" desc="" /> 
     
     <ParamChoice id="sourceClock" name="Source Clock" group="General" default="ECO" visible="true" editable="true" desc="The clock source for PLL">
       <Entry name="ECO"    value="ECO"    visible="true"/>
@@ -103,6 +105,6 @@
       <Member name="outputDiv" value="`${output}`U" />
       <Member name="icp" value="`${frequency le 67000000 ? 2 : 3}`U" />
     </ConfigStruct>
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_Pll`${clockInst}`Init()" body="    cy_en_sysclk_status_t status;&#xA;    status = Cy_SysClk_PllSetSource(`${clockInst}`U, CY_CFG_SYSCLK_PLL`${clockInst}`_SOURCE);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_SRC_ERROR, status);&#xA;    }&#xA;    status = Cy_SysClk_PllManualConfigure(`${clockInst}`U, &amp;`${INST_NAME}`_pllConfig);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_CFG_ERROR, status);&#xA;    }&#xA;    Cy_SysClk_PllBypass(`${clockInst}`U, CY_CFG_SYSCLK_PLL`${clockInst}`_BYPASS);&#xA;    status = Cy_SysClk_PllEnable(`${clockInst}`U, 10000u);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_EN_ERROR, status);&#xA;    }" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_Pll`${clockInst}`Init()" body="    cy_en_sysclk_status_t status;&#xA;    status = Cy_SysClk_PllSetSource(`${clockInst}`U, CY_CFG_SYSCLK_PLL`${clockInst}`_SOURCE);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_SRC_ERROR, status);&#xA;    }&#xA;    status = Cy_SysClk_PllManualConfigure(`${clockInst}`U, &amp;`${INST_NAME}`_pllConfig);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_CFG_ERROR, status);&#xA;    }&#xA;    Cy_SysClk_PllBypass(`${clockInst}`U, CY_CFG_SYSCLK_PLL`${clockInst}`_BYPASS);&#xA;    status = Cy_SysClk_PllEnable(`${clockInst}`U, 250U);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_PLL_EN_ERROR, status);&#xA;    }" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

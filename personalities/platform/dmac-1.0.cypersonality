@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,7 +75,7 @@
       <Entry name="Word to Word (24 bits masked)" value="WordToWord24" visible="true" />
     </ParamChoice>
     <ParamBool id="DESCR_PING_SRC_INCREMENT" name="Source Address Increment" desc="Specifies whether the source location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
-    <ParamBool id="DESCR_PING_DST_INCREMENT" name="Destignation Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PING_DST_INCREMENT" name="Destination Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
     <ParamChoice id="DESCR_PING_TRIG_DEACT" name="Trigger Deactivation And Retriggering" group="Descriptor Ping" default="CY_DMAC_RETRIG_IM" visible="true" editable="true" desc="This parameter sets up the trigger deactivation options for the descriptor.">
       <Entry name="Retrigger immediately (pulse trigger)" value="CY_DMAC_RETRIG_IM" visible="true" />
       <Entry name="Retrigger after 4 Slow Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />
@@ -104,7 +106,7 @@
       <Entry name="Word to Word (24 bits masked)" value="WordToWord24" visible="true" />
     </ParamChoice>
     <ParamBool id="DESCR_PONG_SRC_INCREMENT" name="Source Address Increment" desc="Specifies whether the source location address is incremented" group="Descriptor Pong" default="true" visible="true" editable="true" />
-    <ParamBool id="DESCR_PONG_DST_INCREMENT" name="Destignation Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PONG_DST_INCREMENT" name="Destination Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Pong" default="true" visible="true" editable="true" />
     <ParamChoice id="DESCR_PONG_TRIG_DEACT" name="Trigger Deactivation And Retriggering" group="Descriptor Pong" default="CY_DMAC_RETRIG_IM" visible="true" editable="true" desc="This parameter sets up the trigger deactivation options for the descriptor.">
       <Entry name="Retrigger immediately (pulse trigger)" value="CY_DMAC_RETRIG_IM" visible="true" />
       <Entry name="Retrigger after 4 Slow Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />

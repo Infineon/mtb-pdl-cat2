@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +28,7 @@
 * limitations under the License.
 *****************************************************************************-->
 
-<Personality id="m0s8csd_intrinsic" name="CSD Instrinsic" intrinsic="true" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v2">
+<Personality id="m0s8csd_intrinsic" name="CSD Intrinsic" intrinsic="true" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v2">
   <Dependencies>
     <IpBlock name="m0s8csdv2,m0s8csdv2_ver2" />
     <Resource name="csd\.csd" />

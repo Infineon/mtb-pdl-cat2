@@ -5,9 +5,10 @@ var NAVTREE =
     [ "Getting started", "page_getting_started.html", null ],
     [ "PDL API Reference", "modules.html", "modules" ],
     [ "Online Documentation", "usergroup0.html", [
+      [ "Middleware on GitHub", "^https://github.com/Infineon/modustoolbox-software", null ],
       [ "CMSIS Documentation", "^https://www.keil.com/pack/doc/CMSIS/General/html/index.html", null ]
     ] ],
-    [ "Additional Resources", "page_cypress_resources.html", null ],
+    [ "Additional Resources", "page_infineon_resources.html", null ],
     [ "MISRA-C:2012 Compliance", "page_misra.html", null ]
   ] ]
 ];
@@ -15,21 +16,23 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "group__group__arm__system__timer.html",
-"group__group__csd__reg__const.html#ga1731f7308cf733bb2d39ea42caa6a1f3",
-"group__group__gpio__functions__init.html",
-"group__group__sar__chan__config__register__enums.html#ga46276a7af3b10d2f3959f5ab94bb5c2b",
-"group__group__scb__common__functions.html#gad2391f2a065128fb7a04aa51fe9d4433",
-"group__group__scb__spi__enums.html#gga3f89c38753dabe9df8691a95212b5defaa3e48e8e4f27a2f6971f63e5885a8f6a",
-"group__group__smartio__enums.html#gga057185e00625a60b6ee8f788b55f6413a565d505a20f2069604aa9683017e72d0",
-"group__group__sysclk__pll__enums.html#gga944fb2dbdd2d6d490b4df48afb20985aa55f7303f9a5e7ab00cecd202afe47fdd",
-"group__group__tcpwm__functions__counter.html#ga99b52191f1ba7b4d064e9e2f9802f527",
-"group__group__usbpd__common__enums.html#gga584f08695a7286d9c33a4c18328e7236adb2da8442666592617aae9d4fa97186c",
-"group__group__usbpd__phy__functions.html#gae8d8be3891cb15c4390d009370e917b7",
-"structcy__pd__pd__do__t_1_1_b_a_t___s_r_c.html#af6839ff230cad794acf982e3fd5a3717",
-"structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#afae109f24649aa78b7394a528bc813f4",
-"structcy__stc__fault__vbus__ocp__cfg__t.html#ac3d7be51a89fd5c22c5c486c1544c0d4",
-"structcy__stc__scb__uart__config__t.html#a09c9696d4f75ebfe55d7974264a62d3d",
-"unioncy__pd__pd__do__t.html#ab55e7ad05ac9015207fdd63a398114ee"
+"group__group__crypto__lld__sha__functions.html#ga2230e65cc1abdebcb0bb12170c3e6ef1",
+"group__group__dmac__descriptor__functions.html#ga111b045ffb43e86ab6c5c37cba11f8da",
+"group__group__i2s__functions.html#ga54b27dbc0b80e39a33392eeafaa768d0",
+"group__group__sar__chan__config__register__enums.html#gga46276a7af3b10d2f3959f5ab94bb5c2ba63a8a8d8c98af498517a4ea8817bc2d9",
+"group__group__scb__common__functions.html#gac9ed33ba6015b0b4ad116b72a5685a97",
+"group__group__scb__spi__enums.html#gga1410916a9c76b0d86eb196b8e9ed547fa9299c3864fcb4b4ada81b134855bf907",
+"group__group__seglcd__functions__config.html#ga55eb3d853498593da4eb3cddaca073df",
+"group__group__sysclk__clk__sys__funcs.html",
+"group__group__systick__functions.html#ga55c016caf7558ec00f1e8cd3d77e36da",
+"group__group__usbfs__dev__drv__enums.html#gga9a078f172cd82350179929c0133d9bbfa9b4da0b3fa94cb4dd5ba3df6ffe90a6a",
+"group__group__usbpd__common__enums.html#gga7f02d50bd3785f9ffb8423e9f7215311a890d3f66c076a32d4cd4fa06076c5c76",
+"group__group__usbpd__phy__functions.html#gafcf87bd949510985ca77c18493b80341",
+"structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#adfac63174e8990be1712915435e41c3e",
+"structcy__pd__pd__do__t_1_1_s_t_d___c_b_l___v_d_o.html#aa283918a2f3986e8a061019ca477835c",
+"structcy__stc__ctb__opamp__config__t.html#afb37d73dccfe0ca9df2d8e7e655dee20",
+"structcy__stc__scb__ezi2c__config__t.html#a172d9a9c5ea964d7c7a8541775b0a47d",
+"structcy__stc__usbpd__context__t.html#a62922dfb861732b3290647290946e8b8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

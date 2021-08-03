@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_scb_ezi2c.c
-* \version 3.0.1
+* \version 3.10
 *
 * Provides EZI2C API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -264,7 +266,7 @@ void Cy_SCB_EZI2C_Disable(CySCB_Type *base, cy_stc_scb_ezi2c_context_t *context)
 *   Cy_SCB_EZI2C_RegisterDSClockConfig. Callback function must disable or
 *   enable the clock divider depending on the event \ref
 *   group_scb_ezi2c_macros_deep_sleep_callback_events.
-*   Not applicable for PSoC 4 4100S MAX.
+*   Not applicable for PSoC 4100S Max.
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SCB_EZI2C_DeepSleepCallback(cy_stc_syspm_callback_params_t const *callbackParams, cy_en_syspm_callback_mode_t mode)

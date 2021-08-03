@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -130,7 +132,7 @@
     <!-- Get SPI Slave desired clock -->
     <ParamRange id="ClkHfHz" name="ClkHfHz" group="Internal" default="`${getExposedMember(&quot;srss[0].clock[0].hfclk[0]&quot;, &quot;frequency&quot;)}`" min="1" max="200000000" resolution="1" visible="false" editable="false" desc="ClkPeri frequency in Hz." />
     <ParamRange id="spiTdso" name="spiTdso" group="Internal" default="`${(spiClkPeriod / 2) - T_DSO_INTERNAL - T_MASTER_DELAYS}`" min="-67" max="1000000" resolution="0.000001" visible="false" editable="false" desc="Time left for tDSO (units ns) that is function of SCB clock." />
-    <ParamRange id="SlaveClkHzTmp" name="SlaveClkHzTmp" group="Internal" default="`${(spiTdso &gt; 0) ? ((1000000000 * scbClocksToOutput) / spiTdso) : ClkHfHz}`" min="1" max="4294967295" resolution="1" visible="false" editable="false" desc="Slave clock to operate with desired baud rate in Hz (not adjuested)." />
+    <ParamRange id="SlaveClkHzTmp" name="SlaveClkHzTmp" group="Internal" default="`${(spiTdso &gt; 0) ? ((1000000000 * scbClocksToOutput) / spiTdso) : ClkHfHz}`" min="1" max="4294967295" resolution="1" visible="false" editable="false" desc="Slave clock to operate with desired baud rate in Hz (not adjusted)." />
     <ParamRange id="SlaveClkHz" name="SlaveClkHz" group="Internal" default="`${(SlaveClkHzTmp &gt; ClkHfHz) ? ClkHfHz : SlaveClkHzTmp}`" min="1" max="200000000" resolution="1" visible="false" editable="false" desc="Slave SCB clock to operate with desired baud rate in Hz." />
 
     <!-- Get SPI Master desired clock -->
@@ -159,9 +161,9 @@
 
     <!-- Drive mode selection -->
     <ParamString id="DmMOSI" name="DmMOSI" group="Internal" default="`${MasterMode ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" visible="false" editable="false" desc="Drive mode " />
-    <ParamString id="DmMOSIMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode erorr message." />
+    <ParamString id="DmMOSIMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode error message." />
     <ParamString id="DmMISO" name="DmMOSI" group="Internal" default="`${!MasterMode ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" visible="false" editable="false" desc="Drive mode " />
-    <ParamString id="DmMISOMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${!MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode erorr message." />
+    <ParamString id="DmMISOMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${!MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode error message." />
 
     <!-- SCLK, MOSI and MISO connections -->
     <ParamBool id="hasConnectionSclk" name="hasConnectionSclk" group="Internal" default="`${hasVisibleOption(&quot;spi_clk[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SCLK has valid connections." />

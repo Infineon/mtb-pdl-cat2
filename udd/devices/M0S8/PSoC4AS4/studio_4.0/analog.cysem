@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.3" xmlns="http://cypress.com/xsd/cysem">
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" xmlns="http://cypress.com/xsd/cysem">
   <Instances count="461">
     <Instance guid="0059d279-0f97-495b-b327-b94d761d7471" name="IOSS0_PORT12_P12_P41" component="swh">
       <Parameter name="CY_COMMENT">
@@ -1039,7 +1039,7 @@
         <Value>IOSS0_PORT7_P7_P44</Value>
       </Parameter>
     </Instance>
-    <Instance guid="1f933587-ac5c-4e0b-b44f-75b46a91f0d7" name="LpComp_1" component="cy_m0s8_lpcomp">
+    <Instance guid="1f933587-ac5c-4e0b-b44f-75b46a91f0d7" name="LPCOMP0" component="cy_m0s8_lpcomp">
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -1059,10 +1059,13 @@
         <Value>0</Value>
       </Parameter>
       <Parameter name="INSTANCE_NAME">
-        <Value>LpComp_1</Value>
+        <Value>LPCOMP0</Value>
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="1fe077ca-0725-4347-8fb7-085765cbb76d" name="GPIO_P0_5" component="cy_all_pin">
@@ -1728,7 +1731,7 @@
         <Value>5</Value>
       </Parameter>
     </Instance>
-    <Instance guid="30ba687e-ed73-497b-b46a-067a328ec95f" name="LpComp_2" component="cy_m0s8_lpcomp">
+    <Instance guid="30ba687e-ed73-497b-b46a-067a328ec95f" name="LPCOMP1" component="cy_m0s8_lpcomp">
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -1748,10 +1751,13 @@
         <Value>1</Value>
       </Parameter>
       <Parameter name="INSTANCE_NAME">
-        <Value>LpComp_2</Value>
+        <Value>LPCOMP1</Value>
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="30d6d526-3f7f-452a-88b5-cdfafd458c85" name="cy_all_shapetag_disconnect_20" component="cy_all_shapetag_disconnect">
@@ -8643,8 +8649,8 @@
       <Terminal name="cy_all_shapetag_disconnect_43.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p7_1" type="Analog" terminalCount="2">
-      <Terminal name="cy_all_shapetag_disconnect_44.a" type="Instance Analog InOut" />
       <Terminal name="cy_shapetag_disconnect_3.a" type="Instance Analog InOut" />
+      <Terminal name="cy_all_shapetag_disconnect_44.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p7_2" type="" terminalCount="0" />
     <Signal name="p7_3" type="" terminalCount="0" />
@@ -8711,12 +8717,12 @@
       <Terminal name="cy_shapetag_disconnect_13.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="pass0_sar_vminus0" type="Analog" terminalCount="2">
-      <Terminal name="cy_all_shapetag_disconnect_16.a" type="Instance Analog InOut" />
       <Terminal name="cy_all_shapetag_disconnect_18.a" type="Instance Analog InOut" />
+      <Terminal name="cy_all_shapetag_disconnect_16.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="pass0_sar_vplus0" type="Analog" terminalCount="2">
-      <Terminal name="cy_all_shapetag_disconnect_17.a" type="Instance Analog InOut" />
       <Terminal name="cy_all_shapetag_disconnect_19.a" type="Instance Analog InOut" />
+      <Terminal name="cy_all_shapetag_disconnect_17.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="pass0_sarbus0" type="" terminalCount="0" />
     <Signal name="pass0_sarbus1" type="" terminalCount="0" />

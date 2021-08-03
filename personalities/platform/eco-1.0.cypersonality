@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +46,7 @@
 
     <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal" default="true" visible="false" editable="false" desc="Prevents pins connected to this personality to generate configuration code" />
 
-    <ParamRange id="ecoFrequency" name="Frequency (MHz)" group="General" default="4.0000" visible="true" editable="true" min="4" max="33" resolution="0.0001" desc="The crystal nominal frequency" />
+    <ParamRange id="ecoFrequency" name="Frequency (MHz)" group="General" default="4.0000" visible="true" editable="true" min="4" max="33.33" resolution="0.0001" desc="The crystal nominal frequency" />
     <ParamRange id="frequency" name="Frequency (Hz)" group="Internal" default="`${ecoFrequency * 1000000}`" visible="false" editable="false" min="4000000" max="33333000" resolution="1" desc="" />
 
     <ParamRange id="accuracyPpm" name="Accuracy (&#177;ppm)" group="General" default="0" min="0" max="1000000" resolution="1" visible="true" editable="true" desc="Clock accuracy in ppm" />
@@ -84,6 +86,6 @@
     <ConfigInclude value="cy_sysclk.h" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_ECO_ENABLED" value="1" public="false" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_ECO_FREQ" value="`${frequency}`UL" public="true" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_EcoInit()" body="    (void)Cy_GPIO_Pin_FastInit(GPIO_PRT`${gpio_in_port}`, `${gpio_in_pin}`, CY_GPIO_DM_ANALOG, 0UL, HSIOM_SEL_GPIO);&#xA;    (void)Cy_GPIO_Pin_FastInit(GPIO_PRT`${gpio_out_port}`, `${gpio_out_pin}`, CY_GPIO_DM_ANALOG, 0UL, HSIOM_SEL_GPIO);&#xA;    cy_en_sysclk_status_t status;&#xA;    status = Cy_SysClk_EcoConfigure(CY_CFG_SYSCLK_ECO_FREQ, `${cLoad}`UL, `${esr}`UL, `${driveLevel}`UL);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_ECO_CFG_ERROR, status);&#xA;    }&#xA;    status = Cy_SysClk_EcoEnable(3000UL);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_ECO_EN_ERROR, status);&#xA;    }" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_EcoInit()" body="    (void)Cy_GPIO_Pin_FastInit(GPIO_PRT`${gpio_in_port}`, `${gpio_in_pin}`, CY_GPIO_DM_ANALOG, 0UL, HSIOM_SEL_GPIO);&#xA;    (void)Cy_GPIO_Pin_FastInit(GPIO_PRT`${gpio_out_port}`, `${gpio_out_pin}`, CY_GPIO_DM_ANALOG, 0UL, HSIOM_SEL_GPIO);&#xA;    cy_en_sysclk_status_t status;&#xA;    status = Cy_SysClk_EcoConfigure(CY_CFG_SYSCLK_ECO_FREQ, `${cLoad}`UL, `${esr}`UL, `${driveLevel}`UL);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_ECO_CFG_ERROR, status);&#xA;    }&#xA;    status = Cy_SysClk_EcoEnable(10000UL);&#xA;    if (CY_SYSCLK_SUCCESS != status)&#xA;    {&#xA;        cycfg_ClockStartupError(CY_CFG_SYSCLK_ECO_EN_ERROR, status);&#xA;    }" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

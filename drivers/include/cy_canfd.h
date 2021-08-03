@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_canfd.h
-* \version 1.0
+* \version 1.0.1
 *
 *  This file provides constants and parameter values for
 *  the CAN FD driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2020 Cypress Semiconductor Corporation
+* (c) (2019-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -144,7 +146,7 @@
 * \snippet canfd/snippet/main.c snippet_Cy_CANFD_ISR
 *
 * Setup the interrupt handler to be called with the CAN FD events. The CAN FD block
-* has two interupt lines, which can be assigned to different interrupt
+* has two interrupt lines, which can be assigned to different interrupt
 * sources using Cy_CANFD_SetInterruptLine(): canfd_0_interrupts0_0_IRQn
 * and canfd_0_interrupts1_0_IRQn. Also, the CAN FD block has a consolidated interrupt
 * canfd_0_interrupt0_IRQn. The following code shows how to set up the interrupt
@@ -213,6 +215,11 @@
 * \section group_canfd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Corrected source code comments text.</td>
+*     <td></td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>

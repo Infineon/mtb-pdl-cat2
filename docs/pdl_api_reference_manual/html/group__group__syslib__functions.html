@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -225,8 +225,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </div><div class="memdoc">
 
 <p>This function invalidates the flash cache and buffer. </p>
-<p>It ensures the valid data is read from flash instead of using outdated data from the cache. The caches' LRU structure is also reset to their default state.</p>
-<dl class="section note"><dt>Note</dt><dd>The operation takes a maximum of three clock cycles on the slowest of the clk_slow and clk_fast clocks. </dd></dl>
+<p>It ensures the valid data is read from flash instead of using outdated data from the cache. The caches' Least Recently Used (LRU) structure is also reset to their default state. </p>
 
 </div>
 </div>
@@ -336,7 +335,7 @@ The CY_ARM_FAULT_DEBUG macro defines if the Fault Handler is enabled. By default
 <p>This function must be called before increasing the SYSCLK clock frequency. It can optionally be called after lowering SYSCLK clock frequency in order to improve the CPU performance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clkHfMHz</td><td>The ClkSys clock frequency in MHz. Specifying a frequency above the supported maximum will set the wait states as for the maximum frequency. </td></tr>
+    <tr><td class="paramname">clkHfMHz</td><td>The SYSCLK clock frequency in MHz. Specifying a frequency above the supported maximum will set the wait states as for the maximum frequency. </td></tr>
   </table>
   </dd>
 </dl>
@@ -398,7 +397,7 @@ The CY_ARM_FAULT_DEBUG macro defines if the Fault Handler is enabled. By default
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

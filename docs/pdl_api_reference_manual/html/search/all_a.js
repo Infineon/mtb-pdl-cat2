@@ -1,6 +1,8 @@
 var searchData=
 [
   ['low_20power_20callback',['Low Power Callback',['../group__group__i2s__functions__syspm__callback.html',1,'']]],
+  ['lpcomp_20_20_20_20_20_20_20_28low_20power_20comparator_29',['LPCOMP       (Low Power Comparator)',['../group__group__lpcomp.html',1,'']]],
+  ['low_20power_20callback',['Low Power Callback',['../group__group__lpcomp__functions__syspm__callback.html',1,'']]],
   ['low_20power_20callback',['Low Power Callback',['../group__group__sar__functions__power.html',1,'']]],
   ['low_20power_20callbacks',['Low Power Callbacks',['../group__group__scb__ezi2c__low__power__functions.html',1,'']]],
   ['low_20power_20callbacks',['Low Power Callbacks',['../group__group__scb__i2c__low__power__functions.html',1,'']]],
@@ -9,8 +11,11 @@ var searchData=
   ['low_2dlevel',['Low-Level',['../group__group__scb__uart__low__level__functions.html',1,'']]],
   ['low_20power_20callbacks',['Low Power Callbacks',['../group__group__scb__uart__low__power__functions.html',1,'']]],
   ['lut_20functions',['LUT Functions',['../group__group__smartio__functions__lut.html',1,'']]],
+  ['low_20power_20callback',['Low Power Callback',['../group__group__sysclk__pm.html',1,'']]],
   ['low_20power_20callbacks',['Low Power Callbacks',['../group__group__syspm__functions__callback.html',1,'']]],
+  ['low_20power_20functions',['Low Power Functions',['../group__group__usbfs__dev__drv__functions__low__power.html',1,'']]],
   ['legacy_20charging_20_28usbpd_29',['Legacy Charging (USBPD)',['../group__group__usbpd__legacy.html',1,'']]],
+  ['last',['last',['../structcy__stc__seglcd__font__t.html#ae899ae5eedf0babd3416bf3fd9979eba',1,'cy_stc_seglcd_font_t']]],
   ['leftalign',['leftAlign',['../structcy__stc__sar__config__t.html#a579ba652d42aee05c986b09018897e60',1,'cy_stc_sar_config_t']]],
   ['legacychargingconfig',['legacyChargingConfig',['../structcy__stc__usbpd__config__t.html#adb0ffed00762ffa71a11d7b8a59db15d',1,'cy_stc_usbpd_config_t']]],
   ['len',['len',['../structcy__pd__pd__hdr__t_1_1_p_d___h_d_r.html#a298a44bab60f25575d4600bcc832a6e7',1,'cy_pd_pd_hdr_t::PD_HDR::len()'],['../structcy__stc__pd__packet__extd__t.html#a70f0dc937043c9114682cd2d1ff09717',1,'cy_stc_pd_packet_extd_t::len()']]],

@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -326,7 +328,7 @@
     <DRC type="ERROR" text="Source clock for SAR ADC is not enabled" condition="`${error}`" >
       <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
     </DRC>
-    <DRC type="WARNING" text="Noise and offset can cause unsigned results to undeflow (wrap-around to +ve full scale) when Vneg is set to Vssa or External." condition="`${!se_format &amp;&amp; vneg_select ne CY_SAR_NEG_SEL_VREF}`" />
+    <DRC type="WARNING" text="Noise and offset can cause unsigned results to underflow (wrap-around to +ve full scale) when Vneg is set to Vssa or External." condition="`${!se_format &amp;&amp; vneg_select ne CY_SAR_NEG_SEL_VREF}`" />
     <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vref_select eq &quot;CY_SAR_VREF_SEL_VDDA&quot;) || 
                                                                                         (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2_BYP&quot;) ||
                                                                                         (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2&quot;)) &amp;&amp; !isPowerEnabled}`" >
@@ -354,7 +356,7 @@
       <Member name="differential"    value="`${!ch$idx_se}`" />
       <Member name="resolution"      value="`${ch$idx_res}`" />
       <Member name="avgEn"           value="`${ch$idx_avg}`" />
-      <Member name="sampleTimeSel"   value="`${getTclVar(&quot;ch$idx_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;ch$idx_sample_time_sel&quot;, scheduler)}`" />
     </ConfigStruct>
 
     <ConfigStruct name="`${INST_NAME}`_inj_channel_config" type="cy_stc_sar_channel_config_t" const="`${inFlash}`" public="true" include="`${inj_en}`">
@@ -362,7 +364,7 @@
       <Member name="differential"    value="`${!inj_se}`" />
       <Member name="resolution"      value="`${inj_res}`" />
       <Member name="avgEn"           value="`${inj_avg}`" />
-      <Member name="sampleTimeSel"   value="(uint32_t)`${getTclVar(&quot;inj_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;inj_sample_time_sel&quot;, scheduler)}`" />
     </ConfigStruct>
 
     <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_sar_config_t" const="`${inFlash}`" public="true" include="true">
@@ -381,7 +383,7 @@
       <Member name="singleEndedSigned" value="`${se_format}`" />
       <Member name="differentialSigned" value="`${diff_format}`" />
       <Member name="avgCnt" value="`${avg_cnt}`" />
-      <Member name="avgShift" value="false" />
+      <Member name="avgShift" value="`${CY_SAR_AVG_MODE_SEQUENTIAL_FIXED eq avg_mode}`" />
       <Member name="trigMode" value="CY_SAR_TRIGGER_MODE_FW_ONLY" />
       <Member name="eosEn" value="false" />
       <Member name="sampleTime0" value="`${getTclVar(&quot;sample_time_0&quot;, scheduler)}`"/>

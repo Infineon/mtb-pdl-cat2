@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_dmac.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * The header file of the DMAC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +38,7 @@
 * without CPU intervention basing on a hardware trigger signal from another component.
 *
 * The DMA Controller block has a set of registers, a base hardware address,
-* and supports multiple channels with ping and pong descriptors. Many API functions 
+* and supports multiple channels with ping and pong descriptors. Many API functions
 * for the DMAC driver require a base hardware address, channel number and descriptor.
 * Ensure that you use the correct hardware address for the DMA Controller block in use.
 *
@@ -104,6 +106,11 @@
 *
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Corrected source code comments text.</td>
+*     <td></td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>The initial version.</td>
@@ -248,7 +255,7 @@ typedef enum
 typedef enum
 {
     CY_DMAC_NO_ERROR      = 0x0UL,    /**< No error. Setting this response does NOT set the interrupt cause bit.
-                                       *   The descriptor valideness status is not affected.
+                                       *   The descriptor validness status is not affected.
                                        *   The channel enable state is not affected.
                                        *   The channel current descriptor status is not updated.
                                        *   This response is used for an unused or not completed descriptor.
@@ -762,9 +769,9 @@ __STATIC_INLINE uint32_t Cy_DMAC_GetInterruptStatusMasked(DMAC_Type const * base
 * true - validate, false - invalidate.
 *
 * \note
-* If descriptor is initialized dynamicaly there is a need to set state
+* If descriptor is initialized dynamically there is a need to set state
 * to invalid before initialization and to valid after. Do this to
-* prevent the descriptor execution with wrong parameters. 
+* prevent the descriptor execution with wrong parameters.
 *
 * \funcusage
 * \snippet dmac/snippet/main.c snippet_Cy_DMAC_SetState
@@ -1503,7 +1510,7 @@ __STATIC_INLINE void Cy_DMAC_Descriptor_SetSrcIncrement(DMAC_Type * base,
 * Function Name: Cy_DMAC_Descriptor_GetSrcIncrement
 ****************************************************************************//**
 *
-* Returns the source increment parameter forthe specified descriptor.
+* Returns the source increment parameter for the specified descriptor.
 *
 * \param base
 * The pointer to the hardware DMAC block.
@@ -1537,7 +1544,7 @@ __STATIC_INLINE bool Cy_DMAC_Descriptor_GetSrcIncrement(DMAC_Type const * base,
 * Function Name: Cy_DMAC_Descriptor_SetDstIncrement
 ****************************************************************************//**
 *
-* Sets the destination increment parameter for thespecified descriptor.
+* Sets the destination increment parameter for the specified descriptor.
 *
 * \param base
 * The pointer to the hardware DMAC block.
@@ -1574,7 +1581,7 @@ __STATIC_INLINE void Cy_DMAC_Descriptor_SetDstIncrement(DMAC_Type * base,
 * Function Name: Cy_DMAC_Descriptor_GetDstIncrement
 ****************************************************************************//**
 *
-* Returns the destination increment parameter for thespecified descriptor.
+* Returns the destination increment parameter for the specified descriptor.
 *
 * \param base
 * The pointer to the hardware DMAC block.
@@ -1687,7 +1694,7 @@ CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
 * The ping/pong descriptor.
 *
 * \param preemptable
-* The preemptable comtrol value: true - enabled, false - disabled.
+* The preemptable control value: true - enabled, false - disabled.
 *
 * \funcusage
 * \snippet dmac/snippet/main.c snippet_Cy_DMAC_Descriptor_SetterFunctions
@@ -1722,7 +1729,7 @@ __STATIC_INLINE void Cy_DMAC_Descriptor_SetPreemptable (DMAC_Type * base,
 * The ping/pong descriptor.
 *
 * \return
-* The preemptable comtrol value: true - enabled, false - disabled.
+* The preemptable control value: true - enabled, false - disabled.
 *
 * \funcusage
 * \snippet dmac/snippet/main.c snippet_Cy_DMAC_Descriptor_GetterFunctions
@@ -1756,7 +1763,7 @@ __STATIC_INLINE bool Cy_DMAC_Descriptor_GetPreemptable (DMAC_Type const * base,
 * The ping/pong descriptor.
 *
 * \param invalidate
-* The invalidate comtrol value: true - enabled, false - disabled.
+* The invalidate control value: true - enabled, false - disabled.
 *
 * \funcusage
 * \snippet dmac/snippet/main.c snippet_Cy_DMAC_Descriptor_SetterFunctions
@@ -1780,7 +1787,7 @@ __STATIC_INLINE void Cy_DMAC_Descriptor_SetCpltState(DMAC_Type * base,
 ****************************************************************************//**
 *
 * Returns the completion state parameter for the specified descriptor.
-* If true - the descritor will be invalidated on completion.
+* If true - the descriptor will be invalidated on completion.
 *
 * \param base
 * The pointer to the hardware DMAC block.

@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +46,7 @@
     
     <ParamBool id="suppressCodeGen" name="suppressCodeGen" group="Internal" default="true" visible="false" editable="false" desc="Prevents pins connected to this personality to generate configuration code" />
   
-    <ParamRange id="extFrequency" name="Frequency (MHz)" group="General" default="4.000" min="1" max="64" resolution="0.001" visible="true" editable="true" desc="" />
+    <ParamRange id="extFrequency" name="Frequency (MHz)" group="General" default="4.000" min="1" max="48" resolution="0.001" visible="true" editable="true" desc="" />
     <ParamRange id="frequency" name="Frequency" group="Internal" default="`${extFrequency * 1000000}`" visible="false" editable="false" min="1000000" max="100000000" resolution="1" desc="" />
     <ParamRange id="accuracyPpm" name="Accuracy (&#177;ppm)" group="General" default="0" min="0" max="1000000" resolution="1" visible="true" editable="true" desc="Clock accuracy in ppm" />
     <ParamString id="accuracyPct" name="Accuracy (&#177;%)" group="General" default="`${accuracyPpm/10000.0}`" visible="true" editable="false" desc="Clock accuracy in %" />

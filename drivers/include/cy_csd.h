@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_csd.h
-* \version 1.0
+* \version 1.10
 *
 * The header file of the CSD driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,10 +77,6 @@
 * CSD HW blocks, the same CSD driver is used to configure any HW block. For
 * that, each function of the CSD driver contains a base address to define
 * the CSD HW block to which the CSD driver communicates.
-*
-* For dual-core devices, the CSD driver functions can be called either by the
-* CM0+ or CM4 cores. In case both cores need access to the CSD Driver, you
-* should properly manage the memory access.
 *
 * There is no restriction on the CSD Driver usage in RTOS.
 *
@@ -248,22 +246,22 @@
 ********************************************************************************
 *
 * Important information about the CapSense-technology overview, appropriate
-* Cypress device for the design, CapSense system and sensor design guidelines,
+* Infineon device for the design, CapSense system and sensor design guidelines,
 * different interfaces and tuning guidelines necessary for a successful design
 * of a CapSense system is available in the Getting Started with CapSense
-* document and the product-specific CapSense design guide. Cypress highly
+* document and the product-specific CapSense design guide. Infineon highly
 * recommends starting with these documents. They can be found on the
-* Cypress web site at www.cypress.com. For details about application notes,
+* Infineon web site at www.infineon.com. For details about application notes,
 * code examples, and kits, see the References section in this datasheet.
 *
 * For more information, refer to the following documents:
 *
 * * CapSense Overview:
 *
-*   * <a href="https://github.com/cypresssemiconductorco/capsense">
+*   * <a href="https://github.com/Infineon/capsense">
 *     <b>CapSense Middleware Library</b></a>
 *
-*   * <a href="https://cypresssemiconductorco.github.io/capsense/capsense_api_reference_manual/html/index.html">
+*   * <a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html">
 *     <b>CapSense Middleware API Reference Guide</b></a>
 *
 *   * <a href="https://www.cypress.com/ModusToolboxCapSenseConfig"><b>ModusToolbox
@@ -284,7 +282,7 @@
 *   * <a href="https://www.cypress.com/ModusToolboxDeviceConfig"><b>ModusToolbox
 *     Device Configurator Tool Guide</b></a>
 *
-* * Cypress Kits:
+* * Infineon Kits:
 *
 *   * <a href="https://www.cypress.com/documentation/development-kitsboards/cy8ckit-145-40xx-psoc-4000s-capsense-prototyping-kit">
 *     <b>CY8CKIT-145-40XX PSoC 4000S CapSense Prototyping Kit</b></a>
@@ -300,7 +298,7 @@
 *
 * * General Information:
 *
-*   * <a href="https://github.com/cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
+*   * <a href="https://github.com/infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
 *     <b>PDL API Reference</b></a>
 *
 *   * <a href="https://www.cypress.com/documentation/technical-reference-manuals/psoc-4000s-family-psoc-4-architecture-technical-reference">
@@ -309,10 +307,10 @@
 *   * <a href="https://www.cypress.com/documentation/technical-reference-manuals/psoc-4100s-and-psoc-4100s-plus-psoc-4-architecture">
 *     <b>PSoC 4100S and PSoC 4100S Plus: PSoC 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
-*   * <a href="https://github.com/cypresssemiconductorco"><b>
-*     Cypress Semiconductor GitHub</b></a>
+*   * <a href="https://github.com/Infineon"><b>
+*     Infineon Technologies GitHub</b></a>
 *
-*   * <a href="http://www.cypress.com"><b>Cypress Semiconductor</b></a>
+*   * <a href="http://www.infineon.com"><b>Infineon Technologies</b></a>
 *
 * \note
 * The links to another software component's documentation (middleware and PDL)
@@ -325,6 +323,11 @@
 ********************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10</td>
+*     <td>Added Cy_CSD_Capture() function</td>
+*     <td>CapSense memory consumption optimization</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>The initial version</td>
@@ -370,9 +373,12 @@ extern "C" {
 #define CY_CSD_DRV_VERSION_MAJOR            (1)
 
 /** Driver minor version */
-#define CY_CSD_DRV_VERSION_MINOR            (0)
+#define CY_CSD_DRV_VERSION_MINOR            (10)
 
 /** Driver version */
+#define CY_CSD_DRV2_VERSION                 (110)
+
+/** Macro to support the backward compatibility. Do not use for new designs. */
 #define CY_CSD_DRV_VERSION                  (100)
 
 /******************************************************************************
@@ -641,6 +647,7 @@ typedef struct
 
 cy_en_csd_status_t Cy_CSD_Init(CSD_Type * base, cy_stc_csd_config_t const * config, cy_en_csd_key_t key, cy_stc_csd_context_t * context);
 cy_en_csd_status_t Cy_CSD_DeInit(const CSD_Type * base, cy_en_csd_key_t key, cy_stc_csd_context_t * context);
+cy_en_csd_status_t Cy_CSD_Capture(CSD_Type * base, cy_en_csd_key_t key, cy_stc_csd_context_t * context);
 cy_en_csd_status_t Cy_CSD_Configure(CSD_Type * base, const cy_stc_csd_config_t * config, cy_en_csd_key_t key, const cy_stc_csd_context_t * context);
 
 __STATIC_INLINE cy_en_csd_key_t Cy_CSD_GetLockStatus(const CSD_Type * base, const cy_stc_csd_context_t * context);

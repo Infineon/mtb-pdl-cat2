@@ -18,21 +18,22 @@ var group__group__usbpd__common__enums =
       [ "CY_USBPD_DPDM_MUX_CONN_USB_BOT_UART", "group__group__usbpd__common__enums.html#gga481d5d73d2874ba793a20303a54e6e6ba2eb7569b6bf0d3c3c054e7e52a84bed7", null ]
     ] ],
     [ "cy_en_usbpd_aux_resistor_config_t", "group__group__usbpd__common__enums.html#ga4004e905b820e8b5b3f801c416350742", [
-      [ "AUX_NO_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ab541fffbde47647ac4cf369583e11008", null ],
-      [ "AUX_1_1MEG_PU_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a9690b507c3c13c2ad2669c44a7625d5e", null ],
-      [ "AUX_1_100K_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ac72f36213cbb5691ad61c717172db63d", null ],
-      [ "AUX_1_470K_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a107ab1517a214b2cc271f5ee9068bdff", null ],
-      [ "AUX_2_100K_PU_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a6fda4b4f467c84188ba6e56d3a40ad13", null ],
-      [ "AUX_2_4P7MEG_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ae83b61928eff2150d449062ad866480b", null ],
-      [ "AUX_2_1MEG_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742afa6de092758dd2b217aff7ed30fb114b", null ],
-      [ "AUX_MAX_RESISTOR_CONFIG", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742abbbbbb08d425084e86c5be67538995e1", null ]
+      [ "CY_USBPD_AUX_NO_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a07e67ae8293ae8a84c30481ecfefcc9a", null ],
+      [ "CY_USBPD_AUX_1_1MEG_PU_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a8f1550c530c8f3849639f148f8a5a965", null ],
+      [ "CY_USBPD_AUX_1_100K_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a1a328a0e5ebdfedc248c2057735346fe", null ],
+      [ "CY_USBPD_AUX_1_470K_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ae40329b6186c876b8736df98ef34d4bf", null ],
+      [ "CY_USBPD_AUX_2_100K_PU_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ab86ffaf4f3a76345b6ed9ca0810b01a9", null ],
+      [ "CY_USBPD_AUX_2_4P7MEG_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742a262a8475a10ade28068f3f61a7f7b73a", null ],
+      [ "CY_USBPD_AUX_2_1MEG_PD_RESISTOR", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742ad1dbe78e2f9e73a9d9636f649f441df4", null ],
+      [ "CY_USBPD_AUX_MAX_RESISTOR_CONFIG", "group__group__usbpd__common__enums.html#gga4004e905b820e8b5b3f801c416350742af7c8db34e37ea26c4ec669a70c082f2d", null ]
     ] ],
     [ "cy_en_usbpd_hpd_events_t", "group__group__usbpd__common__enums.html#ga6e673a8af225421fca677352c4593b20", [
       [ "CY_USBPD_HPD_EVENT_NONE", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20a98dd7b397b77d703924881577d698a07", null ],
       [ "CY_USBPD_HPD_EVENT_UNPLUG", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20a173bbd93d0029f1427360ab4ee784600", null ],
       [ "CY_USBPD_HPD_EVENT_PLUG", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20ab4770bff671c797183412ae180e45a1f", null ],
       [ "CY_USBPD_HPD_EVENT_IRQ", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20aafea0a693531009809c4f775345f2806", null ],
-      [ "CY_USBPD_HPD_COMMAND_DONE", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20ab65680c068735d40efdb93125169d3f4", null ]
+      [ "CY_USBPD_HPD_COMMAND_DONE", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20ab65680c068735d40efdb93125169d3f4", null ],
+      [ "CY_USBPD_HPD_INPUT_CHANGE", "group__group__usbpd__common__enums.html#gga6e673a8af225421fca677352c4593b20a55b1a50644f430ad1c401c57af6634dd", null ]
     ] ],
     [ "cy_en_usbpd_adc_id_t", "group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6", [
       [ "CY_USBPD_ADC_ID_0", "group__group__usbpd__common__enums.html#ggac5253f2c9d3b8e1b45dab0c8ef068ff6a6529d996c8a68673f3137dfefe9e9469", null ],
@@ -191,7 +192,9 @@ var group__group__usbpd__common__enums =
       [ "CY_PD_CTRL_MSG_FR_SWAP", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a927562fe6a3b84833261c1f4bec71561", null ],
       [ "CY_PD_CTRL_MSG_GET_PPS_STATUS", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a05aa745097022e9cd1d905f646158455", null ],
       [ "CY_PD_CTRL_MSG_GET_COUNTRY_CODES", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a5b49d737ca5f224403ffa41e952e98e8", null ],
-      [ "CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a6837b88de7d2eb431bb60e3446faf528", null ]
+      [ "CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a6837b88de7d2eb431bb60e3446faf528", null ],
+      [ "CY_PD_CTRL_MSG_GET_SOURCE_INFO", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806a3e10c1984058d69a5b8a333d3112c6df", null ],
+      [ "CY_PD_CTRL_MSG_GET_REVISION", "group__group__usbpd__common__enums.html#ggad1bfc9aa0e323959ba55b681c5bd4806af29cf730ffdbf3f51cccadeaa877618a", null ]
     ] ],
     [ "cy_en_pd_rp_cc_status_t", "group__group__usbpd__common__enums.html#ga55cdcd7dacbb17e61280527c2616ff62", [
       [ "CY_PD_RP_RA", "group__group__usbpd__common__enums.html#gga55cdcd7dacbb17e61280527c2616ff62a3708508f246328dab5293fd273687406", null ],

@@ -5,11 +5,13 @@
 * CY8C4125PVA-S412 device header
 *
 * \note
-* Generator version: 1.6.0.457
+* Generator version: 1.6.0.577
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

@@ -8,7 +8,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +40,7 @@
     <!-- CapSense Middleware Documentation -->
     <ParamDoc id="capSenseDoc"
               name="CapSense Middleware" group="Peripheral Documentation"
-              default="https://cypresssemiconductorco.github.io/capsense/capsense_api_reference_manual/html/index.html"
+              default="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html"
               linkText="Open CapSense Middleware Documentation" visible="true"
               desc="Opens the CapSense Middleware Library Documentation" />
     <!-- MSC Driver Documentation -->
@@ -60,11 +62,11 @@
             min="0" max="5000" resolution="1" visible="false" editable="false" desc="VDDA voltage in millivolts" />
 
     <!-- CPU Clock query -->
-    <ParamString id="cpuClkRsc" name="CLK_HF0 Resource" group="System" default="srss[0].clock[0].hfclk[0]"
+    <ParamString id="cpuClkRsc" name="HFCLK Resource" group="System" default="srss[0].clock[0].hfclk[0]"
                  visible="false" editable="false" desc="" />
-    <ParamBool id="cpuClkOk" name="CLK_HF0 Valid" group="System" default="`${isBlockUsed(cpuClkRsc)}`"
-               visible="false" editable="false" desc="Checks whether CLK_HF0 is enabled" />
-    <ParamRange id="cpuClkFreq" name="CLK_HF0 Frequency (Hz)" group="System"
+    <ParamBool id="cpuClkOk" name="HFCLK Valid" group="System" default="`${isBlockUsed(cpuClkRsc)}`"
+               visible="false" editable="false" desc="Checks whether HFCLK is enabled" />
+    <ParamRange id="cpuClkFreq" name="HFCLK Frequency (Hz)" group="System"
                 default="`${cpuClkOk ? getExposedMember(cpuClkRsc, &quot;frequency&quot;) : 0}`" min="0" max="200000000" resolution="1"
                 visible="false" editable="false" desc="CPU clock frequency in Hz" />
 
@@ -322,8 +324,8 @@
     <ConfigDefine name="CY_MSC_LITE_CONFIG_EN"
                   value="`${liteConfig ? &quot;1u&quot; : &quot;0u&quot;}`"
                   public="true" include="true" />
-    <ConfigDefine name="CY_MSC_CHANNEL_OFFSET" 
-                  value="`${chipOffset}`u" 
+    <ConfigDefine name="CY_MSC_CHANNEL_OFFSET"
+                  value="`${chipOffset}`u"
                   public="true" include="true" />
     <ConfigDefine name="CY_CAPSENSE_DMA_CONFIGURED"
                   value="`${isDMAConfigured ? &quot;1u&quot; : &quot;0u&quot;}`"

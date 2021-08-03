@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*on
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +51,7 @@
     <ParamDoc id="capSenseDoc"
             name="CapSense Middleware"
             group="Peripheral Documentation"
-            default="https://cypresssemiconductorco.github.io/capsense/capsense_api_reference_manual/html/index.html"
+            default="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html"
             linkText="Open CapSense Documentation"
             visible="true"
             desc="Opens the CapSense Middleware Library Documentation" />
@@ -150,7 +152,7 @@
             If the Vref is set manually, it should be in a range from 800 mV to (VDDA - 600) mV for the SRSS Vref source." />
     <ParamRange id="operClkDivider" name="Operation Clock Divider" group="CSDADC" default="1"
             min="1" max="255" resolution="1" visible="`${CsdAdcEnable}`" editable="true"
-            desc="CSD HW block clock divider. It will owerwrite the specified peripheral clock divider that is set on the Peripheral-Clocks tab." />
+            desc="CSD HW block clock divider. It will overwrite the specified peripheral clock divider that is set on the Peripheral-Clocks tab." />
     <ParamRange id="csdClkFreq" name="CSD HW Block Input Frequency (Hz)" group="CSDADC"
             default="`${((periClkOk &amp;&amp; CsdAdcEnable) ? ((getExposedMember(periClkRsc, &quot;frequency&quot;))/operClkDivider) : 1)}`"
             min="1" max="50000000" resolution="1" visible="`${CsdAdcEnable}`" editable="false"

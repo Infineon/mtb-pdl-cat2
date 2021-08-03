@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 1.0
+* \version 1.10
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -299,7 +301,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
             break;
 
         case CHGB_SRC_TERM_CDP:
-            pd->bch_det_0_ctrl[0] |= (PDSS_BCH_DET_0_CTRL_IDP_SNK_EN);
+            pd->bch_det_0_ctrl[0] |= (PDSS_BCH_DET_0_CTRL_RDP_PD_EN | PDSS_BCH_DET_0_CTRL_RDM_PD_EN | PDSS_BCH_DET_0_CTRL_IDP_SNK_EN);
             break;
 
         default:
@@ -650,7 +652,7 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
     if (vref == CHGB_VREF_0_325V)
     {
         /* The actual voltage needs to be 425 mV. Enable +100mV offset to get the desired voltage. */
-        regVal |= ((5UL << PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_SEL_POS) |
+        regVal |= ((4UL << PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_SEL_POS) |
                 (uint32_t)PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_EN);
     }
 

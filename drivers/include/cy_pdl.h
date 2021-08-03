@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,17 +31,21 @@
 #include "cy_device_headers.h"
 
 #include "cy_canfd.h"
+#include "cy_crypto.h"
 #include "cy_csd.h"
+#include "cy_ctb.h"
 #include "cy_dmac.h"
 #include "cy_flash.h"
 #include "cy_gpio.h"
 #include "cy_i2s.h"
+#include "cy_lpcomp.h"
 #include "cy_msc.h"
 #include "cy_sar.h"
 #include "cy_scb_ezi2c.h"
 #include "cy_scb_i2c.h"
 #include "cy_scb_spi.h"
 #include "cy_scb_uart.h"
+#include "cy_seglcd.h"
 #include "cy_smartio.h"
 #include "cy_sysclk.h"
 #include "cy_sysint.h"
@@ -50,7 +56,10 @@
 #include "cy_tcpwm_pwm.h"
 #include "cy_tcpwm_quaddec.h"
 #include "cy_trigmux.h"
+#include "cy_usbfs_dev_drv.h"
 #include "cy_usbpd_bch.h"
+#include "cy_usbpd_hpd.h"
+#include "cy_usbpd_mux.h"
 #include "cy_usbpd_phy.h"
 #include "cy_usbpd_typec.h"
 #include "cy_usbpd_vbus_ctrl.h"

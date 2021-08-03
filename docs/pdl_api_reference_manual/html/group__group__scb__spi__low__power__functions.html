@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 
 <p>This function handles the transition of the SCB SPI into and out of Deep Sleep mode. </p>
 <p>It prevents the device from entering Deep Sleep mode if the SPI slave or master is actively communicating, or there is any data in the TX or RX FIFOs. The following behavior of the SPI SCB depends on whether the SCB block is configured as enable-wakeup or not:</p><ul>
-<li><b>enable-wakeup</b>: any transfer intended to the slave wakes up the device from Deep Sleep mode. The slave responds with 0xFF to the transfer and incoming data is ignored. If the transfer occurs before the device enters Deep Sleep mode, the device will not enter Deep Sleep mode and incoming data is stored in the RX FIFO. The SCB clock is disabled before entering Deep Sleep and enabled after the device exits Deep Sleep mode. The SCB clock disabling may lead to corrupted data in the RX FIFO. Clear the RX FIFO after this callback is executed. Note that for proper SPI operation after Deep Sleep the source of hf_clk[0] must be stable, this includes the PLL. The SysClk callback ensures that hf_clk[0] gets stable and it must be called before <a class="el" href="group__group__scb__spi__low__power__functions.html#gacb2d7494770b5316e151ac96d195c6e6">Cy_SCB_SPI_DeepSleepCallback</a>. Only the SPI slave can be configured to be a wakeup source from Deep Sleep mode.</li>
+<li><b>enable-wakeup</b>: any transfer intended to the slave wakes up the device from Deep Sleep mode. The slave responds with 0xFF to the transfer and incoming data is ignored. If the transfer occurs before the device enters Deep Sleep mode, the device will not enter Deep Sleep mode and incoming data is stored in the RX FIFO. The SCB clock is disabled before entering Deep Sleep and enabled after the device exits Deep Sleep mode. The SCB clock disabling may lead to corrupted data in the RX FIFO. Clear the RX FIFO after this callback is executed. Note that for proper SPI operation after Deep Sleep the source of HFCLK must be stable, this includes the PLL. Only the SPI slave can be configured to be a wakeup source from Deep Sleep mode.</li>
 <li><b>Not enable-wakeup</b>: the SPI is disabled. It is enabled when the device fails to enter Deep Sleep mode or it is awakened from Deep Sleep mode. While the SPI is disabled, it stops driving the outputs and ignores the inputs. Any incoming data is ignored. Refer to section <a class="el" href="group__group__scb__spi.html#group_scb_spi_lp">Low Power Support</a> for more information about SPI pins when SCB disabled.</li>
 </ul>
 <p>This function must be called during execution of <a class="el" href="group__group__syspm__functions__power.html#gae24d1a7d457b5355858651a213c2f4cd">Cy_SysPm_CpuEnterDeepSleep</a>. To do it, register this function as a callback before calling <a class="el" href="group__group__syspm__functions__power.html#gae24d1a7d457b5355858651a213c2f4cd">Cy_SysPm_CpuEnterDeepSleep</a> : specify <a class="el" href="group__group__syspm__data__enumerates.html#gga8c2960c0164ead1cfa86e7d6846b6ff0abc51d74deff0ceea4304b01b2d57bd9d">CY_SYSPM_DEEPSLEEP</a> as the callback type and call <a class="el" href="group__group__syspm__functions__callback.html#ga0d58b00c8dc764a6371590f70e2f73c7">Cy_SysPm_RegisterCallback</a>.</p>
@@ -138,7 +138,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__syspm__data__enumerates.html#ga601b1cb722cb091133caf33d8ab235ca">cy_en_syspm_status_t</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>For proper operation, when the SPI slave is configured to be a wakeup source from Deep Sleep mode, need to register callback function by <a class="el" href="group__group__scb__spi__low__power__functions.html#gade2ee7a5cc645b22f3d3031e27588de6">Cy_SCB_SPI_RegisterDSClockConfig</a>. Callback function must disable or enable the clock divider depending on the event <a class="el" href="group__group__scb__spi__macros__deep__sleep__callback__events.html">SPI Deep Sleep Callback Events</a>. Not applicable for PSoC 4 4100S MAX. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For proper operation, when the SPI slave is configured to be a wakeup source from Deep Sleep mode, need to register callback function by <a class="el" href="group__group__scb__spi__low__power__functions.html#gade2ee7a5cc645b22f3d3031e27588de6">Cy_SCB_SPI_RegisterDSClockConfig</a>. Callback function must disable or enable the clock divider depending on the event <a class="el" href="group__group__scb__spi__macros__deep__sleep__callback__events.html">SPI Deep Sleep Callback Events</a>. Not applicable for PSoC 4100S Max. </dd></dl>
 
 </div>
 </div>
@@ -186,7 +186,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>To remove the callback, pass NULL as the pointer to the callback function.</dd>
 <dd>
-Not applicable for PSoC 4 4100S MAX. </dd></dl>
+Not applicable for PSoC 4100S Max. </dd></dl>
 
 </div>
 </div>
@@ -196,7 +196,7 @@ Not applicable for PSoC 4 4100S MAX. </dd></dl>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

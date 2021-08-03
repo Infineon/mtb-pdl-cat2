@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 1.0.1
+* \version 2.0
 *
 * Provides the functions for the API for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +25,7 @@
 *******************************************************************************/
 #include "cy_sar.h"
 
-#ifdef CY_IP_M0S8PASS4A
+#ifdef CY_IP_M0S8PASS4A_SAR
 
 #if defined(__cplusplus)
 extern "C" {
@@ -49,10 +51,10 @@ extern "C" {
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_SARBUS0_Msk \
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_SARBUS1_Msk)
 
-#define CY_SAR_2US_DELAY                (2u)              /**< Delay used in Enable API function to avoid SAR deadlock */
+#define CY_SAR_2US_DELAY                (2U)              /**< Delay used in Enable API function to avoid SAR deadlock */
 #define CY_SAR_10V_COUNTS               (10.0F)           /**< Value of 10 in volts */
-#define CY_SAR_10MV_COUNTS              (10000)           /**< Value of 10 in millivolts */
-#define CY_SAR_10UV_COUNTS              (10000000L)       /**< Value of 10 in microvolts */
+#define CY_SAR_10MV_COUNTS              (10000UL)         /**< Value of 10 in millivolts */
+#define CY_SAR_10UV_COUNTS              (10000000UL)      /**< Value of 10 in microvolts */
 #define CY_SAR_RANGE_LIMIT_MAX          (0xFFFFUL)        /**< Maximum value for the low and high range interrupt threshold values */
 #define CY_SAR_CAP_TRIM_MAX             (0x3FUL)          /**< Maximum value for CAP_TRIM */
 #define CY_SAR_CAP_TRIM_MIN             (0x00UL)          /**< Maximum value for CAP_TRIM */
@@ -127,7 +129,10 @@ extern "C" {
                                          (CY_SAR_SUB_RES  == (res)))
 
 #define CY_SAR_SAMPLE_TIMER_CNT         (4UL)
-#define CY_SAR_SAMPLE_TIMER(sTimer)     ((sTimer) <  CY_SAR_SAMPLE_TIMER_CNT)
+#define CY_SAR_SAMPLE_TIMER(sTimer)     ((CY_SAR_SAMPLE_TIME_0 == (sTimer)) || \
+                                         (CY_SAR_SAMPLE_TIME_1 == (sTimer)) || \
+                                         (CY_SAR_SAMPLE_TIME_2 == (sTimer)) || \
+                                         (CY_SAR_SAMPLE_TIME_3 == (sTimer)))
 
 #define SAR_SAMPLE_CTRL_DSI_TRIGGER_MODE_Pos (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Pos)
 #define SAR_SAMPLE_CTRL_DSI_TRIGGER_MODE_Msk (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Msk | SAR_SAMPLE_CTRL_DSI_TRIGGER_LEVEL_Msk)
@@ -138,7 +143,7 @@ extern "C" {
 #define CY_SAR_BACKUP_ENABLED  (1UL)
 #define CY_SAR_BACKUP_STARTED  (2UL)
 
-static uint32_t Cy_SAR_backup[CY_IP_M0S8PASS4A_INSTANCES];
+static uint32_t Cy_SAR_backup[CY_IP_M0S8PASS4A_SAR_INSTANCES];
 /** \endcond */
 
 /* This array is used to calibrate the offset for each channel.
@@ -148,7 +153,7 @@ static uint32_t Cy_SAR_backup[CY_IP_M0S8PASS4A_INSTANCES];
 * The channel offsets are used by the Cy_SAR_CountsTo_Volts, Cy_SAR_CountsTo_mVolts, and
 * Cy_SAR_CountsTo_uVolts functions to convert counts to voltage.
 */
-static int16_t Cy_SAR_offset[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_INSTANCES];
+static int16_t Cy_SAR_offset[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_SAR_INSTANCES];
 
 /* This array is used to calibrate the gain for each channel.
 * It is set at initialization and the value depends on the SARADC resolution
@@ -157,7 +162,7 @@ static int16_t Cy_SAR_offset[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_INSTANCES];
 * The channel gains are used by the Cy_SAR_CountsTo_Volts, Cy_SAR_CountsTo_mVolts and
 * Cy_SAR_CountsTo_uVolts functions to convert counts to voltage.
 */
-static int32_t Cy_SAR_countsPer10Volt[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_INSTANCES];
+static int32_t Cy_SAR_countsPer10Volt[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_SAR_INSTANCES];
 
 static bool Cy_SAR_GetBusyStatus(SAR_Type * base);
 static void Cy_SAR_WaitWhileBusy(SAR_Type * base);
@@ -209,7 +214,7 @@ static bool Cy_SAR_IsBaseAddrValid(const SAR_Type * base)
 * and guidance in the \ref group_sar_initialization section.
 *
 * \return
-* - \ref CY_SAR_SUCCESS : initialization complete successfylly
+* - \ref CY_SAR_SUCCESS : initialization complete successfully
 * - \ref CY_SAR_BAD_PARAM : input pointers are null or some configuration
                             setting is invalid, initialization incomplete.
 *
@@ -273,7 +278,7 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
         SAR_RANGE_COND(base) = _VAL2FLD(SAR_RANGE_COND_RANGE_COND, config->rangeCond);
 
         /* Calculate the default gain for all the channels in counts per 10 volts with rounding */
-        defaultGain = (int32_t)(uint16_t)CY_SYSLIB_DIV_ROUND((uint32_t)CY_SAR_WRK_MAX_12BIT * (uint32_t)CY_SAR_10MV_COUNTS, config->vrefMvValue * 2UL);
+        defaultGain = (int32_t)(uint16_t)CY_SYSLIB_DIV_ROUND(CY_SAR_WRK_MAX_12BIT * CY_SAR_10MV_COUNTS / 2UL, config->vrefMvValue);
 
         SAR_CHAN_EN(base) = _VAL2FLD(SAR_CHAN_EN_CHAN_EN, config->chanEn);
 
@@ -309,7 +314,7 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
                  */
                 if (!(locChanCfg->differential) && (CY_SAR_NEG_SEL_VREF == config->negSel) && (config->singleEndedSigned))
                 {
-                    Cy_SAR_offset[chan][CY_SAR_INSTANCE(base)] = (int16_t) (CY_SAR_WRK_MAX_12BIT / -2);
+                    Cy_SAR_offset[chan][CY_SAR_INSTANCE(base)] = (int16_t)CY_SAR_WRK_MAX_12BIT / -2;
                 }
                 else
                 {
@@ -1139,7 +1144,7 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
 *
 * \note
-* This funtion is only valid when result alignment is right aligned.
+* This function is only valid when result alignment is right aligned.
 *
 * \param base
 * Pointer to structure describing registers
@@ -1155,9 +1160,7 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage
-*
-* \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_VOLTS
+* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_VOLTS
 *
 *******************************************************************************/
 float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
@@ -1202,7 +1205,7 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
 *
 * \note
-* This funtion is only valid when result alignment is right aligned.
+* This function is only valid when result alignment is right aligned.
 *
 * \param base
 * Pointer to structure describing registers
@@ -1218,9 +1221,7 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage
-*
-* \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_MVOLTS
+* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_MVOLTS
 *
 *******************************************************************************/
 int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
@@ -1233,9 +1234,9 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
     {
         if (CY_SAR_RIGHT_ALIGN)
         {
-            int16_t locCounts = Cy_SAR_RawCounts2Counts(base, chan, adcCounts);
+            int32_t locCounts = (int32_t)Cy_SAR_RawCounts2Counts(base, chan, adcCounts);
 
-            result_mVolts = ((int32_t)locCounts * CY_SAR_10MV_COUNTS);
+            result_mVolts = (locCounts * (int32_t)CY_SAR_10MV_COUNTS);
             if (locCounts > 0)
             {
                 result_mVolts += Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)] / 2;
@@ -1275,7 +1276,7 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
 *
 * \note
-* This funtion is only valid when result alignment is right aligned.
+* This function is only valid when result alignment is right aligned.
 *
 * \param base
 * Pointer to structure describing registers
@@ -1288,7 +1289,7 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 *
 * \return
 * Result in microvolts.
-* - If channel number is valid, 0 is returned.
+* - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
 * \funcusage
@@ -1302,16 +1303,119 @@ int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 
     int64_t result_uVolts = 0;
 
-    if (chan < CY_SAR_NUM_CHANNELS)
+    if (Cy_SAR_IsBaseAddrValid(base) && (chan < CY_SAR_NUM_CHANNELS))
     {
         if (CY_SAR_RIGHT_ALIGN)
         {
-            result_uVolts = (int64_t)Cy_SAR_RawCounts2Counts(base, chan, adcCounts) * CY_SAR_10UV_COUNTS;
+            result_uVolts = (int64_t)Cy_SAR_RawCounts2Counts(base, chan, adcCounts) * (int64_t)CY_SAR_10UV_COUNTS;
             result_uVolts /= Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)];
         }
     }
 
     return ((int32_t)result_uVolts);
+}
+
+
+/*     DieTemp     */
+
+#define CY_TEMP_MULT              (0x400L)    /* 2^10 - the SFLASH.SAR_TEMP_OFFSET multiplier */
+#define CY_TEMP_DIV               (0x10000L)  /* 1 in Q16.16 format */
+#define CY_TEMP_HALF              (0x8000L)   /* 0.5 in Q16.16 format */
+
+#ifndef CY_TEMP_VREF                          
+#define CY_TEMP_VREF              (1200L)     /* DieTemp reference voltage */
+#endif/*CY_TEMP_VREF*/
+
+#ifndef CY_TEMP_SCALE_MULT
+#define CY_TEMP_SCALE_MULT        (0x8L)      /* Scale adjustment multiplier (effectively 0.5 << 4) 0.5 in Q28.4 format */
+#endif/*CY_TEMP_SCALE_MULT*/
+
+#ifndef CY_TEMP_SCALE_DIV
+#define CY_TEMP_SCALE_DIV         (0x10L)     /* Scale adjustment divider (effectively 1 << 4) 1 in Q28.4 format */
+#endif/*CY_TEMP_SCALE_DIV*/
+
+#ifndef CY_TEMP_CENT
+#define CY_TEMP_CENT              (0xF0000L)  /* Dual slope correction center value 15 degrees Celsius in Q16.16 format */
+#endif/*CY_TEMP_CENT*/
+
+#ifndef CY_TEMP_HIGH
+#define CY_TEMP_HIGH              (0x640000L) /* 100 degrees Celsius in Q16.16 format */
+#endif/*CY_TEMP_HIGH*/
+
+#ifndef CY_TEMP_LOW
+#define CY_TEMP_LOW               (0x280000L) /* 40 degrees Celsius in Q16.16 format */
+#endif/*CY_TEMP_LOW*/
+
+/*******************************************************************************
+* Function Name: Cy_SAR_CountsTo_degreeC
+****************************************************************************//**
+*
+* Converts the ADC output to degrees Celsius.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param chan
+* The channel number, between 0 and \ref CY_SAR_INJ_CHANNEL
+*
+* \param adcCounts
+* Conversion result from \ref Cy_SAR_GetResult16
+*
+* \note In case of ADC Vref doesn't match the DieTemp sensor Vref this function
+*       automatically corrects the adcCounts to match the DieTemp Vref.
+*
+* \return The die temperature in degrees Celsius.
+*         If any of base or chan parameters is valid, 0 is returned.
+*
+* \funcusage \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
+*
+*******************************************************************************/
+int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
+{
+    CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
+
+    int16_t retVal = 0;
+
+    if (Cy_SAR_IsBaseAddrValid(base) && (chan < CY_SAR_NUM_CHANNELS))
+    {
+        /* Calculate the Vref back from the defaultGain */
+        int32_t temp = (int32_t)(uint16_t)CY_SYSLIB_DIV_ROUND(CY_SAR_WRK_MAX_12BIT * CY_SAR_10MV_COUNTS / 2UL, (uint32_t)Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)]);
+
+        /* Correct the ADC counts depending on the ADC Vref */
+        if (CY_TEMP_VREF != temp)
+        {
+            temp *= (int32_t)adcCounts;
+            temp /= CY_TEMP_VREF;
+        }
+        else
+        {
+            temp = (int32_t)adcCounts;
+        }
+
+        /* Calculate tInitial in Q16.16 */
+        temp = ((int16_t)SFLASH->SAR_TEMP_MULTIPLIER * temp) +
+               ((int16_t)SFLASH->SAR_TEMP_OFFSET * CY_TEMP_MULT);
+
+        if(temp >= CY_TEMP_CENT)
+        {
+            /* Shift (tHigh - tInitial) by 4 bits to prevent scale-adjustment from overflowing. */
+            /* Then divide by the integer bits of (tHigh - tCent) to end up with a Q16.16 tAdjust */
+            temp += (CY_TEMP_SCALE_MULT * ((CY_TEMP_HIGH - temp) / CY_TEMP_SCALE_DIV)) /
+                   ((CY_TEMP_HIGH - CY_TEMP_CENT) / CY_TEMP_DIV);
+        }
+        else
+        {
+            /* Shift (tLow + tInitial) by 4 bits to prevent scale-adjustment from overflowing. */
+            /* Then divide by the integer bits of (tLow + tCent) to end up with a Q16.16 tAdjust */
+            temp += (CY_TEMP_SCALE_MULT * ((CY_TEMP_LOW + temp) / CY_TEMP_SCALE_DIV)) /
+                   ((CY_TEMP_LOW + CY_TEMP_CENT) / CY_TEMP_DIV);
+        }
+
+        retVal = (int16_t)((temp + CY_TEMP_HALF) / CY_TEMP_DIV);
+    }
+
+    /* Add tInitial + tAdjust + 0.5 to round to nearest int. Shift off frac bits, and return. */
+    return (retVal);
 }
 
 
@@ -1467,6 +1571,6 @@ cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(const cy_stc_syspm_callback_params
 }
 #endif
 
-#endif /* CY_IP_M0S8PASS4A */
+#endif /* CY_IP_M0S8PASS4A_SAR */
 
 /* [] END OF FILE */

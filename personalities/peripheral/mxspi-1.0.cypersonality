@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -88,8 +90,8 @@
 
     <ParamBool id="EnableInputFilter" name="Enable Input Glitch Filter" group="General" default="false" visible="true" editable="true" desc="This parameter applies a digital 3-tap median filter to the SPI input lines." />
     <ParamBool id="EnableLateMisoSample" name="Enable MISO Late Sampling" group="General" default="true" visible="`${MasterMode}`" editable="true" desc="This option allows the master to sample the MISO signal by half of the SCLK period later (on the alternate serial clock edge). Late sampling addresses the round-trip delay associated with transmitting SCLK from the master to the slave and transmitting MISO from the slave to the master." />
-    <ParamBool id="EnableFreeRunSclk" name="SCLK Free Running" group="General" default="false" visible="`${MasterMode}`" editable="true" desc="This parameter allows the master to generate SCLK continually. It is useful when the master SCLK is connected to the slave device which uses it for functional operation rather than only the SPI functionality." /> 
-    
+    <ParamBool id="EnableFreeRunSclk" name="SCLK Free Running" group="General" default="false" visible="`${MasterMode}`" editable="true" desc="This parameter allows the master to generate SCLK continually. It is useful when the master SCLK is connected to the slave device which uses it for functional operation rather than only the SPI functionality." />
+
     <!--Data Configuration-->
     <ParamChoice id="BitsOrder" name="Bit Order" group="Data Configuration" default="MSB_FIRST" visible="true" editable="true" desc="This parameter defines the direction in which the serial data is transmitted. When set to the MSB first, the most-significant bit is transmitted first. When set to the LSB first, the least-significant bit is transmitted first.">
       <Entry name="MSB First" value="MSB_FIRST" visible="true" />
@@ -97,28 +99,28 @@
     </ParamChoice>
     <ParamRange id="RxDataWidth" name="RX Data Width" group="Data Configuration" default="8" min="4" max="16" resolution="1" visible="true" editable="true" desc="This option defines the width of a single data element for the RX direction in bits. This number must match with TX Word Width for all SPI sub-modes except National Semiconductor (Microwire). The range: 4-16." />
     <ParamRange id="TxDataWidth" name="TX Data Width" group="Data Configuration" default="8" min="4" max="16" resolution="1" visible="true" editable="true" desc="This option defines the width of a single data element for the TX direction in bits. This number must match with RX Word Width for all SPI sub-modes except National Semiconductor (Microwire). The range: 4-16." />
-    <ParamRange id="DataWidth" name="Data Width" group="Internal" default="`${(RxDataWidth &gt; TxDataWidth) ? RxDataWidth : TxDataWidth}`" min="4" max="16" resolution="1" visible="false" editable="false" desc="This option defines the data width. The range: 4-16." />   
+    <ParamRange id="DataWidth" name="Data Width" group="Internal" default="`${(RxDataWidth &gt; TxDataWidth) ? RxDataWidth : TxDataWidth}`" min="4" max="16" resolution="1" visible="false" editable="false" desc="This option defines the data width. The range: 4-16." />
 
     <!--Slave Select-->
     <ParamBool id="DeassertSelectLine" name="Deassert SS Between Data Element" group="Slave Select" default="false" visible="`${MasterMode}`" editable="true" desc="This parameter determines if individual data transfers are separated by the slave select de-selection." />
     <ParamBool id="SSDelayAllow" name="SS Delay Allow" group="Internal" default="`${MasterMode &amp;&amp; MotorolaMode &amp;&amp; (!EnableFreeRunSclk) &amp;&amp; (OvsFactor &gt; 2)}`" visible="false" editable="false" desc="This parameter determines if individual data transfers are separated by the slave select de-selection." />
     <ParamChoice id="slaveSelectSetupDelay" name="SS Setup Delay" group="Slave Select" default="CY_SCB_SPI_SS_SETUP_DELAY_0_75_CYCLES" visible="`${SSDelayAllow}`" editable="true" desc="This parameter determines SPI Select setup delay.">
       <Entry name="0.75 Clock Cycles" value="CY_SCB_SPI_SS_SETUP_DELAY_0_75_CYCLES"  visible="true" />
-      <Entry name="1.75 Clcok Cycles" value="CY_SCB_SPI_SS_SETUP_DELAY_1_75_CYCLES" visible="true" />
+      <Entry name="1.75 Clock Cycles" value="CY_SCB_SPI_SS_SETUP_DELAY_1_75_CYCLES" visible="true" />
     </ParamChoice>
     <ParamChoice id="slaveSelectHoldDelay" name="SS Hold Delay" group="Slave Select" default="CY_SCB_SPI_SS_HOLD_DELAY_0_75_CYCLES" visible="`${SSDelayAllow}`" editable="true" desc="This parameter determines SPI Select hold delay.">
-      <Entry name="0.75 Clock Cycles"  value="CY_SCB_SPI_SS_HOLD_DELAY_0_75_CYCLES"  visible="true" />
-      <Entry name="1.75 Clcok Cycles" value="CY_SCB_SPI_SS_HOLD_DELAY_1_75_CYCLES" visible="true" />
+      <Entry name="0.75 Clock Cycles" value="CY_SCB_SPI_SS_HOLD_DELAY_0_75_CYCLES"  visible="true" />
+      <Entry name="1.75 Clock Cycles" value="CY_SCB_SPI_SS_HOLD_DELAY_1_75_CYCLES" visible="true" />
     </ParamChoice>
     <ParamChoice id="slaveSelectInterDataFrameDelay" name="SS inter-dataframe Delay" group="Slave Select" default="CY_SCB_SPI_SS_INTERFRAME_DELAY_1_5_CYCLES" visible="`${SSDelayAllow}`" editable="true" desc="This parameter determines SPI Select inter-dataframe delay.">
       <Entry name="1.5 Clock Cycles"  value="CY_SCB_SPI_SS_INTERFRAME_DELAY_1_5_CYCLES"  visible="true" />
-      <Entry name="2.5 Clock Cycles" value="CY_SCB_SPI_SS_INTERFRAME_DELAY_2_5_CYCLES" visible="true" />
+      <Entry name="2.5 Clock Cycles"  value="CY_SCB_SPI_SS_INTERFRAME_DELAY_2_5_CYCLES" visible="true" />
     </ParamChoice>
 
     <!-- SS visible options -->
     <ParamBool id="isConnectableSel0" name="isConnectableSel0" group="Internal" default="`${hasVisibleOption(&quot;spi_select0[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SS0 has valid connections." />
     <ParamBool id="isConnectableSel1" name="isConnectableSel1" group="Internal" default="`${hasVisibleOption(&quot;spi_select1[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SS1 has valid connections." />
-    <ParamBool id="isConnectableSel2" name="isConnectableSel2" group="Internal" default="`${hasVisibleOption(&quot;spi_select2[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SS2 has valid connections." />    
+    <ParamBool id="isConnectableSel2" name="isConnectableSel2" group="Internal" default="`${hasVisibleOption(&quot;spi_select2[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SS2 has valid connections." />
     <ParamBool id="isConnectableSel3" name="isConnectableSel3" group="Internal" default="`${hasVisibleOption(&quot;spi_select3[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SS3 has valid connections." />
 
     <!-- Slave Select polarities -->
@@ -137,22 +139,22 @@
     <ParamChoice id="Ss3Polarity" name="SS3 Polarity" group="Slave Select" default="CY_SCB_SPI_ACTIVE_LOW" visible="`${isConnectableSel3}`" editable="true" desc="This parameter defines the active polarity of the slave-select 3 signal as Active Low or Active High.">
       <Entry name="Active Low"  value="CY_SCB_SPI_ACTIVE_LOW"  visible="true" />
       <Entry name="Active High" value="CY_SCB_SPI_ACTIVE_HIGH" visible="true" />
-    </ParamChoice>  
+    </ParamChoice>
 
     <!-- SPI Slave data rate calculation parameters -->
     <ParamRange id="TDSO" name="TDSO" group="Internal" default="50" min="0" max="255" resolution="1" visible="false" editable="false" desc="TDSO, 002-10490 Rev. *C: SID171 (units ns)." />
     <ParamRange id="F_SPI_SLAVE_IC" name="F_SPI_SLAVE_IC" group="Internal" default="15" min="0" max="255" resolution="1" visible="false" editable="false" desc="002-10490 Rev. *C: SID166A (units MHz)." />
     <ParamRange id="T_DSO_INTERNAL" name="T_DSO_INTERNAL" group="Internal" default="`${TDSO - 3 * 10}`" min="0" max="255" resolution="1" visible="false" editable="true" desc="Tdso = Tdso_internal + (3 * Tscbclk), where Tscbclk = 10ns (units ns)." />
     <ParamRange id="T_MASTER_DELAYS" name="T_MASTER_DELAYS" group="Internal" default="`${(1000.0 / F_SPI_SLAVE_IC) - TDSO}`" min="0" max="1000" resolution="0.000001" visible="false" editable="false" desc="Calculate time left for master delays to meet SID166A FSPI_IC." />
-    <ParamRange id="scbClocksToOutput" name="scbClocksToOutput" group="Internal" default="`${EnableInputFilter ? 4 : 3}`" min="0" max="255" resolution="1" visible="false" editable="false" desc="The number of scb clocks to output." /> 
+    <ParamRange id="scbClocksToOutput" name="scbClocksToOutput" group="Internal" default="`${EnableInputFilter ? 4 : 3}`" min="0" max="255" resolution="1" visible="false" editable="false" desc="The number of scb clocks to output." />
     <ParamRange id="spiClkPeriod" name="spiClkPeriod" group="Internal" default="`${1000000 / DataRate}`" min="0" max="1000000" resolution="1" visible="false" editable="false" desc="SPI SCLK period (units ns)." />
-    
+
     <!-- Get SPI Slave desired clock -->
-    <ParamRange id="ClkHfHz" name="ClkHfHz" group="Internal" default="`${getExposedMember(&quot;srss[0].clock[0].hfclk[0]&quot;, &quot;frequency&quot;)}`" min="1" max="48000000" resolution="1" visible="false" editable="false" desc="ClkHf frequency in Hz." />
+    <ParamRange id="ClkHfHz" name="ClkHfHz" group="Internal" default="`${getExposedMember(&quot;srss[0].clock[0].hfclk[0]&quot;, &quot;frequency&quot;)}`" min="1" max="48000000" resolution="1" visible="false" editable="false" desc="HFCLK frequency in Hz." />
     <ParamRange id="spiTdso" name="spiTdso" group="Internal" default="`${(spiClkPeriod / 2) - T_DSO_INTERNAL - T_MASTER_DELAYS}`" min="-67" max="1000000" resolution="0.000001" visible="false" editable="false" desc="Time left for tDSO (units ns) that is function of SCB clock." />
-    <ParamRange id="SlaveClkHzTmp" name="SlaveClkHzTmp" group="Internal" default="`${(spiTdso &gt; 0) ? ((1000000000 * scbClocksToOutput) / spiTdso) : ClkHfHz}`" min="1" max="4294967295" resolution="1" visible="false" editable="false" desc="Slave clock to operate with desired baud rate in Hz (not adjuested)." />
+    <ParamRange id="SlaveClkHzTmp" name="SlaveClkHzTmp" group="Internal" default="`${(spiTdso &gt; 0) ? ((1000000000 * scbClocksToOutput) / spiTdso) : ClkHfHz}`" min="1" max="4294967295" resolution="1" visible="false" editable="false" desc="Slave clock to operate with desired baud rate in Hz (not adjusted)." />
     <ParamRange id="SlaveClkHz" name="SlaveClkHz" group="Internal" default="`${(SlaveClkHzTmp &gt; ClkHfHz) ? ClkHfHz : SlaveClkHzTmp}`" min="1" max="48000000" resolution="1" visible="false" editable="false" desc="Slave SCB clock to operate with desired baud rate in Hz." />
-    
+
     <!-- Get SPI Master desired clock -->
     <ParamRange id="MasterClkHz" name="MasterClkHz" group="Internal" default="`${DataRate * OvsFactor * 1000}`" min="1" max="400000000" resolution="1" visible="false" editable="false" desc="Master clock to operate with desired baud rate in kHz." />
 
@@ -160,28 +162,28 @@
     <ParamSignal port="clock[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false" >
       <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="`${!MasterMode}`" >
         <Parameter id="intDivider" severity="ERROR" reason="The clock frequency must be `${SlaveClkHz / 1000}` kHz to operate with data rate `${DataRate}` kbps." valid="true">
-          <Fixed 
+          <Fixed
             value= "`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / SlaveClkHz)}`" />
         </Parameter>
       </Constraint>
       <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="`${MasterMode}`" >
         <Parameter id="intDivider" severity="ERROR" reason="The clock frequency must be `${MasterClkHz / 1000}` kHz to operate with data rate `${DataRate}` kbps." valid="true">
-          <Fixed 
+          <Fixed
             value= "`${ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / MasterClkHz)}`" />
         </Parameter>
-      </Constraint> 
+      </Constraint>
       <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_(16.5|24.5).*" valid="true" >
         <Parameter id="fracDivider" severity="ERROR" reason="Fractional divider must be 0 for SPI interface.">
           <Fixed value= "0" />
         </Parameter>
-      </Constraint>     
+      </Constraint>
     </ParamSignal>
 
     <!-- Drive mode selection -->
     <ParamString id="DmMOSI" name="DmMOSI" group="Internal" default="`${MasterMode ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" visible="false" editable="false" desc="Drive mode " />
-    <ParamString id="DmMOSIMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode erorr message." />
+    <ParamString id="DmMOSIMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode error message." />
     <ParamString id="DmMISO" name="DmMOSI" group="Internal" default="`${!MasterMode ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" visible="false" editable="false" desc="Drive mode " />
-    <ParamString id="DmMISOMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${!MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode erorr message." />
+    <ParamString id="DmMISOMsg" name="sourceClock" group="Internal" default="Drive Mode must be set to '`${!MasterMode ? &quot;Strong Drive. Input buffer off&quot; : &quot;Digital High-Z. Input buffer on&quot;}`'" visible="false" editable="false" desc="Drive mode error message." />
 
     <!-- SCLK, MOSI and MISO connections -->
     <ParamBool id="hasConnectionSclk" name="hasConnectionSclk" group="Internal" default="`${hasVisibleOption(&quot;spi_clk[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if SCLK has valid connections." />
@@ -217,7 +219,7 @@
     </ParamSignal>
 
     <ParamBool id="MosiIdleHighLevel" name="MOSI Idle HIGH" group="Connections" default="false" visible="`${(SubModeUser eq CY_SCB_SPI_MOTOROLA) &amp;&amp; (ModeUser eq CY_SCB_SPI_MASTER)}`" editable="true" desc="Sets the the MOSI line stays high when not in use." />
-    
+
     <ParamSignal port="spi_miso[0]" name="MISO" group="Connections" visible="`${hasConnectionMiso}`" desc="The Master Input Slave Output (MOSI) signal between the slave and master devices." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
@@ -231,7 +233,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    
+
     <ParamSignal port="spi_select0[0]" name="SS0" group="Connections" visible="`${isConnectableSel0}`" desc="The Master Output / Slave Input Slave Select (SS) signal. The master uses SS signal to enable Slave for the following communication." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
@@ -326,7 +328,7 @@
     <!-- Slave actual data rate calculations -->
     <ParamRange id="tDSO_SCB" name="tDSO" group="Internal" default="`${scbClocksToOutput * (1000000000 / scbClkHz)}`" min="0" max="4294967295" resolution="0.000001" visible="false" editable="false" desc="Get tDSO based on SCB clock (units ns)." />
     <ParamRange id="spiRoundTripDelay" name="spiRoundTripDelay" group="Internal" default="`${tDSO_SCB + T_DSO_INTERNAL + T_MASTER_DELAYS}`" min="0" max="4294967295" resolution="0.000001" visible="false" editable="false" desc="Get SCL to MISO round trip delay (units ns)." />
-    
+
     <ParamRange id="SlaveActualDataRate" name="Actual Slave data rate (kbps)" group="Internal" default="`${1000000 / (2 * spiRoundTripDelay)}`" min="0" max="4294967295" resolution="0.001" visible="false" editable="false" desc="Actual Slave data rate (kbps)." />
 
     <!-- Master actual data rate calculations -->
@@ -334,7 +336,7 @@
 
     <!-- Data Rate and Clock output-->
     <ParamRange id="actualDataRate" name="Actual Data Rate (kbps)" group="Data Rate" default="`${MasterMode ? MasterActualDataRate : SlaveActualDataRate}`" min="1" max="4294967295" resolution="0.001" visible="true" editable="false" desc="`${MasterMode ? MasterActDataRateNote : SlaveActDataRateNote}`" />
-    
+
     <ParamString id="ClkFreq" name="Clock Frequency" group="Data Rate" default="`${(scbClkHz &lt; 1000000) ? (scbClkHz / 1000.0) . &quot; kHz&quot; : (scbClkHz / 1000000.0) . &quot; MHz&quot;}`" visible="true" editable="false" desc="Frequency of the connected clock" />
 
     <!-- Hardware buffer size (defines FIFO size) -->
@@ -346,11 +348,11 @@
     <!--Trigger Level-->
     <ParamRange id="RxTriggerLevel" name="RX FIFO Level" group="Trigger Level" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines behavior of signal which drives the RX FIFO Above Level interrupt source and RX trigger output as follows: the signal remains active until the number of data elements in the RX FIFO is greater than the value of RX FIFO Level. For example, the RX FIFO has 8 data elements and the RX FIFO level is 0. The signal remains active until all data elements are read from the RX FIFO. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
-    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="`${(FifoLevelMax == 15) ? 0 : (FifoLevelMax / 2)}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO Below Level interrupt source and TX trigger output as follows: until the number of data elements in the TX FIFO is less than the value of the TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." /> 
+    <ParamRange id="TxTriggerLevel" name="TX FIFO Level" group="Trigger Level" default="`${(FifoLevelMax == 15) ? 0 : (FifoLevelMax / 2)}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="true" editable="true" desc="This parameter determines the behavior of the signal which drives the TX FIFO Below Level interrupt source and TX trigger output as follows: until the number of data elements in the TX FIFO is less than the value of the TX FIFO level. For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level is 7. The signal remains active until TX FIFO has 7 data elements. The range: 0 – `${FifoLevelByte}` (when TX/RX Data Width less or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
     <!-- API Mode -->
     <ParamChoice id="ApiMode" name="API Mode" group="API Mode" default="HIGH_LEVEL" visible="true" editable="true" desc="This parameter defines which API set will be used during driver operation. High Level means driver controls interrupt sources and Cy_SCB_SPI_Interrupt function must be called in the interrupt handler hooked to NVIC. Low Level means that the user configures interrupt sources and implements own interrupt handler or do not use interrupt at all.">
-      <Entry name="High Level" value="HIGH_LEVEL" visible="true" />      
+      <Entry name="High Level" value="HIGH_LEVEL" visible="true" />
       <Entry name="Low Level"  value="LOW_LEVEL"  visible="true" />
     </ParamChoice>
     <ParamBool id="ConfigIntr" name="ConfigIntr" group="Internal" default="`${ApiMode eq LOW_LEVEL}`" visible="false" editable="false" desc="This parameter specifies the visibility of all RX Interrupt Sources parameter." />
@@ -360,7 +362,7 @@
     <ParamBool id="IntrRxTrigger" name="RX FIFO Above Level" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the RX FIFO above-level interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrRxFull" name="RX FIFO Full" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the RX FIFO full interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrRxOverflow" name="RX FIFO Overflow" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the RX FIFO overflow interrupt source to trigger the interrupt output." />
-    <ParamBool id="IntrRxUnderflow" name="RX FIFO Underflow" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the RX FIFO underflow interrupt source to trigger the interrupt output." />  
+    <ParamBool id="IntrRxUnderflow" name="RX FIFO Underflow" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the RX FIFO underflow interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrRxParityError" name="RX FIFO Parity Error" group="RX Interrupt Sources" default="false" visible="`${ConfigIntr &amp;&amp; (ParityType ne CY_SCB_SPI_PARITY_NONE)}`" editable="true" desc="This parameter enables the RX FIFO parity error interrupt source to trigger the interrupt output." />
 
     <ParamRange id="IntrRxMask" name="INTR_RX_MASK" group="Internal" default="`${ConfigIntr ? (IntrRxTrigger ? 0x1 : 0) + (IntrRxNotEmpty ? 0x4 : 0) + (IntrRxFull ? 0x8 : 0) + (IntrRxOverflow ? 0x20 : 0) + (IntrRxUnderflow ? 0x40 : 0) + (IntrRxParityError ? 0x200 : 0) : 0}`" min="0" max="4294967295" resolution="1" visible="false" editable="false" desc="This parameter defines the SPI RX interrupt mask to be written into the SCB.INTR_RX_MASK register." />
@@ -385,24 +387,24 @@
 
     <!-- SCB instance number -->
     <ParamString id="InstNumber" name="InstNumber" group="Internal" default="`${getInstNumber(&quot;scb&quot;)}`" visible="false" editable="false" desc="SCB Instance name number." />
-    
+
     <!-- Peripheral clock divider connection -->
     <ParamBool id="pclkOk" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock&quot;, 0) &amp;&amp; isBlockUsed(sourceClock)}`" visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
     <ParamString id="pclkDst" name="PCLK Destination" group="Internal" default="PCLK_SCB`${InstNumber}`_CLOCK" visible="false" editable="false" desc="Generates PCLK connection define." />
   </Parameters>
-  
-  <DRCs>  
+
+  <DRCs>
     <!--RxDataWidth and $TxDataWidth DRCs-->
     <DRC type="ERROR" text="The RX and TX Data Width must be equal for the selected Sub Mode." paramId="TxDataWidth" condition="`${((SubModeUser ne CY_SCB_SPI_NATIONAL) &amp;&amp; (RxDataWidth ne TxDataWidth)) ? true : false}`" />
 
     <!--EnableWakeup DRCs-->
     <DRC type="ERROR" text="The API Mode must be High Level to support wakeup capability (the Cy_SCB_SPI_Interrupt function must be called in the interrupt handler hooked to NVIC)." paramId="ApiMode" condition="`${(DeepSleepCapable &amp;&amp; EnableWakeup) ? ConfigIntr : false}`" />
-   
+
     <!-- Check Master valid connections -->
     <DRC type="ERROR" text="The SCLK and MOSI connections are not available for the selected device. The SPI Master can not operate on this SCB." paramId="ModeUser" condition="`${MasterMode &amp;&amp; !hasConnectionSclk &amp;&amp; !hasConnectionMosi}`" />
 
   </DRCs>
-  
+
   <ConfigFirmware>
     <ConfigInclude value="cy_scb_spi.h" include="true" />
     <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
@@ -417,18 +419,18 @@
 
       <Member name="parity" value="`${(SubModeUser eq CY_SCB_SPI_MOTOROLA) ? ParityType : &quot;CY_SCB_SPI_PARITY_NONE&quot;}`" />
       <Member name="dropOnParityError" value="`${(SubModeUser eq CY_SCB_SPI_MOTOROLA) ? DropParityError : &quot;false&quot;}`" />
-      
+
       <Member name="oversample" value="`${MasterMode ? OvsFactor : &quot;0UL&quot;}`" />
-      
+
       <Member name="rxDataWidth" value="`${RxDataWidth}`UL" />
       <Member name="txDataWidth" value="`${TxDataWidth}`UL" />
       <Member name="enableMsbFirst" value="`${(BitsOrder eq MSB_FIRST) ? &quot;true&quot; : &quot;false&quot;}`" />
       <Member name="enableInputFilter" value="`${EnableInputFilter}`" />
-      
+
       <Member name="enableFreeRunSclk" value="`${(MasterMode &amp;&amp; EnableFreeRunSclk) ? &quot;true&quot; : &quot;false&quot;}`" />
       <Member name="enableMisoLateSample" value="`${(MasterMode &amp;&amp; EnableLateMisoSample) ? &quot;true&quot; : &quot;false&quot;}`" />
       <Member name="enableTransferSeperation" value="`${(MasterMode &amp;&amp; DeassertSelectLine) ? &quot;true&quot; : &quot;false&quot;}`" />
-      
+
       <Member name="ssPolarity" value="(`${&quot;(&quot; . Ss0Polarity}` &lt;&lt; CY_SCB_SPI_SLAVE_SELECT0) | \&#xA;
                                         `${&quot;(&quot; . Ss1Polarity}` &lt;&lt; CY_SCB_SPI_SLAVE_SELECT1) | \&#xA;
                                         `${&quot;(&quot; . Ss2Polarity}` &lt;&lt; CY_SCB_SPI_SLAVE_SELECT2) | \&#xA;
@@ -439,13 +441,13 @@
       <Member name="ssInterDataframeDelay" value="`${(SSDelayAllow) ? slaveSelectInterDataFrameDelay : &quot;CY_SCB_SPI_SS_INTERFRAME_DELAY_1_5_CYCLES&quot;}`" />
 
       <Member name="enableWakeFromSleep" value="`${AllowEnableWakeup}`" />
-      
+
       <Member name="rxFifoTriggerLevel"  value="`${RxTriggerLevel}`UL" />
       <Member name="rxFifoIntEnableMask" value="`${IntrRxMask}`UL" />
-      
+
       <Member name="txFifoTriggerLevel"  value="`${TxTriggerLevel}`UL" />
       <Member name="txFifoIntEnableMask" value="`${IntrTxMask}`UL" />
-      
+
       <Member name="masterSlaveIntEnableMask" value="`${IntrMasterSlaveMask}`UL" />
     </ConfigStruct>
 
@@ -454,7 +456,7 @@
       <Member name="block_num" value="`${getInstNumber(&quot;scb&quot;)}`U" />
       <Member name="channel_num" value="0U" />
     </ConfigStruct>
-    
+
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(sourceClock, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" />
     <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
   </ConfigFirmware>

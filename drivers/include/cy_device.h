@@ -7,7 +7,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +29,7 @@
 #ifndef CY_DEVICE_H_
 #define CY_DEVICE_H_
 
+#include "cy_device_headers.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -52,10 +55,6 @@
 #define SRSSLT_CLK_IMO_TRIM1                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM1)
 #define SRSSLT_CLK_IMO_TRIM2                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM2)
 #define SRSSLT_CLK_IMO_TRIM3                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM3)
-
-#define EXCO_PLL_CONFIG                     (((EXCO_Type *) EXCO)->PLL_CONFIG)
-#define EXCO_PLL_STATUS                     (((EXCO_Type *) EXCO)->PLL_STATUS)
-#define EXCO_EXCO_PGM_CLK                   (((EXCO_Type *) EXCO)->EXCO_PGM_CLK)
 
 #define SRSSLT_SRSS_INTR                      (((SRSSLT_Type *) SRSSLT)->SRSS_INTR)
 #define SRSSLT_SRSS_INTR_SET                  (((SRSSLT_Type *) SRSSLT)->SRSS_INTR_SET)
@@ -123,7 +122,17 @@
 #define LPCOMP_INTR_SET(base)               (((LPCOMP_Type *)(base))->INTR_SET)
 #define LPCOMP_INTR_MASK(base)              (((LPCOMP_Type *)(base))->INTR_MASK)
 #define LPCOMP_INTR_MASKED(base)            (((LPCOMP_Type *)(base))->INTR_MASKED)
+#define LPCOMP_TRIM1(base)                  (((LPCOMP_Type *)(base))->TRIM1)
+#define LPCOMP_TRIM2(base)                  (((LPCOMP_Type *)(base))->TRIM2)
+#define LPCOMP_TRIM3(base)                  (((LPCOMP_Type *)(base))->TRIM3)
+#define LPCOMP_TRIM4(base)                  (((LPCOMP_Type *)(base))->TRIM4)
 
+#define LPCOMP_DFT_REG                      (*((__IOM uint32_t *)(LPCOMP_BASE + 0x08UL)))
+
+#define LPCOMP_DFT_CAL_EN_Pos               0UL
+#define LPCOMP_DFT_CAL_EN_Msk               0x1UL
+#define LPCOMP_DFT_BYPASS_Pos               1UL
+#define LPCOMP_DFT_BYPASS_Msk               0x2UL
 
 /*******************************************************************************
 *                TCPWM
@@ -386,6 +395,7 @@
 #define CTBM_INTR_SET(base)                 (((CTBM_Type *) (base))->INTR_SET)
 #define CTBM_INTR_MASK(base)                (((CTBM_Type *) (base))->INTR_MASK)
 #define CTBM_INTR_MASKED(base)              (((CTBM_Type *) (base))->INTR_MASKED)
+#define CTBM_CTB_SW_HW_CTRL(base)           (((CTBM_Type *) (base))->CTB_SW_HW_CTRL)
 
 
 /*******************************************************************************
@@ -395,8 +405,8 @@
 #define SCB_CTRL(base)                      (((CySCB_Type*) (base))->CTRL)
 #define SCB_SPI_CTRL(base)                  (((CySCB_Type*) (base))->SPI_CTRL)
 #define SCB_SPI_STATUS(base)                (((CySCB_Type*) (base))->SPI_STATUS)
-#define SCB_SPI_TX_CTRL(base)               (((CySCB_Type*) (base))->SPI_TX_CTRL) /* for PSoC 4 4100S MAX only */
-#define SCB_SPI_RX_CTRL(base)               (((CySCB_Type*) (base))->SPI_RX_CTRL) /* for PSoC 4 4100S MAX only */
+#define SCB_SPI_TX_CTRL(base)               (((CySCB_Type*) (base))->SPI_TX_CTRL) /* for PSoC 4100S Max only */
+#define SCB_SPI_RX_CTRL(base)               (((CySCB_Type*) (base))->SPI_RX_CTRL) /* for PSoC 4100S Max only */
 #define SCB_UART_CTRL(base)                 (((CySCB_Type*) (base))->UART_CTRL)
 #define SCB_UART_TX_CTRL(base)              (((CySCB_Type*) (base))->UART_TX_CTRL)
 #define SCB_UART_RX_CTRL(base)              (((CySCB_Type*) (base))->UART_RX_CTRL)
@@ -407,9 +417,9 @@
 #define SCB_I2C_M_CMD(base)                 (((CySCB_Type*) (base))->I2C_M_CMD)
 #define SCB_I2C_S_CMD(base)                 (((CySCB_Type*) (base))->I2C_S_CMD)
 #define SCB_I2C_CFG(base)                   (((CySCB_Type*) (base))->I2C_CFG)
-#define SCB_I2C_STRETCH_CTRL(base)          (((CySCB_Type*) (base))->I2C_STRETCH_CTRL)   /* for PSoC 4 4100S MAX only */
-#define SCB_I2C_STRETCH_STATUS(base)        (((CySCB_Type*) (base))->I2C_STRETCH_STATUS) /* for PSoC 4 4100S MAX only */
-#define SCB_I2C_CTRL_HS(base)               (((CySCB_Type*) (base))->I2C_CTRL_HS)        /* for PSoC 4 4100S MAX only */
+#define SCB_I2C_STRETCH_CTRL(base)          (((CySCB_Type*) (base))->I2C_STRETCH_CTRL)   /* for PSoC 4100S Max only */
+#define SCB_I2C_STRETCH_STATUS(base)        (((CySCB_Type*) (base))->I2C_STRETCH_STATUS) /* for PSoC 4100S Max only */
+#define SCB_I2C_CTRL_HS(base)               (((CySCB_Type*) (base))->I2C_CTRL_HS)        /* for PSoC 4100S Max only */
 #define SCB_TX_CTRL(base)                   (((CySCB_Type*) (base))->TX_CTRL)
 #define SCB_TX_FIFO_CTRL(base)              (((CySCB_Type*) (base))->TX_FIFO_CTRL)
 #define SCB_TX_FIFO_STATUS(base)            (((CySCB_Type*) (base))->TX_FIFO_STATUS)
@@ -477,6 +487,22 @@
 #define EXCO_ECO_TRIM2                           (((EXCO_Type *) EXCO)->ECO_TRIM2)
 #define EXCO_PLL_TRIM                            (((EXCO_Type *) EXCO)->PLL_TRIM)
 
+#define EXCO_PLL_CONFIG                          (((EXCO_Type *) EXCO)->PLL_CONFIG)
+#define EXCO_PLL_STATUS                          (((EXCO_Type *) EXCO)->PLL_STATUS)
+#define EXCO_EXCO_PGM_CLK                        (((EXCO_Type *) EXCO)->EXCO_PGM_CLK)
+
+#define EXCO_INTR                                (((EXCO_Type *) EXCO)->INTR)
+#define EXCO_INTR_SET                            (((EXCO_Type *) EXCO)->INTR_SET)
+#define EXCO_INTR_MASK                           (((EXCO_Type *) EXCO)->INTR_MASK)
+#define EXCO_INTR_MASKED                         (((EXCO_Type *) EXCO)->INTR_MASKED)
+
+#define EXCO_REF_CTL                             (((EXCO_Type *) EXCO)->REF_CTL)
+#define EXCO_REF_LIMIT                           (((EXCO_Type *) EXCO)->REF_LIMIT)
+#define EXCO_MON_CTL                             (((EXCO_Type *) EXCO)->MON_CTL)
+#define EXCO_RSTDLY_CTL                          (((EXCO_Type *) EXCO)->RSTDLY_CTL)
+#define EXCO_RSTDLY                              (((EXCO_Type *) EXCO)->RSTDLY)
+#define EXCO_RSTDLY_COUNT_VAL                    (((EXCO_Type *) EXCO)->RSTDLY_COUNT_VAL)
+
 
 /*******************************************************************************
 *                CANFD
@@ -542,6 +568,198 @@
 #define I2S_INTR_SET(base)              (((I2S_Type*)(base))->INTR_SET)
 #define I2S_INTR_MASK(base)             (((I2S_Type*)(base))->INTR_MASK)
 #define I2S_INTR_MASKED(base)           (((I2S_Type*)(base))->INTR_MASKED)
+
+/*******************************************************************************
+*                USBFS Device
+*******************************************************************************/
+
+#define USBFS_DEV_CR0(base)             (((USBFS_Type *)(base))->CR0)
+#define USBFS_DEV_CR1(base)             (((USBFS_Type *)(base))->CR1)
+#define USBFS_DEV_USBIO_CR0(base)       (((USBFS_Type *)(base))->USBIO_CR0)
+#define USBFS_DEV_USBIO_CR2(base)       (((USBFS_Type *)(base))->USBIO_CR2)
+#define USBFS_DEV_USBIO_CR1(base)       (((USBFS_Type *)(base))->USBIO_CR1)
+#define USBFS_DEV_USB_CLK_EN(base)      (((USBFS_Type *)(base))->USB_CLK_EN)
+#define USBFS_DEV_BUS_RST_CNT(base)     (((USBFS_Type *)(base))->BUS_RST_CNT)
+#define USBFS_DEV_OSCLK_DR0(base)       (((USBFS_Type *)(base))->EP_TYPE)
+#define USBFS_DEV_OSCLK_DR1(base)       (((USBFS_Type *)(base))->OSCLK_DR0)
+#define USBFS_DEV_SOF0(base)            (((USBFS_Type *)(base))->SOF0)
+#define USBFS_DEV_SOF1(base)            (((USBFS_Type *)(base))->SOF1)
+#define USBFS_DEV_SOF16(base)           (((USBFS_Type *)(base))->OSCLK_DR1)
+#define USBFS_DEV_OSCLK_DR16(base)      (((USBFS_Type *)(base))->SOF16)
+#define USBFS_DEV_ARB_CFG(base)         (((USBFS_Type *)(base))->ARB_CFG)
+#define USBFS_DEV_DYN_RECONFIG(base)    (((USBFS_Type *)(base))->DYN_RECONFIG)
+#define USBFS_DEV_BUF_SIZE(base)        (((USBFS_Type *)(base))->BUF_SIZE)
+#define USBFS_DEV_EP_ACTIVE(base)       (((USBFS_Type *)(base))->EP_ACTIVE)
+#define USBFS_DEV_EP_TYPE(base)         (((USBFS_Type *)(base))->EP_TYPE)
+#define USBFS_DEV_CWA16(base)           (((USBFS_Type *)(base))->CWA16)
+#define USBFS_DEV_CWA(base)             (((USBFS_Type *)(base))->CWA)
+#define USBFS_DEV_CWA_MSB(base)         (((USBFS_Type *)(base))->CWA_MSB)
+#define USBFS_DEV_DMA_THRES16(base)     (((USBFS_Type *)(base))->DMA_THRES16)
+#define USBFS_DEV_DMA_THRES(base)       (((USBFS_Type *)(base))->DMA_THRES)
+#define USBFS_DEV_DMA_THRES_MSB(base)   (((USBFS_Type *)(base))->DMA_THRES_MSB)
+
+#define USBFS_DEV_SIE_EP_INT_EN(base)   (((USBFS_Type *)(base))->SIE_EP_INT_EN)
+#define USBFS_DEV_SIE_EP_INT_SR(base)   (((USBFS_Type *)(base))->SIE_EP_INT_SR)
+#define USBFS_DEV_ARB_INT_EN(base)      (((USBFS_Type *)(base))->ARB_INT_EN)
+#define USBFS_DEV_ARB_INT_SR(base)      (((USBFS_Type *)(base))->ARB_INT_SR)
+
+#define USBFS_DEV_EP0_CR(base)          (((USBFS_Type *)(base))->EP0_CR)
+#define USBFS_DEV_EP0_CNT(base)         (((USBFS_Type *)(base))->EP0_CNT)
+#define USBFS_DEV_EP0_DR(base, idx)     (((USBFS_Type *)(base))->EP0_DR[idx])
+
+#define USBFS_DEV_MEM_DATA(base, idx)   (((USBFS_Type *)(base))->MEM[idx])
+
+#define USBFS_DEV_SIE_REGS_BASE        (0x30U)
+#define USBFS_DEV_SIE_REGS_SIZE        (0x40U)
+#define USBFS_DEV_SIE_EP_CNT0_OFFSET   (0x00U)
+#define USBFS_DEV_SIE_EP_CNT1_OFFSET   (0x04U)
+#define USBFS_DEV_SIE_EP_CR0_OFFSET    (0x08U)
+#define USBFS_DEV_SIE_REGS(base, endpoint) ((uint32_t)(base) + USBFS_DEV_SIE_REGS_BASE + ((endpoint) * USBFS_DEV_SIE_REGS_SIZE))
+
+#define USBFS_DEV_SIE_EP_CNT0(base, endpoint)  (*(volatile uint32_t *) (USBFS_DEV_SIE_REGS(base, endpoint) + \
+                                                                        USBFS_DEV_SIE_EP_CNT0_OFFSET))
+#define USBFS_DEV_SIE_EP_CNT1(base, endpoint)  (*(volatile uint32_t *) (USBFS_DEV_SIE_REGS(base, endpoint) + \
+                                                                        USBFS_DEV_SIE_EP_CNT1_OFFSET))
+#define USBFS_DEV_SIE_EP_CR0(base, endpoint)   (*(volatile uint32_t *) (USBFS_DEV_SIE_REGS(base, endpoint) + \
+                                                                        USBFS_DEV_SIE_EP_CR0_OFFSET))
+
+#define USBFS_DEV_ARB_REGS_BASE         (0x200U)
+#define USBFS_DEV_ARB_REGS_SIZE         (0x40U)
+#define USBFS_DEV_ARB_EP_CFG_OFFSET     (0x00U)
+#define USBFS_DEV_ARB_EP_INT_EN_OFFSET  (0x04U)
+#define USBFS_DEV_ARB_EP_SR_OFFSET      (0x08U)
+#define USBFS_DEV_ARB_RW_WA_OFFSET      (0x10U)
+#define USBFS_DEV_ARB_RW_WA_MSB_OFFSET  (0x14U)
+#define USBFS_DEV_ARB_RW_RA_OFFSET      (0x18U)
+#define USBFS_DEV_ARB_RW_RA_MSB_OFFSET  (0x1CU)
+#define USBFS_DEV_ARB_RW_DR_OFFSET      (0x20U)
+#define USBFS_DEV_ARB_REGS(base, endpoint) ((uint32_t)(base) + USBFS_DEV_ARB_REGS_BASE + ((endpoint) * USBFS_DEV_ARB_REGS_SIZE))
+
+#define USBFS_DEV_ARB_EP_CFG(base, endpoint)       (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_EP_CFG_OFFSET))
+#define USBFS_DEV_ARB_EP_INT_EN(base, endpoint)    (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_EP_INT_EN_OFFSET))
+#define USBFS_DEV_ARB_EP_SR(base, endpoint)        (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_EP_SR_OFFSET))
+#define USBFS_DEV_ARB_RW_WA(base, endpoint)        (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_WA_OFFSET))
+#define USBFS_DEV_ARB_RW_WA_MSB(base, endpoint)    (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_WA_MSB_OFFSET))
+#define USBFS_DEV_ARB_RW_RA(base, endpoint)        (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_RA_OFFSET))
+#define USBFS_DEV_ARB_RW_RA_MSB(base, endpoint)    (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_RA_MSB_OFFSET))
+#define USBFS_DEV_ARB_RW_DR(base, endpoint)        (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_DR_OFFSET))
+
+#define USBFS_DEV_ARB_REGS16_BASE       (0x1210U)
+#define USBFS_DEV_ARB_REGS16_SIZE       (0x40U)
+#define USBFS_DEV_ARB_RW_WA16_OFFSET    (0x00U)
+#define USBFS_DEV_ARB_RW_RA16_OFFSET    (0x08U)
+#define USBFS_DEV_ARB_RW_DR16_OFFSET    (0x10U)
+#define USBFS_DEV_ARB_REGS_16(base, endpoint) ((uint32_t)(base) + USBFS_DEV_ARB_REGS16_BASE + ((endpoint) * USBFS_DEV_ARB_REGS16_SIZE))
+
+#define USBFS_DEV_ARB_RW_WA16(base, endpoint)      (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS_16(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_WA16_OFFSET))
+#define USBFS_DEV_ARB_RW_RA16(base, endpoint)      (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS_16(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_RA16_OFFSET))
+#define USBFS_DEV_ARB_RW_DR16(base, endpoint)      (*(volatile uint32_t *) (USBFS_DEV_ARB_REGS_16(base, endpoint) + \
+                                                                            USBFS_DEV_ARB_RW_DR16_OFFSET))
+#define USBIO_TRIM_REG_EN_VALUE         (0x00000028)
+#define USBIO_TRIM_REG_DIS_VALUE        (0x00000000)
+
+/*
+ * This bit controls the operation of the internal USB regulator. For applications
+ * with supply voltages in the 5V range this bit is set high to enable the
+ * internal regulator. For device supply voltage in the 3.3V range this bit
+ * is cleared to connect the transceiver directly to the supply.
+ */
+#define USBDEV_CR1_REG_ENABLE                               (1u << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * This bit is set to turn on the automatic frequency locking of the internal
+ * oscillator to USB traffic.  Unless an external clock is being provided
+ * this bit should remain set for proper USB operation.
+ */
+#define USBDEV_CR1_ENABLE_LOCK                              (1u << 1) /* <1:1> R:RW:0: */
+
+
+
+#define USBFS_DEV_POWER_CTL(base)       (((USBFS_Type *)(base))->BCD.POWER_CTRL)
+#define USBFS_DEV_USBIO_CTL(base)       (((USBFS_Type *)(base))->BCD.USBIO_CTRL)
+#define USBFS_DEV_FLOW_CTL(base)        (((USBFS_Type *)(base))->BCD.FLOW_CTRL)
+#define USBFS_DEV_LPM_CTL(base)         (((USBFS_Type *)(base))->BCD.LPM_CTRL)
+#define USBFS_DEV_LPM_STAT(base)        (((USBFS_Type const *)(base))->BCD.LPM_STAT)
+#define USBFS_DEV_INTR_SIE(base)        (((USBFS_Type *)(base))->BCD.INTR_SIE)
+#define USBFS_DEV_INTR_SIE_SET(base)    (((USBFS_Type *)(base))->BCD.INTR_SIE_SET)
+#define USBFS_DEV_INTR_SIE_MASK(base)   (((USBFS_Type *)(base))->BCD.INTR_SIE_MASK)
+#define USBFS_DEV_INTR_SIE_MASKED(base) (((USBFS_Type *)(base))->BCD.INTR_SIE_MASKED)
+#define USBFS_DEV_INTR_LVL_SEL(base)    (((USBFS_Type *)(base))->BCD.INTR_LVL_SEL)
+#define USBFS_DEV_INTR_CAUSE_HI(base)   (((USBFS_Type const *)(base))->BCD.INTR_CAUSE_HI)
+#define USBFS_DEV_INTR_CAUSE_MED(base)  (((USBFS_Type const *)(base))->BCD.INTR_CAUSE_MED)
+#define USBFS_DEV_INTR_CAUSE_LO(base)   (((USBFS_Type const *)(base))->BCD.INTR_CAUSE_LO)
+#define USBFS_DEV_DFT_CTL(base)         (((USBFS_Type *)(base))->BCD.DFT_CTRL)
+#define USBFS_DEV_USBIO_TRIM(base)      (((USBFS_Type *)(base))->BCD.USBIO_TRIM)
+
+/*******************************************************************************
+*                PASS
+*******************************************************************************/
+#define PASS_INTR_CAUSE(base)                 (((PASS_Type *) (base))->INTR_CAUSE)
+#define PASS_DFT_CTRL(base)                   (((PASS_Type *) (base))->DFT_CTRL)
+#define PASS_PASS_CTRL(base)                  (((PASS_Type *) (base))->PASS_CTRL)
+#define PASS_DSAB_TRIM(base)                  (((PASS_Type *) (base))->DSAB_TRIM)
+
+#define PASS_DSAB_DSAB_CTRL(base)             (((PASS_Type *) (base))->DSAB.DSAB_CTRL)
+#define PASS_DSAB_DSAB_DFT(base)              (((PASS_Type *) (base))->DSAB.DSAB_DFT)
+
+/*******************************************************************************
+*                CRYPTO
+*******************************************************************************/
+
+/* Registers */
+#define REG_CRYPTO_CTL(base)               (((CRYPTO_Type*)(base))->CTL)
+#define REG_CRYPTO_STATUS(base)            (((CRYPTO_Type*)(base))->STATUS)
+#define REG_CRYPTO_CMD(base)               (((CRYPTO_Type*)(base))->CMD)
+#define REG_CRYPTO_SRC_CTL0(base)          (((CRYPTO_Type*)(base))->SRC_CTL0)
+#define REG_CRYPTO_SRC_CTL1(base)          (((CRYPTO_Type*)(base))->SRC_CTL1)
+#define REG_CRYPTO_DST_CTL0(base)          (((CRYPTO_Type*)(base))->DST_CTL0)
+#define REG_CRYPTO_DST_CTL1(base)          (((CRYPTO_Type*)(base))->DST_CTL1)
+#define REG_CRYPTO_AES_CTL(base)           (((CRYPTO_Type*)(base))->AES_CTL)
+#define REG_CRYPTO_PR_CTL(base)            (((CRYPTO_Type*)(base))->PR_CTL)
+#define REG_CRYPTO_PR_CMD(base)            (((CRYPTO_Type*)(base))->PR_CMD)
+#define REG_CRYPTO_PR_LFSR_CTL0(base)      (((CRYPTO_Type*)(base))->PR_LFSR_CTL0)
+#define REG_CRYPTO_PR_LFSR_CTL1(base)      (((CRYPTO_Type*)(base))->PR_LFSR_CTL1)
+#define REG_CRYPTO_PR_LFSR_CTL2(base)      (((CRYPTO_Type*)(base))->PR_LFSR_CTL2)
+#define REG_CRYPTO_PR_RESULT(base)         (((CRYPTO_Type*)(base))->PR_RESULT)
+#define REG_CRYPTO_TR_CTL0(base)           (((CRYPTO_Type*)(base))->TR_CTL0)
+#define REG_CRYPTO_TR_CTL1(base)           (((CRYPTO_Type*)(base))->TR_CTL1)
+#define REG_CRYPTO_TR_RESULT0(base)        (((CRYPTO_Type*)(base))->TR_RESULT0)
+#define REG_CRYPTO_TR_RESULT1(base)        (((CRYPTO_Type*)(base))->TR_RESULT1)
+#define REG_CRYPTO_TR_CMD(base)            (((CRYPTO_Type*)(base))->TR_CMD)
+#define REG_CRYPTO_TR_GARO_CTL(base)       (((CRYPTO_Type*)(base))->TR_GARO_CTL)
+#define REG_CRYPTO_TR_FIRO_CTL(base)       (((CRYPTO_Type*)(base))->TR_FIRO_CTL)
+#define REG_CRYPTO_TR_MON_CTL(base)        (((CRYPTO_Type*)(base))->TR_MON_CTL)
+#define REG_CRYPTO_TR_MON_CMD(base)        (((CRYPTO_Type*)(base))->TR_MON_CMD)
+#define REG_CRYPTO_TR_MON_RC_CTL(base)     (((CRYPTO_Type*)(base))->TR_MON_RC_CTL)
+#define REG_CRYPTO_TR_MON_AP_CTL(base)     (((CRYPTO_Type*)(base))->TR_MON_AP_CTL)
+#define REG_CRYPTO_TR_MON_RC_STATUS0(base) (((CRYPTO_Type*)(base))->TR_MON_RC_STATUS0)
+#define REG_CRYPTO_TR_MON_RC_STATUS1(base) (((CRYPTO_Type*)(base))->TR_MON_RC_STATUS1)
+#define REG_CRYPTO_TR_MON_AP_STATUS0(base) (((CRYPTO_Type*)(base))->TR_MON_AP_STATUS0)
+#define REG_CRYPTO_TR_MON_AP_STATUS1(base) (((CRYPTO_Type*)(base))->TR_MON_AP_STATUS1)
+#define REG_CRYPTO_SHA_CTL(base)           (((CRYPTO_Type*)(base))->SHA_CTL)
+#define REG_CRYPTO_CRC_DATA_CTL0(base)     (((CRYPTO_Type*)(base))->CRC_DATA_CTL0)
+#define REG_CRYPTO_CRC_DATA_CTL1(base)     (((CRYPTO_Type*)(base))->CRC_DATA_CTL1)
+#define REG_CRYPTO_CRC_POL_CTL(base)       (((CRYPTO_Type*)(base))->CRC_POL_CTL)
+#define REG_CRYPTO_CRC_LFSR_CTL(base)      (((CRYPTO_Type*)(base))->CRC_LFSR_CTL)
+#define REG_CRYPTO_CRC_REM_CTL0(base)      (((CRYPTO_Type*)(base))->CRC_REM_CTL0)
+#define REG_CRYPTO_CRC_REM_CTL1(base)      (((CRYPTO_Type*)(base))->CRC_REM_CTL1)
+#define REG_CRYPTO_CRC_REM(base)           (((CRYPTO_Type*)(base))->CRC_REM)
+#define REG_CRYPTO_INTR(base)              (((CRYPTO_Type*)(base))->INTR)
+#define REG_CRYPTO_INTR_SET(base)          (((CRYPTO_Type*)(base))->INTR_SET)
+#define REG_CRYPTO_INTR_MASK(base)         (((CRYPTO_Type*)(base))->INTR_MASK)
+#define REG_CRYPTO_INTR_MASKED(base)       (((CRYPTO_Type*)(base))->INTR_MASKED)
+#define REG_CRYPTO_MEM_BUFF(base)          (((CRYPTO_Type*)(base))->MEM_BUFF)
 
 #endif /* CY_DEVICE_H_ */
 

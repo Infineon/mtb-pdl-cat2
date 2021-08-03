@@ -1,5 +1,9 @@
 var searchData=
 [
+  ['offset_20and_20slope_20trim_20functions',['Offset and Slope Trim Functions',['../group__group__ctb__functions__trim.html',1,'']]],
+  ['opamp_20switch_20macros',['OpAmp Switch Macros',['../group__group__ctb__opamp__switch__macros.html',1,'']]],
+  ['oa0',['oa0',['../structcy__stc__ctb__config__t.html#ae64ff82f6d7bd95329599543f81114d8',1,'cy_stc_ctb_config_t']]],
+  ['oa1',['oa1',['../structcy__stc__ctb__config__t.html#ace86e0badd710e2b851ad63d9df3ff15',1,'cy_stc_ctb_config_t']]],
   ['objpos',['objPos',['../structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#ae94b9c2ab569b83267481ea1d1635b43',1,'cy_pd_pd_do_t::RDO_FIXED_VAR::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r___g_i_v_e_b_a_c_k.html#a19a549871e4cb228649da4714c463e79',1,'cy_pd_pd_do_t::RDO_FIXED_VAR_GIVEBACK::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___b_a_t.html#add846f9d8b78dbf506acb0bfefe3e648',1,'cy_pd_pd_do_t::RDO_BAT::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___b_a_t___g_i_v_e_b_a_c_k.html#acf6fb63cb7fd039d23b65d2244d2a923',1,'cy_pd_pd_do_t::RDO_BAT_GIVEBACK::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#aba6846e9276d33f07bbf986a941cfe17',1,'cy_pd_pd_do_t::RDO_GEN::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___g_e_n___g_v_b.html#ae0cdf7a22a2aa60dbe619437ba894fb4',1,'cy_pd_pd_do_t::RDO_GEN_GVB::objPos()'],['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#afae109f24649aa78b7394a528bc813f4',1,'cy_pd_pd_do_t::STD_VDM_HDR::objPos()'],['../structcy__pd__pd__do__t_1_1_r_d_o___p_p_s.html#abe0a237566eaad291a4f9c1767765873',1,'cy_pd_pd_do_t::RDO_PPS::objPos()']]],
   ['obsctl',['obsCtl',['../structcy__stc__msc__base__config__t.html#a4145b8d94556130c1ea17cf26f930e6d',1,'cy_stc_msc_base_config_t']]],
   ['ocp',['ocp',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a49d15f7721072388971766f32f073e9e',1,'cy_pd_pd_do_t::ADO_ALERT']]],
@@ -14,6 +18,7 @@ var searchData=
   ['otp',['otp',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#ab2ce62b3ae05262de9e86683b7ffde50',1,'cy_pd_pd_do_t::ADO_ALERT']]],
   ['outputdiv',['outputDiv',['../structcy__stc__sysclk__pll__manual__config__t.html#ac2665b097bfa38215c8de4cd0bbc5f68',1,'cy_stc_sysclk_pll_manual_config_t']]],
   ['outputfreq',['outputFreq',['../structcy__stc__sysclk__pll__config__t.html#a3d31734799778468744f28eaec4a8d20',1,'cy_stc_sysclk_pll_config_t']]],
+  ['outputmode',['outputMode',['../structcy__stc__ctb__opamp__config__t.html#aa164f8dff25db585633064953ce5aab5',1,'cy_stc_ctb_opamp_config_t::outputMode()'],['../structcy__stc__lpcomp__config__t.html#a480331bf074a8da85d644604ccbd4be1',1,'cy_stc_lpcomp_config_t::outputMode()']]],
   ['outval',['outVal',['../structcy__stc__gpio__pin__config__t.html#ae39ff5dc65ffef2808a0183f23691389',1,'cy_stc_gpio_pin_config_t']]],
   ['outvolt',['outVolt',['../structcy__pd__pd__do__t_1_1_r_d_o___p_p_s.html#a518cb2eeec6672422b58e1415b9e9a96',1,'cy_pd_pd_do_t::RDO_PPS']]],
   ['oversample',['oversample',['../structcy__stc__scb__spi__config__t.html#ac6a475cbca4d11fc3c339007694e33c4',1,'cy_stc_scb_spi_config_t::oversample()'],['../structcy__stc__scb__uart__config__t.html#a3174ca2a227f57bf9682c2dee729b2ff',1,'cy_stc_scb_uart_config_t::oversample()']]],

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 1.0
+* \version 1.10
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -114,11 +116,13 @@ void Cy_USBPD_Adc_IntrHandler(cy_stc_usbpd_context_t *context);
 
 bool Cy_USBPD_V5V_IsSupplyOn(cy_stc_usbpd_context_t *context);
 
-cy_en_usbpd_status_t Cy_USBPD_VConn_Enable(cy_stc_usbpd_context_t *context, uint8_t channel);
+cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint8_t channel);
 
-cy_en_usbpd_status_t Cy_USBPD_VConn_Disable(cy_stc_usbpd_context_t *context, uint8_t channel);
+cy_en_usbpd_status_t Cy_USBPD_Vconn_Disable(cy_stc_usbpd_context_t *context, uint8_t channel);
 
-bool Cy_USBPD_VConn_IsPresent(cy_stc_usbpd_context_t *context, uint8_t channel);
+void Cy_USBPD_Vconn_GatePullUp_Enable(cy_stc_usbpd_context_t *context);
+
+bool Cy_USBPD_Vconn_IsPresent(cy_stc_usbpd_context_t *context, uint8_t channel);
 
 bool Cy_USBPD_VbusDiv_To_AMuxDiscon(cy_stc_usbpd_context_t *context);
 
@@ -147,6 +151,10 @@ void Cy_USBPD_Vbus_GdrvCfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq);
 
 void Cy_USBPD_Vbus_GdrvCfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq);
 
+void Cy_USBPD_Vbus_NgdoOn(cy_stc_usbpd_context_t *context, bool pfet);
+
+void Cy_USBPD_Vbus_NgdoOff(cy_stc_usbpd_context_t *context, bool pfet);
+
 void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_DischargeOff(cy_stc_usbpd_context_t *context);
@@ -157,6 +165,10 @@ void Cy_USBPD_VbusIn_DischargeOff(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_LoadChangeISR_En(cy_stc_usbpd_context_t *context, uint32_t cur, 
                                    uint8_t filter, cy_cb_usbpd_vbus_load_chg_t cbk);
+
+void Cy_USBPD_Vbus_NgdoG1Ctrl(cy_stc_usbpd_context_t *context, bool value);
+
+void Cy_USBPD_Vbus_NgdoEqCtrl(cy_stc_usbpd_context_t *context, bool value);
 
 /** \endcond */
 
@@ -170,73 +182,63 @@ void Cy_USBPD_Vbus_Mon_SetDivider(cy_stc_usbpd_context_t *context, uint8_t divid
 */
 
 /** \cond DOXYGEN_HIDE */
-uint8_t Cy_USBPD_SysFault_OcpEn(cy_stc_usbpd_context_t *context, uint32_t cur, cy_cb_vbus_fault_t cbk);
-
-uint8_t Cy_USBPD_SysFault_OcpDis(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_VbusOcpHandler(cy_stc_usbpd_context_t *context);
-
-uint8_t Cy_USBPD_SysFault_ScpEn(cy_stc_usbpd_context_t *context, uint32_t cur, cy_cb_vbus_fault_t cbk);
-
-uint8_t Cy_USBPD_SysFault_ScpDis(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_VbusScpHandler(cy_stc_usbpd_context_t *context);
-
-uint8_t Cy_USBPD_SysFault_RcpEn(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cbk);
-
-uint8_t Cy_USBPD_SysFault_RcpDis(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_VbusRcpHandler(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_Vconn_OcpEn(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
-
-void Cy_USBPD_Fault_Vconn_OcpDis(cy_stc_usbpd_context_t *context);
-
 uint16_t Cy_USBPD_Vbus_MeasureCur(cy_stc_usbpd_context_t *context);
 
-void Cy_USBPD_Fault_Vbus_OcpEn(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb);
-
-void Cy_USBPD_Fault_Vbus_OcpDis(cy_stc_usbpd_context_t *context, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_OvpEn(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_OvpDis(cy_stc_usbpd_context_t *context, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_UvpEn(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_UvpDis(cy_stc_usbpd_context_t *context, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_ScpEn(cy_stc_usbpd_context_t *context, uint32_t vsense, uint8_t filterSel, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_ScpDis(cy_stc_usbpd_context_t *context, bool pctrl);
-
-void Cy_USBPD_Fault_Vbus_RcpEn(cy_stc_usbpd_context_t *context, bool pctrl, uint8_t csaDetEn, uint8_t cmpDeEn, uint8_t ovpDetEn);
-
-void Cy_USBPD_Fault_Vbus_RcpDis(cy_stc_usbpd_context_t *context, bool pctrl);
 /** \endcond */
 
-void Cy_USBPD_Fault_FetAutoModeEn(cy_stc_usbpd_context_t *context, bool pctrl, cy_en_usbpd_vbus_filter_id_t filterIndex);
+void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context);
 
-void Cy_USBPD_Fault_FetAutoModeDis(cy_stc_usbpd_context_t *context, bool pctrl, cy_en_usbpd_vbus_filter_id_t filterIndex);
+void Cy_USBPD_Fault_Vbus_UvpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vconn_OcpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_RcpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_ScpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_OcpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_CcOvp_IntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_SbuOvp_IntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vbus_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl);
+
+void Cy_USBPD_Fault_Vbus_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_Vbus_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl);
+
+void Cy_USBPD_Fault_Vbus_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_Vconn_OcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vconn_OcpDisable(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_ScpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vbus_ScpDisable(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vbus_RcpDisable(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_FetAutoModeEnable(cy_stc_usbpd_context_t *context, bool pctrl, cy_en_usbpd_vbus_filter_id_t filterIndex);
+
+void Cy_USBPD_Fault_FetAutoModeDisable(cy_stc_usbpd_context_t *context, bool pctrl, cy_en_usbpd_vbus_filter_id_t filterIndex);
+
+void Cy_USBPD_Fault_CcSbuSetCB(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 
 /** \cond DOXYGEN_HIDE */
-void Cy_USBPD_Fault_CcSbuSetCB(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 
 void Cy_USBPD_Fault_CcOvp_SetPending(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Fault_Vbus_SetCsaRsense(cy_stc_usbpd_context_t *context, uint8_t rsense);
 
 bool Cy_USBPD_Vbus_CompGetStatus(cy_stc_usbpd_context_t *context, cy_en_usbpd_vbus_filter_id_t id, bool isFiltered);
-
-void Cy_USBPD_Fault_VconnOcp_IntrHandler(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_VbusOvp_IntrHandler(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_VbusUvp_IntrHandler(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_CcOvp_IntrHandler(cy_stc_usbpd_context_t *context);
-
-void Cy_USBPD_Fault_SbuOvp_IntrHandler(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_V5vChangeDetectHandler(cy_stc_usbpd_context_t *context);
 /** \endcond */

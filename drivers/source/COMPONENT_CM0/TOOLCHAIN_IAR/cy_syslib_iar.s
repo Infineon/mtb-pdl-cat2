@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_syslib_iar.s
-* \version 2.10.1
+* \version 2.10.2
 *
 * \brief Assembly routines for IAR Embedded Workbench IDE.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

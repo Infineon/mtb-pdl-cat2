@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_gpio.h
-* \version 1.10
+* \version 1.20
 *
 * Provides an API declaration of the GPIO driver
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,7 +59,7 @@
 * 1. Pin multiplexing is controlled through the High-Speed IO Matrix (HSIOM) selection.
 *    This allows the pin to connect to signal sources/sinks throughout the device,
 *    as defined by the pin HSIOM selection options (en_hsiom_sel_t).
-*    Refer to a device-specific gpio hearder file, e.g.
+*    Refer to a device-specific gpio header file, e.g.
 *    \e \<PDL_DIR\>/devices/include/gpio_psoc4100sp_48_tqfp.\e h
 *    and the device datasheet for the supported HSIOM options.
 * 2. All the pins are initialized to High-Z drive mode with HSIOM connected to CPU (SW
@@ -90,6 +92,12 @@
 * \section group_gpio_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.20</td>
+*     <td>Added \ref Cy_GPIO_AmuxPumpEnable(), \ref Cy_GPIO_AmuxPumpDisable,
+*         and \ref Cy_GPIO_AmuxPumpIsEnabled() function.</td>
+*     <td>The AMUXBUS charge pump support. For detail, refer to the device TRM.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">1.10</td>
 *     <td>Removed SIO functions. Structures \ref cy_stc_gpio_prt_config_t and
@@ -138,7 +146,7 @@ extern "C" {
 #define CY_GPIO_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_GPIO_DRV_VERSION_MINOR       10
+#define CY_GPIO_DRV_VERSION_MINOR       20
 
 /** GPIO driver ID */
 #define CY_GPIO_ID CY_PDL_DRV_ID(0x16U)
@@ -1227,6 +1235,51 @@ __STATIC_INLINE uint32_t Cy_GPIO_GetInterruptCause(void)
 {
     return (GPIO_INTR_CAUSE);
 }
+
+#if (IOSS_HSIOM_PUMP == 1U)
+/*******************************************************************************
+* Function Name: Cy_GPIO_AmuxPumpEnable
+****************************************************************************//**
+*
+* Enables the AMUXBUS charge pump. The pump clock source shall be configured with
+* \ref Cy_SysClk_ClkPumpSetSource() before enabling the pump.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_GPIO_AmuxPumpEnable(void)
+{
+    HSIOM->PUMP_CTL |= HSIOM_PUMP_CTL_ENABLED_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_GPIO_AmuxPumpDisable
+****************************************************************************//**
+*
+* Disables the AMUXBUS charge pump.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_GPIO_AmuxPumpDisable(void)
+{
+    HSIOM->PUMP_CTL &= ~HSIOM_PUMP_CTL_ENABLED_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_GPIO_AmuxPumpIsEnabled
+****************************************************************************//**
+*
+* Gets the AMUXBUS charge pump enable state.
+*
+* \return
+* True if the pump is enabled, and otherwise - false.
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_GPIO_AmuxPumpIsEnabled(void)
+{
+    return _FLD2BOOL(HSIOM_PUMP_CTL_ENABLED, HSIOM->PUMP_CTL);
+}
+#endif /* (IOSS_HSIOM_PUMP == 1U) */
+
 
 /** \} group_gpio_functions_interrupt */
 

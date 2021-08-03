@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('group__group__gpio.html','');});
 <h1><a class="anchor" id="group_gpio_configuration"></a>
 Configuration Considerations</h1>
 <ol type="1">
-<li>Pin multiplexing is controlled through the High-Speed IO Matrix (HSIOM) selection. This allows the pin to connect to signal sources/sinks throughout the device, as defined by the pin HSIOM selection options (en_hsiom_sel_t). Refer to a device-specific gpio hearder file, e.g. <em>&lt;PDL_DIR&gt;/devices/include/gpio_psoc4100sp_48_tqfp</em>.<em>h</em> and the device datasheet for the supported HSIOM options.</li>
+<li>Pin multiplexing is controlled through the High-Speed IO Matrix (HSIOM) selection. This allows the pin to connect to signal sources/sinks throughout the device, as defined by the pin HSIOM selection options (en_hsiom_sel_t). Refer to a device-specific gpio header file, e.g. <em>&lt;PDL_DIR&gt;/devices/include/gpio_psoc4100sp_48_tqfp</em>.<em>h</em> and the device datasheet for the supported HSIOM options.</li>
 <li>All the pins are initialized to High-Z drive mode with HSIOM connected to CPU (SW control digital pin only) at Power-On-Reset(POR).</li>
 <li>Some API functions perform read-modify-write operations on shared port registers. These functions are not thread safe, so the application must call them with precaution.</li>
 <li>Each pin provides a digital input buffer that provides a high-impedance buffer for external digital inputs. The input buffer is connected to the HSIOM for routing to the CPU port registers and selected peripherals. Enabling the input buffer provides the possibility to read the pin state via the CPU. If a pin is connected to an analog signal, the input buffer should be disabled to avoid crowbar currents. For detail, refer to the device TRM and device datasheet.</li>
@@ -119,6 +119,8 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td>1.20 </td><td>Added <a class="el" href="group__group__gpio__functions__interrupt.html#ga9cf9c387b9a764b65d685e432de0f462">Cy_GPIO_AmuxPumpEnable()</a>, <a class="el" href="group__group__gpio__functions__interrupt.html#gade8ad9d68affe749126fcce827b70956">Cy_GPIO_AmuxPumpDisable</a>, and <a class="el" href="group__group__gpio__functions__interrupt.html#gacbc8ed3dbc590ea7bf87a5cc8fd39be9">Cy_GPIO_AmuxPumpIsEnabled()</a> function. </td><td>The AMUXBUS charge pump support. For detail, refer to the device TRM.  </td></tr>
 <tr>
 <td rowspan="2">1.10 </td><td>Removed SIO functions. Structures <a class="el" href="structcy__stc__gpio__prt__config__t.html">cy_stc_gpio_prt_config_t</a> and <a class="el" href="structcy__stc__gpio__pin__config__t.html">cy_stc_gpio_pin_config_t</a> updated to drop SIO features. </td><td>No hardware support for removed features.  </td></tr>
 <tr>
@@ -144,7 +146,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

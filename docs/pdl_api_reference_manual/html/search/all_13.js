@@ -8,6 +8,8 @@ var searchData=
   ['uart_20rx_20fifo_20status_2e',['UART RX FIFO status.',['../group__group__scb__uart__macros__rx__fifo__status.html',1,'']]],
   ['uart_20transmit_20status',['UART Transmit Status',['../group__group__scb__uart__macros__transmit__status.html',1,'']]],
   ['uart_20tx_20fifo_20statuses',['UART TX FIFO Statuses',['../group__group__scb__uart__macros__tx__fifo__status.html',1,'']]],
+  ['usbfs_20_20_20_20_20_20_20_20_28usb_20full_2dspeed_20device_29',['USBFS        (USB Full-Speed Device)',['../group__group__usbfs.html',1,'']]],
+  ['usbfs_20device',['USBFS Device',['../group__group__usbfs__dev__drv.html',1,'']]],
   ['usbpd_20_20_20_20_20_20_20_20_28usb_20power_20delivery_29',['USBPD        (USB Power Delivery)',['../group__group__usbpd.html',1,'']]],
   ['u3power',['u3Power',['../structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#ae00bb7f3692acca42e80ef0130fc3641',1,'cy_pd_pd_do_t::ACT_CBL_VDO_2']]],
   ['u3u0trans',['u3U0Trans',['../structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a853d35605e5754b09dc54a8d3ec14be7',1,'cy_pd_pd_do_t::ACT_CBL_VDO_2']]],

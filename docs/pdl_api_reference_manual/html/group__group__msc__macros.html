@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -101,12 +101,15 @@ Macros</h2></td></tr>
 <tr class="memdesc:gac55d4bc148e1ab8103ace619038ea7f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver major version. <br /></td></tr>
 <tr class="separator:gac55d4bc148e1ab8103ace619038ea7f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga19981405e40fe8f00d7b13b44f1cd887"><td class="memItemLeft" align="right" valign="top"><a id="ga19981405e40fe8f00d7b13b44f1cd887"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#ga19981405e40fe8f00d7b13b44f1cd887">CY_MSC_DRV_VERSION_MINOR</a>&#160;&#160;&#160;(0)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#ga19981405e40fe8f00d7b13b44f1cd887">CY_MSC_DRV_VERSION_MINOR</a>&#160;&#160;&#160;(10)</td></tr>
 <tr class="memdesc:ga19981405e40fe8f00d7b13b44f1cd887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver minor version. <br /></td></tr>
 <tr class="separator:ga19981405e40fe8f00d7b13b44f1cd887"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8fc484bbd040249408fb63a56e088e35"><td class="memItemLeft" align="right" valign="top"><a id="ga8fc484bbd040249408fb63a56e088e35"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#ga8fc484bbd040249408fb63a56e088e35">CY_MSC_DRV_VERSION</a>&#160;&#160;&#160;(100)</td></tr>
-<tr class="memdesc:ga8fc484bbd040249408fb63a56e088e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver version. <br /></td></tr>
+<tr class="memitem:gaa80243d134fefd6e46572879da9f98f5"><td class="memItemLeft" align="right" valign="top"><a id="gaa80243d134fefd6e46572879da9f98f5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#gaa80243d134fefd6e46572879da9f98f5">CY_MSC_DRV2_VERSION</a>&#160;&#160;&#160;(110)</td></tr>
+<tr class="memdesc:gaa80243d134fefd6e46572879da9f98f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver version. <br /></td></tr>
+<tr class="separator:gaa80243d134fefd6e46572879da9f98f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8fc484bbd040249408fb63a56e088e35"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#ga8fc484bbd040249408fb63a56e088e35">CY_MSC_DRV_VERSION</a>&#160;&#160;&#160;(100)</td></tr>
+<tr class="memdesc:ga8fc484bbd040249408fb63a56e088e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to support the backward compatibility.  <a href="#ga8fc484bbd040249408fb63a56e088e35">More...</a><br /></td></tr>
 <tr class="separator:ga8fc484bbd040249408fb63a56e088e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1d3709f5fd7172056e3130919834c44b"><td class="memItemLeft" align="right" valign="top"><a id="ga1d3709f5fd7172056e3130919834c44b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__msc__macros.html#ga1d3709f5fd7172056e3130919834c44b">CY_MSC_ID</a>&#160;&#160;&#160;(<a class="el" href="group__group__syslib__macros__status__codes.html#ga45c44ce91d1e20c64430f00fd8ad9b0e">CY_PDL_DRV_ID</a>(0x47u))</td></tr>
@@ -149,13 +152,31 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga81ac127a4abdad4f3aa517504efaa6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of registers in sensor frame with support up to 4 pin states. <br /></td></tr>
 <tr class="separator:ga81ac127a4abdad4f3aa517504efaa6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga8fc484bbd040249408fb63a56e088e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8fc484bbd040249408fb63a56e088e35">&#9670;&nbsp;</a></span>CY_MSC_DRV_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_MSC_DRV_VERSION&#160;&#160;&#160;(100)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Macro to support the backward compatibility. </p>
+<p>Do not use for new designs. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

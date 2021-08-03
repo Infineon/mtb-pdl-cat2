@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_msc.c
-* \version 1.0
+* \version 1.10
 *
 * The source file of the MSC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,34 +41,37 @@
 * Function Name: Cy_MSC_Init
 ****************************************************************************//**
 *
-* Acquires and locks the MSC HW block and configures it.
+* Acquires, locks, and configures the MSC HW block.
 *
 * If the MSC HW block is already in use by other middleware or by
-* the application program, then the function
+* the application program, the function
 * returns the CY_MSC_LOCKED status and does not configure the MSC HW block.
 *
-* In case of successful acquisition, this function writes configuration data
+* If the acquisition is successful, this function writes configuration data
 * into all MSC HW block registers (except read-only registers and SEQ_START
 * register) at once. Because the SEQ_START register is excluded from write,
 * use the Cy_MSC_WriteReg() function to trigger the state machine
 * for scan or conversion.
 *
+* To capture the MSC block without its reconfiguration use the
+* Cy_MSC_Capture() function.
+*
 * \param base
-* Pointer to a MSC HW block base address.
+* The pointer to a MSC HW block base address.
 *
 * \param config
 * The pointer to a configuration structure that contains the initial
 * configuration.
 *
 * \param key
-* An ID of middleware or user-level function that is going to work with
+* The ID of middleware or a user-level function to work with
 * the specified MSC HW block.
 *
 * \param context
-* The pointer to the context structure allocated by a user or middleware.
+* The pointer to the context structure allocated by the user or middleware.
 *
 * \return
-* Returns an operation result status (MSC status code).
+* Returns the operation result status (MSC status code).
 * See \ref cy_en_msc_status_t.
 *
 *******************************************************************************/
@@ -106,17 +111,17 @@ cy_en_msc_status_t Cy_MSC_Init(
 * is ignored and the corresponding status is returned.
 *
 * \param base
-* Pointer to a MSC HW block base address.
+* The pointer to a MSC HW block base address.
 *
 * \param key
-* An ID of middleware or user-level function that is going to work with
-* a specified MSC HW block.
+* The ID of middleware or a user-level function to work with
+* the specified MSC HW block.
 *
 * \param context
-* The pointer to the context structure allocated by a user or middleware.
+* The pointer to the context structure allocated by the user or middleware.
 *
 * \return
-* Returns an operation result status (MSC status code).
+* Returns the operation result status (MSC status code).
 * See \ref cy_en_msc_status_t.
 *
 *******************************************************************************/
@@ -145,6 +150,61 @@ cy_en_msc_status_t Cy_MSC_DeInit(
 
 
 /*******************************************************************************
+* Function Name: Cy_MSC_Capture
+****************************************************************************//**
+*
+* Acquires and locks the MSC HW block without changing its configuration.
+*
+* If the MSC HW block is already in use by other middleware or by
+* the application program, then the function
+* returns the CY_MSC_LOCKED status.
+*
+* \note This is a low-level function. Use the Cy_MSC_Init() function instead.
+* The Cy_MSC_Capture() function is used by upper-level middleware to improve
+* efficiency. It also can be used to implement specific use cases. If this
+* function is used, configure the MSC block using the Cy_MSC_Configure()
+* function.
+*
+* \param base
+* The pointer to a MSC HW block base address.
+*
+* \param key
+* The ID of middleware or a user-level function to work with
+* the specified MSC HW block.
+*
+* \param context
+* The pointer to the context structure allocated by the user or middleware.
+*
+* \return
+* Returns the operation result status (MSC status code).
+* See \ref cy_en_msc_status_t.
+*
+*******************************************************************************/
+cy_en_msc_status_t Cy_MSC_Capture(
+                MSC_Type * base,
+                cy_en_msc_key_t key,
+                cy_stc_msc_context_t * context)
+{
+    cy_en_msc_status_t mscStatus = CY_MSC_LOCKED;
+
+    if ((NULL == base) || (CY_MSC_NONE_KEY == key) || (NULL == context))
+    {
+        mscStatus = CY_MSC_BAD_PARAM;
+    }
+    else
+    {
+        if(CY_MSC_NONE_KEY == context->lockKey)
+        {
+            context->lockKey = key;
+            mscStatus = CY_MSC_SUCCESS;
+        }
+    }
+
+    return(mscStatus);
+}
+
+
+/*******************************************************************************
 * Function Name: Cy_MSC_Configure
 ****************************************************************************//**
 *
@@ -156,20 +216,20 @@ cy_en_msc_status_t Cy_MSC_DeInit(
 * function to perform triggering state machine for scan or conversion.
 *
 * \param base
-* Pointer to a MSC HW block base address.
+* The pointer to a MSC HW block base address.
 *
 * \param config
 * The pointer to a configuration structure that contains initial configuration.
 *
 * \param key
-* An ID of middleware or user-level function that is going to work with
+* The ID of middleware or a user-level function to work with
 * the specified MSC HW block.
 *
 * \param context
-* The pointer to the context structure allocated by a user or middleware.
+* The pointer to the context structure allocated by the user or middleware.
 *
 * \return
-* Returns an operation result status (MSC status code).
+* Returns the operation result status (MSC status code).
 * See \ref cy_en_msc_status_t.
 *
 *******************************************************************************/
@@ -278,6 +338,10 @@ void Cy_MSC_ConfigureScan (
     if (CY_MSC_6_SNS_REGS == numRegs)
     {
         base->SNS_SW_SEL_CSW_MASK2 = scanConfig[index++];
+    }
+    else
+    {
+        base->SNS_SW_SEL_CSW_MASK2 = 0u;
     }
 
     base->SNS_SW_SEL_CSW_MASK1  = scanConfig[index++];

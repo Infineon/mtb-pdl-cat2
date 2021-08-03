@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.3" xmlns="http://cypress.com/xsd/cysem">
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" xmlns="http://cypress.com/xsd/cysem">
   <Instances count="156">
     <Instance guid="00cbb410-61f2-43f3-90d0-471cf573b242" name="ioss0_port1_p1_p45" component="swh">
       <Parameter name="CY_COMMENT">
@@ -577,6 +577,9 @@
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="2ac8a3f0-cfea-4813-b245-f7abe2459aa1" name="ioss0_port2_p2_p54" component="swh">
@@ -2511,6 +2514,9 @@
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="db9043fc-8bfe-4629-8141-6b0c9da3c4c2" name="ioss0_port2_p2_p50" component="swh">

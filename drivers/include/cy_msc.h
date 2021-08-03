@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_msc.h
-* \version 1.0
+* \version 1.10
 *
 * The header file of the MSC driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -75,10 +77,6 @@
 * MSC HW blocks, the same MSC driver is used to configure any HW block. For
 * that, each function of the MSC driver contains a base address to define
 * the MSC HW block to which the MSC driver communicates.
-*
-* For dual-core devices, the MSC driver functions can be called either by the
-* CM0+ or CM4 cores. In case both cores need access to the MSC Driver, you
-* should properly manage the memory access.
 *
 * There is no restriction on the MSC Driver usage in RTOS.
 *
@@ -293,10 +291,10 @@
 *
 * * CapSense Overview:
 *
-*   * <a href="https://github.com/cypresssemiconductorco/capsense">
+*   * <a href="https://github.com/Infineon/capsense">
 *     <b>CapSense Middleware Library</b></a>
 *
-*   * <a href="https://cypresssemiconductorco.github.io/capsense/capsense_api_reference_manual/html/index.html">
+*   * <a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html">
 *     <b>CapSense Middleware API Reference Guide</b></a>
 *
 *   * <a href="https://www.cypress.com/ModusToolboxCapSenseConfig"><b>ModusToolbox
@@ -317,19 +315,19 @@
 *   * <a href="https://www.cypress.com/ModusToolboxDeviceConfig"><b>ModusToolbox
 *     Device Configurator Tool Guide</b></a>
 *
-* * Cypress Kits:
+* * Infineon Kits:
 *
 *   * Information will be available later. In case of urgency, contact
 *     the technical support group.
 *
 * * General Information:
 *
-*   * <a href="https://github.com/cypresssemiconductorco.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
+*   * <a href="https://github.com/infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
 *     <b>PDL API Reference</b></a>
 *
-*   * <a href="https://github.com/cypresssemiconductorco"><b>GitHub</b></a>
+*   * <a href="https://github.com/Infineon"><b>GitHub</b></a>
 *
-*   * <a href="http://www.cypress.com"><b>Cypress Semiconductor</b></a>
+*   * <a href="http://www.infineon.com"><b>Infineon Technologies</b></a>
 *
 * \note
 * The links to another software component's documentation (middleware and PDL)
@@ -343,6 +341,11 @@
 ********************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10</td>
+*     <td>Added Cy_MSC_Capture() function</td>
+*     <td>CapSense memory consumption optimization</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>The initial version</td>
@@ -388,9 +391,12 @@ extern "C" {
 #define CY_MSC_DRV_VERSION_MAJOR            (1)
 
 /** Driver minor version */
-#define CY_MSC_DRV_VERSION_MINOR            (0)
+#define CY_MSC_DRV_VERSION_MINOR            (10)
 
 /** Driver version */
+#define CY_MSC_DRV2_VERSION                 (110)
+
+/** Macro to support the backward compatibility. Do not use for new designs. */
 #define CY_MSC_DRV_VERSION                  (100)
 
 /******************************************************************************
@@ -842,6 +848,7 @@ typedef struct
 
 cy_en_msc_status_t Cy_MSC_Init(MSC_Type * base, cy_stc_msc_base_config_t const * config, cy_en_msc_key_t key, cy_stc_msc_context_t * context);
 cy_en_msc_status_t Cy_MSC_DeInit(const MSC_Type * base, cy_en_msc_key_t key, cy_stc_msc_context_t * context);
+cy_en_msc_status_t Cy_MSC_Capture(MSC_Type * base, cy_en_msc_key_t key, cy_stc_msc_context_t * context);
 cy_en_msc_status_t Cy_MSC_Configure(MSC_Type * base, const cy_stc_msc_base_config_t * config, cy_en_msc_key_t key, const cy_stc_msc_context_t * context);
 void Cy_MSC_ConfigureScan(MSC_Type * base, uint32_t numRegs, const uint32_t * scanConfig);
 

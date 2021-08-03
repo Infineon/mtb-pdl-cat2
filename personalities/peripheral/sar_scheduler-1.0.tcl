@@ -1,4 +1,6 @@
-# Copyright 2020-2021 Cypress Semiconductor Corporation
+# (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+# an affiliate of Cypress Semiconductor Corporation.
+#
 # SPDX-License-Identifier: Apache-2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -241,7 +243,7 @@ proc write_output {} {
         if {$chanNum < [llength $::channels]} {
             set ch_achieved_acq_time [expr {int([lindex $::channels $chanNum $::CHAN_ACHIEVED_ACQ_TIME_NS])}]
             set ch_achieved_sample_time [expr {int([lindex $::channels $chanNum $::CHAN_ACHIEVED_SAMPLE_TIME_NS])}]
-            set ch_sample_time_sel [format "%dUL" [lindex $::channels $chanNum $::CHAN_TIMER]]
+            set ch_sample_time_sel [format "%d" [lindex $::channels $chanNum $::CHAN_TIMER]]
         }
         puts $::channelName [format "param:ch%d_achieved_acq_time=%d ns" $chanNum $ch_achieved_acq_time]
         puts $::channelName [format "param:ch%d_achieved_sample_time=%d ns" $chanNum $ch_achieved_sample_time]
@@ -264,7 +266,7 @@ proc write_output {} {
         }
     }
     puts $::channelName [format "param:sample_time_min=%d" $min_aperture]
-    set inj_sample_time_sel [format "%dUL" $min_sample_time_sel]
+    set inj_sample_time_sel [format "%d" $min_sample_time_sel]
     puts $::channelName [format "param:inj_sample_time_sel=%s" $inj_sample_time_sel]
 }
 
@@ -280,12 +282,6 @@ proc schedule_adc_only_with_fixed_adc_clock {adcClockRate} {
     # Set up data structures for optimization with padding.
     set chanTimesPad $chanTimesNoPad
     set apertureClocksPad $apertureClocksNoPad
-    set padIndex [find_padding_channel $chanTimesPad]
-    if {$padIndex != 0} {
-        set padChan [lindex $::chanTimesPad $padIndex]
-        set ::chanTimesPad [lreplace $::chanTimesPad $padIndex $padIndex]
-        set ::chanTimesPad [linsert $::chanTimesPad 0 $padChan]
-    }
 
     # Find solution with minimum ADC clocks without padding.
     optimize_apertures "chanTimesNoPad" 0 [llength $chanTimesNoPad] "apertureClocksNoPad" 0 [llength $apertureClocksNoPad]
@@ -385,25 +381,6 @@ proc get_channel_timing_info {} {
         lappend chanTimings [construct_timing_info [lindex $chan $::CHAN_MIN_ACQ_ADC_CLOCKS_NEEDED] [lindex $chan $::CHAN_SAMPLES_PER_SCAN] [lindex $chan $::CHAN_IS_ENABLED] $chanNum]
     }
     return $chanTimings
-}
-
-# This function (in the original Java code) always returns 0.
-# TODO: Make it do something useful.
-proc compare_padding_merit {chanTimes $bestPadIndex $padIndex} {
-    return 0
-}
-
-# Find best channel in range to use for ADC clock padding.
-# Prefer channels with no averaging or minimum averaging and lowest ideal ADC clock count.
-# The chanTimes list must be sorted.
-proc find_padding_channel {chanTimes} {
-    set bestPadIndex 0
-    for {set padIndex 1} {$padIndex < [llength $chanTimes]} {incr padIndex} {
-        if {[compare_padding_merit $chanTimes $bestPadIndex $padIndex] > 0} {
-            set bestPadIndex $padIndex
-        }
-    }
-    return $bestPadIndex
 }
 
 # Recursive min cost optimizer.

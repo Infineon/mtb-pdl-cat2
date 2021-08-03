@@ -19,7 +19,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* (c) (2019-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -197,7 +199,7 @@ SECTIONS
     } > RAM
 
 
-    .data __ram_vectors_end__ : AT (__etext)
+    .data __ram_vectors_end__ :
     {
         __data_start__ = .;
 
@@ -229,7 +231,7 @@ SECTIONS
         /* All data end */
         __data_end__ = .;
 
-    } > RAM
+    } > RAM AT> FLASH
 
    /* Place variables in the section that should not be initialized during the
     *  device startup.
@@ -240,8 +242,8 @@ SECTIONS
     } > RAM
 
 
-   /* Secondary data section, optional 
-    * 
+   /* Secondary data section, optional
+    *
     * Remember to add each additional data section
     * to the .copy.table above to asure proper
     * initialization during startup.
@@ -258,9 +260,9 @@ SECTIONS
         . = ALIGN(4);
         __data2_end__ = .;
 
-    } > RAM 
+    } > RAM
     */
-  
+
    /* The uninitialized global or static variables are placed in this section.
     *
     * The NOLOAD attribute tells linker that .bss section does not consume
@@ -285,7 +287,7 @@ SECTIONS
     } > RAM
 
     /**
-    * Secondary bss section, optional 
+    * Secondary bss section, optional
     *
     * Remember to add each additional bss section
     * to the .zero.table above to asure proper

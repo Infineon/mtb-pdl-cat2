@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.3" xmlns="http://cypress.com/xsd/cysem">
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" xmlns="http://cypress.com/xsd/cysem">
   <Instances count="373">
     <Instance guid="00cbb410-61f2-43f3-90d0-471cf573b242" name="ioss0_port1_p1_p45" component="swh">
       <Parameter name="CY_COMMENT">
@@ -1168,6 +1168,9 @@
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="2941f963-8a99-4645-ad51-cd7ef5cf2a65" name="ioss0_port4_p4_p45" component="swh">
@@ -5837,6 +5840,9 @@
       </Parameter>
       <Parameter name="InvertTerminals">
         <Value>true</Value>
+      </Parameter>
+      <Parameter name="InvertTitle">
+        <Value>false</Value>
       </Parameter>
     </Instance>
     <Instance guid="d9fb584b-e0b0-45b2-b973-2a6a6d5e1615" name="GPIO_P5_3" component="cy_all_pin">

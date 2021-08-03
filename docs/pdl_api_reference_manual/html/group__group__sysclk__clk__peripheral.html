@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -94,11 +94,11 @@ $(document).ready(function(){initNavTree('group__group__sysclk__clk__peripheral.
 <li>Fractional 16.5-bit dividers (16 integer bits, 5 fractional bits)</li>
 <li>Fractional 24.5-bit divider (24 integer bits, 5 fractional bits)</li>
 </ul>
-<p>The availability and number of each type of dividers depends on teh certain device family. Consult the Technical Reference Manual for your device for details.</p>
-<p>The integer dividers work simply: a divider value of 1 means the output frequency matches the input frequency (that is, there is no change). Otherwise the frequency is divided by the value of the divider. For example, if the input frequency is 50 MHz, and the divider is value 10, the output frequency is 5 MHz.</p>
-<p>The five fractional bits supports further precision in 1/32nd increments. For example, a divider with an integer value of 3 and a fractional value of 4 (4/32) results in a divider of 3.125. Fractional dividers are useful when a high-precision clock is required, for example, for a UART/SPI serial interface.</p>
+<p>The availability and number of each type of dividers depends on the certain device family. Consult the Technical Reference Manual for your device for details.</p>
+<p>The integer dividers work simply: a divider value of 1 means the output frequency matches the input frequency (that is, there is no change). Otherwise the frequency is divided by the value of the divider. For example, if the input frequency is 24 MHz, and the divider value is 10, the output frequency is 2.4 MHz.</p>
+<p>The five fractional bits support further precision in 1/32nd increments. For example, a divider with an integer value of 3 and a fractional value of 4 (4/32 or 1/8) result in a divider of 3.125. Fractional dividers are useful when a high-precision clock frequency is required, for example, for a UART/SPI serial interface.</p>
 <div class="image">
-<img src="sysclk_peri_divs.png"/>
+<img src="sysclk_peri_divs.png" alt="sysclk_peri_divs.png"/>
 </div>
 <p>Each peripheral can connect to any one of the programmable dividers. A particular peripheral clock divider can drive multiple peripherals.</p>
 <p>The SysClk driver also supports phase aligning two peripheral clock dividers using <a class="el" href="group__group__sysclk__clk__peripheral__funcs.html#ga9b9eeb2b22873c889c785593aa4d25f9" title="First disables a selected divider (Cy_SysClk_PeriphDisableDivider), then aligns that divider to anoth...">Cy_SysClk_PeriphEnablePhaseAlignDivider()</a>. Alignment works for both integer and fractional dividers. The divider to which a second divider is aligned must already be enabled. </p>
@@ -116,7 +116,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>

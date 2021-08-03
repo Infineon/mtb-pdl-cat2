@@ -33,6 +33,7 @@ var searchData=
   ['bch_5fport_5f1_5fcmp2_5fintr_5fmask',['BCH_PORT_1_CMP2_INTR_MASK',['../group__group__usbpd__legacy__macros.html#ga9344fef465dbf276043b8e3427aa6443',1,'cy_usbpd_bch.h']]],
   ['bcphycbk',['bcPhyCbk',['../structcy__stc__usbpd__context__t.html#af179c27691ea546da33bcaa1726ae369',1,'cy_stc_usbpd_context_t']]],
   ['bcqcpulsecount',['bcQcPulseCount',['../structcy__stc__usbpd__context__t.html#a7625c9f9e1519aef0c951ca60c2ad0f3',1,'cy_stc_usbpd_context_t']]],
+  ['bias',['bias',['../structcy__stc__seglcd__config__t.html#ab3f79d01165e2a5f3926ab943d01a789',1,'cy_stc_seglcd_config_t']]],
   ['bist_5fdo',['BIST_DO',['../structcy__pd__pd__do__t_1_1_b_i_s_t___d_o.html',1,'cy_pd_pd_do_t::BIST_DO'],['../unioncy__pd__pd__do__t.html#a208a3229675514011c3652b46ec44357',1,'cy_pd_pd_do_t::bist_do()']]],
   ['bitrate',['bitrate',['../structcy__stc__canfd__config__t.html#a4f9e70770fabc4e2f30fe3afb1e5bdbc',1,'cy_stc_canfd_config_t']]],
   ['boostpump',['boostPump',['../structcy__stc__sar__config__t.html#a4951410faf048d909ed7fac0955762af',1,'cy_stc_sar_config_t']]],
@@ -40,7 +41,9 @@ var searchData=
   ['breakwidth',['breakWidth',['../structcy__stc__scb__uart__config__t.html#a923970897f4434aadda6bee185a2367d',1,'cy_stc_scb_uart_config_t']]],
   ['brs',['brs',['../structcy__stc__canfd__r1__t.html#ac30d64c756b0e2d8d5a71286d8d9c822',1,'cy_stc_canfd_r1_t::brs()'],['../structcy__stc__canfd__t1__t.html#a1575c20946ae223fff0be79d15e65e00',1,'cy_stc_canfd_t1_t::brs()']]],
   ['buffer',['buffer',['../structcy__stc__scb__i2c__master__xfer__config__t.html#a17fa9b9a817e002381f07c4982abaffa',1,'cy_stc_scb_i2c_master_xfer_config_t']]],
-  ['buffersize',['bufferSize',['../structcy__stc__scb__i2c__master__xfer__config__t.html#a4afeea04f622380e0c1113cc4bfbdea6',1,'cy_stc_scb_i2c_master_xfer_config_t']]],
+  ['buffersize',['bufferSize',['../structcy__stc__scb__i2c__master__xfer__config__t.html#a4afeea04f622380e0c1113cc4bfbdea6',1,'cy_stc_scb_i2c_master_xfer_config_t::bufferSize()'],['../structcy__stc__usb__dev__ep__config__t.html#a55bbd3ae04492a97a780b06b2740b835',1,'cy_stc_usb_dev_ep_config_t::bufferSize()']]],
   ['bypassmask',['bypassMask',['../structcy__stc__smartio__config__t.html#a4b9c0b1f5a84c0e4e078235901cf982d',1,'cy_stc_smartio_config_t']]],
-  ['block_20functions',['Block Functions',['../group__group__dmac__block__functions.html',1,'']]]
+  ['basic_20configuration_20functions',['Basic Configuration Functions',['../group__group__ctb__functions__basic.html',1,'']]],
+  ['block_20functions',['Block Functions',['../group__group__dmac__block__functions.html',1,'']]],
+  ['block_20configuration_20functions',['Block Configuration Functions',['../group__group__seglcd__functions__config.html',1,'']]]
 ];

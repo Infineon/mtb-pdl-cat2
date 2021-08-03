@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 1.0.1
+* \version 2.0
 *
 * Header file for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2020-2021 Cypress Semiconductor Corporation
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -288,7 +290,7 @@
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_CHAN_STRUCT
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_MUX_SWITCH
 *
-* \subsection group_sar_sarmux_ctb Input from CTB output visa SARBUS0/1
+* \subsection group_sar_sarmux_ctb Input from CTB output via SARBUS0/1
 *
 * The following figure and code snippet show how the two opamp outputs from the CTB
 * are connected to the SARADC as separate single-ended channels and as a differential-pair channel.
@@ -299,7 +301,9 @@
 *
 * Use \ref group_sar_sarmux_se_diff code snippet for reference.
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SARMUX_CTB
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_SARMUX_CTB
+* Then use \ref Cy_SAR_Init and results retrieval as usual.
+* For more information about CTB see \ref group_ctb.
 *
 * \subsection group_sar_sarmux_amuxbus Input from other pins through AMUXBUSA/B
 *
@@ -322,6 +326,20 @@
 * The following code snippet is an alternative pin configuration. To connect Port 1 to AMUXBUS, close the left and
 * right switches of AMUX_SPLIT_CTL[1] and AMUX_SPLIT_CTL[6].
 *
+* \subsection group_sar_sarmux_dietemp Die temperature measurement
+*
+* The DieTemp sensor scanning typically is being done by the injection channel:
+*
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_INJ_STRUCT
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP_INIT
+* Then the regular initialization is going on:
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_INIT
+* Then during the ADC working the injection channel is being activated:
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_EN_INJ
+* Then the retrieved injection channel result can be transformed into the temperature value:
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_INJ
+* \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
+* 
 * \section group_sar_low_power Low Power Support
 * This SAR driver provides a callback function to handle power mode transitions.
 * The \ref Cy_SAR_DeepSleepCallback function ensures that SAR conversions are stopped
@@ -343,9 +361,27 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="4">2.0</td>
+*     <td>Added the \ref Cy_SAR_CountsTo_degreeC function</td>
+*     <td>\ref group_sar_sarmux_dietemp support</td>
+*   </tr>
+*   <tr>
+*     <td>Added the \ref Cy_SAR_EnableChannels and \ref Cy_SAR_DisableChannels functions</td>
+*     <td>API enhancement</td>
+*   </tr>
+*   <tr>
+*     <td>Added code snippets how to interconnect with \ref group_ctb</td>
+*     <td>\ref group_ctb support</td>
+*   </tr>
+*   <tr>
+*     <td>The type of \ref cy_stc_sar_channel_config_t::sampleTimeSel is changed 
+*         from uint32_t to \ref cy_en_sar_channel_sampletime_t</td>
+*     <td>Improved the API error proofness</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Minor documentation updates.</td>
-*     <td>Documentation enhancement.</td>
+*     <td>Documentation enhancement</td>
 *   </tr>
 *   <tr>
 *     <td>1.0</td>
@@ -387,12 +423,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "cy_device_headers.h"
 #include "cy_syslib.h"
 #include "cy_syspm.h"
 #include "cy_device.h"
 
-#ifdef CY_IP_M0S8PASS4A
+#ifdef CY_IP_M0S8PASS4A_SAR
 
 #if defined(__cplusplus)
 extern "C" {
@@ -403,7 +438,7 @@ extern "C" {
 */
 
 /** Driver major version */
-#define CY_SAR_DRV_VERSION_MAJOR        1
+#define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
 #define CY_SAR_DRV_VERSION_MINOR        0
@@ -455,14 +490,14 @@ extern "C" {
 /** \} group_sar_macros_interrupt */
 
 /** \cond INTERNAL */
-#define CY_SAR_WRK_MAX_12BIT            (0x00001000L)     /**< Maximum SAR work register value for a 12-bit resolution */
+#define CY_SAR_WRK_MAX_12BIT            (0x00001000UL)     /**< Maximum SAR work register value for a 12-bit resolution */
 
-#if (CY_IP_M0S8PASS4A_INSTANCES == 1U)
+#if (CY_IP_M0S8PASS4A_SAR_INSTANCES == 1U)
     /* Unconditionally return zero if there is one SAR instance */
     #define CY_SAR_INSTANCE(base)           ((SAR0 == (base)) ? 0UL : 0UL)
 #else
     #define CY_SAR_INSTANCE(base)           ((SAR0 == (base)) ? 0UL : 1UL)
-#endif /* (CY_IP_M0S8PASS4A_INSTANCES == 1U) */
+#endif /* (CY_IP_M0S8PASS4A_SAR_INSTANCES == 1U) */
 
 /* Macros for conditions used in CY_ASSERT calls */
 #define CY_SAR_CHANMASK(mask)          (0UL == ((mask) & ~CY_SAR_CHANNELS_MASK))
@@ -494,7 +529,6 @@ extern "C" {
 #define CY_SAR_MUX_HW_CTRL_AMUXBUSB    (SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_AMUXBUSB_Msk)  /**< Enable SARSEQ control of AMUXBUSB switches (for Vplus and Vminus) */
 #define CY_SAR_MUX_HW_CTRL_SARBUS0     (SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_SARBUS0_Msk)   /**< Enable SARSEQ control of SARBUS0 switches (for Vplus and Vminus) */
 #define CY_SAR_MUX_HW_CTRL_SARBUS1     (SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_SARBUS1_Msk)   /**< Enable SARSEQ control of SARBUS1 switches (for Vplus and Vminus) */
-
 
 /* SARMUX pins to Vplus */
 #define CY_SAR_MUX_FW_P0_VPLUS         (SAR_MUX_SWITCH0_MUX_FW_P0_VPLUS_Msk)    /**< Switch between Pin 0 of SARMUX and Vplus of SARADC */
@@ -553,10 +587,10 @@ extern "C" {
 /** The SAR status/error code definitions */
 typedef enum
 {
-    CY_SAR_SUCCESS    = 0x00UL,                                      /**< Success */
-    CY_SAR_BAD_PARAM  = CY_SAR_ID | CY_PDL_STATUS_ERROR | 0x01UL,    /**< Invalid input parameters */
-    CY_SAR_TIMEOUT    = CY_SAR_ID | CY_PDL_STATUS_ERROR | 0x02UL,    /**< A timeout occurred */
-    CY_SAR_CONVERSION_NOT_COMPLETE = CY_SAR_ID | CY_PDL_STATUS_INFO | 0x03UL, /**< SAR conversion is not complete */
+    CY_SAR_SUCCESS    = 0x00UL,                                              /**< Success */
+    CY_SAR_BAD_PARAM  = CY_SAR_ID | CY_PDL_STATUS_ERROR | 0x01UL,            /**< Invalid input parameters */
+    CY_SAR_TIMEOUT    = CY_SAR_ID | CY_PDL_STATUS_ERROR | 0x02UL,            /**< A timeout occurred */
+    CY_SAR_CONVERSION_NOT_COMPLETE = CY_SAR_ID | CY_PDL_STATUS_INFO | 0x03UL /**< SAR conversion is not complete */
 } cy_en_sar_status_t;
 
 /** Definitions for starting a conversion used in \ref Cy_SAR_StartConvert */
@@ -572,7 +606,7 @@ typedef enum
     CY_SAR_RETURN_STATUS       = 0UL,    /**< Immediately returns the conversion status. */
     CY_SAR_WAIT_FOR_RESULT     = 1UL,    /**< Does not return a result until the conversion of all sequential channels is complete. This mode is blocking. */
     CY_SAR_RETURN_STATUS_INJ   = 2UL,    /**< Immediately returns the conversion status of the injection channel. */
-    CY_SAR_WAIT_FOR_RESULT_INJ = 3UL,    /**< Does not return a result until the conversion of injection channels is complete. This mode is blocking. */
+    CY_SAR_WAIT_FOR_RESULT_INJ = 3UL     /**< Does not return a result until the conversion of injection channels is complete. This mode is blocking. */
 } cy_en_sar_return_mode_t;
 
 /** Reference voltage selection definitions */
@@ -604,7 +638,7 @@ typedef enum
     CY_SAR_NEG_SEL_P5           = 4UL,  /**< Connect Vminus to Pin 5 of SARMUX dedicated port */
     CY_SAR_NEG_SEL_P7           = 5UL,  /**< Connect Vminus to Pin 7 of SARMUX dedicated port */
     CY_SAR_NEG_SEL_ACORE        = 6UL,  /**< Connect Vminus to an ACORE in AROUTE */
-    CY_SAR_NEG_SEL_VREF         = 7UL,  /**< Connect Vminus to VREF input of SARADC */
+    CY_SAR_NEG_SEL_VREF         = 7UL   /**< Connect Vminus to VREF input of SARADC */
 }cy_en_sar_ctrl_neg_sel_t;
 
 /** Enable hardware control of the switch between Vref and the Vminus input */
@@ -636,13 +670,6 @@ typedef enum
     CY_SAR_SUB_RESOLUTION_8B = 0UL,
     CY_SAR_SUB_RESOLUTION_10B = 1UL
 } cy_en_sar_sample_ctrl_sub_resolution_t;
-
-/** Resolution */
-typedef enum
-{
-    CY_SAR_MAX_RES = 0UL,
-    CY_SAR_SUB_RES = 1UL
-} cy_en_sar_channel_ctrl_resolution_t;
 
 
 /** Configure number of samples for averaging.
@@ -703,7 +730,7 @@ typedef enum
     CY_SAR_RANGE_COND_BELOW     = 0UL,  /**< Range interrupt detected when result < RANGE_LOW */
     CY_SAR_RANGE_COND_INSIDE    = 1UL,  /**< Range interrupt detected when RANGE_LOW <= result < RANGE_HIGH */
     CY_SAR_RANGE_COND_ABOVE     = 2UL,  /**< Range interrupt detected when RANGE_HIGH <= result */
-    CY_SAR_RANGE_COND_OUTSIDE   = 3UL,  /**< Range interrupt detected when result < RANGE_LOW || RANGE_HIGH <= result */
+    CY_SAR_RANGE_COND_OUTSIDE   = 3UL   /**< Range interrupt detected when result < RANGE_LOW || RANGE_HIGH <= result */
 } cy_en_sar_range_detect_condition_t;
 /* \} */
 
@@ -744,8 +771,24 @@ typedef enum
     CY_SAR_ADDR_CTB3_OA1         = 0x43UL,  /**< CTB3 OA1 output, if present */
     CY_SAR_ADDR_SARMUX_DIE_TEMP  = 0x70UL,  /**< SARMUX virtual port for DieTemp */
     CY_SAR_ADDR_SARMUX_AMUXBUS_A = 0x72UL,  /**< SARMUX virtual port for AMUXBUSA */
-    CY_SAR_ADDR_SARMUX_AMUXBUS_B = 0x73UL,  /**< SARMUX virtual port for AMUXBUSB */
+    CY_SAR_ADDR_SARMUX_AMUXBUS_B = 0x73UL   /**< SARMUX virtual port for AMUXBUSB */
 } cy_en_sar_chan_config_port_pin_addr_t;
+
+/** Resolution */
+typedef enum
+{
+    CY_SAR_MAX_RES               = 0UL,     /**< Maximum 12b resolution */
+    CY_SAR_SUB_RES               = 1UL      /**< Reduced resolution, defined by \ref cy_en_sar_sample_ctrl_sub_resolution_t */
+} cy_en_sar_channel_ctrl_resolution_t;
+
+/** Sampling Timer selection */
+typedef enum
+{
+    CY_SAR_SAMPLE_TIME_0         = 0,       /**< Sampling Timer 0 */
+    CY_SAR_SAMPLE_TIME_1         = 1,       /**< Sampling Timer 1 */
+    CY_SAR_SAMPLE_TIME_2         = 2,       /**< Sampling Timer 2 */
+    CY_SAR_SAMPLE_TIME_3         = 3        /**< Sampling Timer 3 */
+} cy_en_sar_channel_sampletime_t;
 
 /* \} */
 
@@ -767,7 +810,7 @@ typedef struct
                                                            * always a 12-bit resolution (or highest resolution allowed by wounding) is used for this channel.
                                                            */
     bool avgEn;                                           /**< Averaging enable for this channel. If set the avgCnt and avgShift settings are used for sampling the addressed pin(s) */
-    uint32_t sampleTimeSel;                               /**< Sample time select: select which of the 4 global sample times to use for this channel. Valid range: 0..3. */
+    cy_en_sar_channel_sampletime_t sampleTimeSel;         /**< Sample time select: select which of the 4 global sample times to use for this channel */
 } cy_stc_sar_channel_config_t;
 
 /** Routing Configuration */
@@ -871,6 +914,8 @@ int16_t Cy_SAR_GetResult16(const SAR_Type * base, uint32_t chan);
 int32_t Cy_SAR_GetResult32(const SAR_Type * base, uint32_t chan);
 __STATIC_INLINE uint32_t Cy_SAR_GetChanResultUpdated(const SAR_Type * base);
 __STATIC_INLINE void Cy_SAR_EnableInjection(SAR_Type * base, bool tailgating);
+__STATIC_INLINE void Cy_SAR_EnableChannels(SAR_Type * base, uint32_t chanMask);
+__STATIC_INLINE void Cy_SAR_DisableChannels(SAR_Type * base, uint32_t chanMask);
 /** \} */
 
 /** \addtogroup group_sar_functions_power
@@ -902,6 +947,7 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
+int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 cy_en_sar_status_t Cy_SAR_SetChannelOffset(const SAR_Type * base, uint32_t chan, int16_t offsetCount);
 cy_en_sar_status_t Cy_SAR_SetChannelGain(const SAR_Type * base, uint32_t chan, int32_t adcGain);
 /** \} */
@@ -1004,15 +1050,13 @@ __STATIC_INLINE uint32_t Cy_SAR_GetChanResultUpdated(const SAR_Type * base)
 * - false: SAR is immediately triggered when the SAR is not busy.
 *   If the SAR is busy, the INJ channel addressed pin is sampled at the end of the current scan.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_IS_END_CONVERSION
+* \funcusage \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_EN_INJ
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_EnableInjection(SAR_Type * base, bool tailgating)
 {
     SAR_INJ_CHAN_CONFIG(base) = _CLR_SET_FLD32U(SAR_INJ_CHAN_CONFIG(base), SAR_INJ_CHAN_CONFIG_INJ_TAILGATING, tailgating ? 1UL : 0UL) | SAR_INJ_CHAN_CONFIG_INJ_START_EN_Msk;
 }
-
-
 /** \} */
 
 /** \addtogroup group_sar_functions_config
@@ -1034,18 +1078,62 @@ __STATIC_INLINE void Cy_SAR_EnableInjection(SAR_Type * base, bool tailgating)
 * - 0: the corresponding channel is disabled.
 * - 1: the corresponding channel is enabled; it will be included in the next scan.
 *
-* \return None
-*
-* \funcusage
-*
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_CHAN_MASK
+* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_SET_CHAN_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetChanMask(SAR_Type * base, uint32_t enableMask)
 {
     CY_ASSERT_L2(CY_SAR_CHANMASK(enableMask));
 
-    SAR_CHAN_EN(base) = enableMask;
+    SAR_CHAN_EN(base) = SAR_CHAN_EN_CHAN_EN_Msk & enableMask;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SAR_EnableChannels
+****************************************************************************//**
+*
+* Enable the specified channels.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param chanMask
+* Combined mask of all channels to be enabled.
+*
+* \funcusage
+* \snippet sar/snippet/main.c SNIPPET_SAR_EN_CHAN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SAR_EnableChannels(SAR_Type * base, uint32_t chanMask)
+{
+    CY_ASSERT_L2(CY_SAR_CHANMASK(chanMask));
+
+    SAR_CHAN_EN(base) |= SAR_CHAN_EN_CHAN_EN_Msk & chanMask;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SAR_DisableChannels
+****************************************************************************//**
+*
+* Disable the specified channels.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param chanMask
+* Combined mask of all channels to be disabled.
+*
+* \funcusage
+* \snippet sar/snippet/main.c SNIPPET_SAR_EN_CHAN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SAR_DisableChannels(SAR_Type * base, uint32_t chanMask)
+{
+    CY_ASSERT_L2(CY_SAR_CHANMASK(chanMask));
+
+    SAR_CHAN_EN(base) &= ~(SAR_CHAN_EN_CHAN_EN_Msk & chanMask);
 }
 
 
@@ -1061,11 +1149,7 @@ __STATIC_INLINE void Cy_SAR_SetChanMask(SAR_Type * base, uint32_t enableMask)
 * \param cond
 * A value of the enum \ref cy_en_sar_range_detect_condition_t.
 *
-* \return None
-*
-* \funcusage
-*
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_RANGE_COND
+* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_SET_RANGE_COND
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetRangeCond(SAR_Type * base, cy_en_sar_range_detect_condition_t cond)
@@ -1668,7 +1752,7 @@ __STATIC_INLINE void Cy_SAR_SetVssaSarSeqCtrl(SAR_Type * base, bool ctrl)
 }
 #endif
 
-#endif /* CY_IP_M0S8PASS4A */
+#endif /* CY_IP_M0S8PASS4A_SAR */
 
 #endif /* !defined(CY_SAR_H) */
 

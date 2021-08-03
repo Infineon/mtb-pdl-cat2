@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pll_intrinsic-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PLL personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8pll_intrinsic" name="PLL-Intrinsic" intrinsic="true" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v2">
+  <Dependencies>
+    <IpBlock name="m0s8exco,m0s8exco_ver2" />
+    <Resource name="exco\.pll" />
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters>
+    <ParamRange id="pllInst" name="pllInst" group="Internal" default="`${getInstNumber(&quot;pll&quot;)}`" min="0" max="1" resolution="1" visible="false" editable="false" desc="" /> 
+    <ParamBool id="ecoEn" name="ecoEn" group="Internal" default="`${isBlockUsed(&quot;exco[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="pllEn" name="pllEn" group="Internal" default="`${isBlockUsed(&quot;exco[0].pll[0]&quot;)}`" visible="false" editable="false" desc="" />
+  </Parameters>
+  <DRCs/>
+  <ConfigFirmware>
+    <ConfigInclude value="cy_sysclk.h" include="true" />
+    <ConfigInstruction value="Cy_SysClk_PllBypass(`${pllInst}`U, CY_SYSCLK_PLL_BYP_ECO);" include="`${ecoEn &amp;&amp; !pllEn}`" />
+  </ConfigFirmware>
+</Personality>

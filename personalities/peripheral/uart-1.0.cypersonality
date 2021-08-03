@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -309,7 +311,7 @@
 
     <!--TX Interrupt Sources-->
     <ParamBool id="IntrTxUartDone" name="UART Done" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the UART done interrupt source to trigger the interrupt output." />
-    <ParamBool id="IntrTxUartLostArb" name="TX Lost Arbitratio" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr &amp;&amp; SmartCard}`" editable="true" desc="This parameter enables the TX lost arbitration interrupt source to trigger the interrupt output." />
+    <ParamBool id="IntrTxUartLostArb" name="TX Lost Arbitration" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr &amp;&amp; SmartCard}`" editable="true" desc="This parameter enables the TX lost arbitration interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrTxUartNack" name="TX NACK" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr &amp;&amp; SmartCard}`" editable="true" desc="This parameter enables the TX NACK interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrTxEmpty" name="TX FIFO Empty" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the TX FIFO empty interrupt source to trigger the interrupt output." />
     <ParamBool id="IntrTxNotFull" name="TX FIFO not Full" group="TX Interrupt Sources" default="false" visible="`${ConfigIntr}`" editable="true" desc="This parameter enables the TX FIFO not-full interrupt source to trigger the interrupt output." />
@@ -344,10 +346,10 @@
     <DRC type="ERROR" text="The break signal bits value must be at least by 2 bits greater than Data Width and less than or equal 16." paramId="BreakSignalBits" condition="`${(BreakSignalBits &lt; (DataWidth + 2)) ? true : false}`" />
 
     <!-- DRC: checks pins availability for SmartCard mode -->
-    <DRC type="ERROR" paramId="ComMode" text="The SmartCard mode is not supported for the selected SCB (Serial Communicaiton Block)." condition="`${SmartCard &amp;&amp; !hasVisibleOption(&quot;uart_tx[0]&quot;)}`" />
+    <DRC type="ERROR" paramId="ComMode" text="The SmartCard mode is not supported for the selected SCB (Serial Communication Block)." condition="`${SmartCard &amp;&amp; !hasVisibleOption(&quot;uart_tx[0]&quot;)}`" />
 
     <!-- DRC: checks pins availability for SmartCard mode -->
-    <DRC type="ERROR" paramId="FlowControl" text="The Flow Control option is not supported for the selected SCB (Serial Communicaiton Block)." condition="`${FlowControl &amp;&amp; !hasVisibleOption(&quot;uart_rts[0]&quot;) &amp;&amp; !hasVisibleOption(&quot;uart_cts[0]&quot;)}`" />
+    <DRC type="ERROR" paramId="FlowControl" text="The Flow Control option is not supported for the selected SCB (Serial Communication Block)." condition="`${FlowControl &amp;&amp; !hasVisibleOption(&quot;uart_rts[0]&quot;) &amp;&amp; !hasVisibleOption(&quot;uart_cts[0]&quot;)}`" />
   </DRCs>
 
   <ConfigFirmware>

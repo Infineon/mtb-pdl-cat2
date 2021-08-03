@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.h
-* \version 3.0.1
+* \version 3.10
 *
 * Provides I2C API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -282,7 +284,7 @@
 *
 * \note High-speed mode is only applicable for Slave mode.
 * \note The address callback is not available in High-speed mode.
-* \note High-speed mode is Only applicable for PSoC 4 4100S MAX.
+* \note High-speed mode is only applicable for PSoC 4100S Max.
 *
 ********************************************************************************
 * \subsection group_scb_i2c_hs_callback High-speed Callback
@@ -311,7 +313,7 @@
 * power mode transition function. Refer to \ref group_syspm driver for more
 * information about power mode transitions and callback registration.
 *
-* \warning The vurrent version doesn't support the wake up from Deep-sleep
+* \warning The current version doesn't support the wake up from Deep-sleep
 * by High-speed transfer.
 *
 ********************************************************************************
@@ -327,7 +329,7 @@
 * \snippet scb/i2c_snippet/main.c I2C_DS_CLOCK_CONFIG_CALLBACK
 *
 * \note
-* Not applicable for PSoC 4 4100S MAX.
+* Not applicable for PSoC 4100S Max.
 *
 * \defgroup group_scb_i2c_macros Macros
 * \defgroup group_scb_i2c_functions Functions
@@ -580,7 +582,7 @@ typedef struct cy_stc_scb_i2c_config
 
     /**
     * True - High Speed mode is enabled. False - High Speed mode is disabled.
-    * Only applicable for PSoC 4 4100S MAX.
+    * Only applicable for PSoC 4100S Max.
     */
     bool hsEnable;
 
@@ -624,6 +626,13 @@ typedef struct cy_stc_scb_i2c_config
     */
     uint32_t hsHighPhaseDutyCycle;
     /** \endcond */
+
+    /**
+    * This is the check delay of the address matching event in the micro seconds
+    * (us). The desired delay must be equal or more then the duration of high
+    * period of the SCL clock. Not applicable for PSoC 4100S Max.
+    */
+    uint16_t delayInFifoAddress;
 
 } cy_stc_scb_i2c_config_t;
 
@@ -685,7 +694,7 @@ typedef struct cy_stc_scb_i2c_context
     * The pointer to a deep sleep callback that is called when any of
     * \ref group_scb_i2c_macros_deep_sleep_callback_events occurs (applicable only
     * for the slave)
-    * \note Not applicable for PSoC 4 4100S MAX.
+    * \note Not applicable for PSoC 4100S Max.
     */
     cy_cb_scb_i2c_handle_deep_sleep_mode_t cbDeepSleep;
 #endif /* CY_IP_M0S8SCB */
@@ -694,10 +703,17 @@ typedef struct cy_stc_scb_i2c_context
     /**
     * The pointer to an event callback that is called when any of
     * \ref group_scb_i2c_macros_hs_mode_callback_events occurs
-    * \note Only applicable for PSoC 4 4100S MAX.
+    * \note Only applicable for PSoC 4100S Max.
     */
     cy_cb_scb_i2c_handle_hs_mode_t  cbHsMode;
 #endif /* CY_IP_MXSCB */
+
+    /**
+    * This is the check delay of the address matching event in the micro seconds
+    * (us). The desired delay must be equal or more then the duration of high
+    * period of the SCL clock. Not applicable for PSoC 4100S Max.
+    */
+    uint16_t delayInFifoAddress;
 
     /** \endcond */
 } cy_stc_scb_i2c_context_t;
@@ -909,7 +925,7 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterDSClockConfig(CySCB_Type const *base,
 #if defined (CY_IP_MXSCB) || defined (CY_DOXYGEN)
 /**
 * The slave is in High-speed mode.
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 */
 #define CY_SCB_I2C_SLAVE_HS_MODE       (0x00000200UL)
 #endif /* defined (CY_IP_MXSCB) || defined (CY_DOXYGEN) */
@@ -1055,7 +1071,7 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterDSClockConfig(CySCB_Type const *base,
 * \defgroup group_scb_i2c_macros_deep_sleep_callback_events I2C Deep Sleep Callback Events
 * Macros to check deep sleep event by \ref cy_cb_scb_i2c_handle_deep_sleep_mode_t
 * callback.
-* \note Not applicable for PSoC 4 4100S MAX.
+* \note Not applicable for PSoC 4100S Max.
 * \{
 */
 /**
@@ -1081,14 +1097,14 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterDSClockConfig(CySCB_Type const *base,
 /**
 * Indicates that the slave detected 8-bit master code on line and waiting for
 * changes peri clock divider value.
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 */
 #define CY_SCB_I2C_SLAVE_HS_ENTER_EVENT     (0x01UL)
 
 /**
 * Indicates that the slave detected STOP condition for High-speed mode and waiting for
 * changes peri clock divider value.
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 */
 #define CY_SCB_I2C_SLAVE_HS_EXIT_EVENT      (0x02UL)
 
@@ -1096,14 +1112,14 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterDSClockConfig(CySCB_Type const *base,
 /*
 * Indicates that the master send Master code and waiting for changes peri
 * clock divider value.
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 */
 #define CY_SCB_I2C_MASTER_HS_ENTER_EVENT    (0x04UL)
 
 /*
 * Indicates that the master send all data in High-speed mode and waiting for changes
 * peri clock divider value.
-* \note Only applicable for PSoC 4 4100S MAX.
+* \note Only applicable for PSoC 4100S Max.
 */
 #define CY_SCB_I2C_MASTER_HS_EXIT_EVENT     (0x08UL)
 /** \endcond */
@@ -1602,7 +1618,7 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterAddrCallback(CySCB_Type const *base,
 * To remove the callback, pass NULL as the pointer to a callback function.
 *
 * \note
-* Only applicable for PSoC 4 4100S MAX.
+* Only applicable for PSoC 4100S Max.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_I2C_RegisterHsModeCallback(CySCB_Type const *base,
@@ -1652,7 +1668,7 @@ __STATIC_INLINE void Cy_SCB_I2C_RegisterHsModeCallback(CySCB_Type const *base,
 * To remove the callback, pass NULL as the pointer to a callback function.
 *
 * \note
-* Not applicable for PSoC 4 4100S MAX.
+* Not applicable for PSoC 4100S Max.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_I2C_RegisterDSClockConfig(CySCB_Type const *base,

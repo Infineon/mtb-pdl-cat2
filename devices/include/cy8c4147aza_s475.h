@@ -5,11 +5,13 @@
 * CY8C4147AZA-S475 device header
 *
 * \note
-* Generator version: 1.6.0.392
+* Generator version: 1.6.0.575
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -148,6 +150,9 @@ typedef enum {
 #define CY_IP_M0S8PASS4A                1u
 #define CY_IP_M0S8PASS4A_INSTANCES      1u
 #define CY_IP_M0S8PASS4A_VERSION        1u
+#define CY_IP_M0S8PASS4A_SAR            1u
+#define CY_IP_M0S8PASS4A_SAR_INSTANCES  1u
+#define CY_IP_M0S8PASS4A_SAR_VERSION    1u
 #define CY_IP_M0S8PASS4A_CTB            1u
 #define CY_IP_M0S8PASS4A_CTB_INSTANCES  1u
 #define CY_IP_M0S8PASS4A_CTB_VERSION    1u

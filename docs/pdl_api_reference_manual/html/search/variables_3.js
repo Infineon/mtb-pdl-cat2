@@ -1,6 +1,7 @@
 var searchData=
 [
   ['dat',['dat',['../structcy__stc__pd__packet__extd__t.html#a982f7ea99fe456c33db26e638c81d63f',1,'cy_stc_pd_packet_extd_t']]],
+  ['data',['data',['../structcy__pd__pd__do__t_1_1_e_p_r_m_o_d_e___d_o.html#af10ed63778377d9ceacc8c6c164080a7',1,'cy_pd_pd_do_t::EPRMODE_DO']]],
   ['data0',['data0',['../structcy__stc__smartio__ducfg__t.html#aaf8bfe52c9e7b52a1095c39dfe6d50ef',1,'cy_stc_smartio_ducfg_t::data0()'],['../structcy__pd__pd__do__t_1_1_q_c__4__0___d_a_t_a___v_d_o.html#ab44ab1c12f1baa94f9060f97c125f956',1,'cy_pd_pd_do_t::QC_4_0_DATA_VDO::data0()']]],
   ['data1',['data1',['../structcy__stc__smartio__ducfg__t.html#a5e8a7354a6e2cb155d5403046e3f3f3c',1,'cy_stc_smartio_ducfg_t::data1()'],['../structcy__pd__pd__do__t_1_1_q_c__4__0___d_a_t_a___v_d_o.html#a961eae33fd0681cabbeaacd6f167e530',1,'cy_pd_pd_do_t::QC_4_0_DATA_VDO::data1()']]],
   ['data2',['data2',['../structcy__pd__pd__do__t_1_1_q_c__4__0___d_a_t_a___v_d_o.html#a56521d315892854de383babbf78f5581',1,'cy_pd_pd_do_t::QC_4_0_DATA_VDO']]],
@@ -13,6 +14,8 @@ var searchData=
   ['datawidth',['dataWidth',['../structcy__stc__scb__uart__config__t.html#a944ceb09b14f3153bd6638c9410362e4',1,'cy_stc_scb_uart_config_t']]],
   ['deadtimeclocks',['deadTimeClocks',['../structcy__stc__tcpwm__pwm__config__t.html#a5d9f0c06f0bffd08b4edb01ce0d7524b',1,'cy_stc_tcpwm_pwm_config_t']]],
   ['debounce',['debounce',['../structcy__stc__fault__vbus__ovp__cfg__t.html#aaa4cb97ce6a0f76fd9f7eb11a8c76365',1,'cy_stc_fault_vbus_ovp_cfg_t::debounce()'],['../structcy__stc__fault__vbus__uvp__cfg__t.html#ab5f7747f169902823aa67728624fd1e3',1,'cy_stc_fault_vbus_uvp_cfg_t::debounce()'],['../structcy__stc__fault__vbus__ocp__cfg__t.html#aa1fbada2a1c9aae15bef222995caf89a',1,'cy_stc_fault_vbus_ocp_cfg_t::debounce()'],['../structcy__stc__fault__vconn__ocp__cfg__t.html#aa911494dfdb1b76ad3ffd4a78ab64e4a',1,'cy_stc_fault_vconn_ocp_cfg_t::debounce()'],['../structcy__stc__fault__vbus__scp__cfg__t.html#a05fa3751dc7d97e605d4b3e0eff3de03',1,'cy_stc_fault_vbus_scp_cfg_t::debounce()']]],
+  ['deepsleep',['deepSleep',['../structcy__stc__ctb__config__t.html#a57791da83bf8c9b9a372b62c827eb61d',1,'cy_stc_ctb_config_t']]],
+  ['delayinfifoaddress',['delayInFifoAddress',['../structcy__stc__scb__i2c__config__t.html#a1bea2e563a67e600e1b83711a2308600',1,'cy_stc_scb_i2c_config_t']]],
   ['descriptor',['descriptor',['../structcy__stc__dmac__channel__config__t.html#a20406b7cd271ec797fc40089a10dc562',1,'cy_stc_dmac_channel_config_t']]],
   ['devcap',['devCap',['../structcy__pd__pd__do__t_1_1_u_f_p___v_d_o__1.html#a9a13bfb8d5c936f34f081a755f8f3b3c',1,'cy_pd_pd_do_t::UFP_VDO_1']]],
   ['dfp_5fvdo',['dfp_vdo',['../unioncy__pd__pd__do__t.html#ad775fe7ae456769e43711bff158b4dfc',1,'cy_pd_pd_do_t']]],
@@ -28,6 +31,7 @@ var searchData=
   ['dpmenabled',['dpmEnabled',['../structcy__stc__pd__dpm__config__t.html#ab5d798d554e8b6a6037cffa7708385df',1,'cy_stc_pd_dpm_config_t']]],
   ['dpmgetconfig',['dpmGetConfig',['../structcy__stc__usbpd__context__t.html#ac0125f001a4a3bd9baf415512d6f12fb',1,'cy_stc_usbpd_context_t']]],
   ['dr',['dr',['../structcy__stc__gpio__prt__config__t.html#a8555963d8508963e1a3ff32aa1ff1d5c',1,'cy_stc_gpio_prt_config_t']]],
+  ['drive',['drive',['../structcy__stc__seglcd__config__t.html#afc91e08c26e68bfd0b7707f02ffe272c',1,'cy_stc_seglcd_config_t']]],
   ['drivemode',['driveMode',['../structcy__stc__gpio__pin__config__t.html#a6f1ce86e05635f3d78fb4727d907d0aa',1,'cy_stc_gpio_pin_config_t']]],
   ['droponframeerror',['dropOnFrameError',['../structcy__stc__scb__uart__config__t.html#a9601c46e2d7125724893590bc88f38c2',1,'cy_stc_scb_uart_config_t']]],
   ['droponparityerror',['dropOnParityError',['../structcy__stc__scb__spi__config__t.html#a84e4e677ad6df72ecb60a3d399be79b3',1,'cy_stc_scb_spi_config_t::dropOnParityError()'],['../structcy__stc__scb__uart__config__t.html#a3d815bb37e49de4d14869223229f8f54',1,'cy_stc_scb_uart_config_t::dropOnParityError()']]],

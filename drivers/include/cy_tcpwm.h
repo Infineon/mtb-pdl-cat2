@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_tcpwm.h
-* \version 1.10
+* \version 1.10.1
 *
 * The header file of the TCPWM driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -189,6 +191,11 @@
 * \section group_tcpwm_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10.1</td>
+*     <td>Updated documentation of PWM mode. </td>
+*     <td>Documentation enhancement. </td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Fixed \ref Cy_TCPWM_Counter_Disable, \ref Cy_TCPWM_PWM_Disable, and
@@ -481,6 +488,11 @@ __STATIC_INLINE void Cy_TCPWM_TriggerReloadOrIndex(TCPWM_Type *base, uint32_t co
 ****************************************************************************//**
 *
 * Triggers a stop in the Timer Counter mode, or a kill in the PWM mode.
+*
+* \note The kill trigger behavior for PWM is defined by the
+* \ref cy_stc_tcpwm_pwm_config_t::killMode field. The pins states after a kill
+* trigger are defined by \ref cy_stc_tcpwm_pwm_config_t::invertPWMOut and
+* \ref cy_stc_tcpwm_pwm_config_t::invertPWMOutN fields.
 *
 * \param base
 * The pointer to a TCPWM instance.

@@ -3,6 +3,7 @@ var group__group__csd__macros =
     [ "Registers Constants", "group__group__csd__reg__const.html", "group__group__csd__reg__const" ],
     [ "CY_CSD_DRV_VERSION_MAJOR", "group__group__csd__macros.html#gabd413d016169c2c06de74f4df632ca15", null ],
     [ "CY_CSD_DRV_VERSION_MINOR", "group__group__csd__macros.html#ga86c51e9ac8148c8b0063814943a22539", null ],
+    [ "CY_CSD_DRV2_VERSION", "group__group__csd__macros.html#ga69647cf4fe9cf4cd4082e53d4e14bfd8", null ],
     [ "CY_CSD_DRV_VERSION", "group__group__csd__macros.html#ga705518dd99fb696370b8dae32ccb6a07", null ],
     [ "CY_CSD_ID", "group__group__csd__macros.html#ga2ac0cc6cd1325afb77ee58cd1037d26f", null ],
     [ "CY_CSD_CONTEXT_INIT_VALUE", "group__group__csd__macros.html#ga7bc1ea0d6c8c481faefdc332888e1201", null ],

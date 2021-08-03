@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_syspm.c
-* \version 1.0
+* \version 2.0
 *
 * This driver provides the source code for API power management.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,15 +32,6 @@
 
 /* The define for number of callback roots */
 #define CALLBACK_ROOT_NR                (5U)
-
-#if (defined(CY_IP_M0S8EXCO)      && \
-     (defined(EXCO_PLL_PRESENT)   && (EXCO_PLL_PRESENT   == 1u)) && \
-     (defined(EXCO_PLL_REF_IN_EN) && (EXCO_PLL_REF_IN_EN == 1u)))
-    #define CY_SYSPM_EXCO_PLL_REFIN         1u
-#else
-    #define CY_SYSPM_EXCO_PLL_REFIN         0u
-#endif
-
 
 /*******************************************************************************
 *       Internal Variables
@@ -209,6 +202,13 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterSleep(void)
 * \ref CY_SYSPM_BEFORE_TRANSITION or \ref CY_SYSPM_AFTER_TRANSITION parameter,
 * if deep sleep mode was not entered.
 *
+* \note For proper clocks tree configuration before entering Deep Sleep mode
+* and restore clock tree configuration after waking up
+* the \ref Cy_SysClk_DeepSleepCallback()
+* (or it's customized version, accordingly to the application specifics)
+* should be registered (recommended as the last in the registration sequence).
+* Otherwise, PSoC may stuck at wakeup from Deep Sleep.
+*
 * \return
 * Entered status, see \ref cy_en_syspm_status_t.
 *
@@ -218,10 +218,6 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
     uint32_t interruptState;
     uint32_t cbDeepSleepRootIdx = (uint32_t) CY_SYSPM_DEEPSLEEP;
     cy_en_syspm_status_t retVal = CY_SYSPM_SUCCESS;
-
-#if (CY_SYSPM_EXCO_PLL_REFIN == 1u)
-    volatile bool pllRestore = false;
-#endif /* (CY_SYSPM_EXCO_PLL_REFIN == 1u) */
 
     /* Call the registered callback functions with the CY_SYSPM_CHECK_READY
     *  parameter
@@ -237,7 +233,6 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
     */
     if (retVal == CY_SYSPM_SUCCESS)
     {
-
         /* Call the registered callback functions with the
         * CY_SYSPM_BEFORE_TRANSITION parameter
         */
@@ -247,35 +242,12 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
             (void) Cy_SysPm_ExecuteCallback(CY_SYSPM_DEEPSLEEP, CY_SYSPM_BEFORE_TRANSITION);
         }
 
-    #if (CY_SYSPM_EXCO_PLL_REFIN == 1u)
-        /* Set clk_hf to IMO if clk_imo -> clk_pll -> clk_hf */
-        if(CY_SYSCLK_CLKHF_IN_PLL == Cy_SysClk_ClkHfGetSource())
-        {
-            if (CY_SYSCLK_PLL_SRC_IMO == Cy_SysClk_PllGetSource(0u))
-            {
-                pllRestore = true;
-                (void)Cy_SysClk_ClkHfSetSource(CY_SYSCLK_CLKHF_IN_IMO);
-            }
-        }
-    #endif /* (CY_SYSPM_EXCO_PLL_REFIN == 1u) */
-
         /* Adjust delay to wait for references to settle on wakeup from Deep Sleep */
         SRSSLT_PWR_KEY_DELAY = SFLASH_DPSLP_KEY_DELAY;
 
         /* The CPU enters Deep Sleep mode upon execution of WFI */
         SCB_SCR |= SCB_SCR_SLEEPDEEP_Msk;
         __WFI();
-
-     #if (CY_SYSPM_EXCO_PLL_REFIN == 1u)
-        /* If clk_imo -> clk_pll -> clk_hf was before Deep Sleep entry */
-        if(pllRestore)
-        {
-            /* Set clk_imo -> clk_hf, generate clk_osc clock cycles and set clk_pll -> clk_hf */
-            (void)Cy_SysClk_ClkHfSetSource(CY_SYSCLK_CLKHF_IN_IMO);
-            Cy_SysClk_EcoSeqGen();
-            (void)Cy_SysClk_ClkHfSetSource(CY_SYSCLK_CLKHF_IN_PLL);
-        }
-    #endif /* (CY_SYSPM_EXCO_PLL_REFIN == 1u) */
 
         Cy_SysLib_ExitCriticalSection(interruptState);
     }

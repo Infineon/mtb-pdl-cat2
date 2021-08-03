@@ -51,7 +51,6 @@ var group__group__sar__enums =
       [ "CY_SAR_DSI_MODE_IGNORED", "group__group__sar__enums.html#gga170619b36c531063dd781711bfaaf879a8e2440b050c41f94904fba5aaae428a2", null ]
     ] ],
     [ "cy_en_sar_sample_ctrl_sub_resolution_t", "group__group__sar__enums.html#ga18f87960c744b07dd4d585333f61ce23", null ],
-    [ "cy_en_sar_channel_ctrl_resolution_t", "group__group__sar__enums.html#ga9b30477f4cba237de0af0cb55e3976e3", null ],
     [ "cy_en_sar_sample_ctrl_avg_cnt_t", "group__group__sar__enums.html#gaed912a3edfab12b4ebea94fedf289ecf", [
       [ "CY_SAR_AVG_CNT_2", "group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfa73a53b80105c99cdf5bb81cb4754612b", null ],
       [ "CY_SAR_AVG_CNT_4", "group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfa48e1e031e90721d806c21744c44a4790", null ],

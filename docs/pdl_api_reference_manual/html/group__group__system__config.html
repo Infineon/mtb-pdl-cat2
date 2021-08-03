@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="IFXCYP_one-line.png"/></a></td>
+  <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CAT2 Peripheral Driver Library</div>
   </td>
@@ -118,7 +118,7 @@ Heap and Stack Configuration</h2>
 <p>By default, the stack size is set to 0x0000400 and the heap size is allocated dynamically to the whole available free memory up to stack memory and it is set to the 0x00000080 (for ARM GCC and IAR compilers) as minimal value.</p>
 <p>Change the stack size by editing the macro value in the linker file: <b>ARM GCC</b><br />
 </p><div class="fragment"><div class="line">__STACK_SIZE = 0x00000400;</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Correct operation of malloc and related functions depends on the working implementation of the 'sbrk' function. Newlib-nano (default C runtime library used by the GNU Arm Embedded toolchain) provides weak 'sbrk' implementation that doesn't check for heap and stack collisions during excessive memory allocations. To ensure the heap always remains within the range defined by __HeapBase and __HeapLimit linker symbols, provide a strong override for the 'sbrk' function: <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;errno.h&gt;</span></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> * _sbrk(uint32_t incr)</div><div class="line">{</div><div class="line">    <span class="keyword">extern</span> uint8_t __HeapBase, __HeapLimit;</div><div class="line">    <span class="keyword">static</span> uint8_t *heapBrk = &amp;__HeapBase;</div><div class="line">    uint8_t *prevBrk = heapBrk;</div><div class="line">    <span class="keywordflow">if</span> (incr &gt; (uint32_t)(&amp;__HeapLimit - heapBrk))</div><div class="line">    {</div><div class="line">        errno = ENOMEM;</div><div class="line">        <span class="keywordflow">return</span> (<span class="keywordtype">void</span> *)-1;</div><div class="line">    }</div><div class="line">    heapBrk += incr;</div><div class="line">    <span class="keywordflow">return</span> prevBrk;</div><div class="line">}</div></div><!-- fragment --> For FreeRTOS-enabled multi-threaded applications, it is sufficient to include clib-support library that provides newlib-compatible implementations of 'sbrk', '__malloc_lock' and '__malloc_unlock': <br />
- <a href="https://github.com/cypresssemiconductorco/clib-support">https://github.com/cypresssemiconductorco/clib-support</a>.</dd></dl>
+ <a href="https://github.com/Infineon/clib-support">https://github.com/Infineon/clib-support</a>.</dd></dl>
 <p><b>ARM MDK</b><br />
 </p><div class="fragment"><div class="line"><span class="preprocessor">#define __STACK_SIZE       0x00000400</span></div></div><!-- fragment --><p> <b>IAR</b><br />
 </p><div class="fragment"><div class="line">define symbol __ICFEDIT_size_cstack__ = 0x0400;</div></div><!-- fragment --><h2><a class="anchor" id="group_system_config_default_handlers"></a>
@@ -162,7 +162,7 @@ API Reference</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>CAT2 Peripheral Driver Library</b> by <b>Infineon Technologies</b>.
             All rights reserved.
         </li>
     </ul>
