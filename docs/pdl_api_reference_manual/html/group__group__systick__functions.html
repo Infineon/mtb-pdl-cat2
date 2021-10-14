@@ -175,10 +175,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">clockSource</td><td>The SysTick clock source <a class="el" href="group__group__systick__data__structures.html#ga466b1e8fe4278011eab77a691ce2b8f9">cy_en_systick_clock_source_t</a> </td></tr>
-    <tr><td class="paramname">interval</td><td>The SysTick reload value. The valid range is [0x0-0x00FFFFFF].</td></tr>
+    <tr><td class="paramname">interval</td><td>The SysTick reload value. The valid range is [0x0-0x00FFFFFF]. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Zero has no effect because the SysTick exception request and count flag are activated when counting from 1 to 0.</dd></dl>
 <dl class="section user"><dt>Side Effects</dt><dd>Clears the SysTick count flag if it was set. </dd></dl>
 
 </div>
@@ -427,6 +428,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Zero no effect because the SysTick exception request and count flag are activated when counting from 1 to 0. </dd></dl>
 
 </div>
 </div>

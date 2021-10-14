@@ -67,6 +67,7 @@ var searchData=
   ['display_2fcharacter_20management_20functions',['Display/Character Management Functions',['../group__group__seglcd__functions__display.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__smartio__data__structures.html',1,'']]],
   ['data_20unit_20functions',['Data Unit Functions',['../group__group__smartio__functions__du.html',1,'']]],
+  ['data_20structures',['Data Structures',['../group__group__sysclk__csv__structs.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__sysclk__pll__structs.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__sysclk__pm__structs.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__sysint__data__structures.html',1,'']]],

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.0
+* \version 2.10
 *
 * Header file for the SAR driver.
 *
@@ -245,9 +245,9 @@
 *
 * \subsection group_sar_total_scan_time Total Scan Time
 *
-* Channels using one of the sequential averaging modes (CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM or CY_SAR_AVG_MODE_SEQUENTIAL_FIXED)
+* Channels using one of the sequential averaging modes: accumulating or fixed (see \ref cy_stc_sar_config_t::avgShift)
 * are sampled multiple times per scan. The number of samples averaged are set during initialization
-* with  group_sar_init_struct_sampleCtrl using one of the values from  cy_en_sar_sample_ctrl_avg_cnt_t.
+* using \ref cy_stc_sar_config_t::avgCnt.
 * Channels that are not averaged are only sampled once per scan.
 *
 * The total scan time is the sum of each channel's sample time multiplied by the samples per scan.
@@ -361,6 +361,23 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">2.10</td>
+*     <td>Added the \ref cy_stc_sar_channel_config_t::rangeIntrEn and
+*                   \ref cy_stc_sar_channel_config_t::satIntrEn settings</td>
+*     <td>Bug fixing</td>
+*   </tr>
+*   <tr>
+*     <td>Fixed the \ref Cy_SAR_SetConvertMode function</td>
+*     <td>Bug fixing</td>
+*   </tr>
+*   <tr>
+*     <td>Updated the \ref Cy_SAR_CountsTo_uVolts,
+*                     \ref Cy_SAR_CountsTo_mVolts and
+*                     \ref Cy_SAR_CountsTo_Volts functions so that
+*                 they now support sub-resolutions</td>
+*     <td>Bug fixing</td>
+*   </tr>    
+*   <tr>
 *     <td rowspan="4">2.0</td>
 *     <td>Added the \ref Cy_SAR_CountsTo_degreeC function</td>
 *     <td>\ref group_sar_sarmux_dietemp support</td>
@@ -413,7 +430,6 @@
 *       \defgroup group_sar_sample_time_shift_enums     Sample Time Register Enums
 *       \defgroup group_sar_range_thres_register_enums  Range Interrupt Register Enums
 *       \defgroup group_sar_chan_config_register_enums  Channel Configuration Register Enums
-
 *   \}
 */
 
@@ -441,7 +457,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        0
+#define CY_SAR_DRV_VERSION_MINOR        10
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -811,6 +827,8 @@ typedef struct
                                                            */
     bool avgEn;                                           /**< Averaging enable for this channel. If set the avgCnt and avgShift settings are used for sampling the addressed pin(s) */
     cy_en_sar_channel_sampletime_t sampleTimeSel;         /**< Sample time select: select which of the 4 global sample times to use for this channel */
+    bool rangeIntrEn;                                     /**< Range detection interrupt enable */
+    bool satIntrEn;                                       /**< Saturation detection interrupt enable */
 } cy_stc_sar_channel_config_t;
 
 /** Routing Configuration */
@@ -1012,10 +1030,7 @@ __STATIC_INLINE bool Cy_SAR_IsChannelDifferential(const SAR_Type * base, uint32_
 *
 * Return whether the RESULT register has been updated or not.
 * If the bit is high, the corresponding channel RESULT register was updated,
-* i.e. was sampled during the previous scan and, in case of Interleaved averaging,
-* reached the averaging count.
-* If the bit is low, the corresponding channel is not enabled or the averaging count
-* is not yet reached for Interleaved averaging.
+* i.e. was sampled during the previous scan.
 *
 * \param base
 * Pointer to structure describing registers

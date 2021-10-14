@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_systick.h
-* \version 1.20
+* \version 1.20.1
 *
 * Provides the API declarations of the SysTick driver.
 *
@@ -74,6 +74,13 @@
 *
 * <table class="doxtable">
 * <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+* <tr>
+* <td>1.20.1</td>
+* <td>
+*   - Added information that setting reload value to zero has no effect because the SysTick exception
+*     request and count flag are activated when counting from 1 to 0.</td>
+* <td>Documentation enhancement.</td>
+* </tr>
 * <tr>
 * <td>1.20</td>
 * <td>
@@ -227,6 +234,8 @@ __STATIC_INLINE void Cy_SysTick_DisableInterrupt(void)
 * it should be cleared using the Cy_SysTick_Clear() API.
 *
 * \param value: The valid range is [0x0-0x00FFFFFF]. The counter reset value.
+* \note Zero no effect because the SysTick exception request and count flag
+* are activated when counting from 1 to 0.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysTick_SetReload(uint32_t value)

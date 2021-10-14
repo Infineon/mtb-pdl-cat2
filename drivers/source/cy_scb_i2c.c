@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.c
-* \version 3.10
+* \version 3.20
 *
 * Provides I2C API implementation of the SCB driver.
 *
@@ -1620,6 +1620,11 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_MasterWrite(CySCB_Type *base,
 * by the user. The structure is used during the I2C operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+* 
+* \note
+* On for PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices this function 
+* should not be called, when I2C bus is busy with the data or address transfer
+* in case if FIFO is used.
 *
 * \sideeffect
 * If the TX FIFO is used, it is cleared before Stop generation.
@@ -1630,6 +1635,9 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_MasterWrite(CySCB_Type *base,
 * If the clear operation is requested while the master transmits the address,
 * the direction of transaction is changed to read and one byte is read
 * before Stop is issued. This byte is discarded.
+* For the PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices FIFO will not
+* be cleared, if used, causing part of transfer to occur, but whole message
+* will not be transmitted, if the message is longer, than FIFO size.
 *
 *******************************************************************************/
 void Cy_SCB_I2C_MasterAbortWrite(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
@@ -1645,8 +1653,10 @@ void Cy_SCB_I2C_MasterAbortWrite(CySCB_Type *base, cy_stc_scb_i2c_context_t *con
 
         if (context->useTxFifo)
         {
+            #ifdef CY_IP_MXSCB
             /* Clear TX FIFO to allow Stop generation */
             Cy_SCB_ClearTxFifo(base);
+            #endif /* CY_IP_MXSCB */
         }
 
         if ((CY_SCB_I2C_MASTER_TX == context->state) || (CY_SCB_I2C_MASTER_TX_DONE == context->state))

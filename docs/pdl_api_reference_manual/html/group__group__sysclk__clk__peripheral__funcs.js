@@ -10,5 +10,6 @@ var group__group__sysclk__clk__peripheral__funcs =
     [ "Cy_SysClk_PeriphEnablePhaseAlignDivider", "group__group__sysclk__clk__peripheral__funcs.html#ga9b9eeb2b22873c889c785593aa4d25f9", null ],
     [ "Cy_SysClk_PeriphDividerIsEnabled", "group__group__sysclk__clk__peripheral__funcs.html#gaa0c3eab586b6d2f482d42807a5f90b4c", null ],
     [ "Cy_SysClk_PeriphGetFrequency", "group__group__sysclk__clk__peripheral__funcs.html#ga25ed81c0b01f8cebb2334a23c963c1e1", null ],
+    [ "Cy_SysClk_PeriphSetFrequency", "group__group__sysclk__clk__peripheral__funcs.html#ga9def07430c95df79e781645120264647", null ],
     [ "Cy_SysClk_PeriphGetAssignedDivider", "group__group__sysclk__clk__peripheral__funcs.html#ga0a3067cdfa0b7cc0c3d6490a3150ca14", null ]
 ];

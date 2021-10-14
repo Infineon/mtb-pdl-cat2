@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 1.10
+* \version 1.20
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
@@ -152,6 +152,8 @@ void Cy_USBPD_Vbus_GdrvCfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq);
 void Cy_USBPD_Vbus_GdrvCfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq);
 
 void Cy_USBPD_Vbus_NgdoOn(cy_stc_usbpd_context_t *context, bool pfet);
+
+void Cy_USBPD_Vbus_NgdoSetDriveStrength(cy_stc_usbpd_context_t *context, uint8_t value);
 
 void Cy_USBPD_Vbus_NgdoOff(cy_stc_usbpd_context_t *context, bool pfet);
 

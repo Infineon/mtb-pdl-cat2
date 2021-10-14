@@ -42,7 +42,7 @@
 
     <ParamRange id="ignore" name="Ignore bits" group="General" default="0" min="0" max="15" resolution="1" visible="true" editable="true" desc="The number of MSB bits of the watchdog timer that are NOT checked against MATCH.  This value provides control over the time-to-reset of the watchdog (which happens after 3 successive matches)." />
 
-    <ParamString id="sourceClockRsc" name="Source Clock" group="Internal" default="srss[0].clock[0].ilo[0]" visible="false" editable="false" desc="" />
+    <ParamString id="sourceClockRsc" name="Source Clock" group="Internal" default="srss[0].clock[0].lfclk[0]" visible="false" editable="false" desc="" />
     <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(sourceClockRsc)}`" visible="false" editable="false" desc="" />
   </Parameters>
   

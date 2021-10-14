@@ -22,6 +22,7 @@ var searchData=
   ['macros',['Macros',['../group__group__scb__uart__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__seglcd__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__smartio__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__sysclk__clk__peripheral__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__sysclk__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__sysint__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__syslib__macros.html',1,'']]],

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 1.10
+* \version 1.20
 *
 * The source file of the USBPD Transceiver driver.
 *
@@ -83,7 +83,7 @@
 
 #endif /* defined(CY_DEVICE_CCG3) */
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
 
 #define RX_CNT_MAX_CFG                  (RX_CNT_MAX_VAL << PDSS_RX_CC_0_CFG_RX_CNT_MAX_POS)
 #define RX_UI_BOUNDARY_DELTA_CFG        (RX_UI_BOUNDARY_DELTA_VAL << PDSS_RX_CC_0_CFG_RX_UI_BOUNDARY_DELTA_POS)

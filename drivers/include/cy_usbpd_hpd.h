@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 1.10
+* \version 1.20
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
@@ -118,6 +118,24 @@
 #define HPD_P1_PORT                             (7U)
 #define HPD_P0_PIN                              (4U)
 #define HPD_P1_PIN                              (1U)
+#define HPD_HSIOM_SETTING                       (13U)
+
+#elif (defined(CY_DEVICE_CCG7D))
+#define HPD_P0_PORT_PIN                         (0x00U)    /* GPIO_PORT_0_PIN_0 */
+#define HPD_P1_PORT_PIN                         (0x16U)    /* GPIO_PORT_1_PIN_6 */
+#define HPD_P0_PORT                             (0U)
+#define HPD_P1_PORT                             (1U)
+#define HPD_P0_PIN                              (0U)
+#define HPD_P1_PIN                              (6U)
+#define HPD_HSIOM_SETTING                       (13U)
+
+#elif (defined(CY_DEVICE_CCG7S))
+#define HPD_P0_PORT_PIN                         (0x03U)    /* GPIO_PORT_0_PIN_3 */
+#define HPD_P1_PORT_PIN                         (0x03U)    /* GPIO_PORT_0_PIN_3 */
+#define HPD_P0_PORT                             (0U)
+#define HPD_P1_PORT                             (0U)
+#define HPD_P0_PIN                              (3U)
+#define HPD_P1_PIN                              (3U)
 #define HPD_HSIOM_SETTING                       (13U)
 
 #else

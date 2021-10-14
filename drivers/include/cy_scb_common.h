@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 3.10
+* \version 3.20
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -58,6 +58,24 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3 ">3.20</td>
+*     <td>UART: Newly added API's for runtime parameter set/get functionality:
+*         \ref Cy_SCB_UART_SetOverSample to set oversample bits of UART,
+*         \ref Cy_SCB_UART_GetOverSample to add return value of oversample.</td>
+*     <td>To improve functionality.</td>
+*   </tr>
+*   <tr>
+*     <td>UART: Fixed an issue with sending short transactions on high
+*         baud rates.</td>
+*     <td></td>
+*   </tr>
+*   <tr>
+*     <td>I2C: Fixed the defect in the \ref Cy_SCB_I2C_MasterAbortWrite()
+*         function to prevent device stuck in the \ref CY_SCB_I2C_MASTER_BUSY
+*         state on some devices.</td>
+*     <td></td>
+*   </tr>
 *   <tr>
 *     <td rowspan="5">3.10</td>
 *     <td>I2C: Fixed the issue when an address byte is treated as a data byte
@@ -326,7 +344,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (3)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (1)
+#define CY_SCB_DRV_VERSION_MINOR    (20)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

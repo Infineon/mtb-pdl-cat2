@@ -4,9 +4,6 @@
 * \brief
 * PSoC4000S device GPIO header for 28-SSOP-AUTO package
 *
-* \note
-* Generator version: 1.6.0.575
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 1.10
+* \version 1.20
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -97,6 +97,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.20</td>
+*     <td>Added APIs to control NGDO drive strength.</td>
+*     <td>New feature support</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="3">1.10</td>
 *     <td>Added drivers for HPD and MUX feature.
 *         </td>
@@ -188,7 +193,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       1
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       10
+#define CY_USBPD_DRV_VERSION_MINOR                       20
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

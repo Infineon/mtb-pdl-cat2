@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 3.10
+* \version 3.20
 *
 * Provides UART API declarations of the SCB driver.
 *
@@ -573,6 +573,12 @@ typedef struct cy_stc_scb_uart_context
     uint32_t  txBufSize;                /**< The transmit buffer size */
     uint32_t volatile txLeftToTransmit; /**< The number of data elements left to be transmitted */
 
+    /**
+    * Enables the low-power receive for IrDA mode.
+    * Note that the transmission must be disabled if this mode is enabled.
+    */
+    bool irdaEnableLowPowerReceiver;
+
     /** The pointer to an event callback that is called when any of
     * \ref group_scb_uart_macros_callback_events occurs
     */
@@ -660,7 +666,10 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_GetNumInRxFifo   (CySCB_Type const *base);
 
 __STATIC_INLINE void     Cy_SCB_UART_ClearRxFifo      (CySCB_Type *base);
 __STATIC_INLINE void     Cy_SCB_UART_ClearTxFifo      (CySCB_Type *base);
+__STATIC_INLINE uint32_t Cy_SCB_UART_GetOverSample(CySCB_Type const *base);
+cy_en_scb_uart_status_t Cy_SCB_UART_SetOverSample(CySCB_Type *base, uint32_t overSample, cy_stc_scb_uart_context_t *context);
 /** \} group_scb_uart_low_level_functions */
+
 
 /**
 * \addtogroup group_scb_uart_interrupt_functions
@@ -943,7 +952,7 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 #define CY_SCB_UART_IS_DATA_WIDTH_VALID(width)      ( ((width) >= 5UL) && ((width) <= 9UL) )
 #define CY_SCB_UART_IS_OVERSAMPLE_VALID(ovs, mode, lpRx)    ( ((CY_SCB_UART_STANDARD  == (mode)) || (CY_SCB_UART_SMARTCARD == (mode))) ? \
                                                               (((ovs) >= 8UL) && ((ovs) <= 16UL)) :                                      \
-                                                              ((lpRx) ? CY_SCB_UART_IS_IRDA_LP_OVS_VALID(ovs) : true) )
+                                                              ((lpRx) ? ((bool) CY_SCB_UART_IS_IRDA_LP_OVS_VALID(ovs)) : ((bool)true)) )
 
 #define CY_SCB_UART_IS_RX_BREAK_WIDTH_VALID(base, width)    ( ((width) >= (_FLD2VAL(SCB_RX_CTRL_DATA_WIDTH, (base)->RX_CTRL) + 3UL)) && \
                                                               ((width) <= 16UL) )
@@ -963,9 +972,38 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 *******************************************************************************/
 
 /**
+* \addtogroup group_scb_uart_low_level_functions
+* \{
+*/
+
+/*******************************************************************************
+* Function Name: Cy_SCB_UART_GetOverSample
+****************************************************************************//**
+*
+* Returns the value of oversample.
+*
+* \param base
+* The pointer to the UART SCB instance.
+*
+* \return
+* The value of oversample.
+*
+* \snippet scb/uart_snippet/main.c UART_GET_OVS
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SCB_UART_GetOverSample(CySCB_Type const *base)
+{
+    return (_FLD2VAL(SCB_CTRL_OVS, SCB_CTRL(base))+1UL);
+}
+
+
+/** \} group_scb_uart_low_level_functions */
+
+/**
 * \addtogroup group_scb_uart_general_functions
 * \{
 */
+
 
 /*******************************************************************************
 * Function Name: Cy_SCB_UART_Enable

@@ -30,7 +30,7 @@
 
 <Personality id="m0s8dietemp" name="DieTemp" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
   <Dependencies>
-    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2" />
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2,m0s8pass4a_ver3" />
     <Resource name="pass\.sarmux\.tempsensor" />
   </Dependencies>
   <ExposedMembers/>

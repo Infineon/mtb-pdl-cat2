@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_regs.h
-* \version 1.10
+* \version 1.20
 *
 * Generic device specific USBPD register header definition.
 *
@@ -40,6 +40,12 @@
 
 #elif defined(CY_DEVICE_PMG1S3)
 #include "cy_usbpd_pmg1s3_regs.h"
+
+#elif defined(CY_DEVICE_CCG7D)
+#include "cy_usbpd_ccg7d_regs.h"
+
+#elif defined(CY_DEVICE_CCG7S)
+#include "cy_usbpd_ccg7s_regs.h"
 
 #else
 /* Do nothing */

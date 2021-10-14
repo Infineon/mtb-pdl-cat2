@@ -38,6 +38,7 @@ var searchData=
   ['clkdiv',['clkDiv',['../structcy__stc__i2s__config__t.html#ac207745366dbc76ad317e3e9ef30a231',1,'cy_stc_i2s_config_t']]],
   ['clkfreq',['clkFreq',['../structcy__stc__seglcd__config__t.html#ad72440f94cfffb60d7223157722e5769',1,'cy_stc_seglcd_config_t']]],
   ['clksrc',['clkSrc',['../structcy__stc__smartio__config__t.html#a17fde00f0b9310d48bae10ce0dc04b26',1,'cy_stc_smartio_config_t']]],
+  ['clkswitchen',['clkSwitchEn',['../structcy__stc__sysclk__csv__config__t.html#a69119efe5afa267bb1de15f710ed1839',1,'cy_stc_sysclk_csv_config_t']]],
   ['clockprescaler',['clockPrescaler',['../structcy__stc__tcpwm__counter__config__t.html#a19e716be7fd438a5f3a81e0a99676da8',1,'cy_stc_tcpwm_counter_config_t::clockPrescaler()'],['../structcy__stc__tcpwm__pwm__config__t.html#a877ff8bc42b17e292f6ae99e1b872cbc',1,'cy_stc_tcpwm_pwm_config_t::clockPrescaler()']]],
   ['clocksource',['clockSource',['../structcy__stc__wdc__config__t.html#a58932baa9bf9de2705e4b7e5f3402f3c',1,'cy_stc_wdc_config_t']]],
   ['cmd',['cmd',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a3fc4f892e24386b98ad1a83e111b560a',1,'cy_pd_pd_do_t::STD_VDM_HDR::cmd()'],['../structcy__pd__pd__do__t_1_1_u_s_t_d___v_d_m___h_d_r.html#abc9a2cacfececd39971ea92584bebcf6',1,'cy_pd_pd_do_t::USTD_VDM_HDR::cmd()']]],

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 1.10
+* \version 1.20
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -1350,9 +1350,12 @@ bool Cy_USBPD_Bch_Phy_DpStat(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base ;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     uint8_t chgb_id = 0;
-
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS_POS + chgb_id))) != 0UL)
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS)) != 0u)
+#endif /* CCGx */
     {
         return true;
     }
@@ -1383,9 +1386,12 @@ bool Cy_USBPD_Bch_Phy_DmStat(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base ;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     uint8_t chgb_id = 0;
-
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS_POS + chgb_id))) != 0UL)
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+     if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS)) != 0u)
+#endif /* CCGx */
     {
         return true;
     }

@@ -202,7 +202,7 @@
         desc="`${&quot;Pin connection for sense[$idx] signal&quot;}`"
         visible="`${(($idx &lt; AmuxSensorCount))}`"
         canBeEmpty="`${!(($idx &lt; AmuxSensorCount))}`"
-        group="`${( ($idx &lt; AmuxCapacitorCount) ? &quot;CapSense Capacitors&quot; : &quot;CapSense Sensors&quot; )}`"
+        group="`${( ($idx &lt; AmuxCapacitorCount) ? &quot;External Capacitors&quot; : &quot;CapSense Sensors&quot; )}`"
                 repeatCount="260"/> <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
     </ParamMux>
     <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
@@ -211,17 +211,6 @@
                    default="`${$idx &lt; AmuxSensorCount ? getBlockFromSignalValue(getMuxArmSignal(&quot;sense&quot;, $idx)) : &quot;&quot;}`"
                    visible="false" editable="false" desc="" />
     </Repeat>
-
-        <Repeat count="32">
-          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="Sensors"
-                       visible="`${($idx &lt; PadSensorCount)}`"
-                       desc="`${&quot;Pin connection for s_pad[$idx] virtual pad&quot;}`"
-                       canBeEmpty="`${!($idx &lt; PadSensorCount)}`"
-                       requirePreferred="true" multiSelect="false">
-                       <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-                       </Constraint>
-          </ParamSignal>
-        </Repeat>
 
         <ParamSignal port="cmod1pad[0]" name="`${CapacitorName0}`" group="External Capacitors"
                      visible="`${(PadCapacitorCount &gt; 0)}`"
@@ -251,6 +240,17 @@
                      requirePreferred="true" multiSelect="false">
         </ParamSignal>
 
+        <Repeat count="32">
+          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="CapSense Sensors"
+                       visible="`${($idx &lt; PadSensorCount)}`"
+                       desc="`${&quot;Pin connection for s_pad[$idx] virtual pad&quot;}`"
+                       canBeEmpty="`${!($idx &lt; PadSensorCount)}`"
+                       requirePreferred="true" multiSelect="false">
+                       <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+                       </Constraint>
+          </ParamSignal>
+        </Repeat>
+
   </Parameters>
 
   <DRCs>
@@ -263,9 +263,9 @@
     <DRC type="WARNING" text="All DMA trigger signals should be connected to the different DMA channels"
         condition="`${(isDmaModeEnabled &amp;&amp; !allDmaChAssignmentValid)}`" >
     </DRC>
-    <DRC type="WARNING" 
+    <DRC type="WARNING"
       text="CapSense's Scan Mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Write/Chain Write DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(wrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainWrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
-      condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(wrDmaChBlockNum eq chainWrDmaChTrOut)}`" 
+      condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(wrDmaChBlockNum eq chainWrDmaChTrOut)}`"
          paramId="tr_in[0]"
          location="`${wrDmaChBlockNum}`">
       <FixIt action="SET_PARAM" target="`${wrDmaChBlockNum . &quot;.tr_in[0]&quot;}`" value="`${chainWrDmaChBlockNum . &quot;.tr_out[0]&quot;}`" valid="true"/>

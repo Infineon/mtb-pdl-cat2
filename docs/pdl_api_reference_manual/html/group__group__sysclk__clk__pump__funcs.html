@@ -118,7 +118,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the source for the pump clock (clk_pump). </p>
-<p>The pump clock can be used for the analog pumps in the CTBm block.</p>
+<p>The pump clock can be used for the analog pumps in the CTB block.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">source</td><td><a class="el" href="group__group__sysclk__clk__pump__enums.html#ga1ab93436379bf71f7c61bfc2f4ee28ef">cy_en_sysclk_clkpump_src_t</a></td></tr>
@@ -126,9 +126,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Error / status code <a class="el" href="group__group__sysclk__returns.html#gad6699a184e2e3c01433251b0981558f3">cy_en_sysclk_status_t</a> : <br />
-CY_SYSCLK_SUCCESS - the source is successfully set <br />
-CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled <br />
-CY_SYSCLK_BAD_PARAM - the source parameter is invalid.</dd></dl>
+<a class="el" href="group__group__sysclk__returns.html#ggad6699a184e2e3c01433251b0981558f3a1563f761f963757b339ff05eb5a690ec">CY_SYSCLK_SUCCESS</a> - the source is successfully set <br />
+<a class="el" href="group__group__sysclk__returns.html#ggad6699a184e2e3c01433251b0981558f3ac8d3c0b2eddff6ca1748b592a22e92cd">CY_SYSCLK_INVALID_STATE</a> - the selected clock source is not enabled <br />
+<a class="el" href="group__group__sysclk__returns.html#ggad6699a184e2e3c01433251b0981558f3a2cdb3390464a5b757b57887899bd5946">CY_SYSCLK_BAD_PARAM</a> - the source parameter is invalid.</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: The Pump should be clocked by the HFCLK. */</span></div><div class="line"></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa6ba06da7a755379fdc21e483eb25c85f">CY_SYSCLK_PUMP_IN_HFCLK</a> != <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga11f7376d1747e6af4b9e6dccba1c7df2">Cy_SysClk_ClkPumpGetSource</a>())</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa6ba06da7a755379fdc21e483eb25c85f">CY_SYSCLK_PUMP_IN_HFCLK</a>);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* In case if there is a need to get the Pump clock frequency */</span></div><div class="line">    uint32_t pumpClkFreq = <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga002dc7aa774e9c51822de31c444bcbbb">Cy_SysClk_ClkPumpGetFrequency</a>();</div></div><!-- fragment --></dd></dl>
 
 </div>
@@ -150,7 +150,10 @@ CY_SYSCLK_BAD_PARAM - the source parameter is invalid.</dd></dl>
 </div><div class="memdoc">
 
 <p>Reports the source for the pump clock (clk_pump). </p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__sysclk__clk__pump__enums.html#ga1ab93436379bf71f7c61bfc2f4ee28ef">cy_en_sysclk_clkpump_src_t</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__sysclk__clk__pump__enums.html#ga1ab93436379bf71f7c61bfc2f4ee28ef">cy_en_sysclk_clkpump_src_t</a> : <br />
+<a class="el" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efadfabf7de2661893065b1002a69ab5c45">CY_SYSCLK_PUMP_IN_GND</a> - No clock, connect to gnd. <br />
+<a class="el" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa0bd4bea7985e39c3793fd5f97214c926">CY_SYSCLK_PUMP_IN_IMO</a> - Use main IMO output. <br />
+<a class="el" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa6ba06da7a755379fdc21e483eb25c85f">CY_SYSCLK_PUMP_IN_HFCLK</a> - Use clk_hf (using selected source after predivider but before prescaler).</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: The Pump should be clocked by the HFCLK. */</span></div><div class="line"></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa6ba06da7a755379fdc21e483eb25c85f">CY_SYSCLK_PUMP_IN_HFCLK</a> != <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga11f7376d1747e6af4b9e6dccba1c7df2">Cy_SysClk_ClkPumpGetSource</a>())</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa6ba06da7a755379fdc21e483eb25c85f">CY_SYSCLK_PUMP_IN_HFCLK</a>);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">/* In case if there is a need to get the Pump clock frequency */</span></div><div class="line">    uint32_t pumpClkFreq = <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga002dc7aa774e9c51822de31c444bcbbb">Cy_SysClk_ClkPumpGetFrequency</a>();</div></div><!-- fragment --></dd></dl>
 
 </div>

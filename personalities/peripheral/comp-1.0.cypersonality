@@ -56,13 +56,13 @@
       <Entry name="High" value="CY_CTB_POWER_HIGH" visible="true" />
     </ParamChoice>
 
-	<!--Response time, Active mode-->
+    <!--Response time, Active mode-->
     <ParamString id="ResponseTime_ActiveMode_Value" name="ResponseTimeActiveModeValue" group="General" default="`${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;ResponseTimeActiveModePowerHigh&quot;) ? (power eq &quot;CY_CTB_POWER_HIGH&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;ResponseTimeActiveModePowerHigh&quot;) : power eq &quot;CY_CTB_POWER_MEDIUM&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;ResponseTimeActiveModePowerMid&quot;) : power eq &quot;CY_CTB_POWER_LOW&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;ResponseTimeActiveModePowerLow&quot;) : 0) : 0}`" visible="false" editable="false" desc="" />
     <ParamString id="ResponseTime_ActiveMode" name="Response Time" group="General" default="Approx: `${ResponseTime_ActiveMode_Value}` ns" visible="`${isCtbmEnabled}`" editable="false" desc="Display the response time in Active mode based on the Power setting." />
 
     <ParamBool id="pump" name="Charge Pump Enable" group="General" default="true" visible="true" editable="true" desc="This parameter allows you to enable the charge pump. Enabling the charge pump increases the input range. Charge pump is disabled in Deep Sleep mode." />
 
-	<!--Vin, Active mode, comp-->
+    <!--Vin, Active mode, comp-->
     <ParamString id="Vin_ActiveMode" name="Input Range" group="General" default="Approx: `${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeCompPumpOff&quot;) ? (pump ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeCompPumpOn&quot;) : getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeCompPumpOff&quot;)) : 0}`" visible="`${isCtbmEnabled}`" editable="false" desc="Display range of input voltage in Active mode depending on Charge Pump setting." />
 
     <ParamChoice id="level" name="Comparator Output" group="General" default="CY_CTB_COMP_TRIGGER_OUT_LEVEL" visible="true" editable="true" desc="Configure whether the comparator output is pulse or level." >

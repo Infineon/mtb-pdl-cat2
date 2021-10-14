@@ -13,6 +13,7 @@ var searchData=
   ['control_20register_20enums',['Control Register Enums',['../group__group__sar__ctrl__register__enums.html',1,'']]],
   ['counts_20conversion_20functions',['Counts Conversion Functions',['../group__group__sar__functions__countsto.html',1,'']]],
   ['common',['Common',['../group__group__scb__common.html',1,'']]],
+  ['clock_20supervision_20block_20_28csv_29',['Clock Supervision Block (CSV)',['../group__group__sysclk__csv.html',1,'']]],
   ['callback_20timeout_20events',['Callback Timeout Events',['../group__group__sysclk__pm__events.html',1,'']]],
   ['common',['Common',['../group__group__tcpwm__common.html',1,'']]],
   ['counter_20clk_20prescalers',['Counter CLK Prescalers',['../group__group__tcpwm__counter__clk__prescalers.html',1,'']]],

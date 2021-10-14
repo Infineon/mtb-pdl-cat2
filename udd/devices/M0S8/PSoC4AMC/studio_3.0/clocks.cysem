@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.3" xmlns="http://cypress.com/xsd/cysem">
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" xmlns="http://cypress.com/xsd/cysem">
   <Instances count="18">
     <Instance guid="09373d34-20d2-4303-a52b-d96300ec4539" name="IMO" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -40,6 +43,9 @@
       </Parameter>
     </Instance>
     <Instance guid="0e99d209-20fa-443b-a72a-27394adbbc79" name="ILO" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -78,6 +84,9 @@
       </Parameter>
     </Instance>
     <Instance guid="1f58e231-8d24-4b55-83e0-bf6c5dbe639d" name="SYSCLK" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -116,6 +125,9 @@
       </Parameter>
     </Instance>
     <Instance guid="223402ba-e913-40ed-b383-b7764ec49905" name="ECO_1" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -154,6 +166,9 @@
       </Parameter>
     </Instance>
     <Instance guid="378cd5c3-d1cd-43c6-bd19-2ed89dfa9e7b" name="PLL" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -227,6 +242,9 @@
       </Parameter>
     </Instance>
     <Instance guid="5b096a3e-cdaf-44de-978b-05d85ad23228" name="WCO_2" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -265,6 +283,9 @@
       </Parameter>
     </Instance>
     <Instance guid="617e9552-644b-49c0-944d-007ba3c4f5c0" name="CLK_ALT_SYS_TICK_1" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -373,6 +394,9 @@
       </Parameter>
     </Instance>
     <Instance guid="a6d20d3e-411a-4a6f-a79b-71911287a237" name="LFCLK" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -411,6 +435,9 @@
       </Parameter>
     </Instance>
     <Instance guid="b1019878-cbc4-4ca5-9df2-4fee320fa13c" name="PUMPCLK" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -519,6 +546,9 @@
       </Parameter>
     </Instance>
     <Instance guid="d4804264-56ed-4c5f-85dc-58f119f3ce2a" name="EXTCLK" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -557,6 +587,9 @@
       </Parameter>
     </Instance>
     <Instance guid="ed430eaa-9543-4b06-83b3-be75bac9b7e1" name="HFCLK" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>
@@ -630,6 +663,9 @@
       </Parameter>
     </Instance>
     <Instance guid="fec7b6b6-744f-42e5-8f75-45fb4340a95d" name="EXTREF" component="clock_side">
+      <Parameter name="BodyTextOverride">
+        <Value />
+      </Parameter>
       <Parameter name="CY_COMMENT">
         <Value />
       </Parameter>

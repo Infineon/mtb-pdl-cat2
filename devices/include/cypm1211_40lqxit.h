@@ -4,9 +4,6 @@
 * \brief
 * CYPM1211-40LQXIT device header
 *
-* \note
-* Generator version: 1.6.0.575
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or

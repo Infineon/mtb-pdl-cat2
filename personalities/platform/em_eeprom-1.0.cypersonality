@@ -40,19 +40,19 @@
     <!-- EM_EEPROM documentation -->
     <ParamDoc id="doc" name="Configuration Help" group="Documentation" default="https://infineon.github.io/emeeprom/em_eeprom_api_reference_manual/html/index.html" linkText="Em_EEPROM Middleware Library Documentation" visible="true" desc="Opens the Em_EEPROM Middleware Library Documentation." />
 
-    <ParamRange id="eeprom_size" name="EEPROM Size" group="EEPROM Configuration" default="2048" min="1" max="65535" resolution="1" visible="true" editable="true" desc="Emulated EEPROM size" />
-    <ParamBool id="simpleMode" name="simpleMode" group="EEPROM Configuration" default="false" visible="true" editable="true" desc="Emulated EEPROM SimpleMode" />
-    <ParamBool id="blockingMode" name="blockingMode" group="EEPROM Configuration" default="true" visible="true" editable="false" desc="Emulated EEPROM blockingMode" />
-    <ParamRange id="wearLevelingFactor" name="wearLevelingFactor" group="EEPROM Configuration" default="1" min="1" max="10" resolution="1" visible="true" editable="true" desc="Emulated EEPROM wearLevelingFactor" />
-    <ParamBool id="redundantCopy" name="redundantCopy" group="EEPROM Configuration" default="false" visible="true" editable="true" desc="Emulated EEPROM redundantCopy" />
+    <ParamRange id="eeprom_size" name="EEPROM Size" group="General" default="2048" min="1" max="65535" resolution="1" visible="true" editable="true" desc="Emulated EEPROM size" />
+    <ParamBool id="simpleMode" name="Simple Mode" group="General" default="false" visible="true" editable="true" desc="Emulated EEPROM SimpleMode" />
+    <ParamBool id="blockingMode" name="Blocking Mode" group="General" default="true" visible="true" editable="false" desc="Emulated EEPROM blockingMode" />
+    <ParamRange id="wearLevelingFactor" name="Wear Leveling Factor" group="General" default="1" min="1" max="10" resolution="1" visible="true" editable="true" desc="Emulated EEPROM wearLevelingFactor" />
+    <ParamBool id="redundantCopy" name="Redundant Copy" group="General" default="false" visible="true" editable="true" desc="Emulated EEPROM redundantCopy" />
   </Parameters>
   <ConfigFirmware>
-    <ConfigDefine name="EEPROM_SIZE" value="`${eeprom_size}`" public="true" include="true" />
-    <ConfigDefine name="EEPROM_SIMPLEMODE" value="`${(simpleMode eq true) ? 1 : 0}`" public="true" include="true" />
-    <ConfigDefine name="EEPROM_BLOCKINGMODE" value="`${(blockingMode eq true) ? 1 : 0}`" public="true" include="true" />
-    <ConfigDefine name="EEPROM_WEARLEVELING_FACTOR" value="`${wearLevelingFactor}`" public="true" include="true" />
-    <ConfigDefine name="EEPROM_REDUNDANT_COPY" value="`${(redundantCopy eq true) ? 1 : 0}`" public="true" include="true" />
-    <ConfigDefine name="EEPROM_PHYSICAL_SIZE" value="CY_EM_EEPROM_GET_PHYSICAL_SIZE(`${eeprom_size}`,`${(simpleMode eq true) ? 1 : 0}`,`${wearLevelingFactor}`,`${(redundantCopy eq true) ? 1 : 0}`)" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_SIZE" value="`${eeprom_size}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_SIMPLEMODE" value="`${(simpleMode eq true) ? 1 : 0}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_BLOCKINGMODE" value="`${(blockingMode eq true) ? 1 : 0}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_WEARLEVELING_FACTOR" value="`${wearLevelingFactor}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_REDUNDANT_COPY" value="`${(redundantCopy eq true) ? 1 : 0}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_PHYSICAL_SIZE" value="CY_EM_EEPROM_GET_PHYSICAL_SIZE(`${eeprom_size}`,`${(simpleMode eq true) ? 1 : 0}`,`${wearLevelingFactor}`,`${(redundantCopy eq true) ? 1 : 0}`)" public="true" include="true" />
   </ConfigFirmware>
 </Personality>
 

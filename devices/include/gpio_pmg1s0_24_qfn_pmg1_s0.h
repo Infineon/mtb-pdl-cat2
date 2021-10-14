@@ -4,9 +4,6 @@
 * \brief
 * PMG1S0 device GPIO header for 24-QFN-PMG1-S0 package
 *
-* \note
-* Generator version: 1.6.0.575
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or

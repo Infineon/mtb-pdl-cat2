@@ -6,7 +6,7 @@ var searchData=
   ['pc2',['pc2',['../structcy__stc__gpio__prt__config__t.html#a5b303bc4b3284a5e35ed9bb544e1e5cc',1,'cy_stc_gpio_prt_config_t']]],
   ['pdphycbk',['pdPhyCbk',['../structcy__stc__usbpd__context__t.html#a0db1e279705fdecf815510b6595621a7',1,'cy_stc_usbpd_context_t']]],
   ['pdstackcontext',['pdStackContext',['../structcy__stc__usbpd__context__t.html#a78b8c5b0b09f938646ceaab21fa60713',1,'cy_stc_usbpd_context_t']]],
-  ['period',['period',['../structcy__stc__tcpwm__counter__config__t.html#ab76c3f28638094636fc4ce47339a2f03',1,'cy_stc_tcpwm_counter_config_t']]],
+  ['period',['period',['../structcy__stc__sysclk__csv__config__t.html#a62a346c641e55dc28778ec8a68059f09',1,'cy_stc_sysclk_csv_config_t::period()'],['../structcy__stc__tcpwm__counter__config__t.html#ab76c3f28638094636fc4ce47339a2f03',1,'cy_stc_tcpwm_counter_config_t::period()']]],
   ['period0',['period0',['../structcy__stc__tcpwm__pwm__config__t.html#a502c5f5b7c9b737a8beb8109ce67d909',1,'cy_stc_tcpwm_pwm_config_t']]],
   ['period1',['period1',['../structcy__stc__tcpwm__pwm__config__t.html#a01da495f5693587cd938dde49b86e27a',1,'cy_stc_tcpwm_pwm_config_t']]],
   ['phiainput',['phiAInput',['../structcy__stc__tcpwm__quaddec__config__t.html#a9bccb40249e89734807ee65b11c642fe',1,'cy_stc_tcpwm_quaddec_config_t']]],

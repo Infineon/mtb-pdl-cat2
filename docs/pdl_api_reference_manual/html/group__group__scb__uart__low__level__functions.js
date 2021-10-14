@@ -16,5 +16,7 @@ var group__group__scb__uart__low__level__functions =
     [ "Cy_SCB_UART_IsTxComplete", "group__group__scb__uart__low__level__functions.html#ga81aff78dcdc266d6cac81e714afef6c3", null ],
     [ "Cy_SCB_UART_GetNumInRxFifo", "group__group__scb__uart__low__level__functions.html#gabc4b66b875dbc70d52adf19170d3a530", null ],
     [ "Cy_SCB_UART_ClearRxFifo", "group__group__scb__uart__low__level__functions.html#ga87d8e77bc0b4932906b9769ccfaff4de", null ],
-    [ "Cy_SCB_UART_ClearTxFifo", "group__group__scb__uart__low__level__functions.html#gadbe05205dc0a6035395c7738b0de0dcc", null ]
+    [ "Cy_SCB_UART_ClearTxFifo", "group__group__scb__uart__low__level__functions.html#gadbe05205dc0a6035395c7738b0de0dcc", null ],
+    [ "Cy_SCB_UART_GetOverSample", "group__group__scb__uart__low__level__functions.html#ga6198ae1a865423d022a52b60f0589640", null ],
+    [ "Cy_SCB_UART_SetOverSample", "group__group__scb__uart__low__level__functions.html#ga953a2e5de2843bec5149214fbbf8d866", null ]
 ];

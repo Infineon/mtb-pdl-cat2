@@ -57,29 +57,30 @@
       <Entry name="High" value="CY_CTB_POWER_HIGH" visible="true" />
     </ParamChoice>
 
-	<!--GBW, Active mode-->
+    <!--GBW, Active mode-->
     <ParamString id="GBw_ActiveMode_Power_Value" name="GBwActiveModePowerValue" group="General" default="`${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerHigh&quot;) ? (power eq &quot;CY_CTB_POWER_HIGH&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerHigh&quot;) : power eq &quot;CY_CTB_POWER_MEDIUM&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerMid&quot;) : power eq &quot;CY_CTB_POWER_LOW&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerLow&quot;) : 0) : 0}`" visible="false" editable="false" desc="" />
     <ParamString id="GBw_ActiveMode" name="Unity-Gain Bandwidth" group="General" default="Approx: `${GBw_ActiveMode_Power_Value}` MHz" visible="`${isCtbmEnabled}`" editable="false" desc="Display the bandwidth in Active mode depending on the Power setting." />
 
     <ParamBool id="pump" name="Charge Pump Enable" group="General" default="true" visible="true" editable="true" desc="This parameter allows you to enable the charge pump. Enabling the charge pump increases the input range. Charge pump is disabled in deepsleep mode." />
 
-	<!--Vin, Active mode, amp-->
+    <!--Vin, Active mode, amp-->
     <ParamString id="Vin_ActiveMode" name="Input Range" group="General" default="Approx: `${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOff&quot;) ? (pump ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOn&quot;) : getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOff&quot;)) : 0}`" visible="`${isCtbmEnabled}`" editable="false" desc="Display range of input voltage in Active mode depending on Charge Pump setting." />
 
     <ParamChoice id="outputCurrent" name="Output Drive" group="General" default="CY_CTB_MODE_OPAMP_INTERNAL" visible="true" editable="true" desc="This parameter selects an output drive mode. Selecting Output to pin allows for connections to device pins with 10x more drive current." >
-        <Entry name="Output to pin" value="CY_CTB_MODE_OPAMP_EXTERNAL" visible="true" />
-        <Entry name="Internal only" value="CY_CTB_MODE_OPAMP_INTERNAL" visible="true" />
+      <Entry name="Output to pin" value="CY_CTB_MODE_OPAMP_EXTERNAL" visible="true" />
+      <Entry name="Internal only" value="CY_CTB_MODE_OPAMP_INTERNAL" visible="true" />
     </ParamChoice>
-
 
     <!-- Signals -->
     <ParamSignal port="vplus[0]" name="Vplus Input" group="Connections" visible="true" desc="Follower Input" canBeEmpty="false" />
     <ParamSignal port="out_10x[0]" name="Output (to pin)" group="Connections" visible="`${outputCurrent eq &quot;CY_CTB_MODE_OPAMP_EXTERNAL&quot;}`" desc="Opamp Output to pin" canBeEmpty="true" >
-        <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.out_1x\[.*" valid="true" />
     </ParamSignal>
     <ParamSignal port="out_1x[0]" name="Output (internal only)" group="Connections" visible="`${outputCurrent eq &quot;CY_CTB_MODE_OPAMP_INTERNAL&quot;}`" desc="Opamp Output to internal" canBeEmpty="true" >
-        <Constraint type="DENY" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" />
-        <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.out_10x\[.*" valid="true" />
     </ParamSignal>
 
     <!--Config-->
@@ -90,7 +91,7 @@
   <!--DRCs-->
   <DRCs>
     <DRC type="ERROR" text="The CTBm resource must be enabled for `${INST_NAME}` to work." condition="`${!isCtbmEnabled}`" >
-        <FixIt action="ENABLE_BLOCK" target="pass[`${passNum}`].ctb[`${ctbNum}`]" value="m0s8ctbm-1.0" valid="true" />
+      <FixIt action="ENABLE_BLOCK" target="pass[`${passNum}`].ctb[`${ctbNum}`]" value="m0s8ctbm-1.0" valid="true" />
     </DRC>
     <DRC type="ERROR" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${pump &amp;&amp; !isSysAnalogEnabled}`" >
       <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passNum . &quot;]&quot;}`" value="" valid="true" />

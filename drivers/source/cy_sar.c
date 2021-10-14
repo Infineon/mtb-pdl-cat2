@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.0
+* \version 2.10
 *
 * Provides the functions for the API for the SAR driver.
 *
@@ -232,6 +232,8 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
     {
         uint8_t chan;
         int32_t defaultGain;
+        uint32_t satIntrMsk = 0UL;   /* Saturation interrupt mask */
+        uint32_t rangeIntrMsk = 0UL; /* Range interrupt mask */
 
         CY_ASSERT_L3(CY_SAR_VREF(config->vrefSel));
         CY_ASSERT_L3(CY_SAR_NEG_SEL(config->negSel));
@@ -322,8 +324,33 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
                 }
 
                 Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)] = defaultGain;
+
+                if (chan < CY_SAR_SEQ_NUM_CHANNELS) /* All except the injection channel */
+                {
+                    if (locChanCfg->rangeIntrEn)
+                    {
+                        rangeIntrMsk |= 1UL << chan;
+                    }
+
+                    if (locChanCfg->satIntrEn)
+                    {
+                        satIntrMsk |= 1UL << chan;
+                    }
+                }
+                else
+                {
+                    uint32_t intrMsk = (locChanCfg->rangeIntrEn ? CY_SAR_INTR_INJ_RANGE : 0UL) |
+                                       (locChanCfg->satIntrEn ? CY_SAR_INTR_INJ_SATURATE : 0UL);
+                    Cy_SAR_ClearInterrupt(base, intrMsk);
+                    Cy_SAR_SetInterruptMask(base, intrMsk);
+                }
             }
         }
+
+        Cy_SAR_ClearSatInterrupt(base, satIntrMsk);
+        Cy_SAR_SetSatInterruptMask(base, satIntrMsk);
+        Cy_SAR_ClearRangeInterrupt(base, rangeIntrMsk);
+        Cy_SAR_SetRangeInterruptMask(base, rangeIntrMsk);
 
         /* Set routing related registers if enabled */
         if (NULL != config->routingConfig)
@@ -345,6 +372,12 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
         }
 
         SAR_PUMP_CTRL(base) = (config->boostPump) ? SAR_PUMP_CTRL_ENABLED_Msk : CY_SAR_DEINIT;
+
+        /* DRIVERS-7100 */
+        if (CY_SAR_VREF_SEL_BGR != config->vrefSel)
+        {
+            base->DFT_CTRL |= SAR_DFT_CTRL_DCEN_Msk;
+        }
 
         result = CY_SAR_SUCCESS;
     }
@@ -621,6 +654,9 @@ void Cy_SAR_StopConvert(SAR_Type * base)
 }
 
 
+#define CY_SAR_TRIGGER_MODE_Msk (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Msk | SAR_SAMPLE_CTRL_DSI_TRIGGER_LEVEL_Msk)
+#define CY_SAR_TRIGGER_MODE_Pos (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Pos)
+
 /*******************************************************************************
 * Function Name: Cy_SAR_SetConvertMode
 ****************************************************************************//**
@@ -641,21 +677,14 @@ void Cy_SAR_StopConvert(SAR_Type * base)
 * \param mode
 * A value of the enum \ref cy_en_sar_sample_ctrl_trigger_mode_t
 *
-* \return None
-*
-* \funcusage
-*
-* \snippet sar/snippet/main.c SAR_SNIPPET_SET_CONVERT_MODE
+* \funcusage \snippet sar/snippet/main.c SAR_SNIPPET_SET_CONVERT_MODE
 *
 *******************************************************************************/
 void Cy_SAR_SetConvertMode(SAR_Type * base, cy_en_sar_sample_ctrl_trigger_mode_t mode)
 {
     CY_ASSERT_L3(CY_SAR_TRIGGER(mode));
 
-    /* Clear the TRIGGER_EN and TRIGGER_LEVEL bits */
-    uint32_t sampleCtrlReg = SAR_SAMPLE_CTRL(base) & ~(SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Msk | SAR_SAMPLE_CTRL_DSI_TRIGGER_LEVEL_Msk);
-
-    SAR_SAMPLE_CTRL(base) = sampleCtrlReg | (uint32_t)mode;
+    CY_REG32_CLR_SET(SAR_SAMPLE_CTRL(base), CY_SAR_TRIGGER_MODE, mode);
 }
 
 
@@ -1058,8 +1087,8 @@ cy_en_sar_status_t Cy_SAR_SetChannelGain(const SAR_Type * base, uint32_t chan, i
 * - RawCounts: Raw counts from SAR 16-bit CHAN_RESULT register
 * - AvgDivider: divider based on averaging mode (\ref cy_stc_sar_config_t::avgShift) and number of samples averaged
 *   (\ref cy_stc_sar_config_t::avgCnt)
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM : AvgDivider is the number of samples averaged or 16, whichever is smaller
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_FIXED : AvgDivider is 1
+*   - \ref cy_stc_sar_config_t::avgShift is false : AvgDivider is the number of samples averaged or 16, whichever is smaller
+*   - \ref cy_stc_sar_config_t::avgShift is true  : AvgDivider is 1
 * - Offset: Value stored by the \ref Cy_SAR_SetChannelOffset function.
 *
 * \param base
@@ -1086,21 +1115,28 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 {
     int16_t retVal = adcCounts;
 
+    /* Sub-resolution multiplier: 4 for 10 bit and 16 for 8 bit */
+    int16_t subResMul = ((uint32_t)CY_SAR_SUB_RESOLUTION_10B == _FLD2VAL(SAR_SAMPLE_CTRL_SUB_RESOLUTION, SAR_SAMPLE_CTRL(base))) ? 4 : 16;
+
     CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
 
     if (Cy_SAR_IsBaseAddrValid(base) && (chan < CY_SAR_NUM_CHANNELS))
     {
         /* Divide the adcCount when accumulate averaging mode selected */
         if (!_FLD2BOOL(SAR_SAMPLE_CTRL_AVG_SHIFT, SAR_SAMPLE_CTRL(base)))
-        { /* If Average mode != fixed */
+        {
+            /* If channel uses averaging */
             if (((chan < CY_SAR_SEQ_NUM_CHANNELS) && _FLD2BOOL(SAR_CHAN_CONFIG_AVG_EN,         SAR_CHAN_CONFIG(base, chan))) ||
                 ((chan == CY_SAR_INJ_CHANNEL)     && _FLD2BOOL(SAR_INJ_CHAN_CONFIG_INJ_AVG_EN, SAR_INJ_CHAN_CONFIG(base))))
-            { /* If channel uses averaging */
-                uint32_t averageAdcSamplesDiv;
-
+            {
                 /* Divide by 2^(AVG_CNT + 1) */
-                averageAdcSamplesDiv = (SAR_SAMPLE_CTRL(base) & SAR_SAMPLE_CTRL_AVG_CNT_Msk) >> SAR_SAMPLE_CTRL_AVG_CNT_Pos;
-                averageAdcSamplesDiv = (1UL << (averageAdcSamplesDiv + 1UL));
+                uint32_t averageAdcSamplesDiv = 1UL << (_FLD2VAL(SAR_SAMPLE_CTRL_AVG_CNT, SAR_SAMPLE_CTRL(base)) + 1UL);
+
+                /* Divider limit is 16 */
+                if (averageAdcSamplesDiv > 16UL)
+                {
+                    averageAdcSamplesDiv = 16UL;
+                }
 
                 /* If unsigned format, prevent sign extension */
                 if (false == Cy_SAR_IsChannelSigned(base, chan))
@@ -1116,6 +1152,22 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 
         /* Subtract ADC offset */
         retVal -= Cy_SAR_offset[chan][CY_SAR_INSTANCE(base)];
+
+        /* If sub-resolution is used */
+        if (CY_SAR_SEQ_NUM_CHANNELS > chan)
+        {
+            if (_FLD2BOOL(SAR_CHAN_CONFIG_RESOLUTION, SAR_CHAN_CONFIG(base, chan)))
+            {
+                retVal *= subResMul;
+            }
+        }
+        else /* injection channel */
+        {
+            if (_FLD2BOOL(SAR_INJ_CHAN_CONFIG_INJ_RESOLUTION, SAR_INJ_CHAN_CONFIG(base)))
+            {
+                retVal *= subResMul;
+            }
+        }
     }
 
     return (retVal);
@@ -1137,8 +1189,8 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - RawCounts: Raw counts from SAR 16-bit CHAN_RESULT register
 * - AvgDivider: divider based on averaging mode (\ref cy_stc_sar_config_t::avgShift) and number of samples averaged
 *   (\ref cy_en_sar_sample_ctrl_avg_cnt_t)
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM : AvgDivider is the number of samples averaged or 16, whichever is smaller
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_FIXED : AvgDivider is 1
+*   - \ref cy_stc_sar_config_t::avgShift is false : AvgDivider is the number of samples averaged or 16, whichever is smaller
+*   - \ref cy_stc_sar_config_t::avgShift is true  : AvgDivider is 1
 * - Offset: Value stored by the \ref Cy_SAR_SetChannelOffset function.
 * - TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
@@ -1198,8 +1250,8 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - RawCounts: Raw counts from SAR 16-bit CHAN_RESULT register
 * - AvgDivider: divider based on averaging mode (\ref cy_stc_sar_config_t::avgShift) and number of samples averaged
 *   (\ref cy_en_sar_sample_ctrl_avg_cnt_t)
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM : AvgDivider is the number of samples averaged or 16, whichever is smaller
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_FIXED : AvgDivider is 1
+*   - \ref cy_stc_sar_config_t::avgShift is false : AvgDivider is the number of samples averaged or 16, whichever is smaller
+*   - \ref cy_stc_sar_config_t::avgShift is true  : AvgDivider is 1
 * - Offset: Value stored by the \ref Cy_SAR_SetChannelOffset function.
 * - TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
@@ -1262,15 +1314,15 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * The calculation of voltage depends on the channel offset, gain and other parameters.
 * The equation used is:
 *
-*     V = (RawCounts/AvgDivider - Offset)*TEN_VOLT/Gain
+*     V = (RawCounts / AvgDivider - Offset) * TEN_VOLT / Gain
 *     uV = V * 1000000
 *
 * where,
 * - RawCounts: Raw counts from SAR 16-bit CHAN_RESULT register
 * - AvgDivider: divider based on averaging mode (\ref cy_stc_sar_config_t::avgShift) and number of samples averaged
 *   (\ref cy_en_sar_sample_ctrl_avg_cnt_t)
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM : AvgDivider is the number of samples averaged or 16, whichever is smaller
-*   - CY_SAR_AVG_MODE_SEQUENTIAL_FIXED : AvgDivider is 1
+*   - \ref cy_stc_sar_config_t::avgShift is false : AvgDivider is the number of samples averaged or 16, whichever is smaller
+*   - \ref cy_stc_sar_config_t::avgShift is true  : AvgDivider is 1
 * - Offset: Value stored by the \ref Cy_SAR_SetChannelOffset function.
 * - TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
@@ -1292,9 +1344,7 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage
-*
-* \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_UVOLTS
+* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_UVOLTS
 *
 *******************************************************************************/
 int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
@@ -1368,6 +1418,7 @@ int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 *         If any of base or chan parameters is valid, 0 is returned.
 *
 * \funcusage \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
+* Also please refer the \ref group_sar_sarmux_dietemp
 *
 *******************************************************************************/
 int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t adcCounts)

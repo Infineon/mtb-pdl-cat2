@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.c
-* \version 3.10
+* \version 3.20
 *
 * Provides UART API implementation of the SCB driver.
 *
@@ -37,6 +37,63 @@ static void UartHandleDataReceive  (CySCB_Type *base, cy_stc_scb_uart_context_t 
 static void UartHandleRingBuffer   (CySCB_Type *base, cy_stc_scb_uart_context_t *context);
 static void UartHandleDataTransmit (CySCB_Type *base, cy_stc_scb_uart_context_t *context);
 static uint32_t SelectRxFifoLevel(CySCB_Type const *base);
+
+/*******************************************************************************
+* Function Name: Cy_SCB_UART_SetOverSample
+****************************************************************************//**
+*
+* Sets oversample bits of UART.
+*
+* \param base
+* The pointer to the UART SCB instance.
+*
+* \param overSample
+* Value of oversample to be set.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_scb_uart_context_t allocated
+* by the user. The structure is used during the UART operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+* User should not pass NULL as pointer to context.
+*
+* \return
+* \ref cy_en_scb_uart_status_t
+*
+* \note
+* Ensure that the SCB block is disabled before calling this function.
+*
+* \snippet scb/uart_snippet/main.c UART_SET_OVS
+*
+*******************************************************************************/
+cy_en_scb_uart_status_t Cy_SCB_UART_SetOverSample(CySCB_Type *base, uint32_t overSample, cy_stc_scb_uart_context_t *context)
+{
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 4, \
+    'Intentional typecast to cy_en_scb_uart_mode_t enum to validate arguments.');
+    if((NULL == base) || (NULL == context) ||
+       ((CY_SCB_UART_IS_OVERSAMPLE_VALID(overSample, ((cy_en_scb_uart_mode_t)_FLD2VAL(SCB_UART_CTRL_MODE,SCB_UART_CTRL(base))), context->irdaEnableLowPowerReceiver)) == false))
+    {
+        return CY_SCB_UART_BAD_PARAM;
+    }
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
+
+    uint32_t ovs;
+
+    if (((uint32_t)CY_SCB_UART_IRDA == _FLD2VAL(SCB_UART_CTRL_MODE,SCB_UART_CTRL(base))) && (!context->irdaEnableLowPowerReceiver))
+    {
+        /* For Normal IrDA mode oversampling is always zero */
+        ovs = 0UL;
+    }
+    else
+    {
+        ovs = overSample - 1UL;
+    }
+
+    /* Set oversample bits */
+    CY_REG32_CLR_SET(SCB_CTRL(base), SCB_CTRL_OVS, ovs);
+
+    return CY_SCB_UART_SUCCESS;
+}
 
 
 /*******************************************************************************
@@ -197,6 +254,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
             context->txLeftToTransmit = 0UL;
 
             context->cbEvents = NULL;
+            context->irdaEnableLowPowerReceiver = config->irdaEnableLowPowerReceiver;
 
         #if !defined(NDEBUG)
             /* Put an initialization key into the initKey variable to verify
@@ -1429,8 +1487,8 @@ static void UartHandleDataTransmit(CySCB_Type *base, cy_stc_scb_uart_context_t *
         /* Put the last data element and make sure that "TX done" will happen for it */
         intrStatus = Cy_SysLib_EnterCriticalSection();
 
-        Cy_SCB_WriteTxFifo(base, txData);
         Cy_SCB_ClearTxInterrupt(base, CY_SCB_TX_INTR_UART_DONE);
+        Cy_SCB_WriteTxFifo(base, txData);
 
         Cy_SysLib_ExitCriticalSection(intrStatus);
 

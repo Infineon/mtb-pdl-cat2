@@ -44,6 +44,7 @@
       <Entry name="LFCLK" value="LFCLK" visible="true"/>
       <Entry name="SYSCLK" value="SYSCLK" visible="true"/>
     </ParamChoice>
+    <ParamRange id="Reload" name="Reload Value" group="General" default="40000" min="1" max="16777215" resolution="1" visible="true" editable="true" desc="Set the interval interrupt SYSTICK. Interval = ReloadValue/Fin (seconds)." />
     <ParamString id="sourceClockRsc" name="Source Clock Resource" group="Internal" default="srss[0].clock[0].`${sourceClock eq LFCLK ? &quot;lfclk&quot; : &quot;sysclk&quot;}`[0]" visible="false" editable="false" desc="" />
     <ParamString id="sourceClockRscName" name="Source Clock" group="Internal" default="`${sourceClock eq LFCLK ? &quot;LF&quot; : &quot;CPU&quot;}`" visible="false" editable="false" desc="" />
     <!-- Set an error if the source clock is not enabled -->
@@ -62,6 +63,6 @@
   <ConfigFirmware>
     <ConfigInclude value="cy_systick.h" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_SYSTICK_ENABLED" value="1" public="false" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_SysTickInit()" body="    Cy_SysTick_SetClockSource(CY_SYSTICK_CLOCK_SOURCE_CLK_`${sourceClockRscName}`);" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_SysTickInit()" body="    Cy_SysTick_Init(CY_SYSTICK_CLOCK_SOURCE_CLK_`${sourceClockRscName}`, `${Reload}`UL);" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

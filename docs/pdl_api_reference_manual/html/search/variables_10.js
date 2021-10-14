@@ -8,6 +8,7 @@ var searchData=
   ['r2',['r2',['../structcy__stc__fault__frame__t.html#a0aae89dfd974c6540659d09d3339aaa6',1,'cy_stc_fault_frame_t']]],
   ['r3',['r3',['../structcy__stc__fault__frame__t.html#a244b9726ed2baa8979a810f36e1a68ef',1,'cy_stc_fault_frame_t']]],
   ['rangecond',['rangeCond',['../structcy__stc__sar__config__t.html#a27365f96ede08918dd4204b62b986984',1,'cy_stc_sar_config_t']]],
+  ['rangeintren',['rangeIntrEn',['../structcy__stc__sar__channel__config__t.html#a67d3ddbfcad287244787c09d676c9c44',1,'cy_stc_sar_channel_config_t']]],
   ['rangethreshigh',['rangeThresHigh',['../structcy__stc__sar__config__t.html#ac63f791a8c47c47a595d459d4408045f',1,'cy_stc_sar_config_t']]],
   ['rangethreslow',['rangeThresLow',['../structcy__stc__sar__config__t.html#add12df34e1a59092ca5228f1c35fdd65',1,'cy_stc_sar_config_t']]],
   ['rdo_5fbat',['rdo_bat',['../unioncy__pd__pd__do__t.html#a835285358bd490708e16fad921584eac',1,'cy_pd_pd_do_t']]],

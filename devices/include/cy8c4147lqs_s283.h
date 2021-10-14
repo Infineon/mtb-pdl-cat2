@@ -4,9 +4,6 @@
 * \brief
 * CY8C4147LQS-S283 device header
 *
-* \note
-* Generator version: 1.6.0.577
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or

@@ -1,101 +1,50 @@
-# mtb-pdl-cat2 peripheral driver library v1.3.0
+# mtb-pdl-cat2 peripheral driver library v1.4.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
-for a complete description of the peripheral driver library.
+for a complete description of the Peripheral driver library.
 
 ## What's included?
-
-### New personalities
-
-- CTBm (supported by ModusToolbox 2.3.1 or later)
-- Comparator (supported by ModusToolbox 2.3.1 or later)
-- DieTemp (supported by ModusToolbox 2.3.1 or later)
-- Emulated EEPROM
-- Follower (supported by ModusToolbox 2.3.1 or later)
-- Low-Power Comparator
-- OpAmp (supported by ModusToolbox 2.3.1 or later)
-- Programmable Analog
-- Segment LCD
-- USBFS Device
-
 ### Updated personalities
 
-- CAN FD - Fixed the name of the IRQ define.
-- CSD - Added a check if Power personality is enabled. Fixed the typos in the description.
-- Counter - Fixed the capture terminal display.
-- DMAC - Fixed the typos in the description.
-- ECO - Increased the startup timeout because ECO may take longer to become stable.
-- EXTCLK - Set the minimum allowed frequency to 0 MHz.
-- EXTREF - Corrected the maximum external frequency to 48 MHz
-- HFCLK - Updated in accordance with the SysClk driver updates.
-- I2C - Added a delay of the address-matching event parameter. Fixed the typos in the description.
-- MSC - Improved the DMAC triggers configuration. Fixed the typos in the description.
-- PIN - Corrected the name of Analog drive mode.
-- PLL - Decreased the startup timeout to match the specification.
-- Power - Added the AMUXBUS charge pump.
-- SAR - Updated to support interconnection with CTBm and DieTemp (supported by ModusToolbox 2.3.1 or later).
-- SPI - Fixed the typos in the description.
-- Smart I/O - Fixed the issue in the selection of an instance.
-- SysClocks - Fixed the ILO and ECO configurations. Removed unused code.
-- UART - Fixed the typos in the description.
-- USBPD - Updated the sense-resistance option parameters.
-- WCO - Added a nominal frequency and startup delay.
-
-### Added drivers
-
-- [CTB (Continuous time block)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ctb.html)
-
-- [Crypto](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__crypto.html)
-
-- [LPCOMP (Low-power comparator)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__lpcomp.html)
-
-- [SegLCD (Segment LCD)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__seglcd.html)
-
-- [USBFS (USB Full-Speed Device)](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs.html)
+- Follower - Updated the Output Connection list.
+- MSC - Minor updates.
+- OpAmp - Updated the Output Connection list
+- WDT - Added the check to ensure the clock source (LFCLK) is enabled.
+- SYSTICK - Added the Reload Value field to configure the interrupt interval. The configuration is applied by the Cy_SysTick_Init() call in generated code.
+- SAR - The trigMode generation is fixed, rangeIntrEn and satIntrEn generation is added.
+- SmartIO - Fixed the SmartIO_HW generation.
+- SysAnalog - Removed redundant parameter "Store Config in Flash".
 
 ### Updated drivers
 
-- [CSD (CapSense Sigma Delta) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__csd.html)
+- [DMAC 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dmac.html)
 
-- [GPIO 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__gpio.html)
+- [SAR (SAR ADC) 2.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
 
-- [MSC (Multi-Sense Converter) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__msc.html)
+- [SCB 3.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
 
-- [SAR (SAR ADC) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [SysClk (System Clock) 2.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
 
-- [SCB 3.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+- [SysLib (System Library) 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
 
-- [SysClk (System Clock) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [SYSPM 2.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
 
-- [SysPm (System Power Management) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
+- [USBPD (USB Power Delivery) 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
-- [USBPD (USB Power Delivery) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+### Drivers with patch-version updates
 
-### Drivers with patch version updates
-
-- [CAN FD (CAN with Flexible Data-Rate) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
-
-- [DMAC (Direct Memory Access Controller) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dmac.html)
-
-- [SysLib (System Library) 2.10.2](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
-
-- [TCPWM (Timer Counter PWM) 1.10.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__tcpwm.html)
-
-- [WDC 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdc.html)
+- [SYSTICK 1.20.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__arm__system__timer.html)
 
 ## Known issues/limitations
-
-For the PSoC P4000S, P4100S, P4100S Plus, and PSoC 4500S devices, the SCB in
-Master mode may stick in the CY_SCB_I2C_MASTER_BUSY state, if the
-Cy_SCB_I2C_MasterAbortWrite() or Cy_SCB_I2C_MasterAbortRead() functions are
-called during an address transfer. The SCB instance re-initialization is
-required to restore the instance operation.
+The DMA personality does not reserve Hardware Abstraction Layer (HAL) resources.
+So, HAL may reserve DMA resources already reserved by the DMA personality and
+corrupt the DMA resources configuration. To avoid the issue, use exclusively
+either personality or HAL for the DMA configuration.
 
 ## Defect fixes
 
-See the Changelog section of each driver in the [PDL API reference](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
-
+See the Changelog section of each driver in [PDL API reference](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
 
 ## Supported software and tools
 
@@ -103,11 +52,11 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| [core library](https://github.com/Infineon/core-lib)                          | 1.2.0        |
-| CMSIS-Core(M)                                                                 | 5.4.0        |
-| GCC compiler                                                                  | 9.3.1        |
-| IAR compiler                                                                  | 8.42.2       |
-| Arm&reg; compiler 6                                                           | 6.13         |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.2.0       |
+| CMSIS-Core(M)                                                                 |  5.4.0       |
+| GCC compiler                                                                  | 10.3.1       |
+| IAR compiler                                                                  |  8.42.2      |
+| Arm&reg; compiler 6                                                           |  6.13        |
 
 ## More information
 
@@ -115,9 +64,9 @@ This version of PDL was validated for compatibility with the following software 
 
 - [Peripheral driver library API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 
-- [ModusToolbox&trade; software environment, quick start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
+- [ModusToolbox&trade; software environment, Quick Start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
 
-- [ModusToolbox&trade; device configurator tool guide](https://www.cypress.com/ModusToolboxDeviceConfig)
+- [ModusToolbox&trade; Device Configurator guide](https://www.cypress.com/ModusToolboxDeviceConfig)
 
 - [AN79953 - Getting started with PSoC&trade; 4](https://www.cypress.com/an79953)
 

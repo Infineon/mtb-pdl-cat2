@@ -5,6 +5,7 @@ var searchData=
   ['port_20interrupt_20functions',['Port Interrupt Functions',['../group__group__gpio__functions__interrupt.html',1,'']]],
   ['peripherals_20clock_20dividers',['Peripherals Clock Dividers',['../group__group__sysclk__clk__peripheral.html',1,'']]],
   ['pump_20clock',['Pump Clock',['../group__group__sysclk__clk__pump.html',1,'']]],
+  ['programmable_20delay_20block_20_28pgm_5fdelay_29',['Programmable Delay Block (PGM_DELAY)',['../group__group__sysclk__pgm__dly.html',1,'']]],
   ['phase_20locked_20loop_20_28pll_29',['Phase Locked Loop (PLL)',['../group__group__sysclk__pll.html',1,'']]],
   ['power_20modes',['Power Modes',['../group__group__syspm__functions__power.html',1,'']]],
   ['pwm_20_28tcpwm_29',['PWM (TCPWM)',['../group__group__tcpwm__pwm.html',1,'']]],

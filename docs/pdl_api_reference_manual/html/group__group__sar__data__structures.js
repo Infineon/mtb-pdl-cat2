@@ -6,7 +6,9 @@ var group__group__sar__data__structures =
       [ "differential", "structcy__stc__sar__channel__config__t.html#a448db99f099eb108ca34b8ca0e7012fd", null ],
       [ "resolution", "structcy__stc__sar__channel__config__t.html#aa58f1b64ba6eadff02e32633689fe841", null ],
       [ "avgEn", "structcy__stc__sar__channel__config__t.html#af6393b0df19a16d1b6618d4a715eeca5", null ],
-      [ "sampleTimeSel", "structcy__stc__sar__channel__config__t.html#ab61cbba910f3baa6c2bf1a2bf57df173", null ]
+      [ "sampleTimeSel", "structcy__stc__sar__channel__config__t.html#ab61cbba910f3baa6c2bf1a2bf57df173", null ],
+      [ "rangeIntrEn", "structcy__stc__sar__channel__config__t.html#a67d3ddbfcad287244787c09d676c9c44", null ],
+      [ "satIntrEn", "structcy__stc__sar__channel__config__t.html#a1647ee3d1f9393f71876a4c961ec884a", null ]
     ] ],
     [ "cy_stc_sar_routing_config_t", "structcy__stc__sar__routing__config__t.html", [
       [ "muxSwitch", "structcy__stc__sar__routing__config__t.html#a91171c914047613e455ba37c81fe0d43", null ],

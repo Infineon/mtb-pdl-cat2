@@ -141,6 +141,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gadbe05205dc0a6035395c7738b0de0dcc"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__uart__low__level__functions.html#gadbe05205dc0a6035395c7738b0de0dcc">Cy_SCB_UART_ClearTxFifo</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base)</td></tr>
 <tr class="memdesc:gadbe05205dc0a6035395c7738b0de0dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all data out of the UART TX FIFO.  <a href="#gadbe05205dc0a6035395c7738b0de0dcc">More...</a><br /></td></tr>
 <tr class="separator:gadbe05205dc0a6035395c7738b0de0dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6198ae1a865423d022a52b60f0589640"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__uart__low__level__functions.html#ga6198ae1a865423d022a52b60f0589640">Cy_SCB_UART_GetOverSample</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> const *base)</td></tr>
+<tr class="memdesc:ga6198ae1a865423d022a52b60f0589640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of oversample.  <a href="#ga6198ae1a865423d022a52b60f0589640">More...</a><br /></td></tr>
+<tr class="separator:ga6198ae1a865423d022a52b60f0589640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga953a2e5de2843bec5149214fbbf8d866"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__scb__uart__enums.html#gac72413306ca26b7b8174526e3fc539df">cy_en_scb_uart_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__uart__low__level__functions.html#ga953a2e5de2843bec5149214fbbf8d866">Cy_SCB_UART_SetOverSample</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base, uint32_t overSample, <a class="el" href="structcy__stc__scb__uart__context__t.html">cy_stc_scb_uart_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga953a2e5de2843bec5149214fbbf8d866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets oversample bits of UART.  <a href="#ga953a2e5de2843bec5149214fbbf8d866">More...</a><br /></td></tr>
+<tr class="separator:ga953a2e5de2843bec5149214fbbf8d866"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gae8eba8924ed4b8add6e7cabdf25a18fe"></a>
@@ -742,6 +748,79 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section user"><dt>Side Effects</dt><dd>The TX FIFO clear operation also clears the shift register, so that the shifter could be cleared in the middle of a data element transfer, corrupting it. The data element corruption means that all bits that have not been transmitted are transmitted as 1s on the bus. </dd></dl>
 
+</div>
+</div>
+<a id="ga6198ae1a865423d022a52b60f0589640"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6198ae1a865423d022a52b60f0589640">&#9670;&nbsp;</a></span>Cy_SCB_UART_GetOverSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE uint32_t Cy_SCB_UART_GetOverSample </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> const *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the value of oversample. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the UART SCB instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of oversample.</dd></dl>
+<div class="fragment"><div class="line">    <span class="comment">/* Initialize SCB for UART operation */</span></div><div class="line">    (void) <a class="code" href="group__group__scb__uart__general__functions.html#gacbc061f623d2fafbcfffcb58c5f2db51">Cy_SCB_UART_Init</a>(SCB1, &amp;UART_1_config, &amp;UART_1_context);</div><div class="line"></div><div class="line">    <span class="comment">/* Get current oversample value for provided SCB */</span></div><div class="line">    (void) <a class="code" href="group__group__scb__uart__low__level__functions.html#ga6198ae1a865423d022a52b60f0589640">Cy_SCB_UART_GetOverSample</a>(SCB1);</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ga953a2e5de2843bec5149214fbbf8d866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga953a2e5de2843bec5149214fbbf8d866">&#9670;&nbsp;</a></span>Cy_SCB_UART_SetOverSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__scb__uart__enums.html#gac72413306ca26b7b8174526e3fc539df">cy_en_scb_uart_status_t</a> Cy_SCB_UART_SetOverSample </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>overSample</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcy__stc__scb__uart__context__t.html">cy_stc_scb_uart_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets oversample bits of UART. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the UART SCB instance.</td></tr>
+    <tr><td class="paramname">overSample</td><td>Value of oversample to be set.</td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__scb__uart__context__t.html">cy_stc_scb_uart_context_t</a> allocated by the user. The structure is used during the UART operation for internal configuration and data retention. The user must not modify anything in this structure. User should not pass NULL as pointer to context.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__scb__uart__enums.html#gac72413306ca26b7b8174526e3fc539df">cy_en_scb_uart_status_t</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Ensure that the SCB block is disabled before calling this function.</dd></dl>
+<div class="fragment"><div class="line">    <span class="comment">/* Assign appropriate oversample value for UART */</span></div><div class="line">    uint32_t OverSample = 8UL;</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize SCB for UART operation */</span></div><div class="line">    (void) <a class="code" href="group__group__scb__uart__general__functions.html#gacbc061f623d2fafbcfffcb58c5f2db51">Cy_SCB_UART_Init</a>(SCB1, &amp;UART_1_config, &amp;UART_1_context);</div><div class="line"></div><div class="line">    <span class="comment">/* Set oversample value for UART */</span></div><div class="line">    (void) <a class="code" href="group__group__scb__uart__low__level__functions.html#ga953a2e5de2843bec5149214fbbf8d866">Cy_SCB_UART_SetOverSample</a>(SCB1, OverSample, &amp;UART_1_context);</div><div class="line"></div><div class="line">    <span class="comment">/* Enable UART to operate */</span></div><div class="line">    <a class="code" href="group__group__scb__uart__general__functions.html#ga503d0737dadf35620306ef3571d84905">Cy_SCB_UART_Enable</a>(SCB1);</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

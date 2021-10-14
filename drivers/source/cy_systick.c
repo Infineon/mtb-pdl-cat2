@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_systick.c
-* \version 1.20
+* \version 1.20.1
 *
 * Provides the API definitions of the SisTick driver.
 *
@@ -46,6 +46,8 @@ static void Cy_SysTick_ServiceCallbacks(void);
 *
 * \param clockSource The SysTick clock source \ref cy_en_systick_clock_source_t
 * \param interval The SysTick reload value. The valid range is [0x0-0x00FFFFFF].
+* \note Zero has no effect because the SysTick exception request and count flag
+* are activated when counting from 1 to 0.
 *
 * \sideeffect Clears the SysTick count flag if it was set.
 *

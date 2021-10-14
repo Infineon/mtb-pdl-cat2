@@ -4,9 +4,6 @@
 * \brief
 * Common header file to be included by the drivers.
 *
-* \note
-* Generator version: 1.6.0.575
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
@@ -750,6 +747,10 @@
     #include "cy8c4147lqe_s465.h"
 #elif defined (CY8C4147LQE_S475)
     #include "cy8c4147lqe_s475.h"
+#elif defined (CY8C4746LQS_S263)
+    #include "cy8c4746lqs_s263.h"
+#elif defined (CY8C4747LQS_S453)
+    #include "cy8c4747lqs_s453.h"
 #elif defined (CY8C4546AZI_S473)
     #include "cy8c4546azi_s473.h"
 #elif defined (CY8C4546AZI_S475)
@@ -926,6 +927,8 @@
     #include "cy8c4745lqi_s411.h"
 #elif defined (CY8C4745AZI_S413)
     #include "cy8c4745azi_s413.h"
+#elif defined (PSOC4ASF2)
+    #include "psoc4asf2.h"
 #elif defined (CYPM1011_24LQXI)
     #include "cypm1011_24lqxi.h"
 #elif defined (CYPM1111_40LQXIT)
@@ -940,6 +943,22 @@
     #include "cypd8225_97bzxit.h"
 #elif defined (CYPM1211_42FNXIT)
     #include "cypm1211_42fnxit.h"
+#elif defined (CYPD7291_68LDXS)
+    #include "cypd7291_68ldxs.h"
+#elif defined (CYPD7299_68LDXS)
+    #include "cypd7299_68ldxs.h"
+#elif defined (CYPD7271_68LQXQ)
+    #include "cypd7271_68lqxq.h"
+#elif defined (CYPD7272_68LQXQ)
+    #include "cypd7272_68lqxq.h"
+#elif defined (CYPD7273_68LQXQ)
+    #include "cypd7273_68lqxq.h"
+#elif defined (CYPD7274_68LQXQ)
+    #include "cypd7274_68lqxq.h"
+#elif defined (CYPD7275_68LQXQ)
+    #include "cypd7275_68lqxq.h"
+#elif defined (CYPD7191_40LDXS)
+    #include "cypd7191_40ldxs.h"
 #else
     #error Undefined part number
 #endif

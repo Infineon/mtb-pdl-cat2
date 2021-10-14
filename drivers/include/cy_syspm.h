@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syspm.h
-* \version 2.0
+* \version 2.10
 *
 * Provides the function definitions for the power management API.
 *
@@ -396,6 +396,12 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.10</td>
+*     <td>Corrected the size of the internal callback array to match the number
+*         of the supported low power modes.</td>
+*     <td>Implementation enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td>2.0</td>
 *     <td>\ref Cy_SysPm_CpuEnterDeepSleep is changed so that the
 *         \ref Cy_SysClk_DeepSleepCallback registration is needed.
@@ -448,7 +454,7 @@ extern "C" {
 #define CY_SYSPM_DRV_VERSION_MAJOR       2
 
 /** Driver minor version */
-#define CY_SYSPM_DRV_VERSION_MINOR       0
+#define CY_SYSPM_DRV_VERSION_MINOR       10
 
 /** SysPm driver identifier */
 #define CY_SYSPM_ID                      (CY_PDL_DRV_ID(0x10U))

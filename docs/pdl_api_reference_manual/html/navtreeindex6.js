@@ -158,11 +158,13 @@ var NAVTREEINDEX6 =
 "group__group__scb__uart__low__level__functions.html#ga3f1e6aa6e686a215ab03b5d264510b3f":[2,11,4,1,2,11],
 "group__group__scb__uart__low__level__functions.html#ga4092c34575a47087e08a58529451914b":[2,11,4,1,2,3],
 "group__group__scb__uart__low__level__functions.html#ga509c3f8c4acd406d4253019d28a0eb3a":[2,11,4,1,2,6],
+"group__group__scb__uart__low__level__functions.html#ga6198ae1a865423d022a52b60f0589640":[2,11,4,1,2,17],
 "group__group__scb__uart__low__level__functions.html#ga76218bc016256d8525c9d779a4c2e9aa":[2,11,4,1,2,8],
 "group__group__scb__uart__low__level__functions.html#ga7d45f3f8f625e2f16341a03a4078698e":[2,11,4,1,2,7],
 "group__group__scb__uart__low__level__functions.html#ga81aff78dcdc266d6cac81e714afef6c3":[2,11,4,1,2,13],
 "group__group__scb__uart__low__level__functions.html#ga86ab3686a98a0e215c1f2eeed3ce254f":[2,11,4,1,2,5],
 "group__group__scb__uart__low__level__functions.html#ga87d8e77bc0b4932906b9769ccfaff4de":[2,11,4,1,2,15],
+"group__group__scb__uart__low__level__functions.html#ga953a2e5de2843bec5149214fbbf8d866":[2,11,4,1,2,18],
 "group__group__scb__uart__low__level__functions.html#ga9e50a2b6b2e78e3eea19274246484ffe":[2,11,4,1,2,1],
 "group__group__scb__uart__low__level__functions.html#gaa2d783e45d8b8a9803bb5b667d71f3b9":[2,11,4,1,2,10],
 "group__group__scb__uart__low__level__functions.html#gab26a75a58d128e402f3bba6ff2bdad82":[2,11,4,1,2,4],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "group__group__seglcd__enums.html#ggaf81660a051e97187b6617ae3f709b047a7c0638d12efd7e724155b9d294180f84":[2,12,4,0,1],
 "group__group__seglcd__enums.html#ggaf81660a051e97187b6617ae3f709b047aee87e164149b0785c8295599f1ef278e":[2,12,4,0,2],
 "group__group__seglcd__enums.html#ggaff012223bec16a8c88dfdb39bd304893a1e4f051430063f293bdfc4ddbe32a27f":[2,12,4,2,0],
-"group__group__seglcd__enums.html#ggaff012223bec16a8c88dfdb39bd304893a98d2e892e080eacd3e73a7f66d27e120":[2,12,4,2,1],
-"group__group__seglcd__functions.html":[2,12,1],
-"group__group__seglcd__functions__config.html":[2,12,1,0]
+"group__group__seglcd__enums.html#ggaff012223bec16a8c88dfdb39bd304893a98d2e892e080eacd3e73a7f66d27e120":[2,12,4,2,1]
 };

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 2.0
+* \version 2.10
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -186,9 +186,9 @@ uint32_t Cy_SysClk_ExtRefGetFrequency(void)
 * SYSCLK frequency is decreasing.
 *
 * \return Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - the frequency is set as requested \n
-* CY_SYSCLK_BAD_PARAM - Invalid parameter \n
-* CY_SYSCLK_INVALID_STATE - IMO is not enabled
+* \ref CY_SYSCLK_SUCCESS - the frequency is set as requested \n
+* \ref CY_SYSCLK_BAD_PARAM - Invalid parameter \n
+* \ref CY_SYSCLK_INVALID_STATE - IMO is not enabled
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_ImoSetFrequency(cy_en_sysclk_imo_freq_t freq)
@@ -314,9 +314,9 @@ cy_en_sysclk_imo_lock_t Cy_SysClk_ImoGetLockStatus(void)
 * \param lock - the desired IMO lock state, \ref cy_en_sysclk_imo_lock_t
 *
 * \return Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - the lock state is set as requested \n
-* CY_SYSCLK_BAD_PARAM - Invalid parameter \n
-* CY_SYSCLK_INVALID_STATE - Invalid state (IMO or WCO is not enabled, etc.)
+* \ref CY_SYSCLK_SUCCESS - the lock state is set as requested \n
+* \ref CY_SYSCLK_BAD_PARAM - Invalid parameter \n
+* \ref CY_SYSCLK_INVALID_STATE - Invalid state (IMO or WCO is not enabled, etc.)
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
@@ -450,8 +450,9 @@ static bool preventIloMeasurment = false;
 * Cy_SysClk_IloCompensate() function can give incorrect results.
 *
 * \funcusage
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_ISR
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
 *
 ******************************************************************************/
 void Cy_SysClk_IloStartMeasurement(void)
@@ -486,8 +487,9 @@ void Cy_SysClk_IloStartMeasurement(void)
 * \ref Cy_SysClk_IloStartMeasurement() API was called before.
 *
 * \funcusage
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_ISR
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
 *
 ******************************************************************************/
 void Cy_SysClk_IloStopMeasurement(void)
@@ -575,8 +577,9 @@ void Cy_SysClk_IloStopMeasurement(void)
 * this function.
 *
 * \funcusage
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
-* \snippet sysclk/sut/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_ISR
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_ILO_COMPENSATE
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t * compensatedCycles)
@@ -726,9 +729,9 @@ static uint32_t ecoFreq = 0UL; /* Internal storage for ECO frequency user settin
 * Valid range: 1...2000.
 *
 * \return Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - ECO configuration completed successfully \n
-* CY_SYSCLK_BAD_PARAM - One or more invalid parameters \n
-* CY_SYSCLK_INVALID_STATE - ECO already enabled
+* \ref CY_SYSCLK_SUCCESS - ECO configuration completed successfully \n
+* \ref CY_SYSCLK_BAD_PARAM - One or more invalid parameters \n
+* \ref CY_SYSCLK_INVALID_STATE - ECO already enabled
 *
 * \note
 * The following calculations are implemented in integer 32-bitwise math:
@@ -843,9 +846,9 @@ cy_en_sysclk_status_t Cy_SysClk_EcoConfigure(uint32_t freq, uint32_t cLoad, uint
 * To avoid waiting for stabilization, set this parameter to 0.
 *
 * \return Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - ECO is enabled \n
-* CY_SYSCLK_TIMEOUT - ECO timed out and did not stabilized \n
-* CY_SYSCLK_INVALID_STATE - ECO is not configured using \ref Cy_SysClk_EcoConfigure.
+* \ref CY_SYSCLK_SUCCESS - ECO is enabled \n
+* \ref CY_SYSCLK_TIMEOUT - ECO timed out and did not stabilized \n
+* \ref CY_SYSCLK_INVALID_STATE - ECO is not configured using \ref Cy_SysClk_EcoConfigure.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoConfigure
@@ -970,9 +973,9 @@ static void Cy_SysClk_EcoSeqGen(void)
 * \param source \ref cy_en_sysclk_pll_src_t
 *
 * \return  Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - the PLL reference clock source is selected \n
-* CY_SYSCLK_INVALID_STATE - the PLL reference clock source is not enabled \n
-* CY_SYSCLK_BAD_PARAM - some input parameter is invalid
+* \ref CY_SYSCLK_SUCCESS - the PLL reference clock source is selected \n
+* \ref CY_SYSCLK_INVALID_STATE - the PLL reference clock source is not enabled \n
+* \ref CY_SYSCLK_BAD_PARAM - some input parameter is invalid
 *
 * \note Call \ref SystemCoreClockUpdate after this function calling if
 * SYSCLK frequency is affected.
@@ -987,7 +990,7 @@ static void Cy_SysClk_EcoSeqGen(void)
 * EXTREF frequency should be specified using \ref Cy_SysClk_ExtRefSetFrequency.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllConfigure
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PLL_SRC_SW
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PllSetSource(uint32_t pllNum, cy_en_sysclk_pll_src_t source)
@@ -1108,9 +1111,9 @@ void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode)
 * \param config The pointer to a configuration structure \ref cy_stc_sysclk_pll_config_t
 *
 * \return  Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - PLL successfully configured \n
-* CY_SYSCLK_INVALID_STATE - PLL not configured because it is already enabled \n
-* CY_SYSCLK_BAD_PARAM - One or more invalid parameters.
+* \ref CY_SYSCLK_SUCCESS - PLL successfully configured \n
+* \ref CY_SYSCLK_INVALID_STATE - PLL not configured because it is already enabled \n
+* \ref CY_SYSCLK_BAD_PARAM - One or more invalid parameters.
 *
 * \note
 * In case of returning CY_SYSCLK_BAD_PARAM the function does not write anything into
@@ -1281,9 +1284,9 @@ cy_en_sysclk_status_t Cy_SysClk_PllConfigure(uint32_t pllNum, const cy_stc_syscl
 * \param config \ref cy_stc_sysclk_pll_manual_config_t
 *
 * \return  Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - PLL successfully configured \n
-* CY_SYSCLK_INVALID_STATE - PLL not configured because it is already enabled \n
-* CY_SYSCLK_BAD_PARAM - One or more invalid parameters.
+* \ref CY_SYSCLK_SUCCESS - PLL successfully configured \n
+* \ref CY_SYSCLK_INVALID_STATE - PLL not configured because it is already enabled \n
+* \ref CY_SYSCLK_BAD_PARAM - One or more invalid parameters.
 *
 * \note
 * In case of returning CY_SYSCLK_BAD_PARAM the function does not write anything into
@@ -1389,9 +1392,9 @@ void Cy_SysClk_PllGetConfiguration(uint32_t pllNum, cy_stc_sysclk_pll_manual_con
 * and manually check for lock using \ref Cy_SysClk_PllIsLocked.
 *
 * \return Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - PLL successfully enabled \n
-* CY_SYSCLK_TIMEOUT - Timeout waiting for PLL lock \n
-* CY_SYSCLK_BAD_PARAM - invalid clock path number
+* \ref CY_SYSCLK_SUCCESS - PLL successfully enabled \n
+* \ref CY_SYSCLK_TIMEOUT - Timeout waiting for PLL lock \n
+* \ref CY_SYSCLK_BAD_PARAM - invalid clock path number
 *
 * \note
 * Call \ref SystemCoreClockUpdate after this function calling
@@ -1573,9 +1576,9 @@ static uint32_t Cy_SysClk_ExcoGetFrequency(void)
 * \param source \ref cy_en_sysclk_clkhf_src_t
 *
 * \return  Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - the source is successfully set; \n
-* CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled or does not working; \n
-* CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
+* \ref CY_SYSCLK_SUCCESS - the source is successfully set; \n
+* \ref CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled or does not working; \n
+* \ref CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
 *
 * \note Call \ref SystemCoreClockUpdate after this function calling if
 * SYSCLK frequency is affected.
@@ -1668,7 +1671,10 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 *
 * Reports the source of the HFCLK.
 *
-* \return \ref cy_en_sysclk_clkhf_src_t
+* \return \ref cy_en_sysclk_clkhf_src_t : \n
+* \ref CY_SYSCLK_CLKHF_IN_IMO - IMO - Internal R/C Oscillator. \n
+* \ref CY_SYSCLK_CLKHF_IN_EXTCLK - EXTCLK - External Clock Pin. \n
+* \ref CY_SYSCLK_CLKHF_IN_EXCO - EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoDisable
@@ -2061,6 +2067,118 @@ uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_sysclk_divider_types_t dividerType, 
 }
 
 
+/** \cond internal */
+/* Fractional part divider mask */
+#define FRAC_MASK (PERI_DIV_16_5_CTL_FRAC5_DIV_Msk >> PERI_DIV_16_5_CTL_FRAC5_DIV_Pos)
+/* shift value for the integer divider part */
+#define INTG_SHIFT (5UL)
+/** \endcond */
+/*******************************************************************************
+* Function Name: Cy_SysClk_PeriphSetFrequency
+****************************************************************************//**
+*
+* Calculates the dividing factor for the desired frequency,
+* applies it to the specified peripheral divider
+* and reports the achieved frequency.
+*
+* \pre This function reuses \ref Cy_SysClk_PeriphSetDivider/\ref Cy_SysClk_PeriphSetFracDivider,
+* so if the clock divider is already enabled - it should be disabled
+* prior to use this function by \ref Cy_SysClk_PeriphDisableDivider.
+*
+* \param dividerType specifies which type of divider to use \ref cy_en_sysclk_divider_types_t
+*
+* \param dividerNum specifies which divider of the selected type to configure
+*
+* \param frequency specifies the desired frequency, in Hz.
+*
+* \return The achieved frequency, in Hz.
+*
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PERI_SET_FREQ
+*
+*******************************************************************************/
+uint32_t Cy_SysClk_PeriphSetFrequency(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum, uint32_t frequency)
+{
+    uint32_t resFreq = 0UL; /* The closest achieved frequency to the desired frequency */
+    uint32_t refFreq = Cy_SysClk_ClkHfGetFrequency(); /* The reference HFCLK frequency */
+
+    CY_ASSERT_L1(IS_DIV_TYPE_NUM_VALID(dividerType, dividerNum));
+    CY_ASSERT_L1(0UL != frequency);
+    CY_ASSERT_L1(refFreq >= frequency);
+
+    if ((0UL != frequency) && (refFreq >= frequency))
+    {
+        uint32_t locDiv = 1UL; /* Initial divider value */
+
+        /* Get the maximal divider value for clk_peri to the selected peripheral clock */
+        switch(dividerType)
+        {
+        #if (0UL != PERI_PCLK_DIV_8_NR)
+            case CY_SYSCLK_DIV_8_BIT:
+                locDiv = 1UL + (PERI_DIV_8_CTL_INT8_DIV_Msk >> PERI_DIV_8_CTL_INT8_DIV_Pos); /* 256 */
+                break;
+        #endif /* PERI_PCLK_DIV_8_NR */
+        #if (0UL != PERI_PCLK_DIV_16_NR)
+            case CY_SYSCLK_DIV_16_BIT:
+                locDiv = 1UL + (PERI_DIV_16_CTL_INT16_DIV_Msk >> PERI_DIV_16_CTL_INT16_DIV_Pos); /* 65536 */
+                break;
+        #endif /* PERI_PCLK_DIV_16_NR */
+        #if (0UL != PERI_PCLK_DIV_16_5_NR)
+            case CY_SYSCLK_DIV_16_5_BIT:
+                locDiv = ((1UL + (PERI_DIV_16_5_CTL_INT16_DIV_Msk >> PERI_DIV_16_5_CTL_INT16_DIV_Pos)) << INTG_SHIFT) | FRAC_MASK; /* 65536 + 31/32 */
+                refFreq <<= INTG_SHIFT;
+                break;
+        #endif /* PERI_PCLK_DIV_16_5_NR */
+        #if (0UL != PERI_PCLK_DIV_24_5_NR)
+            case CY_SYSCLK_DIV_24_5_BIT:
+                locDiv = ((1UL + (PERI_DIV_24_5_CTL_INT24_DIV_Msk >> PERI_DIV_24_5_CTL_INT24_DIV_Pos)) << INTG_SHIFT) | FRAC_MASK; /* 16777216 + 31/32 */
+                refFreq <<= INTG_SHIFT;
+                break;
+        #endif /* PERI_PCLK_DIV_24_5_NR */
+
+            default:
+                refFreq = 0UL; /* Indication that the divider type is not supported */
+                break;
+        }
+
+        if (0UL != refFreq)
+        {
+            resFreq = CY_SYSLIB_DIV_ROUND(refFreq, frequency); /* Temporarily use the resFreq variable as the desired divider */
+
+            if ((locDiv > resFreq) && (0UL != resFreq)) /* If the desired frequency is within the achievable range */
+            {
+                locDiv = resFreq;
+            }
+
+            /* Change the divider(s) */
+        #if ((0UL != PERI_PCLK_DIV_8_NR) && (0UL != PERI_PCLK_DIV_16_NR))
+            if ((CY_SYSCLK_DIV_8_BIT == dividerType) || (CY_SYSCLK_DIV_16_BIT == dividerType))
+        #elif (0UL != PERI_PCLK_DIV_8_NR)
+            if (CY_SYSCLK_DIV_8_BIT == dividerType)
+        #elif (0UL != PERI_PCLK_DIV_16_NR)
+            if (CY_SYSCLK_DIV_16_BIT == dividerType)
+        #endif /* integer dividers clauses */
+        #if ((0UL != PERI_PCLK_DIV_8_NR) || (0UL != PERI_PCLK_DIV_16_NR))
+            {
+                (void)Cy_SysClk_PeriphSetDivider(dividerType, dividerNum, locDiv - 1UL);
+            }
+        #endif /* Integer dividers support */
+        #if (((0UL != PERI_PCLK_DIV_8_NR) || (0UL != PERI_PCLK_DIV_16_NR)) && ((0UL != PERI_PCLK_DIV_16_5_NR) || (0UL != PERI_PCLK_DIV_24_5_NR)))
+            else
+        #endif /* Combine dividers support */
+        #if ((0UL != PERI_PCLK_DIV_16_5_NR) || (0UL != PERI_PCLK_DIV_24_5_NR))
+            {
+                (void)Cy_SysClk_PeriphSetFracDivider(dividerType, dividerNum, (locDiv >> INTG_SHIFT) - 1UL, FRAC_MASK & locDiv);
+            }
+        #endif /* Fractional dividers support */
+
+            resFreq = CY_SYSLIB_DIV_ROUND(refFreq, locDiv); /* Calculate the achieved frequency */
+        }
+    }
+
+    return (resFreq);
+}
+
+
 /*******************************************************************************
 * Function Name: Cy_SysClk_PeriphAssignDivider
 ****************************************************************************//**
@@ -2075,8 +2193,7 @@ uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_sysclk_divider_types_t dividerType, 
 *
 * \return \ref cy_en_sysclk_status_t
 *
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphAssignDivider
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PERI_SET_FREQ
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphAssignDivider(en_clk_dst_t periphNum, cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -2175,8 +2292,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphDisableDivider(cy_en_sysclk_divider_types_
 * false = disabled \n
 * true = enabled
 *
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphGetDividerEnabled
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PERI_SET_FREQ
 *
 *******************************************************************************/
 bool Cy_SysClk_PeriphDividerIsEnabled(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -2279,14 +2395,14 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphEnablePhaseAlignDivider(cy_en_sysclk_divid
 ****************************************************************************//**
 *
 * Sets the source for the pump clock (clk_pump). The pump clock can be used for
-* the analog pumps in the CTBm block.
+* the analog pumps in the CTB block.
 *
 * \param source \ref cy_en_sysclk_clkpump_src_t
 *
 * \return  Error / status code \ref cy_en_sysclk_status_t : \n
-* CY_SYSCLK_SUCCESS - the source is successfully set \n
-* CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled \n
-* CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
+* \ref CY_SYSCLK_SUCCESS - the source is successfully set \n
+* \ref CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled \n
+* \ref CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
@@ -2315,6 +2431,51 @@ cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t sour
     return (retVal);
 }
 
+
+#if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
+#if (CY_IP_M0S8EXCO_VERSION == 2U)
+/*******************************************************************************
+* Function Name: Cy_SysClk_CsvInit
+****************************************************************************//**
+*
+* Initializes the clock supervision parameters.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \param config A pointer to the structure of type \ref cy_stc_sysclk_csv_config_t
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_ISR
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_INT
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_TRG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_EN
+*
+*******************************************************************************/
+void Cy_SysClk_CsvInit(cy_stc_sysclk_csv_config_t * config)
+{
+    CY_ASSERT_L1(NULL != config);
+
+    if (NULL != config)
+    {
+        EXCO_REF_CTL = _VAL2FLD(EXCO_REF_CTL_STARTUP,       config->startupDelay) |
+                      _BOOL2FLD(EXCO_REF_CTL_CSV_INT_EN,    config->interruptEn)  |
+                      _BOOL2FLD(EXCO_REF_CTL_CSV_TRIG_EN,   config->triggerEn)    |
+                      _BOOL2FLD(EXCO_REF_CTL_CSV_CLK_SW_EN, config->clkSwitchEn);
+
+        EXCO_MON_CTL = _VAL2FLD(EXCO_MON_CTL_PERIOD, config->period);
+
+        EXCO_REF_LIMIT = _VAL2FLD(EXCO_REF_LIMIT_LOWER, config->lowerLimit) |
+                         _VAL2FLD(EXCO_REF_LIMIT_UPPER, config->upperLimit);
+    }
+}
+
+
+#endif /* CY_IP_M0S8EXCO_VERSION == 2U */
+#endif /* EXCO_PLL_PRESENT */
+#endif /* CY_IP_M0S8EXCO */
 
 /* ========================================================================== */
 /* ======================    POWER MANAGEMENT SECTION    ==================== */

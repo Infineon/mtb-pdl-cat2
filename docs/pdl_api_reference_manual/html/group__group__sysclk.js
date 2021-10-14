@@ -13,5 +13,8 @@ var group__group__sysclk =
     [ "Peripherals Clock Dividers", "group__group__sysclk__clk__peripheral.html", "group__group__sysclk__clk__peripheral" ],
     [ "System Clock", "group__group__sysclk__clk__sys.html", "group__group__sysclk__clk__sys" ],
     [ "Pump Clock", "group__group__sysclk__clk__pump.html", "group__group__sysclk__clk__pump" ],
+    [ "Clock Supervision Block (CSV)", "group__group__sysclk__csv.html", "group__group__sysclk__csv" ],
+    [ "Programmable Delay Block (PGM_DELAY)", "group__group__sysclk__pgm__dly.html", "group__group__sysclk__pgm__dly" ],
+    [ "Interrupts", "group__group__sysclk__int.html", "group__group__sysclk__int" ],
     [ "Low Power Callback", "group__group__sysclk__pm.html", "group__group__sysclk__pm" ]
 ];

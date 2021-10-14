@@ -4,9 +4,6 @@
 * \brief
 * PSoC4100Sp device GPIO header for 40-QFN-2 package
 *
-* \note
-* Generator version: 1.6.0.575
-*
 ********************************************************************************
 * \copyright
 * (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or

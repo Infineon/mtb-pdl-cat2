@@ -30,7 +30,7 @@
 
 <Personality id="m0s8sar" name="SAR" version="2.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v5">
   <Dependencies>
-    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2" />
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2,m0s8pass4a_ver3" />
     <Resource name="pass\.sar" />
   </Dependencies>
   <ExposedMembers>
@@ -107,8 +107,7 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamBool id="soc_en" name="SOC Enable" group="Connections" default="false" visible="true" editable="true" desc="Enable a start of conversion (SOC) input trigger signal" />
-    <ParamBool id="trTimer" name="Trigger from Timer" group="Connections" default="false" visible="`${verGt1 &amp;&amp; soc_en}`" editable="true" desc="Input trigger signal from the Timer" />
-    <ParamSignal name="SOC Input" port="tr_sar_in[0]" group="Connections" visible="`${soc_en &amp;&amp; !trTimer}`" desc="Connection for the start of conversion (SOC) input trigger signal" canBeEmpty="`${!soc_en || trTimer}`" >
+    <ParamSignal name="SOC Input" port="tr_sar_in[0]" group="Connections" visible="`${soc_en}`" desc="Connection for the start of conversion (SOC) input trigger signal" canBeEmpty="`${!soc_en}`" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -152,14 +151,9 @@
     </ParamChoice>
 
     <ParamChoice id="avg_mode" name="Averaging Mode" group="Sampling" default="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" editable="true" desc="Averaging mode for all channels with averaging enabled" >
-      <Entry name="Sequential, Sum" value="CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM" visible="true" />
-      <Entry name="Sequential, Fixed" value="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" />
-      <Entry name="Interleaved, Sum" value="CY_SAR_AVG_MODE_INTERLEAVED" visible="true" />
+      <Entry name="Summing" value="CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM" visible="true" />
+      <Entry name="Fixed" value="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" />
     </ParamChoice>
-
-    <ParamBool id="scanCnt" name="Scanning Counter" group="Sampling" default="false" visible="`${verGt1 &amp;&amp; (trigger_mode eq CY_SAR_TRIGGER_MODE_FW_AND_HWEDGE)}`" editable="true" desc="SAR takes Scanning Counter 'Count' amount of samples per trigger" />
-
-    <ParamBool id="scanCntIntr" name="Scanning Count Interrupt" group="Sampling" default="false" visible="`${verGt1 &amp;&amp; scanCnt &amp;&amp; (trigger_mode eq CY_SAR_TRIGGER_MODE_FW_AND_HWEDGE)}`" editable="true" desc="SAR EOS interrupt only occurs on the last sample of the Scanning Counter sequence" />
 
     <ParamChoice id="range_cond" name="Compare Mode" group="Range Interrupt" default="CY_SAR_RANGE_COND_BELOW" visible="true" editable="true" desc="The condition in which a range interrupt is triggered" >
         <Entry name="Result &lt; Low" value="CY_SAR_RANGE_COND_BELOW" visible="true" />
@@ -194,7 +188,7 @@
       <ParamBool id="ch$idx_range_intr" name="Range Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the range interrupt for Channel $idx" />
       <ParamBool id="ch$idx_sat_intr" name="Saturation Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the saturation interrupt for Channel $idx" />
       <ParamRange id="ch$idx_min_acq_time" name="Minimum Acquisition Time (ns)" group="Channel $idx" default="`${MIN_SAMPLE_TIME_NS}`" min="`${MIN_SAMPLE_TIME_NS}`" max="1000000" resolution="1" visible="`${ch$idx_en}`" editable="true" desc="Set the minimum acquisition time for Channel $idx" />
-      <ParamString id="ch$idx_samples_per_scan" name="ch$idx_samples_per_scan" group="Channel $idx" default="`${ch$idx_en ? (ch$idx_avg ? (avg_mode eq CY_SAR_AVG_MODE_INTERLEAVED ? 1 : avg_cnt) : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="ch$idx_samples_per_scan" name="ch$idx_samples_per_scan" group="Channel $idx" default="`${ch$idx_en ? (ch$idx_avg ? avg_cnt : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
       <ParamChoice id="ch$idx_res" name="Resolution" group="Channel $idx" default="CY_SAR_MAX_RES" visible="`${ch$idx_en}`" editable="true" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
         <Entry name="Full Resolution 12 bit" value="CY_SAR_MAX_RES" visible="true" />
         <Entry name="Sub Resolution `${(subRes eq CY_SAR_SUB_RESOLUTION_8B) ? &quot;8 bit&quot; : &quot;10 bit&quot;}`" value="CY_SAR_SUB_RES" visible="true"/>
@@ -210,7 +204,7 @@
     <ParamBool id="inj_avg" name="Averaging" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable averaging for Injection Channel" />
     <ParamBool id="inj_range_intr" name="Range Interrupt Enable" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable the range interrupt for Injection Channel" />
     <ParamBool id="inj_sat_intr" name="Saturation Interrupt Enable" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable the saturation interrupt for Injection Channel" />
-    <ParamString id="inj_samples_per_scan" name="inj_samples_per_scan" group="Injection Channel" default="`${inj_en ? (inj_avg ? (avg_mode eq CY_SAR_AVG_MODE_INTERLEAVED ? 1 : avg_cnt) : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_samples_per_scan" name="inj_samples_per_scan" group="Injection Channel" default="`${inj_en ? (inj_avg ? avg_cnt : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
     <ParamChoice id="inj_res" name="Resolution" group="Injection Channel" default="CY_SAR_MAX_RES" visible="`${inj_en}`" editable="true" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
       <Entry name="Full Resolution 12 bit" value="CY_SAR_MAX_RES" visible="true" />
       <Entry name="Sub Resolution `${(subRes eq CY_SAR_SUB_RESOLUTION_8B) ? &quot;8 bit&quot; : &quot;10 bit&quot;}`" value="CY_SAR_SUB_RES" visible="true"/>
@@ -358,6 +352,7 @@
     <ParamBool id="pclkOk" name="pclkOk" group="Internal" default="`${hasConnection(&quot;clock_sar&quot;, 0) &amp;&amp; isBlockUsed(pclk)}`" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="pclkDst" name="pclkDst" group="Internal" default="PCLK_PASS`${passInst}`_CLOCK_SAR" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="pairedDrcMessage" name="pairedDrcText" group="Internal" default="For differential channels, the inputs for direct connection should be paired: an even item for Vplus and the following odd item for Vminus (0&amp;1, 2&amp;3, SARBUS0&amp;SARBUS1, etc.). Otherwise, both pins will be routed through AMUXBUSA/B correspondingly (also paired)." visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="tempAvgDrcMessage" name="tempAvgDrcMessage" group="Internal" default="For better temperature measuring accuracy the averaging should be enabled." visible="`${debug}`" editable="false" desc="" />
   </Parameters>
 
   <DRCs>
@@ -375,9 +370,14 @@
       <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passInst . &quot;]&quot;}`" value="" valid="true" />
     </DRC>
     <DRC type="ERROR" text="The SAR ADC reference voltage must be higher than 0.85 V" condition="`${!isVrefExternal &amp;&amp; (vref_voltage_mv &lt; 850)}`" />
-    <DRC type="ERROR" text="If interleaved averaging mode is used, the Differential Result Format should be the same as the Single-Ended Result Format." condition="`${(avg_mode eq CY_SAR_AVG_MODE_INTERLEAVED) &amp;&amp; (((!diff_format) &amp;&amp; (se_format)) || ((diff_format) &amp;&amp; (!se_format)))}`" paramId="avg_mode"/>
     <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(ch$idx_se || ch$idx_isPairOk)}`" paramId="Ch$idx Vminus" repeatCount="16" />
     <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(inj_se || inj_isPairOk)}`" paramId="Injection Vminus" />
+    <DRC type="INFO" text="`${tempAvgDrcMessage}`" condition="`${ch$idx_p_blockTypeTemp &amp;&amp; !ch$idx_avg}`" paramId="Ch$idx Vplus" repeatCount="16" >
+      <FixIt action="SET_PARAM" target="ch$idx_avg" value="true" valid="true" />
+    </DRC>
+    <DRC type="INFO" text="`${tempAvgDrcMessage}`" condition="`${inj_p_blockTypeTemp &amp;&amp; !inj_avg}`" paramId="Injection Vplus" repeatCount="16" >
+      <FixIt action="SET_PARAM" target="inj_avg" value="true" valid="true" />
+    </DRC>
   </DRCs>
 
   <ConfigFirmware>
@@ -396,6 +396,8 @@
       <Member name="resolution"      value="`${ch$idx_res}`" />
       <Member name="avgEn"           value="`${ch$idx_avg}`" />
       <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;ch$idx_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="rangeIntrEn"     value="`${ch$idx_range_intr}`" />
+      <Member name="satIntrEn"       value="`${ch$idx_sat_intr}`" />
     </ConfigStruct>
 
     <ConfigStruct name="`${INST_NAME}`_inj_channel_config" type="cy_stc_sar_channel_config_t" const="`${inFlash}`" public="true" include="`${inj_en}`">
@@ -404,6 +406,8 @@
       <Member name="resolution"      value="`${inj_res}`" />
       <Member name="avgEn"           value="`${inj_avg}`" />
       <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;inj_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="rangeIntrEn"     value="`${inj_range_intr}`" />
+      <Member name="satIntrEn"       value="`${inj_sat_intr}`" />
     </ConfigStruct>
 
     <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_sar_config_t" const="`${inFlash}`" public="true" include="true">
@@ -423,7 +427,7 @@
       <Member name="differentialSigned" value="`${diff_format}`" />
       <Member name="avgCnt" value="`${avg_cnt}`" />
       <Member name="avgShift" value="`${CY_SAR_AVG_MODE_SEQUENTIAL_FIXED eq avg_mode}`" />
-      <Member name="trigMode" value="CY_SAR_TRIGGER_MODE_FW_ONLY" />
+      <Member name="trigMode" value="`${soc_en ? trigger_mode : &quot;CY_SAR_TRIGGER_MODE_FW_ONLY&quot;}`" />
       <Member name="eosEn" value="false" />
       <Member name="sampleTime0" value="`${getTclVar(&quot;sample_time_0&quot;, scheduler)}`"/>
       <Member name="sampleTime1" value="`${getTclVar(&quot;sample_time_1&quot;, scheduler)}`"/>

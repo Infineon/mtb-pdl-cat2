@@ -17,6 +17,7 @@ var searchData=
   ['tr0',['tr0',['../structcy__stc__smartio__lutcfg__t.html#a86cb486d9b0ae98f1266170edd8a04da',1,'cy_stc_smartio_lutcfg_t::tr0()'],['../structcy__stc__smartio__ducfg__t.html#a9e23ee4909072147ba5591bfd811ee52',1,'cy_stc_smartio_ducfg_t::tr0()']]],
   ['tr1',['tr1',['../structcy__stc__smartio__lutcfg__t.html#a199369923edc7a284997b2937ea0ba2b',1,'cy_stc_smartio_lutcfg_t::tr1()'],['../structcy__stc__smartio__ducfg__t.html#ae6e2eb581ffa9932d256507f46b6699a',1,'cy_stc_smartio_ducfg_t::tr1()']]],
   ['tr2',['tr2',['../structcy__stc__smartio__lutcfg__t.html#a0a11f0a8a3247e083c1b66e798420110',1,'cy_stc_smartio_lutcfg_t::tr2()'],['../structcy__stc__smartio__ducfg__t.html#afdcb39abdbd64ed8d44d33be8beafb99',1,'cy_stc_smartio_ducfg_t::tr2()']]],
+  ['triggeren',['triggerEn',['../structcy__stc__sysclk__csv__config__t.html#a990049c1ae7407d9b598d4d654596de8',1,'cy_stc_sysclk_csv_config_t']]],
   ['triggertype',['triggerType',['../structcy__stc__dmac__descriptor__config__t.html#a676fb02d10414b1ee7f59dbe3c5e9d85',1,'cy_stc_dmac_descriptor_config_t']]],
   ['trigmode',['trigMode',['../structcy__stc__sar__config__t.html#ab31d2eaf109a1e7d0a0def0d28af8663',1,'cy_stc_sar_config_t']]],
   ['trimsbase',['trimsBase',['../structcy__stc__usbpd__context__t.html#ab4e76d9defd17b9b53694524973124be',1,'cy_stc_usbpd_context_t']]],

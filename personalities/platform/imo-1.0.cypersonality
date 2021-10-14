@@ -50,13 +50,13 @@
         <Entry name="48" value="48000000" visible="true" />
     </ParamChoice>
     <ParamRange id="frequencyMHz" name="Frequency in MHz" group="Internal" default="`${frequency / 1000000}`" min="24" max="48" resolution="1" visible="false" editable="false" desc="" />
-    <ParamChoice id="trim" name="Trim with" group="General" default="2" visible="`${hasBlock(&quot;srss[0].clock[0].wco[0]&quot;)}`" editable="true" desc="Allows to trim IMO with WCO">
+    <ParamChoice id="trim" name="Trim with" group="General" default="2" visible="`${hasBlock(&quot;wco[0]&quot;)}`" editable="true" desc="Allows to trim IMO with WCO">
         <Entry name="None" value="2" visible="true" />
-        <Entry name="WCO" value="0.2" visible="`${isBlockUsed(&quot;srss[0].clock[0].wco[0]&quot;)}`" />
+        <Entry name="WCO" value="1" visible="true" />
     </ParamChoice>
     <ParamChoice id="accuracy" name="Accuracy" group="Internal" default="`${trim}`" visible="false" editable="false" desc="The expected accuracy of the output frequency">
       <Entry name="2%" value="2" visible="true" />
-      <Entry name="0.2%" value="0.2" visible="true" />
+      <Entry name="1%" value="1" visible="true" />
     </ParamChoice>
     <ParamBool id="error" name="Clock Error" group="Internal" default="false" visible="false" editable="false" desc="" />
 
@@ -64,12 +64,16 @@
 
   </Parameters>
   <DRCs>
+    <DRC type="ERROR" text="Source clock for lock IMO is not enabled" condition="`${trim == 1 &amp;&amp; !isBlockUsed(&quot;wco[0]&quot;)}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;wco[0]&quot;}`" value="" valid="true" />
+    </DRC>
   </DRCs>
   <ConfigFirmware>
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_ENABLED" value="1" public="false" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_FREQ_HZ" value="`${frequency}`UL" public="true" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_FREQ_MHZ" value="`${frequencyMHz}`UL" public="true" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_FREQ" value="CY_SYSCLK_IMO_`${frequencyMHz}`MHZ" public="true" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ImoInit()" body="    Cy_SysClk_ImoSetFrequency(CY_CFG_SYSCLK_IMO_FREQ);" public="false" include="true" />
+    <ConfigDefine name="CY_CFG_SYSCLK_IMO_LOCK" value="CY_SYSCLK_IMO_LOCK_`${trim eq 2 ? &quot;NONE&quot; : &quot;WCO&quot;}`" public="true" include="`${hasBlock(&quot;wco[0]&quot;)}`" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ImoInit()" body="    Cy_SysClk_ImoSetFrequency(CY_CFG_SYSCLK_IMO_FREQ);`${hasBlock(&quot;wco[0]&quot;) ? &quot;&#xA;    Cy_SysClk_ImoLock(CY_CFG_SYSCLK_IMO_LOCK);&quot; : &quot; &quot;}` " public="false" include="true" />
   </ConfigFirmware>
 </Personality>

@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('group__group__sysclk.html','');});
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <p>The System Clock (SysClk) driver contains the API for configuring system and peripheral clocks. </p>
 <p>The functions and other declarations used in this driver are in cy_sysclk.h. You can include cy_pdl.h to get access to all functions and declarations in the PDL.</p>
-<p>Firmware uses the API to configure , enable, or disable a clock.</p>
+<p>Firmware uses the API to configure, enable, or disable a clock.</p>
 <p>The clock system includes a variety of resources that can vary per device, including:</p><ul>
 <li>Internal clock sources such as internal oscillators</li>
 <li>External clock sources such as crystal oscillators or a signal on an I/O pin</li>
@@ -108,6 +108,12 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td rowspan="3">2.10 </td><td>Added the <a class="el" href="group__group__sysclk__clk__peripheral__funcs.html#ga9def07430c95df79e781645120264647">Cy_SysClk_PeriphSetFrequency</a> API function </td><td>API improvement  </td></tr>
+<tr>
+<td>Added API for the <a class="el" href="group__group__sysclk__csv.html">Clock Supervision Block (CSV)</a>, <a class="el" href="group__group__sysclk__pgm__dly.html">Programmable Delay Block (PGM_DELAY)</a> and <a class="el" href="group__group__sysclk__int.html">Interrupts</a> features  </td><td>New features support for PSoC 4500S and 4100S Max devices  </td></tr>
+<tr>
+<td>Minor documentation updates. Code snippets were updated. </td><td>Documentation enhancement.  </td></tr>
 <tr>
 <td rowspan="13">2.0 </td><td>Added the <a class="el" href="group__group__sysclk__pm__funcs.html#ga34bd0e837cdf7d0953a7e0f5219905b5">Cy_SysClk_DeepSleepCallback</a> and <a class="el" href="group__group__sysclk__pm__funcs.html#ga17871ebcd4be248f9b7d3be4399e4909">Cy_SysClk_RegisterCallback</a> functions </td><td>Power management performance enhancement, see <a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a>  </td></tr>
 <tr>
@@ -184,6 +190,15 @@ API Reference</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__sysclk__clk__pump"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__pump.html">Pump Clock</a></td></tr>
 <tr class="memdesc:group__group__sysclk__clk__pump"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pump clock is a clock source used to provide analog precision in low voltage applications. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__csv"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__csv.html">Clock Supervision Block (CSV)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__csv"><td class="mdescLeft">&#160;</td><td class="mdescRight">The clock supervision block uses a reference clock (IMO clock) to check that a monitored clock (clk_exco) is within an allowed frequency window. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__pgm__dly"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pgm__dly.html">Programmable Delay Block (PGM_DELAY)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__pgm__dly"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PGM_DELAY block is a 16-bit down counter clocked by IMO clock and being triggered by the CSV. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__int"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__int.html">Interrupts</a></td></tr>
+<tr class="memdesc:group__group__sysclk__int"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API is to manage a few interrupt sources within the EXCO block. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__sysclk__pm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a></td></tr>
 <tr class="memdesc:group__group__sysclk__pm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entering and exiting low power modes require compatible clock configurations to be set before entering low power and restored upon wakeup and exit. <br /></td></tr>

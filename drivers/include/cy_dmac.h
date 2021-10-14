@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_dmac.h
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 * The header file of the DMAC driver.
@@ -107,6 +107,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10</td>
+*     <td>Fixed the \ref Cy_DMAC_Descriptor_SetState() function to properly clear status register.</td>
+*     <td>Defect fix.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Corrected source code comments text.</td>
 *     <td></td>
@@ -159,7 +164,7 @@ extern "C" {
 #define CY_DMAC_DRV_VERSION_MAJOR       1
 
 /** The driver minor version */
-#define CY_DMAC_DRV_VERSION_MINOR       0
+#define CY_DMAC_DRV_VERSION_MINOR       10
 
 /** The DMAC driver identifier */
 #define CY_DMAC_ID                      (CY_PDL_DRV_ID(0x3FU))
@@ -787,15 +792,30 @@ __STATIC_INLINE void Cy_DMAC_Descriptor_SetState(DMAC_Type * base,
 
     if (CY_DMAC_DESCRIPTOR_PING == descriptor)
     {
-        /* Clear response field*/
-        DMAC_DESCR_PING_STATUS(base, channel) &= ~DMAC_DESCR_PING_STATUS_RESPONSE_Msk;
-        CY_REG32_CLR_SET(DMAC_DESCR_PING_STATUS(base, channel), DMAC_DESCR_PING_STATUS_VALID, (valid ? 1UL : 0UL));
+        if (valid == true)
+        {
+            /* Validate descriptor, also clear CURR_DATA_NR and RESPONSE */
+            DMAC_DESCR_PING_STATUS(base, channel) = DMAC_DESCR_PING_STATUS_VALID_Msk;
+        }
+        else
+        {
+            /* Invalidate descriptor, also clear CURR_DATA_NR and RESPONSE */
+            DMAC_DESCR_PING_STATUS(base, channel) = 0UL;
+        }
+
     }
     else
     {
-        /* Clear response field*/
-        DMAC_DESCR_PONG_STATUS(base, channel) &= ~DMAC_DESCR_PONG_STATUS_RESPONSE_Msk;
-        CY_REG32_CLR_SET(DMAC_DESCR_PONG_STATUS(base, channel), DMAC_DESCR_PONG_STATUS_VALID, (valid ? 1UL : 0UL));
+        if (valid == true)
+        {
+            /* Validate descriptor, also clear CURR_DATA_NR and RESPONSE */
+            DMAC_DESCR_PONG_STATUS(base, channel) = DMAC_DESCR_PONG_STATUS_VALID_Msk;
+        }
+        else
+        {
+            /* Invalidate descriptor, also clear CURR_DATA_NR and RESPONSE */
+            DMAC_DESCR_PONG_STATUS(base, channel) = 0UL;
+        }
     }
 }
 

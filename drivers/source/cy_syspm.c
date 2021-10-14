@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syspm.c
-* \version 2.0
+* \version 2.10
 *
 * This driver provides the source code for API power management.
 *
@@ -30,18 +30,20 @@
 *       Internal Defines
 *******************************************************************************/
 
-/* The define for number of callback roots */
-#define CALLBACK_ROOT_NR                (5U)
+/* The define for number of callback roots. This value corresponds to the
+ * number of the low power modes supported by the callback mechanism:
+ * Active, Sleep and Deep Sleep. */
+#define CALLBACK_ROOT_NR                (3U)
 
 /*******************************************************************************
 *       Internal Variables
 *******************************************************************************/
 
 /* Array of the callback roots */
-static cy_stc_syspm_callback_t* pmCallbackRoot[CALLBACK_ROOT_NR] = {NULL, NULL, NULL, NULL, NULL};
+static cy_stc_syspm_callback_t* pmCallbackRoot[CALLBACK_ROOT_NR] = {NULL, NULL, NULL};
 
 /* The array of the pointers to failed callback */
-static cy_stc_syspm_callback_t* failedCallback[CALLBACK_ROOT_NR] = {NULL, NULL, NULL, NULL, NULL};
+static cy_stc_syspm_callback_t* failedCallback[CALLBACK_ROOT_NR] = {NULL, NULL, NULL};
 
 
 /*******************************************************************************

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 2.10.2
+* \version 2.20
 *
 * Provides an API declaration of the SysLib driver.
 *
@@ -110,6 +110,12 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>2.20</td>
+*     <td>Updated \ref Cy_SysLib_SetWaitStates() to enable flash prefetch buffer
+*         for the wait states above zero.</td>
+*     <td>Speed up code execution.</td>
+*   </tr>
 *   <tr>
 *     <td>2.10.2</td>
 *     <td>Corrected source code comments text.</td>
@@ -253,7 +259,7 @@ typedef enum
 #define CY_SYSLIB_DRV_VERSION_MAJOR    2
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    10
+#define CY_SYSLIB_DRV_VERSION_MINOR    20
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;

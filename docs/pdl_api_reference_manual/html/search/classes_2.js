@@ -74,6 +74,7 @@ var searchData=
   ['cy_5fstc_5fsmartio_5fducfg_5ft',['cy_stc_smartio_ducfg_t',['../structcy__stc__smartio__ducfg__t.html',1,'']]],
   ['cy_5fstc_5fsmartio_5flutcfg_5ft',['cy_stc_smartio_lutcfg_t',['../structcy__stc__smartio__lutcfg__t.html',1,'']]],
   ['cy_5fstc_5fsysclk_5fcontext_5ft',['cy_stc_sysclk_context_t',['../structcy__stc__sysclk__context__t.html',1,'']]],
+  ['cy_5fstc_5fsysclk_5fcsv_5fconfig_5ft',['cy_stc_sysclk_csv_config_t',['../structcy__stc__sysclk__csv__config__t.html',1,'']]],
   ['cy_5fstc_5fsysclk_5fpll_5fconfig_5ft',['cy_stc_sysclk_pll_config_t',['../structcy__stc__sysclk__pll__config__t.html',1,'']]],
   ['cy_5fstc_5fsysclk_5fpll_5fmanual_5fconfig_5ft',['cy_stc_sysclk_pll_manual_config_t',['../structcy__stc__sysclk__pll__manual__config__t.html',1,'']]],
   ['cy_5fstc_5fsysint_5ft',['cy_stc_sysint_t',['../structcy__stc__sysint__t.html',1,'']]],

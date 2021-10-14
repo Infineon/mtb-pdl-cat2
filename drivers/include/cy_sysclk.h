@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 2.0
+* \version 2.10
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -34,7 +34,7 @@
 * You can include cy_pdl.h to get access to all functions
 * and declarations in the PDL.
 *
-* Firmware uses the API to configure , enable, or disable a clock.
+* Firmware uses the API to configure, enable, or disable a clock.
 *
 * The clock system includes a variety of resources that can vary per device, including:
 * - Internal clock sources such as internal oscillators
@@ -58,6 +58,19 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3">2.10</td>
+*     <td>Added the \ref Cy_SysClk_PeriphSetFrequency API function</td>
+*     <td>API improvement</td>
+*   </tr>
+*   <tr>
+*     <td>Added API for the \ref group_sysclk_csv, \ref group_sysclk_pgm_dly and \ref group_sysclk_int features </td>
+*     <td>New features support for PSoC 4500S and 4100S Max devices</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates. Code snippets were updated.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="13">2.0</td>
 *     <td>Added the \ref Cy_SysClk_DeepSleepCallback and \ref Cy_SysClk_RegisterCallback functions</td>
@@ -328,8 +341,9 @@
 *   and fractional dividers. The divider to which a second divider is aligned
 *   must already be enabled.
 *
-*   \defgroup group_sysclk_clk_peripheral_funcs Functions
-*   \defgroup group_sysclk_clk_peripheral_enums Enumerated Types
+*   \defgroup group_sysclk_clk_peripheral_macros Macros
+*   \defgroup group_sysclk_clk_peripheral_funcs  Functions
+*   \defgroup group_sysclk_clk_peripheral_enums  Enumerated Types
 * \}
 * \defgroup group_sysclk_clk_sys        System Clock
 * \{
@@ -350,6 +364,40 @@
 *   \defgroup group_sysclk_clk_pump_funcs  Functions
 *   \defgroup group_sysclk_clk_pump_enums  Enumerated Types
 * \}
+* \defgroup group_sysclk_csv               Clock Supervision Block (CSV)
+* \{
+*   The clock supervision block uses a reference clock (IMO clock) to check that a monitored
+*   clock (clk_exco) is within an allowed frequency window.
+*
+*   This feature is available on devices with the EXCO_ver2 (i.e. PSoC 4500S and 4100S Max).
+*   Refer to the Device Datasheet to check the CSV feature support.
+*   Also see the TRM for more details about CSV itself.
+*
+*   \defgroup group_sysclk_csv_funcs       Functions
+*   \defgroup group_sysclk_csv_structs     Data Structures
+* \}
+* \defgroup group_sysclk_pgm_dly           Programmable Delay Block (PGM_DELAY)
+* \{
+*   The PGM_DELAY block is a 16-bit down counter
+*   clocked by IMO clock and being triggered by the CSV.
+*
+*   This feature is available on devices with the EXCO_ver2 (i.e. PSoC 4500S and 4100S Max).
+*   Refer to the Device Datasheet to check the PGM_DELAY feature support.
+*   Also see the TRM for more details about PGM_DELAY itself.
+*
+*   \defgroup group_sysclk_pgm_dly_funcs   Functions
+* \}
+* \defgroup group_sysclk_int               Interrupts
+* \{
+*   This API is to manage a few interrupt sources within the EXCO block.
+*
+*   This feature is available on devices with the EXCO_ver2 (i.e. PSoC 4500S and 4100S Max).
+*   Refer to the Device Datasheet to check the detailed set of interrupts support.
+*   Also see the TRM for more details about the interrupts themselves.
+*
+*   \defgroup group_sysclk_int_macros      Interrupt Masks
+*   \defgroup group_sysclk_int_funcs       Functions
+* \}
 * \defgroup group_sysclk_pm              Low Power Callback
 * \{
 *   Entering and exiting low power modes require compatible clock configurations
@@ -359,6 +407,13 @@
 *   This is needed especially in cases of PLL or/and ECO usage.
 *   Also there is a possibility of indication the PLL/ECO startup timeout
 *   after the wakeup, see \ref Cy_SysClk_RegisterCallback for details.
+*
+*   \note If \ref group_sysclk_csv and \ref group_sysclk_pgm_dly are used,
+*   they also require proper preparation for the Deep Sleep mode,
+*   which for example could be done by the separate custom Deep Sleep callback:
+*   \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DSCB_DEC
+*   \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DSCB_STC
+*   \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DSCB_REG
 *
 *   \defgroup group_sysclk_pm_events       Callback Timeout Events
 *   \defgroup group_sysclk_pm_structs      Data Structures
@@ -388,7 +443,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   2
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   0
+#define  CY_SYSCLK_DRV_VERSION_MINOR   10
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -617,7 +672,9 @@ __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
 * \ref CY_SYSCLK_ECO_STABLE can be returned even when ECO is not enabled.
 * To get a precise ECO status use also \ref Cy_SysClk_EcoIsEnabled.
 *
-* \return \ref cy_en_sysclk_eco_stat_t
+* \return \ref cy_en_sysclk_eco_stat_t : \n
+* \ref CY_SYSCLK_ECO_STABLE - ECO is stable. \n
+* \ref CY_SYSCLK_ECO_WATCHDOG_ERROR - ECO oscillator is stuck.
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
@@ -631,11 +688,11 @@ __STATIC_INLINE cy_en_sysclk_eco_stat_t Cy_SysClk_EcoGetStatus(void)
 /** \} group_sysclk_eco_funcs */
 
 
-#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u)) || defined(CY_DOXYGEN)
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
 /* ========================================================================== */
 /* ===========================    PLL SECTION    ============================ */
 /* ========================================================================== */
-#if (defined (EXCO_PLL_REF_IN_EN) && (EXCO_PLL_REF_IN_EN == 1u)) || defined(CY_DOXYGEN)
+#if (defined (EXCO_PLL_REF_IN_EN) && (EXCO_PLL_REF_IN_EN == 1U))
 /**
 * \addtogroup group_sysclk_pll_enums
 * \{
@@ -657,13 +714,13 @@ __STATIC_INLINE cy_en_sysclk_eco_stat_t Cy_SysClk_EcoGetStatus(void)
 typedef enum
 {
     CY_SYSCLK_PLL_SRC_ECO = 0U, /**< PLL runs from ECO. */
-#if (CY_IP_M0S8EXCO_VERSION == 2U) || defined(CY_DOXYGEN)
+#if (CY_IP_M0S8EXCO_VERSION == 2U)
     CY_SYSCLK_PLL_SRC_EXTREF = 1U, /**< PLL runs from the external reference.
                                     *   It is not the same as CY_SYSCLK_CLKHF_IN_EXTCLK.
                                     *   It may be the same GPIO pin but with different HSIOM connection, usually commented with 'exco.pll_ref_in'.
                                     *   Note the clock source may be absent on some devices.
                                     */
-#endif /* (CY_IP_M0S8EXCO_VERSION == 2U) || defined(CY_DOXYGEN) */
+#endif /* (CY_IP_M0S8EXCO_VERSION == 2U) */
     CY_SYSCLK_PLL_SRC_IMO = CY_SYSCLK_PLL_SRC_IMO_NUM, /**< PLL runs from IMO. */
 } cy_en_sysclk_pll_src_t;
 
@@ -687,6 +744,11 @@ __STATIC_INLINE cy_en_sysclk_pll_src_t Cy_SysClk_PllGetSource(uint32_t pllNum);
 * \param pllNum the number of PLL instance, starting from 0.
 * If there is only one PLL in device - the 0 is the only valid number.
 * For other pllNum values the default CY_SYSCLK_PLL_SRC_ECO value is returned.
+*
+* \return \ref cy_en_sysclk_pll_src_t : \n
+* \ref CY_SYSCLK_PLL_SRC_ECO - PLL runs from ECO. \n
+* \ref CY_SYSCLK_PLL_SRC_EXTREF - PLL runs from the external reference. \n
+* \ref CY_SYSCLK_PLL_SRC_IMO - PLL runs from IMO.
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllConfigure
@@ -927,7 +989,10 @@ __STATIC_INLINE void Cy_SysClk_PllDisable(uint32_t pllNum)
 * \param pllNum the number of PLL instance, starting from 0.
 * If there is only one PLL in device - the 0 is the only valid number.
 *
-* \return The bypass state \ref cy_en_sysclk_pll_bypass_t.
+* \return The bypass state \ref cy_en_sysclk_pll_bypass_t : \n
+* \ref CY_SYSCLK_PLL_BYP_AUTO - ECO when PLL is not locked, and PLL output when locked. \n
+* \ref CY_SYSCLK_PLL_BYP_ECO - ECO regardless of PLL lock/enable status. \n
+* \ref CY_SYSCLK_PLL_BYP_PLL - PLL Output regardless of lock status.
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
@@ -946,6 +1011,397 @@ __STATIC_INLINE cy_en_sysclk_pll_bypass_t Cy_SysClk_PllGetBypassState(uint32_t p
 }
 
 /** \} group_sysclk_pll_funcs */
+
+
+#if (CY_IP_M0S8EXCO_VERSION == 2U)
+/* ========================================================================== */
+/* ===========================    CSV SECTION    ============================ */
+/* ========================================================================== */
+
+/**
+* \addtogroup group_sysclk_csv_structs
+* \{
+*/
+/** The CSV configuration structure */
+typedef struct
+{
+    uint16_t startupDelay;  /**< Startup delay time -1 (in reference clock cycles),
+                             *   after enable or DeepSleep wakeup, from reference clock start to monitored clock start.
+                             *   At a minimum (both clocks running): STARTUP >= (PERIOD +3) * FREQ_RATIO - UPPER,
+                             *   with FREQ_RATIO = (Reference frequency / Monitored frequency)
+                             *   On top of that the actual clock startup delay and the margin
+                             *   for accuracy of both clocks must be added.
+                             *
+                             *   \note The startupDelay is applicable only when CSV is enabled before PLL and/or ECO has started.
+                             *   Otherwise, CSV starts monitoring immediately after enabling and regardless of the startupDelay setting.
+                             */
+    uint16_t period;        /**< Period time.  Set the Period -1, in monitored clock cycles,
+                             *   before the next monitored clock event happens.
+                             *   PERIOD <=  (UPPER+1) / FREQ_RATIO -1,
+                             *   with FREQ_RATIO = (Reference frequency / Monitored frequency)
+                             *   In case the clocks are asynchronous: PERIOD <=  UPPER / FREQ_RATIO -1
+                             *   Additionally margin must be added for accuracy of both clocks.
+                             */
+    uint16_t lowerLimit;    /**< Cycle time lower limit.  Set the lower limit -1, in reference clock cycles,
+                             *   before the next monitored clock event is allowed to happen.
+                             *   If a monitored clock event happens before this limit is reached a CSV error is detected.
+                             *   LOWER must be at least 1 less than UPPER.
+                             *   In case the clocks are asynchronous LOWER must be at least 3 less than UPPER.
+                             */
+    uint16_t upperLimit;    /**< Cycle time upper limit.  Set the upper limit -1, in reference clock cycles,
+                             *   before (or same time) the next monitored clock event must happen.
+                             *   If a monitored clock event does not happen before this limit is reached,
+                             *   or does not happen at all (clock loss), a CSV error is detected.
+                             */
+    bool clkSwitchEn;       /**< Enable the clock switching to IMO feature */
+    bool triggerEn;         /**< Enable the HW trigger when a clock switching to IMO occurs */
+    bool interruptEn;       /**< Enable the \ref CY_SYSCLK_INTR_SW_IMO interrupt when a clock switching to IMO occurs */
+}cy_stc_sysclk_csv_config_t;
+/** \} group_sysclk_csv_structs */
+
+/**
+* \addtogroup group_sysclk_csv_funcs
+* \{
+*/
+
+void Cy_SysClk_CsvInit(cy_stc_sysclk_csv_config_t * config);
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_CsvEnable
+****************************************************************************//**
+*
+* Enables the Clock Supervision block.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_ISR
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_INT
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_CFG
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_EN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_CsvEnable(void)
+{
+    EXCO_REF_CTL |= EXCO_REF_CTL_CSV_EN_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_CsvIsEnabled
+****************************************************************************//**
+*
+* Checks the Clock Supervision block enable/disable state.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DSCB_DEC
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_SysClk_CsvIsEnabled(void)
+{
+    return _FLD2BOOL(EXCO_REF_CTL_CSV_EN, EXCO_REF_CTL);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_CsvDisable
+****************************************************************************//**
+*
+* Disables clock supervision.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DIS
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_CsvDisable(void)
+{
+    EXCO_REF_CTL &= ~EXCO_REF_CTL_CSV_EN_Msk;
+}
+/** \} group_sysclk_csv_funcs */
+
+
+/**
+* \addtogroup group_sysclk_pgm_dly_funcs
+* \{
+*/
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_DelayCounterInit
+****************************************************************************//**
+*
+* Initializes the programmable delay (PGM_DELAY) counter reload value.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \param delayCount:
+*  Valid range 0-65535, device default value is 256.
+*  Sets the # of counts of IMO clock before system reset is asserted.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PGM_DLY_EN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_DelayCounterInit(uint16_t delayCount)
+{
+    EXCO_RSTDLY = _VAL2FLD(EXCO_RSTDLY_DLYCOUNT, delayCount);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_DelayCounterEnable
+****************************************************************************//**
+*
+* Enables the PGM_DELAY block.
+* A programmable delay counter starts at delay count
+* value (see \ref Cy_SysClk_DelayCounterInit API) and counts down.
+*
+* The PGM_DELAY block will assert system reset when the counter reaches zero
+* unless firmware intervenes and reloads the counter using
+* \ref Cy_SysClk_DelayCounterReload() API.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PGM_DLY_EN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_DelayCounterEnable(void)
+{
+    EXCO_RSTDLY_CTL |= EXCO_RSTDLY_CTL_EN_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_DelayCounterIsEnabled
+****************************************************************************//**
+*
+* Checks the PGM_DELAY block enable/disable state.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device TRM to check the CSV feature support.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_DSCB_DEC
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_SysClk_DelayCounterIsEnabled(void)
+{
+    return _FLD2BOOL(EXCO_RSTDLY_CTL_EN, EXCO_RSTDLY_CTL);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_DelayCounterDisable
+****************************************************************************//**
+*
+* Disables the PGM_DELAY block.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_DelayCounterDisable(void)
+{
+    EXCO_RSTDLY_CTL &= ~EXCO_RSTDLY_CTL_EN_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_DelayCounterReload
+****************************************************************************//**
+*
+* Reloads the PGM_DELAY counter with the delay count value.
+*
+* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* Refer to the Device Datasheet to check the CSV feature support.
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PGM_DLY_REL
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_DelayCounterReload(void)
+{
+    EXCO_RSTDLY_CTL |= EXCO_RSTDLY_CTL_LOAD_Msk;
+}
+/** \} group_sysclk_pgm_dly_funcs */
+
+
+/**
+* \addtogroup group_sysclk_int_macros
+* \{
+*/
+#define CY_SYSCLK_INTR_PLL_LOCK (EXCO_INTR_PLL_LOCK_Msk)   /**< PLL lock interrupt mask */
+#define CY_SYSCLK_INTR_WD_ERR   (EXCO_INTR_WD_ERR_Msk)     /**< WatchDog error interrupt mask */
+#define CY_SYSCLK_INTR_SW_IMO   (EXCO_INTR_CSV_CLK_SW_Msk) /**< Clock Supervisor Switched Clock Source to IMO interrupt mask */
+/** \} group_sysclk_int_macros */
+
+/** \cond internal */
+#define CY_SYSCLK_INTR          (CY_SYSCLK_INTR_PLL_LOCK | CY_SYSCLK_INTR_WD_ERR | CY_SYSCLK_INTR_SW_IMO)
+/** \endcond */
+
+
+/**
+* \addtogroup group_sysclk_int_funcs
+* \{
+*/
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_GetInterruptStatus
+****************************************************************************//**
+*
+* Returns the interrupt status.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \return
+* The interrupt status, see \ref group_sysclk_int_macros :
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SysClk_GetInterruptStatus(void)
+{
+    return (EXCO_INTR);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_GetInterruptStatusMasked
+****************************************************************************//**
+*
+* Returns the logical AND of the corresponding INTR and INTR_MASK registers
+* in a single-load operation.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \return
+* The masked interrupt status, see \ref group_sysclk_int_macros :
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_ISR
+* Also refer to \ref group_sysclk_csv_funcs
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SysClk_GetInterruptStatusMasked(void)
+{
+    return (EXCO_INTR_MASKED & CY_SYSCLK_INTR);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ClearInterrupt
+****************************************************************************//**
+*
+* Clears the interrupt status.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \param intrMask
+* The mask of interrupts to clear. Typically this is the value returned
+* by \ref Cy_SysClk_GetInterruptStatusMasked or \ref Cy_SysClk_GetInterruptStatus.
+* Alternately, select one or more values from \ref group_sysclk_int_macros and "OR" them together.
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_ISR
+* Also refer to \ref group_sysclk_csv_funcs
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_ClearInterrupt(uint32_t intrMask)
+{
+    EXCO_INTR = intrMask & CY_SYSCLK_INTR;
+    (void) EXCO_INTR;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_SetInterrupt
+****************************************************************************//**
+*
+* Sets the specified interrupt status.
+* Intended mostly for debugging.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \param intrMask
+* The mask of interrupts to set.
+* Select one or more values from \ref group_sysclk_int_macros and "OR" them together.
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_SetInterrupt(uint32_t intrMask)
+{
+    EXCO_INTR_SET = intrMask & CY_SYSCLK_INTR;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_GetInterruptMask
+****************************************************************************//**
+*
+* Returns the interrupt mask value.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \return
+* The interrupt mask value, see \ref group_sysclk_int_macros :
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+* \funcusage \snippet sysclk/snippet/main.c snippet_Cy_SysClk_GetInterruptMask
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SysClk_GetInterruptMask(void)
+{
+    return (EXCO_INTR_MASK & CY_SYSCLK_INTR);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_SetInterruptMask
+****************************************************************************//**
+*
+* Sets the specified interrupt mask value.
+*
+* This API is available only for PSoC 4500S and 4100S Max devices.
+*
+* \param intrMask
+* The mask of interrupts.
+* Select one or more values from \ref group_sysclk_int_macros and "OR" them together.
+* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_WD_ERR
+* - \ref CY_SYSCLK_INTR_SW_IMO
+*
+* \funcusage
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_CSV_EN
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_SetInterruptMask(uint32_t intrMask)
+{
+    EXCO_INTR_MASK = intrMask & CY_SYSCLK_INTR;
+}
+
+
+/** \} group_sysclk_int_funcs */
+#endif /* CY_IP_M0S8EXCO_VERSION == 2U */
 #endif /* EXCO_PLL_PRESENT */
 #endif /* CY_IP_M0S8EXCO */
 
@@ -1003,9 +1459,9 @@ __STATIC_INLINE bool Cy_SysClk_IloIsEnabled(void)
 *
 * Disables the ILO. ILO can't be disabled if WDT is enabled.
 *
-* \return Error / status code, \ref cy_en_sysclk_status_t \n
-* CY_SYSCLK_SUCCESS - ILO successfully disabled \n
-* CY_SYSCLK_INVALID_STATE - Cannot disable the ILO if the WDT is enabled.
+* \return Error / status code, \ref cy_en_sysclk_status_t : \n
+* \ref CY_SYSCLK_SUCCESS - ILO successfully disabled \n
+* \ref CY_SYSCLK_INVALID_STATE - Cannot disable the ILO if the WDT is enabled.
 *
 * \note Do not call this function if the WDT is enabled, because the WDT is clocked by
 * the ILO.
@@ -1044,7 +1500,7 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_IloDisable(void)
 #define CY_SYSCLK_WCO_TRIM_XGM_2620NA                  (0x01UL)
 
 /** Recommended WCO startup timeout for blocking \ref Cy_SysClk_WcoEnable execution */
-#define CY_SYSCLK_WCO_TIMEOUT_US                       (20000UL)
+#define CY_SYSCLK_WCO_TIMEOUT_US                       (500000UL)
 
 /**
 * \addtogroup group_sysclk_wco_funcs
@@ -1237,7 +1693,11 @@ __STATIC_INLINE void Cy_SysClk_ClkHfSetDivider(cy_en_sysclk_dividers_t divider)
 *
 * Returns the HFCLK divider value.
 *
-* \return \ref cy_en_sysclk_dividers_t
+* \return \ref cy_en_sysclk_dividers_t : \n
+* \ref CY_SYSCLK_NO_DIV - don't divide. \n
+* \ref CY_SYSCLK_DIV_2 - divide by 2 \n
+* \ref CY_SYSCLK_DIV_4 - divide by 4 \n
+* \ref CY_SYSCLK_DIV_8 - divide by 8
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
@@ -1324,7 +1784,11 @@ __STATIC_INLINE void Cy_SysClk_ClkSysSetDivider(cy_en_sysclk_dividers_t divider)
 *
 * Returns the SYSCLK clock divider.
 *
-* \return The SYSCLK divider value, \ref cy_en_sysclk_dividers_t.
+* \return The SYSCLK divider value, \ref cy_en_sysclk_dividers_t : \n
+* \ref CY_SYSCLK_NO_DIV - don't divide. \n
+* \ref CY_SYSCLK_DIV_2 - divide by 2 \n
+* \ref CY_SYSCLK_DIV_4 - divide by 4 \n
+* \ref CY_SYSCLK_DIV_8 - divide by 8
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
@@ -1359,6 +1823,18 @@ typedef enum
 #define cy_en_divider_types_t cy_en_sysclk_divider_types_t /* BWC macro for capsense!!! */
 /** \endcond */
 
+
+/**
+* \addtogroup group_sysclk_clk_peripheral_macros
+* \{
+*/
+/** Mask and position definitions to be used with \ref Cy_SysClk_PeriphGetAssignedDivider return value. */
+#define CY_SYSCLK_PERI_DIV_TYPE_Pos (PERI_DIV_CMD_SEL_TYPE_Pos) /**< The PERI divider type value position */
+#define CY_SYSCLK_PERI_DIV_TYPE_Msk (PERI_DIV_CMD_SEL_TYPE_Msk) /**< The PERI divider type value mask */
+#define CY_SYSCLK_PERI_DIV_NUM_Pos (PERI_DIV_CMD_SEL_TYPE_Pos)  /**< The PERI divider number value position */
+#define CY_SYSCLK_PERI_DIV_NUM_Msk (PERI_DIV_CMD_SEL_TYPE_Msk)  /**< The PERI divider number value mask */
+/** \} group_sysclk_clk_peripheral_macros */
+
 /**
 * \addtogroup group_sysclk_clk_peripheral_funcs
 * \{
@@ -1373,6 +1849,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphDisableDivider(cy_en_sysclk_divider_types_
 cy_en_sysclk_status_t Cy_SysClk_PeriphEnablePhaseAlignDivider(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum, cy_en_sysclk_divider_types_t dividerTypePA, uint32_t dividerNumPA);
                  bool Cy_SysClk_PeriphDividerIsEnabled(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum);
              uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum);
+             uint32_t Cy_SysClk_PeriphSetFrequency(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum, uint32_t frequency);
 __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetAssignedDivider(en_clk_dst_t periphNum);
 
 
@@ -1387,8 +1864,7 @@ __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetAssignedDivider(en_clk_dst_t periphN
 * \return The divider type and number, where bits [7:6] = type, bits[5:0] = divider
 * number within that type
 *
-* \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphAssignDivider
+* \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PERI_SET_FREQ
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetAssignedDivider(en_clk_dst_t periphNum)
@@ -1440,7 +1916,10 @@ __STATIC_INLINE                   uint32_t Cy_SysClk_ClkPumpGetFrequency(void);
 *
 * Reports the source for the pump clock (clk_pump).
 *
-* \return \ref cy_en_sysclk_clkpump_src_t
+* \return \ref cy_en_sysclk_clkpump_src_t : \n
+* \ref CY_SYSCLK_PUMP_IN_GND - No clock, connect to gnd. \n
+* \ref CY_SYSCLK_PUMP_IN_IMO - Use main IMO output. \n
+* \ref CY_SYSCLK_PUMP_IN_HFCLK - Use clk_hf (using selected source after predivider but before prescaler).
 *
 * \funcusage
 * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource

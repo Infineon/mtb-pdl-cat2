@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 2.10.2
+* \version 2.20
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
@@ -255,6 +255,9 @@ void Cy_SysLib_SetWaitStates(uint32_t clkHfMHz)
                   ((clkHfMHz <= CY_SYSLIB_FLASH_WS_1_FREQ_MAX) ? 1UL : 2UL);
 
     CY_REG32_CLR_SET(CPUSS_FLASH_CTL, CPUSS_FLASH_CTL_FLASH_WS, waitStates);
+
+    /* Enable flash prefetch buffer for the wait states greater than zero. */
+    CY_REG32_CLR_SET(CPUSS_FLASH_CTL, CPUSS_FLASH_CTL_PREF_EN, (waitStates != 0UL) ? 1UL : 0UL);
 }
 
 /* [] END OF FILE */

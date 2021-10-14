@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 1.10
+* \version 1.20
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *

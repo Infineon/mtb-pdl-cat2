@@ -165,7 +165,7 @@
 
     <!-- Advanced-->
     <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="false" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
-	
+
     <!-- Codegen related variables -->
     <ParamString id="instName" name="instName" group="Codegen" default="mtb_usbpd_port" visible="false" editable="false" desc="" />
     <ParamString id="InstNumber" name="InstNumber" group="Codegen" default="`${getInstNumber(&quot;usbpd&quot;)}`" visible="false" editable="false" desc="USBPD Instance name number." />

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 1.10
+* \version 1.20
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -358,6 +358,11 @@ void Cy_USBPD_Pump_Disable (
     context->base->pump5v_ctrl[index] |= PDSS_PUMP5V_CTRL_PUMP5V_BYPASS_LV;
     Cy_SysLib_DelayUs (10);
     context->base->pump5v_ctrl[index]  = PDSS_PUMP5V_CTRL_DEFAULT;
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    CY_UNUSED_PARAMETER(index);
+    context->base->pump5v_ctrl |= PDSS_PUMP5V_CTRL_PUMP5V_BYPASS_LV;
+    Cy_SysLib_DelayUs (10);
+    context->base->pump5v_ctrl = PDSS_PUMP5V_CTRL_DEFAULT;
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
     context->base->pump_ctrl |= (PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
@@ -395,6 +400,14 @@ void Cy_USBPD_Pump_Enable (
         Cy_SysLib_DelayUs (40);
         pd->pump5v_ctrl[index] = PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN | PDSS_PUMP5V_CTRL_PUMP5V_DEL_PUMP_EN;
     }
+#elif(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    /* Enable the pump only if it is not already on. */
+    PPDSS_REGS_T pd = context->base;
+    if ((pd->pump5v_ctrl & PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN) == 0u)
+    {
+       context->base->pump5v_ctrl = (PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN | PDSS_PUMP5V_CTRL_PUMP5V_BYPASS_LV);
+    }
+    CY_UNUSED_PARAMETER(index);
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
     context->base->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
@@ -903,9 +916,9 @@ void Cy_USBPD_TypeC_EnableRp (
     PPDSS_TRIMS_REGS_T trimRegs = NULL;
 #endif /* defined(CY_IP_MXUSBPD) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     uint8_t cc_trim = 0;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 
     if (context == NULL)
     {

@@ -197,8 +197,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>On for PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices this function should not be called, when I2C bus is busy with the data or address transfer in case if FIFO is used.</dd></dl>
 <dl class="section user"><dt>Side Effects</dt><dd>If the TX FIFO is used, it is cleared before Stop generation. The TX FIFO clear operation also clears shift register. Thus, the shifter could be cleared in the middle of a data element transfer, corrupting it. The remaining bits to transfer within corrupted data element are complemented with ones.<br />
-If the clear operation is requested while the master transmits the address, the direction of transaction is changed to read and one byte is read before Stop is issued. This byte is discarded. </dd></dl>
+If the clear operation is requested while the master transmits the address, the direction of transaction is changed to read and one byte is read before Stop is issued. This byte is discarded. For the PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices FIFO will not be cleared, if used, causing part of transfer to occur, but whole message will not be transmitted, if the message is longer, than FIFO size. </dd></dl>
 
 </div>
 </div>

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 1.10
+* \version 1.20
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -198,6 +198,16 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_P0_SBU1               = 3,    /**< Port-0 SBU1 Comparator. Only available on PMG1S3. */
     CY_USBPD_VBUS_COMP_ID_P0_SBU2               = 4,    /**< Port-0 SBU2 Comparator. Only available on PMG1S3. */
+#elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
+    CY_USBPD_VBUS_COMP_ID_VBUS_DISCHARGE        = 3,    /**< Discharge comparator. */
+    CY_USBPD_VBUS_COMP_ID_LSCSA_SCP             = 4,    /**< SCP comparator. */
+    CY_USBPD_VBUS_COMP_ID_DP_DETACH             = 4,    /**< D+ voltage comparator. */
+    CY_USBPD_VBUS_COMP_ID_DM_DETACH             = 5,    /**< D- voltage comparator. */
+    CY_USBPD_VBUS_COMP_ID_LSCSA_PFC             = 2,    /**< CBL_1, PFC comparator. */
+    CY_USBPD_VBUS_COMP_ID_LSCSA_SR              = 4,    /**< CBL_0, SR comparator. */
+    CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M            = 5,    /**< VSRC_NEW comparator. */
+    CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P            = 6,    /**< VSRC_NEW comparator. */
 #else
     CY_USBPD_VBUS_COMP_ID_VBUS_MON              = 2,    /**< VBUS_MON comparator. Only available on PMG1S1. */
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 3,    /**< VSYS detection. Only available on PMG1S1. */
@@ -205,7 +215,7 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_DM_DETACH             = 5,    /**< D- voltage comparator. Only available on PMG1S1. */
 #endif /* CY_DEVICE_CCG3PA */
 
-    COMP_ID_MAX                                 = 6     /**< End of comparator list. */
+    COMP_ID_MAX                                 = 7     /**< End of comparator list. */
 
 } cy_en_usbpd_comp_id_t;
 
@@ -223,13 +233,27 @@ typedef enum
     CY_USBPD_VBUS_FILTER_ID_DISCH_EN  = 2,              /**< Discharge enable filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_SCP = 3,              /**< SCP filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP = 4,              /**< OCP filter for PMG1S0. */
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    CY_USBPD_VBUS_FILTER_ID_DISCH_EN  = 2,              /**< Discharge enable filter for PMG1S0. */
+    CY_USBPD_VBUS_FILTER_ID_LSCSA_SR  = 3,              /**< CBL_0, SR filter for CCG7D. Can run based on HF or LF clock. */
+    CY_USBPD_VBUS_FILTER_ID_LSCSA_PFC = 4,              /**< CBL_1, PFC filter for CCG7D. Can run based on HF or LF clock. */
+    CY_USBPD_VBUS_FILTER_ID_VSRC_NEW_P = 5,             /**< VSRC_NEW_P filter for CCG7D. Can run based on LF clock. */
+    CY_USBPD_VBUS_FILTER_ID_VSRC_NEW_M = 6,             /**< VSRC_NEW_M filter for CCG7D. Can run based on LF clock. */
+    CY_USBPD_VBUS_FILTER_ID_CSA_SCP = 10,               /**< Virtual number for SCP as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_CSA_OCP = 11,               /**< Virtual number for OCP as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_PDS_SCP = 12,               /**< Virtual number for VBAT_GND SCP as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_VIN_UVP = 13,               /**< Virtual number for VIN UVP as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_VIN_OVP = 14,               /**< Virtual number for VIN OVP as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_ILIM_DET = 15,              /**< Virtual number for ILIM DET as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_VREG_INRUSH_DET = 16,       /**< Virtual number for VREG INRUSH DET as it is to be configured differently. */
+    CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET = 17,         /**< Virtual number for VDDD brown out as it is to be configured differently. */
 #else
     CY_USBPD_VBUS_FILTER_ID_HSCSA_SCP = 2,              /**< SCP filter for PMG1S1. */
     CY_USBPD_VBUS_FILTER_ID_HSCSA_OCP = 3,              /**< OCP filter for PMG1S1. */
     CY_USBPD_VBUS_FILTER_ID_HSCSA_RCP = 4,              /**< RCP filter for PMG1S1. */
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
-    CY_USBPD_VBUS_FILTER_ID_MAX                               /**< Number of supported filters. */
+    CY_USBPD_VBUS_FILTER_ID_MAX                         /**< Number of supported filters. */
 } cy_en_usbpd_vbus_filter_id_t;
 
 /** List of edge triggered interrupt based on the filter output. */
@@ -390,8 +414,9 @@ typedef enum
  */
 typedef enum
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     CHGB_VREF_0_325V = 0,               /**< 0.325 V */
+    CHGB_VREF_0_425V = 0,               /**< 0.425 V. Use of 0.325 with offset of 100 mV */
     CHGB_VREF_0_7V,                     /**< 0.7 V */
     CHGB_VREF_0_85V,                    /**< 0.85 V */
     CHGB_VREF_1_4V,                     /**< 1.4 V */

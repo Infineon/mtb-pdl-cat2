@@ -40,18 +40,18 @@
     <ExposedMember key="error"     paramId="error" />
     <ExposedMember key="clock"     paramId="clock" />
 
-	<!--GBW, Active mode, amp-->
+    <!--GBW, Active mode, amp-->
     <ExposedMember key="GBwActiveModePowerHigh" paramId="GBw_ActiveMode_PowerHigh" />
     <ExposedMember key="GBwActiveModePowerMid" paramId="GBw_ActiveMode_PowerMid" />
     <ExposedMember key="GBwActiveModePowerLow" paramId="GBw_ActiveMode_PowerLow" />
-	<!--Response time, Active mode, comp-->
+    <!--Response time, Active mode, comp-->
     <ExposedMember key="ResponseTimeActiveModePowerHigh" paramId="ResponseTime_ActiveMode_PowerHigh" />
     <ExposedMember key="ResponseTimeActiveModePowerMid" paramId="ResponseTime_ActiveMode_PowerMid" />
     <ExposedMember key="ResponseTimeActiveModePowerLow" paramId="ResponseTime_ActiveMode_PowerLow" />
-	<!--Vin, Active mode, amp-->
+    <!--Vin, Active mode, amp-->
     <ExposedMember key="VinActiveModeOpampPumpOff" paramId="Vin_ActiveMode_Opamp_PumpOff" />
     <ExposedMember key="VinActiveModeOpampPumpOn" paramId="Vin_ActiveMode_Opamp_PumpOn" />
-	<!--Vin, Active mode, amp-->
+    <!--Vin, Active mode, amp-->
     <ExposedMember key="VinActiveModeCompPumpOff" paramId="Vin_ActiveMode_Comp_PumpOff" />
     <ExposedMember key="VinActiveModeCompPumpOn" paramId="Vin_ActiveMode_Comp_PumpOn" />
   </ExposedMembers>
@@ -77,18 +77,18 @@
     <!--Advanced-->
     <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
 
-	<!--GBW, Active mode, amp-->
+    <!--GBW, Active mode, amp-->
     <ParamString id="GBw_ActiveMode_PowerHigh" name="GBw_ActiveMode_PowerHigh" group="General" default="6" visible="false" editable="false" desc="" />
     <ParamString id="GBw_ActiveMode_PowerMid" name="GBw_ActiveMode_PowerMid" group="General" default="3" visible="false" editable="false" desc="" />
     <ParamString id="GBw_ActiveMode_PowerLow" name="GBw_ActiveMode_PowerLow" group="General" default="1" visible="false" editable="false" desc="" />
-	<!--Response time, Active mode, comp-->
+    <!--Response time, Active mode, comp-->
     <ParamString id="ResponseTime_ActiveMode_PowerHigh" name="ResponseTime_ActiveMode_PowerHigh" group="General" default="150" visible="false" editable="false" desc="" />
     <ParamString id="ResponseTime_ActiveMode_PowerMid" name="ResponseTime_ActiveMode_PowerMid" group="General" default="500" visible="false" editable="false" desc="" />
     <ParamString id="ResponseTime_ActiveMode_PowerLow" name="ResponseTime_ActiveMode_PowerLow" group="General" default="2500" visible="false" editable="false" desc="" />
-	<!--Vin, Active mode, amp-->
+    <!--Vin, Active mode, amp-->
     <ParamString id="Vin_ActiveMode_Opamp_PumpOff" name="Vin_ActiveMode_Opamp_PumpOff" group="General" default="0 to Vdda - 1.3 V" visible="false" editable="false" desc="" />
     <ParamString id="Vin_ActiveMode_Opamp_PumpOn" name="Vin_ActiveMode_Opamp_PumpOn" group="General" default="0 to Vdda - 0.2 V" visible="false" editable="false" desc="" />
-	<!--Vin, Active mode, comp-->
+    <!--Vin, Active mode, comp-->
     <ParamString id="Vin_ActiveMode_Comp_PumpOff" name="Vin_ActiveMode_Comp_PumpOff" group="General" default="0 to Vddd - 1.15 V" visible="false" editable="false" desc="" />
     <ParamString id="Vin_ActiveMode_Comp_PumpOn" name="Vin_ActiveMode_Comp_PumpOn" group="General" default="0 to Vddd - 0.1 V" visible="false" editable="false" desc="" />
   </Parameters>
