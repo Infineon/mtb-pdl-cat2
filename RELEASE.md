@@ -33,6 +33,8 @@ for a complete description of the Peripheral driver library.
 
 - [SYSPM 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
 
+- [USBFS (USB Full-Speed Device) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+
 ### Drivers with patch-version updates
 
 - Updated patch version for all drivers because updated the paths to the code snippets.
