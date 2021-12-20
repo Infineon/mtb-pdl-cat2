@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv.c
-* \version 1.0
+* \version 1.10
 *
 * Provides general API implementation of the USBFS driver.
 *
@@ -26,7 +26,6 @@
 
 #include "cy_usbfs_dev_drv.h"
 #include "cy_usbfs_dev_drv_pvt.h"
-
 #ifdef CY_IP_M0S8USBDSS
 
 #if defined(__cplusplus)
@@ -172,7 +171,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
         }
         break;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
 
         case CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA:
         {
@@ -180,7 +179,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
             context->loadInEndpoint  = &LoadInEndpointDma;
             context->readOutEndpoint = &ReadOutEndpointDma;
 
-            USBFS_DEV_ARB_CFG(base) = _VAL2FLD(USBFS_USBDEV_ARB_CFG_DMA_CFG,
+            USBFS_DEV_ARB_CFG(base) = _VAL2FLD(USBFS_ARB_CFG_DMA_CFG,
                                             CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA);
         }
         break;
@@ -191,9 +190,9 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
 
             context->loadInEndpoint  = &LoadInEndpointDmaAuto;
             context->readOutEndpoint = &ReadOutEndpointDmaAuto;
-            USBFS_DEV_ARB_CFG(base) = (_VAL2FLD(USBFS_USBDEV_ARB_CFG_DMA_CFG,
+            USBFS_DEV_ARB_CFG(base) = (_VAL2FLD(USBFS_ARB_CFG_DMA_CFG,
                                              CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO) |
-                                             USBFS_USBDEV_ARB_CFG_AUTO_MEM_Msk);
+                                             USBFS_ARB_CFG_AUTO_MEM_Msk);
         }
         break;
 #endif /* CY_IP_M0S8CPUSSV3_DMAC */
@@ -205,7 +204,8 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
         }
     }
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
     /* Configure DMA and store info about DMA channels */
 
     if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_CPU != context->mode)
@@ -730,13 +730,13 @@ static void ArbiterIntrHandler(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t 
                 endpointData->state = CY_USB_DEV_EP_COMPLETED;
             }
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
 
             /* Mode 3: Handles a DMA completion event for OUT endpoints */
             if (0U != (sourceMask & USBFS_USBDEV_ARB_EP_DMA_TERMIN_Msk))
             {
                 /* Sets a DMA channel to start a new transfer */
-                DmaOutEndpointRestore(endpointData);
+                DmaOutEndpointRestore(endpointData, context->useReg16);
 
                 /* Completes an endpoint transfer */
                 EndpointTransferComplete(base, endpoint, endpointData, context);
@@ -824,6 +824,7 @@ static void SieEnpointIntrHandler(USBFS_Type *base, uint32_t endpoint,
     {
         EndpointTransferComplete(base, endpoint, endpointData, context);
     }
+
 }
 
 

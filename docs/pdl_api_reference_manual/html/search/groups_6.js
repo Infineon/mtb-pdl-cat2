@@ -2,6 +2,7 @@ var searchData=
 [
   ['gpio_20_20_20_20_20_20_20_20_20_28general_20purpose_20input_20output_29',['GPIO         (General Purpose Input Output)',['../group__group__gpio.html',1,'']]],
   ['gpio_20functions',['GPIO Functions',['../group__group__gpio__functions__gpio.html',1,'']]],
+  ['group_5fmsclp',['Group_msclp',['../group__group__msclp.html',1,'']]],
   ['general',['General',['../group__group__scb__ezi2c__general__functions.html',1,'']]],
   ['general',['General',['../group__group__scb__i2c__general__functions.html',1,'']]],
   ['general',['General',['../group__group__scb__spi__general__functions.html',1,'']]],

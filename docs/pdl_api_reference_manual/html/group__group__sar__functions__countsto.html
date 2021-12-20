@@ -331,7 +331,7 @@ mV = V * 1000
 </div><div class="memdoc">
 
 <p>Convert the ADC output to microvolts as a int32. </p>
-<p>For example, if the ADC measured 0.534 volts, the return value would be 534000. The calculation of voltage depends on the channel offset, gain and other parameters. The equation used is: </p><pre class="fragment">V = (RawCounts / AvgDivider - Offset) * TEN_VOLT / Gain
+<p>For example, if the ADC measured 0.534 volts, the return value would be 534000. The calculation of voltage depends on the channel offset, gain and other parameters. The equation used is: </p><pre class="fragment">V = (RawCounts / AvgDivider - Offset) * (TEN_VOLT / 10) / (Gain / 10)
 uV = V * 1000000
 </pre><p>where,</p><ul>
 <li>RawCounts: Raw counts from SAR 16-bit CHAN_RESULT register</li>
@@ -343,6 +343,7 @@ uV = V * 1000000
 <li>Offset: Value stored by the <a class="el" href="group__group__sar__functions__countsto.html#gaf8617e3aa90b4069b0b6605802a3ac08">Cy_SAR_SetChannelOffset</a> function.</li>
 <li>TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.</li>
 <li>Gain: Value stored by the <a class="el" href="group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635">Cy_SAR_SetChannelGain</a> function.</li>
+<li>TEN_VOLT and Gain are divided by 10 to avoid extremely flash consuming 64-bit math.</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>This function is only valid when result alignment is right aligned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>

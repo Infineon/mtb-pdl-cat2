@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_csd.h
-* \version 1.10
+* \version 1.10.1
 *
 * The header file of the CSD driver.
 *
@@ -103,7 +103,7 @@
 * The following code snippet demonstrates how to capture the CSD HW block for
 * custom implementation:
 *
-* \snippet csd/snippet/main.c snippet_Cy_CSD_Conversion
+* \snippet csd_snippet.c snippet_Cy_CSD_Conversion
 *
 * The entire solution, like CapSense, in addition to
 * the CSD HW block, incorporates the following instances:
@@ -197,12 +197,12 @@
 * The following code snippet demonstrates how to implement a routine to handle
 * the interrupt. The routine is called when a CSD interrupt is triggered.
 *
-* \snippet csd/snippet/main.c snippet_Cy_CSD_IntHandler
+* \snippet csd_snippet.c snippet_Cy_CSD_IntHandler
 *
 * The following code snippet demonstrates how to configure and enable
 * the CSD interrupt:
 *
-* \snippet csd/snippet/main.c snippet_Cy_CSD_IntEnabling
+* \snippet csd_snippet.c snippet_Cy_CSD_IntEnabling
 *
 * For more information, refer to the \ref group_sysint driver.
 *
@@ -323,6 +323,11 @@
 ********************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Added Cy_CSD_Capture() function</td>
@@ -799,7 +804,7 @@ __STATIC_INLINE void Cy_CSD_WriteBits(CSD_Type * base, uint32_t offset, uint32_t
 *
 * \funcusage
 *
-* \snippet csd/snippet/main.c snippet_Cy_CSD_CheckKey
+* \snippet csd_snippet.c snippet_Cy_CSD_CheckKey
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_csd_key_t Cy_CSD_GetLockStatus(const CSD_Type * base, const cy_stc_csd_context_t * context)
@@ -827,7 +832,7 @@ __STATIC_INLINE cy_en_csd_key_t Cy_CSD_GetLockStatus(const CSD_Type * base, cons
 *
 * \funcusage
 *
-* \snippet csd/snippet/main.c snippet_Cy_CSD_CheckStatus
+* \snippet csd_snippet.c snippet_Cy_CSD_CheckStatus
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_csd_status_t Cy_CSD_GetConversionStatus(const CSD_Type * base, const cy_stc_csd_context_t * context)

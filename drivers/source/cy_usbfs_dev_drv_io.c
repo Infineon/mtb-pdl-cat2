@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io.c
-* \version 1.0
+* \version 1.10
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
@@ -391,7 +391,7 @@ cy_en_usbfs_dev_drv_status_t AddEndpointHwBuffer(USBFS_Type *base,
             Cy_USBFS_Dev_Drv_FlushInBuffer(base, endpoint);
         }
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
 
         /* Enables the endpoint arbiter interrupt sources */
         if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA == context->mode)

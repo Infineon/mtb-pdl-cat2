@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syspm.c
-* \version 2.10
+* \version 3.0
 *
 * This driver provides the source code for API power management.
 *
@@ -126,9 +126,7 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterSleep(void)
             (void) Cy_SysPm_ExecuteCallback(CY_SYSPM_SLEEP, CY_SYSPM_BEFORE_TRANSITION);
         }
 
-        /* The CPU enters the Sleep power mode upon execution of WFI */
-        SCB_SCR &= (uint32_t) ~SCB_SCR_SLEEPDEEP_Msk;
-        __WFI();
+        Cy_SysPm_CpuEnterSleepNoCallbacks();
 
         Cy_SysLib_ExitCriticalSection(interruptState);
 
@@ -150,6 +148,29 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterSleep(void)
         retVal = CY_SYSPM_FAIL;
     }
     return retVal;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_CpuEnterSleepNoCallbacks
+****************************************************************************//**
+*
+* Sets the CPU to Sleep mode without calling registered callback functions. The
+* application is responsible for preparing a device for entering Low-power mode
+* and restoring it to the desired state on a wakeup.
+*
+* For more details about switching to Sleep mode and debug, refer to the device
+* TRM.
+*
+* Refer to the \ref Cy_SysPm_CpuEnterSleep() for the automatic execution
+* of registered callback functions.
+*
+*******************************************************************************/
+void Cy_SysPm_CpuEnterSleepNoCallbacks(void)
+{
+    /* The CPU enters the Sleep power mode upon execution of WFI */
+    SCB_SCR &= (uint32_t) ~SCB_SCR_SLEEPDEEP_Msk;
+    __WFI();
 }
 
 
@@ -244,12 +265,7 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
             (void) Cy_SysPm_ExecuteCallback(CY_SYSPM_DEEPSLEEP, CY_SYSPM_BEFORE_TRANSITION);
         }
 
-        /* Adjust delay to wait for references to settle on wakeup from Deep Sleep */
-        SRSSLT_PWR_KEY_DELAY = SFLASH_DPSLP_KEY_DELAY;
-
-        /* The CPU enters Deep Sleep mode upon execution of WFI */
-        SCB_SCR |= SCB_SCR_SLEEPDEEP_Msk;
-        __WFI();
+        Cy_SysPm_CpuEnterDeepSleepNoCallbacks();
 
         Cy_SysLib_ExitCriticalSection(interruptState);
     }
@@ -277,6 +293,32 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
 
     }
     return retVal;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_CpuEnterDeepSleepNoCallbacks
+****************************************************************************//**
+*
+* Sets the CPU into Deep Sleep mode without calling registered callback
+* functions. The application is responsible for preparing a device for entering
+* Low-power mode and restoring it to the desired state on a wakeup.
+*
+* For more details about switching to Sleep mode and debug, refer to the device
+* TRM.
+*
+* Refer to the \ref Cy_SysPm_CpuEnterDeepSleep() for the automatic
+* execution of registered callback functions.
+*
+*******************************************************************************/
+void Cy_SysPm_CpuEnterDeepSleepNoCallbacks(void)
+{
+    /* Adjust delay to wait for references to settle on wakeup from Deep Sleep */
+    SRSSLT_PWR_KEY_DELAY = SFLASH_DPSLP_KEY_DELAY;
+
+    /* The CPU enters Deep Sleep mode upon execution of WFI */
+    SCB_SCR |= SCB_SCR_SLEEPDEEP_Msk;
+    __WFI();
 }
 
 

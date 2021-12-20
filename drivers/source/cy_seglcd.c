@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_seglcd.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * Provides an API implementation of the SegLCD driver
@@ -361,8 +361,8 @@ static char_t NumToChar(uint32_t value)
 * Side Effects: The block is disabled to change the settings.
 *
 * \funcusage 
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Config
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Init
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Config
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Init
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_Init(LCD_Type * base, cy_stc_seglcd_config_t const * config)
@@ -418,8 +418,8 @@ cy_en_seglcd_status_t Cy_SegLCD_Init(LCD_Type * base, cy_stc_seglcd_config_t con
 * Side Effects: The configuration structure contrast value is also updated.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ContrastInit
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Contrast
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ContrastInit
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Contrast
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_Contrast(LCD_Type * base, uint32_t contrast, cy_stc_seglcd_config_t * config)
@@ -453,7 +453,7 @@ cy_en_seglcd_status_t Cy_SegLCD_Contrast(LCD_Type * base, uint32_t contrast, cy_
 * \param base   The base pointer to the LCD instance registers.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Deinit
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Deinit
 *
 *******************************************************************************/
 void Cy_SegLCD_Deinit(LCD_Type * base)
@@ -476,8 +476,8 @@ void Cy_SegLCD_Deinit(LCD_Type * base)
 * \param base The base pointer to the LCD instance registers.
 *
 * \funcusage 
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Config
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Init
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Config
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Init
 *
 *******************************************************************************/
 void Cy_SegLCD_Enable(LCD_Type * base)
@@ -495,7 +495,7 @@ void Cy_SegLCD_Enable(LCD_Type * base)
 * \param base The base pointer to the LCD instance registers.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Disable
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Disable
 *
 *******************************************************************************/
 void Cy_SegLCD_Disable(LCD_Type * base)
@@ -521,8 +521,8 @@ void Cy_SegLCD_Disable(LCD_Type * base)
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage 
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Config
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Init
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Config
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Init
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_ClrFrame(LCD_Type * base, uint32_t const * commons)
@@ -563,7 +563,7 @@ cy_en_seglcd_status_t Cy_SegLCD_ClrFrame(LCD_Type * base, uint32_t const * commo
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_InvFrame
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_InvFrame
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_InvFrame(LCD_Type * base, uint32_t const * commons)
@@ -612,8 +612,8 @@ cy_en_seglcd_status_t Cy_SegLCD_InvFrame(LCD_Type * base, uint32_t const * commo
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ActPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ActPixel
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_WritePixel(LCD_Type * base, uint32_t pixel, bool value)
@@ -650,8 +650,8 @@ cy_en_seglcd_status_t Cy_SegLCD_WritePixel(LCD_Type * base, uint32_t pixel, bool
 *         If pixel value is invalid - the 'false' is returned.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ActPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ActPixel
 *
 *******************************************************************************/
 bool Cy_SegLCD_ReadPixel(LCD_Type * base, uint32_t pixel)
@@ -690,7 +690,7 @@ bool Cy_SegLCD_ReadPixel(LCD_Type * base, uint32_t pixel)
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Char
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Char
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_WriteChar(LCD_Type * base,
@@ -756,8 +756,8 @@ cy_en_seglcd_status_t Cy_SegLCD_WriteChar(LCD_Type * base,
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_DecNum
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_HexNum
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_DecNum
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_HexNum
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_WriteNumber(LCD_Type * base,
@@ -827,7 +827,7 @@ cy_en_seglcd_status_t Cy_SegLCD_WriteNumber(LCD_Type * base,
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_String
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_String
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_WriteString(LCD_Type * base,
@@ -875,10 +875,10 @@ cy_en_seglcd_status_t Cy_SegLCD_WriteString(LCD_Type * base,
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_BarLength
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraphDisplay
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraphValue
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraph
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_BarLength
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraphDisplay
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraphValue
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraph
 *
 *******************************************************************************/
 cy_en_seglcd_status_t Cy_SegLCD_BarGraph(LCD_Type * base,

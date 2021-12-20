@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_gpio.c
-* \version 1.20
+* \version 2.0
 *
 * Provides an API implementation of the GPIO driver
 *
@@ -64,7 +64,7 @@ extern "C" {
 * not thread safe as the resource is shared among multiple pins on a port.
 *
 * \funcusage
-* \snippet gpio/snippet/main.c snippet_Cy_GPIO_Pin_Init
+* \snippet gpio_snippet.c snippet_Cy_GPIO_Pin_Init
 *
 *******************************************************************************/
 cy_en_gpio_status_t Cy_GPIO_Pin_Init(GPIO_PRT_Type *base, uint32_t pinNum, const cy_stc_gpio_pin_config_t *config)
@@ -90,7 +90,8 @@ cy_en_gpio_status_t Cy_GPIO_Pin_Init(GPIO_PRT_Type *base, uint32_t pinNum, const
         Cy_GPIO_SetHSIOM(base, pinNum, config->hsiom);
 
         Cy_GPIO_SetInterruptEdge(base, pinNum, config->intEdge);
-        Cy_GPIO_SetVtrip(base, config->slewRate);
+        Cy_GPIO_SetVtrip(base, config->vtrip);
+        Cy_GPIO_SetSlewRate(base, config->slewRate);
 
         status = CY_GPIO_SUCCESS;
     }
@@ -119,7 +120,7 @@ cy_en_gpio_status_t Cy_GPIO_Pin_Init(GPIO_PRT_Type *base, uint32_t pinNum, const
 * Initialization status
 *
 * \funcusage
-* \snippet gpio/snippet/main.c snippet_Cy_GPIO_Port_Init
+* \snippet gpio_snippet.c snippet_Cy_GPIO_Port_Init
 *
 *******************************************************************************/
 cy_en_gpio_status_t Cy_GPIO_Port_Init(GPIO_PRT_Type* base, const cy_stc_gpio_prt_config_t *config)

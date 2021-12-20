@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_wdt.h
-* \version 1.0.1
+* \version 1.0.2
 *
 *  This file provides constants and parameter values for the WDT driver.
 *
@@ -171,15 +171,15 @@
 *
 * Set parameters of the WDT.
 *
-* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_config_data
+* \snippet wdt_snippet.c snippet_WDT_useCase_1_config_data
 *
 * Create an interrupt config structure and interrupt handler.
 *
-* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_Isr_config
+* \snippet wdt_snippet.c snippet_WDT_useCase_1_Isr_config
 *
 * Hook the interrupt service routine and enable interrupt than config the WDT.
 *
-* \snippet wdt/snippet/main.c snippet_WDT_useCase_1_config
+* \snippet wdt_snippet.c snippet_WDT_useCase_1_config
 *
 * \note Additionally, global interrupts should be enabled.
 *
@@ -190,8 +190,8 @@
 *
 * In this case WDT resets the system every third WDT event (1.23s at ILO 40kHz).
 *
-* \snippet wdt/snippet/main.c snippet_WDT_useCase_2_config_data
-* \snippet wdt/snippet/main.c snippet_WDT_useCase_2_config
+* \snippet wdt_snippet.c snippet_WDT_useCase_2_config_data
+* \snippet wdt_snippet.c snippet_WDT_useCase_2_config
 *
 * \section group_wdt_section_more_information More Information
 *
@@ -201,6 +201,11 @@
 * \section group_wdt_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.2</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0.1</td>
 *     <td>Code snippets added.</td>

@@ -143,8 +143,8 @@ static bool Cy_Flash_ValidAddr(uint32_t flashAddr);
 * \return \ref group_flash_enumerated_types
 *
 * \funcusage
-* \snippet flash/snippet/main.c SNIPPET_FLASH_INIT
-* \snippet flash/snippet/main.c SNIPPET_FLASH_WRITE
+* \snippet flash_snippet.c SNIPPET_FLASH_INIT
+* \snippet flash_snippet.c SNIPPET_FLASH_WRITE
 *
 *******************************************************************************/
 cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data)
@@ -274,9 +274,9 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
 * during an ongoing non-blocking operation.
 *
 * \funcusage
-* \snippet flash/snippet/main.c SNIPPET_FLASH_INIT
-* \snippet flash/snippet/main.c SNIPPET_FLASH_NONBLOCKING_INIT
-* \snippet flash/snippet/main.c SNIPPET_FLASH_NONBLOCKING
+* \snippet flash_snippet.c SNIPPET_FLASH_INIT
+* \snippet flash_snippet.c SNIPPET_FLASH_NONBLOCKING_INIT
+* \snippet flash_snippet.c SNIPPET_FLASH_NONBLOCKING
 *
 *******************************************************************************/
 cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* data)
@@ -466,7 +466,7 @@ static bool Cy_Flash_ValidFlashAddr(uint32_t flashAddr)
 * \return \ref cy_en_flashdrv_status_t
 *
 * \funcusage
-* \snippet flash/snippet/main.c SNIPPET_FLASH_CHECKSUM
+* \snippet flash_snippet.c SNIPPET_FLASH_CHECKSUM
 *
 *******************************************************************************/
 cy_en_flashdrv_status_t Cy_Flash_RowChecksum(uint32_t rowAddr, uint32_t* checksumPtr)

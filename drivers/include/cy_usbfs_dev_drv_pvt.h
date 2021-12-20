@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_pvt.h
-* \version 1.0
+* \version 1.10
 *
 * Provides API declarations of the USBFS driver.
 *
@@ -45,10 +45,6 @@ __STATIC_INLINE uint8_t  GetEndpointActiveMode(bool inDirection, uint8_t attribu
 __STATIC_INLINE uint32_t GetEndpointInactiveMode(uint32_t mode);
 
 
-CY_MISRA_FP_BLOCK_START('MISRA C-2012 Rule 8.6', 11, \
-'DMA functions for USB are not defined yet.  \
-source file.');
-
 /* DMA configuration functions */
 cy_en_usbfs_dev_drv_status_t DmaInit(cy_stc_usbfs_dev_drv_config_t const *config,
                                      cy_stc_usbfs_dev_drv_context_t      *context);
@@ -60,7 +56,7 @@ cy_en_usbfs_dev_drv_status_t DmaEndpointInit(USBFS_Type *base,
                                              bool useReg16,
                                              cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData);
 
-void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpoint);
+void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData, bool useReg16);
 
 cy_en_usbfs_dev_drv_status_t GetEndpointBuffer(uint32_t size,
                                                uint32_t *idx,
@@ -104,8 +100,6 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
 cy_en_usbfs_dev_drv_status_t DynamicEndpointReConfiguration(USBFS_Type *base,
                                                             bool        inDirection,
                                                             uint32_t    endpoint);
-
-CY_MISRA_BLOCK_END('MISRA C-2012 Rule 8.6');
 
 /* Endpoint restore functions (driver specific) */
 void RestoreEndpointHwBuffer(USBFS_Type *base,

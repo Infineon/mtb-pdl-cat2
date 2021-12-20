@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_tcpwm_counter.c
-* \version 1.10.1
+* \version 1.10.2
 *
 * \brief
 *  The source file of the tcpwm driver.
@@ -52,8 +52,8 @@ extern "C" {
 * \return error / status code. See \ref cy_en_tcpwm_status_t.
 *
 * \funcusage
-* \snippet tcpwm/counter/snippet/main.c snippet_Cy_TCPWM_Counter_Config
-* \snippet tcpwm/counter/snippet/main.c snippet_Cy_TCPWM_Counter_Init
+* \snippet tcpwm_counter_snippet.c snippet_Cy_TCPWM_Counter_Config
+* \snippet tcpwm_counter_snippet.c snippet_Cy_TCPWM_Counter_Init
 *
 *******************************************************************************/
 cy_en_tcpwm_status_t Cy_TCPWM_Counter_Init(TCPWM_Type *base, uint32_t cntNum,
@@ -128,7 +128,7 @@ cy_en_tcpwm_status_t Cy_TCPWM_Counter_Init(TCPWM_Type *base, uint32_t cntNum,
 * The pointer to configuration structure. See \ref cy_stc_tcpwm_counter_config_t.
 *
 * \funcusage
-* \snippet tcpwm/counter/snippet/main.c snippet_Cy_TCPWM_Counter_DeInit
+* \snippet tcpwm_counter_snippet.c snippet_Cy_TCPWM_Counter_DeInit
 *
 *******************************************************************************/
 void Cy_TCPWM_Counter_DeInit(TCPWM_Type *base, uint32_t cntNum, cy_stc_tcpwm_counter_config_t const *config)

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysint.h
-* \version 1.10
+* \version 1.10.2
 *
 * \brief
 * Provides an API declaration of the SysInt driver
@@ -56,7 +56,8 @@
 * }
 * \endcode
 * And can be used like this:
-* \snippet sysint/snippet/main.c snippet_Cy_SysInt_flashVT
+* \snippet sysint_snippet.c snippet_Cy_SysInt_DefineInterruptSource
+* \snippet sysint_snippet.c snippet_Cy_SysInt_flashVT
 * Using this method avoids the need for a RAM vector table. However in this scenario,
 * interrupt handler re-location at run-time is not possible, unless the vector table is
 * relocated to RAM.
@@ -113,7 +114,8 @@
 * \section group_sysint_section_configuration_considerations Configuration Considerations
 *
 * Below is an example of typical interrupt configuration:
-* \snippet sysint/snippet/main.c snippet_Cy_SysInt_Init
+* \snippet sysint_snippet.c snippet_Cy_SysInt_DefineInterruptSource
+* \snippet sysint_snippet.c snippet_Cy_SysInt_Init
 *
 * \section group_sysint_more_information More Information
 *
@@ -122,6 +124,20 @@
 * \section group_sysint_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="1">1.10.2</td>
+*     <td>Updated undefined values in the code snippets.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td rowspan="2">1.10.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates. Code snippets were updated.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">1.10</td>
 *     <td>Moved vector table declaration to the system header file.</td>

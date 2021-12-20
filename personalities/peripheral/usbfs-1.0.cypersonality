@@ -130,7 +130,6 @@
     <!-- DMA channel configuration -->
     <Repeat count="8">
         <ParamString id="ep$idxDmaSource"  name="ep$idxDmaSource"  group="Internal" default="`${ep$idxDmaEnabled ? getBlockFromSignal(&quot;dma_req[$idx]&quot;) : &quot;N/A&quot;}`" visible="false" editable="false" desc="DMA associated with the endpoint." />
-        <ParamString id="ep$idxDmaBase"    name="ep$idxDmaBase"    group="Internal" default="`${ep$idxDmaEnabled ? getExposedMember(ep$idxDmaSource, &quot;block&quot;) : &quot;N/A&quot;}`"   visible="false" editable="false" desc="DMA base address." />
         <ParamString id="ep$idxDmaChannel" name="ep$idxDmaChannel" group="Internal" default="`${ep$idxDmaEnabled ? getExposedMember(ep$idxDmaSource, &quot;channel&quot;) : &quot;N/A&quot;}`" visible="false" editable="false" desc="DMA channel." />
         <ParamString id="ep$idxDmaPriority" name="ep$idxDmaChannel" group="Internal" default="`${ep$idxDmaEnabled ? getExposedMember(ep$idxDmaSource, &quot;priority&quot;) : &quot;N/A&quot;}`" visible="false" editable="false" desc="DMA channel priority." />
         <ParamString id="ep$idxDmaPreemptable" name="ep$idxDmaChannel" group="Internal" default="`${ep$idxDmaEnabled ? getExposedMember(ep$idxDmaSource, &quot;preemptable&quot;) : &quot;N/A&quot;}`" visible="false" editable="false" desc="DMA channel preemptable." />
@@ -178,19 +177,18 @@
 
     <!-- Buffer for endpoints -->
     <ConfigVariable const="false" type="uint8_t" name="`${INST_NAME . &quot;_EndpointsBuffer[&quot; . bufSize . &quot;] CY_ALIGN(2)&quot;}`" public="false" include="`${isDmaAuto}`" />
-    <!-- DMA descriptors 0 -->
-    <ConfigVariable const="false" type="cy_stc_dma_descriptor_t" name="`${INST_NAME . &quot;_ep&quot; . ($idx+1) . &quot;DmaDescr0&quot;}`" public="false" include="`${ep$idxDmaEnabled}`" repeatCount="8" />
-    <!-- DMA descriptors 1 -->
-    <ConfigVariable const="false" type="cy_stc_dma_descriptor_t" name="`${INST_NAME . &quot;_ep&quot; . ($idx+1) . &quot;DmaDescr1&quot;}`" public="false" include="`${ep$idxDmaEnabled &amp;&amp; isDmaAuto}`" repeatCount="8" />
+    
     <!-- DMA configuration structures for data endpoints -->
     <ConfigStruct name="`${INST_NAME . &quot;_ep&quot; . ($idx + 1) . &quot;DmaConfig&quot;}`" type="cy_stc_usbfs_dev_drv_dma_config_t" const="true" public="false" include="`${ep$idxDmaEnabled}`" repeatCount="8">
-    <Member name="base"        value="`${&quot;DW&quot; . ep$idxDmaBase}`" />
+    <Member name="base"        value="DMAC" />
     <Member name="chNum"       value="`${ep$idxDmaChannel}`" />
     <Member name="priority"    value="`${ep$idxDmaPriority}`" />
+    <Member name="outTrigMux"  value="`${isDmaAuto ? INST_NAME . &quot;_dma_burstend_$idx_TRIGGER_OUT&quot; : &quot;0U&quot;}`"/>
+    
     <Member name="preemptable" value="`${ep$idxDmaPreemptable}`" />
-    <Member name="descr0"      value="`${dmaCfg . ($idx + 1) . &quot;DmaDescr0&quot;}`" />
-    <Member name="descr1"      value="`${isDmaAuto ? dmaCfg . ($idx + 1) . &quot;DmaDescr1&quot; : &quot;NULL&quot;}`" />
-    <Member name="outTrigMux"  value="`${isDmaAuto ? INST_NAME . &quot;_dma_burstend_$idx_TRIGGER_OUT&quot; : &quot;0U&quot;}`" />
+    <!-- Member name="descr0"      value="`${dmaCfg . ($idx + 1) . &quot;DmaDescr0&quot;}`" /-->
+    <!-- Member name="descr1"      value="`${isDmaAuto ? dmaCfg . ($idx + 1) . &quot;DmaDescr1&quot; : &quot;NULL&quot;}`" /-->
+    
     </ConfigStruct>
     <!-- USBFS_DEV driver configuration structure -->
     <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_usbfs_dev_drv_config_t" const="`${inFlash}`" public="true" include="true">
@@ -198,6 +196,14 @@
     <Member name="epAccess"     value="`${epAccess}`" />
     <Member name="epBuffer"     value="`${isDmaAuto ? INST_NAME . &quot;_EndpointsBuffer&quot; : &quot;NULL&quot;}`" />
     <Member name="epBufferSize" value="`${isDmaAuto ? bufSize : &quot;0&quot;}`U" />
+    <Member name="dmaConfig`${&quot;[0]&quot;}`" value="`${ep0DmaEnabled ? dmaCfg . &quot;1DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep0DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[1]&quot;}`" value="`${ep1DmaEnabled ? dmaCfg . &quot;2DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep1DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[2]&quot;}`" value="`${ep2DmaEnabled ? dmaCfg . &quot;3DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep2DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[3]&quot;}`" value="`${ep3DmaEnabled ? dmaCfg . &quot;4DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep3DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[4]&quot;}`" value="`${ep4DmaEnabled ? dmaCfg . &quot;5DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep4DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[5]&quot;}`" value="`${ep5DmaEnabled ? dmaCfg . &quot;6DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep5DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[6]&quot;}`" value="`${ep6DmaEnabled ? dmaCfg . &quot;7DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep6DmaEnabled ? true : false}`"/>
+    <Member name="dmaConfig`${&quot;[7]&quot;}`" value="`${ep7DmaEnabled ? dmaCfg . &quot;8DmaConfig&quot; : &quot;NULL&quot;}`" include="`${ep7DmaEnabled ? true : false}`"/>
     <Member name="intrLevelSel" value="`${INST_NAME}`_INTR_LVL_SEL" />
     </ConfigStruct>
     

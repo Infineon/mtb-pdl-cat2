@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_sha.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides SHA API implementation of the Crypto driver.

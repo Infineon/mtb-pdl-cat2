@@ -526,6 +526,18 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:ga704173d4af563d253fd4307311ac3d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">PD Type C Driver Events.  <a href="group__group__usbpd__common__enums.html#ga704173d4af563d253fd4307311ac3d69">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga704173d4af563d253fd4307311ac3d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac148f7e4cf23c7c5174091e66607a5bb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb">cy_en_pd_extd_alert_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bba9367597191ff5905924fb2e90f7f0133">CY_PD_EXTD_ALERT_TYPE_PWR_STATE_CHANGE</a> = 1UL, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bbaa770daf6191f0961adc2a46070d31cd4">CY_PD_EXTD_ALERT_TYPE_PWR_BTN_PRESS</a> = 2UL, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bba1ecb8607d8ada406965fc90170c6af64">CY_PD_EXTD_ALERT_TYPE_PWR_BTN_RELEASE</a> = 3UL, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bbab12565604425a6c5b6f7e8acb3b440ea">CY_PD_EXTD_ALERT_TYPE_CTRLR_WAKE</a> = 4UL
+<br />
+ }<tr class="memdesc:gac148f7e4cf23c7c5174091e66607a5bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of extended alert events.  <a href="group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:gac148f7e4cf23c7c5174091e66607a5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga07d345ebd78ee59e02d2dede5695ccec"></a>
@@ -1366,6 +1378,32 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="gga704173d4af563d253fd4307311ac3d69a481e9132e8933bf719c179d534e8c843"></a>CY_PD_TYPEC_EVT_UNATTACHED_SNK&#160;</td><td class="fielddoc"><p>Transition to Unattached.SNK state. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga704173d4af563d253fd4307311ac3d69aae41aff0e94ff71f65a3e0d92285a257"></a>CY_PD_TYPEC_EVT_STOP_FSM&#160;</td><td class="fielddoc"><p>Stop the Type C State machine. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gac148f7e4cf23c7c5174091e66607a5bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac148f7e4cf23c7c5174091e66607a5bb">&#9670;&nbsp;</a></span>cy_en_pd_extd_alert_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb">cy_en_pd_extd_alert_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Types of extended alert events. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggac148f7e4cf23c7c5174091e66607a5bba9367597191ff5905924fb2e90f7f0133"></a>CY_PD_EXTD_ALERT_TYPE_PWR_STATE_CHANGE&#160;</td><td class="fielddoc"><p>Power state change (DFP only). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac148f7e4cf23c7c5174091e66607a5bbaa770daf6191f0961adc2a46070d31cd4"></a>CY_PD_EXTD_ALERT_TYPE_PWR_BTN_PRESS&#160;</td><td class="fielddoc"><p>Power button press (UFP only). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac148f7e4cf23c7c5174091e66607a5bba1ecb8607d8ada406965fc90170c6af64"></a>CY_PD_EXTD_ALERT_TYPE_PWR_BTN_RELEASE&#160;</td><td class="fielddoc"><p>Power button release (UFP only). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac148f7e4cf23c7c5174091e66607a5bbab12565604425a6c5b6f7e8acb3b440ea"></a>CY_PD_EXTD_ALERT_TYPE_CTRLR_WAKE&#160;</td><td class="fielddoc"><p>Controller initiated wake (UFP only). </p>
 </td></tr>
 </table>
 

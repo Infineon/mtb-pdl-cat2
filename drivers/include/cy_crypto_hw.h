@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_hw.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides Control and Status API declaration of the Crypto driver
@@ -56,7 +56,7 @@ extern "C" {
 * Crypto status \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoStartCryptoUse
+* \snippet crypto_snippet.c snippet_myCryptoStartCryptoUse
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Enable(CRYPTO_Type *base)
@@ -84,7 +84,7 @@ __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Enable(CRYPTO_Type *base)
 * Crypto status \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoStopCryptoUse
+* \snippet crypto_snippet.c snippet_myCryptoStopCryptoUse
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Disable(CRYPTO_Type *base)
@@ -112,7 +112,7 @@ __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Disable(CRYPTO_Type *base)
 * Crypto hardware status. True if enabled; else false.
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoStopCryptoUse
+* \snippet crypto_snippet.c snippet_myCryptoStopCryptoUse
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_Crypto_IsEnabled(CRYPTO_Type *base)
@@ -140,7 +140,7 @@ __STATIC_INLINE bool Cy_Crypto_IsEnabled(CRYPTO_Type *base)
 * Crypto status \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoClearStateUse
+* \snippet crypto_snippet.c snippet_myCryptoClearStateUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_ClearState(CRYPTO_Type *base);
@@ -156,7 +156,7 @@ cy_en_crypto_status_t Cy_Crypto_ClearState(CRYPTO_Type *base);
 * Base address of the Crypto block registers
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoWaitForReadyUse
+* \snippet crypto_snippet.c snippet_myCryptoWaitForReadyUse
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_Crypto_WaitForReady(CRYPTO_Type *base)

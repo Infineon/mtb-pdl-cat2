@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<baseview>
+  <mcu>CortexM0</mcu>
+  <vendor>Infineon</vendor>
+  <flash>131072</flash>
+  <ram>16384</ram>
+  <package>68-QFN_1</package>
+  <minvoltage>3000</minvoltage>
+  <maxvoltage>5500</maxvoltage>
+  <description>The CYWP1150-68LQXQ device.</description>
+</baseview>

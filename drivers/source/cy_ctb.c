@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ctb.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * Provides the public functions for the CTB driver.
@@ -97,7 +97,7 @@ void Cy_CTB_Disable(CTBM_Type * base)
 * and Opamp1 as an opamp follower with an external (10x) drive. The terminals
 * are routed to external pins by closing the switches shown.
 *
-* \snippet ctb/snippet/main.c SNIPPET_CTBINIT
+* \snippet ctb_snippet.c SNIPPET_CTBINIT
 *
 *******************************************************************************/
 cy_en_ctb_status_t Cy_CTB_Init(CTBM_Type * base, const cy_stc_ctb_config_t * config)
@@ -154,7 +154,7 @@ cy_en_ctb_status_t Cy_CTB_Init(CTBM_Type * base, const cy_stc_ctb_config_t * con
 * The status of initialization, \ref CY_CTB_SUCCESS or \ref CY_CTB_BAD_PARAM
 *
 * \funcusage
-* \snippet ctb/snippet/main.c SNIPPET_OPAMPINIT
+* \snippet ctb_snippet.c SNIPPET_OPAMPINIT
 *
 *******************************************************************************/
 cy_en_ctb_status_t Cy_CTB_OpampInit(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, const cy_stc_ctb_opamp_config_t * config)
@@ -283,7 +283,7 @@ cy_en_ctb_status_t Cy_CTB_DeInit(CTBM_Type * base, bool deInitRouting)
 * \param deepSleep Enable operation in Deep Sleep power mode
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_DEEPSLEEP_MODE
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_DEEPSLEEP_MODE
 *
 *******************************************************************************/
 void Cy_CTB_SetDeepSleepMode(CTBM_Type * base, bool deepSleep)
@@ -310,7 +310,7 @@ void Cy_CTB_SetDeepSleepMode(CTBM_Type * base, bool deepSleep)
 *
 * \funcusage
 *
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_OUTPUT_MODE
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_OUTPUT_MODE
 *
 *******************************************************************************/
 void Cy_CTB_SetOutputMode(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, cy_en_ctb_output_t outputMode)
@@ -363,7 +363,7 @@ void Cy_CTB_SetOutputMode(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, cy_e
 * Enable or disable the charge pump.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_POWER
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_POWER
 *
 *******************************************************************************/
 void Cy_CTB_SetPower(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, cy_en_ctb_power_t power, bool pump)
@@ -433,7 +433,7 @@ void Cy_CTB_SetPower(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, cy_en_ctb
 * The trim value is from 0 to 63.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_OFFSET_TRIM
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_OFFSET_TRIM
 *
 *******************************************************************************/
 void Cy_CTB_OpampSetOffset(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, uint32_t trim)
@@ -469,7 +469,7 @@ void Cy_CTB_OpampSetOffset(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, uin
 * \return Offset trim value
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_OFFSET_TRIM
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_OFFSET_TRIM
 *
 *******************************************************************************/
 uint32_t Cy_CTB_OpampGetOffset(const CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum)
@@ -545,7 +545,7 @@ uint32_t Cy_CTB_OpampGetOffset(const CTBM_Type * base, cy_en_ctb_opamp_sel_t opa
 * The trim value is from 0 to 63.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_SLOPE_TRIM
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_SLOPE_TRIM
 *
 *******************************************************************************/
 void Cy_CTB_OpampSetSlope(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, uint32_t trim)
@@ -581,7 +581,7 @@ void Cy_CTB_OpampSetSlope(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, uint
 * \return Slope trim value
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_SLOPE_TRIM
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_SLOPE_TRIM
 *
 *******************************************************************************/
 uint32_t Cy_CTB_OpampGetSlope(const CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum)
@@ -623,7 +623,7 @@ uint32_t Cy_CTB_OpampGetSlope(const CTBM_Type * base, cy_en_ctb_opamp_sel_t opam
 * \ref cy_en_ctb_dsab_bias_source_t
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_DSAB_BIAS_SOURCE
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_DSAB_BIAS_SOURCE
 *
 *******************************************************************************/
 void Cy_CTB_DSAB_SetSource(CTBM_Type * base, cy_en_ctb_dsab_bias_source_t biasSource)
@@ -651,7 +651,7 @@ void Cy_CTB_DSAB_SetSource(CTBM_Type * base, cy_en_ctb_dsab_bias_source_t biasSo
 * \ref cy_en_ctb_dsab_bias_source_t
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_DSAB_BIAS_SOURCE
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_DSAB_BIAS_SOURCE
 *
 *******************************************************************************/
 cy_en_ctb_dsab_bias_source_t Cy_CTB_DSAB_GetSource(const CTBM_Type *base)
@@ -680,7 +680,7 @@ cy_en_ctb_dsab_bias_source_t Cy_CTB_DSAB_GetSource(const CTBM_Type *base)
 * The bias current value.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_DSAB_BIAS_CURRENT
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_DSAB_BIAS_CURRENT
 *
 *******************************************************************************/
 void Cy_CTB_DSAB_SetCurrent(CTBM_Type * base, uint32_t biasCurrent)
@@ -702,7 +702,7 @@ void Cy_CTB_DSAB_SetCurrent(CTBM_Type * base, uint32_t biasCurrent)
 * \return The bias current value.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_DSAB_BIAS_CURRENT
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_DSAB_BIAS_CURRENT
 *
 *******************************************************************************/
 uint32_t Cy_CTB_DSAB_GetCurrent(const CTBM_Type * base)
@@ -727,8 +727,8 @@ uint32_t Cy_CTB_DSAB_GetCurrent(const CTBM_Type * base)
 * Clock source selection for the pump. See \ref cy_en_ctb_clk_pump_source_t.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
 *
 *******************************************************************************/
 void Cy_CTB_SetPumpClkSource(CTBM_Type * base, cy_en_ctb_clk_pump_source_t pumpClk)
@@ -763,7 +763,7 @@ void Cy_CTB_SetPumpClkSource(CTBM_Type * base, cy_en_ctb_clk_pump_source_t pumpC
 * The boolean switch state: true - closed, false - opened.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_ANALOG_SWITCH
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_ANALOG_SWITCH
 *
 *******************************************************************************/
 void Cy_CTB_SetAnalogSwitch(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, uint32_t switchMask, bool switchState)
@@ -818,7 +818,7 @@ void Cy_CTB_SetAnalogSwitch(CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum, ui
 * \ref group_ctb_opamp_switch_macros
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_ANALOG_SWITCH
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_ANALOG_SWITCH
 *
 *******************************************************************************/
 uint32_t Cy_CTB_GetAnalogSwitch(const CTBM_Type * base, cy_en_ctb_opamp_sel_t opampNum)
@@ -860,7 +860,7 @@ uint32_t Cy_CTB_GetAnalogSwitch(const CTBM_Type * base, cy_en_ctb_opamp_sel_t op
 * The type of the edge that will trigger an interrupt. Select a value from \ref cy_en_ctb_comp_edge_t.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_COMP_SET_INTERRUPT_EDGE_TYPE
+* \snippet ctb_snippet.c CTB_SNIPPET_COMP_SET_INTERRUPT_EDGE_TYPE
 *
 *******************************************************************************/
 void Cy_CTB_CompSetInterruptEdgeType(CTBM_Type * base, cy_en_ctb_opamp_sel_t compNum, cy_en_ctb_comp_edge_t edge)
@@ -906,7 +906,7 @@ void Cy_CTB_CompSetInterruptEdgeType(CTBM_Type * base, cy_en_ctb_opamp_sel_t com
 * - 1: The status is high
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_COMP_GET_STATUS
+* \snippet ctb_snippet.c CTB_SNIPPET_COMP_GET_STATUS
 *
 *******************************************************************************/
 uint32_t Cy_CTB_CompGetStatus(const CTBM_Type * base, cy_en_ctb_opamp_sel_t compNum)

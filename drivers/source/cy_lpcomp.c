@@ -1,6 +1,6 @@
 /*******************************************************************************
 * \file cy_lpcomp.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides the driver code to the API for the low-power comparator.
@@ -411,7 +411,7 @@ cy_en_syspm_status_t Cy_LPComp_DeepSleepCallback(cy_stc_syspm_callback_params_t 
 *  Cy_LPComp_LoadTrim() API routine.
 *
 * \funcusage
-* \snippet lpcomp/snippet/main.c LPCOMP_TRIM
+* \snippet lpcomp_snippet.c LPCOMP_TRIM
 *
 *******************************************************************************/
 uint32_t Cy_LPComp_ZeroCal(LPCOMP_Type const * base, cy_en_lpcomp_channel_t channel)

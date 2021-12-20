@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syspm.h
-* \version 2.10
+* \version 3.0
 *
 * Provides the function definitions for the power management API.
 *
@@ -163,7 +163,7 @@
 * Let's first declare the callback functions. Each gets the pointer to the
 * \ref cy_stc_syspm_callback_params_t structure as the argument.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_Callback_Func_Declaration
+* \snippet syspm_snippet.c snippet_Cy_SysPm_Callback_Func_Declaration
 *
 * Now we setup the \ref cy_stc_syspm_callback_params_t structures that we will
 * pass to the callback functions. Note that for the MyDeepSleepFunc2 and
@@ -172,7 +172,7 @@
 * The configuration considerations related to this structure are described
 * in \ref group_syspm_cb_parameters in \ref group_syspm_cb_config_consideration.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_Callback_Params_Declaration
+* \snippet syspm_snippet.c snippet_Cy_SysPm_Callback_Params_Declaration
 *
 * Now we setup the actual callback configuration structures. Each of these
 * contains, among the other fields, the address of the
@@ -184,7 +184,7 @@
 * \ref group_syspm_cb_function_implementation in
 * \ref group_syspm_cb_config_consideration.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_Callback_Structure_Declaration
+* \snippet syspm_snippet.c snippet_Cy_SysPm_Callback_Structure_Declaration
 *
 * Note that in each case the last two fields are NULL. These are fields used by
 * the SysPm driver to set up the linked list of callback functions.
@@ -198,7 +198,7 @@
 * \ref group_syspm_cb_config_consideration for the instructions on how the
 * callback functions should be implemented.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_Callback_Func_Implementation
+* \snippet syspm_snippet.c snippet_Cy_SysPm_Callback_Func_Implementation
 *
 * Finally, we register the callbacks so that the SysPm driver knows about them.
 * The order in which the callbacks will be called depends upon the order in
@@ -211,7 +211,7 @@
 * entering the low power mode, and restore those resources first, as the system
 * returns from low power mode.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_RegisterCallback
+* \snippet syspm_snippet.c snippet_Cy_SysPm_RegisterCallback
 *
 * We are done configuring three callbacks. Now the SysPm driver will execute the
 * callbacks appropriately whenever there is a call to a power mode transition
@@ -355,7 +355,7 @@
 * * Callbacks with the higher cy_stc_syspm_callback_t.order are executed last
 * when entering into low power and first when exiting from low power.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_RegisterCallback
+* \snippet syspm_snippet.c snippet_Cy_SysPm_RegisterCallback
 *
 * Callbacks with equal cy_stc_syspm_callback_t.order values are
 * registered in the same order as they are registered:
@@ -378,7 +378,7 @@
 * Unregistering the callback might be useful when you need to dynamically manage
 * the callbacks.
 *
-* \snippet syspm/snippet/main.c snippet_Cy_SysPm_UnregisterCallback
+* \snippet syspm_snippet.c snippet_Cy_SysPm_UnregisterCallback
 * The callback structures after myDeepSleep2 callback is unregistered:
 * \image html syspm_unregistration.png
 *
@@ -395,6 +395,28 @@
 *
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">3.0</td>
+*     <td>Added \ref Cy_SysPm_CpuEnterSleepNoCallbacks() and
+*         \ref Cy_SysPm_CpuEnterDeepSleepNoCallbacks(). 
+*         Alternative to \ref Cy_SysPm_CpuEnterSleep() and
+*         \ref Cy_SysPm_CpuEnterDeepSleep() but without execution of
+*         registered callbacks. The newly added functions can be used for
+*         minimization of flash memory consumption and/or speed-up of
+*         the Low-power mode entry/exit. The application is responsible
+*         for preparing a device for entering Low-power mode and
+*         restoring its state on a wakeup. </td>
+*     <td>Flash memory consumption optimization</td>
+*   </tr>
+*   <tr>
+*     <td>Removed unused status macros.</td>
+*     <td>Code cleanup.</td>
+*   </tr>
+*   <tr>
+*     <td>2.10.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>2.10</td>
 *     <td>Corrected the size of the internal callback array to match the number
@@ -434,7 +456,6 @@
 #include <stddef.h>
 
 #include "cy_device.h"
-#include "cy_device_headers.h"
 #include "cy_syslib.h"
 
 #ifdef __cplusplus
@@ -451,31 +472,13 @@ extern "C" {
 */
 
 /** Driver major version */
-#define CY_SYSPM_DRV_VERSION_MAJOR       2
+#define CY_SYSPM_DRV_VERSION_MAJOR       3
 
 /** Driver minor version */
-#define CY_SYSPM_DRV_VERSION_MINOR       10
+#define CY_SYSPM_DRV_VERSION_MINOR       0
 
 /** SysPm driver identifier */
 #define CY_SYSPM_ID                      (CY_PDL_DRV_ID(0x10U))
-
-
-/**
-* \defgroup group_syspm_return_status The Power Mode Status Defines
-* \{
-* Defines for the CPU and system power modes status.
-*/
-
-/** The system is in CPU Active mode */
-#define CY_SYSPM_STATUS_ACTIVE       (0x01U)
-
-/** The system is in CPU Sleep mode */
-#define CY_SYSPM_STATUS_SLEEP        (0x02U)
-
-/** The system is in CPU Deep Sleep mode */
-#define CY_SYSPM_STATUS_DEEPSLEEP    (0x04U)
-
-/** \} group_syspm_return_status */
 
 
 /*******************************************************************************
@@ -641,6 +644,8 @@ typedef struct cy_stc_syspm_callback
 */
 cy_en_syspm_status_t Cy_SysPm_CpuEnterSleep(void);
 cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void);
+void Cy_SysPm_CpuEnterSleepNoCallbacks(void);
+void Cy_SysPm_CpuEnterDeepSleepNoCallbacks(void);
 void                 Cy_SysPm_SleepOnExit(bool enable);
 /** \} group_syspm_functions_power */
 

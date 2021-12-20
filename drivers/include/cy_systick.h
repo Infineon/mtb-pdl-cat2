@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_systick.h
-* \version 1.20.1
+* \version 1.20.2
 *
 * Provides the API declarations of the SysTick driver.
 *
@@ -60,9 +60,9 @@
 *
 * Example of SysTick initialization. At first define SysTick callback, which will
 * be invoked at each SysTick interrupt.
-* \snippet systick/snippet/main.c snippet_Cy_SysTick_Callback
+* \snippet systick_snippet.c snippet_Cy_SysTick_Callback
 * At second step initialize SysTick and register created callback function.
-* \snippet systick/snippet/main.c snippet_Cy_SysTick_Configuration
+* \snippet systick_snippet.c snippet_Cy_SysTick_Configuration
 *
 * \section group_systick_more_information More Information
 *
@@ -74,6 +74,11 @@
 *
 * <table class="doxtable">
 * <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+* <tr>
+* <td>1.20.2</td>
+* <td>Update the paths to the code snippets.</td>
+* <td>PDL structure update.</td>
+* </tr>
 * <tr>
 * <td>1.20.1</td>
 * <td>

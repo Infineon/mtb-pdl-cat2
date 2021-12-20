@@ -32,5 +32,6 @@ var group__group__usbpd__typec__functions =
     [ "Cy_USBPD_VsysCompStatus", "group__group__usbpd__typec__functions.html#gae1c9d6e5a355c0957d8c14a6413ebabd", null ],
     [ "Cy_USBPD_SetEvtCb", "group__group__usbpd__typec__functions.html#ga1bbf0c04678a7bc93277d1ec64247ed2", null ],
     [ "Cy_USBPD_SetTypeCEvtCb", "group__group__usbpd__typec__functions.html#gac4c7ef2e5718b5636b4885c64fa163d8", null ],
+    [ "Cy_USBPD_SetSbuLevelDetect_EvtCb", "group__group__usbpd__typec__functions.html#gaeb808a097a2c41c8bb2ad5cee069b33f", null ],
     [ "Cy_USBPD_Intr1Handler", "group__group__usbpd__typec__functions.html#ga13ead41685ab00f543b9182d8986342a", null ]
 ];

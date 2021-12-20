@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 1.20
+* \version 1.30
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -55,16 +55,22 @@
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
 
 /**  Get the maximum from among two numbers. */
-#define GET_MAX(a,b)    (((a) > (b)) ? (a) : (b))
+#define CY_USBPD_GET_MAX(a,b)    (((a) > (b)) ? (a) : (b))
 
 /**  Get the minimum from among two numbers. */
-#define GET_MIN(a,b)    (((a) > (b)) ? (b) : (a))
+#define CY_USBPD_GET_MIN(a,b)    (((a) > (b)) ? (b) : (a))
 
 /** Retrieve the LSB from a DWORD. */
-#define DWORD_GET_BYTE0(dw)     ((uint8_t)((dw) & 0xFF))
+#define CY_USBPD_DWORD_GET_BYTE0(dw)     ((uint8_t)((dw) & 0xFFUL))
 
 /** Retrieve the bits 15-8 from a DWORD. */
-#define DWORD_GET_BYTE1(dw)     ((uint8_t)(((dw) >> 8) & 0xFF))
+#define CY_USBPD_DWORD_GET_BYTE1(dw)     ((uint8_t)(((dw) >> 8) & 0xFFUL))
+
+/** Retrieve the bits 23-16 from a DWORD. */
+#define CY_USBPD_DWORD_GET_BYTE2(dw)     ((uint8_t)(((dw) >> 16) & 0xFFUL))
+
+/** Retrieve the MSB from a DWORD. */
+#define CY_USBPD_DWORD_GET_BYTE3(dw)     ((uint8_t)(((dw) >> 24) & 0xFFUL))
 
 /** \} group_usbpd_common_macros */
 
@@ -384,7 +390,11 @@ typedef enum
     CHGB_SINK_TERM_PCD,                 /**< Primary charger detect. */
     CHGB_SINK_TERM_SCD,                 /**< Secondary charger detect. */
     CHGB_SINK_TERM_AFC,                 /**< AFC detect */
-    CHGB_SINK_TERM_APPLE                /**< Apple detect */
+    CHGB_SINK_TERM_APPLE,               /**< Apple detect */
+    CHGB_SINK_TERM_QC_5V,               /**< QC 5V detect */
+    CHGB_SINK_TERM_QC_9V,               /**< QC 9V detect */
+    CHGB_SINK_TERM_QC_12V,              /**< QC 12V detect */
+    CHGB_SINK_TERM_QC_20V              /**< QC 20V detect */
 } cy_en_usbpd_bch_snk_term_t;
 
 
@@ -467,7 +477,7 @@ typedef enum
 /**
  * Callback function used to provide notification about input supply changes.
  *
- * @param port PD port associated with the supply.
+ * @param context Pointer to the context structure.
  * @param supply_id ID of the supply on which change is detected.
  * @param present Whether the identified supply is now present (true) or absent (false).
  */
@@ -487,6 +497,9 @@ typedef bool (*cy_cb_vbus_fault_t)(void *context, bool compOut);
 
 /** ADC Events callback function. */
 typedef void (*cy_cb_adc_events_t)(void *context, bool compOut);
+
+/** SBU level detected callback function. */
+typedef void (*cy_cb_sbu_level_detect_t)(void *context, bool sbu1Detect, bool sbu2Detect);
 
 /** HPD event callback function. 
  * This function is used by the HAL layer to notify the DisplayPort
@@ -837,6 +850,9 @@ typedef struct
 
     /** ADC callback. */
     cy_cb_adc_events_t adcCb[CY_USBPD_ADC_NUM_ADC];
+
+    /** SBU level detect callback */
+    cy_cb_sbu_level_detect_t sbuDetectCb;
 
     /** The tx data count. */
     uint8_t txDobjCount;

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_prng.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides PRNG API declaration of the Crypto driver
@@ -80,7 +80,7 @@ extern "C" {
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoPrngUse
+* \snippet crypto_snippet.c snippet_myCryptoPrngUse
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Prng_Init(CRYPTO_Type *base,
@@ -149,7 +149,7 @@ __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Prng_Init(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoPrngUse
+* \snippet crypto_snippet.c snippet_myCryptoPrngUse
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_crypto_status_t Cy_Crypto_Prng(CRYPTO_Type *base,

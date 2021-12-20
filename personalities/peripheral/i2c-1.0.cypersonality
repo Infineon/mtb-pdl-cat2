@@ -90,7 +90,7 @@
     <ParamString id="ScbClkMaxMHz" name="ScbClkMaxMHz" group="Internal" default="`${Master ? ((DataRate &lt;= 100) ? 3.2 : ((DataRate &gt; 100) &amp;&amp; (DataRate &lt;= 400)) ? 10.0 : 25.8) : ((DataRate &lt;= 100) ? 12.8 : ((DataRate &gt; 100) &amp;&amp; (DataRate &lt;= 400)) ? 15.38 : 48.0)}`" visible="false" editable="false" desc="Maximum clock frequency to operate with desired data rate." />
 
     <!-- Connections -->
-    <ParamSignal port="clock[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false" >
+    <ParamSignal port="clock[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false" isDependency="true" >
       <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="`${!ManualDataRate}`" >
         <Parameter id="intDivider" severity="ERROR" reason="The clock frequency must be within the range `${ScbClkMinMHz}` - `${ScbClkMaxMHz}` MHz to operate with Data Rate `${DataRate}` kbps." valid="`${!ManualDataRate}`">
           <Range
@@ -106,7 +106,7 @@
     <Constraint type="ACCEPT" targetLocation=".*" valid="`${ManualDataRate}`" />
     </ParamSignal>
 
-    <ParamSignal port="i2c_scl[0]" name="SCL" group="Connections" visible="true" desc="Serial clock (SCL) is the master-generated I2C clock." canBeEmpty="false">
+    <ParamSignal port="i2c_scl[0]" name="SCL" group="Connections" visible="true" desc="Serial clock (SCL) is the master-generated I2C clock." canBeEmpty="false" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
@@ -119,7 +119,7 @@
       </Constraint>
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
-    <ParamSignal port="i2c_sda[0]" name="SDA" group="Connections" visible="true" desc="Serial data (SDA) is the I2C data signal." canBeEmpty="false">
+    <ParamSignal port="i2c_sda[0]" name="SDA" group="Connections" visible="true" desc="Serial data (SDA) is the I2C data signal." canBeEmpty="false" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="DEFAULT" reason="">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />

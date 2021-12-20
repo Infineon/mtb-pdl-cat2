@@ -4174,20 +4174,20 @@
     <Signal name="amuxbus_b_csd" type="" terminalCount="0" />
     <Signal name="amuxbus_b_pass" type="" terminalCount="0" />
     <Signal name="p0_0" type="Analog" terminalCount="2">
-      <Terminal name="cy_shapetag_disconnect_9.a" type="Instance Analog InOut" />
       <Terminal name="cy_shapetag_disconnect_24.a" type="Instance Analog InOut" />
+      <Terminal name="cy_shapetag_disconnect_9.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p0_1" type="Analog" terminalCount="2">
-      <Terminal name="cy_shapetag_disconnect_8.a" type="Instance Analog InOut" />
       <Terminal name="cy_shapetag_disconnect_25.a" type="Instance Analog InOut" />
+      <Terminal name="cy_shapetag_disconnect_8.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p0_2" type="Analog" terminalCount="2">
-      <Terminal name="cy_shapetag_disconnect_7.a" type="Instance Analog InOut" />
       <Terminal name="cy_shapetag_disconnect_26.a" type="Instance Analog InOut" />
+      <Terminal name="cy_shapetag_disconnect_7.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p0_3" type="Analog" terminalCount="2">
-      <Terminal name="cy_shapetag_disconnect_6.a" type="Instance Analog InOut" />
       <Terminal name="cy_shapetag_disconnect_27.a" type="Instance Analog InOut" />
+      <Terminal name="cy_shapetag_disconnect_6.a" type="Instance Analog InOut" />
     </Signal>
     <Signal name="p0_4" type="" terminalCount="0" />
     <Signal name="p0_5" type="" terminalCount="0" />

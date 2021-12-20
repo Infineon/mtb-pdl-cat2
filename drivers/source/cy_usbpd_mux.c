@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 1.20
+* \version 1.30
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
@@ -116,13 +116,15 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
                                                      cy_en_usbpd_sbu_switch_state_t sbu1State, 
                                                      cy_en_usbpd_sbu_switch_state_t sbu2State) 
 {
-#if defined(CY_DEVICE_CCG6)
+    /* Used CCG6 macro instead CY_DEVICE_CCG6 here since SBU MUX
+     * is not advertised for PMG1S1 device */
+#if defined(CCG6)
     PPDSS_REGS_T pd = context->base; 
     uint32_t sbu1val;
     uint32_t sbu2val;
     uint32_t intstate;
 
-    /* Check that state values are withing allowed range. */
+    /* Check that state values are within allowed range. */
     if ((sbu1State >= CY_USBPD_SBU_MAX_STATE) || (sbu2State >= CY_USBPD_SBU_MAX_STATE))
     {
         /* Don't service the request. */

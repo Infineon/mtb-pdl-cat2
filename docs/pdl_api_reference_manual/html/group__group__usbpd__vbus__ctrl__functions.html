@@ -284,11 +284,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID. <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer or adcID is invalid. </dd></dl>
 
 </div>
 </div>
@@ -329,7 +329,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID. <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a></td></tr>
     <tr><td class="paramname">volt</td><td>Voltage in millivolt</td></tr>
   </table>
   </dd>
@@ -375,7 +375,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID. <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a></td></tr>
     <tr><td class="paramname">level</td><td>The 8-bit ADC reading.</td></tr>
   </table>
   </dd>
@@ -421,7 +421,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID. <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a></td></tr>
     <tr><td class="paramname">level</td><td>The 8-bit ADC reading.</td></tr>
   </table>
   </dd>
@@ -474,7 +474,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
     <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
-    <tr><td class="paramname">level</td><td>Comparator level.</td></tr>
+    <tr><td class="paramname">level</td><td>Comparator level (8-bit ADC count)</td></tr>
   </table>
   </dd>
 </dl>
@@ -539,7 +539,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
     <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
-    <tr><td class="paramname">level</td><td>Comparator level.</td></tr>
+    <tr><td class="paramname">level</td><td>Comparator level (8-bit ADC count)</td></tr>
     <tr><td class="paramname">intCfg</td><td>Interrupt configuration</td></tr>
     <tr><td class="paramname">cb</td><td>Callback to be called on interrupt. </td></tr>
   </table>
@@ -593,7 +593,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
     <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
-    <tr><td class="paramname">level</td><td>Value to compare the input voltage against.</td></tr>
+    <tr><td class="paramname">level</td><td>Value(8-bit ADC count) to compare the input voltage against.</td></tr>
   </table>
   </dd>
 </dl>
@@ -952,7 +952,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID. <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a></td></tr>
     <tr><td class="paramname">adcInp</td><td>ADC input source. </td></tr>
   </table>
   </dd>

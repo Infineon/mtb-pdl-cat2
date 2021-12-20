@@ -132,6 +132,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga17ee3ee4a555dbb05c6a4d6509cf27d9"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9">Cy_GPIO_GetSlewRate</a> (const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *base)</td></tr>
 <tr class="memdesc:ga17ee3ee4a555dbb05c6a4d6509cf27d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the port output buffer slew rate.  <a href="#ga17ee3ee4a555dbb05c6a4d6509cf27d9">More...</a><br /></td></tr>
 <tr class="separator:ga17ee3ee4a555dbb05c6a4d6509cf27d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7492265bfbdc0c5a27600856efa06af"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__gpio__functions__gpio.html#gad7492265bfbdc0c5a27600856efa06af">Cy_GPIO_MscControlEnable</a> (const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *base, uint32_t pinNum)</td></tr>
+<tr class="memdesc:gad7492265bfbdc0c5a27600856efa06af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables control of the IO port analog signaling by the MSCV3LP IP block.  <a href="#gad7492265bfbdc0c5a27600856efa06af">More...</a><br /></td></tr>
+<tr class="separator:gad7492265bfbdc0c5a27600856efa06af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5f5f1eb49752a3ded639e68757e3dbe2"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__gpio__functions__gpio.html#ga5f5f1eb49752a3ded639e68757e3dbe2">Cy_GPIO_MscControlDisable</a> (const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *base, uint32_t pinNum)</td></tr>
+<tr class="memdesc:ga5f5f1eb49752a3ded639e68757e3dbe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables control of the IO port analog signaling by the MSCV3LP IP block.  <a href="#ga5f5f1eb49752a3ded639e68757e3dbe2">More...</a><br /></td></tr>
+<tr class="separator:ga5f5f1eb49752a3ded639e68757e3dbe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9f02e2358613a412cb4e44a6c9c092e5"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__gpio__functions__gpio.html#ga9f02e2358613a412cb4e44a6c9c092e5">Cy_GPIO_MscControlIsEnabled</a> (const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *base, uint32_t pinNum)</td></tr>
+<tr class="memdesc:ga9f02e2358613a412cb4e44a6c9c092e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the enable status of by the MSCV3LP IP block control for that particular pin.  <a href="#ga9f02e2358613a412cb4e44a6c9c092e5">More...</a><br /></td></tr>
+<tr class="separator:ga9f02e2358613a412cb4e44a6c9c092e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga8d7972a161fe097a01a55f9cd31b1f03"></a>
@@ -251,7 +260,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Logic level present on the pin</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: P0.3 was initialized and input buffer enabled */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Read the input state of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(1UL == <a class="code" href="group__group__gpio__functions__gpio.html#ga2aee7ad6dd3a3b533f491ebe528d8edb">Cy_GPIO_Read</a>(P0_3_PORT, P0_3_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert logic for High pin state */</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span></div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert logic for Low pin state */</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: P0.3 was initialized and input buffer enabled */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Read the input state of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(1UL == <a class="code" href="group__group__gpio__functions__gpio.html#ga2aee7ad6dd3a3b533f491ebe528d8edb">Cy_GPIO_Read</a>(P0_0_PORT, P0_0_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert logic for High pin state */</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span></div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert logic for Low pin state */</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -297,7 +306,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    uint32_t pinState = 0UL;</div><div class="line"></div><div class="line">    <span class="comment">/* Control P0.3 based on the pinState variable */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga849c813d6771bf8d3c59b89b28a07bca">Cy_GPIO_Write</a>(P0_3_PORT, P0_3_NUM, pinState);</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    uint32_t pinState = 0UL;</div><div class="line"></div><div class="line">    <span class="comment">/* Control P0.3 based on the pinState variable */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga849c813d6771bf8d3c59b89b28a07bca">Cy_GPIO_Write</a>(P0_0_PORT, P0_0_NUM, pinState);</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -336,7 +345,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Logic level on the pin output driver</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Write logic low to P0.3 */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga849c813d6771bf8d3c59b89b28a07bca">Cy_GPIO_Write</a>(P0_3_PORT, P0_3_NUM, 0UL);</div><div class="line"></div><div class="line">    <span class="comment">/* Get the output value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(0UL != <a class="code" href="group__group__gpio__functions__gpio.html#gab36ba6901fc0b12355a0f8f9b2f3708e">Cy_GPIO_ReadOut</a>(P0_3_PORT, P0_3_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert error handling */</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Write logic low to P0.3 */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga849c813d6771bf8d3c59b89b28a07bca">Cy_GPIO_Write</a>(P0_0_PORT, P0_0_NUM, 0UL);</div><div class="line"></div><div class="line">    <span class="comment">/* Get the output value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(0UL != <a class="code" href="group__group__gpio__functions__gpio.html#gab36ba6901fc0b12355a0f8f9b2f3708e">Cy_GPIO_ReadOut</a>(P0_0_PORT, P0_0_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Insert error handling */</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -375,7 +384,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Set P0.3 (out value = High) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga068ac50b08ea0a8ecff8c4e67f62208f">Cy_GPIO_Set</a>(P0_3_PORT, P0_3_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Set P0.3 (out value = High) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga068ac50b08ea0a8ecff8c4e67f62208f">Cy_GPIO_Set</a>(P0_0_PORT, P0_0_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -414,7 +423,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Clear P0.3 (out value = Low) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#gacd73037c676059312d4dc794a32aec13">Cy_GPIO_Clr</a>(P0_3_PORT, P0_3_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Clear P0.3 (out value = Low) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#gacd73037c676059312d4dc794a32aec13">Cy_GPIO_Clr</a>(P0_0_PORT, P0_0_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -453,7 +462,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Invert P0.3 (out value = ~(out value)) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga5c6e1b88d80a5b9fcdb215273e7cf058">Cy_GPIO_Inv</a>(P0_3_PORT, P0_3_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Invert P0.3 (out value = ~(out value)) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__gpio.html#ga5c6e1b88d80a5b9fcdb215273e7cf058">Cy_GPIO_Inv</a>(P0_0_PORT, P0_0_NUM);</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -500,7 +509,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function modifies a port register in a read-modify-write operation. It is not thread safe as the resource is shared among multiple pins on a port.</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Enter deep-sleep with reduced leakage current on P0.3 */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the drive mode of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__drive_modes.html#ga9e554ee7c43ac65a6d48274455b53823">CY_GPIO_DM_STRONG</a>== <a class="code" href="group__group__gpio__functions__gpio.html#ga59bcde56c9057284dfa4eada6f852241">Cy_GPIO_GetDrivemode</a>(P0_3_PORT, P0_3_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the drive mode of P0.3 to analog (hi-z, input buffer off) */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga97e64dc8c45e7cd73e3012100d03b1fd">Cy_GPIO_SetDrivemode</a>(P0_3_PORT, P0_3_NUM, <a class="code" href="group__group__gpio__drive_modes.html#gabb81a7da2a4cd1ed6501515f9b6950e8">CY_GPIO_DM_ANALOG</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Enter deep-sleep with reduced leakage current on P0.3 */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the drive mode of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__drive_modes.html#ga9e554ee7c43ac65a6d48274455b53823">CY_GPIO_DM_STRONG</a>== <a class="code" href="group__group__gpio__functions__gpio.html#ga59bcde56c9057284dfa4eada6f852241">Cy_GPIO_GetDrivemode</a>(P0_0_PORT, P0_0_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the drive mode of P0.3 to analog (hi-z, input buffer off) */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga97e64dc8c45e7cd73e3012100d03b1fd">Cy_GPIO_SetDrivemode</a>(P0_0_PORT, P0_0_NUM, <a class="code" href="group__group__gpio__drive_modes.html#gabb81a7da2a4cd1ed6501515f9b6950e8">CY_GPIO_DM_ANALOG</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -539,7 +548,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pin drive mode. Options are detailed in <a class="el" href="group__group__gpio__drive_modes.html">Pin drive mode</a> macros</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Enter deep-sleep with reduced leakage current on P0.3 */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the drive mode of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__drive_modes.html#ga9e554ee7c43ac65a6d48274455b53823">CY_GPIO_DM_STRONG</a>== <a class="code" href="group__group__gpio__functions__gpio.html#ga59bcde56c9057284dfa4eada6f852241">Cy_GPIO_GetDrivemode</a>(P0_3_PORT, P0_3_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the drive mode of P0.3 to analog (hi-z, input buffer off) */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga97e64dc8c45e7cd73e3012100d03b1fd">Cy_GPIO_SetDrivemode</a>(P0_3_PORT, P0_3_NUM, <a class="code" href="group__group__gpio__drive_modes.html#gabb81a7da2a4cd1ed6501515f9b6950e8">CY_GPIO_DM_ANALOG</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Enter deep-sleep with reduced leakage current on P0.3 */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the drive mode of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__drive_modes.html#ga9e554ee7c43ac65a6d48274455b53823">CY_GPIO_DM_STRONG</a>== <a class="code" href="group__group__gpio__functions__gpio.html#ga59bcde56c9057284dfa4eada6f852241">Cy_GPIO_GetDrivemode</a>(P0_0_PORT, P0_0_NUM))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the drive mode of P0.3 to analog (hi-z, input buffer off) */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga97e64dc8c45e7cd73e3012100d03b1fd">Cy_GPIO_SetDrivemode</a>(P0_0_PORT, P0_0_NUM, <a class="code" href="group__group__gpio__drive_modes.html#gabb81a7da2a4cd1ed6501515f9b6950e8">CY_GPIO_DM_ANALOG</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -578,7 +587,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function modifies a port register in a read-modify-write operation. It is not thread safe as the resource is shared among multiple pins on a port.</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect the pin to a TTL hardware */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the vtrip value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__vtrip.html#ga0eb9d3f41338feae28103e8a8c302ba0">CY_GPIO_VTRIP_CMOS</a> == <a class="code" href="group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645">Cy_GPIO_GetVtrip</a>(P0_3_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the vtrip of P0.3 to LVTTL */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga060a1d8755a9f3ca5cc777f794501612">Cy_GPIO_SetVtrip</a>(P0_3_PORT, <a class="code" href="group__group__gpio__vtrip.html#gac6202dadf8d8993589920d3461f317b5">CY_GPIO_VTRIP_TTL</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect the pin to a TTL hardware */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the vtrip value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__vtrip.html#ga0eb9d3f41338feae28103e8a8c302ba0">CY_GPIO_VTRIP_CMOS</a> == <a class="code" href="group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645">Cy_GPIO_GetVtrip</a>(P0_0_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the vtrip of P0.3 to LVTTL */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga060a1d8755a9f3ca5cc777f794501612">Cy_GPIO_SetVtrip</a>(P0_0_PORT, <a class="code" href="group__group__gpio__vtrip.html#gac6202dadf8d8993589920d3461f317b5">CY_GPIO_VTRIP_TTL</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -606,7 +615,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pin voltage threshold mode. Options are detailed in <a class="el" href="group__group__gpio__vtrip.html">Voltage trip mode</a> macros</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect the pin to a TTL hardware */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the vtrip value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__vtrip.html#ga0eb9d3f41338feae28103e8a8c302ba0">CY_GPIO_VTRIP_CMOS</a> == <a class="code" href="group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645">Cy_GPIO_GetVtrip</a>(P0_3_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the vtrip of P0.3 to LVTTL */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga060a1d8755a9f3ca5cc777f794501612">Cy_GPIO_SetVtrip</a>(P0_3_PORT, <a class="code" href="group__group__gpio__vtrip.html#gac6202dadf8d8993589920d3461f317b5">CY_GPIO_VTRIP_TTL</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect the pin to a TTL hardware */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the vtrip value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__vtrip.html#ga0eb9d3f41338feae28103e8a8c302ba0">CY_GPIO_VTRIP_CMOS</a> == <a class="code" href="group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645">Cy_GPIO_GetVtrip</a>(P0_0_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the vtrip of P0.3 to LVTTL */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#ga060a1d8755a9f3ca5cc777f794501612">Cy_GPIO_SetVtrip</a>(P0_0_PORT, <a class="code" href="group__group__gpio__vtrip.html#gac6202dadf8d8993589920d3461f317b5">CY_GPIO_VTRIP_TTL</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -647,7 +656,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function modifies a port register in the read-modify-write operation. It is not thread-safe.</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect a pin to I2C (slow slew rate is preferred for low EMI) */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the slew rate value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__slew_rate.html#gabb43620358101afd1663376cb3ba19b4">CY_GPIO_SLEW_FAST</a> == <a class="code" href="group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9">Cy_GPIO_GetSlewRate</a>(P0_3_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the slew rate of Port 0, which includes P0.3, to Slow */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c">Cy_GPIO_SetSlewRate</a>(P0_3_PORT, <a class="code" href="group__group__gpio__slew_rate.html#ga1ab555b60c93c0e337f9ddd4e5a93023">CY_GPIO_SLEW_SLOW</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect a pin to I2C (slow slew rate is preferred for low EMI) */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the slew rate value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__slew_rate.html#gabb43620358101afd1663376cb3ba19b4">CY_GPIO_SLEW_FAST</a> == <a class="code" href="group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9">Cy_GPIO_GetSlewRate</a>(P0_0_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the slew rate of Port 0, which includes P0.3, to Slow */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c">Cy_GPIO_SetSlewRate</a>(P0_0_PORT, <a class="code" href="group__group__gpio__slew_rate.html#ga1ab555b60c93c0e337f9ddd4e5a93023">CY_GPIO_SLEW_SLOW</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -675,7 +684,119 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The port slew rate. The options are detailed in the <a class="el" href="group__group__gpio__slew_rate.html">Slew Rate Mode</a> macros</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect a pin to I2C (slow slew rate is preferred for low EMI) */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the slew rate value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__slew_rate.html#gabb43620358101afd1663376cb3ba19b4">CY_GPIO_SLEW_FAST</a> == <a class="code" href="group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9">Cy_GPIO_GetSlewRate</a>(P0_3_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the slew rate of Port 0, which includes P0.3, to Slow */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c">Cy_GPIO_SetSlewRate</a>(P0_3_PORT, <a class="code" href="group__group__gpio__slew_rate.html#ga1ab555b60c93c0e337f9ddd4e5a93023">CY_GPIO_SLEW_SLOW</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Scenario: Connect a pin to I2C (slow slew rate is preferred for low EMI) */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the slew rate value of P0.3 */</span></div><div class="line">    <span class="keywordflow">if</span>(<a class="code" href="group__group__gpio__slew_rate.html#gabb43620358101afd1663376cb3ba19b4">CY_GPIO_SLEW_FAST</a> == <a class="code" href="group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9">Cy_GPIO_GetSlewRate</a>(P0_0_PORT))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Change the slew rate of Port 0, which includes P0.3, to Slow */</span></div><div class="line">        <a class="code" href="group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c">Cy_GPIO_SetSlewRate</a>(P0_0_PORT, <a class="code" href="group__group__gpio__slew_rate.html#ga1ab555b60c93c0e337f9ddd4e5a93023">CY_GPIO_SLEW_SLOW</a>);</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="gad7492265bfbdc0c5a27600856efa06af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad7492265bfbdc0c5a27600856efa06af">&#9670;&nbsp;</a></span>Cy_GPIO_MscControlEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_GPIO_MscControlEnable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pinNum</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables control of the IO port analog signaling by the MSCV3LP IP block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to the pin's port register base address</td></tr>
+    <tr><td class="paramname">pinNum</td><td>Position of the pin bit-field within the port register </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga5f5f1eb49752a3ded639e68757e3dbe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5f5f1eb49752a3ded639e68757e3dbe2">&#9670;&nbsp;</a></span>Cy_GPIO_MscControlDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_GPIO_MscControlDisable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pinNum</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables control of the IO port analog signaling by the MSCV3LP IP block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to the pin's port register base address</td></tr>
+    <tr><td class="paramname">pinNum</td><td>Position of the pin bit-field within the port register </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9f02e2358613a412cb4e44a6c9c092e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9f02e2358613a412cb4e44a6c9c092e5">&#9670;&nbsp;</a></span>Cy_GPIO_MscControlIsEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE bool Cy_GPIO_MscControlIsEnabled </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_g_p_i_o___p_r_t___type.html">GPIO_PRT_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pinNum</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the enable status of by the MSCV3LP IP block control for that particular pin. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to the pin's port register base address</td></tr>
+    <tr><td class="paramname">pinNum</td><td>Position of the pin bit-field within the port register</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Status of MSCV3LP IP block control over specified pin </dd></dl>
 
 </div>
 </div>

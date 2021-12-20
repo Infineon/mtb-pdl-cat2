@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_regs.h
-* \version 1.20
+* \version 1.30
 *
 * Generic device specific USBPD register header definition.
 *

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.10
+* \version 2.20
 *
 * Provides the functions for the API for the SAR driver.
 *
@@ -407,7 +407,7 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_DEINIT
+* \snippet sar_snippet.c SNIPPET_SAR_DEINIT
 *
 *******************************************************************************/
 cy_en_sar_status_t Cy_SAR_DeInit(SAR_Type * base, bool deInitRouting)
@@ -604,7 +604,7 @@ void Cy_SAR_Wakeup(SAR_Type * base)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_START_CONVERT
+* \snippet sar_snippet.c SNIPPET_SAR_START_CONVERT
 *
 *******************************************************************************/
 void Cy_SAR_StartConvert(SAR_Type * base, cy_en_sar_start_convert_sel_t startSelect)
@@ -642,7 +642,7 @@ void Cy_SAR_StartConvert(SAR_Type * base, cy_en_sar_start_convert_sel_t startSel
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_STOP_CONVERT
+* \snippet sar_snippet.c SNIPPET_SAR_STOP_CONVERT
 *
 *******************************************************************************/
 void Cy_SAR_StopConvert(SAR_Type * base)
@@ -677,7 +677,7 @@ void Cy_SAR_StopConvert(SAR_Type * base)
 * \param mode
 * A value of the enum \ref cy_en_sar_sample_ctrl_trigger_mode_t
 *
-* \funcusage \snippet sar/snippet/main.c SAR_SNIPPET_SET_CONVERT_MODE
+* \funcusage \snippet sar_snippet.c SAR_SNIPPET_SET_CONVERT_MODE
 *
 *******************************************************************************/
 void Cy_SAR_SetConvertMode(SAR_Type * base, cy_en_sar_sample_ctrl_trigger_mode_t mode)
@@ -776,7 +776,7 @@ cy_en_sar_status_t Cy_SAR_IsEndConversion(SAR_Type * base, cy_en_sar_return_mode
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_IS_CHANNEL_SIGNED
+* \snippet sar_snippet.c SNIPPET_SAR_IS_CHANNEL_SIGNED
 *
 *******************************************************************************/
 bool Cy_SAR_IsChannelSigned(const SAR_Type * base, uint32_t chan)
@@ -825,7 +825,7 @@ bool Cy_SAR_IsChannelSigned(const SAR_Type * base, uint32_t chan)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_IS_CHANNEL_SE
+* \snippet sar_snippet.c SNIPPET_SAR_IS_CHANNEL_SE
 *
 *******************************************************************************/
 bool Cy_SAR_IsChannelSingleEnded(const SAR_Type * base, uint32_t chan)
@@ -870,7 +870,7 @@ bool Cy_SAR_IsChannelSingleEnded(const SAR_Type * base, uint32_t chan)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_RESULT16
+* \snippet sar_snippet.c SNIPPET_SAR_GET_RESULT16
 *
 *******************************************************************************/
 int16_t Cy_SAR_GetResult16(const SAR_Type * base, uint32_t chan)
@@ -915,7 +915,7 @@ int16_t Cy_SAR_GetResult16(const SAR_Type * base, uint32_t chan)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_RESULT32
+* \snippet sar_snippet.c SNIPPET_SAR_GET_RESULT32
 *
 *******************************************************************************/
 int32_t Cy_SAR_GetResult32(const SAR_Type * base, uint32_t chan)
@@ -943,7 +943,7 @@ int32_t Cy_SAR_GetResult32(const SAR_Type * base, uint32_t chan)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_LOWHIGH_LIMIT
+* \snippet sar_snippet.c SNIPPET_SAR_SET_LOWHIGH_LIMIT
 *
 *******************************************************************************/
 void Cy_SAR_SetLowLimit(SAR_Type * base, uint32_t lowLimit)
@@ -973,7 +973,7 @@ void Cy_SAR_SetLowLimit(SAR_Type * base, uint32_t lowLimit)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_LOWHIGH_LIMIT
+* \snippet sar_snippet.c SNIPPET_SAR_SET_LOWHIGH_LIMIT
 *
 *******************************************************************************/
 void Cy_SAR_SetHighLimit(SAR_Type * base, uint32_t highLimit)
@@ -1212,7 +1212,7 @@ int16_t Cy_SAR_RawCounts2Counts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_VOLTS
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_COUNTSTO_VOLTS
 *
 *******************************************************************************/
 float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
@@ -1273,7 +1273,7 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_MVOLTS
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_COUNTSTO_MVOLTS
 *
 *******************************************************************************/
 int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
@@ -1314,7 +1314,7 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * The calculation of voltage depends on the channel offset, gain and other parameters.
 * The equation used is:
 *
-*     V = (RawCounts / AvgDivider - Offset) * TEN_VOLT / Gain
+*     V = (RawCounts / AvgDivider - Offset) * (TEN_VOLT / 10) / (Gain / 10)
 *     uV = V * 1000000
 *
 * where,
@@ -1326,6 +1326,7 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * - Offset: Value stored by the \ref Cy_SAR_SetChannelOffset function.
 * - TEN_VOLT: 10 V constant since the gain is in counts per 10 volts.
 * - Gain: Value stored by the \ref Cy_SAR_SetChannelGain function.
+* - TEN_VOLT and Gain are divided by 10 to avoid extremely flash consuming 64-bit math.
 *
 * \note
 * This function is only valid when result alignment is right aligned.
@@ -1344,25 +1345,26 @@ int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 * - If channel number is invalid, 0 is returned.
 * - If channel is left aligned, 0 is returned.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_COUNTSTO_UVOLTS
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_COUNTSTO_UVOLTS
 *
 *******************************************************************************/
 int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts)
 {
     CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
 
-    int64_t result_uVolts = 0;
+    int32_t result_uVolts = 0;
 
     if (Cy_SAR_IsBaseAddrValid(base) && (chan < CY_SAR_NUM_CHANNELS))
     {
         if (CY_SAR_RIGHT_ALIGN)
         {
-            result_uVolts = (int64_t)Cy_SAR_RawCounts2Counts(base, chan, adcCounts) * (int64_t)CY_SAR_10UV_COUNTS;
-            result_uVolts /= Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)];
+            /* Scale coefficients by 10 to do not overflow 32-bit math */
+            result_uVolts = (int32_t)Cy_SAR_RawCounts2Counts(base, chan, adcCounts) * ((int32_t)CY_SAR_10UV_COUNTS / 10L);
+            result_uVolts /= Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)] / 10L;
         }
     }
 
-    return ((int32_t)result_uVolts);
+    return (result_uVolts);
 }
 
 
@@ -1497,7 +1499,7 @@ int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t ad
 * This is an advanced function used for the low-level hardware control of the switches.
 * This function is not required for a typical SAR sequencer-based application.
 *
-* \funcusage \snippet sar/snippet/main.c SAR_SNIPPET_SET_ANALOG_SWITCH
+* \funcusage \snippet sar_snippet.c SAR_SNIPPET_SET_ANALOG_SWITCH
 *
 *******************************************************************************/
 void Cy_SAR_SetAnalogSwitch(SAR_Type * base, uint32_t switchMask, bool state)
@@ -1562,7 +1564,7 @@ uint32_t Cy_SAR_GetAnalogSwitch(const SAR_Type * base)
 * This is an advanced function used for the low-level hardware control of the switches.
 * This function is not required for a typical SAR sequencer-based application.
 *
-* \funcusage \snippet sar/snippet/main.c SAR_SNIPPET_SET_SWITCH_SAR_SEQ_CTRL
+* \funcusage \snippet sar_snippet.c SAR_SNIPPET_SET_SWITCH_SAR_SEQ_CTRL
 *
 *******************************************************************************/
 void Cy_SAR_SetSwitchSarSeqCtrl(SAR_Type * base, uint32_t switchMask, bool ctrl)
@@ -1598,7 +1600,7 @@ void Cy_SAR_SetSwitchSarSeqCtrl(SAR_Type * base, uint32_t switchMask, bool ctrl)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_DEEPSLEEP_CALLBACK
+* \snippet sar_snippet.c SNIPPET_SAR_DEEPSLEEP_CALLBACK
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(const cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)

@@ -36,6 +36,8 @@
   <ExposedMembers>
     <ExposedMember key="slewRate" paramId="slewRate" />
     <ExposedMember key="vtrip" paramId="vtrip" />
+    <ExposedMember key="portLevelConfig" paramId="portLevelConfig" />
+    <ExposedMember key="inFlash" paramId="inFlash" />
   </ExposedMembers>
   <Parameters>
     <!--Misc-->
@@ -144,6 +146,7 @@
     <ParamRange id="port" name="Port number" group="Internal" default="`${getInstNumber(&quot;port&quot;)}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="" />
     <ParamRange id="pin" name="Pin number" group="Internal" default="`${getInstNumber(&quot;pin&quot;)}`" min="0" max="7" resolution="1" visible="false" editable="false" desc="" />
     <ParamString id="blockName" name="Block name" group="Internal" default="`${&quot;ioss_0_port_&quot; . port . &quot;_pin_&quot; . pin}`" visible="false" editable="false" desc="" />
+    <ParamBool id="portLevelConfig" name="Port-level Config" group="Advanced" default="false" visible="true" editable="true" desc="Perform port-level configuration instead of pin-level. Disabled pins will be initialized with default values." />
   </Parameters>
 
   <DRCs>
@@ -195,7 +198,40 @@
                                                                 (DriveModes eq CY_GPIO_DM_STRONG)) ? &quot;CYHAL_GPIO_DRIVE_STRONG&quot; : &quot;CYHAL_GPIO_DRIVE_PULLUPDOWN&quot;}`"
                                                       public="true" include="true" guard="defined (CY_USING_HAL)" />
 
-    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_gpio_pin_config_t" const="`${inFlash}`" public="true" include="true">
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_PC_DM_MASK"
+      value="((`${DriveModes}` &amp; CY_GPIO_PC_DM_MASK) &lt;&lt; GPIO_PRT_PC_DM`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_PC2_INP_DIS_MASK"
+      value="(`${((DriveModes eq CY_GPIO_DM_HIGHZ)        || (DriveModes eq CY_GPIO_DM_PULLUP)       ||
+                 (DriveModes eq CY_GPIO_DM_PULLDOWN)      || (DriveModes eq CY_GPIO_DM_OD_DRIVESLOW) ||
+                 (DriveModes eq CY_GPIO_DM_OD_DRIVESHIGH) || (DriveModes eq CY_GPIO_DM_STRONG)       ||
+                 (DriveModes eq CY_GPIO_DM_PULLUP_DOWN)) ? 0U : 1U}` &lt;&lt; GPIO_PRT_PC2_INP_DIS`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_DR_MASK"
+      value="(`${initialState}` &lt;&lt; GPIO_PRT_DR_DATA`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_INTR_CFG_MASK"
+      value="(`${isrTrigger}` &lt;&lt; GPIO_PRT_INTR_CFG_EDGE`${pin}`_SEL_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_HSIOM_PORT_SEL_MASK"
+      value="(`${INST_NAME}`_HSIOM &lt;&lt; HSIOM_PRT_PORT_SEL_IO`${pin}`_SEL_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_gpio_pin_config_t" const="`${inFlash}`" public="true" include="`${!portLevelConfig}`">
       <Member name="outVal" value="`${initialState}`" />
       <Member name="driveMode" value="`${DriveModes}`" />
       <Member name="hsiom" value="`${INST_NAME}`_HSIOM" />
@@ -217,7 +253,7 @@
       <Member name="channel_num" value="`${INST_NAME}`_PIN" />
     </ConfigStruct>
 
-    <ConfigInstruction value="Cy_GPIO_Pin_Init(`${INST_NAME}`_PORT, `${INST_NAME}`_PIN, &amp;`${INST_NAME}`_config);" include="`${!skipConfigCodeGen}`"/>
+    <ConfigInstruction value="Cy_GPIO_Pin_Init(`${INST_NAME}`_PORT, `${INST_NAME}`_PIN, &amp;`${INST_NAME}`_config);" include="`${!skipConfigCodeGen &amp;&amp; !portLevelConfig }`"/>
     <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
   </ConfigFirmware>
 </Personality>

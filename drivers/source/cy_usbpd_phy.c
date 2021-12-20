@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 1.20
+* \version 1.30
 *
 * The source file of the USBPD Transceiver driver.
 *
@@ -32,6 +32,8 @@
 #include "cy_usbpd_common.h"
 #include "cy_usbpd_defines.h"
 #include "cy_usbpd_phy.h"
+#include "cy_usbpd_bch.h"
+#include "cy_usbpd_hpd.h"
 
 /* Select types of PD control messages for which GoodCRC response should be sent. All except
      GoodCRC are enabled. */
@@ -203,13 +205,20 @@ static const uint32_t sopTable[CY_PD_SOP_INVALID] =
 * The phy event handler callback.
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer or phyCbk is invalid.
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Phy_Init(cy_stc_usbpd_context_t *context, cy_cb_usbpd_phy_handle_events_t phyCbk)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
 
+    if((NULL == context) || (NULL == phyCbk))
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
     context->pdPhyCbk = phyCbk;
 
 #if CY_PD_REV3_ENABLE
@@ -308,6 +317,9 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_Init(cy_stc_usbpd_context_t *context, cy_cb_us
 * by the user. The structure is used during the USBPD operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+*
+* \return
+* None
 *
 *******************************************************************************/
 void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
@@ -491,9 +503,16 @@ void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
 bool Cy_USBPD_Phy_LoadMsg(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop, uint8_t retries,
         uint8_t dobjCount, uint32_t header, bool unchunked, uint32_t* buf)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
     uint16_t expHdr;
 
+    /* Check for input parameters */
+    if((NULL == context) || (NULL == buf))
+    {
+        return false;
+    }
+
+    pd = context->base;
     context->txDatPtr = buf;
     context->txDobjCount = dobjCount;
     context->txUnchunked = (uint8_t)unchunked;
@@ -536,6 +555,9 @@ bool Cy_USBPD_Phy_LoadMsg(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop, u
 * configuration and data retention. The user must not modify anything
 * in this structure.
 *
+* \return
+* None
+*
 *******************************************************************************/
 void Cy_USBPD_Phy_Reset_RxTx_SM(cy_stc_usbpd_context_t *context)
 {
@@ -559,6 +581,9 @@ void Cy_USBPD_Phy_Reset_RxTx_SM(cy_stc_usbpd_context_t *context)
 * by the user. The structure is used during the USBPD operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+*
+* \return
+* None
 *
 *******************************************************************************/
 void Cy_USBPD_Phy_DisRxTx(cy_stc_usbpd_context_t *context)
@@ -663,8 +688,15 @@ static void pd_phy_read_data_from_mem(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 bool Cy_USBPD_Phy_SendMsg(cy_stc_usbpd_context_t *context)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
     uint32_t regVal;
+
+    if(NULL == context)
+    {
+        return false;
+    }
+
+    pd = context->base;
 
     pd->intr0_mask &= ~PDSS_INTR0_CC_NO_VALID_DATA_DETECTED;
 
@@ -747,6 +779,9 @@ bool Cy_USBPD_Phy_SendMsg(cy_stc_usbpd_context_t *context)
 * by the user. The structure is used during the USBPD operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+*
+* \return
+* None
 *
 *******************************************************************************/
 void Cy_USBPD_Phy_EnRx(cy_stc_usbpd_context_t *context)
@@ -845,6 +880,9 @@ void Cy_USBPD_Phy_DisRx (cy_stc_usbpd_context_t *context, uint8_t hardResetEn)
 * configuration and data retention. The user must not modify anything
 * in this structure.
 *
+* \return
+* None
+*
 *******************************************************************************/
 void Cy_USBPD_Phy_EnUnchunkedTx (cy_stc_usbpd_context_t *context)
 {
@@ -864,6 +902,9 @@ void Cy_USBPD_Phy_EnUnchunkedTx (cy_stc_usbpd_context_t *context)
 * by the user. The structure is used during the USBPD operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+*
+* \return
+* None
 *
 *******************************************************************************/
 void Cy_USBPD_Phy_DisUnchunkedTx (cy_stc_usbpd_context_t *context)
@@ -888,12 +929,20 @@ void Cy_USBPD_Phy_DisUnchunkedTx (cy_stc_usbpd_context_t *context)
 * in this structure.
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
+
+    if(NULL == context)
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
 
     /* Enable Tx regulator. */
     pd->tx_ctrl |= PDSS_TX_CTRL_TX_REG_EN;
@@ -921,12 +970,20 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
 * in this structure.
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Phy_AbortBIST_Cm2(cy_stc_usbpd_context_t *context)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
+
+    if(NULL == context)
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
 
     /* Stop BIST CM2. */
     pd->tx_ctrl &= ~PDSS_TX_CTRL_EN_TX_BIST_CM2;
@@ -951,12 +1008,20 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_AbortBIST_Cm2(cy_stc_usbpd_context_t *context)
 * in this structure.
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
+
+    if(NULL == context)
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
 
     context->txDone = 0;
 
@@ -986,13 +1051,22 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context)
 * SOP Type.
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
+* CY_USBPD_STAT_BUSY if the USBPD operation is still in progress
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
     uint8_t loopCount = 10;
+
+    if(NULL == context)
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
 
     /* If this is a hard reset, we should reset the TX and RX state machine for this port. */
     if (sop == CY_PD_HARD_RESET)
@@ -1058,7 +1132,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_
 * in this structure.
 *
 * \return
-* cy_stc_pd_packet_extd_t
+* \ref cy_stc_pd_packet_extd_t received PD message.
 *
 *******************************************************************************/
 cy_stc_pd_packet_extd_t *Cy_USBPD_Phy_GetRxPacket(cy_stc_usbpd_context_t *context)
@@ -1112,6 +1186,9 @@ bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
 * by the user. The structure is used during the USBPD operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
+*
+* \return
+* None
 *
 *******************************************************************************/
 void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
@@ -1501,6 +1578,18 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* (CY_PD_REV3_ENABLE && CY_PD_FRS_TX_ENABLE) */
 #endif /* (!(CY_PD_SOURCE_ONLY)) */
     }
+    
+#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA)) && (!QC_AFC_CHARGING_DISABLED))
+    if(pd->intr4_masked != 0u)
+    {
+        Cy_USBPD_Bch_Intr0Handler(context);
+    }
+    
+    if(pd->intr6_masked != 0u)
+    {
+        Cy_USBPD_Bch_Intr0Handler(context);
+    }
+#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA)) && (!QC_AFC_CHARGING_DISABLED)) */
 }
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

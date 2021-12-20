@@ -19,7 +19,11 @@ var group__group__usbpd__legacy__enums =
       [ "CHGB_SINK_TERM_PCD", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeae81c80b82b2f0ee54f1016cea51713ba", null ],
       [ "CHGB_SINK_TERM_SCD", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeacfda5b07707a43b08abf1d31283dfaad", null ],
       [ "CHGB_SINK_TERM_AFC", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeaeac8e8c0fa2b5c01e5537deb9a863ea2", null ],
-      [ "CHGB_SINK_TERM_APPLE", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeae7823c08014b987dcc96425016f99fd9", null ]
+      [ "CHGB_SINK_TERM_APPLE", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeae7823c08014b987dcc96425016f99fd9", null ],
+      [ "CHGB_SINK_TERM_QC_5V", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfeab3f2105af90263b66be1d528ae13cdcf", null ],
+      [ "CHGB_SINK_TERM_QC_9V", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfea5f399f9119faa0966176f735077d638d", null ],
+      [ "CHGB_SINK_TERM_QC_12V", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfea3c294f915361c646daeaaf0686f796c1", null ],
+      [ "CHGB_SINK_TERM_QC_20V", "group__group__usbpd__legacy__enums.html#gga941c96897dd808020393c739edfa8bfea763976698f9d840548b36f5cad18c326", null ]
     ] ],
     [ "cy_en_usbpd_bch_comp_pinput_t", "group__group__usbpd__legacy__enums.html#gac58552413b274ed8c66c07587c16ae29", [
       [ "CHGB_COMP_P_DM", "group__group__usbpd__legacy__enums.html#ggac58552413b274ed8c66c07587c16ae29a24e65378a3dc04acf7d2d8daa5ce9945", null ],

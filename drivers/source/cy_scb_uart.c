@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.c
-* \version 3.20
+* \version 4.0
 *
 * Provides UART API implementation of the SCB driver.
 *
@@ -63,7 +63,7 @@ static uint32_t SelectRxFifoLevel(CySCB_Type const *base);
 * \note
 * Ensure that the SCB block is disabled before calling this function.
 *
-* \snippet scb/uart_snippet/main.c UART_SET_OVS
+* \snippet scb_uart_snippet.c UART_SET_OVS
 *
 *******************************************************************************/
 cy_en_scb_uart_status_t Cy_SCB_UART_SetOverSample(CySCB_Type *base, uint32_t overSample, cy_stc_scb_uart_context_t *context)

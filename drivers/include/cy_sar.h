@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.10
+* \version 2.20
 *
 * Header file for the SAR driver.
 *
@@ -317,7 +317,7 @@
 *
 * Use \ref group_sar_sarmux_se_diff code snippet for reference.
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SARMUX_AMUXBUS
+* \snippet sar_snippet.c SNIPPET_SAR_SARMUX_AMUXBUS
 *
 * To connect SARMUX to any other non-dedicated port, you may need to close additional HSIOM switches to route signals
 * through AMUXBUS.
@@ -360,6 +360,15 @@
 * \section group_sar_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">2.20</td>
+*     <td>The \ref Cy_SAR_CountsTo_uVolts is updated to avoid 64-bit math</td>
+*     <td>Memory consumption reduction</td>
+*   </tr>
+*   <tr>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">2.10</td>
 *     <td>Added the \ref cy_stc_sar_channel_config_t::rangeIntrEn and
@@ -457,7 +466,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        10
+#define CY_SAR_DRV_VERSION_MINOR        20
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -1041,7 +1050,7 @@ __STATIC_INLINE bool Cy_SAR_IsChannelDifferential(const SAR_Type * base, uint32_
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_CHAN_RESULT_UPDATED
+* \snippet sar_snippet.c SNIPPET_SAR_GET_CHAN_RESULT_UPDATED
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SAR_GetChanResultUpdated(const SAR_Type * base)
@@ -1093,7 +1102,7 @@ __STATIC_INLINE void Cy_SAR_EnableInjection(SAR_Type * base, bool tailgating)
 * - 0: the corresponding channel is disabled.
 * - 1: the corresponding channel is enabled; it will be included in the next scan.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_SET_CHAN_MASK
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_SET_CHAN_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetChanMask(SAR_Type * base, uint32_t enableMask)
@@ -1117,7 +1126,7 @@ __STATIC_INLINE void Cy_SAR_SetChanMask(SAR_Type * base, uint32_t enableMask)
 * Combined mask of all channels to be enabled.
 *
 * \funcusage
-* \snippet sar/snippet/main.c SNIPPET_SAR_EN_CHAN
+* \snippet sar_snippet.c SNIPPET_SAR_EN_CHAN
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_EnableChannels(SAR_Type * base, uint32_t chanMask)
@@ -1141,7 +1150,7 @@ __STATIC_INLINE void Cy_SAR_EnableChannels(SAR_Type * base, uint32_t chanMask)
 * Combined mask of all channels to be disabled.
 *
 * \funcusage
-* \snippet sar/snippet/main.c SNIPPET_SAR_EN_CHAN
+* \snippet sar_snippet.c SNIPPET_SAR_EN_CHAN
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_DisableChannels(SAR_Type * base, uint32_t chanMask)
@@ -1164,7 +1173,7 @@ __STATIC_INLINE void Cy_SAR_DisableChannels(SAR_Type * base, uint32_t chanMask)
 * \param cond
 * A value of the enum \ref cy_en_sar_range_detect_condition_t.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_SET_RANGE_COND
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_SET_RANGE_COND
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetRangeCond(SAR_Type * base, cy_en_sar_range_detect_condition_t cond)
@@ -1292,7 +1301,7 @@ __STATIC_INLINE void Cy_SAR_SetInterrupt(SAR_Type * base, uint32_t intrMask)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_INTERRUPT_MASK
+* \snippet sar_snippet.c SNIPPET_SAR_SET_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetInterruptMask(SAR_Type * base, uint32_t intrMask)
@@ -1318,7 +1327,7 @@ __STATIC_INLINE void Cy_SAR_SetInterruptMask(SAR_Type * base, uint32_t intrMask)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_INTERRUPT_MASK
+* \snippet sar_snippet.c SNIPPET_SAR_GET_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SAR_GetInterruptMask(const SAR_Type * base)
@@ -1365,7 +1374,7 @@ __STATIC_INLINE uint32_t Cy_SAR_GetInterruptStatusMasked(const SAR_Type * base)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_RANGE_INTERRUPT_STATUS
+* \snippet sar_snippet.c SNIPPET_SAR_GET_RANGE_INTERRUPT_STATUS
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SAR_GetRangeInterruptStatus(const SAR_Type * base)
@@ -1443,7 +1452,7 @@ __STATIC_INLINE void Cy_SAR_SetRangeInterrupt(SAR_Type * base, uint32_t chanMask
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_SET_RANGE_INTERRUPT_MASK
+* \snippet sar_snippet.c SNIPPET_SAR_SET_RANGE_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetRangeInterruptMask(SAR_Type * base, uint32_t chanMask)
@@ -1512,7 +1521,7 @@ __STATIC_INLINE uint32_t Cy_SAR_GetRangeInterruptStatusMasked(const SAR_Type * b
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_SAT_INTERRUPT_STATUS
+* \snippet sar_snippet.c SNIPPET_SAR_GET_SAT_INTERRUPT_STATUS
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SAR_GetSatInterruptStatus(const SAR_Type * base)
@@ -1590,7 +1599,7 @@ __STATIC_INLINE void Cy_SAR_SetSatInterrupt(SAR_Type * base, uint32_t chanMask)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_GET_SAT_INTERRUPT_MASK
+* \snippet sar_snippet.c SNIPPET_SAR_GET_SAT_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetSatInterruptMask(SAR_Type * base, uint32_t chanMask)
@@ -1692,7 +1701,7 @@ __STATIC_INLINE uint32_t Cy_SAR_GetInterruptCause(const SAR_Type * base)
 *
 * \funcusage
 *
-* \snippet sar/snippet/main.c SNIPPET_SAR_IS_CHANNEL_DIFF
+* \snippet sar_snippet.c SNIPPET_SAR_IS_CHANNEL_DIFF
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SAR_IsChannelDifferential(const SAR_Type * base, uint32_t chan)
@@ -1722,7 +1731,7 @@ __STATIC_INLINE bool Cy_SAR_IsChannelDifferential(const SAR_Type * base, uint32_
 * This is an advanced function used for the low-level hardware control of the switches.
 * This function is not required for a typical SAR sequencer-based application.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_VSSA_VMINUS_SWITCH
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_VSSA_VMINUS_SWITCH
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetVssaVminusSwitch(SAR_Type * base, bool state)
@@ -1749,7 +1758,7 @@ __STATIC_INLINE void Cy_SAR_SetVssaVminusSwitch(SAR_Type * base, bool state)
 * This is an advanced function used for the low-level hardware control of the switches.
 * This function is not required for a typical SAR sequencer-based application.
 *
-* \funcusage \snippet sar/snippet/main.c SNIPPET_SAR_VSSA_SARSEQ_CTRL
+* \funcusage \snippet sar_snippet.c SNIPPET_SAR_VSSA_SARSEQ_CTRL
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SAR_SetVssaSarSeqCtrl(SAR_Type * base, bool ctrl)

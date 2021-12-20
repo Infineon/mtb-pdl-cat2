@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ctb.h
-* \version 1.0
+* \version 1.0.1
 *
 * The header file for the CTB driver.
 *
@@ -78,7 +78,7 @@
 * \ref Cy_CTB_SetAnalogSwitch to make the input and output connections.
 * See the architecture TRM for more details.
 *
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_ANALOG_SWITCH
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_ANALOG_SWITCH
 *
 * As shown in the CTB switch diagram, the external (10x) output of OA0 and OA1
 * have dedicated connections. If different output connections are required, the
@@ -99,7 +99,7 @@
 * The comparator output can be routed to a pin or other component using HSIOM
 * or trigger muxes.
 *
-* \snippet ctb/snippet/main.c SNIPPET_COMP_OUT_ROUTING
+* \snippet ctb_snippet.c SNIPPET_COMP_OUT_ROUTING
 *
 * \subsection group_ctb_comparator_handling_interrupts Handling interrupts
 *
@@ -110,12 +110,12 @@
 * the interrupt. The routine gets called when any comparator on the device
 * generates an interrupt.
 *
-* \snippet ctb/snippet/main.c SNIPPET_COMP_ISR
+* \snippet ctb_snippet.c SNIPPET_COMP_ISR
 *
 * The following code snippet demonstrates how to configure and enable the
 * interrupt.
 *
-* \snippet ctb/snippet/main.c SNIPPET_COMP_INTR_SETUP
+* \snippet ctb_snippet.c SNIPPET_COMP_INTR_SETUP
 *
 * \section group_ctb_opamp_range Opamp Input Range
 *
@@ -139,11 +139,11 @@
 *      Call the following functions to configure the pump clock from the SRSS:
 *       - \ref Cy_SysClk_ClkPumpSetSource
 *
-*      \snippet ctb/snippet/main.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
+*      \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
 *
 *   -# The high frequency clock
 *
-*      \snippet ctb/snippet/main.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
+*      \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
 *
 *   -# The high frequency clock divided by 2
 *
@@ -166,6 +166,11 @@
 * \section group_ctb_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
@@ -622,7 +627,7 @@ __STATIC_INLINE uint32_t Cy_CTB_GetInterruptStatusMasked(const CTBM_Type * base,
 * The pointer to structure-describing registers.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_OPEN_ALL_SWITCHES
+* \snippet ctb_snippet.c CTB_SNIPPET_OPEN_ALL_SWITCHES
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CTB_OpenAllSwitches(CTBM_Type * base)
@@ -654,7 +659,7 @@ __STATIC_INLINE void Cy_CTB_OpenAllSwitches(CTBM_Type * base)
 * The switch(es) in which to enable SAR sequencer control \ref group_ctb_sar_seq_switch_macros
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_ENABLE_SAR_SEQ_CTRL
+* \snippet ctb_snippet.c CTB_SNIPPET_ENABLE_SAR_SEQ_CTRL
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CTB_EnableSarSeqCtrl(CTBM_Type * base, uint32_t switchMask)
@@ -677,7 +682,7 @@ __STATIC_INLINE void Cy_CTB_EnableSarSeqCtrl(CTBM_Type * base, uint32_t switchMa
 * \param switchMask
 * The switch(es) in which to disable SAR sequencer control \ref group_ctb_sar_seq_switch_macros
 *
-* \funcusage \snippet ctb/snippet/main.c CTB_SNIPPET_DISABLE_SAR_SEQ_CTRL
+* \funcusage \snippet ctb_snippet.c CTB_SNIPPET_DISABLE_SAR_SEQ_CTRL
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CTB_DisableSarSeqCtrl(CTBM_Type * base, uint32_t switchMask)
@@ -715,7 +720,7 @@ __STATIC_INLINE void Cy_CTB_DisableSarSeqCtrl(CTBM_Type * base, uint32_t switchM
 * - Non-zero: The configured edge type was detected.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c SNIPPET_COMP_GETINTERRUPTSTATUS
+* \snippet ctb_snippet.c SNIPPET_COMP_GETINTERRUPTSTATUS
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_CTB_GetInterruptStatus(const CTBM_Type * base, cy_en_ctb_opamp_sel_t compNum)
@@ -789,7 +794,7 @@ __STATIC_INLINE void Cy_CTB_SetInterrupt(CTBM_Type * base, cy_en_ctb_opamp_sel_t
 * Calling this function with CY_CTB_OPAMP_NONE will disable all interrupt requests.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_SET_INTERRUPT_MASK
+* \snippet ctb_snippet.c CTB_SNIPPET_SET_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CTB_SetInterruptMask(CTBM_Type * base, cy_en_ctb_opamp_sel_t compNum)
@@ -823,7 +828,7 @@ __STATIC_INLINE void Cy_CTB_SetInterruptMask(CTBM_Type * base, cy_en_ctb_opamp_s
 * - Non-zero: An interrupt output was forwarded to the interrupt controller.
 *
 * \funcusage
-* \snippet ctb/snippet/main.c CTB_SNIPPET_GET_INTERRUPT_MASK
+* \snippet ctb_snippet.c CTB_SNIPPET_GET_INTERRUPT_MASK
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_CTB_GetInterruptMask(const CTBM_Type * base, cy_en_ctb_opamp_sel_t compNum)

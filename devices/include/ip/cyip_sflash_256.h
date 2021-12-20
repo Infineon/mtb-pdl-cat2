@@ -33,7 +33,7 @@
 *                                    SFLASH
 *******************************************************************************/
 
-#define SFLASH_SECTION_SIZE                     0x00000800UL
+#define SFLASH_SECTION_SIZE                     0x00001000UL
 
 /**
   * \brief Supervisory Flash Area (Cypress Trim & Wounding Info) (SFLASH)

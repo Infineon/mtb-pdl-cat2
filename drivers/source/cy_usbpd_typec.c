@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 1.20
+* \version 1.30
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -34,6 +34,7 @@
 #include "cy_usbpd_typec.h"
 #include "cy_usbpd_vbus_ctrl.h"
 #include "cy_usbpd_bch.h"
+#include "cy_usbpd_hpd.h"
 
 /* No of Rd rows and entries per row, in the thresholds LUT. */
 #define RD_ROW_NO                       (3u)
@@ -69,8 +70,12 @@
 
 #if defined(CY_DEVICE_PMG1S3)
 #define CLK_LF_FILT_NUM (4UL)
+#define CLK_LF_FILT_SBU1 (1UL)
+#define CLK_LF_FILT_SBU2 (2UL)
 #endif /* defined(CY_DEVICE_PMG1S3) */
 
+/* SBU comparator reference set voltage (130 + 107*10 = 1200 mV)*/
+#define SBU_COMP_VREF_1_2_V            107UL
 /**
  * Type C voltage thresholds (in mV) as per Section 4.11.3 of Type C
  * specification Rev1.
@@ -549,6 +554,48 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
     /* Enable Comparator. */
     pd->comp_ctrl[COMP_ID_VBUS_DISCHARGE] |= PDSS_COMP_CTRL_COMP_ISO_N;
 #endif /* (defined(CY_DEVICE_CCG3PA) && (VBUS_IN_DISCHARGE_EN !=0) */
+
+#if (defined(CY_DEVICE_PMG1S3) && (SBU_LEVEL_DETECT_EN != 0))
+
+    pd->refgen_0_ctrl &= ~PDSS_REFGEN_0_CTRL_REFGEN_PD;
+    pd->refgen_0_ctrl  |= PDSS_REFGEN_0_CTRL_REFGEN_VREFIN_SEL |
+                          PDSS_REFGEN_0_CTRL_REFGEN_VREFIN_MON_SEL;
+
+    /* Configure Reference for comparator. */
+    regVal = pd->refgen_2_ctrl;
+    regVal &= ~(PDSS_REFGEN_2_CTRL_SEL7_MASK);
+    regVal |= (SBU_COMP_VREF_1_2_V << PDSS_REFGEN_2_CTRL_SEL7_POS);
+    pd->refgen_2_ctrl = regVal;
+
+    regVal = pd->refgen_3_ctrl;
+    regVal &= ~(PDSS_REFGEN_3_CTRL_SEL8_MASK);
+    regVal |= (SBU_COMP_VREF_1_2_V << PDSS_REFGEN_3_CTRL_SEL8_POS);
+    pd->refgen_3_ctrl = regVal;
+
+    /* Enable Comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_P0_SBU1] |= PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_P0_SBU2] |= PDSS_COMP_CTRL_COMP_ISO_N;
+
+    Cy_SysLib_DelayUs(10);
+
+    /* Filter configuration. */
+    pd->intr7_filter_cfg[0] = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
+                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
+                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+
+    pd->intr7_filter_cfg[1] = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
+                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
+                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+
+
+    /* Clear interrupt. */
+    pd->intr7 = (1U << CLK_LF_FILT_SBU1);
+    pd->intr7 = (1U << CLK_LF_FILT_SBU2);
+
+    /* Enable Interrupt. */
+    pd->intr7_mask |= (1U << CLK_LF_FILT_SBU1);
+    pd->intr7_mask |= (1U << CLK_LF_FILT_SBU2);
+#endif /* (defined(CY_DEVICE_PMG1S3) && (SBU_LEVEL_DETECT_EN != 0)) */
 
 #if defined(CY_DEVICE_CCG3PA)
     pd->refgen_0_ctrl &= ~PDSS_REFGEN_0_CTRL_REFGEN_PD;
@@ -2829,11 +2876,11 @@ void Cy_USBPD_Intr1Handler (
 {
     PPDSS_REGS_T pd = context->base;
     uint32_t intrCause = pd->intr1_masked;
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+
 #if VBUS_RCP_ENABLE
     uint32_t mask = 0u;
 #endif /* VBUS_RCP_ENABLE */
-
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
 
 #if VBUS_SCP_ENABLE
     /*
@@ -2976,6 +3023,9 @@ void Cy_USBPD_Intr1Handler (
             pd->intr1_mask &= ~PDSS_INTR1_VCMP_DN_CHANGED;
             pd->intr1 = PDSS_INTR1_VCMP_DN_CHANGED;
         }
+
+        /* Clear all handled interrupts */
+        pd->intr1 = intrCause ; 
     }
 
 #if defined(CY_DEVICE_CCG3PA)
@@ -3101,6 +3151,21 @@ void Cy_USBPD_Intr1Handler (
                 context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, false);
             }
         }
+
+#if (defined(CY_DEVICE_PMG1S3) && (SBU_LEVEL_DETECT_EN != 0))
+        if (((pd->intr7_status & (CLK_LF_FILT_SBU1 << PDSS_INTR7_STATUS_FILT_8_POS)) != 0U) ||
+            ((pd->intr7_status & (CLK_LF_FILT_SBU2 << PDSS_INTR7_STATUS_FILT_8_POS)) != 0U))
+        {
+            bool sbu1Detect = ((pd->intr7_status & (CLK_LF_FILT_SBU1 << PDSS_INTR7_STATUS_FILT_8_POS)) != 0);
+            bool sbu2Detect = ((pd->intr7_status & (CLK_LF_FILT_SBU2 << PDSS_INTR7_STATUS_FILT_8_POS)) != 0);
+
+            if(context->sbuDetectCb != NULL)
+            {
+                context->sbuDetectCb(context, sbu1Detect, sbu2Detect);
+            }
+        }
+
+#endif /* (defined(CY_DEVICE_PMG1S3) && (SBU_LEVEL_DETECT_EN != 0))) */
     }
 #endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) */
 
@@ -3113,7 +3178,7 @@ void Cy_USBPD_Intr1Handler (
         pd->intr9 = PDSS_INTR9_QCOM_RCVR_DM_CHANGED_MASK |
             PDSS_INTR9_QCOM_RCVR_DP_CHANGED_MASK;
     }
-#elif defined(CY_DEVICE_CCG6)
+#elif (defined(CY_DEVICE_CCG6) && (!QC_AFC_CHARGING_DISABLED))
     if ((pd->intr9_masked &
                 (PDSS_INTR9_MASKED_QCOM_RCVR_DM_CHANGED_MASKED |PDSS_INTR9_MASKED_QCOM_RCVR_DP_CHANGED_MASKED)
         ) != 0u)
@@ -3123,7 +3188,15 @@ void Cy_USBPD_Intr1Handler (
         pd->intr9 = PDSS_INTR9_QCOM_RCVR_DM_CHANGED |
             PDSS_INTR9_QCOM_RCVR_DP_CHANGED;
     }
-#endif /* defined(CY_DEVICE_CCG6) */
+#elif (defined(CY_DEVICE_PMG1S3) && (!QC_AFC_CHARGING_DISABLED))
+    if ((pd->intr9_masked & (PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK | PDSS_INTR9_MASK_QCOM_RCVR_DP_CHANGED_MASK)) != 0u)
+    {
+        pd->intr9_mask &= ~(PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK |
+                PDSS_INTR9_MASK_QCOM_RCVR_DP_CHANGED_MASK);
+        pd->intr9 = PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK |
+            PDSS_INTR9_MASK_QCOM_RCVR_DP_CHANGED_MASK;
+    }
+#endif /* (defined(CY_DEVICE_PMG1S3) && (!QC_AFC_CHARGING_DISABLED)) */
 
 #if defined(CY_IP_MXUSBPD)
     if ((pd->intr9_masked & (BCH_PORT_0_CMP1_INTR_MASK | BCH_PORT_0_CMP2_INTR_MASK)) != 0u)
@@ -3273,6 +3346,39 @@ cy_en_usbpd_status_t Cy_USBPD_SetTypeCEvtCb(
 
     context->typecEventsCbk = cb;
     context->pdStackContext = callerContext;
+
+    return CY_USBPD_STAT_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_SetSbuLevelDetect_EvtCb
+****************************************************************************//**
+*
+* Register a callback that can be used for notification of SBU level detection.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \param cb
+* Callback function pointer
+*
+* \return
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer or cb is invalid.
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_SetSbuLevelDetect_EvtCb(
+        cy_stc_usbpd_context_t *context,
+        cy_cb_sbu_level_detect_t cb)
+{
+    if (
+            (context == NULL) || (cb == NULL)
+       )
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    context->sbuDetectCb = cb;
 
     return CY_USBPD_STAT_SUCCESS;
 }

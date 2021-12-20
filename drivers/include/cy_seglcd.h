@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_seglcd.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * Provides an API declaration of the Segment LCD driver.
@@ -86,12 +86,12 @@
 * \section group_seglcd_configuration Configuration Considerations
 * To start working with an LCD, first initialize the M0S8LCD block, then initialize
 * the frame buffer, and then enable the block:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Config
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Config
 * \note If you use ModusToolbox Device Configurator, a SegLCD configuration structure
 * is generated automatically into the GeneratedSource/cycfg_peripherals.h/.c files.
 * All you need is just to call \ref Cy_SegLCD_Init with a pointer to the structure.
 *
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Init
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Init
 *
 * Contrast vs. Frame Rate (\ref cy_stc_seglcd_config_t.contrast vs. \ref cy_stc_seglcd_config_t.frRate)\n
 * Some combinations of a frame rate and input frequency can restrict the valid contrast range
@@ -102,7 +102,7 @@
 * rate cannot be achieved due to the limited divider size. The \ref Cy_SegLCD_Init function
 * automatically restricts such incorrect combinations (returns \ref CY_SEGLCD_BAD_PARAM).
 * The peripheral clock divider can be adjusted to clock the LCD block with proper clock frequency:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Clock
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Clock
 *
 * Driving Modes (\ref cy_stc_seglcd_config_t.drive)\n
 * SegLCD supports the following operating modes:
@@ -181,56 +181,56 @@
 * In all cases, during the dead time, all COM and SEG signals are set to a logic "1" state.
 *
 * When the block is configured, for further work with display, a display structure is needed:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Display
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Display
 * \note Using the SegLCD Configurator, display structures and the commons array are generated automatically into the 
 * GeneratedSource/cycfg_seglcd.h/.c files. All you need is just to include cycfg_seglcd.h into your application code.
 *
 * And now you can write multi-digit decimal and hexadecimal numbers and strings onto the initiated 7-segment display:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_DecNum
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_DecNum
 * after which the next image on the glass appears:
 * \image html seglcd_12.png
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_HexNum
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_HexNum
 * \image html seglcd_oooc.png
 *
 * Or even manage separate LCD pixels:
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_SetPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_SetPixel
 * after which the next image on the glass appears:
 * \image html seglcd_heart.png
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ClrPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_InvPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ActPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ClrPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_InvPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ActPixel
 *
 * The basic use case of the bar-graph display type:
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefFrame
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_BarLength
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraphDisplay
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraphValue
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_SetFrame
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_BarGraph
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefFrame
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_BarLength
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraphDisplay
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraphValue
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_SetFrame
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_BarGraph
 * after which the next image on the glass appears:
 * \image html seglcd_bargraph.png
 *
 * Also, you can customize basic fonts, for example:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_CustomAsciiFont7seg
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_CustomAsciiFont7seg
 * And now you can write characters and strings on a standard 7-segment display:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Char
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Char
 * after which the next image on the glass appears:
 * \image html seglcd_char.png
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_String
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_String
 * \image html seglcd_font.png
 *
 * Also, you can customize or create your own displays, for example:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Custom3x5
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Custom3x5
 * And also different fonts for them:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_CustomFont3x5
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_CustomFont3x5
 * And now use all that together:
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_Custom3x5_WriteNumber
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_Custom3x5_WriteNumber
 * \image html seglcd_3x5.png
 *
 * There are LCD-GPIO terminal mapping definitions for different device families 
 * used in the mentioned above commons and display pixel arrays:
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_connectionRemapping
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_connectionRemapping
 *
 * \section group_seglcd_more_information More Information
 * Refer to the technical reference manual (TRM) and the device datasheet.
@@ -238,6 +238,11 @@
 * \section group_seglcd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
@@ -535,8 +540,8 @@ __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_InvPixel  (LCD_Type * base, uint
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_SetPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_SetPixel
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_SetPixel(LCD_Type * base, uint32_t pixel)
@@ -557,8 +562,8 @@ __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_SetPixel(LCD_Type * base, uint32
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_ClrPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_ClrPixel
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_ClrPixel(LCD_Type * base, uint32_t pixel)
@@ -579,8 +584,8 @@ __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_ClrPixel(LCD_Type * base, uint32
 * \return \ref cy_en_seglcd_status_t.
 *
 * \funcusage
-* \snippet seglcd/snippet/SegLCD_Snpt.h snippet_Cy_SegLCD_DefPixel
-* \snippet seglcd/snippet/SegLCD_Snpt.c snippet_Cy_SegLCD_InvPixel
+* \snippet seglcd_snippet.h snippet_Cy_SegLCD_DefPixel
+* \snippet seglcd_snippet.c snippet_Cy_SegLCD_InvPixel
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_seglcd_status_t Cy_SegLCD_InvPixel(LCD_Type * base, uint32_t pixel)

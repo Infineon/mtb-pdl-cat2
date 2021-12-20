@@ -217,5 +217,11 @@ var group__group__usbpd__common__enums =
       [ "CY_PD_TYPEC_EVT_UNATTACHED_SRC", "group__group__usbpd__common__enums.html#gga704173d4af563d253fd4307311ac3d69a93d8c7e239894c46d3713729d5bd0762", null ],
       [ "CY_PD_TYPEC_EVT_UNATTACHED_SNK", "group__group__usbpd__common__enums.html#gga704173d4af563d253fd4307311ac3d69a481e9132e8933bf719c179d534e8c843", null ],
       [ "CY_PD_TYPEC_EVT_STOP_FSM", "group__group__usbpd__common__enums.html#gga704173d4af563d253fd4307311ac3d69aae41aff0e94ff71f65a3e0d92285a257", null ]
+    ] ],
+    [ "cy_en_pd_extd_alert_type_t", "group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb", [
+      [ "CY_PD_EXTD_ALERT_TYPE_PWR_STATE_CHANGE", "group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bba9367597191ff5905924fb2e90f7f0133", null ],
+      [ "CY_PD_EXTD_ALERT_TYPE_PWR_BTN_PRESS", "group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bbaa770daf6191f0961adc2a46070d31cd4", null ],
+      [ "CY_PD_EXTD_ALERT_TYPE_PWR_BTN_RELEASE", "group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bba1ecb8607d8ada406965fc90170c6af64", null ],
+      [ "CY_PD_EXTD_ALERT_TYPE_CTRLR_WAKE", "group__group__usbpd__common__enums.html#ggac148f7e4cf23c7c5174091e66607a5bbab12565604425a6c5b6f7e8acb3b440ea", null ]
     ] ]
 ];

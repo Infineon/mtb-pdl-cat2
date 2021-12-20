@@ -8,8 +8,16 @@ var group__group__usbfs__dev__drv__data__structures =
       [ "endpointAddr", "structcy__stc__usb__dev__ep__config__t.html#a14a1cd6eb37c5be3289010052a77396d", null ],
       [ "attributes", "structcy__stc__usb__dev__ep__config__t.html#ad2e3a63c90c484593d678b995de6c6a9", null ]
     ] ],
+    [ "cy_stc_usbfs_dev_drv_dma_config_t", "structcy__stc__usbfs__dev__drv__dma__config__t.html", [
+      [ "base", "structcy__stc__usbfs__dev__drv__dma__config__t.html#a259d5184d5358bd38925da9de87f4f7b", null ],
+      [ "chNum", "structcy__stc__usbfs__dev__drv__dma__config__t.html#af1b02bd3649e629cd2c800a6693e54e4", null ],
+      [ "priority", "structcy__stc__usbfs__dev__drv__dma__config__t.html#aa9ba4d61849d4461f028cad67a7a1956", null ],
+      [ "preemptable", "structcy__stc__usbfs__dev__drv__dma__config__t.html#ad56cf82bf86a753636472f6e96cde426", null ],
+      [ "outTrigMux", "structcy__stc__usbfs__dev__drv__dma__config__t.html#ae0d28e5f57a66f4a71e9a6fd319f06c5", null ]
+    ] ],
     [ "cy_stc_usbfs_dev_drv_config_t", "structcy__stc__usbfs__dev__drv__config__t.html", [
       [ "mode", "structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f", null ],
+      [ "dmaConfig", "structcy__stc__usbfs__dev__drv__config__t.html#a5e8223b51aacbc395f95c2d7fd520f3e", null ],
       [ "epBuffer", "structcy__stc__usbfs__dev__drv__config__t.html#a6d104a0a14ff08b4848b6a7005c6e8ef", null ],
       [ "epBufferSize", "structcy__stc__usbfs__dev__drv__config__t.html#abf41ba00379318b45ed6f46e9c02699a", null ],
       [ "intrLevelSel", "structcy__stc__usbfs__dev__drv__config__t.html#a286f991fe9074eef568a69e9f9287f33", null ],

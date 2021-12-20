@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 1.20
+* \version 1.30
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -60,7 +60,7 @@
 #endif /* CY_PD_SINK_ONLY */
 
 #ifndef PMG1_FLIPPED_FET_CTRL
-#define PMG1_FLIPPED_FET_CTRL            (0u)
+#define PMG1_FLIPPED_FET_CTRL           (0u)
 #endif /* PMG1_FLIPPED_FET_CTRL */
 
 #ifndef VCONN_OCP_ENABLE
@@ -88,7 +88,7 @@
 #endif /* PMG1_HPD_RX_ENABLE */
 
 #ifndef QC_AFC_CHARGING_DISABLED
-#define QC_AFC_CHARGING_DISABLED        (1u)
+#define QC_AFC_CHARGING_DISABLED        (0u)
 #endif /* QC_AFC_CHARGING_DISABLED */
 
 #ifndef BC_SOURCE_ONLY
@@ -163,6 +163,22 @@
 #define CY_PD_EPR_ENABLE                (0u)
 #endif /* CY_PD_EPR_ENABLE */
 
+#ifndef BC_AFC_SINK_ERROR_INT_ENABLE
+#define BC_AFC_SINK_ERROR_INT_ENABLE    (0u)
+#endif /* BC_AFC_SINK_ERROR_INT_ENABLE*/
+
+#ifndef QC_SRC_AFC_CHARGING_DISABLED
+#define QC_SRC_AFC_CHARGING_DISABLED    (0u)
+#endif /* QC_SRC_AFC_CHARGING_DISABLED */
+
+#ifndef CY_PD_EPR_AVS_ENABLE
+#define CY_PD_EPR_AVS_ENABLE            (0u)
+#endif /* CY_PD_EPR_AVS_ENABLE */
+
+#ifndef SBU_LEVEL_DETECT_EN
+#define SBU_LEVEL_DETECT_EN            (0u)
+#endif /* SBU_LEVEL_DETECT_EN */
+
 /*******************************************************************************
  * MACRO Definitions
  ******************************************************************************/
@@ -226,6 +242,33 @@
 
 /** Vbus voltage = 20.0 V */
 #define CY_PD_VSAFE_20V                           (20000u)
+
+/** Vbus voltage = 28.0 V */
+#define CY_PD_VSAFE_28V                           (28000u)
+
+/** Vbus voltage = 36.0 V */
+#define CY_PD_VSAFE_36V                           (36000u)
+
+/** Vbus voltage = 48.0 V */
+#define CY_PD_VSAFE_48V                           (48000u)
+
+/** PDP 100 W */
+#define CY_PD_EPR_MIN_WATT                        (100u)
+
+/** PDP 140 W */
+#define CY_PD_EPR_MAX_28V_WATT                    (140u)
+
+/** PDP 180 W */
+#define CY_PD_EPR_MAX_36V_WATT                    (180u)
+
+/** PDP 240 W */
+#define CY_PD_EPR_MAX_48V_WATT                    (240u)
+
+/** Round Up */
+#define ROUND_UP(x, y)      ( ( ( (x) + ((y) - 1) ) / y ) * y)
+
+/** Round Down */
+#define ROUND_DOWN(x, y)      ( ( (x)  / y ) * y)
 
 /** Reference to CC_1 pin in the Type-C connector. */
 #define CY_PD_CC_CHANNEL_1                        (0u)
@@ -416,6 +459,15 @@ typedef enum {
     CY_PD_TYPEC_EVT_UNATTACHED_SNK,      /**< Transition to Unattached.SNK state. */
     CY_PD_TYPEC_EVT_STOP_FSM,            /**< Stop the Type C State machine. */
 } cy_en_pd_typec_events_t;
+
+/** Types of extended alert events. */
+typedef enum
+{
+    CY_PD_EXTD_ALERT_TYPE_PWR_STATE_CHANGE = 1UL,  /**< Power state change (DFP only). */
+    CY_PD_EXTD_ALERT_TYPE_PWR_BTN_PRESS = 2UL,     /**< Power button press (UFP only). */
+    CY_PD_EXTD_ALERT_TYPE_PWR_BTN_RELEASE = 3UL,   /**< Power button release (UFP only). */
+    CY_PD_EXTD_ALERT_TYPE_CTRLR_WAKE = 4UL,        /**< Controller initiated wake (UFP only). */
+} cy_en_pd_extd_alert_type_t;
 
 /** \} group_usbpd_common_enums */
 
@@ -706,7 +758,8 @@ typedef union
     {
         uint32_t usbVid                     : 16;   /**< 16-bit vendor ID. */
 #if CY_PD_REV3_ENABLE
-        uint32_t rsvd1                      : 7;    /**< Reserved field. */
+        uint32_t rsvd1                      : 5;    /**< Reserved field. */
+        uint32_t connType                   : 2;    /**< Connector type. */
         uint32_t prodTypeDfp                : 3;    /**< Product type as DFP. */
 #else
         uint32_t rsvd1                      : 10;   /**< Reserved field. */
@@ -949,10 +1002,52 @@ typedef union
         uint32_t rsvd4                      : 1;    /**< Reserved field. */
     } rdo_pps;                                      /**< DO interpreted as a PPD Request. */
 
+    /** @brief Programmable Power Supply Source PDO. */
+    struct EPR_AVS_SRC
+    {
+        uint32_t pdp                        : 8;    /**< PDP in 1W increments. */
+        uint32_t minVolt                   : 8;    /**< Minimum Voltage in 100mV increments */
+        uint32_t rsvd1                      : 1;    /**< Reserved field. */
+        uint32_t maxVolt                   : 9;    /**< Maximum voltage in 100 mV units. */
+        uint32_t rsvd2                      : 2;    /**< Reserved field. */
+        uint32_t apdoType                  : 2;    /**< APDO type: Should be 0x01 for EPR AVS */
+        uint32_t supplyType                : 2;    /**< PDO type: Should be 3 for APDO. */
+    } epr_avs_src;                                      /**< DO interpreted as a Adjustable Voltages Supply - Source. */
+
+    /** @brief Programmable Power Supply Sink PDO. */
+    struct EPR_AVS_SNK
+    {
+        uint32_t pdp                        : 8;    /**< PDP in 1W increments. */
+        uint32_t minVolt                   : 8;    /**< Minimum Voltage in 100mV increments */
+        uint32_t rsvd1                      : 1;    /**< Reserved field. */
+        uint32_t maxVolt                   : 9;    /**< Maximum voltage in 100 mV units. */
+        uint32_t rsvd2                      : 2;    /**< Reserved field. */
+        uint32_t apdoType                  : 2;    /**< APDO type: Should be 0x01 for EPR AVS */
+        uint32_t supplyType                : 2;    /**< PDO type: Should be 3 for APDO. */
+    } epr_avs_snk;                                      /**< DO interpreted as a Adjustable Voltages Supply - Sink. */
+
+    /** @brief Programmable Request Data Object. */
+    struct RDO_EPR_AVS
+    {
+        uint32_t opCur                     : 7;    /**< Operating current in 50 mA units. */
+        uint32_t rsvd1                      : 2;    /**< Reserved field. */
+        uint32_t outVolt                   : 12;   /**< Output Voltage in 25mV units. The two least significant bit */
+                                                    /**< Shall be zero making the effective step size 100 mV. */
+        uint32_t rsvd2                      : 1;    /**< Reserved field. */
+        uint32_t eprModeVapable           : 1;    /**< EPR mode capable. */
+        uint32_t unchunkSup                : 1;    /**< Whether unchunked extended messages are supported. */
+        uint32_t noUsbSuspend             : 1;    /**< No USB suspend flag. */
+        uint32_t usbCommCap               : 1;    /**< Whether sink supports USB communication. */
+        uint32_t capMismatch               : 1;    /**< Capability mismatch flag. */
+        uint32_t rsvd3                      : 1;    /**< Reserved field. */
+        uint32_t objPos                    : 4;    /**< Object position - index to source PDO. */
+    } rdo_epr_avs;                                      /**< DO interpreted as a AVS Request. */
+
     /** @brief PD 3.0 Alert Data Object. */
     struct ADO_ALERT
     {
-        uint32_t rsvd1                      :16;    /**< Reserved field. */
+        uint32_t extdAlertEvtType           :4;     /**< Extended alert event type. */
+        uint32_t rsvd1                      :12;    /**< Reserved field. */
         uint32_t hotSwapBats                :4;     /**< Identifies hot-swappable batteries whose status has changed. */
         uint32_t fixedBats                  :4;     /**< Identifies fixed batteries whose status has changed. */
         uint32_t rsvd2                      :1;     /**< Reserved field. */
@@ -962,6 +1057,7 @@ typedef union
         uint32_t opCondChange               :1;     /**< Operating conditions changed. */
         uint32_t srcInputChange             :1;     /**< Power source input changed. */
         uint32_t ovp                        :1;     /**< Over-Voltage event status. */
+        uint32_t extdAlert                  :1;     /**< Extended alert event status. */
     } ado_alert;                                    /**< DO interpreted as a PD 3.0 alert message. */
 
     /** @brief Thunderbolt UFP Discover Modes Response Data Object. */
@@ -1007,7 +1103,12 @@ typedef union
     {
         uint32_t usbSig                     : 3;    /**< USB signaling supported. */
         uint32_t altModes                   : 3;    /**< Alt. modes supported bit-map. */
+#if CY_PD_REV3_ENABLE
+        uint32_t rsvd0                      : 16;   /**< Reserved field. */
+        uint32_t connType                   : 2;    /**< Connector type. */
+#else
         uint32_t rsvd0                      : 18;   /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
         uint32_t devCap                     : 4;    /**< Device Capability. */
         uint32_t rsvd1                      : 1;    /**< Reserved field. */
         uint32_t vdoVersion                 : 3;    /**< VDO version field. */
@@ -1017,7 +1118,12 @@ typedef union
     struct DFP_VDO
     {
         uint32_t portNum                    : 5;    /**< Unique port number to identify a specific port on a multi-port device. */
+#if CY_PD_REV3_ENABLE
+        uint32_t rsvd0                      : 17;   /**< Reserved field. */
+        uint32_t connType                  : 2;    /**< Connector type. */
+#else
         uint32_t rsvd0                      : 19;   /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
         uint32_t hostCap                    : 3;    /**< Host capability. */
         uint32_t rsvd1                      : 2;    /**< Reserved field. */
         uint32_t vdoVersion                 : 3;    /**< VDO version field. */

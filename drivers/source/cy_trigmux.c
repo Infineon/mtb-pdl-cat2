@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_trigmux.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief Trigger mux API.
 *
@@ -66,7 +66,7 @@
 * - CY_TRIGMUX_BAD_PARAM: Some parameter is invalid.
 *
 * \funcusage
-* \snippet trigmux/snippet/main.c snippet_Cy_TrigMux_Connect
+* \snippet trigmux_snippet.c snippet_Cy_TrigMux_Connect
 *  
 *******************************************************************************/
 cy_en_trigmux_status_t Cy_TrigMux_Connect(uint32_t inTrig, uint32_t outTrig)
@@ -128,7 +128,7 @@ cy_en_trigmux_status_t Cy_TrigMux_Connect(uint32_t inTrig, uint32_t outTrig)
 * - CY_TRIGMUX_INVALID_STATE: The trigger is already activated/not active.
 *
 * \funcusage
-* \snippet trigmux/snippet/main.c snippet_Cy_TrigMux_SwTrigger
+* \snippet trigmux_snippet.c snippet_Cy_TrigMux_SwTrigger
 *
 *******************************************************************************/
 cy_en_trigmux_status_t Cy_TrigMux_SwTrigger(uint32_t trigLine, uint32_t cycles)

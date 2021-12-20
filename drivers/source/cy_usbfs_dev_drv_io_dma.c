@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io_dma.c
-* \version 1.0
+* \version 1.10
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
@@ -34,14 +34,9 @@ extern "C" {
 
 #ifdef CY_IP_M0S8USBDSS
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
-
 /*******************************************************************************
 *                        Internal Constants
 *******************************************************************************/
-
-/* Invalid channel */
-#define DMA_INVALID_CHANNEL     ((uint32_t) (-1))
 
 /* Arbiter interrupt sources for OUT and IN endpoints when mode is
 * CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO.
@@ -56,97 +51,64 @@ extern "C" {
                                          USBFS_USBDEV_ARB_EP_BUF_UNDER_Msk  | \
                                          USBFS_USBDEV_ARB_EP_ERR_Msk)
 
-/* DMA configuration defines*/
-#define DMA_XLOOP_INCREMENT    (1)
-#define DMA_YLOOP_INCREMENT    (32)
-#define DMA_NO_INCREMENT       (0)
+/* DMA configuration defines */
+
+#define DMA_INCREMENT                  (1U)
+#define DMA_NO_INCREMENT               (0U)
+#define DMAC_INVALID_CHANNEL           (0xFFFFFFFFU)
+
+/* USBFS DMA defines */
+#define USBFS_DMA_BYTES_PER_BURST      (32U)
+#define USBFS_DMA_HALFWORDS_PER_BURST  (16U)
+
+#define USBFS_DMA_DESCR0_MASK          (false)
+#define USBFS_DMA_DESCR1_MASK          (true)
+#define USBFS_DMA_DESCR_REVERT         (0x40U)
+#define USBFS_DMA_DESCR_16BITS         (0x20U)
+#define USBFS_DMA_DESCR_SHIFT          (7U)
+#define USBFS_DMA_CHANNEL_MASK         (0x07U)
+
+#define USBFS_DMA_GET_BURST_CNT(dmaBurstCnt) \
+            (((dmaBurstCnt) > 2U)? ((dmaBurstCnt) - 2U) : 0U)
+
+#define GET_SIZE(useReg16,size) ((useReg16) ? GET_SIZE16((size)): (size))
+
+#define USBFS_DMA_GET_MAX_ELEM_PER_BURST(dmaLastBurstEl) \
+                    ((0U != ((dmaLastBurstEl) & USBFS_DMA_DESCR_16BITS)) ? \
+                                (USBFS_DMA_HALFWORDS_PER_BURST - 1U) : (USBFS_DMA_BYTES_PER_BURST - 1U))
 
 /* Timeout for dynamic reconfiguration */
-#define DYN_RECONFIG_ONE_TICK   (1U)        /* 1 tick = 1 us */
-#define DYN_RECONFIG_TIMEOUT    (25000UL)   /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
+#define DYN_RECONFIG_ONE_TICK         (1U)      /* 1 tick = 1 us */
+#define DYN_RECONFIG_TIMEOUT          (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
 
 /* Timeout for DMA read operation */
-#define DMA_READ_REQUEST_ONE_TICK   (1U)      /* 1 tick = 1 us */
-#define DMA_READ_REQUEST_TIMEOUT    (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
+#define DMA_READ_REQUEST_ONE_TICK     (1U)      /* 1 tick = 1 us */
+#define DMA_READ_REQUEST_TIMEOUT      (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
 
-#define DMA_WRITE_REQUEST_ONE_TICK   (1U)      /* 1 tick = 1 us */
-#define DMA_WRITE_REQUEST_TIMEOUT    (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
+#define DMA_WRITE_REQUEST_ONE_TICK    (1U)      /* 1 tick = 1 us */
+#define DMA_WRITE_REQUEST_TIMEOUT     (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
 
-
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#include "cy_trigmux.h"
 /*******************************************************************************
 *                        Internal Functions Prototypes
 *******************************************************************************/
 
-static void DmaEndpointInit1D(cy_stc_dma_descriptor_t *descr,
+static void DmaEndpointInit1D(DMAC_Type * base, uint32_t channel,
                               bool inDirection,
-                              cy_en_dma_data_size_t dataSize,
+                              cy_en_dmac_descriptor_t descr, 
+                              cy_en_dmac_data_size_t dataSize,
                               volatile uint32_t const *dataReg);
-
-static void DmaEndpointInit2D(cy_stc_dma_descriptor_t *descr,
-                              bool inDirection,
-                              int32_t numElements);
 
 static void DmaEndpointSetLength(bool inDirection,
                                  uint32_t size,
                                  cy_stc_usbfs_dev_drv_endpoint_data_t *endpoint);
 
-
-/*******************************************************************************
-*                            Internal Constants
-*******************************************************************************/
-
-/* Used for getting data in X loops */
-#define DMA_DESCR_1D_CFG \
-{                        \
-    /* .retrigger      = */ CY_DMA_RETRIG_IM,        \
-    /* .interruptType  = */ CY_DMA_DESCR,            \
-    /* .triggerOutType = */ CY_DMA_DESCR,            \
-    /* .channelState   = */ CY_DMA_CHANNEL_DISABLED, \
-    /* .triggerInType  = */ CY_DMA_DESCR,            \
-    /* .dataSize        = */ CY_DMA_BYTE,               \
-    /* .srcTransferSize = */ CY_DMA_TRANSFER_SIZE_WORD, \
-    /* .dstTransferSize = */ CY_DMA_TRANSFER_SIZE_WORD, \
-    /* .descriptorType  = */ CY_DMA_1D_TRANSFER,        \
-    /* .srcAddress     = */ NULL, \
-    /* .dstAddress     = */ NULL, \
-    /* .srcXincrement  = */ 0,    \
-    /* .dstXincrement  = */ 0,    \
-    /* .xCount         = */ 1UL,  \
-    /* .srcYincrement  = */ 0,    \
-    /* .dstYincrement  = */ 0,    \
-    /* .yCount         = */ 1UL,  \
-    /* .nextDescriptor = */ NULL, \
-}
-
-/* Used for getting data in Y loops */
-#define DMA_DESCR_2D_CFG \
-{                        \
-    /* .retrigger      = */ CY_DMA_RETRIG_IM,       \
-    /* .interruptType  = */ CY_DMA_X_LOOP,          \
-    /* .triggerOutType = */ CY_DMA_X_LOOP,          \
-    /* .channelState   = */ CY_DMA_CHANNEL_ENABLED, \
-    /* .triggerInType  = */ CY_DMA_X_LOOP,          \
-    /* .dataSize        = */ CY_DMA_BYTE,               \
-    /* .srcTransferSize = */ CY_DMA_TRANSFER_SIZE_WORD, \
-    /* .dstTransferSize = */ CY_DMA_TRANSFER_SIZE_WORD, \
-    /* .descriptorType  = */ CY_DMA_2D_TRANSFER,        \
-    /* .srcAddress     = */ NULL, \
-    /* .dstAddress     = */ NULL, \
-    /* .srcXincrement  = */ 0,    \
-    /* .dstXincrement  = */ 0,    \
-    /* .xCount         = */ 1UL,  \
-    /* .srcYincrement  = */ 0,    \
-    /* .dstYincrement  = */ 0,    \
-    /* .yCount         = */ 1UL,  \
-    /* .nextDescriptor = */ NULL, \
-}
-
-
 /*******************************************************************************
 * Function Name: DmaInit
 ****************************************************************************//**
 *
-* Initializes all DMA channels used by the USBFS Device.
+* Initializes all DMAC channels used by the USBFS Device.
 *
 * \param config
 * The pointer to the driver configuration structure \ref cy_stc_usbfs_dev_drv_config_t.
@@ -180,71 +142,94 @@ cy_en_usbfs_dev_drv_status_t DmaInit(cy_stc_usbfs_dev_drv_config_t const *config
         {
             cy_en_usbfs_dev_drv_status_t locStatus = CY_USBFS_DEV_DRV_DMA_CFG_FAILED;
 
-            cy_stc_dma_channel_config_t chConfig;
+            cy_stc_dmac_channel_config_t chConfig;
 
             /* Descriptors configurations */
-            const cy_stc_dma_descriptor_config_t DmaDescr1DCfg = DMA_DESCR_1D_CFG;
-            const cy_stc_dma_descriptor_config_t DmaDescr2DCfg = DMA_DESCR_2D_CFG;
+            const cy_stc_dmac_descriptor_config_t DmaDescr1DCfg =
+            {
+                     /* .srcAddress         = */ NULL,
+                     /* .dstAddress         = */ NULL,
+                     /* .dataCount          = */ 1UL,
+                     /* .dataSize           = */ CY_DMAC_BYTE,
+                     /* .srcTransferSize    = */ CY_DMAC_TRANSFER_SIZE_DATA,
+                     /* .srcAddrIncrement   = */ true,
+                     /* .dstTransferSize    = */ CY_DMAC_TRANSFER_SIZE_WORD,
+                     /* .dstAddrIncrement   = */ 0,
+                     /* .retrigger          = */ CY_DMAC_RETRIG_IM,
+                     /* .cpltState          = */ true,
+                     /* .interrupt          = */ false,
+                     /* .preemptable        = */ config->dmaConfig[endpoint]->preemptable,
+                     /* .flipping           = */ 0,
+                     /* .triggerType        = */ CY_DMAC_SINGLE_DESCR,
+
+            };
 
             /* Store DMA configuration required for operation */
             endpointData->base   = config->dmaConfig[endpoint]->base;
             endpointData->chNum  = config->dmaConfig[endpoint]->chNum;
-            endpointData->descr0 = config->dmaConfig[endpoint]->descr0;
-            endpointData->descr1 = config->dmaConfig[endpoint]->descr1;
             endpointData->outTrigMux = config->dmaConfig[endpoint]->outTrigMux;
             endpointData->copyData   = NULL;
 
             if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA == context->mode)
             {
-                if (NULL != endpointData->descr0)
+                
+                /* Initialize DMA descriptor 0 (PING) */
+                if(CY_DMAC_SUCCESS == Cy_DMAC_Descriptor_Init(endpointData->base,endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, &DmaDescr1DCfg))
                 {
-                    /* Initialize DMA descriptor 0 for 1D operation.
-                    * Discard return because descriptor configuration (defined in driver) is valid.
-                    */
-                    (void) Cy_DMA_Descriptor_Init(endpointData->descr0, &DmaDescr1DCfg);
-
                     locStatus = CY_USBFS_DEV_DRV_SUCCESS;
                 }
             }
+
             else
             {
-                if ((NULL != endpointData->descr0) && (NULL != endpointData->descr1))
+                /* Descriptors configurations */
+                const cy_stc_dmac_descriptor_config_t DmaDescr2DCfg =
                 {
-                    /* Initialize DMA descriptor 0 for 2D operation.
-                    * Discard return because descriptor configuration (defined in driver) is valid.
-                    */
-                    (void) Cy_DMA_Descriptor_Init(endpointData->descr0, &DmaDescr2DCfg);
+                        /* .srcAddress          = */ NULL,
+                        /* .dstAddress          = */ NULL,
+                        /* .dataCount           = */ 1UL,
+                        /* .dataSize            = */ CY_DMAC_BYTE,
+                        /* .srcTransferSize     = */ CY_DMAC_TRANSFER_SIZE_DATA,
+                        /* .srcAddrIncrement    = */ true,
+                        /* .dstTransferSize     = */ CY_DMAC_TRANSFER_SIZE_WORD,
+                        /* .dstAddrIncrement    = */ 0,
+                        /* .retrigger           = */ CY_DMAC_RETRIG_IM,
+                        /* .cpltState           = */ true,
+                        /* .interrupt           = */ true,
+                        /* .preemptable         = */ config->dmaConfig[endpoint]->preemptable,
+                        /* .flipping            = */ true,
+                        /* .triggerType         = */ CY_DMAC_SINGLE_DESCR,
+                };
+               
+                /* Initialize DMA descriptor 0 (PING) and 1 (PONG) */
+                cy_en_dmac_status_t descr0Stat = Cy_DMAC_Descriptor_Init(endpointData->base,endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, &DmaDescr2DCfg); 
+                cy_en_dmac_status_t descr1Stat = Cy_DMAC_Descriptor_Init(endpointData->base,endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, &DmaDescr2DCfg); 
 
-
-                    /* Initialize DMA descriptor 0 for 1D operation.
-                    * Discard return because descriptor configuration (defined in driver) is valid.
-                    */
-                    (void)Cy_DMA_Descriptor_Init(endpointData->descr1, &DmaDescr1DCfg);
-
+                if((CY_DMAC_SUCCESS == descr0Stat) && (CY_DMAC_SUCCESS == descr1Stat))
+                {
                     locStatus = CY_USBFS_DEV_DRV_SUCCESS;
                 }
             }
 
             /* Set DMA channel configuration */
             chConfig.enable      = false;
-            chConfig.bufferable  = false;
-            chConfig.descriptor  = config->dmaConfig[endpoint]->descr0;
-            chConfig.preemptable = config->dmaConfig[endpoint]->preemptable;
+            chConfig.descriptor  = CY_DMAC_DESCRIPTOR_PING;
             chConfig.priority    = config->dmaConfig[endpoint]->priority;
 
             /* Initialize DMA channel */
-            if ((CY_DMA_SUCCESS != Cy_DMA_Channel_Init(endpointData->base, endpointData->chNum, &chConfig)) ||
-                (CY_USBFS_DEV_DRV_SUCCESS != locStatus))
+            if ((CY_DMAC_SUCCESS != Cy_DMAC_Channel_Init(endpointData->base, endpointData->chNum, &chConfig)) ||
+                            (CY_USBFS_DEV_DRV_SUCCESS != locStatus))
             {
                 break;
             }
 
             /* Enable DMA block */
-            Cy_DMA_Enable(endpointData->base);
+            Cy_DMAC_Enable(endpointData->base);
         }
+
         else
         {
-            endpointData->chNum = DMA_INVALID_CHANNEL;
+            endpointData->chNum = DMAC_INVALID_CHANNEL;
         }
 
         /* Configuration complete successfully */
@@ -285,13 +270,12 @@ void DmaDisable(cy_stc_usbfs_dev_drv_context_t *context)
         /* Get pointer to endpoint data */
         cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData = &context->epPool[endpoint];
 
-        if (endpointData->chNum != DMA_INVALID_CHANNEL)
+        if (endpointData->chNum != DMAC_INVALID_CHANNEL)
         {
-            Cy_DMA_Channel_Disable(endpointData->base, endpointData->chNum);
+            Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
         }
     }
 }
-
 
 /*******************************************************************************
 * Function Name: DmaEndpointInit1D
@@ -299,84 +283,50 @@ void DmaDisable(cy_stc_usbfs_dev_drv_context_t *context)
 *
 * Configures DMA 1D descriptor used in DMA modes.
 *
-* \param descr
-* The pointer to the DMA descriptor.
+* \param base
+* The pointer to the DMAC base address.
+* 
+* \param channel
+* The DMAC channel number associated with the Endpoint.
 *
 * \param inDirection
-* Endpoint direction associated with DMA descriptor.
+* Endpoint direction associated with DMA descriptor \ref cy_en_dmac_descriptor_t,
+*
+* \param descr
+* The descriptors to be used for endpoint transfers.
 *
 * \param dataSize
-* The DMA transfer data size \ref cy_en_dma_data_size_t.
+* The DMA transfer data size \ref cy_en_dmac_data_size_t.
 *
 * \param dataReg
 * The pointer to the data endpoint data register.
 *
 *******************************************************************************/
-static void DmaEndpointInit1D(cy_stc_dma_descriptor_t *descr, bool inDirection,
-                              cy_en_dma_data_size_t dataSize, volatile uint32_t const *dataReg)
+static void DmaEndpointInit1D(DMAC_Type * base, uint32_t channel, bool inDirection, cy_en_dmac_descriptor_t descr, 
+                              cy_en_dmac_data_size_t dataSize, volatile uint32_t const *dataReg)
 {
-    Cy_DMA_Descriptor_SetDataSize(descr, dataSize);
+    Cy_DMAC_Descriptor_SetDataSize(base, channel,  descr, dataSize);
 
     if (inDirection)
     {
-        Cy_DMA_Descriptor_SetSrcTransferSize(descr, CY_DMA_TRANSFER_SIZE_DATA);
-        Cy_DMA_Descriptor_SetDstTransferSize(descr, CY_DMA_TRANSFER_SIZE_WORD);
-
-        Cy_DMA_Descriptor_SetXloopSrcIncrement(descr, DMA_XLOOP_INCREMENT);
-        Cy_DMA_Descriptor_SetXloopDstIncrement(descr, DMA_NO_INCREMENT);
-
-        Cy_DMA_Descriptor_SetDstAddress(descr, (void const *) dataReg);
+        Cy_DMAC_Descriptor_SetSrcTransferSize(base, channel, descr, CY_DMAC_TRANSFER_SIZE_DATA);
+        Cy_DMAC_Descriptor_SetDstTransferSize(base, channel, descr, CY_DMAC_TRANSFER_SIZE_WORD);
+    
+        Cy_DMAC_Descriptor_SetSrcIncrement(base, channel, descr, DMA_INCREMENT);
+        Cy_DMAC_Descriptor_SetDstIncrement(base, channel, descr, DMA_NO_INCREMENT);
+        
+        Cy_DMAC_Descriptor_SetDstAddress (base, channel, descr, (void const *) dataReg);
     }
+
     else
     {
-        Cy_DMA_Descriptor_SetSrcTransferSize(descr, CY_DMA_TRANSFER_SIZE_WORD);
-        Cy_DMA_Descriptor_SetDstTransferSize(descr, CY_DMA_TRANSFER_SIZE_DATA);
+        Cy_DMAC_Descriptor_SetSrcTransferSize(base, channel, descr, CY_DMAC_TRANSFER_SIZE_WORD);
+        Cy_DMAC_Descriptor_SetDstTransferSize(base, channel, descr, CY_DMAC_TRANSFER_SIZE_DATA);
 
-        Cy_DMA_Descriptor_SetXloopSrcIncrement(descr, DMA_NO_INCREMENT);
-        Cy_DMA_Descriptor_SetXloopDstIncrement(descr, DMA_XLOOP_INCREMENT);
+        Cy_DMAC_Descriptor_SetSrcIncrement(base, channel, descr, DMA_NO_INCREMENT);
+        Cy_DMAC_Descriptor_SetDstIncrement(base, channel, descr, DMA_INCREMENT);
 
-        Cy_DMA_Descriptor_SetSrcAddress(descr, (void const *) dataReg);
-    }
-
-    /* Link descriptor to itself */
-    Cy_DMA_Descriptor_SetNextDescriptor(descr, descr);
-}
-
-
-/*******************************************************************************
-* Function Name: DmaEndpointInit2D
-****************************************************************************//**
-*
-* Configures DMA 2D descriptor used in the DMA Automatic mode.
-*
-* \param descr
-* The pointer to the DMA descriptor.
-*
-* \param inDirection
-* Endpoint direction associated with DMA descriptor.
-*
-* \param numElements
-* Number of elements to transfer.
-*
-*******************************************************************************/
-static void DmaEndpointInit2D(cy_stc_dma_descriptor_t *descr, bool inDirection,
-                              int32_t numElements)
-{
-    /* Descriptor 0 (2D): it transfers number of data elements (X loop count)
-    * and increments source/destination (depends on direction) by this amount
-    * (Y loop increment).
-    */
-    Cy_DMA_Descriptor_SetXloopDataCount(descr, (uint32_t) numElements);
-
-    if (inDirection)
-    {
-        Cy_DMA_Descriptor_SetYloopSrcIncrement(descr, numElements);
-        Cy_DMA_Descriptor_SetYloopDstIncrement(descr, DMA_NO_INCREMENT);
-    }
-    else
-    {
-        Cy_DMA_Descriptor_SetYloopSrcIncrement(descr, DMA_NO_INCREMENT);
-        Cy_DMA_Descriptor_SetYloopDstIncrement(descr, numElements);
+        Cy_DMAC_Descriptor_SetSrcAddress (base, channel, descr, (void const *) dataReg);
     }
 }
 
@@ -404,67 +354,64 @@ static void DmaEndpointSetLength(bool inDirection, uint32_t size,
 {
     uint8_t *buf = endpoint->buffer;
 
-    /*
-    * Descriptor 0: get number of Y loops. It transfers data in multiples of 32 bytes.
-    * Descriptor 1: get number of X loops. It transfers data what was left 1-31 bytes.
-    */
-    uint32_t numYloops = size / (uint32_t) DMA_YLOOP_INCREMENT;
-    uint32_t numXloops = size % (uint32_t) DMA_YLOOP_INCREMENT;
+    uint32_t lengthDescr0;
+    uint32_t lengthDescr1;
+
+    /* Get number of full bursts. Num Y loops*/
+    endpoint->DmaEpBurstCount = (uint32_t) (size / USBFS_DMA_BYTES_PER_BURST);
+
+    /* Get number of elements in the last burst. Num X Loops*/
+    endpoint->DmaEpLastBurst = (uint32_t) (size % USBFS_DMA_BYTES_PER_BURST);
+
+    /* Get total number of bursts. */
+    endpoint->DmaEpBurstCount += (0U != endpoint->DmaEpLastBurst) ? 1U : 0U;
+
+    /* Adjust number of data elements transferred in last burst. */
+    endpoint->DmaEpLastBurst = (0U != endpoint->DmaEpLastBurst) ?
+                                          (endpoint->DmaEpLastBurst) :
+                                          (USBFS_DMA_BYTES_PER_BURST);
+
+    /* Get number of data elements to transfer for descriptor 0 and 1. */
+    lengthDescr0 = (1U == endpoint->DmaEpBurstCount) ? endpoint->DmaEpLastBurst : (USBFS_DMA_BYTES_PER_BURST);
+
+    lengthDescr1 = (2U == endpoint->DmaEpBurstCount) ? endpoint->DmaEpLastBurst : (USBFS_DMA_BYTES_PER_BURST);
+
+
+    /* Mark which descriptor is last one to execute. */
+    endpoint->LastDescr = (bool)((0U != (endpoint->DmaEpBurstCount & 0x1U)) ? USBFS_DMA_DESCR0_MASK : USBFS_DMA_DESCR1_MASK);
+
+    /* Disable DMA channel: start configuration. */
+    Cy_DMAC_Channel_Disable(endpoint->base, endpoint->chNum);
 
     /* Configure */
     if (inDirection)
     {
         endpoint->startBuf = (uint16_t) size;  /* Store DMA transfer size */
-        Cy_DMA_Descriptor_SetSrcAddress(endpoint->descr0, buf);
-        Cy_DMA_Descriptor_SetSrcAddress(endpoint->descr1, &buf[size - numXloops]);
+        Cy_DMAC_Descriptor_SetSrcAddress(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PING, buf);
+        Cy_DMAC_Descriptor_SetSrcAddress(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PONG, (buf + USBFS_DMA_BYTES_PER_BURST));
     }
     else
     {
-        endpoint->startBuf = (numYloops > 0U) ? 1U : 0U; /* Store 1st DMA descriptor to execute */
-        Cy_DMA_Descriptor_SetDstAddress(endpoint->descr0, buf);
-        Cy_DMA_Descriptor_SetDstAddress(endpoint->descr1, &buf[size - numXloops]);
+        Cy_DMAC_Descriptor_SetDstAddress(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PING, buf);
+        Cy_DMAC_Descriptor_SetDstAddress(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PONG, (buf + USBFS_DMA_BYTES_PER_BURST));
     }
 
-    /* Configure loop length */
-    if (numYloops > 0UL)
+    Cy_DMAC_Descriptor_SetDataCount(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PING, lengthDescr0);
+    Cy_DMAC_Descriptor_SetDataCount(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PONG, lengthDescr1);
+   
+    /* Enable DMA to execute transfer as it was disabled because there were no valid descriptor. */
+    Cy_DMAC_Descriptor_SetState(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+
+    /* Set first descriptor to execute */
+    Cy_DMAC_Channel_SetCurrentDescriptor(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PING);
+
+    if(endpoint->DmaEpBurstCount > 1U)
     {
-        Cy_DMA_Descriptor_SetYloopDataCount(endpoint->descr0, numYloops);
+        /* Validate the PONG descriptor */
+        Cy_DMAC_Descriptor_SetState(endpoint->base, endpoint->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
     }
 
-    if (numXloops > 0UL)
-    {
-        Cy_DMA_Descriptor_SetXloopDataCount(endpoint->descr1, numXloops);
-    }
-
-    /* Chain descriptors to operate */
-    if (numYloops == 0UL)
-    {
-        /* (Size < 32): only Descriptor 1 transfers data */
-        Cy_DMA_Descriptor_SetNextDescriptor(endpoint->descr1, endpoint->descr1);
-    }
-    else if (numXloops == 0UL)
-    {
-        /* Size multiple of 32: only Descriptor 0 transfers data */
-        Cy_DMA_Descriptor_SetNextDescriptor(endpoint->descr0, endpoint->descr0);
-    }
-    else
-    {
-        /* (Size > 32): both Descriptor 0 and 1 transfer data */
-        Cy_DMA_Descriptor_SetNextDescriptor(endpoint->descr0, endpoint->descr1);
-        Cy_DMA_Descriptor_SetNextDescriptor(endpoint->descr1, endpoint->descr0);
-    }
-
-    /* Keep channel enabled after execution of Descriptor 0 to execute Descriptor 1 */
-    Cy_DMA_Descriptor_SetChannelState(endpoint->descr0,
-                                        ((numYloops > 0UL) && (numXloops > 0UL)) ?
-                                            CY_DMA_CHANNEL_ENABLED : CY_DMA_CHANNEL_DISABLED);
-
-    /* Start execution from Descriptor 0 (length >= 32) or Descriptor 1 (length < 32) */
-    Cy_DMA_Channel_SetDescriptor(endpoint->base, endpoint->chNum,
-                                    ((numYloops > 0UL) ? endpoint->descr0 : endpoint->descr1));
-
-    /* Configuration complete: enable channel */
-    Cy_DMA_Channel_Enable(endpoint->base, endpoint->chNum);
+    Cy_DMAC_Channel_Enable(endpoint->base, endpoint->chNum);
 }
 
 
@@ -475,29 +422,59 @@ static void DmaEndpointSetLength(bool inDirection, uint32_t size,
 * Restores the DMA channel after transfer is completed for the the OUT data endpoint.
 * Applicable only when mode is \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO.
 *
-* \param endpoint
+* \param endpointData
 * The pointer to the structure that stores endpoint information.
 *
+* \param useReg16
+* Defines which endpoint registers to use: 8-bits or 16-bits.
+*
 *******************************************************************************/
-void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpoint)
+void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData, bool useReg16)
 {
+   
+    /* Wait for the DMA Transfer Complete */
+    while (0u != (Cy_DMAC_GetActiveChannel(endpointData->base) & (uint32_t)(1UL << endpointData->chNum))) {}
+
     /* Number of clocks for DMA completion pulse */
     const uint32_t CY_USBFS_DEV_DRV_TRIG_CYCLES = 2UL;
 
-    /* Define which descriptor is 1st in the chain */
-    bool setDescr0 = (0U != endpoint->startBuf);
+    /* Restore burst counter for endpoint. */
+    endpointData->DmaEpBurstCount = USBFS_DMA_GET_BURST_CNT(endpointData->DmaOutEpBurstCountRestore);
 
-    /* Channel disable aborts on-going transfer */
-    Cy_DMA_Channel_Disable(endpoint->base, endpoint->chNum);
+    /* Disable DMA channel to restore descriptor configuration. The on-going transfer is aborted. */
+    Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
 
-    /* Send pulse to UBSFS IP to indicate end of DMA transfer */
-    (void) Cy_TrigMux_SwTrigger(endpoint->outTrigMux, CY_USBFS_DEV_DRV_TRIG_CYCLES);
+    /* Generate DMA tr_out signal to notify USB IP that DMA is done. This signal is not generated
+    * when transfer was aborted (it occurs when host writes less bytes than buffer size).
+    * Send a pulse to UBSFS IP to indicate end of DMA transfer */
+    (void) Cy_TrigMux_SwTrigger(endpointData->outTrigMux, CY_USBFS_DEV_DRV_TRIG_CYCLES);
 
-    /* Set 1st DMA descriptor for the following transfer */
-    Cy_DMA_Channel_SetDescriptor(endpoint->base, endpoint->chNum,
-                                                (setDescr0 ? endpoint->descr0 : endpoint->descr1));
+    /* Restore destination address for output endpoint. */
+    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, (void*)endpointData->buffer);
+    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, 
+                                    (void*)(endpointData->buffer + USBFS_DMA_BYTES_PER_BURST));
 
-    Cy_DMA_Channel_Enable(endpoint->base, endpoint->chNum);
+    /* Restore number of data elements to transfer which was adjusted for last burst. */
+    if (true == (endpointData->RevertDescr))
+    {
+        Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum, 
+                                        (cy_en_dmac_descriptor_t)(endpointData->LastDescr),
+                                        (GET_SIZE(useReg16, USBFS_DMA_BYTES_PER_BURST)));
+    }
+
+    /* Validate descriptor 0 and 1 (also reset current state). Command to start with descriptor 0. */
+    Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+
+    if (endpointData->DmaOutEpBurstCountRestore > 1U)
+    {
+        Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
+    }
+    
+    Cy_DMAC_Channel_SetCurrentDescriptor(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING);
+
+    /* Enable DMA channel: configuration complete. */
+    Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
+
 }
 
 
@@ -511,6 +488,7 @@ void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpoint)
 * The pointer to the USBFS instance.
 *
 * \param mode
+* The endpoint management mode.
 *
 * \param useReg16
 * Defines which endpoint registers to use: 8-bits or 16-bits.
@@ -527,15 +505,14 @@ cy_en_usbfs_dev_drv_status_t DmaEndpointInit(USBFS_Type *base,
                                              bool useReg16,
                                              cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData)
 {
-    cy_en_dma_data_size_t regSize;
-    int32_t numElements;
+    cy_en_dmac_data_size_t regSize;
     uint32_t volatile *dataReg;
 
     /* Get direction and endpoint number */
     bool inDirection  = IS_EP_DIR_IN(endpointData->address);
     uint32_t endpoint = EPADDR2PHY(endpointData->address);
 
-    if (DMA_INVALID_CHANNEL == endpointData->chNum)
+    if (DMAC_INVALID_CHANNEL == endpointData->chNum)
     {
         return CY_USBFS_DEV_DRV_DMA_CFG_FAILED;
     }
@@ -544,29 +521,33 @@ cy_en_usbfs_dev_drv_status_t DmaEndpointInit(USBFS_Type *base,
     if (useReg16)
     {
         dataReg     = Cy_USBFS_Dev_Drv_GetDataReg16Addr(base, endpoint);
-        regSize     = CY_DMA_HALFWORD;
-        numElements = (DMA_YLOOP_INCREMENT / 2);
+        regSize     = CY_DMAC_HALFWORD;
     }
+
     else
     {
         dataReg     = Cy_USBFS_Dev_Drv_GetDataRegAddr(base, endpoint);
-        regSize     = CY_DMA_BYTE;
-        numElements = DMA_YLOOP_INCREMENT;
+        regSize     = CY_DMAC_BYTE;
     }
 
     /* Disable channel before configuration */
-    Cy_DMA_Channel_Disable(endpointData->base, endpointData->chNum);
+    Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
 
     /* Configure Descriptor 0 for 1D operation */
-    DmaEndpointInit1D(endpointData->descr0, inDirection, regSize, dataReg);
+    DmaEndpointInit1D(endpointData->base, endpointData->chNum, inDirection, CY_DMAC_DESCRIPTOR_PING, regSize, dataReg);
 
     if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO == mode)
     {
-        /* Configure Descriptor 0 for 2D operation */
-        DmaEndpointInit2D(endpointData->descr0, inDirection, numElements);
+        /* Configure both descriptors for the endpoint */ 
+        DmaEndpointInit1D(endpointData->base, endpointData->chNum, inDirection, CY_DMAC_DESCRIPTOR_PING, regSize, dataReg);
+        DmaEndpointInit1D(endpointData->base, endpointData->chNum, inDirection, CY_DMAC_DESCRIPTOR_PONG, regSize, dataReg);
 
-        /* Configure Descriptor 1 for 1D operation */
-        DmaEndpointInit1D(endpointData->descr1, inDirection, regSize, dataReg);
+        /* Set descriptor chaining */
+        Cy_DMAC_Descriptor_SetFlipping(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+        Cy_DMAC_Descriptor_SetFlipping(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
+
+        /* Enable DMA Interrupt Source */
+        Cy_DMAC_SetInterruptMask(endpointData->base, 1UL<<(uint32_t)endpointData->chNum);
 
         /* Configure descriptors to access buffer */
         DmaEndpointSetLength(inDirection, (uint32_t) endpointData->bufferSize, endpointData);
@@ -712,8 +693,8 @@ cy_en_usbfs_dev_drv_status_t AddEndpointRamBuffer(USBFS_Type *base,
         endpointData->isPending  = false;
 
         /* Set arbiter configuration (clears DMA requests) */
-        Cy_USBFS_Dev_Drv_SetArbEpConfig(base, endpoint, (USBFS_USBDEV_ARB_EP1_CFG_CRC_BYPASS_Msk |
-                                                         USBFS_USBDEV_ARB_EP1_CFG_RESET_PTR_Msk));
+        Cy_USBFS_Dev_Drv_SetArbEpConfig(base, endpoint, (USBFS_ARB_EP1_CFG_CRC_BYPASS_Msk |
+                                                         USBFS_ARB_EP1_CFG_RESET_PTR_Msk));
 
         /* Performs dynamic reconfiguration to make sure that the DMA has completed the data transfer.
         * Also it flushes endpoint pre-fetch buffer (useful for IN endpoints).
@@ -746,7 +727,6 @@ cy_en_usbfs_dev_drv_status_t AddEndpointRamBuffer(USBFS_Type *base,
 
     return retStatus;
 }
-
 
 /*******************************************************************************
 * Function Name: RestoreEndpointRamBuffer
@@ -791,12 +771,12 @@ void RestoreEndpointRamBuffer(USBFS_Type *base,
         /* OUT Endpoint: enable DMA channel endpoint ready for operation.
         * IN Endpoint: keep disabled, it is enabled in LoadInEndpointDmaAuto.
         */
-        Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
+        Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
     }
 
     /* Sets an arbiter configuration */
-    Cy_USBFS_Dev_Drv_SetArbEpConfig(base, endpoint, (USBFS_USBDEV_ARB_EP1_CFG_CRC_BYPASS_Msk |
-                                                     USBFS_USBDEV_ARB_EP1_CFG_RESET_PTR_Msk));
+    Cy_USBFS_Dev_Drv_SetArbEpConfig(base, endpoint, (USBFS_ARB_EP1_CFG_CRC_BYPASS_Msk |
+                                                     USBFS_ARB_EP1_CFG_RESET_PTR_Msk));
 
     /* Set SIE mode to respond to host */
     Cy_USBFS_Dev_Drv_SetSieEpMode(base, endpoint, GetEndpointInactiveMode((uint32_t) endpointData->sieMode));
@@ -875,12 +855,15 @@ cy_en_usbfs_dev_drv_status_t LoadInEndpointDma(USBFS_Type    *base,
         /* Get number of data elements to transfer */
         size = context->useReg16 ? GET_SIZE16(size) : size;
 
-        /* 1D descriptor: configure source address and length */
-        Cy_DMA_Descriptor_SetSrcAddress    (endpointData->descr0, (const void*) buffer);
-        Cy_DMA_Descriptor_SetXloopDataCount(endpointData->descr0, size);
+        /* Descriptor: Configure source address and length */
+        Cy_DMAC_Descriptor_SetSrcAddress(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, (void*)buffer);
+        Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, size);
+
+        /* Validate the descriptor */
+        Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
 
         /* Enable DMA channel: configuration complete */
-        Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
+        Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
 
         /* Generate DMA request: the endpoint will be armed when the DMA is
         * finished in the Arbiter interrupt
@@ -907,7 +890,6 @@ cy_en_usbfs_dev_drv_status_t LoadInEndpointDma(USBFS_Type    *base,
 
     return retStatus;
 }
-
 
 /*******************************************************************************
 * Function Name: ReadOutEndpointDma
@@ -976,16 +958,20 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDma(USBFS_Type *base,
     }
 
     /* Channel is disabled after initialization or descriptor completion  */
+    Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
 
     /* Get number of data elements to transfer */
     numToCopy = context->useReg16 ? GET_SIZE16(numToCopy) : numToCopy;
 
-    /* 1D descriptor: configure destination address and length */
-    Cy_DMA_Descriptor_SetDstAddress    (endpointData->descr0, buffer);
-    Cy_DMA_Descriptor_SetXloopDataCount(endpointData->descr0, numToCopy);
+    /* Descriptor: Configure destination address and length */
+    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, (void*)buffer);
+    Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, numToCopy);
+
+    /* Validate the descriptor */
+    Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
 
     /* Enable DMA channel: configuration complete */
-    Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
+    Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
 
     /* The current endpoint state is completed, changes the state to pending to
     * track DMA read completion.
@@ -1053,6 +1039,12 @@ cy_en_usbfs_dev_drv_status_t LoadInEndpointDmaAuto(USBFS_Type    *base,
 {
     /* Get pointer to endpoint data */
     cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData = &context->epPool[endpoint];
+    
+    uint8_t *buf = endpointData->buffer;
+      
+    uint32_t lengthDescr0;
+    uint32_t lengthDescr1;
+      
 
     /* Request to load more bytes than endpoint buffer */
     if (size > endpointData->bufferSize)
@@ -1086,24 +1078,59 @@ cy_en_usbfs_dev_drv_status_t LoadInEndpointDmaAuto(USBFS_Type    *base,
             (void) memcpy(endpointData->buffer, buffer, size);
         }
 
-        /* Configure transfer length */
-        if (size != endpointData->startBuf)
-        {
-            /* Update transfer length, endpoint startBuf and enables DMA */
-            DmaEndpointSetLength(true, size, &context->epPool[endpoint]);
-        }
-        else
-        {
-            /* Reset DMA channel indexes, they keep value after Resume or Abort */
-            Cy_DMA_Channel_SetDescriptor(endpointData->base, endpointData->chNum,
-                                            (endpointData->startBuf >= (uint32_t) DMA_YLOOP_INCREMENT) ?
-                                                endpointData->descr0 : endpointData->descr1);
+        /* Get number of full bursts. */
+        endpointData->DmaEpBurstCount = (uint32_t) (size / USBFS_DMA_BYTES_PER_BURST);
+      
+        /* Get number of elements in the last burst. */
+        endpointData->DmaEpLastBurst = (uint32_t) (size % USBFS_DMA_BYTES_PER_BURST);
+      
+        /* Get total number of bursts. */
+        endpointData->DmaEpBurstCount += (0U != endpointData->DmaEpLastBurst) ? 1U : 0U;
+      
+        /* Adjust number of data elements transferred in last burst. */
+        endpointData->DmaEpLastBurst = (0U != endpointData->DmaEpLastBurst) ?
+                                              (GET_SIZE(context->useReg16, endpointData->DmaEpLastBurst)) :
+                                              (GET_SIZE(context->useReg16,USBFS_DMA_BYTES_PER_BURST));
 
-            /* Enable channel: configuration complete */
-            Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
-        }
+        /* Get number of data elements to transfer for descriptor 0 and 1. */
+        lengthDescr0 = (1U == endpointData->DmaEpBurstCount) ? endpointData->DmaEpLastBurst : 
+                                                                GET_SIZE(context->useReg16, USBFS_DMA_BYTES_PER_BURST);
+      
+        lengthDescr1 = (2U == endpointData->DmaEpBurstCount) ? endpointData->DmaEpLastBurst :
+                                                                GET_SIZE(context->useReg16, USBFS_DMA_BYTES_PER_BURST);
 
-        /* Generate DMA request to pre-load data into endpoint buffer */
+      
+      
+        /* Mark which descriptor is last one to execute. */
+        endpointData->LastDescr = (bool)((0U != (endpointData->DmaEpBurstCount & 0x1U)) ? USBFS_DMA_DESCR0_MASK : USBFS_DMA_DESCR1_MASK);
+      
+        Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
+
+        /* Restore destination address for input endpoint. */
+        Cy_DMAC_Descriptor_SetSrcAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, buf);
+        Cy_DMAC_Descriptor_SetSrcAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, (buf + USBFS_DMA_BYTES_PER_BURST));
+        
+        /* Set number of elements to transfer. */
+        Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, lengthDescr0);
+        Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PONG, lengthDescr1);
+
+        /* Validate the PING descriptor */
+        Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+        
+        Cy_DMAC_Channel_SetCurrentDescriptor(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING);
+        
+        if(endpointData->DmaEpBurstCount > 1U)
+        {
+            /* Validate the PONG descriptor */
+            Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
+        }
+        
+        /* Adjust burst counter taking to account: 2 valid descriptors and interrupt trigger after valid descriptor were executed. */
+        endpointData->DmaEpBurstCount = USBFS_DMA_GET_BURST_CNT(endpointData->DmaEpBurstCount);
+
+        Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
+      
+        /* Start generation of DMA requests to pre-load data into endpoint buffer */
         Cy_USBFS_Dev_Drv_SetArbCfgEpInReady(base, endpoint);
 
         /* IN endpoint will be armed in the Arbiter interrupt (source: IN_BUF_FULL)
@@ -1114,6 +1141,118 @@ cy_en_usbfs_dev_drv_status_t LoadInEndpointDmaAuto(USBFS_Type    *base,
     return CY_USBFS_DEV_DRV_SUCCESS;
 }
 
+/*******************************************************************************
+* Function Name: Cy_USBFS_Dev_Drv_EP_DmaDone
+****************************************************************************//**
+*
+* Endpoint DMA Done Interrupt handler.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbfs_dev_drv_context_t
+* allocated by the user. The structure is used during the USBFS Device
+* operation for internal configuration and data retention. The user must not
+* modify anything in this structure.
+* 
+* \param intrMask
+* The DMAC Interrupt Status Mask.
+*
+*******************************************************************************/
+void Cy_USBFS_Dev_Drv_EP_DmaDone(cy_stc_usbfs_dev_drv_context_t* context, uint32_t intrMask)
+{
+    uint32_t endpoint=0UL;
+
+    /* Configure active endpoint DMA channels after completion of a transfer */
+    for (endpoint = 0UL; endpoint < CY_USBFS_DEV_DRV_NUM_EPS_MAX; ++endpoint)
+    {
+        /* Get pointer to endpoint data */
+        cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData = &context->epPool[endpoint];
+        
+        /* Check for the endpoint corresponding to interrupt source */
+        if(0U != (intrMask & 1UL<<endpointData->chNum))
+        {
+            uint32_t nextAddr;
+            /* Manage data elements which remain to transfer. */
+            if (0U != endpointData->DmaEpBurstCount)
+            {
+                if(endpointData->DmaEpBurstCount <= 2U)
+                {
+                    /* Adjust length of last burst. */
+                    Cy_DMAC_Descriptor_SetDataCount(endpointData->base, 
+                                                   endpointData->chNum, 
+                                                   (cy_en_dmac_descriptor_t)(endpointData->LastDescr),
+                                                   endpointData->DmaEpLastBurst); 
+                }
+    
+                /* Advance source for input endpoint or destination for output endpoint. */
+                if(CY_USBFS_DEV_DRV_IS_EP_DIR_IN(context->epPool[endpoint].address))                       
+                {
+                    /* Change source for descriptor 0. */
+                    uint32_t* SrcAddr = Cy_DMAC_Descriptor_GetSrcAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING);
+                    nextAddr = (uint32_t)SrcAddr;
+                    nextAddr += (2U * USBFS_DMA_BYTES_PER_BURST);
+                    SrcAddr = (uint32_t *)nextAddr;
+                    Cy_DMAC_Descriptor_SetSrcAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, (void *) SrcAddr);
+
+                    /* Change source for descriptor 1. */
+                    nextAddr += USBFS_DMA_BYTES_PER_BURST;
+                    SrcAddr = (uint32_t *)nextAddr;
+                    Cy_DMAC_Descriptor_SetSrcAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, (void *) SrcAddr);
+                }
+
+                else
+                {
+                    /* Change destination for descriptor 0. */
+                    uint32_t* DstAddr = Cy_DMAC_Descriptor_GetDstAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING);
+                    nextAddr = (uint32_t)DstAddr;
+                    nextAddr += (2U * USBFS_DMA_BYTES_PER_BURST);
+                    DstAddr = (uint32_t *)nextAddr;
+                    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, (void *) DstAddr);
+  
+                    /* Change destination for descriptor 1. */
+                    nextAddr += USBFS_DMA_BYTES_PER_BURST;
+                    DstAddr = (uint32_t *)nextAddr;
+                    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, (void *) DstAddr);
+    
+                }
+    
+                /* Setup DMA to execute transfer as it was disabled because there were no valid descriptor. */
+                Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+                
+                /* Adjust burst count as per one PING descriptor burst */
+                endpointData->DmaEpBurstCount -= 1U; 
+                
+                /* Check for the need of PONG descriptor */ 
+                if (0U != endpointData->DmaEpBurstCount)
+                {
+                    /* Validate the PONG Descriptor */
+                    Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
+                    
+                    /* Adjust burst count as per one PONG descriptor burst */
+                    endpointData->DmaEpBurstCount -= 1U; 
+                }
+    
+                /* Enable the DMA channel */
+                Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
+                
+                uint32_t trigLine = (endpointData->chNum & USBFS_DMA_CHANNEL_MASK); 
+                trigLine = ((uint32_t)TRIG1_OUT_CPUSS_DMAC_TR_IN8 | trigLine);
+                
+                /* Number of clocks for DMA completion pulse */
+                const uint32_t CY_USBFS_DEV_DRV_TRIG_CYCLES = 2UL;
+
+                /* Trigger the DMA request on the relevant channel */
+                (void)Cy_TrigMux_SwTrigger(trigLine, CY_USBFS_DEV_DRV_TRIG_CYCLES);
+            }
+     
+            else
+            {
+                /* No data to transfer. False DMA trig. Ignore.  */
+            }
+       }
+
+    }
+
+}
 
 /*******************************************************************************
 * Function Name: ReadOutEndpointDmaAuto
@@ -1189,9 +1328,80 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
     /* Update number of copied bytes */
     *actSize = numToCopy;
 
+    uint32_t lengthDescr0, lengthDescr1;
+    
+    if(context->useReg16)
+    {
+        /* Adjust requested length: 2 bytes are handled at one data register access. */    
+        size = size + (size & 0x01U);
+    }
+
+    /* Get number of full bursts. */
+    endpointData->DmaEpBurstCount = (uint8_t) (size / USBFS_DMA_BYTES_PER_BURST);
+   
+    /* Get number of elements in the last burst. */
+    endpointData->DmaEpLastBurst = (uint8) (size % USBFS_DMA_BYTES_PER_BURST);
+
+    /* Get total number of bursts. */
+    endpointData->DmaEpBurstCount += (0U !=  endpointData->DmaEpLastBurst) ? 1U : 0U;
+
+    /* Adjust number of the data elements transferred in last burst. */
+    endpointData->DmaEpLastBurst = (0U != endpointData->DmaEpLastBurst) ?
+                                                          (GET_SIZE(context->useReg16, endpointData->DmaEpLastBurst)) :
+                                                          (GET_SIZE(context->useReg16, USBFS_DMA_BYTES_PER_BURST));
+
+    /* Get number of data elements to transfer for descriptor 0 and 1. */
+    lengthDescr0 = (1U == endpointData->DmaEpBurstCount) ? endpointData->DmaEpLastBurst : 
+                                                           (GET_SIZE(context->useReg16,USBFS_DMA_BYTES_PER_BURST));
+
+    lengthDescr1 = (2U == endpointData->DmaEpBurstCount) ? endpointData->DmaEpLastBurst : 
+                                                           (GET_SIZE(context->useReg16,USBFS_DMA_BYTES_PER_BURST));
+
+    /* Mark if revert number of data elements in descriptor after transfer completion. */
+    if(endpointData->DmaEpBurstCount > 2U) 
+    {
+        endpointData->RevertDescr = true; 
+    }
+    else
+    {
+        endpointData->RevertDescr = false; 
+    }
+
+    /* Mark last descriptor to be executed. */
+    endpointData->LastDescr = (0U != (endpointData->DmaEpBurstCount & 0x1U)) ? USBFS_DMA_DESCR0_MASK : USBFS_DMA_DESCR1_MASK;
+
+    /* Store the burst counter for endpoint. */
+    endpointData->DmaOutEpBurstCountRestore = endpointData->DmaEpBurstCount;
+
+    /* Adjust burst counter taking to account: 2 valid descriptors and interrupt trigger after valid descriptor were executed. */
+    endpointData->DmaEpBurstCount = USBFS_DMA_GET_BURST_CNT(endpointData->DmaEpBurstCount);
+
+    /* Disable DMA channel: start configuration. */
+    Cy_DMAC_Channel_Disable(endpointData->base, endpointData->chNum);
+
+    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, (void *)endpointData->buffer);
+    Cy_DMAC_Descriptor_SetDstAddress(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, (void *)(endpointData->buffer + USBFS_DMA_BYTES_PER_BURST));
+
+    /* Set number of elements to transfer. */
+    Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PING, lengthDescr0);
+    Cy_DMAC_Descriptor_SetDataCount(endpointData->base, endpointData->chNum , CY_DMAC_DESCRIPTOR_PONG, lengthDescr1);
+
+    /* Validate the PING descriptor */
+    Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING, true);
+    
+    /* Set first descriptor to execute */
+    Cy_DMAC_Channel_SetCurrentDescriptor(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PING);
+ 
+    if(endpointData->DmaOutEpBurstCountRestore > 1U)
+    {
+        /* Validate the PONG descriptor */
+        Cy_DMAC_Descriptor_SetState(endpointData->base, endpointData->chNum, CY_DMAC_DESCRIPTOR_PONG, true);
+    }
+    
+    Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
+
     return CY_USBFS_DEV_DRV_SUCCESS;
 }
-
 
 #if defined(__cplusplus)
 }
@@ -1204,3 +1414,4 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
 
 
 /* [] END OF FILE */
+

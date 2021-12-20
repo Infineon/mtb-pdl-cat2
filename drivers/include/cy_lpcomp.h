@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_lpcomp.h
-* \version 1.0
+* \version 1.0.1
 *
 * This file provides constants and parameter values for the low-power
 * comparator.
@@ -49,24 +49,24 @@
 *    Analog drive mode is for the inputs and Strong drive mode is for the output.
 *
 *    a. Connecting inputs using dedicated pins:
-*       \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_CONFIG_PINS_DIRECT
+*       \snippet lpcomp_snippet.c LPCOMP_SNIPPET_CONFIG_PINS_DIRECT
 *    b. Connecting low-power comparator's inputs using AMUXBUS:
-*       \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_CONFIG_PINS_AMUXBUS
+*       \snippet lpcomp_snippet.c LPCOMP_SNIPPET_CONFIG_PINS_AMUXBUS
 *
 *   \note The pins assignment is for the PSoC 4100S Plus (CY8CKIT-149). The pin
 *   numbers may differ, please refer to the device documentation for the more
 *   details.
 *
 * 2) Initialize and enable the driver:
-* \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_EXT_CONFIG_INIT
-* \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_CONFIG_INIT
+* \snippet lpcomp_snippet.c LPCOMP_SNIPPET_EXT_CONFIG_INIT
+* \snippet lpcomp_snippet.c LPCOMP_SNIPPET_CONFIG_INIT
 *
 * 3) Configure the interrupt requests if the interrupt event
 * triggering is needed. Additionally, enable the global interrupts and
 * initialize the referenced interrupt by setting the priority and the interrupt
 * vector using the \ref group_sysint driver API:
-* \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_EXT_CONFIG_ISR
-* \snippet lpcomp/snippet/main.c LPCOMP_SNIPPET_CONFIG_ISR
+* \snippet lpcomp_snippet.c LPCOMP_SNIPPET_EXT_CONFIG_ISR
+* \snippet lpcomp_snippet.c LPCOMP_SNIPPET_CONFIG_ISR
 *
 * 4) The comparator output can be monitored using the Cy_LPComp_GetCompare()
 * function, using the comparator interrupt (if the interrupt is enabled)
@@ -98,6 +98,11 @@
 * \section group_lpcomp_Changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>

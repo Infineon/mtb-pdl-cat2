@@ -2,16 +2,16 @@
 <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" release="PSoC Creator  4.4" template="Empty (17&quot; x 11&quot;)" xmlns="http://cypress.com/xsd/cyvis">
   <Page index="0" name="Architecture" enabled="true" shapeCount="260">
     <Instance shapeName="Shape_28" zorder="153" guid="1fe077ca-0725-4347-8fb7-085765cbb76d" name="GPIO_P0_1" component="cy_all_pin">
-      <Location x="480" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="480" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="480" y="72" />
-          <Point x="480" y="95.99999" />
           <Point x="486" y="102" />
-          <Point x="492" y="95.99999" />
-          <Point x="492" y="72" />
-          <Point x="480" y="72" />
+          <Point x="492" y="96" />
+          <Point x="492" y="66" />
+          <Point x="480" y="66" />
+          <Point x="480" y="96" />
+          <Point x="486" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -20,7 +20,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="486" y="84" />
+          <Location x="486" y="81" />
           <Text>P0[1]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -34,15 +34,15 @@
     </Instance>
     <Instance shapeName="Shape_31" zorder="17" guid="4131e3c0-4f92-4576-8fda-15c9a24670fe" name="GPIO_P3_0" component="cy_all_pin">
       <Location x="432" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="444" y="629.9999" />
-          <Point x="444" y="606" />
           <Point x="438" y="600" />
           <Point x="432" y="606" />
-          <Point x="432" y="629.9999" />
-          <Point x="444" y="629.9999" />
+          <Point x="432" y="636" />
+          <Point x="444" y="636" />
+          <Point x="444" y="606" />
+          <Point x="438" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -51,7 +51,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="438" y="618" />
+          <Location x="438" y="621" />
           <Text>P3[0]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -65,15 +65,15 @@
     </Instance>
     <Instance shapeName="Shape_32" zorder="18" guid="5ae01318-ac0c-4c70-8f3b-82ef50d3bfd3" name="GPIO_P3_1" component="cy_all_pin">
       <Location x="414" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="426" y="629.9999" />
-          <Point x="426" y="606" />
           <Point x="420" y="600" />
           <Point x="414" y="606" />
-          <Point x="414" y="629.9999" />
-          <Point x="426" y="629.9999" />
+          <Point x="414" y="636" />
+          <Point x="426" y="636" />
+          <Point x="426" y="606" />
+          <Point x="420" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -82,7 +82,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="420" y="618" />
+          <Location x="420" y="621" />
           <Text>P3[1]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -96,15 +96,15 @@
     </Instance>
     <Instance shapeName="Shape_39" zorder="19" guid="71529121-f203-4416-9315-45f40d5a67d8" name="GPIO_P2_0" component="cy_all_pin">
       <Location x="588" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="588" y="629.9999" />
-          <Point x="588" y="606" />
           <Point x="594" y="600" />
           <Point x="600" y="606" />
-          <Point x="600" y="629.9999" />
-          <Point x="588" y="629.9999" />
+          <Point x="600" y="636" />
+          <Point x="588" y="636" />
+          <Point x="588" y="606" />
+          <Point x="594" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -113,7 +113,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="594" y="618" />
+          <Location x="594" y="621" />
           <Text>P2[0]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -127,15 +127,15 @@
     </Instance>
     <Instance shapeName="Shape_40" zorder="20" guid="3a740357-6541-4025-9556-dca9dcf22b83" name="GPIO_P2_1" component="cy_all_pin">
       <Location x="570" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="570" y="629.9999" />
-          <Point x="570" y="606" />
           <Point x="576" y="600" />
           <Point x="582" y="606" />
-          <Point x="582" y="629.9999" />
-          <Point x="570" y="629.9999" />
+          <Point x="582" y="636" />
+          <Point x="570" y="636" />
+          <Point x="570" y="606" />
+          <Point x="576" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -144,7 +144,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="576" y="618" />
+          <Location x="576" y="621" />
           <Text>P2[1]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -158,15 +158,15 @@
     </Instance>
     <Instance shapeName="Shape_41" zorder="21" guid="19b11b74-ba72-4ed3-9c7e-b3168cb9ce10" name="GPIO_P2_2" component="cy_all_pin">
       <Location x="552" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="552" y="629.9999" />
-          <Point x="552" y="606" />
           <Point x="558" y="600" />
           <Point x="564" y="606" />
-          <Point x="564" y="629.9999" />
-          <Point x="552" y="629.9999" />
+          <Point x="564" y="636" />
+          <Point x="552" y="636" />
+          <Point x="552" y="606" />
+          <Point x="558" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -175,7 +175,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="558" y="618" />
+          <Location x="558" y="621" />
           <Text>P2[2]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -189,15 +189,15 @@
     </Instance>
     <Instance shapeName="Shape_42" zorder="22" guid="0f7af0fe-5671-4f11-85ac-7bf7e6971212" name="GPIO_P2_3" component="cy_all_pin">
       <Location x="534" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="534" y="629.9999" />
-          <Point x="534" y="606" />
           <Point x="540" y="600" />
           <Point x="546" y="606" />
-          <Point x="546" y="629.9999" />
-          <Point x="534" y="629.9999" />
+          <Point x="546" y="636" />
+          <Point x="534" y="636" />
+          <Point x="534" y="606" />
+          <Point x="540" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -206,7 +206,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="540" y="618" />
+          <Location x="540" y="621" />
           <Text>P2[3]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -220,15 +220,15 @@
     </Instance>
     <Instance shapeName="Shape_43" zorder="23" guid="7318525e-49fe-42ef-9027-397a1c32c91b" name="GPIO_P2_4" component="cy_all_pin">
       <Location x="516" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="516" y="629.9999" />
-          <Point x="516" y="606" />
           <Point x="522" y="600" />
           <Point x="528" y="606" />
-          <Point x="528" y="629.9999" />
-          <Point x="516" y="629.9999" />
+          <Point x="528" y="636" />
+          <Point x="516" y="636" />
+          <Point x="516" y="606" />
+          <Point x="522" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -237,7 +237,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="522" y="618" />
+          <Location x="522" y="621" />
           <Text>P2[4]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -251,15 +251,15 @@
     </Instance>
     <Instance shapeName="Shape_44" zorder="24" guid="5151950d-28ac-4d98-8acd-3bf39dc6391c" name="GPIO_P2_5" component="cy_all_pin">
       <Location x="498" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="498" y="629.9999" />
-          <Point x="498" y="606" />
           <Point x="504" y="600" />
           <Point x="510" y="606" />
-          <Point x="510" y="629.9999" />
-          <Point x="498" y="629.9999" />
+          <Point x="510" y="636" />
+          <Point x="498" y="636" />
+          <Point x="498" y="606" />
+          <Point x="504" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -268,7 +268,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="504" y="618" />
+          <Location x="504" y="621" />
           <Text>P2[5]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -282,15 +282,15 @@
     </Instance>
     <Instance shapeName="Shape_45" zorder="25" guid="ac736ae7-cfce-4bad-89d8-b740988581b8" name="GPIO_P2_6" component="cy_all_pin">
       <Location x="480" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="480" y="629.9999" />
-          <Point x="480" y="606" />
           <Point x="486" y="600" />
           <Point x="492" y="606" />
-          <Point x="492" y="629.9999" />
-          <Point x="480" y="629.9999" />
+          <Point x="492" y="636" />
+          <Point x="480" y="636" />
+          <Point x="480" y="606" />
+          <Point x="486" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -299,7 +299,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="486" y="618" />
+          <Location x="486" y="621" />
           <Text>P2[6]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -313,15 +313,15 @@
     </Instance>
     <Instance shapeName="Shape_46" zorder="26" guid="4a5f2ad2-8510-43e1-a125-86d7cc7a8c48" name="GPIO_P2_7" component="cy_all_pin">
       <Location x="462" y="600" />
-      <Size width="12" height="29.99994" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="462" y="629.9999" />
-          <Point x="462" y="606" />
           <Point x="468" y="600" />
           <Point x="474" y="606" />
-          <Point x="474" y="629.9999" />
-          <Point x="462" y="629.9999" />
+          <Point x="474" y="636" />
+          <Point x="462" y="636" />
+          <Point x="462" y="606" />
+          <Point x="468" y="600" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -330,7 +330,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="468" y="618" />
+          <Location x="468" y="621" />
           <Text>P2[7]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -343,11 +343,11 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_47" zorder="27" guid="bbe43154-9294-4eab-acdf-cd2d428c5694" name="legend_1" component="cy_all_legend">
-      <Location x="636" y="578" />
+      <Location x="642" y="584" />
       <Size width="204" height="52" />
       <SubShapes>
         <Rectangle>
-          <Location x="636" y="578" />
+          <Location x="642" y="584" />
           <Size width="114" height="52" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0">
             <SolidBrush color="128, 128, 128" />
@@ -357,7 +357,7 @@
           </Fill>
         </Rectangle>
         <Rectangle>
-          <Location x="750" y="578" />
+          <Location x="756" y="584" />
           <Size width="90" height="52" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0">
             <SolidBrush color="128, 128, 128" />
@@ -367,7 +367,7 @@
           </Fill>
         </Rectangle>
         <Annotation>
-          <Location x="684" y="593" />
+          <Location x="690" y="599" />
           <Text>Mux Group</Text>
           <Vertical value="false" />
           <Fill>
@@ -377,7 +377,7 @@
           <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Rectangle>
-          <Location x="644" y="586" />
+          <Location x="650" y="592" />
           <Size width="30" height="14" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="128, 128, 128" />
@@ -387,7 +387,7 @@
           </Fill>
         </Rectangle>
         <Annotation>
-          <Location x="684" y="615" />
+          <Location x="690" y="621" />
           <Text>Connection</Text>
           <Vertical value="false" />
           <Fill>
@@ -397,7 +397,7 @@
           <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Annotation>
-          <Location x="783.0686" y="615" />
+          <Location x="789.0686" y="621" />
           <Text>Closed</Text>
           <Vertical value="false" />
           <Fill>
@@ -407,7 +407,7 @@
           <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Ellipse>
-          <Location x="762" y="608" />
+          <Location x="768" y="614" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="128, 128, 128" />
@@ -417,7 +417,7 @@
           </Fill>
         </Ellipse>
         <Annotation>
-          <Location x="783.0686" y="593" />
+          <Location x="789.0686" y="599" />
           <Text>Open</Text>
           <Vertical value="false" />
           <Fill>
@@ -427,7 +427,7 @@
           <TextAlignment value="MiddleLeft" />
         </Annotation>
         <Ellipse>
-          <Location x="762" y="587" />
+          <Location x="768" y="593" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="128, 128, 128" />
@@ -437,21 +437,21 @@
           </Fill>
         </Ellipse>
         <Line>
-          <Point x="648" y="609" />
-          <Point x="666" y="609" />
+          <Point x="654" y="615" />
+          <Point x="672" y="615" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.25">
             <SolidBrush color="128, 128, 128" />
           </Outline>
         </Line>
         <Line>
-          <Point x="658" y="617" />
-          <Point x="658" y="609" />
+          <Point x="664" y="623" />
+          <Point x="664" y="615" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.25">
             <SolidBrush color="128, 128, 128" />
           </Outline>
         </Line>
         <Ellipse>
-          <Location x="656.5156" y="607.7539" />
+          <Location x="662.5156" y="613.7539" />
           <Size width="3" height="3" />
           <NoOutline />
           <Fill>
@@ -459,7 +459,7 @@
           </Fill>
         </Ellipse>
         <Ellipse>
-          <Location x="646" y="587" />
+          <Location x="652" y="593" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="128, 128, 128" />
@@ -469,7 +469,7 @@
           </Fill>
         </Ellipse>
         <Ellipse>
-          <Location x="660" y="587" />
+          <Location x="666" y="593" />
           <Size width="12" height="12" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="1">
             <SolidBrush color="128, 128, 128" />
@@ -644,16 +644,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_68" zorder="152" guid="1c2cef65-c317-457e-ae71-c1f416a7d90a" name="GPIO_P0_0" component="cy_all_pin">
-      <Location x="462" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="462" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="462" y="72" />
-          <Point x="462" y="95.99999" />
           <Point x="468" y="102" />
-          <Point x="474" y="95.99999" />
-          <Point x="474" y="72" />
-          <Point x="462" y="72" />
+          <Point x="474" y="96" />
+          <Point x="474" y="66" />
+          <Point x="462" y="66" />
+          <Point x="462" y="96" />
+          <Point x="468" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -662,7 +662,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="468" y="84" />
+          <Location x="468" y="81" />
           <Text>P0[0]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -675,16 +675,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_69" zorder="154" guid="5455df93-fb07-4d9d-8958-e7f032ca5e3b" name="GPIO_P0_2" component="cy_all_pin">
-      <Location x="498" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="498" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="498" y="72" />
-          <Point x="498" y="95.99999" />
           <Point x="504" y="102" />
-          <Point x="510" y="95.99999" />
-          <Point x="510" y="72" />
-          <Point x="498" y="72" />
+          <Point x="510" y="96" />
+          <Point x="510" y="66" />
+          <Point x="498" y="66" />
+          <Point x="498" y="96" />
+          <Point x="504" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -693,7 +693,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="504" y="84" />
+          <Location x="504" y="81" />
           <Text>P0[2]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2274,16 +2274,16 @@
       </Annotation>
     </Wire>
     <Instance shapeName="Shape_3270" zorder="176" guid="5222d469-b2d3-4d24-aeea-fdee1353e2fc" name="GPIO_P0_4" component="cy_all_pin">
-      <Location x="534" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="534" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="534" y="72" />
-          <Point x="534" y="95.99999" />
           <Point x="540" y="102" />
-          <Point x="546" y="95.99999" />
-          <Point x="546" y="72" />
-          <Point x="534" y="72" />
+          <Point x="546" y="96" />
+          <Point x="546" y="66" />
+          <Point x="534" y="66" />
+          <Point x="534" y="96" />
+          <Point x="540" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2292,7 +2292,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="540" y="84" />
+          <Location x="540" y="81" />
           <Text>P0[4]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2305,16 +2305,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3271" zorder="177" guid="1ce26dd9-1340-4e01-9ee4-27743cd138f1" name="GPIO_P0_5" component="cy_all_pin">
-      <Location x="552" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="552" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="552" y="72" />
-          <Point x="552" y="95.99999" />
           <Point x="558" y="102" />
-          <Point x="564" y="95.99999" />
-          <Point x="564" y="72" />
-          <Point x="552" y="72" />
+          <Point x="564" y="96" />
+          <Point x="564" y="66" />
+          <Point x="552" y="66" />
+          <Point x="552" y="96" />
+          <Point x="558" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2323,7 +2323,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="558" y="84" />
+          <Location x="558" y="81" />
           <Text>P0[5]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2336,16 +2336,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3272" zorder="178" guid="f862988b-bfc7-40d1-8007-781d8ca8d856" name="GPIO_P0_6" component="cy_all_pin">
-      <Location x="570" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="570" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="570" y="72" />
-          <Point x="570" y="95.99999" />
           <Point x="576" y="102" />
-          <Point x="582" y="95.99999" />
-          <Point x="582" y="72" />
-          <Point x="570" y="72" />
+          <Point x="582" y="96" />
+          <Point x="582" y="66" />
+          <Point x="570" y="66" />
+          <Point x="570" y="96" />
+          <Point x="576" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2354,7 +2354,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="576" y="84" />
+          <Location x="576" y="81" />
           <Text>P0[6]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2367,16 +2367,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3273" zorder="179" guid="f7399160-9cc2-4203-80a3-508f817aee57" name="GPIO_P0_7" component="cy_all_pin">
-      <Location x="588" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="588" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="588" y="72" />
-          <Point x="588" y="95.99999" />
           <Point x="594" y="102" />
-          <Point x="600" y="95.99999" />
-          <Point x="600" y="72" />
-          <Point x="588" y="72" />
+          <Point x="600" y="96" />
+          <Point x="600" y="66" />
+          <Point x="588" y="66" />
+          <Point x="588" y="96" />
+          <Point x="594" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2385,7 +2385,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="594" y="84" />
+          <Location x="594" y="81" />
           <Text>P0[7]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2579,15 +2579,15 @@
     </Wire>
     <Instance shapeName="Shape_3499" zorder="113" guid="54b49ba7-0293-43ae-96bb-04ca041e1b85" name="GPIO_P1_0" component="cy_all_pin">
       <Location x="810" y="228" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="228" />
-          <Point x="816" y="228" />
           <Point x="810" y="234" />
           <Point x="816" y="240" />
-          <Point x="839.9999" y="240" />
-          <Point x="839.9999" y="228" />
+          <Point x="846" y="240" />
+          <Point x="846" y="228" />
+          <Point x="816" y="228" />
+          <Point x="810" y="234" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2596,7 +2596,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="234" />
+          <Location x="831" y="234" />
           <Text>P1[0]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2610,15 +2610,15 @@
     </Instance>
     <Instance shapeName="Shape_3500" zorder="114" guid="6097a9d6-567e-4f1c-9c91-9d0fceea6c18" name="GPIO_P1_1" component="cy_all_pin">
       <Location x="810" y="246" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="246" />
-          <Point x="816" y="246" />
           <Point x="810" y="252" />
           <Point x="816" y="258" />
-          <Point x="839.9999" y="258" />
-          <Point x="839.9999" y="246" />
+          <Point x="846" y="258" />
+          <Point x="846" y="246" />
+          <Point x="816" y="246" />
+          <Point x="810" y="252" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2627,7 +2627,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="252" />
+          <Location x="831" y="252" />
           <Text>P1[1]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2641,15 +2641,15 @@
     </Instance>
     <Instance shapeName="Shape_3501" zorder="115" guid="d15eabab-4bd5-4295-8c76-34edf2c9c2d4" name="GPIO_P1_2" component="cy_all_pin">
       <Location x="810" y="264" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="264" />
-          <Point x="816" y="264" />
           <Point x="810" y="270" />
           <Point x="816" y="276" />
-          <Point x="839.9999" y="276" />
-          <Point x="839.9999" y="264" />
+          <Point x="846" y="276" />
+          <Point x="846" y="264" />
+          <Point x="816" y="264" />
+          <Point x="810" y="270" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2658,7 +2658,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="270" />
+          <Location x="831" y="270" />
           <Text>P1[2]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2672,15 +2672,15 @@
     </Instance>
     <Instance shapeName="Shape_3502" zorder="116" guid="78c2646d-11ab-45fe-b01d-6511a0401d2d" name="GPIO_P1_3" component="cy_all_pin">
       <Location x="810" y="282" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="282" />
-          <Point x="816" y="282" />
           <Point x="810" y="288" />
           <Point x="816" y="294" />
-          <Point x="839.9999" y="294" />
-          <Point x="839.9999" y="282" />
+          <Point x="846" y="294" />
+          <Point x="846" y="282" />
+          <Point x="816" y="282" />
+          <Point x="810" y="288" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2689,7 +2689,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="288" />
+          <Location x="831" y="288" />
           <Text>P1[3]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2703,15 +2703,15 @@
     </Instance>
     <Instance shapeName="Shape_3503" zorder="117" guid="43fd5ced-552b-4135-94b2-2212082d13d6" name="GPIO_P1_4" component="cy_all_pin">
       <Location x="810" y="300" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="300" />
-          <Point x="816" y="300" />
           <Point x="810" y="306" />
           <Point x="816" y="312" />
-          <Point x="839.9999" y="312" />
-          <Point x="839.9999" y="300" />
+          <Point x="846" y="312" />
+          <Point x="846" y="300" />
+          <Point x="816" y="300" />
+          <Point x="810" y="306" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2720,7 +2720,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="306" />
+          <Location x="831" y="306" />
           <Text>P1[4]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2734,15 +2734,15 @@
     </Instance>
     <Instance shapeName="Shape_3504" zorder="118" guid="44c774b3-1a52-43b0-b8e1-218a0f2b303e" name="GPIO_P1_5" component="cy_all_pin">
       <Location x="810" y="318" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="318" />
-          <Point x="816" y="318" />
           <Point x="810" y="324" />
           <Point x="816" y="330" />
-          <Point x="839.9999" y="330" />
-          <Point x="839.9999" y="318" />
+          <Point x="846" y="330" />
+          <Point x="846" y="318" />
+          <Point x="816" y="318" />
+          <Point x="810" y="324" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2751,7 +2751,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="324" />
+          <Location x="831" y="324" />
           <Text>P1[5]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2765,15 +2765,15 @@
     </Instance>
     <Instance shapeName="Shape_3505" zorder="119" guid="63790f86-ae28-464a-95b7-ea04d6218690" name="GPIO_P1_6" component="cy_all_pin">
       <Location x="810" y="336" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="336" />
-          <Point x="816" y="336" />
           <Point x="810" y="342" />
           <Point x="816" y="348" />
-          <Point x="839.9999" y="348" />
-          <Point x="839.9999" y="336" />
+          <Point x="846" y="348" />
+          <Point x="846" y="336" />
+          <Point x="816" y="336" />
+          <Point x="810" y="342" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2782,7 +2782,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="342" />
+          <Location x="831" y="342" />
           <Text>P1[6]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -2891,16 +2891,16 @@
       </SubShapes>
     </Instance>
     <Instance shapeName="Shape_3512" zorder="155" guid="32b66705-0729-4107-b1d4-69e468ae9dc8" name="GPIO_P0_3" component="cy_all_pin">
-      <Location x="516" y="72" />
-      <Size width="12" height="29.99999" />
+      <Location x="516" y="66" />
+      <Size width="12" height="36" />
       <SubShapes>
         <ClosedShape>
-          <Point x="516" y="72" />
-          <Point x="516" y="95.99999" />
           <Point x="522" y="102" />
-          <Point x="528" y="95.99999" />
-          <Point x="528" y="72" />
-          <Point x="516" y="72" />
+          <Point x="528" y="96" />
+          <Point x="528" y="66" />
+          <Point x="516" y="66" />
+          <Point x="516" y="96" />
+          <Point x="522" y="102" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -2909,7 +2909,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="522" y="84" />
+          <Location x="522" y="81" />
           <Text>P0[3]</Text>
           <Vertical value="true" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>
@@ -3100,15 +3100,15 @@
     </Instance>
     <Instance shapeName="Shape_4827" zorder="259" guid="d63c0495-5757-4ffb-8159-53fe63643ebc" name="GPIO_P1_7" component="cy_all_pin">
       <Location x="810" y="354" />
-      <Size width="29.99994" height="12" />
+      <Size width="36" height="12" />
       <SubShapes>
         <ClosedShape>
-          <Point x="839.9999" y="354" />
-          <Point x="816" y="354" />
           <Point x="810" y="360" />
           <Point x="816" y="366" />
-          <Point x="839.9999" y="366" />
-          <Point x="839.9999" y="354" />
+          <Point x="846" y="366" />
+          <Point x="846" y="354" />
+          <Point x="816" y="354" />
+          <Point x="810" y="360" />
           <Outline dashStyle="Solid" startCap="Flat" endCap="Flat" lineJoin="Miter" weight="0.5">
             <SolidBrush color="176, 176, 176" />
           </Outline>
@@ -3117,7 +3117,7 @@
           </Fill>
         </ClosedShape>
         <Annotation>
-          <Location x="828" y="360" />
+          <Location x="831" y="360" />
           <Text>P1[7]</Text>
           <Vertical value="false" />
           <Expression><![CDATA[`=($PortNumber >= 0) ? $PIN_NAME : $INSTANCE_NAME`]]></Expression>

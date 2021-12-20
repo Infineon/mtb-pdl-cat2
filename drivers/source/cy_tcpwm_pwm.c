@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_tcpwm_pwm.c
-* \version 1.10.1
+* \version 1.10.2
 *
 * \brief
 *  The source file of the tcpwm driver.
@@ -56,8 +56,8 @@ extern "C" {
 * \return error / status code. See \ref cy_en_tcpwm_status_t.
 *
 * \funcusage
-* \snippet tcpwm/pwm/snippet/main.c snippet_Cy_TCPWM_PWM_Config
-* \snippet tcpwm/pwm/snippet/main.c snippet_Cy_TCPWM_PWM_Init
+* \snippet tcpwm_pwm_snippet.c snippet_Cy_TCPWM_PWM_Config
+* \snippet tcpwm_pwm_snippet.c snippet_Cy_TCPWM_PWM_Init
 *
 *******************************************************************************/
 cy_en_tcpwm_status_t Cy_TCPWM_PWM_Init(TCPWM_Type *base, uint32_t cntNum,  cy_stc_tcpwm_pwm_config_t const *config)
@@ -143,7 +143,7 @@ cy_en_tcpwm_status_t Cy_TCPWM_PWM_Init(TCPWM_Type *base, uint32_t cntNum,  cy_st
 * The pointer to a configuration structure. See \ref cy_stc_tcpwm_pwm_config_t.
 *
 * \funcusage
-* \snippet tcpwm/pwm/snippet/main.c snippet_Cy_TCPWM_PWM_DeInit
+* \snippet tcpwm_pwm_snippet.c snippet_Cy_TCPWM_PWM_DeInit
 *
 *******************************************************************************/
 void Cy_TCPWM_PWM_DeInit(TCPWM_Type *base, uint32_t cntNum, cy_stc_tcpwm_pwm_config_t const *config)

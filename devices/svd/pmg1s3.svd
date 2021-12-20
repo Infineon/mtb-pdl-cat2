@@ -337,7 +337,10 @@ Note that this field is retained. However, the counter that is used to implement
             </field>
             <field>
               <name>TR_ACT</name>
-              <description>SW sets this field to '1' by to activate (set to '1') a trigger as identified by TR_SEL and TR_OUT for TR_COUNT cycles. HW sets this field to '0' when the cycle counter is decremented to '0'. Note: a TR_COUNT value of 255 is a special case and trigger activation is under direct control of the TR_ACT field (the counter is not decremented).</description>
+              <description>SW sets this field to '1' by to activate (set to '1') a trigger as identified by TR_SEL and TR_OUT for TR_COUNT cycles. HW sets this field to '0' when the cycle counter is decremented to '0'. Note: a TR_COUNT value of 255 is a special case and trigger activation is under direct control of the TR_ACT field (the counter is not decremented).
+ Note: when TR_ACT is '1', SW should not modify the other register fields.
+  SW MUST NOT set TR_ACT bit to '1' while updating the other register bits simultaneously.
+  At first the SW MUST update the other register bits as needed, and then set TR_ACT to '1' with a new register write.'</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -1573,7 +1576,7 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
           <fields>
             <field>
               <name>OFFSET</name>
-              <description>Frequency trim bits.  These bits are determined at manufacturing time for each FREQ setting (IMO_TRIM2) and stored in SFLASH.  This field is hardware updated during USB osclock mode. This field is mapped to the most significant bits of the IMO trim imo_clk_trim[10:3].  The step size of 1 LSB on this field is approximately 120 kHz.</description>
+              <description>Frequency trim bits.  These bits are determined at manufacturing time for each FREQ setting in CLK_IMO_SELECT and stored in SFLASH.  This field is hardware updated during USB osclock mode or when a WCO uses this mechanism for PLL locking the WCO.  This is only available with devices that have either USB or a WCO. This field is mapped to the most significant bits of the IMO trim imo_clk_trim[10:3].  The step size of 1 LSB on this field is approximately 120 kHz.</description>
               <bitRange>[7:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -1590,7 +1593,7 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
           <fields>
             <field>
               <name>FSOFFSET</name>
-              <description>Frequency trim bits.  These bits are not trimmed during manufacturing and kept at 0 under normal operation.  This field is hardware updated during USB osclock mode. This field is mapped to the least significant bits of the IMO trim imo_clk_trim[2:0].  The step size of 1 LSB on this field is approximately 15 kHz.</description>
+              <description>Frequency trim bits.  These bits are not trimmed during manufacturing and kept at 0 under normal operation.  This field is hardware updated during USB osclock mode  or when a WCO uses this mechanism for PLL locking the WCO.  This is only available with devices that have either USB or a WCO. . This field is mapped to the least significant bits of the IMO trim imo_clk_trim[2:0].  The step size of 1 LSB on this field is approximately 15 kHz.</description>
               <bitRange>[2:0]</bitRange>
               <access>read-write</access>
             </field>

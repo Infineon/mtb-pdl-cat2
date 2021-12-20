@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.h
-* \version 3.20
+* \version 4.0
 *
 * Provides I2C API declarations of the SCB driver.
 *
@@ -83,14 +83,14 @@
 * function providing a pointer to the populated \ref cy_stc_scb_i2c_config_t
 * structure and the allocated \ref cy_stc_scb_i2c_context_t structure.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG
+* \snippet scb_i2c_snippet.c I2C_CFG
 *
 * Set up I2C slave read and write buffer before enabling its
 * operation using \ref Cy_SCB_I2C_SlaveConfigReadBuf and \ref
 * Cy_SCB_I2C_SlaveConfigWriteBuf appropriately. Note that the master reads
 * data from the slave read buffer and writes data into the slave write buffer.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_BUFFER
+* \snippet scb_i2c_snippet.c I2C_CFG_BUFFER
 *
 ********************************************************************************
 * \subsection group_scb_i2c_pins Assign and Configure Pins
@@ -100,7 +100,8 @@
 * SCB block. Also the I2C pins must be configured in Open-Drain, Drives Low mode
 * (this pins  configuration implies usage of external pull-up resistors):
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_PINS
+* \snippet scb_i2c_snippet.c I2C_CFG_PINS_DEFINES
+* \snippet scb_i2c_snippet.c I2C_CFG_PINS
 *
 * \note
 * The alternative pins configuration is Resistive Pull-ups which implies usage
@@ -116,7 +117,7 @@
 * You must use one of the 8-bit or 16-bit dividers. Use the \ref group_sysclk
 * driver API to do this.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_ASSIGN_CLOCK
+* \snippet scb_i2c_snippet.c I2C_CFG_ASSIGN_CLOCK
 *
 ********************************************************************************
 * \subsection group_scb_i2c_data_rate Configure Data Rate
@@ -125,7 +126,7 @@
 * fast enough to provide sufficient oversampling. Use the
 * \ref group_sysclk driver API to do this.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_DATA_RATE_SLAVE
+* \snippet scb_i2c_snippet.c I2C_CFG_DATA_RATE_SLAVE
 *
 * To get I2C master operation with the desired data rate, the source clock
 * frequency and SCL low and high phase duration must be configured. Use the
@@ -134,7 +135,7 @@
 * digital filter. This function sets SCL low and high phase settings based on
 * source clock frequency.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_DATA_RATE_MASTER
+* \snippet scb_i2c_snippet.c I2C_CFG_DATA_RATE_MASTER
 *
 * Alternatively, the low, high phase and digital filter can be set directly
 * using configuration structure \ref cy_stc_scb_i2c_config_t fields
@@ -169,8 +170,8 @@
 *  call the slave- or master-specific interrupt functions \ref Cy_SCB_I2C_SlaveInterrupt
 * or \ref Cy_SCB_I2C_MasterInterrupt, when appropriate.
 *
-* \snippet scb/i2c_snippet/main.c I2C_INTR_A
-* \snippet scb/i2c_snippet/main.c I2C_INTR_B
+* \snippet scb_i2c_snippet.c I2C_INTR_A
+* \snippet scb_i2c_snippet.c I2C_INTR_B
 *
 ********************************************************************************
 * \subsection group_scb_i2c_enable Enable I2C
@@ -179,7 +180,7 @@
 * slave starts respond to the assigned address and I2C master ready to execute
 * transfers.
 *
-* \snippet scb/i2c_snippet/main.c I2C_ENABLE
+* \snippet scb_i2c_snippet.c I2C_ENABLE
 *
 * \section group_scb_i2c_use_cases Common Use Cases
 *
@@ -205,7 +206,7 @@
 * \ref Cy_SCB_I2C_RegisterEventCallback to be notified about
 * \ref group_scb_i2c_macros_callback_events.
 *
-* \snippet scb/i2c_snippet/main.c I2C_MASTER_WRITE_READ_INT
+* \snippet scb_i2c_snippet.c I2C_MASTER_WRITE_READ_INT
 *
 ********************************************************************************
 * \subsubsection group_scb_i2c_master_ll Use Low-Level Functions
@@ -227,10 +228,10 @@
 * transactions correctly.
 *
 * <b>Master Write Operation</b>
-* \snippet scb/i2c_snippet/main.c I2C_MASTER_WRITE_MANUAL
+* \snippet scb_i2c_snippet.c I2C_MASTER_WRITE_MANUAL
 *
 * <b>Master Read Operation</b>
-* \snippet scb/i2c_snippet/main.c I2C_MASTER_READ_MANUAL
+* \snippet scb_i2c_snippet.c I2C_MASTER_READ_MANUAL
 *
 ********************************************************************************
 * \subsection group_scb_i2c_slave Slave Operation
@@ -250,11 +251,11 @@
 * to be notified about \ref group_scb_i2c_macros_callback_events.
 *
 * <b>Get Slave Events Notification</b>
-* \snippet scb/i2c_snippet/main.c I2C_SLAVE_REG_CALLBACK
-* \snippet scb/i2c_snippet/main.c I2C_SLAVE_NOTIFICATION
+* \snippet scb_i2c_snippet.c I2C_SLAVE_REG_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_SLAVE_NOTIFICATION
 *
 * <b>Polling Slave Completion Events</b>
-* \snippet scb/i2c_snippet/main.c I2C_SLAVE_POLLING
+* \snippet scb_i2c_snippet.c I2C_SLAVE_POLLING
 *
 * \note
 * All slave API (except \ref Cy_SCB_I2C_SlaveAbortRead and
@@ -277,7 +278,7 @@
 * \ref group_scb_i2c_config. There are only two differences: hsEnable and useRxFifo
 * must be enabled.
 *
-* \snippet scb/i2c_snippet/main.c I2C_CFG_HS
+* \snippet scb_i2c_snippet.c I2C_CFG_HS
 *
 * After initialization and before block enabling need to register High-speed callback
 * \ref group_scb_i2c_hs_callback.
@@ -296,8 +297,8 @@
 *
 * The callback function can be generated by using the Device Configurator.
 *
-* \snippet scb/i2c_snippet/main.c I2C_REGISTER_HS_CALLBACK
-* \snippet scb/i2c_snippet/main.c I2C_HS_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_REGISTER_HS_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_HS_CALLBACK
 *
 * <b>Refer to the technical reference manual (TRM) section I2C sub-section
 * Oversampling and Bit Rate to get information how to configure I2C to run with
@@ -325,8 +326,8 @@
 *
 * The callback function can be generated by using the Device Configurator.
 *
-* \snippet scb/i2c_snippet/main.c I2C_DS_REGISTER_CLOCK_CONFIG_CALLBACK
-* \snippet scb/i2c_snippet/main.c I2C_DS_CLOCK_CONFIG_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_DS_REGISTER_CLOCK_CONFIG_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_DS_CLOCK_CONFIG_CALLBACK
 *
 * \note
 * Not applicable for PSoC 4100S Max.
@@ -610,22 +611,6 @@ typedef struct cy_stc_scb_i2c_config
     * in master modes. The valid range is 5 to 16.
     */
     uint32_t highPhaseDutyCycle;
-
-    /** \cond INTERNAL */
-    /**
-    * Low phase duty cycle in high speed mode. The number of SCB clock cycles
-    * in the low phase of SCL. Only applicable in master modes. The valid range
-    * is 1 to 16. Reserved for future master mode support.
-    */
-    uint32_t hsLowPhaseDutyCycle;
-
-    /**
-    * Low phase duty cycle in high speed mode. The number of SCB clock cycles in
-    * the high phase of SCL. Only applicable in master modes. The valid range is
-    * 1 to 16. Reserved for future master mode support.
-    */
-    uint32_t hsHighPhaseDutyCycle;
-    /** \endcond */
 
     /**
     * This is the check delay of the address matching event in the micro seconds

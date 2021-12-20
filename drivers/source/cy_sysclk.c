@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 2.10
+* \version 2.20
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -57,7 +57,7 @@ static uint32_t extClkFreq = 0UL; /* Internal storage for external clock frequen
 * Zero means the external clock signal is not applied.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ExtClkSetFrequency
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtClkSetFrequency
 *
 *******************************************************************************/
 void Cy_SysClk_ExtClkSetFrequency(uint32_t freq)
@@ -79,7 +79,7 @@ void Cy_SysClk_ExtClkSetFrequency(uint32_t freq)
 * \return The frequency of the External Clock Source.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ExtClkSetFrequency
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtClkSetFrequency
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_ExtClkGetFrequency(void)
@@ -116,7 +116,7 @@ static uint32_t extRefFreq = 0UL; /* Internal storage for external PLL reference
 * Zero means the external clock signal is not applied.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ExtRefSetFrequency
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtRefSetFrequency
 *
 *******************************************************************************/
 void Cy_SysClk_ExtRefSetFrequency(uint32_t freq)
@@ -138,7 +138,7 @@ void Cy_SysClk_ExtRefSetFrequency(uint32_t freq)
 * \return The frequency of the External PLL Reference Source.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ExtRefSetFrequency
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtRefSetFrequency
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_ExtRefGetFrequency(void)
@@ -766,7 +766,7 @@ static uint32_t ecoFreq = 0UL; /* Internal storage for ECO frequency user settin
 * \endverbatim
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoConfigure
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_EcoConfigure(uint32_t freq, uint32_t cLoad, uint32_t esr, uint32_t driveLevel)
@@ -851,7 +851,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoConfigure(uint32_t freq, uint32_t cLoad, uint
 * \ref CY_SYSCLK_INVALID_STATE - ECO is not configured using \ref Cy_SysClk_EcoConfigure.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoConfigure
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs)
@@ -903,7 +903,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs)
 * \note If the ECO is not enabled or stable - a zero is returned.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoConfigure
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_EcoGetFrequency(void)
@@ -1147,7 +1147,7 @@ void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode)
 * So please check the real PLL output frequency using \ref Cy_SysClk_PllGetFrequency.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllConfigure
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PllConfigure(uint32_t pllNum, const cy_stc_sysclk_pll_config_t *config)
@@ -1314,7 +1314,7 @@ cy_en_sysclk_status_t Cy_SysClk_PllConfigure(uint32_t pllNum, const cy_stc_syscl
 * the PLL is the source of HFCLK and the PLL frequency is decreasing.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PllManualConfigure(uint32_t pllNum, const cy_stc_sysclk_pll_manual_config_t *config)
@@ -1360,7 +1360,7 @@ cy_en_sysclk_status_t Cy_SysClk_PllManualConfigure(uint32_t pllNum, const cy_stc
 * \param config \ref cy_stc_sysclk_pll_manual_config_t
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 void Cy_SysClk_PllGetConfiguration(uint32_t pllNum, cy_stc_sysclk_pll_manual_config_t * config)
@@ -1409,7 +1409,7 @@ void Cy_SysClk_PllGetConfiguration(uint32_t pllNum, cy_stc_sysclk_pll_manual_con
 * the PLL is the source of HFCLK and the HFCLK frequency is decreasing.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllConfigure
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PllEnable(uint32_t pllNum, uint32_t timeoutUs)
@@ -1464,7 +1464,7 @@ cy_en_sysclk_status_t Cy_SysClk_PllEnable(uint32_t pllNum, uint32_t timeoutUs)
 * \return The frequency, in Hz.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_PllGetFrequency(uint32_t pllNum)
@@ -1515,25 +1515,89 @@ uint32_t Cy_SysClk_PllGetFrequency(uint32_t pllNum)
 #endif  /* CY_IP_M0S8EXCO */
 
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
+typedef enum
+{
+    CY_SYSCLK_EXCO_OUT_INVALID = 0U, /* If ECO is not enabled/stabilized and PLL is not enabled/locked. */
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
+    CY_SYSCLK_EXCO_OUT_PLL     = 1U, /* If PLL is enabled/locked and bypass is AUTO or PLL */
+#endif /* EXCO_PLL_PRESENT */
+    CY_SYSCLK_EXCO_OUT_ECO     = 2U, /* If ECO is enabled/stabilized and bypass is ECO or (AUTO and PLL is disabled or unlocked). */
+} cy_en_sysclk_exco_status_t;
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ExcoGetStatus
+********************************************************************************
+*
+* Returns the source of the EXCO output clock.
+*
+* Returns cy_en_sysclk_exco_status_t
+*
+*******************************************************************************/
+static cy_en_sysclk_exco_status_t Cy_SysClk_ExcoGetStatus(void)
+{
+    cy_en_sysclk_exco_status_t excoStatus = CY_SYSCLK_EXCO_OUT_INVALID;
+    cy_en_sysclk_pll_bypass_t bypassState = Cy_SysClk_PllGetBypassState(0UL);
+
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
+    /* Check CY_SYSCLK_PLL_OUTPUT_AUTO1 for backward compatibility */
+    if ((CY_SYSCLK_PLL_BYP_AUTO == bypassState) || (CY_SYSCLK_PLL_OUTPUT_AUTO1 == bypassState))
+    {
+        if (Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
+        {
+            excoStatus = CY_SYSCLK_EXCO_OUT_PLL;
+        }
+        else 
+        {
+            if (0UL != Cy_SysClk_EcoGetFrequency())
+            {
+                excoStatus = CY_SYSCLK_EXCO_OUT_ECO;
+            }
+        }
+    }
+    else if (CY_SYSCLK_PLL_BYP_PLL == bypassState)
+    {
+        if (Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
+        {
+            excoStatus = CY_SYSCLK_EXCO_OUT_PLL;
+        }
+    }
+    else
+#endif /* EXCO_PLL_PRESENT */
+    {
+        if (0UL != Cy_SysClk_EcoGetFrequency())
+        {
+            excoStatus = CY_SYSCLK_EXCO_OUT_ECO;
+        }
+    }
+    return excoStatus;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ExcoGetFrequency
+********************************************************************************
+*
+* Returns the frequency of the EXCO output clock.
+*
+* Returns the frequency, in Hz.
+*
+*******************************************************************************/
 static uint32_t Cy_SysClk_ExcoGetFrequency(void)
 {
     uint32_t freq = 0UL;
 #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
-    bool pllBypEco = (CY_SYSCLK_PLL_BYP_ECO == Cy_SysClk_PllGetBypassState(0U));
+    cy_en_sysclk_exco_status_t excoStatus = Cy_SysClk_ExcoGetStatus();
 
-    /* Return non-zero value when Pll is enabled and locked */
-    freq = Cy_SysClk_PllGetFrequency(0UL);
-
-    if (!pllBypEco && (freq != 0U))
+    if (excoStatus == CY_SYSCLK_EXCO_OUT_PLL)
     {
-        /* Pll is enabled and locked and frequency is already saved in variable */
+       freq = Cy_SysClk_PllGetFrequency(0UL);
     }
-    else /* Pll is disabled, unlocked or bypassed */
+    else
 #endif /* EXCO_PLL_PRESENT */
     {
         freq = Cy_SysClk_EcoGetFrequency();
     }
-
     return (freq);
 }
 #endif /* CY_IP_M0S8EXCO */
@@ -1612,7 +1676,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
                 retVal = CY_SYSCLK_SUCCESS;
             }
             #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
-            else if ((CY_SYSCLK_CLKHF_IN_EXCO == source) && (0UL != Cy_SysClk_ExcoGetFrequency()))
+            else if ((CY_SYSCLK_CLKHF_IN_EXCO == source) && (CY_SYSCLK_EXCO_OUT_INVALID != Cy_SysClk_ExcoGetStatus()))
             {
                 Cy_SysClk_EcoSeqGen();
                 retVal = CY_SYSCLK_SUCCESS;
@@ -1625,7 +1689,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
                 retVal = CY_SYSCLK_SUCCESS;
             }
             #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
-            else if ((CY_SYSCLK_CLKHF_IN_PLL == source) && (0UL != Cy_SysClk_PllGetFrequency(0UL)))
+            else if ((CY_SYSCLK_CLKHF_IN_PLL == source) && Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
             {
                 if (0UL != Cy_SysClk_EcoGetFrequency())
                 {
@@ -1677,7 +1741,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 * \ref CY_SYSCLK_CLKHF_IN_EXCO - EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoDisable
 *
 *******************************************************************************/
 cy_en_sysclk_clkhf_src_t Cy_SysClk_ClkHfGetSource(void)
@@ -1699,7 +1763,7 @@ cy_en_sysclk_clkhf_src_t Cy_SysClk_ClkHfGetSource(void)
 * The reported value may be zero, which indicates the frequency is unknown.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkHfSetDivider
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_ClkHfGetFrequency(void)
@@ -1806,7 +1870,7 @@ uint32_t Cy_SysClk_ClkHfGetFrequency(void)
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphSetDivider
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphSetDivider(cy_en_sysclk_divider_types_t dividerType,
@@ -1855,7 +1919,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphSetDivider(cy_en_sysclk_divider_types_t di
 * (8-bit divider) or 1 to 65536 (16-bit divider).
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphSetDivider
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_PeriphGetDivider(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -1911,7 +1975,7 @@ uint32_t Cy_SysClk_PeriphGetDivider(cy_en_sysclk_divider_types_t dividerType, ui
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphSetFracDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphSetFracDivider
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphSetFracDivider(cy_en_sysclk_divider_types_t dividerType,
@@ -1967,7 +2031,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphSetFracDivider(cy_en_sysclk_divider_types_
 * \return None. Loads pointed-to variables.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphSetFracDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphSetFracDivider
 *
 *******************************************************************************/
 void Cy_SysClk_PeriphGetFracDivider(cy_en_sysclk_divider_types_t   dividerType,
@@ -2015,7 +2079,7 @@ void Cy_SysClk_PeriphGetFracDivider(cy_en_sysclk_divider_types_t   dividerType,
 * \return The frequency, in Hz.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphGetFrequency
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphGetFrequency
 *
 *******************************************************************************/
 uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -2224,7 +2288,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphAssignDivider(en_clk_dst_t periphNum, cy_e
 * for information on how to phase-align a divider after it is enabled.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphEnableDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphEnableDivider
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphEnableDivider(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -2258,7 +2322,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphEnableDivider(cy_en_sysclk_divider_types_t
 * \param dividerNum specifies which divider of the selected type to configure.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphDisableDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphDisableDivider
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphDisableDivider(cy_en_sysclk_divider_types_t dividerType, uint32_t dividerNum)
@@ -2349,11 +2413,11 @@ bool Cy_SysClk_PeriphDividerIsEnabled(cy_en_sysclk_divider_types_t dividerType, 
 * \param dividerNumPA divider number of type specified to phase align to.
 *
 * \note
-* To phase-align a divider to clk_peri, set dividerTypePA to 3 and dividerNumPA
+* To phase-align a divider to hfclk, set dividerTypePA to 3 and dividerNumPA
 * to 63.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PeriphEnablePhaseAlignDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PeriphEnablePhaseAlignDivider
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_PeriphEnablePhaseAlignDivider(cy_en_sysclk_divider_types_t dividerType,
@@ -2405,7 +2469,7 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphEnablePhaseAlignDivider(cy_en_sysclk_divid
 * \ref CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkPumpSetSource
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t source)

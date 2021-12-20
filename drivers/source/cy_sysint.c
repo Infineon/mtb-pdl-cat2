@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file  cy_sysint.c
-* \version 1.10
+* \version 1.10.2
 *
 * \brief
 * Provides an API implementation of the SysInt driver.
@@ -48,7 +48,8 @@
 * moved to __RAM_VECTOR_TABLE in SRAM. Otherwise it is ignored.
 *
 * \funcusage
-* \snippet sysint/snippet/main.c snippet_Cy_SysInt_Init
+* \snippet sysint_snippet.c snippet_Cy_SysInt_DefineInterruptSource
+* \snippet sysint_snippet.c snippet_Cy_SysInt_Init
 *
 *******************************************************************************/
 cy_en_sysint_status_t Cy_SysInt_Init(const cy_stc_sysint_t* config, cy_israddress userIsr)
@@ -100,7 +101,7 @@ cy_en_sysint_status_t Cy_SysInt_Init(const cy_stc_sysint_t* config, cy_israddres
 * Previous address of the ISR in the interrupt vector table
 *
 * \funcusage
-* \snippet sysint/snippet/main.c snippet_Cy_SysInt_SetVector
+* \snippet sysint_snippet.c snippet_Cy_SysInt_SetVector
 *
 *******************************************************************************/
 cy_israddress Cy_SysInt_SetVector(IRQn_Type IRQn, cy_israddress userIsr)
@@ -145,7 +146,7 @@ cy_israddress Cy_SysInt_SetVector(IRQn_Type IRQn, cy_israddress userIsr)
 * Address of the ISR in the interrupt vector table
 *
 * \funcusage
-* \snippet sysint/snippet/main.c snippet_Cy_SysInt_SetVector
+* \snippet sysint_snippet.c snippet_Cy_SysInt_SetVector
 *
 *******************************************************************************/
 cy_israddress Cy_SysInt_GetVector(IRQn_Type IRQn)

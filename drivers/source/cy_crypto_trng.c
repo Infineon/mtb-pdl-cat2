@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_trng.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides TRNG API implementation of the Crypto driver.

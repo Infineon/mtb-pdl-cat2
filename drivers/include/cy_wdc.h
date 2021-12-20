@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_wdc.h
-* \version 1.0.1
+* \version 1.0.2
 *
 *  This file provides constants and parameter values for the WDC driver.
 *
@@ -93,7 +93,7 @@
 * \ref cy_stc_wdc_config_t structure. Then call \ref Cy_WDC_Init() to initialize
 * the driver.
 *
-* \snippet wdc/snippet/main.c snippet_Cy_WDC_Init
+* \snippet wdc_snippet.c snippet_Cy_WDC_Init
 *
 * \note Before initialization of WDC, ensure that the selected WDC clock source is enabled.
 *       Refer to \ref group_sysclk_ilo and \ref group_sysclk_wco sections of
@@ -114,7 +114,7 @@
 * To achieve higher timing precision, counters 0 and 1 can be cascaded.
 * In this case, the following configuration structure can be used:
 *
-* \snippet wdc/snippet/main.c snippet_Cy_WDC_StructCascade
+* \snippet wdc_snippet.c snippet_Cy_WDC_StructCascade
 *
 * Alternatively, the same settings can be applied using the corresponding WDC
 * functions after calling the \ref Cy_WDC_Init function.
@@ -140,8 +140,8 @@
 * interrupt by setting the priority and the interrupt vector using
 * \ref Cy_SysInt_Init() of the SysInt driver and provide interrupt handler:
 *
-* \snippet wdc/snippet/main.c snippet_Cy_WDC_ISR
-* \snippet wdc/snippet/main.c snippet_Cy_WDC_ISR_Init
+* \snippet wdc_snippet.c snippet_Cy_WDC_ISR
+* \snippet wdc_snippet.c snippet_Cy_WDC_ISR_Init
 *
 * Additionally, global interrupts should be enabled.
 *
@@ -150,7 +150,7 @@
 ********************************************************************************
 * The last configuration step enables the configured counters using \ref Cy_WDC_Enable function.
 *
-* \snippet wdc/snippet/main.c snippet_Cy_WDC_Enable
+* \snippet wdc_snippet.c snippet_Cy_WDC_Enable
 *
 * \note In addition to WDCs, each device has a separate watchdog timer
 * (WDT) to generate a watchdog reset or periodic
@@ -164,6 +164,11 @@
 * \section group_wdc_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.2</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0.1</td>
 *     <td>Corrected source code comments text.</td>

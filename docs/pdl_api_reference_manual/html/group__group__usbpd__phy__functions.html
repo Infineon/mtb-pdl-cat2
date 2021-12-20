@@ -177,7 +177,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer or phyCbk is invalid. </dd></dl>
 
 </div>
 </div>
@@ -201,10 +201,11 @@ Functions</h2></td></tr>
 <p>This API does not enable the receiver.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -301,10 +302,11 @@ Functions</h2></td></tr>
 <p>Reset the PD receive and transmit state machines. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -359,7 +361,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid. </dd></dl>
 
 </div>
 </div>
@@ -386,7 +388,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid. </dd></dl>
 
 </div>
 </div>
@@ -413,7 +415,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid. </dd></dl>
 
 </div>
 </div>
@@ -451,7 +453,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_USBPD_STAT_SUCCESS if operation is successful, CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid. CY_USBPD_STAT_BUSY if the USBPD operation is still in progress </dd></dl>
 
 </div>
 </div>
@@ -479,7 +481,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structcy__stc__pd__packet__extd__t.html" title="Structure to hold extended PD packets (messages). ">cy_stc_pd_packet_extd_t</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structcy__stc__pd__packet__extd__t.html">cy_stc_pd_packet_extd_t</a> received PD message. </dd></dl>
 
 </div>
 </div>
@@ -502,10 +504,11 @@ Functions</h2></td></tr>
 <p>Interrupt Handler function for USBPD Transceiver and HPD interrupts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -555,10 +558,11 @@ Functions</h2></td></tr>
 <p>Enables the Phy Receiver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -618,10 +622,11 @@ Functions</h2></td></tr>
 <p>Enables the Phy to transmit Unchunked messages. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -644,10 +649,11 @@ Functions</h2></td></tr>
 <p>Disables the Phy to transmit Unchunked messages. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>
@@ -670,10 +676,11 @@ Functions</h2></td></tr>
 <p>Disables the PD receive and transmit PHY. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>

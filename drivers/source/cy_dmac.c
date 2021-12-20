@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_dmac.c
-* \version 1.10
+* \version 1.10.1
 *
 * \brief
 * The source code file for the DMAC driver.
@@ -55,7 +55,7 @@
 * The status /ref cy_en_dmac_status_t.
 *
 * \funcusage
-* \snippet dmac/snippet/main.c snippet_Cy_DMAC_Enable
+* \snippet dmac_snippet.c snippet_Cy_DMAC_Enable
 *
 *******************************************************************************/
 cy_en_dmac_status_t Cy_DMAC_Descriptor_Init(DMAC_Type * base,
@@ -130,7 +130,7 @@ CY_MISRA_BLOCK_END('MISRA C-2012 Rule 11.6');
 * The descriptor structure instance.
 *
 * \funcusage
-* \snippet dmac/snippet/main.c snippet_Cy_DMAC_Descriptor_Deinit
+* \snippet dmac_snippet.c snippet_Cy_DMAC_Descriptor_Deinit
 *
 *******************************************************************************/
 void Cy_DMAC_Descriptor_DeInit(DMAC_Type * base,
@@ -164,7 +164,7 @@ void Cy_DMAC_Descriptor_DeInit(DMAC_Type * base,
 * The status /ref cy_en_dmac_status_t.
 *
 * \funcusage
-* \snippet dmac/snippet/main.c snippet_Cy_DMAC_Enable
+* \snippet dmac_snippet.c snippet_Cy_DMAC_Enable
 *
 *******************************************************************************/
 cy_en_dmac_status_t Cy_DMAC_Channel_Init(DMAC_Type * base,
@@ -202,7 +202,7 @@ cy_en_dmac_status_t Cy_DMAC_Channel_Init(DMAC_Type * base,
 * The channel number.
 *
 * \funcusage
-* \snippet dmac/snippet/main.c snippet_Cy_DMAC_Disable
+* \snippet dmac_snippet.c snippet_Cy_DMAC_Disable
 *
 *******************************************************************************/
 void Cy_DMAC_Channel_DeInit(DMAC_Type * base, uint32_t channel)

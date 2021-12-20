@@ -147,7 +147,12 @@
 * \section group_crypto_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
-*      <tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -174,7 +179,7 @@
 * call, the Crypto driver is ready to execute crypto functions.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoStartCryptoUse
+* \snippet crypto_snippet.c snippet_myCryptoStartCryptoUse
 *
 * \subsection group_crypto_lld_crypto_disable  Crypto hardware disable
 *
@@ -182,7 +187,7 @@
 * call, No crypto function should be executed.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoStopCryptoUse
+* \snippet crypto_snippet.c snippet_myCryptoStopCryptoUse
 *
 * \subsection group_crypto_lld_Use_AES AES encryption
 *
@@ -197,7 +202,7 @@
 *     parameters to perform an operation.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoAesEcbUse
+* \snippet crypto_snippet.c snippet_myCryptoAesEcbUse
 *
 * \subsection group_crypto_lld_Use_CRC CRC calculation
 *
@@ -206,7 +211,7 @@
 *   - Call \ref Cy_Crypto_Crc_Calc to calculate the CRC for a data image.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcUse
+* \snippet crypto_snippet.c snippet_myCryptoCrcUse
 *
 * \subsection group_crypto_lld_Use_SHA SHA digest calculation
 *
@@ -215,7 +220,7 @@
 *     operation.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use
 *
 * \subsection group_crypto_lld_Use_PRNG Pseudo random number generation
 *
@@ -224,7 +229,7 @@
 *   - Call \ref Cy_Crypto_Prng.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoPrngUse
+* \snippet crypto_snippet.c snippet_myCryptoPrngUse
 *
 * \subsection group_crypto_lld_Use_TRNG True random number generation
 *
@@ -232,7 +237,7 @@
 *   - Call \ref Cy_Crypto_Trng with the required parameters.
 *
 * Code example:
-* \snippet crypto/snippet/main.c snippet_myCryptoTrngUse
+* \snippet crypto_snippet.c snippet_myCryptoTrngUse
 *
 * \} */
 

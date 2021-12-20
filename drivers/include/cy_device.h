@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_device.h
-* \version 1.10
+* \version 1.20
 *
 * This file specifies the structure for core and peripheral block HW base
 * addresses, versions, and parameters.
@@ -345,6 +345,9 @@
 #define GPIO_PRT_IN(base)                  (((GPIO_PRT_Type*)(base))->PS)
 #define GPIO_PRT_PC(base)                  (((GPIO_PRT_Type*)(base))->PC)
 #define GPIO_PRT_PC2(base)                 (((GPIO_PRT_Type*)(base))->PC2)
+#if defined(CY_IP_M0S8MSCV3LP)
+#define GPIO_PRT_MSC_ANA(base)             (((GPIO_PRT_Type*)(base))->MSC_ANA)
+#endif /* defined(CY_IP_M0S8MSCV3LP) */
 #define GPIO_PRT_INTR_CFG(base)            (((GPIO_PRT_Type*)(base))->INTR_CFG)
 #define GPIO_PRT_INTR(base)                (((GPIO_PRT_Type*)(base))->INTR)
 #define GPIO_PRT_SIO(base)                 (((GPIO_PRT_Type*)(base))->SIO)
@@ -760,6 +763,36 @@
 #define REG_CRYPTO_INTR_MASK(base)         (((CRYPTO_Type*)(base))->INTR_MASK)
 #define REG_CRYPTO_INTR_MASKED(base)       (((CRYPTO_Type*)(base))->INTR_MASKED)
 #define REG_CRYPTO_MEM_BUFF(base)          (((CRYPTO_Type*)(base))->MEM_BUFF)
+
+
+#define REG_CRYPTOLITE_CTL(base)                    (((CRYPTOLITE_Type*)(base))->CTL)
+#define REG_CRYPTOLITE_STATUS(base)                 (((CRYPTOLITE_Type*)(base))->STATUS)
+#define REG_CRYPTOLITE_ECC_CTL(base)                (((CRYPTOLITE_Type*)(base))->ECC_CTL)
+#define REG_CRYPTOLITE_AES_DESCR(base)              (((CRYPTOLITE_Type*)(base))->AES_DESCR)
+#define REG_CRYPTOLITE_VU_DESCR(base)               (((CRYPTOLITE_Type*)(base))->VU_DESCR)
+#define REG_CRYPTOLITE_SHA_DESCR(base)              (((CRYPTOLITE_Type*)(base))->SHA_DESCR)
+#define REG_CRYPTOLITE_INTR_ERROR(base)             (((CRYPTOLITE_Type*)(base))->INTR_ERROR)
+#define REG_CRYPTOLITE_INTR_ERROR_SET(base)         (((CRYPTOLITE_Type*)(base))->INTR_ERROR_SET)
+#define REG_CRYPTOLITE_INTR_ERROR_MASK(base)        (((CRYPTOLITE_Type*)(base))->INTR_ERROR_MASK)
+#define REG_CRYPTOLITE_INTR_ERROR_MASKED(base)      (((CRYPTOLITE_Type*)(base))->INTR_ERROR_MASKED)
+#define REG_CRYPTOLITE_TRNG_CTL0(base)              (((CRYPTOLITE_Type*)(base))->TRNG_CTL0)
+#define REG_CRYPTOLITE_TRNG_CTL1(base)              (((CRYPTOLITE_Type*)(base))->TRNG_CTL1)
+#define REG_CRYPTOLITE_TRNG_STATUS(base)            (((CRYPTOLITE_Type*)(base))->TRNG_STATUS)
+#define REG_CRYPTOLITE_TRNG_RESULT(base)            (((CRYPTOLITE_Type*)(base))->TRNG_RESULT)
+#define REG_CRYPTOLITE_TRNG_GARO_CTL(base)          (((CRYPTOLITE_Type*)(base))->TRNG_GARO_CTL)
+#define REG_CRYPTOLITE_TRNG_FIRO_CTL(base)          (((CRYPTOLITE_Type*)(base))->TRNG_FIRO_CTL)
+#define REG_CRYPTOLITE_TRNG_MON_CTL(base)           (((CRYPTOLITE_Type*)(base))->TRNG_MON_CTL)
+#define REG_CRYPTOLITE_TRNG_MON_RC_CTL(base)        (((CRYPTOLITE_Type*)(base))->TRNG_MON_RC_CTL)
+#define REG_CRYPTOLITE_TRNG_MON_RC_STATUS0(base)    (((CRYPTOLITE_Type*)(base))->TRNG_MON_RC_STATUS0)
+#define REG_CRYPTOLITE_TRNG_MON_RC_STATUS1(base)    (((CRYPTOLITE_Type*)(base))->TRNG_MON_RC_STATUS1)
+#define REG_CRYPTOLITE_TRNG_MON_AP_CTL(base)        (((CRYPTOLITE_Type*)(base))->TRNG_MON_AP_CTL)
+#define REG_CRYPTOLITE_TRNG_MON_AP_STATUS0(base)    (((CRYPTOLITE_Type*)(base))->TRNG_MON_AP_STATUS0)
+#define REG_CRYPTOLITE_TRNG_MON_AP_STATUS1(base)    (((CRYPTOLITE_Type*)(base))->TRNG_MON_AP_STATUS1)
+#define REG_CRYPTOLITE_INTR_TRNG(base)              (((CRYPTOLITE_Type*)(base))->INTR_TRNG)
+#define REG_CRYPTOLITE_INTR_TRNG_SET(base)          (((CRYPTOLITE_Type*)(base))->INTR_TRNG_SET)
+#define REG_CRYPTOLITE_INTR_TRNG_MASK(base)         (((CRYPTOLITE_Type*)(base))->INTR_TRNG_MASK)
+#define REG_CRYPTOLITE_INTR_TRNG_MASKED(base)       (((CRYPTOLITE_Type*)(base))->INTR_TRNG_MASKED)
+
 
 #endif /* CY_DEVICE_H_ */
 

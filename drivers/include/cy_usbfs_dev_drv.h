@@ -1,6 +1,6 @@
 /*
 * \file cy_usbfs_dev_drv.h
-* \version 1.0
+* \version 1.10
 *
 * Provides API declarations of the USBFS driver.
 *
@@ -23,9 +23,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-
 /**
-* \addtogroup group_usbfs
+* \addtogroup group_usbfs_dev_drv
 * \{
 *
 * The USBFS driver provides APIs to configure and access the USBFS hardware block
@@ -33,17 +32,7 @@
 * (USBPD) enabled Micro-Controllers for the general market. The devices PMG1-S2
 * & PMG1-S3 in this family support the USBFS Device Sub-System (USBFS) in addition
 * to other standard MCU peripherals available.
-*
-* \defgroup group_usbfs_dev_drv USBFS Device
-*
-*/
-
-/** \} group_usbfs */
-
-/**
-* \addtogroup group_usbfs_dev_drv
-* \{
-*
+* 
 * The USBFS driver provides an API to interact with a fixed-function USB block.
 *
 * The functions and other declarations used in this driver are in cy_usbfs_dev_drv.h.
@@ -113,7 +102,7 @@
 *   \ref group_usbfs_dev_drv_intr to get information about <i>intrLevelSel</i>
 *   configuration.
 *
-*   \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_CfgCpu
+*   \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_CfgCpu
 *
 * * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA \n
 *   To enable DMA operation, the DMA channels must be assigned for each endpoint
@@ -124,7 +113,7 @@
 *   The code example below provides an initialized USBFS driver DMA configuration
 *   structure:
 *
-*   \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_CfgDma_DmaInit
+*   \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_CfgDma_DmaInit
 *
 *   The pointers to the DMA configuration structure are required into the
 *   \ref cy_stc_usbfs_dev_drv_config_t USBFS driver configuration structure
@@ -135,7 +124,7 @@
 *   The code example below provides an initialized USBFS driver configuration
 *   structure which uses endpoint 1:
 *
-*   \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_CfgDma
+*   \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_CfgDma
 *
 * * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO \n
 *   DMA Automatic mode needs a DMA channels configuration similar to the described
@@ -145,7 +134,7 @@
 *   The code example below provides an initialized USBFS driver DMA configuration
 *   structure:
 *
-*   \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_CfgDmaAuto_DmaInit
+*   \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_CfgDmaAuto_DmaInit
 *
 *   The driver requires a buffer for data endpoints to operate. This buffer must be
 *   allocated by the user. The buffer size is equal to the sum of all used
@@ -158,7 +147,7 @@
 *   structure that uses data endpoint 1 with a maximum packet size of 63 bytes and
 *   set 16-bit access:
 *
-*   \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_CfgDmaAuto
+*   \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_CfgDmaAuto
 *
 *
 * \note
@@ -208,7 +197,7 @@
 * The code examples below shows a connection DMA channel and USB block and the define
 * for <i>outTrigMux</i> field initialization for the PMG1-S3 device.
 *
-* \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_DmaConnect
+* \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_DmaConnect
 *
 ********************************************************************************
 * \subsection group_usbfs_dev_drv_intr Configure Interrupts
@@ -233,7 +222,7 @@
 *
 * However, the final configuration must be defined by the application.
 *
-* \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_UserLvlSel
+* \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_UserLvlSel
 *
 * The \ref Cy_USBFS_Dev_Drv_Interrupt function must be called in the interrupt
 * handler for the selected USB block instance. Note that
@@ -243,7 +232,7 @@
 * * \ref Cy_USBFS_Dev_Drv_GetInterruptCauseMed
 * * \ref Cy_USBFS_Dev_Drv_GetInterruptCauseLo
 *
-* \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_IntrHandlers
+* \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_IntrHandlers
 *
 * Finally, the interrupts must be configured and interrupt handler routines
 * hook up to NVIC. The code below assigns the interrupt priorities accordingly
@@ -256,8 +245,8 @@
 * triggered by Data Endpoint 1-8 Completion interrupt sources. \n
 * For Automatic DMA mode (Mode 3) the rule above is recommend to follow.
 *
-* \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_IntrCfg
-* \snippet usbfs/snippet/main.c snipped_Cy_USBFS_Dev_Drv_IntrCfgHook
+* \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_IntrCfg
+* \snippet usbfs_snippet.c snipped_Cy_USBFS_Dev_Drv_IntrCfgHook
 *
 ********************************************************************************
 * \section group_usbfs_dev_drv_ep_management Endpoint Buffer Management Modes
@@ -497,6 +486,16 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10</td>
+*     <td>Add DMA endpoint buffer management</td>
+*     <td>New feature support</td>
+*   </tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>The initial version.</td>
 *     <td></td>
@@ -528,6 +527,7 @@
 #if !defined(CY_USBFS_DEV_DRV_H)
 #define CY_USBFS_DEV_DRV_H
 
+#include "cy_dmac.h"
 #include "cy_syslib.h"
 #include "cy_usbfs_dev_drv_reg.h"
 
@@ -552,8 +552,13 @@ extern "C" {
 #define CY_USBFS_VERSION_MAJOR      (1)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_VERSION_MINOR      (0)
+#define CY_USBFS_VERSION_MINOR      (10)
 
+/** USBFS Driver major version */
+#define CY_USBFS_DRV_VERSION_MAJOR  (1)
+
+/** USBFS Driver minor version */
+#define CY_USBFS_DRV_VERSION_MINOR  (10)
 /** USBFS Driver identifier */
 #define CY_USBFS_ID                 CY_PDL_DRV_ID(0x3BU)
 
@@ -772,27 +777,19 @@ typedef cy_en_usbfs_dev_drv_status_t (* cy_fn_usbfs_dev_drv_read_ep_ptr_t)
                                          struct cy_stc_usbfs_dev_drv_context *context);
 /** \endcond */
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
 /** DMA Channel Configuration Structure */
 typedef struct
 {
-    DW_Type *base;          /**< Pointer to the DMA base */
-    uint32_t chNum;         /**< Channel number */
-    uint32_t priority;      /**< Channel's priority */
-    bool     preemptable;   /**< Specifies whether the channel is preempt-able by another higher-priority channel */
+    DMAC_Type *base;          /**< Pointer to the DMA base */
+    uint32_t chNum;           /**< Channel number */
+    uint32_t priority;        /**< Channel's priority */
+    bool     preemptable;     /**< Specifies whether the channel is preempt-able by another higher-priority channel */
 
     /** DMA out trigger mux (applicable only when mode is
     * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO)
     */
     uint32_t outTrigMux;
-
-    /** The pointer to the 1st allocated DMA descriptor (required for DMA operation) */
-    cy_stc_dma_descriptor_t *descr0;
-
-    /** The pointer to the 2nd allocated DMA descriptor (required when mode is
-    * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO)
-    */
-    cy_stc_dma_descriptor_t *descr1;
 
 } cy_stc_usbfs_dev_drv_dma_config_t;
 
@@ -809,7 +806,7 @@ typedef struct cy_stc_usbfs_dev_drv_config
     * pointer if endpoint is not used. Applicable when \ref mode is
     * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA or \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO.
     */
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
     const cy_stc_usbfs_dev_drv_dma_config_t *dmaConfig[CY_USBFS_DEV_DRV_NUM_EPS_MAX];
 #endif /* CY_IP_M0S8CPUSSV3_DMAC */
     /**
@@ -853,17 +850,18 @@ typedef struct
     /** Completes an event notification callback */
     cy_cb_usbfs_dev_drv_ep_callback_t epComplete;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+    volatile bool LastDescr;    /**< The last DMA descriptor for a transfer */
+    volatile bool RevertDescr;  /**< Flag for descriptor revert */
 
-    *DW_Type *base;        /**< The pointer to the DMA base */
-    cy_stc_dma_descriptor_t* descr0; /**< The pointer to the descriptor 0 */
-    cy_stc_dma_descriptor_t* descr1; /**< The pointer to the descriptor 1 */
+    DMAC_Type *base;            /**< The pointer to the DMA base */
+    uint32_t chNum;             /**< DMA Channel number */
+    uint32_t outTrigMux;        /**< Out trigger mux for DMA channel number */
 
-#endif /* defined(CY_IP_M0S8CPUSSV3_DMA) */
-
-    uint32_t chNum;         /**< DMA Channel number */
-    uint32_t outTrigMux;    /**< Out trigger mux for DMA channel number */
-
+    volatile uint32_t DmaEpBurstCount;           /**< The number of bursts for a transfer */ 
+    volatile uint32_t DmaOutEpBurstCountRestore; /**< The burst count to be restored */
+    volatile uint32_t DmaEpLastBurst;            /**< Size of the last burst */
+#endif /* defined(CY_IP_M0S8CPUSSV3_DMAC) */
 
     cy_fn_usbfs_dev_drv_memcpy_ptr_t copyData;  /**< The pointer to the user memcpy function */
 
@@ -1069,6 +1067,8 @@ __STATIC_INLINE cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_ReadOutEndpoint(US
                                                               uint32_t size,
                                                               uint32_t *actSize,
                                                               cy_stc_usbfs_dev_drv_context_t *context);
+
+void Cy_USBFS_Dev_Drv_EP_DmaDone(cy_stc_usbfs_dev_drv_context_t* context, uint32_t intrMask);
 
 cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Abort(USBFS_Type *base,
                                                     uint32_t   endpoint,

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_crc.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides the source code for the API for the CRC methods

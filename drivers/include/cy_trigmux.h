@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_trigmux.h
-* \version 1.0
+* \version 1.0.1
 *
 *  This file provides constants and parameter values for the Trigger multiplexer driver.
 *
@@ -79,7 +79,7 @@
 * Step 3. Call Cy_TrigMux_Connect() API with the constants for the inTrig and outTrig
 * parameters found in Steps 1 and Step 2.
 * For example:
-* \snippet trigmux/snippet/main.c snippet_Cy_TrigMux_Connect
+* \snippet trigmux_snippet.c snippet_Cy_TrigMux_Connect
 *
 * \section group_trigmux_more_information More Information
 * For more information on the TrigMux peripheral, refer to the technical reference manual (TRM).
@@ -87,6 +87,11 @@
 * \section group_trigmux_Changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>

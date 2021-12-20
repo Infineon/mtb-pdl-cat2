@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_msc.h
-* \version 1.10
+* \version 1.10.1
 *
 * The header file of the MSC driver.
 *
@@ -103,7 +103,7 @@
 * The following code snippet demonstrates how to capture the MSC HW block for
 * custom implementation:
 *
-* \snippet msc/snippet/main.c snippet_Cy_MSC_Conversion
+* \snippet msc_snippet.c snippet_Cy_MSC_Conversion
 *
 * \note
 * User's application code should follow these recommendations:
@@ -229,12 +229,12 @@
 * The following code snippet demonstrates how to implement a routine to handle
 * the interrupt. The routine is called when a MSC interrupt is triggered.
 *
-* \snippet msc/snippet/main.c snippet_Cy_MSC_IntHandler
+* \snippet msc_snippet.c snippet_Cy_MSC_IntHandler
 *
 * The following code snippet demonstrates how to configure and enable
 * the MSC interrupt:
 *
-* \snippet msc/snippet/main.c snippet_Cy_MSC_IntEnabling
+* \snippet msc_snippet.c snippet_Cy_MSC_IntEnabling
 *
 * For more information, refer to the \ref group_sysint driver.
 *
@@ -341,6 +341,11 @@
 ********************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Added Cy_MSC_Capture() function</td>
@@ -999,7 +1004,7 @@ __STATIC_INLINE void Cy_MSC_WriteBits(MSC_Type * base, uint32_t offset, uint32_t
 *
 * \funcusage
 *
-* \snippet msc/snippet/main.c snippet_Cy_MSC_CheckKey
+* \snippet msc_snippet.c snippet_Cy_MSC_CheckKey
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_msc_key_t Cy_MSC_GetLockStatus(const MSC_Type * base, const cy_stc_msc_context_t * context)
@@ -1027,7 +1032,7 @@ __STATIC_INLINE cy_en_msc_key_t Cy_MSC_GetLockStatus(const MSC_Type * base, cons
 *
 * \funcusage
 *
-* \snippet msc/snippet/main.c snippet_Cy_MSC_CheckStatus
+* \snippet msc_snippet.c snippet_Cy_MSC_CheckStatus
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_msc_status_t Cy_MSC_GetConversionStatus(const MSC_Type * base, const cy_stc_msc_context_t * context)

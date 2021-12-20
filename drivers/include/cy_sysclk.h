@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 2.10
+* \version 2.20
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -58,6 +58,19 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3">2.20</td>
+*     <td>The implementation of the \ref Cy_SysClk_ClkHfSetSource function is updated.</td>
+*     <td>Memory consumption optimization.</td>
+*   </tr>
+*   <tr>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates. Code snippets were updated.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">2.10</td>
 *     <td>Added the \ref Cy_SysClk_PeriphSetFrequency API function</td>
@@ -443,7 +456,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   2
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   10
+#define  CY_SYSCLK_DRV_VERSION_MINOR   20
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -636,7 +649,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs);
 * true = enabled
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_EcoIsEnabled(void)
@@ -653,7 +666,7 @@ __STATIC_INLINE bool Cy_SysClk_EcoIsEnabled(void)
 * called if the ECO is sourcing other resources.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_EcoDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
@@ -751,7 +764,7 @@ __STATIC_INLINE cy_en_sysclk_pll_src_t Cy_SysClk_PllGetSource(uint32_t pllNum);
 * \ref CY_SYSCLK_PLL_SRC_IMO - PLL runs from IMO.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllConfigure
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_pll_src_t Cy_SysClk_PllGetSource(uint32_t pllNum)
@@ -866,7 +879,7 @@ cy_en_sysclk_status_t Cy_SysClk_PllEnable(uint32_t pllNum, uint32_t timeoutUs);
 * true = enabled
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PllIsEnabled(uint32_t pllNum)
@@ -896,7 +909,7 @@ __STATIC_INLINE bool Cy_SysClk_PllIsEnabled(uint32_t pllNum)
 * true = locked
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PllIsLocked(uint32_t pllNum)
@@ -927,7 +940,7 @@ __STATIC_INLINE bool Cy_SysClk_PllIsLocked(uint32_t pllNum)
 * true = lost lock
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllLostLock
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllLostLock
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t pllNum)
@@ -967,7 +980,7 @@ __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t pllNum)
 * the PLL is the source of HFCLK and the HFCLK frequency is decreasing.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_PllManualConfigure
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_PllDisable(uint32_t pllNum)
@@ -1166,7 +1179,10 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterInit(uint16_t delayCount)
 *
 * The PGM_DELAY block will assert system reset when the counter reaches zero
 * unless firmware intervenes and reloads the counter using
-* \ref Cy_SysClk_DelayCounterReload() API.
+* \ref Cy_SysClk_DelayCounterReload() function.
+*
+* Also for the PGM_DELAY counter proper starting the \ref Cy_SysClk_DelayCounterReload()
+* function should be called before this function.
 *
 * This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
 * Refer to the Device Datasheet to check the CSV feature support.
@@ -1223,6 +1239,9 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterDisable(void)
 *
 * This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
 * Refer to the Device Datasheet to check the CSV feature support.
+*
+* For the PGM_DELAY counter proper functioning, this function should be called
+* before \ref Cy_SysClk_DelayCounterEnable.
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PGM_DLY_REL
@@ -1366,7 +1385,7 @@ __STATIC_INLINE void Cy_SysClk_SetInterrupt(uint32_t intrMask)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
-* \funcusage \snippet sysclk/snippet/main.c snippet_Cy_SysClk_GetInterruptMask
+* \funcusage \snippet sysclk_snippet.c snippet_Cy_SysClk_GetInterruptMask
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_GetInterruptMask(void)
@@ -1428,7 +1447,7 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
 * Enables the ILO.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_WcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_IloEnable(void)
@@ -1444,7 +1463,7 @@ __STATIC_INLINE void Cy_SysClk_IloEnable(void)
 * Returns the ILO enable/disable state.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_IloDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_IloDisable
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_IloIsEnabled(void)
@@ -1467,7 +1486,7 @@ __STATIC_INLINE bool Cy_SysClk_IloIsEnabled(void)
 * the ILO.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_IloDisable
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_IloDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_IloDisable(void)
@@ -1521,7 +1540,7 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass);
  * \param timeoutUs - WCO startup delay in microseconds.
  *
  * \funcusage
- * \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoEnable
+ * \snippet sysclk_snippet.c snippet_Cy_SysClk_WcoEnable
  *
  *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_WcoEnable(uint32_t timeoutUs)
@@ -1569,7 +1588,7 @@ __STATIC_INLINE void Cy_SysClk_WcoDisable(void)
 * - false - regular WCO operation (bypass disabled)
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_WcoBypass
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_WcoBypass
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_WcoBypass(bool bypass)
@@ -1675,7 +1694,7 @@ __STATIC_INLINE cy_en_sysclk_dividers_t Cy_SysClk_ClkHfGetDivider(void);
 * SYSCLK frequency is decreasing.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkHfSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkHfSetDivider(cy_en_sysclk_dividers_t divider)
@@ -1700,7 +1719,7 @@ __STATIC_INLINE void Cy_SysClk_ClkHfSetDivider(cy_en_sysclk_dividers_t divider)
 * \ref CY_SYSCLK_DIV_8 - divide by 8
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkHfSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_dividers_t Cy_SysClk_ClkHfGetDivider(void)
@@ -1733,7 +1752,7 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void);
 * \return The frequency, in Hz.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkSysSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void)
@@ -1766,7 +1785,7 @@ __STATIC_INLINE uint32_t Cy_SysClk_ClkSysGetFrequency(void)
 * SYSCLK frequency is decreasing.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkSysSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkSysSetDivider(cy_en_sysclk_dividers_t divider)
@@ -1791,7 +1810,7 @@ __STATIC_INLINE void Cy_SysClk_ClkSysSetDivider(cy_en_sysclk_dividers_t divider)
 * \ref CY_SYSCLK_DIV_8 - divide by 8
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkSysSetDivider
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkSysSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_dividers_t Cy_SysClk_ClkSysGetDivider(void)
@@ -1922,7 +1941,7 @@ __STATIC_INLINE                   uint32_t Cy_SysClk_ClkPumpGetFrequency(void);
 * \ref CY_SYSCLK_PUMP_IN_HFCLK - Use clk_hf (using selected source after predivider but before prescaler).
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkPumpSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_clkpump_src_t Cy_SysClk_ClkPumpGetSource(void)
@@ -1941,7 +1960,7 @@ __STATIC_INLINE cy_en_sysclk_clkpump_src_t Cy_SysClk_ClkPumpGetSource(void)
 * \return The frequency of the pump clock in Hz.
 *
 * \funcusage
-* \snippet sysclk/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkPumpSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_ClkPumpGetFrequency(void)

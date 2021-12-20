@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 3.20
+* \version 4.0
 *
 * Provides UART API declarations of the SCB driver.
 *
@@ -89,7 +89,7 @@
 * function providing a pointer to the populated \ref cy_stc_scb_uart_config_t
 * structure and the allocated \ref cy_stc_scb_uart_context_t structure.
 *
-* \snippet scb/uart_snippet/main.c UART_CFG
+* \snippet scb_uart_snippet.c UART_CFG
 *
 ********************************************************************************
 * \subsection group_scb_uart_pins Assign and Configure Pins
@@ -99,7 +99,8 @@
 * SCB block. Also, the UART output pins must be configured in Strong Drive
 * Input Off mode and UART input pins in Digital High-Z:
 *
-* \snippet scb/uart_snippet/main.c UART_CFG_PINS
+* \snippet scb_uart_snippet.c UART_CFG_PINS_DEFINES
+* \snippet scb_uart_snippet.c UART_CFG_PINS
 *
 ********************************************************************************
 * \subsection group_scb_uart_clock Assign Clock Divider
@@ -109,7 +110,7 @@
 * You must use one of available integer or fractional dividers. Use the
 * \ref group_sysclk driver API to do this.
 *
-* \snippet scb/uart_snippet/main.c UART_CFG_ASSIGN_CLOCK
+* \snippet scb_uart_snippet.c UART_CFG_ASSIGN_CLOCK
 *
 ********************************************************************************
 * \subsection group_scb_uart_data_rate Configure Baud Rate
@@ -120,7 +121,7 @@
 * in configuration structure</b></em> to define the number of the SCB clocks
 * within one UART bit-time.
 *
-* \snippet scb/uart_snippet/main.c UART_CFG_DATA_RATE
+* \snippet scb_uart_snippet.c UART_CFG_DATA_RATE
 *
 * <b>Refer to the technical reference manual (TRM) section UART sub-section
 * Clocking and Oversampling to get information about how to configure the UART to run with
@@ -135,15 +136,15 @@
 * in the NVIC.
 * The interrupt must be configured when \ref group_scb_uart_hl will be used.
 *
-* \snippet scb/uart_snippet/main.c UART_INTR_A
-* \snippet scb/uart_snippet/main.c UART_INTR_B
+* \snippet scb_uart_snippet.c UART_INTR_A
+* \snippet scb_uart_snippet.c UART_INTR_B
 *
 ********************************************************************************
 * \subsection group_scb_uart_enable Enable UART
 ********************************************************************************
 * Finally, enable the UART operation by calling \ref Cy_SCB_UART_Enable.
 *
-* \snippet scb/uart_snippet/main.c UART_ENABLE
+* \snippet scb_uart_snippet.c UART_ENABLE
 *
 ********************************************************************************
 * \section group_scb_uart_use_cases Common Use Cases
@@ -182,7 +183,7 @@
 *   \ref Cy_SCB_UART_IsTxComplete, \ref Cy_SCB_UART_GetNumInRxFifo and
 *   \ref Cy_SCB_UART_GetNumInTxFifo.
 *
-* \snippet scb/uart_snippet/main.c UART_TRANSMIT_DATA_LL
+* \snippet scb_uart_snippet.c UART_TRANSMIT_DATA_LL
 *
 ********************************************************************************
 * \subsection group_scb_uart_hl High-Level API
@@ -200,10 +201,10 @@
 * function to be notified about \ref group_scb_uart_macros_callback_events.
 *
 * <b>Receive Operation</b>
-* \snippet scb/uart_snippet/main.c UART_RECEIVE_DATA_HL
+* \snippet scb_uart_snippet.c UART_RECEIVE_DATA_HL
 *
 * <b>Transmit Operation</b>
-* \snippet scb/uart_snippet/main.c UART_TRANSMIT_DATA_HL
+* \snippet scb_uart_snippet.c UART_TRANSMIT_DATA_HL
 *
 * There is also capability to insert a receive ring buffer that operates between
 * the RX FIFO and the user buffer. The received data is copied into the ring
@@ -988,7 +989,7 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 * \return
 * The value of oversample.
 *
-* \snippet scb/uart_snippet/main.c UART_GET_OVS
+* \snippet scb_uart_snippet.c UART_GET_OVS
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_UART_GetOverSample(CySCB_Type const *base)

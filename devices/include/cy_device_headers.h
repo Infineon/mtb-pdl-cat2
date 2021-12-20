@@ -927,8 +927,38 @@
     #include "cy8c4745lqi_s411.h"
 #elif defined (CY8C4745AZI_S413)
     #include "cy8c4745azi_s413.h"
-#elif defined (PSOC4ASF2)
-    #include "psoc4asf2.h"
+#elif defined (CY8C4025LQI_T412)
+    #include "cy8c4025lqi_t412.h"
+#elif defined (CY8C4025LQI_T411)
+    #include "cy8c4025lqi_t411.h"
+#elif defined (CY8C4025FNI_T412)
+    #include "cy8c4025fni_t412.h"
+#elif defined (CY8C4045LQI_T412)
+    #include "cy8c4045lqi_t412.h"
+#elif defined (CY8C4045LQI_T411)
+    #include "cy8c4045lqi_t411.h"
+#elif defined (CY8C4045FNI_T412)
+    #include "cy8c4045fni_t412.h"
+#elif defined (CY8C4026LQI_T412)
+    #include "cy8c4026lqi_t412.h"
+#elif defined (CY8C4026LQI_T411)
+    #include "cy8c4026lqi_t411.h"
+#elif defined (CY8C4026FNI_T412)
+    #include "cy8c4026fni_t412.h"
+#elif defined (CY8C4046LQI_T412)
+    #include "cy8c4046lqi_t412.h"
+#elif defined (CY8C4046LQI_T411)
+    #include "cy8c4046lqi_t411.h"
+#elif defined (CY8C4046FNI_T412)
+    #include "cy8c4046fni_t412.h"
+#elif defined (CY8C4046LQI_T452)
+    #include "cy8c4046lqi_t452.h"
+#elif defined (CY8C4046LQI_T451)
+    #include "cy8c4046lqi_t451.h"
+#elif defined (CY8C4046FNI_T452)
+    #include "cy8c4046fni_t452.h"
+#elif defined (CY8C4046LQIN_T451)
+    #include "cy8c4046lqin_t451.h"
 #elif defined (CYPM1011_24LQXI)
     #include "cypm1011_24lqxi.h"
 #elif defined (CYPM1111_40LQXIT)

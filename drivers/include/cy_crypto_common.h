@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_common.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides common constants and parameters for the Crypto driver.

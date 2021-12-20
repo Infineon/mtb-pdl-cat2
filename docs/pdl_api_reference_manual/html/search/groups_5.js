@@ -2,6 +2,10 @@ var searchData=
 [
   ['functions',['Functions',['../group__group__canfd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__crypto__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__cryptolite__aes__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__cryptolite__sha__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__cryptolite__trng__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__cryptolite__vu__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__csd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__ctb__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__dmac__functions.html',1,'']]],
@@ -13,6 +17,7 @@ var searchData=
   ['functions',['Functions',['../group__group__i2s__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__lpcomp__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__msc__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__msclp__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__sar__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__scb__common__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__scb__ezi2c__functions.html',1,'']]],

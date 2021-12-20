@@ -74,6 +74,6 @@
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_FREQ_MHZ" value="`${frequencyMHz}`UL" public="true" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_FREQ" value="CY_SYSCLK_IMO_`${frequencyMHz}`MHZ" public="true" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_IMO_LOCK" value="CY_SYSCLK_IMO_LOCK_`${trim eq 2 ? &quot;NONE&quot; : &quot;WCO&quot;}`" public="true" include="`${hasBlock(&quot;wco[0]&quot;)}`" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ImoInit()" body="    Cy_SysClk_ImoSetFrequency(CY_CFG_SYSCLK_IMO_FREQ);`${hasBlock(&quot;wco[0]&quot;) ? &quot;&#xA;    Cy_SysClk_ImoLock(CY_CFG_SYSCLK_IMO_LOCK);&quot; : &quot; &quot;}` " public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ImoInit()" body="    Cy_SysClk_ImoSetFrequency(CY_CFG_SYSCLK_IMO_FREQ);`${hasBlock(&quot;wco[0]&quot;) ? &quot;&#xA;    Cy_SysClk_ImoLock(CY_CFG_SYSCLK_IMO_LOCK);&quot; : &quot;&quot;}`" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

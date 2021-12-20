@@ -7,6 +7,7 @@ var searchData=
   ['cy_5fcb_5fadc_5fevents_5ft',['cy_cb_adc_events_t',['../group__group__usbpd__common__data__structures.html#ga7edc12e66b14ecd91e44913bcfed40d0',1,'cy_usbpd_common.h']]],
   ['cy_5fcb_5fbc_5fphy_5fevents_5ft',['cy_cb_bc_phy_events_t',['../group__group__usbpd__common__data__structures.html#gaa4ddbec3e937181785f1f927dd113efc',1,'cy_usbpd_common.h']]],
   ['cy_5fcb_5fpd_5fdpm_5fget_5fconfig_5ft',['cy_cb_pd_dpm_get_config_t',['../group__group__usbpd__common__data__structures.html#ga6748c659883736d3d40a792dbbd504c1',1,'cy_usbpd_defines.h']]],
+  ['cy_5fcb_5fsbu_5flevel_5fdetect_5ft',['cy_cb_sbu_level_detect_t',['../group__group__usbpd__common__data__structures.html#ga974106023809ad41125d13a75ac525be',1,'cy_usbpd_common.h']]],
   ['cy_5fcb_5fscb_5fezi2c_5fhandle_5fdeep_5fsleep_5fmode_5ft',['cy_cb_scb_ezi2c_handle_deep_sleep_mode_t',['../group__group__scb__ezi2c__data__structures.html#ga9e8d3c0b9215890a66cfe43b74eca2d3',1,'cy_scb_ezi2c.h']]],
   ['cy_5fcb_5fscb_5fi2c_5fhandle_5faddr_5ft',['cy_cb_scb_i2c_handle_addr_t',['../group__group__scb__i2c__data__structures.html#gab0351020deb72a39fe1695e88f8aa8c0',1,'cy_scb_i2c.h']]],
   ['cy_5fcb_5fscb_5fi2c_5fhandle_5fdeep_5fsleep_5fmode_5ft',['cy_cb_scb_i2c_handle_deep_sleep_mode_t',['../group__group__scb__i2c__data__structures.html#ga90a7254c64b5c0b76b846ac3852129c1',1,'cy_scb_i2c.h']]],

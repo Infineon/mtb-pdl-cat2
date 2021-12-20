@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_crc.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides CRC API declaration of the Crypto driver
@@ -158,7 +158,7 @@ extern "C" {
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcCalcUse
+* \snippet crypto_snippet.c snippet_myCryptoCrcCalcUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Crc_CalcInit(CRYPTO_Type *base,
@@ -205,7 +205,7 @@ cy_en_crypto_status_t Cy_Crypto_Crc_CalcInit(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcCalcUse
+* \snippet crypto_snippet.c snippet_myCryptoCrcCalcUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Crc_Calc(CRYPTO_Type *base,
@@ -244,7 +244,7 @@ cy_en_crypto_status_t Cy_Crypto_Crc_Calc(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcCalcUse2
+* \snippet crypto_snippet.c snippet_myCryptoCrcCalcUse2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Crc_CalcPartial(CRYPTO_Type *base,
@@ -275,7 +275,7 @@ cy_en_crypto_status_t Cy_Crypto_Crc_CalcPartial(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcCalcUse2
+* \snippet crypto_snippet.c snippet_myCryptoCrcCalcUse2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Crc_CalcFinish(CRYPTO_Type *base,
@@ -303,7 +303,7 @@ cy_en_crypto_status_t Cy_Crypto_Crc_CalcFinish(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoCrcCalcUse
+* \snippet crypto_snippet.c snippet_myCryptoCrcCalcUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Crc_CalcFree(CRYPTO_Type *base,

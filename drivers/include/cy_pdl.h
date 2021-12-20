@@ -32,6 +32,7 @@
 
 #include "cy_canfd.h"
 #include "cy_crypto.h"
+#include "cy_cryptolite.h"
 #include "cy_csd.h"
 #include "cy_ctb.h"
 #include "cy_dmac.h"

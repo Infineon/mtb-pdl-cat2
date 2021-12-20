@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_canfd.h
-* \version 1.0.1
+* \version 1.10
 *
 *  This file provides constants and parameter values for
 *  the CAN FD driver.
@@ -98,40 +98,39 @@
 * Cy_CANFD_IrqHandler will check and process all supported interrupts when
 * triggered with any enabled interrupt source.
 *
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_ISR
+* \snippet canfd_snippet.c snippet_Cy_CANFD_ISR
 *
 * Set up the interrupt handler to be called with CAN FD events. The CAN FD block
 * has two interrupt lines which can be assigned to different interrupt
-* sources using Cy_CANFD_SetInterruptLine(): canfd_0_interrupts0_0_IRQn
-* and canfd_0_interrupts1_0_IRQn. Also, the CAN FD block has a consolidated interrupt
-* canfd_0_interrupt0_IRQn. The following code shows how to set up the interrupt
-* handler.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Setup_CANFD_Interrupt
+* sources using Cy_CANFD_SetInterruptLine(): canfd_interrupts0_0_IRQn
+* and canfd_interrupts1_0_IRQn. The following code shows how to set up the
+* interrupt handler:
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Setup_CANFD_Interrupt
 *
 * \subsection group_canfd_section_configuration_manual Implement the initialization code manually
 * Call Cy_CANFD_Init() to initialize the CAN FD module.
 * It initializes the CAN FD module with the configuration parameters, passed
 * in the \ref cy_stc_canfd_config_t structure. It consists of several elements
 * to be defined first.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Config_Struct
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Config_Struct
 * The Cy_CANFD_Init() function also initializes the shared context structure
 * used later with other API functions.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_context
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * Although the callback functions are optional, they are recommended for use,
 * otherwise, there is no report to the API about any error and transmission or reception events.
 * The example callback function sends received data back to the bus,
 * incrementing ID by 1:
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_RX_callback
+* \snippet canfd_snippet.c snippet_Cy_CANFD_RX_callback
 * CAN FD IP block requires the configuration of a peripheral clock divider.
 * The following code configures an 16-bit clock divider. The default peripheral
 * clock frequency is 24 MHz. The desired divider value minus one must be passed.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Assign_Clock_Divider
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Assign_Clock_Divider
 * The CAN FD block uses the Port 6 pins for receive (P6[1]) and transmit (P6[2]).
 * - Connect the specified High-Speed Input Output Multiplexer (HSIOM) selection
 * to the pin.
 * - Set the pins drive mode for RX and TX.
 *
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Assign_CANFD_Pins
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Assign_CANFD_Pins
 *
 * For the CANFD interrupt service routine, the Cy_CANFD_IrqHandler() can be used.
 * It handles reading data from dedicated RX buffers and RX FIFO buffers.
@@ -143,15 +142,14 @@
 * Cy_CANFD_IrqHandler will check and process all supported interrupts when
 * triggered with any enabled interrupt source.
 *
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_ISR
+* \snippet canfd_snippet.c snippet_Cy_CANFD_ISR
 *
 * Setup the interrupt handler to be called with the CAN FD events. The CAN FD block
 * has two interrupt lines, which can be assigned to different interrupt
-* sources using Cy_CANFD_SetInterruptLine(): canfd_0_interrupts0_0_IRQn
-* and canfd_0_interrupts1_0_IRQn. Also, the CAN FD block has a consolidated interrupt
-* canfd_0_interrupt0_IRQn. The following code shows how to set up the interrupt
-* handler.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Setup_CANFD_Interrupt
+* sources using Cy_CANFD_SetInterruptLine(): canfd_interrupts0_0_IRQn
+* and canfd_interrupts1_0_IRQn. The following code shows how to set up the
+* interrupt handler:
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Setup_CANFD_Interrupt
 *
 * CAN FD has two bit rate settings, for arbitration and data phases. Both are
 * configured with the same structure, containing a pre-scaler, time segment 1,
@@ -168,28 +166,28 @@
 * The example below shows the configuration with the 100 kbps arbitration bit rate
 * and 200 kbps data bit rate. This assumes the peripheral clock frequency of 72 MHz
 * divided by 9 to obtain the 8 MHz clock for the CAN FD block.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Bitrate
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Bitrate
 * CAN FD driver provides API to setup Message ID filtering. There are standard
 * ID and extended ID filters. The desired count of the filters of each type is
 * specified in the \ref cy_stc_canfd_config_t structure and is set once during
 * block initialization. It is possible to change the configured
 * filters settings with Cy_CANFD_SidFilterSetup() and Cy_CANFD_XidFilterSetup().
 * Use the cy_stc_id_filter_t structure to set up one standard ID filter:
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_SID_Filter
+* \snippet canfd_snippet.c snippet_Cy_CANFD_SID_Filter
 * Use the cy_stc_extid_filter_t structure to set up an extended ID filter:
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_XID_Filter
+* \snippet canfd_snippet.c snippet_Cy_CANFD_XID_Filter
 * Message IDs that do not match any filter are received according to the global
 * filter set up. The global filter can be set up to receive messages with standard
 * and extended IDs to different FIFO buffers. It can be configured to reject remote
 * frames, as shown below.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Global_Filter
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Global_Filter
 * The RX FIFO buffers, FIFO 0 and FIFO 1 are configured once on block
 * initialization using cy_en_canfd_fifo_config_t structure.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_FIFO_Config
+* \snippet canfd_snippet.c snippet_Cy_CANFD_FIFO_Config
 * The cy_stc_canfd_config_t structure is used to pass all configuration to
 * Cy_CANFD_Init() function. It is populated with pointers to other structures
 * required and constants, defined before.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Config_Struct
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Config_Struct
 * The Cy_CANFD_Init() function initializes the CAN FD block by writing CAN FD
 * configuration registers. Cy_CANFD_Init() enables the RX interrupts for
 * new message reception into the dedicated RX buffers, FIFO 0 and FIFO 1.
@@ -197,15 +195,15 @@
 * enable the Loopback mode. See \ref cy_stc_canfd_test_mode_t for details.
 * Cy_CANFD_Init() sets test mode configuration to CY_CANFD_TEST_MODE_DISABLE.
 * Remember to disable the echo functionality in the RX callback when using a loopback.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Init_Example
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Init_Example
 * To send a CAN FD message, a TX buffer structure must be prepared
 * which consists of the T0 and T1 registers and data array.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Prepare_TX
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Prepare_TX
 * To transmit CAN FD messages, the function \ref Cy_CANFD_UpdateAndTransmitMsgBuffer()
 * is used. The buffer status can be retrieved by Cy_CANFD_GetTxBufferStatus().
 * It is possible to set a callback function which will be notified whenever a
 * message transmission has been completed.
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Send_TX
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Send_TX
 *
 * \section group_canfd_section_more_information More Information
 *
@@ -215,6 +213,17 @@
 * \section group_canfd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10</td>
+*     <td>Fixed functions Cy_CANFD_Init() and Cy_CANFD_DeInit() </td>
+*     <td>Preventing exception in the case of high-level optimization
+*           configuration of the ARM GCC compiler.</td>
+*   </tr>
+*   <tr>
+*     <td>1.0.2</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0.1</td>
 *     <td>Corrected source code comments text.</td>
@@ -265,7 +274,7 @@ extern "C" {
 #define CY_CANFD_DRV_VERSION_MAJOR       1U
 
 /** Driver minor version */
-#define CY_CANFD_DRV_VERSION_MINOR       0U
+#define CY_CANFD_DRV_VERSION_MINOR       10U
 
 /** CAN FD driver ID */
 #define CY_CANFD_ID CY_PDL_DRV_ID        (0x45U)
@@ -1151,7 +1160,7 @@ __STATIC_INLINE void Cy_CANFD_EnableInterruptLine(CANFD_Type *base, uint32_t cha
 * The channel mask (0-0xFF).
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Enable
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Enable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_Enable(CANFD_Type *base, uint32_t channelMask)
@@ -1183,7 +1192,7 @@ __STATIC_INLINE void Cy_CANFD_Enable(CANFD_Type *base, uint32_t channelMask)
 *     The channel mask (0-0xFF).
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_Disable
+* \snippet canfd_snippet.c snippet_Cy_CANFD_Disable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_Disable(CANFD_Type *base, uint32_t channelMask)
@@ -1232,7 +1241,7 @@ __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_Disable(CANFD_Type *base, uint32_t
 *     Recommended value is 150 CPU cycles or 6 usec for the 25 MHz CPU clock.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_EnableMRAM
+* \snippet canfd_snippet.c snippet_Cy_CANFD_EnableMRAM
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_EnableMRAM(CANFD_Type *base, uint32_t channelMask, uint16_t delay)
@@ -1262,7 +1271,7 @@ __STATIC_INLINE void Cy_CANFD_EnableMRAM(CANFD_Type *base, uint32_t channelMask,
 *     The CAN FD registers structure pointer.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_DisableMRAM
+* \snippet canfd_snippet.c snippet_Cy_CANFD_DisableMRAM
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_DisableMRAM(CANFD_Type *base)
@@ -1305,7 +1314,7 @@ __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_DisableMRAM(CANFD_Type *base)
 * \param *bitrate \ref cy_stc_canfd_bitrate_t
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_SetBitrate
+* \snippet canfd_snippet.c snippet_Cy_CANFD_SetBitrate
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_SetBitrate(CANFD_Type *base, uint32_t chan, const cy_stc_canfd_bitrate_t *bitrate)
@@ -1349,7 +1358,7 @@ __STATIC_INLINE void Cy_CANFD_SetBitrate(CANFD_Type *base, uint32_t chan, const 
 * \param *fastBitrate \ref cy_stc_canfd_bitrate_t
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_SetFastBitrate
+* \snippet canfd_snippet.c snippet_Cy_CANFD_SetFastBitrate
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_SetFastBitrate(CANFD_Type *base, uint32_t chan, const cy_stc_canfd_bitrate_t *fastBitrate)
@@ -1398,7 +1407,7 @@ __STATIC_INLINE void Cy_CANFD_SetFastBitrate(CANFD_Type *base, uint32_t chan, co
 * \ref cy_en_canfd_status_t
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_ConfigChangesEnable
+* \snippet canfd_snippet.c snippet_Cy_CANFD_ConfigChangesEnable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_ConfigChangesEnable(CANFD_Type *base, uint32_t chan)
@@ -1444,7 +1453,7 @@ __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_ConfigChangesEnable(CANFD_Type *ba
 * \ref cy_en_canfd_status_t
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_ConfigChangesDisable
+* \snippet canfd_snippet.c snippet_Cy_CANFD_ConfigChangesDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_ConfigChangesDisable(CANFD_Type *base, uint32_t chan)
@@ -1488,7 +1497,7 @@ __STATIC_INLINE cy_en_canfd_status_t Cy_CANFD_ConfigChangesDisable(CANFD_Type *b
 * \param testMode \ref cy_stc_canfd_test_mode_t
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_TestModeConfig
+* \snippet canfd_snippet.c snippet_Cy_CANFD_TestModeConfig
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_TestModeConfig(CANFD_Type *base, uint32_t chan, cy_stc_canfd_test_mode_t testMode)
@@ -1580,7 +1589,7 @@ __STATIC_INLINE void Cy_CANFD_SetTDC(CANFD_Type *base, uint32_t chan,
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_GetInterruptStatus
+* \snippet canfd_snippet.c snippet_Cy_CANFD_GetInterruptStatus
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptStatus(CANFD_Type const *base, uint32_t chan)
@@ -1608,7 +1617,7 @@ __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptStatus(CANFD_Type const *base, uin
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_ClearInterrupt
+* \snippet canfd_snippet.c snippet_Cy_CANFD_ClearInterrupt
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_ClearInterrupt(CANFD_Type *base, uint32_t chan, uint32_t status)
@@ -1636,7 +1645,7 @@ __STATIC_INLINE void Cy_CANFD_ClearInterrupt(CANFD_Type *base, uint32_t chan, ui
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_GetInterruptMask
+* \snippet canfd_snippet.c snippet_Cy_CANFD_GetInterruptMask
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptMask(CANFD_Type const *base, uint32_t chan)
@@ -1665,7 +1674,7 @@ __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptMask(CANFD_Type const *base, uint3
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_SetInterruptMask
+* \snippet canfd_snippet.c snippet_Cy_CANFD_SetInterruptMask
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_SetInterruptMask(CANFD_Type *base, uint32_t chan, uint32_t interrupt)
@@ -1695,7 +1704,7 @@ __STATIC_INLINE void Cy_CANFD_SetInterruptMask(CANFD_Type *base, uint32_t chan, 
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_GetInterruptLine
+* \snippet canfd_snippet.c snippet_Cy_CANFD_GetInterruptLine
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptLine(CANFD_Type const *base, uint32_t chan)
@@ -1727,7 +1736,7 @@ __STATIC_INLINE uint32_t Cy_CANFD_GetInterruptLine(CANFD_Type const *base, uint3
 * \ref group_canfd_error_interrupt_masks.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_SetInterruptLine
+* \snippet canfd_snippet.c snippet_Cy_CANFD_SetInterruptLine
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_SetInterruptLine(CANFD_Type *base, uint32_t chan, uint32_t interruptLineMask)
@@ -1757,7 +1766,7 @@ __STATIC_INLINE void Cy_CANFD_SetInterruptLine(CANFD_Type *base, uint32_t chan, 
 *     The bit mask of the enabled interrupt lines.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_IsInterruptLineEnabled
+* \snippet canfd_snippet.c snippet_Cy_CANFD_IsInterruptLineEnabled
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_CANFD_IsInterruptLineEnabled(CANFD_Type const *base, uint32_t chan,
@@ -1783,7 +1792,7 @@ __STATIC_INLINE bool Cy_CANFD_IsInterruptLineEnabled(CANFD_Type const *base, uin
 *    The bit mask whose bits define interrupt lines to enable or disable.
 *
 * \funcusage
-* \snippet canfd/snippet/main.c snippet_Cy_CANFD_EnableInterruptLine
+* \snippet canfd_snippet.c snippet_Cy_CANFD_EnableInterruptLine
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_CANFD_EnableInterruptLine(CANFD_Type *base, uint32_t chan, uint32_t interruptLineMask)

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 1.20
+* \version 1.30
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -85,8 +85,8 @@
 * cycfg_peripherals.h file and its initialization is in the cycfg_peripherals.c
 * file. The variable name is mtb_usbpd_port<port_num>_config. It must be used with
 * Cy_USBPD_Init() function.
-*    \snippet usbpd/snippet/main.c snippet_configuration_structure
-*    \snippet usbpd/snippet/main.c snippet_configuration_init
+*    \snippet usbpd_sut.c snippet_configuration_structure
+*    \snippet usbpd_sut.c snippet_configuration_init
 *
 * \section group_usbpd_section_more_information More Information
 *
@@ -96,6 +96,24 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">1.30</td>
+*     <td>Added SBU Level Detection</td>
+*     <td>New feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Updates for EPR support</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
+*     <td>Added legacy charging drivers</td>
+*     <td>New feature support</td>
+*   </tr>
+*   <tr>
+*     <td>1.20.1</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
 *   <tr>
 *     <td>1.20</td>
 *     <td>Added APIs to control NGDO drive strength.</td>
@@ -193,7 +211,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       1
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       20
+#define CY_USBPD_DRV_VERSION_MINOR                       30
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
@@ -354,6 +372,10 @@ cy_en_usbpd_status_t Cy_USBPD_SetTypeCEvtCb(
         cy_stc_usbpd_context_t *context,
         void *callerContext,
         cy_usbpd_typec_evt_cbk_t cb);
+
+cy_en_usbpd_status_t Cy_USBPD_SetSbuLevelDetect_EvtCb(
+        cy_stc_usbpd_context_t *context,
+        cy_cb_sbu_level_detect_t cb);
 
 void Cy_USBPD_Intr1Handler (
         cy_stc_usbpd_context_t *context);

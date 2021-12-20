@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 1.20
+* \version 1.30
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -166,15 +166,28 @@ void Cy_USBPD_SetRefgenVoltage(cy_stc_usbpd_context_t *context, uint8_t vrefSel,
 * in this structure.
 *
 * \param adcId
-* ADC ID.
+* ADC ID. \ref cy_en_usbpd_adc_id_t
 *
 * \return
-* \ref cy_en_usbpd_status_t
+* CY_USBPD_STAT_SUCCESS if operation is successful,
+* CY_USBPD_STAT_BAD_PARAM if the context pointer or adcID is invalid.
 *
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId)
 {
-    PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pd = NULL;
+
+    if((NULL == context)
+#if !defined(CY_DEVICE_CCG3)
+      || (CY_USBPD_ADC_ID_OVUV == adcId)
+#endif
+      )
+    {
+        return CY_USBPD_STAT_BAD_PARAM;
+    }
+
+    pd = context->base;
+
 #if defined(CY_DEVICE_CCG3)
     uint16_t retVal = 0U;
 #endif /* defined(CY_DEVICE_CCG3) */
@@ -252,7 +265,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_us
 * in this structure.
 *
 * \param adcId
-* ADC ID.
+* ADC ID. \ref cy_en_usbpd_adc_id_t
 *
 * \param volt
 * Voltage in millivolt
@@ -294,7 +307,7 @@ uint8_t Cy_USBPD_Adc_VoltToLevel(cy_stc_usbpd_context_t *context, cy_en_usbpd_ad
 * in this structure.
 *
 * \param adcId
-* ADC ID.
+* ADC ID. \ref cy_en_usbpd_adc_id_t
 *
 * \param level
 * The 8-bit ADC reading.
@@ -329,7 +342,7 @@ uint16_t Cy_USBPD_Adc_LevelToVolt(cy_stc_usbpd_context_t *context, cy_en_usbpd_a
 * in this structure.
 *
 * \param adcId
-* ADC ID.
+* ADC ID. \ref cy_en_usbpd_adc_id_t
 *
 * \param level
 * The 8-bit ADC reading.
@@ -363,7 +376,7 @@ uint16_t Cy_USBPD_Adc_GetVbusVolt(cy_stc_usbpd_context_t *context, cy_en_usbpd_a
 * in this structure.
 *
 * \param adcId
-* ADC ID.
+* ADC ID. \ref cy_en_usbpd_adc_id_t
 *
 * \param adcInp
 * ADC input source.
@@ -396,7 +409,7 @@ void Cy_USBPD_Vbus_SetDetachParams(cy_stc_usbpd_context_t *context, cy_en_usbpd_
 * ADC input source.
 *
 * \param level
-* Comparator level.
+* Comparator level (8-bit ADC count)
 *
 * \return
 * \ref cy_en_usbpd_status_t
@@ -489,7 +502,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_FreeRunCtrl(cy_stc_usbpd_context_t *context, c
 * ADC input source.
 *
 * \param level
-* Comparator level.
+* Comparator level (8-bit ADC count)
 *
 * \param intCfg
 * Interrupt configuration
@@ -793,7 +806,7 @@ static void pd_adc_restore_intr(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc
 * ADC input source.
 *
 * \param level
-* Value to compare the input voltage against.
+* Value(8-bit ADC count) to compare the input voltage against.
 *
 * \return bool
 * Returns true if voltage > level, false otherwise.
@@ -1382,8 +1395,7 @@ uint8_t Cy_USBPD_Adc_GetVbusLevel(cy_stc_usbpd_context_t *context, cy_en_usbpd_a
 *******************************************************************************/
 void Cy_USBPD_Vbus_Mon_SetDivider(cy_stc_usbpd_context_t *context, uint8_t divider)
 {
-    /* Multiply the divider by 2 as the calculation logic assumes this. */
-    context->vbusMonDiv = divider * 2U;
+    context->vbusMonDiv = divider;
 }
 
 
@@ -1663,20 +1675,18 @@ void Cy_USBPD_Adc_IntrHandler(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 bool Cy_USBPD_V5V_IsSupplyOn(cy_stc_usbpd_context_t *context)
 {
-    CY_UNUSED_PARAMETER(context);
-    bool stat = true;
+    bool stat = false;
 
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3))
     PPDSS_REGS_T pd = context->base;
 
     /* If V5V is not present, return error. */
-    if ((pd->intr1_status & PDSS_INTR1_STATUS_V5V_STATUS) == 0U)
+    if ((pd->intr1_status & PDSS_INTR1_STATUS_V5V_STATUS) != 0U)
     {
-        stat = false;
+        stat = true;
     }
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3)) */
 
-#if defined(CY_DEVICE_CCG3)
+#elif defined(CY_DEVICE_CCG3)
     PPDSS_REGS_T pd = context->base;
 
     /* If V5V is not present, return error. */
@@ -1684,6 +1694,8 @@ bool Cy_USBPD_V5V_IsSupplyOn(cy_stc_usbpd_context_t *context)
     {
         stat = true;
     }
+#else
+    CY_UNUSED_PARAMETER(context);
 #endif /* defined(CY_DEVICE_CCG3) */
 
     return stat;
@@ -1711,12 +1723,6 @@ bool Cy_USBPD_V5V_IsSupplyOn(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint8_t channel)
 {
-#if defined(CY_DEVICE_CCG3PA)
-    /* No VConn support in PMG1S0. */
-    CY_UNUSED_PARAMETER(context);
-    CY_UNUSED_PARAMETER(channel);
-#endif /* defined(CY_DEVICE_CCG3PA) */
-
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     PPDSS_REGS_T pd = context->base;
     uint32_t regVal;
@@ -1818,9 +1824,10 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint
 
     /* Start firmware VCONN OCP and SCP handling after VCONN switch output is stable */   
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 
-#if defined(CY_DEVICE_CCG3)
+    return CY_USBPD_STAT_SUCCESS;
+
+#elif defined(CY_DEVICE_CCG3)
     PPDSS_REGS_T pd = context->base;
 
     if (channel == CY_PD_CC_CHANNEL_1)
@@ -1831,9 +1838,15 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint
     {
         pd->pfet300_ctrl |= PDSS_PFET300_CTRL_EN_SWITCH_CC2;
     }
-#endif /* defined(CY_DEVICE_CCG3) */
 
     return CY_USBPD_STAT_SUCCESS;
+#else
+    /* No VConn support in PMG1S0. */
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(channel);
+
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* defined(CY_DEVICE_CCG3) */
 }
 
 
@@ -1858,12 +1871,6 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Vconn_Disable(cy_stc_usbpd_context_t *context, uint8_t channel)
 {
-#if defined(CY_DEVICE_CCG3PA)
-    /* No VConn support in PMG1S0. */
-    CY_UNUSED_PARAMETER(context);
-    CY_UNUSED_PARAMETER(channel);
-#endif /* defined(CY_DEVICE_CCG3PA) */
-
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
 
     PPDSS_REGS_T pd = context->base;
@@ -1916,9 +1923,10 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Disable(cy_stc_usbpd_context_t *context, uin
         pd->vconn20_cc2_switch_1_ctrl |= PDSS_VCONN20_CC2_SWITCH_1_CTRL_RST_EDGE_DET;
         pd->vconn20_cc2_switch_1_ctrl &= ~PDSS_VCONN20_CC2_SWITCH_1_CTRL_RST_EDGE_DET;
     }
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 
-#if defined(CY_DEVICE_CCG3)
+    return CY_USBPD_STAT_SUCCESS;
+
+#elif defined(CY_DEVICE_CCG3)
     PPDSS_REGS_T pd = context->base;
 
     if (channel == CY_PD_CC_CHANNEL_1)
@@ -1929,9 +1937,15 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Disable(cy_stc_usbpd_context_t *context, uin
     {
         pd->pfet300_ctrl &= ~PDSS_PFET300_CTRL_EN_SWITCH_CC2;
     }
-#endif /* defined(CY_DEVICE_CCG3) */
 
     return CY_USBPD_STAT_SUCCESS;
+#else
+    /* No VConn support in PMG1S0. */
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(channel);
+
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* defined(CY_DEVICE_CCG3) */
 }
 
 
@@ -4147,8 +4161,13 @@ void Cy_USBPD_SetRefgenVoltage(cy_stc_usbpd_context_t *context, uint8_t vrefSel,
 /* Min OVP detection level for VBus. */
 #define VBUS_OVP_DETECT_MIN         (6000u)
 
+#if (defined(CY_DEVICE_PMG1S3) && CY_PD_EPR_ENABLE)
+/* VBUS max voltage in mV. */
+#define VBUS_VOLT_MAX               (30000u)
+#else
 /* VBUS max voltage in mV. */
 #define VBUS_VOLT_MAX               (24000u)
+#endif /* defined(CY_DEVICE_PMG1S3) */
 
 /* Max. VREF setting. */
 #define VREF_MAX_SETTING            (199u)
@@ -4192,7 +4211,7 @@ void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 #endif /* defined(CY_IP_MXUSBPD) */
 
     filterSel = (context->usbpdConfig->vbusOvpConfig->debounce + 1) / 2;
-    filterSel = GET_MIN (filterSel, MAX_OVP_DEBOUNCE_CYCLES);
+    filterSel = CY_USBPD_GET_MIN (filterSel, MAX_OVP_DEBOUNCE_CYCLES);
 
     /* Clear AUTO MODE OVP detect to avoid false auto off during reference change */
     if (context->usbpdConfig->vbusOvpConfig->mode == CY_USBPD_VBUS_OVP_MODE_UVOV_AUTOCTRL)
@@ -4585,7 +4604,7 @@ void Cy_USBPD_Fault_Vbus_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
     uint8_t filterSel;
 
     filterSel = (context->usbpdConfig->vbusUvpConfig->debounce + 1) / 2;
-    filterSel = GET_MIN (filterSel, MAX_UVP_DEBOUNCE_CYCLES);
+    filterSel = CY_USBPD_GET_MIN (filterSel, MAX_UVP_DEBOUNCE_CYCLES);
 
     Cy_USBPD_Fault_FetAutoModeDisable (context, pctrl, CY_USBPD_VBUS_FILTER_ID_UV);
 
@@ -4845,11 +4864,11 @@ void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
     PPDSS_TRIMS_REGS_T trimRegs = context->trimsBase;
 #endif /* defined(CY_DEVICE_PMG1S3) */
 
-#if defined(CY_DEVICE_CCG6)
-    /* Never set current less than 900mA */
-    if(current < 90u)
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+    /* Never set current less than 100mA */
+    if (current < 10u)
     {
-        current = 90u;
+        current = 10u;
     }
 #endif /* CY_DEVICE */ 
 

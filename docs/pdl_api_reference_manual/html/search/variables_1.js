@@ -1,7 +1,7 @@
 var searchData=
 [
   ['b22retimercbl',['b22RetimerCbl',['../structcy__pd__pd__do__t_1_1_t_b_t___v_d_o.html#afe591338f215b9bf430cd87cb3dd5cdc',1,'cy_pd_pd_do_t::TBT_VDO::b22RetimerCbl()'],['../structcy__pd__pd__do__t_1_1_t_b_t___c_b_l___v_d_o.html#a3273dfb7e2684df4562c009157804d47',1,'cy_pd_pd_do_t::TBT_CBL_VDO::b22RetimerCbl()']]],
-  ['base',['base',['../structcy__stc__syspm__callback__params__t.html#a56076e99358e2b7c99681312108b09af',1,'cy_stc_syspm_callback_params_t::base()'],['../structcy__stc__usbpd__context__t.html#a9a79eddc357c11d0ace1f61fa8aee800',1,'cy_stc_usbpd_context_t::base()']]],
+  ['base',['base',['../structcy__stc__syspm__callback__params__t.html#a56076e99358e2b7c99681312108b09af',1,'cy_stc_syspm_callback_params_t::base()'],['../structcy__stc__usbfs__dev__drv__dma__config__t.html#a259d5184d5358bd38925da9de87f4f7b',1,'cy_stc_usbfs_dev_drv_dma_config_t::base()'],['../structcy__stc__usbpd__context__t.html#a9a79eddc357c11d0ace1f61fa8aee800',1,'cy_stc_usbpd_context_t::base()']]],
   ['bat_5fsnk',['bat_snk',['../unioncy__pd__pd__do__t.html#a6dc79e39155eae1865332cbec7a455f9',1,'cy_pd_pd_do_t']]],
   ['bat_5fsrc',['bat_src',['../unioncy__pd__pd__do__t.html#ab0f58b3e53c31850174f8c9c0e613917',1,'cy_pd_pd_do_t']]],
   ['batstatuschange',['batStatusChange',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#ab991bb2d366e3e718645c849f248d770',1,'cy_pd_pd_do_t::ADO_ALERT']]],

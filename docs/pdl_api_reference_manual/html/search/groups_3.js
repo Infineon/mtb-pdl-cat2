@@ -10,6 +10,7 @@ var searchData=
   ['data_20structures',['Data Structures',['../group__group__i2s__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__lpcomp__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__msc__data__structures.html',1,'']]],
+  ['data_20structures',['Data Structures',['../group__group__msclp__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__sar__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__scb__common__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__scb__ezi2c__data__structures.html',1,'']]],

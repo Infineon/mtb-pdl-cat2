@@ -83,7 +83,7 @@ $(document).ready(function(){initNavTree('structcy__stc__usbfs__dev__drv__config
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">cy_stc_usbfs_dev_drv_config_t Struct Reference<div class="ingroups"><a class="el" href="group__group__usbfs.html">USBFS        (USB Full-Speed Device)</a> &raquo; <a class="el" href="group__group__usbfs__dev__drv.html">USBFS Device</a> &raquo; <a class="el" href="group__group__usbfs__dev__drv__data__structures.html">Data Structures</a></div></div>  </div>
+<div class="title">cy_stc_usbfs_dev_drv_config_t Struct Reference<div class="ingroups"><a class="el" href="group__group__usbfs__dev__drv.html">USBFS        (USB Full-Speed Device)</a> &raquo; <a class="el" href="group__group__usbfs__dev__drv__data__structures.html">Data Structures</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -95,8 +95,12 @@ Data Fields</h2></td></tr>
 <a class="el" href="group__group__usbfs__dev__drv__enums.html#gaaf6cf71cc366279eb82aefed4f81e2d1">cy_en_usbfs_dev_drv_ep_management_mode_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f">mode</a></td></tr>
 <tr class="memdesc:a9e42980b89acb13104b9ff1ba5044a5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Endpoints management mode. <br /></td></tr>
 <tr class="separator:a9e42980b89acb13104b9ff1ba5044a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d104a0a14ff08b4848b6a7005c6e8ef"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a6d104a0a14ff08b4848b6a7005c6e8ef">epBuffer</a></td></tr>
-<tr class="memdesc:a6d104a0a14ff08b4848b6a7005c6e8ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA channels configuration for the endpoints.  <a href="#a6d104a0a14ff08b4848b6a7005c6e8ef">More...</a><br /></td></tr>
+<tr class="memitem:a5e8223b51aacbc395f95c2d7fd520f3e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcy__stc__usbfs__dev__drv__dma__config__t.html">cy_stc_usbfs_dev_drv_dma_config_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a5e8223b51aacbc395f95c2d7fd520f3e">dmaConfig</a> [CY_USBFS_DEV_DRV_NUM_EPS_MAX]</td></tr>
+<tr class="memdesc:a5e8223b51aacbc395f95c2d7fd520f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA channels configuration for the endpoints.  <a href="#a5e8223b51aacbc395f95c2d7fd520f3e">More...</a><br /></td></tr>
+<tr class="separator:a5e8223b51aacbc395f95c2d7fd520f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d104a0a14ff08b4848b6a7005c6e8ef"><td class="memItemLeft" align="right" valign="top"><a id="a6d104a0a14ff08b4848b6a7005c6e8ef"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a6d104a0a14ff08b4848b6a7005c6e8ef">epBuffer</a></td></tr>
+<tr class="memdesc:a6d104a0a14ff08b4848b6a7005c6e8ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pointer to the buffer allocated for the OUT endpoints (applicable only when <a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f">mode</a> is <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1aad338d6b20d33a6cff7f47e2b883ddec">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO</a>) <br /></td></tr>
 <tr class="separator:a6d104a0a14ff08b4848b6a7005c6e8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf41ba00379318b45ed6f46e9c02699a"><td class="memItemLeft" align="right" valign="top"><a id="abf41ba00379318b45ed6f46e9c02699a"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#abf41ba00379318b45ed6f46e9c02699a">epBufferSize</a></td></tr>
@@ -111,20 +115,20 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:a7fa9ac1da61b75a32768e03e19938f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
-<a id="a6d104a0a14ff08b4848b6a7005c6e8ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d104a0a14ff08b4848b6a7005c6e8ef">&#9670;&nbsp;</a></span>epBuffer</h2>
+<a id="a5e8223b51aacbc395f95c2d7fd520f3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e8223b51aacbc395f95c2d7fd520f3e">&#9670;&nbsp;</a></span>dmaConfig</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t* cy_stc_usbfs_dev_drv_config_t::epBuffer</td>
+          <td class="memname">const <a class="el" href="structcy__stc__usbfs__dev__drv__dma__config__t.html">cy_stc_usbfs_dev_drv_dma_config_t</a>* cy_stc_usbfs_dev_drv_config_t::dmaConfig[CY_USBFS_DEV_DRV_NUM_EPS_MAX]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>DMA channels configuration for the endpoints. </p>
-<p>Only DMChannels for active endpoints must be configured. Provide NULL pointer if endpoint is not used. Applicable when <a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f">mode</a> is <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1a930a0581a66afb3a298b2d6d5b470e1a">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA</a> or <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1aad338d6b20d33a6cff7f47e2b883ddec">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO</a>. The pointer to the buffer allocated for the OUT endpoints (applicable only when <a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f">mode</a> is <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1aad338d6b20d33a6cff7f47e2b883ddec">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO</a>) </p>
+<p>Only DMChannels for active endpoints must be configured. Provide NULL pointer if endpoint is not used. Applicable when <a class="el" href="structcy__stc__usbfs__dev__drv__config__t.html#a9e42980b89acb13104b9ff1ba5044a5f">mode</a> is <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1a930a0581a66afb3a298b2d6d5b470e1a">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA</a> or <a class="el" href="group__group__usbfs__dev__drv__enums.html#ggaaf6cf71cc366279eb82aefed4f81e2d1aad338d6b20d33a6cff7f47e2b883ddec">CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO</a>. </p>
 
 </div>
 </div>

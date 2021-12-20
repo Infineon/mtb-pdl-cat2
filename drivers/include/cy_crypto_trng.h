@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_trng.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides TRNG API declaration of the Crypto driver
@@ -72,7 +72,7 @@ extern "C" {
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoTrngUse
+* \snippet crypto_snippet.c snippet_myCryptoTrngUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Trng(CRYPTO_Type *base,

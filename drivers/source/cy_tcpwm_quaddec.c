@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_tcpwm_quaddec.c
-* \version 1.10.1
+* \version 1.10.2
 *
 * \brief
 *  The source file of the tcpwm driver.
@@ -52,8 +52,8 @@ extern "C" {
 * \return error / status code. See \ref cy_en_tcpwm_status_t.
 *
 * \funcusage
-* \snippet tcpwm/quaddec/snippet/main.c snippet_Cy_TCPWM_QuadDec_Config
-* \snippet tcpwm/quaddec/snippet/main.c snippet_Cy_TCPWM_QuadDec_Init
+* \snippet tcpwm_quaddec_snippet.c snippet_Cy_TCPWM_QuadDec_Config
+* \snippet tcpwm_quaddec_snippet.c snippet_Cy_TCPWM_QuadDec_Init
 *
 *******************************************************************************/
 cy_en_tcpwm_status_t Cy_TCPWM_QuadDec_Init(TCPWM_Type *base, uint32_t cntNum,
@@ -103,7 +103,7 @@ cy_en_tcpwm_status_t Cy_TCPWM_QuadDec_Init(TCPWM_Type *base, uint32_t cntNum,
 * The pointer to a configuration structure. See \ref cy_stc_tcpwm_quaddec_config_t.
 *
 * \funcusage
-* \snippet tcpwm/quaddec/snippet/main.c snippet_Cy_TCPWM_QuadDec_DeInit
+* \snippet tcpwm_quaddec_snippet.c snippet_Cy_TCPWM_QuadDec_DeInit
 *
 *******************************************************************************/
 void Cy_TCPWM_QuadDec_DeInit(TCPWM_Type *base, uint32_t cntNum, cy_stc_tcpwm_quaddec_config_t const *config)

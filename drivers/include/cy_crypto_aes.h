@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_aes.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides AES API declaration of the Crypto driver
@@ -69,7 +69,7 @@ extern "C" {
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesEcbUse
+* \snippet crypto_snippet.c snippet_myCryptoAesEcbUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Init(CRYPTO_Type *base,
@@ -95,7 +95,7 @@ cy_en_crypto_status_t Cy_Crypto_Aes_Init(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesEcbUse
+* \snippet crypto_snippet.c snippet_myCryptoAesEcbUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Free(CRYPTO_Type *base,
@@ -135,7 +135,7 @@ cy_en_crypto_status_t Cy_Crypto_Aes_Free(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesEcbUse
+* \snippet crypto_snippet.c snippet_myCryptoAesEcbUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Ecb(CRYPTO_Type *base,
@@ -194,7 +194,7 @@ cy_en_crypto_status_t Cy_Crypto_Aes_Ecb(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesCbcUse
+* \snippet crypto_snippet.c snippet_myCryptoAesCbcUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Cbc(CRYPTO_Type *base,
@@ -260,7 +260,7 @@ cy_en_crypto_status_t Cy_Crypto_Aes_Cbc(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesCfbUse
+* \snippet crypto_snippet.c snippet_myCryptoAesCfbUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Cfb(CRYPTO_Type *base,
@@ -340,7 +340,7 @@ cy_en_crypto_status_t Cy_Crypto_Aes_Cfb(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoAesCtrUse
+* \snippet crypto_snippet.c snippet_myCryptoAesCtrUse
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Aes_Ctr(CRYPTO_Type *base,

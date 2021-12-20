@@ -90,18 +90,24 @@ $(document).ready(function(){initNavTree('group__group__usbpd__common__macros.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga954028f347e2a6716e606f51e6efaba9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga954028f347e2a6716e606f51e6efaba9">GET_MAX</a>(a,  b)&#160;&#160;&#160;(((a) &gt; (b)) ? (a) : (b))</td></tr>
-<tr class="memdesc:ga954028f347e2a6716e606f51e6efaba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum from among two numbers.  <a href="#ga954028f347e2a6716e606f51e6efaba9">More...</a><br /></td></tr>
-<tr class="separator:ga954028f347e2a6716e606f51e6efaba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga11f77fe2417b346529a6bf1a592a56d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga11f77fe2417b346529a6bf1a592a56d3">GET_MIN</a>(a,  b)&#160;&#160;&#160;(((a) &gt; (b)) ? (b) : (a))</td></tr>
-<tr class="memdesc:ga11f77fe2417b346529a6bf1a592a56d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum from among two numbers.  <a href="#ga11f77fe2417b346529a6bf1a592a56d3">More...</a><br /></td></tr>
-<tr class="separator:ga11f77fe2417b346529a6bf1a592a56d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf735106a45ecea8e646e5591342dd6f7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaf735106a45ecea8e646e5591342dd6f7">DWORD_GET_BYTE0</a>(dw)&#160;&#160;&#160;((uint8_t)((dw) &amp; 0xFF))</td></tr>
-<tr class="memdesc:gaf735106a45ecea8e646e5591342dd6f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the LSB from a DWORD.  <a href="#gaf735106a45ecea8e646e5591342dd6f7">More...</a><br /></td></tr>
-<tr class="separator:gaf735106a45ecea8e646e5591342dd6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8b91addb1ce3ad4d5b461dc2380e3803"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga8b91addb1ce3ad4d5b461dc2380e3803">DWORD_GET_BYTE1</a>(dw)&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 8) &amp; 0xFF))</td></tr>
-<tr class="memdesc:ga8b91addb1ce3ad4d5b461dc2380e3803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the bits 15-8 from a DWORD.  <a href="#ga8b91addb1ce3ad4d5b461dc2380e3803">More...</a><br /></td></tr>
-<tr class="separator:ga8b91addb1ce3ad4d5b461dc2380e3803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga289fced97711fb3a6ba1533823c407fa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga289fced97711fb3a6ba1533823c407fa">CY_USBPD_GET_MAX</a>(a,  b)&#160;&#160;&#160;(((a) &gt; (b)) ? (a) : (b))</td></tr>
+<tr class="memdesc:ga289fced97711fb3a6ba1533823c407fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum from among two numbers.  <a href="#ga289fced97711fb3a6ba1533823c407fa">More...</a><br /></td></tr>
+<tr class="separator:ga289fced97711fb3a6ba1533823c407fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaae07f65282092e3b3ea5580c4ec36352"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaae07f65282092e3b3ea5580c4ec36352">CY_USBPD_GET_MIN</a>(a,  b)&#160;&#160;&#160;(((a) &gt; (b)) ? (b) : (a))</td></tr>
+<tr class="memdesc:gaae07f65282092e3b3ea5580c4ec36352"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum from among two numbers.  <a href="#gaae07f65282092e3b3ea5580c4ec36352">More...</a><br /></td></tr>
+<tr class="separator:gaae07f65282092e3b3ea5580c4ec36352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga3b16b1abcf2af81244c4ac02eddaf937">CY_USBPD_DWORD_GET_BYTE0</a>(dw)&#160;&#160;&#160;((uint8_t)((dw) &amp; 0xFFUL))</td></tr>
+<tr class="memdesc:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the LSB from a DWORD.  <a href="#ga3b16b1abcf2af81244c4ac02eddaf937">More...</a><br /></td></tr>
+<tr class="separator:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab54d64291e48feb728888b4478a3a129"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gab54d64291e48feb728888b4478a3a129">CY_USBPD_DWORD_GET_BYTE1</a>(dw)&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 8) &amp; 0xFFUL))</td></tr>
+<tr class="memdesc:gab54d64291e48feb728888b4478a3a129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the bits 15-8 from a DWORD.  <a href="#gab54d64291e48feb728888b4478a3a129">More...</a><br /></td></tr>
+<tr class="separator:gab54d64291e48feb728888b4478a3a129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97ec6ce0e7638988eedbff68cd31c6b3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga97ec6ce0e7638988eedbff68cd31c6b3">CY_USBPD_DWORD_GET_BYTE2</a>(dw)&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 16) &amp; 0xFFUL))</td></tr>
+<tr class="memdesc:ga97ec6ce0e7638988eedbff68cd31c6b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the bits 23-16 from a DWORD.  <a href="#ga97ec6ce0e7638988eedbff68cd31c6b3">More...</a><br /></td></tr>
+<tr class="separator:ga97ec6ce0e7638988eedbff68cd31c6b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac378a40256090dddea601575cc881358"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gac378a40256090dddea601575cc881358">CY_USBPD_DWORD_GET_BYTE3</a>(dw)&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 24) &amp; 0xFFUL))</td></tr>
+<tr class="memdesc:gac378a40256090dddea601575cc881358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the MSB from a DWORD.  <a href="#gac378a40256090dddea601575cc881358">More...</a><br /></td></tr>
+<tr class="separator:gac378a40256090dddea601575cc881358"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaef1d10c83d3d7bff03a66c19ded53ab0">TYPEC_PORT_0_IDX</a>&#160;&#160;&#160;(0u)</td></tr>
 <tr class="memdesc:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">USB-C port number 0.  <a href="#gaef1d10c83d3d7bff03a66c19ded53ab0">More...</a><br /></td></tr>
 <tr class="separator:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,6 +159,42 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga9f481a8b846a9375c5f2195235871b65">CY_PD_VSAFE_20V</a>&#160;&#160;&#160;(20000u)</td></tr>
 <tr class="memdesc:ga9f481a8b846a9375c5f2195235871b65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vbus voltage = 20.0 V. <br /></td></tr>
 <tr class="separator:ga9f481a8b846a9375c5f2195235871b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2f82e8ccb5aa33276db983983da17ac7"><td class="memItemLeft" align="right" valign="top"><a id="ga2f82e8ccb5aa33276db983983da17ac7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga2f82e8ccb5aa33276db983983da17ac7">CY_PD_VSAFE_28V</a>&#160;&#160;&#160;(28000u)</td></tr>
+<tr class="memdesc:ga2f82e8ccb5aa33276db983983da17ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vbus voltage = 28.0 V. <br /></td></tr>
+<tr class="separator:ga2f82e8ccb5aa33276db983983da17ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga060eb09a33c2c663d5e39dc3bdd82773"><td class="memItemLeft" align="right" valign="top"><a id="ga060eb09a33c2c663d5e39dc3bdd82773"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga060eb09a33c2c663d5e39dc3bdd82773">CY_PD_VSAFE_36V</a>&#160;&#160;&#160;(36000u)</td></tr>
+<tr class="memdesc:ga060eb09a33c2c663d5e39dc3bdd82773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vbus voltage = 36.0 V. <br /></td></tr>
+<tr class="separator:ga060eb09a33c2c663d5e39dc3bdd82773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae58b56121904679cf4ea0f9eab07d7ec"><td class="memItemLeft" align="right" valign="top"><a id="gae58b56121904679cf4ea0f9eab07d7ec"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gae58b56121904679cf4ea0f9eab07d7ec">CY_PD_VSAFE_48V</a>&#160;&#160;&#160;(48000u)</td></tr>
+<tr class="memdesc:gae58b56121904679cf4ea0f9eab07d7ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vbus voltage = 48.0 V. <br /></td></tr>
+<tr class="separator:gae58b56121904679cf4ea0f9eab07d7ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8eb952450e119c250f06c2d779f1fcf"><td class="memItemLeft" align="right" valign="top"><a id="gad8eb952450e119c250f06c2d779f1fcf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gad8eb952450e119c250f06c2d779f1fcf">CY_PD_EPR_MIN_WATT</a>&#160;&#160;&#160;(100u)</td></tr>
+<tr class="memdesc:gad8eb952450e119c250f06c2d779f1fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDP 100 W. <br /></td></tr>
+<tr class="separator:gad8eb952450e119c250f06c2d779f1fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa5411bce264c4e172b1b8c07dda129b2"><td class="memItemLeft" align="right" valign="top"><a id="gaa5411bce264c4e172b1b8c07dda129b2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaa5411bce264c4e172b1b8c07dda129b2">CY_PD_EPR_MAX_28V_WATT</a>&#160;&#160;&#160;(140u)</td></tr>
+<tr class="memdesc:gaa5411bce264c4e172b1b8c07dda129b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDP 140 W. <br /></td></tr>
+<tr class="separator:gaa5411bce264c4e172b1b8c07dda129b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ead38eecfb4f560727b96b967611ccd"><td class="memItemLeft" align="right" valign="top"><a id="ga4ead38eecfb4f560727b96b967611ccd"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga4ead38eecfb4f560727b96b967611ccd">CY_PD_EPR_MAX_36V_WATT</a>&#160;&#160;&#160;(180u)</td></tr>
+<tr class="memdesc:ga4ead38eecfb4f560727b96b967611ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDP 180 W. <br /></td></tr>
+<tr class="separator:ga4ead38eecfb4f560727b96b967611ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91538545d05abf066df4d4d7b8e0b27d"><td class="memItemLeft" align="right" valign="top"><a id="ga91538545d05abf066df4d4d7b8e0b27d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga91538545d05abf066df4d4d7b8e0b27d">CY_PD_EPR_MAX_48V_WATT</a>&#160;&#160;&#160;(240u)</td></tr>
+<tr class="memdesc:ga91538545d05abf066df4d4d7b8e0b27d"><td class="mdescLeft">&#160;</td><td class="mdescRight">PDP 240 W. <br /></td></tr>
+<tr class="separator:ga91538545d05abf066df4d4d7b8e0b27d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a4ba4f2dbc3879306d8518c2670dd77"><td class="memItemLeft" align="right" valign="top"><a id="ga7a4ba4f2dbc3879306d8518c2670dd77"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga7a4ba4f2dbc3879306d8518c2670dd77">ROUND_UP</a>(x,  y)&#160;&#160;&#160;( ( ( (x) + ((y) - 1) ) / y ) * y)</td></tr>
+<tr class="memdesc:ga7a4ba4f2dbc3879306d8518c2670dd77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round Up. <br /></td></tr>
+<tr class="separator:ga7a4ba4f2dbc3879306d8518c2670dd77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2df9aa51d543ea63caff6ee2f2d2d4e4"><td class="memItemLeft" align="right" valign="top"><a id="ga2df9aa51d543ea63caff6ee2f2d2d4e4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga2df9aa51d543ea63caff6ee2f2d2d4e4">ROUND_DOWN</a>(x,  y)&#160;&#160;&#160;( ( (x)  / y ) * y)</td></tr>
+<tr class="memdesc:ga2df9aa51d543ea63caff6ee2f2d2d4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round Down. <br /></td></tr>
+<tr class="separator:ga2df9aa51d543ea63caff6ee2f2d2d4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga82f1aa35d27a2ee2220ffebb7d24d3f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga82f1aa35d27a2ee2220ffebb7d24d3f6">CY_PD_CC_CHANNEL_1</a>&#160;&#160;&#160;(0u)</td></tr>
 <tr class="memdesc:ga82f1aa35d27a2ee2220ffebb7d24d3f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference to CC_1 pin in the Type-C connector.  <a href="#ga82f1aa35d27a2ee2220ffebb7d24d3f6">More...</a><br /></td></tr>
 <tr class="separator:ga82f1aa35d27a2ee2220ffebb7d24d3f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,14 +206,14 @@ Macros</h2></td></tr>
 <tr class="separator:ga57918a510f3998639e394748dfe37ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ga954028f347e2a6716e606f51e6efaba9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga954028f347e2a6716e606f51e6efaba9">&#9670;&nbsp;</a></span>GET_MAX</h2>
+<a id="ga289fced97711fb3a6ba1533823c407fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga289fced97711fb3a6ba1533823c407fa">&#9670;&nbsp;</a></span>CY_USBPD_GET_MAX</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define GET_MAX</td>
+          <td class="memname">#define CY_USBPD_GET_MAX</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">a, </td>
@@ -194,14 +236,14 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="ga11f77fe2417b346529a6bf1a592a56d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga11f77fe2417b346529a6bf1a592a56d3">&#9670;&nbsp;</a></span>GET_MIN</h2>
+<a id="gaae07f65282092e3b3ea5580c4ec36352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaae07f65282092e3b3ea5580c4ec36352">&#9670;&nbsp;</a></span>CY_USBPD_GET_MIN</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define GET_MIN</td>
+          <td class="memname">#define CY_USBPD_GET_MIN</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">a, </td>
@@ -224,18 +266,18 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="gaf735106a45ecea8e646e5591342dd6f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf735106a45ecea8e646e5591342dd6f7">&#9670;&nbsp;</a></span>DWORD_GET_BYTE0</h2>
+<a id="ga3b16b1abcf2af81244c4ac02eddaf937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3b16b1abcf2af81244c4ac02eddaf937">&#9670;&nbsp;</a></span>CY_USBPD_DWORD_GET_BYTE0</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DWORD_GET_BYTE0</td>
+          <td class="memname">#define CY_USBPD_DWORD_GET_BYTE0</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">dw</td><td>)</td>
-          <td>&#160;&#160;&#160;((uint8_t)((dw) &amp; 0xFF))</td>
+          <td>&#160;&#160;&#160;((uint8_t)((dw) &amp; 0xFFUL))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -244,23 +286,63 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="ga8b91addb1ce3ad4d5b461dc2380e3803"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8b91addb1ce3ad4d5b461dc2380e3803">&#9670;&nbsp;</a></span>DWORD_GET_BYTE1</h2>
+<a id="gab54d64291e48feb728888b4478a3a129"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab54d64291e48feb728888b4478a3a129">&#9670;&nbsp;</a></span>CY_USBPD_DWORD_GET_BYTE1</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DWORD_GET_BYTE1</td>
+          <td class="memname">#define CY_USBPD_DWORD_GET_BYTE1</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">dw</td><td>)</td>
-          <td>&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 8) &amp; 0xFF))</td>
+          <td>&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 8) &amp; 0xFFUL))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Retrieve the bits 15-8 from a DWORD. </p>
+
+</div>
+</div>
+<a id="ga97ec6ce0e7638988eedbff68cd31c6b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga97ec6ce0e7638988eedbff68cd31c6b3">&#9670;&nbsp;</a></span>CY_USBPD_DWORD_GET_BYTE2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_DWORD_GET_BYTE2</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">dw</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 16) &amp; 0xFFUL))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the bits 23-16 from a DWORD. </p>
+
+</div>
+</div>
+<a id="gac378a40256090dddea601575cc881358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac378a40256090dddea601575cc881358">&#9670;&nbsp;</a></span>CY_USBPD_DWORD_GET_BYTE3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_DWORD_GET_BYTE3</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">dw</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 24) &amp; 0xFFUL))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the MSB from a DWORD. </p>
 
 </div>
 </div>

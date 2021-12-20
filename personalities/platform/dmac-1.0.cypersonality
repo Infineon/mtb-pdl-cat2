@@ -38,6 +38,9 @@
   <ExposedMembers>
     <ExposedMember key="dmac_tr_in" paramId="dmac_tr_in" />
     <ExposedMember key="dmac_tr_out" paramId="dmac_tr_out" />
+    <ExposedMember key="priority" paramId="CHANNEL_PRIORITY" />
+    <ExposedMember key="channel" paramId="channel" />
+    <ExposedMember key="preemptable" paramId="DESCR_PING_PREEMPTABLE" />
   </ExposedMembers>
 
   <Parameters>
@@ -78,10 +81,10 @@
     <ParamBool id="DESCR_PING_DST_INCREMENT" name="Destination Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
     <ParamChoice id="DESCR_PING_TRIG_DEACT" name="Trigger Deactivation And Retriggering" group="Descriptor Ping" default="CY_DMAC_RETRIG_IM" visible="true" editable="true" desc="This parameter sets up the trigger deactivation options for the descriptor.">
       <Entry name="Retrigger immediately (pulse trigger)" value="CY_DMAC_RETRIG_IM" visible="true" />
-      <Entry name="Retrigger after 4 Slow Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />
-      <Entry name="Retrigger after 16 Slow Clock cycles" value="CY_DMAC_RETRIG_16CYC" visible="true" />
+      <Entry name="Retrigger after 4 System Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />
+      <Entry name="Retrigger after 16 System Clock cycles" value="CY_DMAC_RETRIG_16CYC" visible="true" />
       <Entry name="Wait for trigger reactivation" value="CY_DMAC_WAIT_FOR_REACT" visible="true" />
-    </ParamChoice>    
+    </ParamChoice>
     <ParamBool id="DESCR_PING_INVALID" name="Invalidate On Completion" desc="Invalidate descriptor on its completion, the subsequent attempt to trigger this descriptor will result in channel disabling and interrupt with 'invalid descriptor' interrupt." group="Descriptor Ping" default="false" visible="true" editable="true" />
     <ParamBool id="DESCR_PING_INTERRUPT" name="Interrupt On Completion" desc="Set channel interrupt on descriptor completion." group="Descriptor Ping" default="true" visible="true" editable="true" />
     <ParamBool id="DESCR_PING_PREEMPTABLE" name="Preemptable" desc="Makes the channel preemptable by another higher priority channel." group="Descriptor Ping" default="true" visible="true" editable="true" />
@@ -122,7 +125,7 @@
       <Entry name="Single descriptor transfer" value="CY_DMAC_SINGLE_DESCR" visible="true" />
       <Entry name="Descriptor list transfer" value="CY_DMAC_DESCR_LIST" visible="`${DESCR_PONG_FLIPPING}`" />
     </ParamChoice>
-    
+
     <!--Config-->
     <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
 
@@ -134,7 +137,8 @@
 
   <ConfigFirmware>
     <ConfigInclude value="cy_dmac.h" include="true" />
-
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+    
     <ConfigDefine name="`${INST_NAME . &quot;_HW&quot;}`" value="`${HWbase}`" public="true" include="true" />
     <ConfigDefine name="`${INST_NAME . &quot;_CHANNEL&quot;}`" value="`${channel}`UL" public="true" include="true" />
 
@@ -198,5 +202,12 @@
       <Member name="triggerType" value="`${DESCR_PONG_TRIG_TYPE}`" />
     </ConfigStruct>
 
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_DMA" />
+      <Member name="block_num" value="0UL" />
+      <Member name="channel_num" value="`${channel}`UL" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
   </ConfigFirmware>
 </Personality>

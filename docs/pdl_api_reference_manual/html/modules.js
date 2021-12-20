@@ -2,6 +2,7 @@ var modules =
 [
     [ "CAN FD       (CAN with Flexible Data-Rate)", "group__group__canfd.html", "group__group__canfd" ],
     [ "Crypto       (Cryptography)", "group__group__crypto.html", "group__group__crypto" ],
+    [ "CryptoLite   (Cryptography)", "group__group__cryptolite.html", "group__group__cryptolite" ],
     [ "CSD          (CapSense Sigma Delta)", "group__group__csd.html", "group__group__csd" ],
     [ "CTB          (Continuous Time Block)", "group__group__ctb.html", "group__group__ctb" ],
     [ "DMAC         (Direct Memory Access Controller)", "group__group__dmac.html", "group__group__dmac" ],
@@ -22,8 +23,9 @@ var modules =
     [ "SysTick      (ARM System Timer)", "group__group__arm__system__timer.html", "group__group__arm__system__timer" ],
     [ "TCPWM        (Timer Counter PWM)", "group__group__tcpwm.html", "group__group__tcpwm" ],
     [ "TrigMux      (Trigger Multiplexer)", "group__group__trigmux.html", "group__group__trigmux" ],
-    [ "USBFS        (USB Full-Speed Device)", "group__group__usbfs.html", "group__group__usbfs" ],
+    [ "USBFS        (USB Full-Speed Device)", "group__group__usbfs__dev__drv.html", "group__group__usbfs__dev__drv" ],
     [ "USBPD        (USB Power Delivery)", "group__group__usbpd.html", "group__group__usbpd" ],
     [ "WDC          (Watchdog Counters)", "group__group__wdc.html", "group__group__wdc" ],
-    [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ]
+    [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ],
+    [ "Group_msclp", "group__group__msclp.html", "group__group__msclp" ]
 ];

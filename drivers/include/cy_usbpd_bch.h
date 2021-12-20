@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.h
-* \version 1.20
+* \version 1.30
 *
 * Header file for legacy charging feature of USBPD PDL.
 *
@@ -108,46 +108,46 @@
 #define BCH_PORT_1_CMP1_2_INTR_MASK             (0xcUL)
 /**< Interrupt mask for both charger detect comparators on port 1. */
 
-#define QC3_PORT_0_DP_PULSE_MASK                (0x01u)
+#define QC3_PORT_0_DP_PULSE_MASK                (0x01UL)
 /**< Interrupt mask for QC 3.0 pulse on D+ pin of port 0. */
 
-#define QC3_PORT_0_DM_PULSE_MASK                (0x10u)
+#define QC3_PORT_0_DM_PULSE_MASK                (0x10UL)
 /**< Interrupt mask for QC 3.0 pulse on D- pin of port 0. */
 
-#define QC3_PORT_0_DP_DM_PULSE_MASK             (0x11u)
+#define QC3_PORT_0_DP_DM_PULSE_MASK             (0x11UL)
 /**< Interrupt mask for QC 3.0 pulse on D+/D- pin of port 0. */
 
-#define QC3_PORT_1_DP_PULSE_MASK                (0x02u)
+#define QC3_PORT_1_DP_PULSE_MASK                (0x02UL)
 /**< Interrupt mask for QC 3.0 pulse on D+ pin of port 1. */
 
-#define QC3_PORT_1_DM_PULSE_MASK                (0x20u)
+#define QC3_PORT_1_DM_PULSE_MASK                (0x20UL)
 /**< Interrupt mask for QC 3.0 pulse on D- pin of port 1. */
 
-#define QC3_PORT_1_DP_DM_PULSE_MASK             (0x22u)
+#define QC3_PORT_1_DP_DM_PULSE_MASK             (0x22UL)
 /**< Interrupt mask for QC 3.0 pulse on D+/D- pin of port 1. */
 
-#define QC3_DP_DM_PULSE_FILTER_CLOCK_SEL        (160u)
+#define QC3_DP_DM_PULSE_FILTER_CLOCK_SEL        (160UL)
 /**< QC 3.0 D+/D- pulse filter setting: 160us assuming 1MHz clock. */
 
-#define AFC_UI_CLK_CYCLE_COUNT                  (160u)
+#define AFC_UI_CLK_CYCLE_COUNT                  (160UL)
 /**< AFC UI (160us) in terms of number of 1MHz clock cycles. */
 
-#define AFC_IDLE_OPCODE                         (0u)
+#define AFC_IDLE_OPCODE                         (0UL)
 /**< AFC state machine idle. */
 
-#define AFC_TX_PING_OPCODE                      (1u)
+#define AFC_TX_PING_OPCODE                      (1UL)
 /**< AFC transmitter ping opcode. */
 
-#define AFC_RX_PING_OPCODE                      (2u)
+#define AFC_RX_PING_OPCODE                      (2UL)
 /**< AFC receiver ping opcode. */
 
-#define AFC_TX_DATA_M_OPCODE                    (3u)
+#define AFC_TX_DATA_M_OPCODE                    (3UL)
 /**< AFC master data transmit opcode. */
 
-#define AFC_TX_DATA_S_OPCODE                    (4u)
+#define AFC_TX_DATA_S_OPCODE                    (4UL)
 /**< AFC slave data transmit opcode. */
 
-#define AFC_RX_DATA_OPCODE                      (5u)
+#define AFC_RX_DATA_OPCODE                      (5UL)
 /**< AFC receive data opcode. */
 
 #define AFC_SOURCE_OPCODE                       ((AFC_RX_PING_OPCODE << 0) | (AFC_TX_PING_OPCODE << 3) | \
@@ -155,6 +155,16 @@
                                                 (AFC_TX_DATA_S_OPCODE << 12) | (AFC_RX_PING_OPCODE << 15) | \
                                                 (AFC_TX_PING_OPCODE << 18) | (AFC_IDLE_OPCODE << 21))
 /**< AFC source opcode selection. */
+
+#define AFC_SINK_OPCODE                         ((AFC_TX_PING_OPCODE << 0) | (AFC_RX_PING_OPCODE << 3) | \
+                                                (AFC_TX_DATA_M_OPCODE << 6) | (AFC_RX_PING_OPCODE << 9) |(AFC_RX_DATA_OPCODE << 12) | \
+                                                (AFC_TX_PING_OPCODE << 15) | (AFC_RX_PING_OPCODE << 18) | \
+                                                (AFC_IDLE_OPCODE << 21))
+/**< AFC sink opcode selection. */
+
+#define AFC_SINK_OPCODE_PING                    ((AFC_TX_PING_OPCODE << 0) | (AFC_RX_PING_OPCODE << 3) | \
+                                                (AFC_IDLE_OPCODE << 6))
+/**< AFC sink ping opcode selection. */
 
 #define AFC_MAX_BYTES                           (16u)
 /**< Maximum number of bytes in an AFC message. */
@@ -181,6 +191,94 @@
 #define CDP_CHGDET_COMP_INP_DM                  (0u)     /**< Chg.Det. comparator input selection: D- */
 #define CDP_CHGDET_COMP_INP_VREF                (1u)     /**< Chg.Det. comparator input selection: VRef */
 #define CDP_CHGDET_COMP_INP_DP                  (2u)     /**< Chg.Det. comparator input selection: D+ */
+
+
+#define BC_SINK_1_2_MODE_ENABLE_MASK        (0x01UL)
+/**< BC 1.2 sink mode enable mask for config table parameter. */
+
+#define BC_SINK_APPLE_MODE_ENABLE_MASK      (0x02UL)
+/**< Apple sink mode enable mask for config table parameter. */
+
+#define BC_SINK_QC_MODE_ENABLE_MASK         (0x04UL)
+/**< QC 2.0 sink mode enable mask for config table parameter. */
+
+#define BC_SINK_AFC_MODE_ENABLE_MASK        (0x08UL)
+/**< AFC sink mode enable mask for config table parameter. */
+
+#define BC_SINK_ALL_MODES_DISABLED          (0x00UL)
+/**< all legacy sink modes are disabled for config table parameter. */
+
+#define BC_SRC_1_2_MODE_ENABLE_MASK         (0x01UL)
+/**< BC 1.2 Source mode enable mask for config table parameter. */
+
+#define BC_SRC_APPLE_MODE_ENABLE_MASK       (0x02UL)
+/**< Apple source mode enable mask for config table parameter. */
+
+#define BC_SRC_QC_MODE_ENABLE_MASK          (0x04UL)
+/**< QC source mode enable mask for config table parameter. */
+
+#define BC_SRC_AFC_MODE_ENABLE_MASK         (0x08UL)
+/**< AFC source mode enable mask for config table parameter. */
+
+#define BC_SRC_QC_4_0_MODE_ENABLE_MASK      (0x10UL)
+/**< QC 4.0 mode enable mask for config table parameter. */
+
+#define BC_SRC_QC_VER_2_CLASS_A_VAL         (0UL)
+/**< QC source Version and class mask for config table parameter. */
+
+#define BC_SRC_QC_VER_2_CLASS_B_VAL         (1UL)
+/**< QC source Version and class mask for config table parameter. */
+
+#define BC_SRC_QC_VER_3_CLASS_A_VAL         (2UL)
+/**< QC source Version and class mask for config table parameter. */
+
+#define BC_SRC_QC_VER_3_CLASS_B_VAL         (3UL)
+/**< QC source Version and class mask for config table parameter. */
+
+#define BC_CMP_0_IDX                    (0u)    /**< Battery charger comparator #1. */
+#define BC_CMP_1_IDX                    (1u)    /**< Battery charger comparator #2. */
+
+#define BC_AMP_LIMIT                    (300)   /**< Maximum current across various BC modes: 3.0 A. */
+#define APPLE_AMP_1A                    (100)   /**< Current limit for Apple 1.0A brick. */
+#define APPLE_AMP_2_1A                  (210)   /**< Current limit for Apple 2.1A brick. */
+#define APPLE_AMP_2_4A                  (240)   /**< Current limit for Apple 2.4A brick. */
+#define APPLE_AMP_3A                    (300)   /**< Current limit for Apple 3.0A brick. */
+#define QC_AMP_5V                       (300)   /**< Current limit for Quick Charge at 5 V. */
+#define QC_AMP_9V                       (300)   /**< Current limit for Quick Charge at 9 V. */
+#define QC_AMP_12V                      (300)   /**< Current limit for Quick Charge at 12 V. */
+#define QC_AMP_20V                      (300)   /**< Current limit for Quick Charge at 20 V. */
+#define QC_AMP_CONT                     (300)   /**< Current limit for Quick Charge continuous mode. */
+#define QC_CONT_VOLT_CHANGE_PER_PULSE   (200u)  /**< Quick Charge continuous mode voltage change per pulse received. */
+#define QC3_MIN_VOLT                    (3400u) /**< Minimum supply voltage used in QC charging. */
+
+
+#ifndef PDSS_INTR4_AFC_PING_RECVD
+#define PDSS_INTR4_AFC_PING_RECVD       (1UL << 0UL)    /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_AFC_PING_RECVD */
+
+#ifndef PDSS_INTR4_AFC_SM_IDLE
+#define PDSS_INTR4_AFC_SM_IDLE          (1UL << 12UL)   /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_AFC_SM_IDLE */
+
+#ifndef PDSS_INTR4_AFC_TIMEOUT
+#define PDSS_INTR4_AFC_TIMEOUT          (1UL << 16UL)   /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_AFC_TIMEOUT */
+
+#ifndef PDSS_INTR4_AFC_RX_RESET
+#define PDSS_INTR4_AFC_RX_RESET         (1UL << 20UL)   /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_AFC_RX_RESET */
+
+#ifndef PDSS_INTR4_UPDATE_PING_PONG
+#define PDSS_INTR4_UPDATE_PING_PONG     (1UL << 24UL)   /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_UPDATE_PING_PONG */
+
+#ifndef PDSS_INTR4_AFC_ERROR
+#define PDSS_INTR4_AFC_ERROR            (1UL << 28UL)   /**< AFC interrupt status bit. */
+#endif /* PDSS_INTR4_AFC_ERROR */
+
+#ifndef PDSS_CTRL_AFC_ENABLED
+#define PDSS_CTRL_AFC_ENABLED           (1UL << 25UL)   /**< AFC enable bit value. */
+#endif /* PDSS_CTRL_AFC_ENABLED */
 
 /** \} group_usbpd_legacy_macros */
 
@@ -265,6 +363,127 @@ void Cy_USBPD_Bch_Phy_Config_DeepSleep(cy_stc_usbpd_context_t *context);
 void Cy_USBPD_Bch_Phy_Config_Wakeup(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcInit(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcStop(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseEn(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseDis(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStop(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_AfcReset_IntrHandler(cy_stc_usbpd_context_t *context);
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Get_QcPulseCount
+****************************************************************************//**
+*
+* This function returns the QC3 pulse count stored in the context variable 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* QC3 pulse count
+*
+*******************************************************************************/
+__STATIC_INLINE int Cy_USBPD_Bch_Get_QcPulseCount(cy_stc_usbpd_context_t *context)
+{
+    uint32_t intr_state = Cy_SysLib_EnterCriticalSection();
+    int count = context->bcQcPulseCount;
+    Cy_SysLib_ExitCriticalSection(intr_state);
+
+    return count;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Update_QcPulseCount
+****************************************************************************//**
+*
+* This function update the QC3 pulse count in the context variable 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \param new_count
+* New QC3 pulse count received
+*
+* \return
+* None
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_USBPD_Bch_Update_QcPulseCount(cy_stc_usbpd_context_t *context, int new_count)
+{
+    uint32_t intr_state = Cy_SysLib_EnterCriticalSection();
+    context->bcQcPulseCount = context->bcQcPulseCount - new_count;
+    Cy_SysLib_ExitCriticalSection(intr_state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Get_AfcDataPtr
+****************************************************************************//**
+*
+* This function returns the USBPD context AFC received data pointer.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* AFC received data pointer
+*
+*******************************************************************************/
+__STATIC_INLINE uint8_t* Cy_USBPD_Bch_Get_AfcDataPtr(cy_stc_usbpd_context_t *context)
+{
+    return context->bcAfcRxBuf;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Get_AfcDataCount
+****************************************************************************//**
+*
+* This function returns the USBPD context AFC received data count.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* AFC received data count
+*
+*******************************************************************************/
+__STATIC_INLINE uint8_t Cy_USBPD_Bch_Get_AfcDataCount(cy_stc_usbpd_context_t *context)
+{
+    return context->bcAfcRxIdx;
+}
 
 /** \} group_usbpd_legacy_functions */
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_sha.h
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 *  This file provides SHA API declaration of the Crypto driver
@@ -74,7 +74,7 @@ extern "C" {
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Sha(CRYPTO_Type *base,
@@ -107,7 +107,7 @@ cy_en_crypto_status_t Cy_Crypto_Sha(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use2
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Sha_Init(CRYPTO_Type *base,
@@ -144,7 +144,7 @@ cy_en_crypto_status_t Cy_Crypto_Sha_Init(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use2
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Sha_Partial(CRYPTO_Type *base,
@@ -174,7 +174,7 @@ cy_en_crypto_status_t Cy_Crypto_Sha_Partial(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use2
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Sha_Finish(CRYPTO_Type *base,
@@ -199,7 +199,7 @@ cy_en_crypto_status_t Cy_Crypto_Sha_Finish(CRYPTO_Type *base,
 * \ref cy_en_crypto_status_t
 *
 * \funcusage
-* \snippet crypto/snippet/main.c snippet_myCryptoSha256Use2
+* \snippet crypto_snippet.c snippet_myCryptoSha256Use2
 *
 *******************************************************************************/
 cy_en_crypto_status_t Cy_Crypto_Sha_Free(CRYPTO_Type *base,

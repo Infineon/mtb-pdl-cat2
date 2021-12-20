@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 1.20
+* \version 1.30
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -126,7 +126,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_En(cy_stc_usbpd_context_t *context)
 
 #if !QC_AFC_CHARGING_DISABLED
 #if defined(CY_DEVICE_CCG3PA)
-    pd->ctrl |= (1u << PDSS_CTRL_AFC_ENABLED_POS);
+    pd->ctrl |= (1UL << PDSS_CTRL_AFC_ENABLED_POS);
 #else
     pd->ctrl |= (uint32_t)PDSS_CTRL_AFC_ENABLED;
 #endif /* defined(CY_DEVICE_CCG3PA) */
@@ -184,7 +184,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_Dis(cy_stc_usbpd_context_t *context)
 
 #if !QC_AFC_CHARGING_DISABLED
 #if defined(CY_DEVICE_CCG3PA)
-    pd->ctrl &= ~(1 << PDSS_CTRL_AFC_ENABLED_POS);
+    pd->ctrl &= ~(1UL << PDSS_CTRL_AFC_ENABLED_POS);
 #else
     pd->ctrl &= ~(PDSS_CTRL_AFC_ENABLED);
 #endif /* defined(CY_DEVICE_CCG3PA) */
@@ -232,7 +232,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
 {
     cy_en_usbpd_status_t status = CY_USBPD_STAT_SUCCESS;
 
-#if defined(CY_IP_MXUSBPD)
+#if (defined(CY_IP_MXUSBPD) && (!CY_PD_SINK_ONLY))
     PPDSS_REGS_T pd = context->base;
 
     /* Remove any existing terminations. */
@@ -309,7 +309,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
             break;
     }
 
-#elif defined(CY_IP_M0S8USBPD)
+#elif (defined(CY_IP_M0S8USBPD) && (!CY_PD_SINK_ONLY))
 
     PPDSS_REGS_T pd = context->base;
 
@@ -422,6 +422,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSnkTerm(cy_stc_usbpd_context_t *cont
 
 #if (!QC_AFC_CHARGING_DISABLED)
         case CHGB_SINK_TERM_AFC:
+        case CHGB_SINK_TERM_QC_5V:
             /* 0.6 on D+, D- HiZ */
             pd->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_VDP_SRC_EN;
             /* Remove other terms */
@@ -429,6 +430,31 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSnkTerm(cy_stc_usbpd_context_t *cont
                     PDSS_BCH_DET_0_CTRL_RDM_PU_EN |
                     PDSS_BCH_DET_0_CTRL_VDM_SRC_EN |
                     PDSS_BCH_DET_0_CTRL_IDM_SNK_EN);
+            break;
+        case CHGB_SINK_TERM_QC_9V:
+            /* 3.3V on D+, 0.6 on D- */
+            pd->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_RDP_PU_EN | PDSS_BCH_DET_0_CTRL_VDM_SRC_EN ;
+
+            /* Remove other terms */
+            pd->bch_det_0_ctrl[0] &= ~ ( PDSS_BCH_DET_0_CTRL_RDM_PU_EN |
+                                   PDSS_BCH_DET_0_CTRL_RDM_PD_EN |
+                                   PDSS_BCH_DET_0_CTRL_VDP_SRC_EN |
+                                   PDSS_BCH_DET_0_CTRL_IDM_SNK_EN);
+            break;
+        case CHGB_SINK_TERM_QC_12V:            /* 0.6 on D+, 0.6 on D- */
+            pd->bch_det_0_ctrl[0] |= (PDSS_BCH_DET_0_CTRL_VDP_SRC_EN | PDSS_BCH_DET_0_CTRL_VDM_SRC_EN);
+
+            /* Remove other terms */
+            pd->bch_det_0_ctrl[0] &= ~ (PDSS_BCH_DET_0_CTRL_RDP_PU_EN |
+                                    PDSS_BCH_DET_0_CTRL_RDM_PU_EN);
+            break;
+        case CHGB_SINK_TERM_QC_20V:
+            /* 3.3V on D+, 3.3V on D- */
+            pd->bch_det_0_ctrl[0] |= (PDSS_BCH_DET_0_CTRL_RDP_PU_EN | PDSS_BCH_DET_0_CTRL_RDM_PU_EN);
+
+            /* Remove other terms */
+            pd->bch_det_0_ctrl[0] &= ~ ( PDSS_BCH_DET_0_CTRL_VDM_SRC_EN |
+                                    PDSS_BCH_DET_0_CTRL_VDP_SRC_EN);
             break;
 #endif /* (!QC_AFC_CHARGING_DISABLED) */
 
@@ -553,7 +579,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_RemoveTerm(cy_stc_usbpd_context_t *context
 * Pointer to the context structure \ref cy_stc_usbpd_context_t.
 *
 * \param compIdx
-* Comparator index.
+* Comparator index(0 or 1).
 *
 * \param pInput
 * Positive input signal selection
@@ -1457,6 +1483,892 @@ void Cy_USBPD_Bch_Phy_Config_Wakeup(cy_stc_usbpd_context_t *context)
 {
     /* Nothing to do. */
     (void)context;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcInit
+****************************************************************************//**
+*
+* This function initialize QC source block.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/    
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcInit(cy_stc_usbpd_context_t *context)
+{
+    /* Nothing to do for now */
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcStop
+****************************************************************************//**
+*
+* This function deselect the QC source block.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcStop(cy_stc_usbpd_context_t *context)
+{
+    /* Nothing to do for now */
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcMasterSenseEn
+****************************************************************************//**
+*
+* This function enable master for hardware to start sensing the pulses on Dplus
+* and Dminus.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseEn(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    pd->qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#else
+    pd->qc3_chrger_ctrl[0] |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+  
+    return CY_USBPD_STAT_SUCCESS;
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcMasterSenseDis
+****************************************************************************//**
+*
+* This function disable master for hardware to stop sensing the pulses on Dplus
+* and Dminus.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseDis(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+
+#if defined(CY_DEVICE_PMG1S3)
+    pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#else
+    pd->qc3_chrger_ctrl[0] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcContModeStart
+****************************************************************************//**
+*
+* This function configures the QC3 block, enable QC interrupts and enables 
+* master for DP and DM sensing.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval;
+    volatile uint32_t *qc3_chrger_ctrl = NULL;
+    volatile uint32_t *afc_hs_filter_cfg = NULL;
+    
+    context->bcQcPulseCount = 0;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl;
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+#else
+    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl[0];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */    
+    
+    /*
+     * Enable pulse count and filter. DP filter should look for rising edge
+     * and DM filter should look for falling edge.
+     */
+    *qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+
+    /* Clear the DP/DM Count. */
+    *qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT;
+    while (((*qc3_chrger_ctrl & PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT) != 0u)) {}
+
+    regval = *afc_hs_filter_cfg;
+
+    regval &= ~(PDSS_AFC_HS_FILTER_CFG_DP_FILT_SEL_MASK |
+        PDSS_AFC_HS_FILTER_CFG_DM_FILT_SEL_MASK | PDSS_AFC_HS_FILTER_CFG_DP_FILT_EN
+        | PDSS_AFC_HS_FILTER_CFG_DM_FILT_EN |
+        PDSS_AFC_HS_FILTER_CFG_DP_FILT_RESET);
+    *afc_hs_filter_cfg = regval;
+
+    regval |= ((QC3_DP_DM_PULSE_FILTER_CLOCK_SEL <<
+        PDSS_AFC_HS_FILTER_CFG_DP_FILT_SEL_POS) | (QC3_DP_DM_PULSE_FILTER_CLOCK_SEL
+        << PDSS_AFC_HS_FILTER_CFG_DM_FILT_SEL_POS) | PDSS_AFC_HS_FILTER_CFG_DM_FILT_RESET |
+            (PDSS_AFC_HS_FILTER_CFG_DP_FILT_EN | PDSS_AFC_HS_FILTER_CFG_DM_FILT_EN));
+
+    *afc_hs_filter_cfg = regval;
+
+    /* Enable D+/D- pulse interrupts */
+    pd->intr6 = QC3_PORT_0_DP_DM_PULSE_MASK;
+    pd->intr6_mask |= QC3_PORT_0_DP_DM_PULSE_MASK;
+  
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QcSrcContModeStop
+****************************************************************************//**
+*
+* This function disables QC3 block and interrupts, and also disables the DP/DM
+* master sensing.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+
+    context->bcQcPulseCount = 0;
+#if defined(CY_DEVICE_PMG1S3)
+    pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#else
+    pd->qc3_chrger_ctrl[0] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    /* Disable D+/D- pulse interrupts */
+    pd->intr6_mask &= ~(QC3_PORT_0_DP_DM_PULSE_MASK);
+    pd->intr6 = QC3_PORT_0_DP_DM_PULSE_MASK;
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSrcInit
+****************************************************************************//**
+*
+* This function enables the AFC source clock, filters and other configurations.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_1_ctrl = NULL;
+    volatile uint32_t *afc_2_ctrl = NULL;
+    volatile uint32_t *afc_hs_filter_cfg = NULL;
+    uint32_t regval = 0;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    afc_1_ctrl = &pd->afc_1_ctrl;
+    afc_2_ctrl = &pd->afc_2_ctrl;
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+#else
+    afc_1_ctrl = &pd->afc_1_ctrl[0];
+    afc_2_ctrl = &pd->afc_2_ctrl[0];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+    
+    regval = *afc_1_ctrl;
+
+    regval &= ~(PDSS_AFC_1_CTRL_TX_RESET |
+            PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_MASK);
+    regval |= PDSS_AFC_1_CTRL_UPDATE_TXCLK;
+
+    *afc_1_ctrl = regval;
+
+
+    regval = *afc_2_ctrl;
+    /* Update UI clock cycle count for 125kHz clock. */
+    regval &= ~PDSS_AFC_2_CTRL_UI_COUNT_MASK;
+    regval |= (QC3_DP_DM_PULSE_FILTER_CLOCK_SEL <<
+        PDSS_AFC_2_CTRL_UI_COUNT_POS);
+    *afc_2_ctrl = regval;
+
+    /* Enable filter. */
+    *afc_hs_filter_cfg &= ~(PDSS_AFC_HS_FILTER_CFG_DM_FILT_SEL_MASK);
+    *afc_hs_filter_cfg |= (PDSS_AFC_HS_FILTER_CFG_DM_FILT_EN);
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+#define CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK      (0x11111001)
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSrcStart
+****************************************************************************//**
+*
+* This function starts the AFC source state machine operations. Cy_USBPD_Bch_AfcSrcInit
+* function must be called before this function call.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_opcode_ctrl = NULL;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+#else
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */    
+    
+    /* Set opcode for afc source operation */
+    *afc_opcode_ctrl = AFC_SOURCE_OPCODE | (1UL << 29u);
+    
+    Cy_SysLib_DelayUs (10);
+
+    /* Enable Interrupts */ 
+    pd->intr4 = (PDSS_INTR4_AFC_PING_RECVD | PDSS_INTR4_AFC_SM_IDLE |
+                 PDSS_INTR4_AFC_TIMEOUT | PDSS_INTR4_AFC_RX_RESET |
+                 PDSS_INTR4_UPDATE_PING_PONG | PDSS_INTR4_AFC_ERROR);
+
+    pd->intr4_mask |= ((PDSS_INTR4_AFC_SM_IDLE) |
+                (PDSS_INTR4_UPDATE_PING_PONG) |
+                (PDSS_INTR4_AFC_RX_RESET));
+    
+    context->bcAfcRxIdx = 0;
+
+    /* Start operation */
+    *afc_opcode_ctrl |= PDSS_AFC_OPCODE_CTRL_OP_CODE_START;
+
+    return CY_USBPD_STAT_SUCCESS;
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSrcStop
+****************************************************************************//**
+*
+* This function stops the AFC source state machine operations.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStop(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+
+    uint32_t intr_mask = 0;
+
+    intr_mask = (PDSS_INTR4_AFC_PING_RECVD | PDSS_INTR4_AFC_SM_IDLE |
+                PDSS_INTR4_AFC_TIMEOUT | PDSS_INTR4_AFC_RX_RESET |
+                PDSS_INTR4_UPDATE_PING_PONG | PDSS_INTR4_AFC_ERROR);
+    
+    /* Disable Interrupts */
+    pd->intr4_mask &= ~(intr_mask);
+    pd->intr4 = intr_mask;
+
+    return CY_USBPD_STAT_SUCCESS;
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */    
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcLoadTxData
+****************************************************************************//**
+*
+* This function load the USBPD context AFC tx data into AFC ping pong buffer.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    uint16_t data = 0;
+    PPDSS_REGS_T pd = context->base;
+
+    if(context->bcAfcTxIdx < context->bcAfcTxSize)
+    {
+        data = context->bcAfcTxBuf[context->bcAfcTxIdx++];
+
+        if(context->bcAfcTxIdx < context->bcAfcTxSize)
+        {
+            data |= (uint16_t)(context->bcAfcTxBuf[context->bcAfcTxIdx++]) << 8u;
+        }
+#if defined(CY_DEVICE_PMG1S3)
+        pd->afc_ping_pong = data;
+#else
+        pd->afc_ping_pong[0] = data;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+        Cy_SysLib_DelayUs(2);
+    }
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */  
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Set_AfcTxData
+****************************************************************************//**
+*
+* This function transmits AFC data buffer provided.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \param dataPtr
+* Transmit data buffer pointer
+*
+* \param count
+* Transmit data count
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval;
+    uint8_t index = 0;
+    volatile uint32_t *afc_1_ctrl = NULL;
+    
+    context->bcAfcTxSize = count;
+    context->bcAfcTxIdx = 0;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    afc_1_ctrl = &pd->afc_1_ctrl;
+#else
+    afc_1_ctrl = &pd->afc_1_ctrl[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    regval = *afc_1_ctrl & ~PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_MASK;
+
+    regval |= (uint32_t)count << PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_POS;
+
+    *afc_1_ctrl = regval;
+    
+    /* Copy data into AFC tx buffer */
+    for (index = 0; index < count; index++)
+    {
+        context->bcAfcTxBuf[index]= *(dataPtr++);
+    }
+
+    Cy_USBPD_Bch_AfcLoadTxData(context);
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(dataPtr);
+    CY_UNUSED_PARAMETER(count);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */  
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSinkInit
+****************************************************************************//**
+*
+* This function initialize the AFC clock, filters and enables block for sink 
+* operations. 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_1_ctrl = NULL;
+    volatile uint32_t *afc_2_ctrl = NULL;
+    volatile uint32_t *afc_hs_filter_cfg = NULL;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    afc_1_ctrl = &pd->afc_1_ctrl;
+    afc_2_ctrl = &pd->afc_2_ctrl;
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+#else
+    afc_1_ctrl = &pd->afc_1_ctrl[0];
+    afc_2_ctrl = &pd->afc_2_ctrl[0];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    *afc_1_ctrl &= ~(PDSS_AFC_1_CTRL_TX_RESET |
+                     PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_MASK);
+
+    *afc_1_ctrl |= PDSS_AFC_1_CTRL_UPDATE_TXCLK;
+
+    /* Update UI clock cycle count for 125kHz clock. */
+    *afc_2_ctrl &= ~PDSS_AFC_2_CTRL_UI_COUNT_MASK;
+    *afc_2_ctrl |= (QC3_DP_DM_PULSE_FILTER_CLOCK_SEL <<
+                    PDSS_AFC_2_CTRL_UI_COUNT_POS);
+
+    *afc_2_ctrl |= PDSS_AFC_2_CTRL_DISABLE_SYNC_ON_RX_BY_4_UI;
+
+    /* Enable filter. */
+    *afc_hs_filter_cfg &= ~(PDSS_AFC_HS_FILTER_CFG_DM_FILT_SEL_MASK);
+    *afc_hs_filter_cfg |= (PDSS_AFC_HS_FILTER_CFG_DM_FILT_EN);
+
+    /* Enable Clock */
+    pd->ctrl |= PDSS_CTRL_AFC_ENABLED;
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSinkStartPing
+****************************************************************************//**
+*
+* This function sends a ping request to AFC source.
+* operations. 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_opcode_ctrl = NULL;
+    
+#if defined(CY_DEVICE_PMG1S3)
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+#else
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    /* Set opcode for afc sink operation */
+    *afc_opcode_ctrl = AFC_SINK_OPCODE_PING;
+
+    /* Enable Interrupts */
+    pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+
+    pd->intr4_mask |= (PDSS_INTR4_AFC_SM_IDLE
+                        | PDSS_INTR4_UPDATE_PING_PONG
+                        | PDSS_INTR4_AFC_RX_RESET);
+
+    context->bcAfcRxIdx = 0;
+
+    /* Start operation */
+    *afc_opcode_ctrl |= PDSS_AFC_OPCODE_CTRL_OP_CODE_START;
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSinkStart
+****************************************************************************//**
+*
+* This function configures the AFC state machine, interrupts and stats the AFC
+* sink operations. 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_opcode_ctrl = NULL; 
+
+    /* Set opcode for afc sink operation */
+#if defined(CY_DEVICE_PMG1S3)
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+#else
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
+#endif
+
+    /* Set opcode for afc sink operation */
+    *afc_opcode_ctrl = AFC_SINK_OPCODE;
+    
+    pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+    
+    /* Enable Interrupts */
+    pd->intr4_mask = ( PDSS_INTR4_AFC_SM_IDLE | PDSS_INTR4_UPDATE_PING_PONG |
+                        /* Not used. Errors are handled in AFC sink state machine */
+#if BC_AFC_SINK_ERROR_INT_ENABLE
+                       PDSS_INTR4_AFC_ERROR | PDSS_INTR4_AFC_TIMEOUT |
+#endif /* BC_AFC_SINK_ERROR_INT_ENABLE */
+                       PDSS_INTR4_AFC_PING_RECVD | PDSS_INTR4_AFC_RX_RESET);
+
+    context->bcAfcRxIdx = 0U;
+
+    /* Start operation */
+    *afc_opcode_ctrl |= PDSS_AFC_OPCODE_CTRL_OP_CODE_START;
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcSinkStop
+****************************************************************************//**
+*
+* This function disables all AFC interrupt.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    
+    /* Disable Interrupts */
+    pd->intr4_mask = 0;
+
+    pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+
+    return CY_USBPD_STAT_SUCCESS;
+
+#else
+    CY_UNUSED_PARAMETER(context);
+    return CY_USBPD_STAT_NOT_SUPPORTED;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}    
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_QC3_IntrHandler
+****************************************************************************//**
+*
+* This function handles the QC3 interrupts.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))     
+    PPDSS_REGS_T pd = context->base;
+    uint32_t dp_pulse, dm_pulse;
+    uint32_t regval;
+    volatile uint32_t *qc3_chrger_ctrl = NULL; 
+
+    /* Clear interrupts */
+    pd->intr6 = QC3_PORT_0_DP_DM_PULSE_MASK;
+
+#if defined(CY_DEVICE_PMG1S3)
+    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl;
+#else
+    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    /* Read count */
+    *qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT;
+    while((*qc3_chrger_ctrl & PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT) != 0UL) {}
+    regval = *qc3_chrger_ctrl;
+
+    dp_pulse = (regval & PDSS_QC3_CHRGER_CTRL_DP_PULSE_COUNT_MASK)
+    >> PDSS_QC3_CHRGER_CTRL_DP_PULSE_COUNT_POS;
+    dm_pulse = (regval & PDSS_QC3_CHRGER_CTRL_DM_PULSE_COUNT_MASK)
+                    >> PDSS_QC3_CHRGER_CTRL_DM_PULSE_COUNT_POS;
+    context->bcQcPulseCount += ((int32_t)dp_pulse - (int32_t)dm_pulse);
+
+    /* Report an QC continuous event. */
+    if (context->bcPhyCbk != NULL)
+    {
+        context->bcPhyCbk(context, BC_EVT_QC_CONT);
+    }
+
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */    
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcPingPong_IntrHandler
+****************************************************************************//**
+*
+* This function handles the AFC ping pong interrupts and copies data into context
+* buffer. 
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    volatile uint32_t *afc_sm_status = NULL;
+    volatile uint32_t *afc_ping_pong = NULL;
+
+#if defined(CY_DEVICE_PMG1S3)
+    afc_sm_status = &pd->afc_sm_status;
+    afc_ping_pong = &pd->afc_ping_pong;
+#else
+    afc_sm_status = &pd->afc_sm_status[0];
+    afc_ping_pong = &pd->afc_ping_pong[0];
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
+    if(((*afc_sm_status & PDSS_AFC_SM_STATUS_CURR_OP_CODE_MASK)
+         >> PDSS_AFC_SM_STATUS_CURR_OP_CODE_POS) == AFC_TX_DATA_S_OPCODE)
+    {
+        /* TX going on */
+        Cy_USBPD_Bch_AfcLoadTxData(context);
+    }
+    else
+    {
+        /* RX going on */
+        if(context->bcAfcRxIdx < AFC_MAX_BYTES)
+        {
+            context->bcAfcRxBuf[context->bcAfcRxIdx++] = CY_USBPD_DWORD_GET_BYTE0(*afc_ping_pong);
+        }
+        
+        if(context->bcAfcRxIdx < AFC_MAX_BYTES)            
+        {
+            context->bcAfcRxBuf[context->bcAfcRxIdx++] = CY_USBPD_DWORD_GET_BYTE1(*afc_ping_pong);
+        }
+
+#if (!QC_SRC_AFC_CHARGING_DISABLED)
+        /* For AFC source, only 1 byte will be received so creating this event here.
+         * Later when AFC sink is to be implemented then we need to put a check if source
+         * only then create event
+         */
+        if (context->bcPhyCbk != NULL)
+        {
+            context->bcPhyCbk(context, BC_EVT_AFC_MSG_RCVD);
+        }
+#endif /* (!QC_SRC_AFC_CHARGING_DISABLED) */
+    }
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcIdle_IntrHandler
+****************************************************************************//**
+*
+* This function handles the AFC idle interrupt.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+    uint32_t event;
+    
+    if((pd->intr4 & (PDSS_INTR4_AFC_ERROR | PDSS_INTR4_AFC_TIMEOUT)) != 0UL)
+    {
+        event = BC_EVT_AFC_MSG_SEND_FAIL;
+    }
+    else
+    {
+        event = BC_EVT_AFC_MSG_SENT;
+    }
+    
+    if (context->bcPhyCbk != NULL)
+    {
+        context->bcPhyCbk(context, event);
+    }
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcReset_IntrHandler
+****************************************************************************//**
+*
+* This function handles the AFC reset interrupt.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_AfcReset_IntrHandler(cy_stc_usbpd_context_t *context)
+{
+    /* Report reset received event. */
+    if (context->bcPhyCbk != NULL)
+    {
+        context->bcPhyCbk(context, BC_EVT_AFC_RESET_RCVD);
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_Intr0Handler
+****************************************************************************//**
+*
+* This function handles the Battery Charging interrupts related to AFC and QC.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    PPDSS_REGS_T pd = context->base;
+
+    if(pd->intr4_masked != 0u)
+    {
+        if ((pd->intr4_masked & (PDSS_INTR4_AFC_PING_RECVD)) != 0u)
+        {
+            pd->intr4 = PDSS_INTR4_AFC_PING_RECVD;
+            /* Nothing to handle here */
+        }
+        if ((pd->intr4_masked & (PDSS_INTR4_UPDATE_PING_PONG)) != 0u)
+        {
+            Cy_USBPD_Bch_AfcPingPong_IntrHandler (context);
+            pd->intr4 = PDSS_INTR4_UPDATE_PING_PONG;
+        }
+        if ((pd->intr4_masked & (PDSS_INTR4_AFC_SM_IDLE)) != 0u)
+        {
+            Cy_USBPD_Bch_AfcIdle_IntrHandler(context);
+            pd->intr4 = PDSS_INTR4_AFC_SM_IDLE;
+        }
+        if ((pd->intr4_masked & (PDSS_INTR4_AFC_RX_RESET)) != 0u)
+        {
+            Cy_USBPD_Bch_AfcReset_IntrHandler(context);
+            pd->intr4 = PDSS_INTR4_AFC_RX_RESET;
+        }
+    }
+
+    if(pd->intr6_masked != 0u)
+    {
+        if ((pd->intr6_masked & QC3_PORT_0_DP_DM_PULSE_MASK) != 0u)
+        {
+            Cy_USBPD_Bch_QC3_IntrHandler(context);
+        }
+    }
+    
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }
 
 /*******************************************************************************

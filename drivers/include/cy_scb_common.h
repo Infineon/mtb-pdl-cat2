@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 3.20
+* \version 4.0
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -59,7 +59,20 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
-*     <td rowspan="3 ">3.20</td>
+*     <td rowspan="3">4.0</td>
+*     <td>Update the paths to the code snippets.</td>
+*     <td>PDL structure update.</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates. Code snippets were updated.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td>I2C: Removed the unused members of the configuration structure.</td>
+*     <td>Reduced the memory footprint.</td>
+*   </tr>
+*   <tr>
+*     <td rowspan="3">3.20</td>
 *     <td>UART: Newly added API's for runtime parameter set/get functionality:
 *         \ref Cy_SCB_UART_SetOverSample to set oversample bits of UART,
 *         \ref Cy_SCB_UART_GetOverSample to add return value of oversample.</td>
@@ -228,7 +241,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "cy_device.h"
-#include "cy_device_headers.h"
 #include "cy_syslib.h"
 #include "cy_syspm.h"
 
@@ -341,10 +353,10 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 */
 
 /** Driver major version */
-#define CY_SCB_DRV_VERSION_MAJOR    (3)
+#define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (20)
+#define CY_SCB_DRV_VERSION_MINOR    (0)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)
