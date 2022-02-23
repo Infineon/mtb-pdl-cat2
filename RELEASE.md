@@ -39,6 +39,11 @@ for a complete description of the Peripheral driver library.
 
 - Updated patch version for all drivers because updated the paths to the code snippets.
 
+## Known Issues
+
+* Keep the Enable CSDADC parameter of the CSD personality disabled (default state) because at the moment, the CSDADC middleware does not support PSoC™ 4 families and thus is not present in the Library manager. Enabling the parameter leads to build errors.
+* Check manually for newer versions of enabled personalities in the Device Configurator and upgrade them if needed because the personality migration mechanism does not work.
+
 ## Defect fixes
 
 See the Changelog section of each driver in [PDL API reference](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
