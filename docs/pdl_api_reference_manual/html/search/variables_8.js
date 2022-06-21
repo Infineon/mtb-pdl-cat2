@@ -1,12 +1,14 @@
 var searchData=
 [
   ['i2cmode',['i2cMode',['../structcy__stc__scb__i2c__config__t.html#ab317c1252433320bfd76d2b8629dac23',1,'cy_stc_scb_i2c_config_t']]],
-  ['ibufmode',['ibufMode',['../structcy__stc__gpio__pin__config__t.html#ac81f30a52ad1fa519a37bca4555f756b',1,'cy_stc_gpio_pin_config_t']]],
+  ['ibtrcbk',['ibtrCbk',['../structcy__stc__usbpd__context__t.html#aae00f14d9f14d975ebdd58481e415096',1,'cy_stc_usbpd_context_t']]],
+  ['ibtridle',['ibtrIdle',['../structcy__stc__usbpd__context__t.html#a7adbe102eb3563853493bee13415717d',1,'cy_stc_usbpd_context_t']]],
   ['icp',['icp',['../structcy__stc__sysclk__pll__manual__config__t.html#ac49a046b2954ad503c19a476245a6abe',1,'cy_stc_sysclk_pll_manual_config_t']]],
   ['id',['id',['../structcy__stc__canfd__r0__t.html#a82b8a4316d88b483958958bc6eccda38',1,'cy_stc_canfd_r0_t::id()'],['../structcy__stc__canfd__t0__t.html#a038a678a0ed8c38db7f713985f199587',1,'cy_stc_canfd_t0_t::id()']]],
   ['idaca',['idacA',['../structcy__stc__csd__config__t.html#a3a3f42b13072f13b2c09cafcdb09b860',1,'cy_stc_csd_config_t']]],
   ['idacb',['idacB',['../structcy__stc__csd__config__t.html#a9648fc1bac42d23348d4ca82822e4999',1,'cy_stc_csd_config_t']]],
   ['imoctl',['imoCtl',['../structcy__stc__msclp__base__config__t.html#ad31d910362993c54698152074ecce4e2',1,'cy_stc_msclp_base_config_t']]],
+  ['imofreq',['imoFreq',['../structcy__stc__msclp__mrss__config__t.html#aca0750891dd94cc4103d82ac4ca1cb06',1,'cy_stc_msclp_mrss_config_t']]],
   ['indexinput',['indexInput',['../structcy__stc__tcpwm__quaddec__config__t.html#aed2032743d6da4c15fe418b2ee17d399',1,'cy_stc_tcpwm_quaddec_config_t']]],
   ['indexinputmode',['indexInputMode',['../structcy__stc__tcpwm__quaddec__config__t.html#a139114c65e2c3dd6ba549319ba21c3d2',1,'cy_stc_tcpwm_quaddec_config_t']]],
   ['initctl1',['initCtl1',['../structcy__stc__msc__base__config__t.html#a23eb38f3c860889f9df8ff498730c677',1,'cy_stc_msc_base_config_t::initCtl1()'],['../structcy__stc__msclp__base__config__t.html#a2b2b1eb7fe2371c1154381519b74e739',1,'cy_stc_msclp_base_config_t::initCtl1()']]],

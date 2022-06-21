@@ -11,6 +11,7 @@ var modules =
     [ "I2S          (Inter-IC Sound)", "group__group__i2s.html", "group__group__i2s" ],
     [ "LPCOMP       (Low Power Comparator)", "group__group__lpcomp.html", "group__group__lpcomp" ],
     [ "MSC          (Multi-Sense Converter)", "group__group__msc.html", "group__group__msc" ],
+    [ "MSCLP        (Low-Power Multi-Sense Converter)", "group__group__msclp.html", "group__group__msclp" ],
     [ "SAR          (SAR ADC)", "group__group__sar.html", "group__group__sar" ],
     [ "SCB          (Serial Communication Block)", "group__group__scb.html", "group__group__scb" ],
     [ "SegLCD       (Segment LCD)", "group__group__seglcd.html", "group__group__seglcd" ],
@@ -27,5 +28,8 @@ var modules =
     [ "USBPD        (USB Power Delivery)", "group__group__usbpd.html", "group__group__usbpd" ],
     [ "WDC          (Watchdog Counters)", "group__group__wdc.html", "group__group__wdc" ],
     [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ],
-    [ "Group_msclp", "group__group__msclp.html", "group__group__msclp" ]
+    [ "Group_usbpd_buck_boost", "group__group__usbpd__buck__boost.html", "group__group__usbpd__buck__boost" ],
+    [ "Group_usbpd_idac_ctrl", "group__group__usbpd__idac__ctrl.html", "group__group__usbpd__idac__ctrl" ],
+    [ "Enumerated Types", "group__group__usbpd__idac__ctrl__enums.html", null ],
+    [ "Functions", "group__group__usbpd__idac__ctrl__functions.html", "group__group__usbpd__idac__ctrl__functions" ]
 ];

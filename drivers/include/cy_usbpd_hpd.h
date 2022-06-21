@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -188,6 +188,8 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_TransmitInit(cy_stc_usbpd_context_t *context,
 void Cy_USBPD_Hpd_SleepEntry(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value);
+
+bool Cy_USBPD_Hpd_ReceiveGetStatus(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Hpd_RxSleepEntry(cy_stc_usbpd_context_t *context, bool hpdState);
 

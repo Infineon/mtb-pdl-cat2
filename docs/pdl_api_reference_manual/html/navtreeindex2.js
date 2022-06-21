@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"group__group__ctb__functions__basic.html#ga36848961977f3415408598f09fb47e19":[2,4,1,1,0],
+"group__group__ctb__functions__basic.html#ga37f284f2e03d4cd3f680c9c93cf0976c":[2,4,1,1,1],
 "group__group__ctb__functions__basic.html#gacb1d59f73f0fe67283d0c9d9efa6c306":[2,4,1,1,3],
 "group__group__ctb__functions__basic.html#gae8f3188aa4f893dee76ccb622fba3e85":[2,4,1,1,2],
 "group__group__ctb__functions__comparator.html":[2,4,1,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "group__group__gpio__drive_modes.html#gafefd5881f8bdd947ef96c0508b8a26db":[2,7,0,0,9],
 "group__group__gpio__enums.html":[2,7,3],
 "group__group__gpio__enums.html#ga0ba12c6f18fa9e356ceea0218beb7259":[2,7,3,1],
-"group__group__gpio__enums.html#ga678dc02e490d04efdcfec78648899ce4":[2,7,3,0],
-"group__group__gpio__enums.html#gae2449cca47330934a26281d8f3cba110":[2,7,3,3],
-"group__group__gpio__enums.html#gaf794ce2cae36756be0cccfcd2c6ab077":[2,7,3,2]
+"group__group__gpio__enums.html#ga678dc02e490d04efdcfec78648899ce4":[2,7,3,0]
 };

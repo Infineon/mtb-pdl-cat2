@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 2.20
+* \version 3.0
 *
 * Provides an API implementation of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1540,8 +1540,7 @@ static cy_en_sysclk_exco_status_t Cy_SysClk_ExcoGetStatus(void)
     cy_en_sysclk_pll_bypass_t bypassState = Cy_SysClk_PllGetBypassState(0UL);
 
 #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
-    /* Check CY_SYSCLK_PLL_OUTPUT_AUTO1 for backward compatibility */
-    if ((CY_SYSCLK_PLL_BYP_AUTO == bypassState) || (CY_SYSCLK_PLL_OUTPUT_AUTO1 == bypassState))
+    if (CY_SYSCLK_PLL_BYP_AUTO == bypassState)
     {
         if (Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
         {
@@ -1681,7 +1680,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
                 Cy_SysClk_EcoSeqGen();
                 retVal = CY_SYSCLK_SUCCESS;
             }
-            /* BWC section start */
+            /* BWC section start, for HAL 2.0.0 only */
             else if ((CY_SYSCLK_CLKHF_IN_ECO == source) && (0UL != Cy_SysClk_EcoGetFrequency()))
             {
                 Cy_SysClk_PllBypass(0UL, CY_SYSCLK_PLL_BYP_ECO);

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_vu.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * This file provides common constants and parameters for the Cryptolite Vector 
@@ -61,10 +61,16 @@ extern "C" {
 * \{
 */
 /** This macro converts bit count to word size*/
-#define VU_BITS_TO_WORDS(bits)  ((bits + 31) >> 5)
+#define VU_BITS_TO_WORDS(bits)             ((bits + 31) >> 5)
 
 /** This macro converts bit count to byte size*/
-#define VU_BITS_TO_BYTES(bits)  (4*((bits + 31) >> 5))
+#define VU_BITS_TO_BYTES(bits)             ((bits + 7) >> 3)
+
+/** This macro converts bit count to byte size in word aligned*/
+#define VU_BITS_TO_BYTES_WORD_ALIGN(bits)  (4*((bits + 31) >> 5))
+
+/** This macro converts bytes count to word size*/
+#define VU_BYTES_TO_WORDS(bytes)           ((bytes + 3) >> 2)
 
 /** \} group_cryptolite_vu_macros */
 
@@ -136,7 +142,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_XMul_Hw (
                                 uint8_t *result,
                                 uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_XMUL << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -192,7 +198,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Mul_Hw (
                             uint8_t *result,
                             uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_MUL << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -249,7 +255,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Add_Hw (
                             uint8_t *result,
                             uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_ADD << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -305,7 +311,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Sub_Hw (
                             uint8_t *result,
                             uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_SUB << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -361,7 +367,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Cond_Sub_Hw (
                             uint8_t *result,
                             uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_COND_SUB << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -417,7 +423,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Xor_Hw (
                         uint8_t *result,
                         uint32_t resultSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_XOR << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((resultSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -464,7 +470,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Mov_Hw (
                         uint8_t *dstPtr,
                         uint32_t dstSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_MOV << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((dstSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -509,7 +515,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Lsl1_Hw (
                         uint8_t *dstPtr,
                         uint32_t dstSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_LSL1 << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((dstSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -554,7 +560,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Lsr1_Hw (
                         uint8_t *dstPtr,
                         uint32_t dstSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_LSR1 << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((dstSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |
@@ -603,7 +609,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Lsr_Hw (
                         uint8_t *dstPtr,
                         uint32_t dstSize)
 {
-    cy_stc_cryptolite_vu_desc_t desc;
+    volatile cy_stc_cryptolite_vu_desc_t desc;
 
     desc.data0 = (uint32_t) ((CY_CRYPTOLITE_VU_OPCODE_LSR << CY_CRYPTOLITE_VU_BIT_POS_OPCODE) |
                             ((dstSize - 1UL) << CY_CRYPTOLITE_VU_BIT_POS_DEST_OPERAND) |

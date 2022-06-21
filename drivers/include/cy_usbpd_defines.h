@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -63,9 +63,13 @@
 #define PMG1_FLIPPED_FET_CTRL           (0u)
 #endif /* PMG1_FLIPPED_FET_CTRL */
 
-#ifndef VCONN_OCP_ENABLE
-#define VCONN_OCP_ENABLE                (0u)
-#endif /* VCONN_OCP_ENABLE */
+#ifndef CCG_SRC_FET
+#define CCG_SRC_FET                     (PMG1_FLIPPED_FET_CTRL == 0u)
+#endif /* CCG_SRC_FET */
+
+#ifndef CCG_SNK_FET
+#define CCG_SNK_FET                     (PMG1_FLIPPED_FET_CTRL)
+#endif /* CCG_SNK_FET  */
 
 #ifndef SYS_DEEPSLEEP_ENABLE
 #define SYS_DEEPSLEEP_ENABLE            (0u)
@@ -75,28 +79,60 @@
 #define VBUS_OVP_ENABLE                 (0u)
 #endif /* VBUS_OVP_ENABLE */
 
+#if VBUS_OVP_ENABLE
+#define PDL_VBUS_OVP_ENABLE             (1u)
+#endif /* VBUS_OVP_ENABLE */
+
+#ifndef PDL_VBUS_OVP_ENABLE
+#define PDL_VBUS_OVP_ENABLE             (0u)
+#endif /* PDL_VBUS_OVP_ENABLE */
+
 #ifndef CY_PD_SOURCE_ONLY
 #define CY_PD_SOURCE_ONLY               (0u)
 #endif /* CY_PD_SOURCE_ONLY */
 
+#ifndef CY_PD_VBUS_CF_EN
+#define CY_PD_VBUS_CF_EN                (0u)
+#endif /* CY_PD_VBUS_CF_EN */
+
 #ifndef VBUS_UVP_ENABLE
 #define VBUS_UVP_ENABLE                 (0u)
 #endif /* VBUS_UVP_ENABLE */
+
+#if VBUS_UVP_ENABLE
+#define PDL_VBUS_UVP_ENABLE             (1u)
+#endif /* VBUS_UVP_ENABLE */
+
+#ifndef PDL_VBUS_UVP_ENABLE
+#define PDL_VBUS_UVP_ENABLE             (0u)
+#endif /* PDL_VBUS_UVP_ENABLE */
 
 #ifndef PMG1_HPD_RX_ENABLE
 #define PMG1_HPD_RX_ENABLE               (0u)
 #endif /* PMG1_HPD_RX_ENABLE */
 
 #ifndef QC_AFC_CHARGING_DISABLED
-#define QC_AFC_CHARGING_DISABLED        (0u)
+#define QC_AFC_CHARGING_DISABLED        (1u)
 #endif /* QC_AFC_CHARGING_DISABLED */
+
+#ifndef QC_SRC_AFC_CHARGING_DISABLED
+#define QC_SRC_AFC_CHARGING_DISABLED    (1u)
+#endif /* QC_SRC_AFC_CHARGING_DISABLED */
+
+#ifndef ENABLE_APPLE_BC12_SUPPORT
+#define ENABLE_APPLE_BC12_SUPPORT      (0u)
+#endif /* ENABLE_APPLE_BC12_SUPPORT */
 
 #ifndef BC_SOURCE_ONLY
 #define BC_SOURCE_ONLY                  (0u)
 #endif /* BC_SOURCE_ONLY */
 
 #ifndef NO_OF_BC_PORTS
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_PMG1S3))
+#define NO_OF_BC_PORTS                  (2u)
+#else
 #define NO_OF_BC_PORTS                  (1u)
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_PMG1S3)) */
 #endif /* NO_OF_BC_PORTS */
 
 #ifndef SOFT_START_ENABLE
@@ -107,33 +143,73 @@
 #define VBUS_IN_DISCHARGE_EN            (0u)
 #endif /* VBUS_IN_DISCHARGE_EN */
 
+#ifndef LSCSA_SKIP_125_GAIN
+#define LSCSA_SKIP_125_GAIN             (0u)
+#endif /* LSCSA_SKIP_125_GAIN */
+
 #ifndef VBUS_CTRL_TYPE_P1
 #define VBUS_CTRL_TYPE_P1               (0u)
 #endif /* VBUS_CTRL_TYPE_P1 */
 
+#ifndef VBUS_CTRL_PWM
+#define VBUS_CTRL_PWM                   (1u)
+#endif /* VBUS_CTRL_PWM */
+
 #ifndef VBUS_CTRL_DIR_FB
-#define VBUS_CTRL_DIR_FB                (0u)
+#define VBUS_CTRL_DIR_FB                (2u)
 #endif /* VBUS_CTRL_DIR_FB */
+
+#ifndef VBUS_CTRL_OPTO_FB
+#define VBUS_CTRL_OPTO_FB               (3u)
+#endif /* VBUS_CTRL_OPTO_FB */
+
+#ifndef VBUS_CTRL_BB
+#define VBUS_CTRL_BB                    (4u)
+#endif /* VBUS_CTRL_BB */
 
 #ifndef VBUS_OCP_ENABLE
 #define VBUS_OCP_ENABLE                 (0u)
 #endif /* VBUS_OCP_ENABLE */
 
+#if VBUS_OCP_ENABLE
+#define PDL_VBUS_OCP_ENABLE             (1u)
+#endif /* VBUS_OCP_ENABLE */
+
+#ifndef PDL_VBUS_OCP_ENABLE
+#define PDL_VBUS_OCP_ENABLE             (0u)
+#endif /* PDL_VBUS_OCP_ENABLE */
+
 #ifndef VBUS_SCP_ENABLE
 #define VBUS_SCP_ENABLE                 (0u)
 #endif /* VBUS_SCP_ENABLE */
+
+#if VBUS_SCP_ENABLE
+#define PDL_VBUS_SCP_ENABLE             (1u)
+#endif /* VBUS_SCP_ENABLE */
+
+#ifndef PDL_VBUS_SCP_ENABLE
+#define PDL_VBUS_SCP_ENABLE             (0u)
+#endif /* PDL_VBUS_SCP_ENABLE */
 
 #ifndef VBUS_RCP_ENABLE
 #define VBUS_RCP_ENABLE                 (0u)
 #endif /* VBUS_RCP_ENABLE */
 
+#if VBUS_RCP_ENABLE
+#define PDL_VBUS_RCP_ENABLE             (1u)
+#endif /* VBUS_RCP_ENABLE */
+
+#ifndef PDL_VBUS_RCP_ENABLE
+#define PDL_VBUS_RCP_ENABLE             (0u)
+#endif /* PDL_VBUS_RCP_ENABLE */
+
 #ifndef PMG1_V5V_CHANGE_DETECT
 #define PMG1_V5V_CHANGE_DETECT          (0u)
 #endif /* PMG1_V5V_CHANGE_DETECT */
 
-#ifndef PD_CRC_ERR_HANDLING_ENABLE
-#define PD_CRC_ERR_HANDLING_ENABLE      (0u)
-#endif /* PD_CRC_ERR_HANDLING_ENABLE */
+#ifndef CY_PD_CRC_ERR_HANDLING_ENABLE
+#define CY_PD_CRC_ERR_HANDLING_ENABLE      (1u)
+#endif /* CY_PD_CRC_ERR_HANDLING_ENABLE */
 
 #ifndef CY_PD_BIST_MODE_DISABLE
 #define CY_PD_BIST_MODE_DISABLE         (0u)
@@ -148,7 +224,7 @@
 #endif /* CY_PD_HW_DRP_TOGGLE_ENABLE */
 
 #ifndef BATTERY_CHARGING_ENABLE
-#define BATTERY_CHARGING_ENABLE         (1u)
+#define BATTERY_CHARGING_ENABLE         (0u)
 #endif /* BATTERY_CHARGING_ENABLE */
 
 #ifndef PSVP_FPGA_ENABLE
@@ -159,17 +235,244 @@
 #endif /* CY_DEVICE_PMG1S3 */
 #endif /* PSVP_FPGA_ENABLE */
 
+
 #ifndef CY_PD_EPR_ENABLE
 #define CY_PD_EPR_ENABLE                (0u)
 #endif /* CY_PD_EPR_ENABLE */
 
-#ifndef BC_AFC_SINK_ERROR_INT_ENABLE
-#define BC_AFC_SINK_ERROR_INT_ENABLE    (0u)
-#endif /* BC_AFC_SINK_ERROR_INT_ENABLE*/
+#ifndef VBTR_ENABLE
+#define VBTR_ENABLE                     (0u)
+#endif /* VBTR_ENABLE */
 
-#ifndef QC_SRC_AFC_CHARGING_DISABLED
-#define QC_SRC_AFC_CHARGING_DISABLED    (0u)
-#endif /* QC_SRC_AFC_CHARGING_DISABLED */
+#if VBTR_ENABLE
+#define PDL_VBTR_ENABLE                 (1u)
+#endif /* VBTR_ENABLE */
+
+#ifndef PDL_VBTR_ENABLE
+#define PDL_VBTR_ENABLE                 (0u)
+#endif /* PDL_VBTR_ENABLE */
+
+#ifndef IBTR_ENABLE
+#define IBTR_ENABLE                     (0u)
+#endif /* IBTR_ENABLE */
+
+#if IBTR_ENABLE
+#define PDL_IBTR_ENABLE                 (1u)
+#endif /* IBTR_ENABLE */
+
+#ifndef PDL_IBTR_ENABLE
+#define PDL_IBTR_ENABLE                 (0u)
+#endif /* PDL_IBTR_ENABLE */
+
+#ifndef CCG_CF_HW_DET_ENABLE
+#define CCG_CF_HW_DET_ENABLE            (0u)
+#endif /* CCG_CF_HW_DET_ENABLE */
+
+#ifndef BB_ILIM_DET_ENABLE
+#define BB_ILIM_DET_ENABLE              (0u)
+#endif /* BB_ILIM_DET_ENABLE */
+
+#if BB_ILIM_DET_ENABLE
+#define PDL_BB_ILIM_DET_ENABLE          (1u)
+#endif /* BB_ILIM_DET_ENABLE */
+
+#ifndef PDL_BB_ILIM_DET_ENABLE
+#define PDL_BB_ILIM_DET_ENABLE          (0u)
+#endif /* PDL_BB_ILIM_DET_ENABLE */
+
+#ifndef VBAT_GND_SCP_ENABLE
+#define VBAT_GND_SCP_ENABLE             (0u)
+#endif /* VBAT_GND_SCP_ENABLE */
+
+#if VBAT_GND_SCP_ENABLE
+#define PDL_VBAT_GND_SCP_ENABLE         (1u)
+#endif /* VBAT_GND_SCP_ENABLE */
+
+#ifndef PDL_VBAT_GND_SCP_ENABLE
+#define PDL_VBAT_GND_SCP_ENABLE         (0u)
+#endif /* PDL_VBAT_GND_SCP_ENABLE */
+
+#ifndef VREG_BROWN_OUT_DET_ENABLE
+#define VREG_BROWN_OUT_DET_ENABLE       (0u)
+#endif /* VREG_BROWN_OUT_DET_ENABLE */
+
+#if VREG_BROWN_OUT_DET_ENABLE
+#define PDL_VREG_BROWN_OUT_DET_ENABLE   (1u)
+#endif /* VREG_BROWN_OUT_DET_ENABLE */
+
+#ifndef PDL_VREG_BROWN_OUT_DET_ENABLE
+#define PDL_VREG_BROWN_OUT_DET_ENABLE   (0u)
+#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE */
+
+#ifndef VREG_INRUSH_DET_ENABLE
+#define VREG_INRUSH_DET_ENABLE          (0u)
+#endif /* VREG_INRUSH_DET_ENABLE */
+
+#if VREG_INRUSH_DET_ENABLE
+#define PDL_VREG_INRUSH_DET_ENABLE      (1u)
+#endif /* VREG_INRUSH_DET_ENABLE */
+
+#ifndef PDL_VREG_INRUSH_DET_ENABLE
+#define PDL_VREG_INRUSH_DET_ENABLE      (0u)
+#endif /* PDL_VREG_INRUSH_DET_ENABLE */
+
+#ifndef VBUS_CTRL_TRIM_ADJUST_ENABLE
+#define VBUS_CTRL_TRIM_ADJUST_ENABLE    (0u)
+#endif /* VBUS_CTRL_TRIM_ADJUST_ENABLE */
+
+#ifndef APP_VBUS_SRC_FET_BYPASS_EN
+#define APP_VBUS_SRC_FET_BYPASS_EN      (0u)
+#endif /* APP_VBUS_SRC_FET_BYPASS_EN */
+
+#ifndef CCG_TEMP_BASED_VOLTAGE_THROTTLING
+#define CCG_TEMP_BASED_VOLTAGE_THROTTLING   (0u)
+#endif /* CCG_TEMP_BASED_VOLTAGE_THROTTLING */
+
+#ifndef ADFT_DDFT_EN
+#define ADFT_DDFT_EN                    (0u)
+#endif /* ADFT_DDFT_EN */
+
+#ifndef FG_PART
+#define FG_PART                         (0u)
+#endif /* FG_PART */
+
+/*
+ * Enable / disable VBUS Slow Discharge Feature. When this feature is enabled,
+ * the discharge drive strength shall be increased by steps every ms until the
+ * selected top drive strength is achieved. Similarly, the drive strength is
+ * decreased in steps while stopping the discharge.
+ */
+#ifndef VBUS_SLOW_DISCHARGE_EN
+#define VBUS_SLOW_DISCHARGE_EN                  (1u)
+#endif /* VBUS_SLOW_DISCHARGE_EN */
+
+/*
+ * Whether to leave the PD block ON even when the PD port is disabled. This
+ * is required if features like ADC need to be used while the port is OFF.
+ */
+#ifndef CCG_PD_BLOCK_ALWAYS_ON
+#define CCG_PD_BLOCK_ALWAYS_ON                  (0u)
+#endif /* CCG_PD_BLOCK_ALWAYS_ON */
+
+#ifndef CCG_PD_DUALPORT_ENABLE
+#if defined(CY_DEVICE_CCG7D)
+#define CCG_PD_DUALPORT_ENABLE                  (1u)
+#else
+#define CCG_PD_DUALPORT_ENABLE                  (0u)
+#endif /* defined(CY_DEVICE_CCG7D) */
+#endif /* CCG_PD_DUALPORT_ENABLE */
+
+#ifndef CCG_TYPE_A_PORT_ENABLE
+#define CCG_TYPE_A_PORT_ENABLE     (0u)
+#endif /* CCG_TYPE_A_PORT_ENABLE */
+
+#ifndef CY_USBPD_CGND_SHIFT_ENABLE
+
+#if defined(CY_DEVICE_CCG7S)
+#define CY_USBPD_CGND_SHIFT_ENABLE    (1u)
+#else /* !(defined(CY_DEVICE_CCG7S)) */
+#define CY_USBPD_CGND_SHIFT_ENABLE    (0u)
+#endif /* (defined(CY_DEVICE_CCG7S)) */
+
+#endif /* CY_USBPD_CGND_SHIFT_ENABLE */
+
+#ifndef BB_PWM_ASYNC_MODE_ENABLE
+
+#if defined(CY_DEVICE_CCG7S)
+#define BB_PWM_ASYNC_MODE_ENABLE (1u)
+#else /* !(defined(CY_DEVICE_CCG7S)) */
+#define BB_PWM_ASYNC_MODE_ENABLE (0u)
+#endif /* (defined(CY_DEVICE_CCG7S)) */
+
+#endif /* BB_PWM_ASYNC_MODE_ENABLE */
+
+#ifndef BB_MODE_PSM_ONLY
+#define BB_MODE_PSM_ONLY (0u)
+#endif /* BB_MODE_PSM_ONLY */
+
+#ifndef VBTR_MULTI_SLOPE_ENABLE
+#define VBTR_MULTI_SLOPE_ENABLE (0u)
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
+
+#ifndef VIN_UVP_ENABLE
+#define VIN_UVP_ENABLE (0u)
+#endif /* VIN_UVP_ENABLE */
+
+#if VIN_UVP_ENABLE
+#define PDL_VIN_UVP_ENABLE (1u)
+#endif /* VIN_UVP_ENABLE */
+
+#ifndef PDL_VIN_UVP_ENABLE
+#define PDL_VIN_UVP_ENABLE (0u)
+#endif /* PDL_VIN_UVP_ENABLE */
+
+#ifndef VIN_OVP_ENABLE
+#define VIN_OVP_ENABLE (0u)
+#endif /* VIN_OVP_ENABLE */
+
+#if VIN_OVP_ENABLE
+#define PDL_VIN_OVP_ENABLE (1u)
+#endif /* VIN_OVP_ENABLE */
+
+#ifndef PDL_VIN_OVP_ENABLE
+#define PDL_VIN_OVP_ENABLE (0u)
+#endif /* PDL_VIN_OVP_ENABLE */
+
+#ifndef VCONN_OCP_ENABLE
+#define VCONN_OCP_ENABLE (0u)
+#endif /* VCONN_OCP_ENABLE */
+
+#if VCONN_OCP_ENABLE
+#define PDL_VCONN_OCP_ENABLE (1u)
+#endif /* VCONN_OCP_ENABLE */
+
+#ifndef PDL_VCONN_OCP_ENABLE
+#define PDL_VCONN_OCP_ENABLE (0u)
+#endif /* PDL_VCONN_OCP_ENABLE */
+
+#ifndef VCONN_SCP_ENABLE
+#define VCONN_SCP_ENABLE (0u)
+#endif /* VCONN_SCP_ENABLE */
+
+#if VCONN_SCP_ENABLE
+#define PDL_VCONN_SCP_ENABLE (1u)
+#endif /* VCONN_SCP_ENABLE */
+
+#ifndef PDL_VCONN_SCP_ENABLE
+#define PDL_VCONN_SCP_ENABLE (0u)
+#endif /* PDL_VCONN_SCP_ENABLE */
+
+#ifndef CCG_DYN_PFET_GATE_DRV_ENABLE
+#define CCG_DYN_PFET_GATE_DRV_ENABLE (0u)
+#endif /* CCG_DYN_PFET_GATE_DRV_ENABLE */
+
+#ifndef CCG_DYN_PFET_GATE_DRV_TYP
+#define CCG_DYN_PFET_GATE_DRV_TYP (30u)
+#endif /* CCG_DYN_PFET_GATE_DRV_TYP */
+
+#if PDL_VBUS_OCP_ENABLE
+/* Enables to set solution specific max OCP current threshold */
+#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN             (1u)
+#else
+#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN             (0u)
+#endif /* PDL_VBUS_OCP_ENABLE */
+
+#if VBUS_DEFINE_SOLN_MAX_CURRENT_EN
+/*
+ * Solution specific Maximum limit on the VBUS current (in 10mA units).
+ * This overrides the default PD HAL behavior max OCP current threshold.
+ */
+#define VBUS_MAX_CURRENT                            (530u)
+#endif /* VBUS_DEFINE_SOLN_MAX_CURRENT_EN */
+
+#ifndef QC_PPS_ENABLE
+#define QC_PPS_ENABLE              (0u)
+#endif /* QC_PPS_ENABLE */
+
+#ifndef CY_USE_CONFIG_TABLE
+#define CY_USE_CONFIG_TABLE              (0u)
+#endif /* CY_USE_CONFIG_TABLE */
+
 
 #ifndef CY_PD_EPR_AVS_ENABLE
 #define CY_PD_EPR_AVS_ENABLE            (0u)
@@ -187,18 +490,18 @@
 * \{
 */
 
-/** USB-C port number 0. Supported on all PMG1 devices. */
+/** USB-C port number 0. Supported on all PMG1/CCGx devices. */
 #define TYPEC_PORT_0_IDX                (0u)
 
-/** USB-C port number 1. Supported only on the CYPM1322-97BZXIT device. */
+/** USB-C port number 1. Supported only on the Dual Port devices. */
 #define TYPEC_PORT_1_IDX                (1u)
 
-#if (defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT))
+#if ((defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D)))
 
-/** Two USB-C ports supported on CYPM1322-97BZXIT part. */
+/** Two USB-C ports supported on CYPM1322-97BZXIT/CYPD7291-68LDXS part. */
 #define NO_OF_TYPEC_PORTS               (2u)
 
-/** Two USB-C ports supported on CYPM1322-97BZXIT part. */
+/** Two USB-C ports supported on CYPM1322-97BZXIT part/CYPD7291-68LDXS part. */
 #define PMG1_PD_DUALPORT_ENABLE         (1u)
 
 #else
@@ -209,7 +512,7 @@
 /** Single USB-C port supported. */
 #define PMG1_PD_DUALPORT_ENABLE         (0u)
 
-#endif /* (defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT)) */
+#endif /* ((defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D))) */
 
 /********************************* PD macros **********************************/
 
@@ -308,6 +611,7 @@
 #define CY_PD_CTRL_MSG_FR_SWAP_MASK               (0x1UL << CY_PD_CTRL_MSG_FR_SWAP)
 #define CY_PD_CTRL_MSG_DATA_RESET_MASK            (0x1UL << CY_PD_CTRL_MSG_DATA_RESET)
 #define CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD_MASK      (0x1UL << CY_PD_CTRL_MSG_GET_SNK_CAP_EXTD)
+#define CY_PD_EXTD_MSG_PPS_STATUS_MASK            (0x1UL << CY_PDSTACK_EXTD_MSG_PPS_STATUS)
 #define CY_PD_CTRL_MSG_DATA_RESET_COMPLETE_MASK   (0x1UL << CY_PD_CTRL_MSG_DATA_RESET_COMPLETE)
 #define CY_PD_CTRL_MSG_GET_SOURCE_INFO_MASK       (0x1UL << CY_PD_CTRL_MSG_GET_SOURCE_INFO)
 #define CY_PD_CTRL_MSG_GET_REVISION_MASK          (0x1UL << CY_PD_CTRL_MSG_GET_REVISION)
@@ -618,12 +922,17 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 0. */
-        uint32_t objPos                     : 3;    /**< Object position. */
+#if CY_PD_REV3_ENABLE
 #if (CY_PD_EPR_ENABLE)
+        uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
 #else
-        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+        uint32_t objPos                     : 4;    /**< Object position. */
 #endif /* CY_PD_EPR_ENABLE */
+#else
+        uint32_t objPos                     : 3;    /**< Object position. */
+        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_fix_var;                                  /**< DO interpreted as a fixed/variable request. */
 
     /** @brief Structure representing a Fixed or Variable Request Data Object with GiveBack. */
@@ -637,8 +946,12 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 1. */
+#if CY_PD_REV3_ENABLE
+        uint32_t objPos                     : 4;    /**< Object position. */
+#else
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_fix_var_gvb;                              /**< DO interpreted as a fixed/variable request with giveback. */
 
     /** @brief Structure representing a Battery Request Data Object. */
@@ -652,8 +965,12 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 0. */
+#if CY_PD_REV3_ENABLE
+        uint32_t objPos                     : 4;    /**< Object position. */
+#else        
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_bat;                                      /**< DO interpreted as a Battery request. */
 
     /** @brief Structure representing a Battery Request Data Object with GiveBack. */
@@ -667,8 +984,12 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 1. */
+#if CY_PD_REV3_ENABLE
+        uint32_t objPos                     : 4;    /**< Object position. */
+#else        
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_bat_gvb;                                  /**< DO interpreted as a Battery request with giveback. */
 
     /** @brief Structure representing a generic Request Data Object. */
@@ -687,12 +1008,17 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack supported flag = 0. */
-        uint32_t objPos                     : 3;    /**< Object position. */
+#if CY_PD_REV3_ENABLE
 #if (CY_PD_EPR_ENABLE)
+        uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
 #else
-        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+        uint32_t objPos                     : 4;    /**< Object position. */
 #endif /* CY_PD_EPR_ENABLE */
+#else
+        uint32_t objPos                     : 3;    /**< Object position. */
+        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_gen;                                      /**< DO interpreted as a generic request message. */
 
     /** @brief Structure representing a Generic Request Data Object with GiveBack. */
@@ -706,8 +1032,12 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< USB communication capability. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack supported flag = 1. */
+#if CY_PD_REV3_ENABLE
+        uint32_t objPos                     : 4;    /**< Object position. */
+#else        
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_gen_gvb;                                  /**< DO interpreted as a generic request with giveback. */
 
     /** @brief Structure representing a Structured VDM Header Data Object. */
@@ -727,31 +1057,31 @@ typedef union
     struct USTD_VDM_HDR
     {
         uint32_t cmd                        : 5;    /**< Command id. */
-        uint32_t seqNum                     : 3;    /**< Sequence number. */
-        uint32_t rsvd1                      : 3;    /**< Reserved field. */
+        uint32_t seqNum                     : 4;    /**< Sequence number. */
+        uint32_t rsvd1                      : 2;    /**< Reserved field. */
         uint32_t cmdType                    : 2;    /**< Command type. */
         uint32_t vdmVer                     : 2;    /**< VDM version. */
         uint32_t vdmType                    : 1;    /**< VDM type = Unstructured. */
         uint32_t svid                       : 16;   /**< SVID associated with VDM. */
     } ustd_vdm_hdr;                                 /**< DO interpreted as a Infineon unstructured VDM header. */
 
-    /** @brief Structure representing an Unstructured VDM header data object as defined by QC 4.0 spec. */
-    struct USTD_QC_4_0_HDR
+    /** @brief Structure representing an Unstructured VDM header data object as defined by QC 5.0/4.0 spec. */
+    struct USTD_QC_PPS_HDR
     {
         uint32_t cmd0                      : 8;    /**< Command code #0. */
         uint32_t cmd1                      : 7;    /**< Command code #1. */
         uint32_t vdmType                   : 1;    /**< VDM type = Unstructured. */
         uint32_t svid                      : 16;   /**< SVID associated with message. */
-    } ustd_qc_4_0_hdr;                              /**< DO interpreted as a QC 4.0 Unstructured VDM header. */
+    } ustd_qc_pps_hdr;                             /**< DO interpreted as a QC 5.0/4.0 Unstructured VDM header. */
 
-    /** @brief Structure representing an Unstructured VDM data object as defined by QC 4.0 spec. */
-    struct QC_4_0_DATA_VDO
+    /** @brief Structure representing an Unstructured VDM data object as defined by QC 5.0/4.0 spec. */
+    struct QC_PPS_DATA_VDO
     {
         uint32_t data0                     : 8;    /**< Command data #0. */
         uint32_t data1                     : 8;    /**< Command data #1. */
         uint32_t data2                     : 8;    /**< Command data #2. */
         uint32_t data3                     : 8;    /**< Command data #3. */
-    } qc_4_0_data_vdo;                              /**< DO interpreted as a QC 4.0 Unstructured VDM data object. */
+    } qc_pps_data_vdo;                              /**< DO interpreted as a QC 5.0/4.0 Unstructured VDM data object. */
 
     /** @brief Structure representing a Standard ID_HEADER VDO. */
     struct STD_VDM_ID_HDR
@@ -998,8 +1328,12 @@ typedef union
         uint32_t usbCommCap                 : 1;    /**< Whether sink supports USB communication. */
         uint32_t capMismatch                : 1;    /**< Capability mismatch flag. */
         uint32_t rsvd3                      : 1;    /**< Reserved field. */
+#if CY_PD_REV3_ENABLE
+        uint32_t objPos                     : 4;    /**< Object position - index to source PDO. */
+#else        
         uint32_t objPos                     : 3;    /**< Object position - index to source PDO. */
         uint32_t rsvd4                      : 1;    /**< Reserved field. */
+#endif /* CY_PD_REV3_ENABLE */
     } rdo_pps;                                      /**< DO interpreted as a PPD Request. */
 
     /** @brief Programmable Power Supply Source PDO. */
@@ -1178,10 +1512,10 @@ typedef union
 /** Structure to hold extended PD packets (messages). */
 typedef struct
 {
-    uint8_t             sop;                    /**< Packet type. */
+    cy_en_pd_sop_t      sop;                    /**< Packet type. */
     uint8_t             len;                    /**< Length of the message: Unused for unchunked extended messages. */
     uint8_t             msg;                    /**< Message code. */
-    uint8_t             dataRole;               /**< Data role. */
+    cy_en_pd_port_role_t  dataRole;             /**< Data role. */
     cy_pd_pd_hdr_t    hdr;                      /**< Message header, including extended header. */
     cy_pd_pd_do_t     dat[CY_PD_MAX_EXTD_PKT_WORDS];/**< Data associated with the message. */
 } cy_stc_pd_packet_extd_t;

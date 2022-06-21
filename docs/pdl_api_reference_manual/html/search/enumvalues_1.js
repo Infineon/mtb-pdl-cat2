@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['vbus_5fuvp_5fmode_5fadc',['VBUS_UVP_MODE_ADC',['../group__group__usbpd__common__enums.html#ggae2623e0d7c0d6c58365b907995249c13a01ee685a64648316a01c37f1dafd429b',1,'cy_usbpd_common.h']]],
-  ['vbus_5fuvp_5fmode_5fint_5fcomp',['VBUS_UVP_MODE_INT_COMP',['../group__group__usbpd__common__enums.html#ggae2623e0d7c0d6c58365b907995249c13af8c762ac1a58b1575c6f30fe04961a7e',1,'cy_usbpd_common.h']]],
-  ['vbus_5fuvp_5fmode_5fint_5fcomp_5fautoctrl',['VBUS_UVP_MODE_INT_COMP_AUTOCTRL',['../group__group__usbpd__common__enums.html#ggae2623e0d7c0d6c58365b907995249c13a6bc04bb432382ddac51bf4ad27084854',1,'cy_usbpd_common.h']]]
+  ['pd_5fvbat_5fgnd_5fscp_5f10a',['PD_VBAT_GND_SCP_10A',['../group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba27cdefd5a202f7b84ce84d2c75bd3c90',1,'cy_usbpd_common.h']]],
+  ['pd_5fvbat_5fgnd_5fscp_5f6a',['PD_VBAT_GND_SCP_6A',['../group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba125814ab0d45f5a64fa84eed580b223e',1,'cy_usbpd_common.h']]]
 ];

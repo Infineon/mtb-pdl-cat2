@@ -15,5 +15,7 @@ var group__group__cryptolite__vu__macros =
     [ "CY_CRYPTOLITE_VU_BIT_POS_OPERAND1", "group__group__cryptolite__vu__macros.html#ga1137c84ab12081e3e603287a4f4624cb", null ],
     [ "CY_CRYPTOLITE_VU_BIT_POS_OPERAND0", "group__group__cryptolite__vu__macros.html#ga917ebb9c44be248f70c2fb0b8672b740", null ],
     [ "VU_BITS_TO_WORDS", "group__group__cryptolite__vu__macros.html#gac74eb53e097adc8fef41223918c91a55", null ],
-    [ "VU_BITS_TO_BYTES", "group__group__cryptolite__vu__macros.html#ga252f3ccbb921c0bed0423f3b6dc4d129", null ]
+    [ "VU_BITS_TO_BYTES", "group__group__cryptolite__vu__macros.html#ga252f3ccbb921c0bed0423f3b6dc4d129", null ],
+    [ "VU_BITS_TO_BYTES_WORD_ALIGN", "group__group__cryptolite__vu__macros.html#gab2f643c778e1a6bf7d79afe5a0f158c9", null ],
+    [ "VU_BYTES_TO_WORDS", "group__group__cryptolite__vu__macros.html#ga8e5f3fec349f5e19ed1777e51568be66", null ]
 ];

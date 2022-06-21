@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -58,9 +58,7 @@ typedef struct {
   __IOM uint32_t SRSS_INTR_MASK;                /*!< 0x0000004C SRSS Interrupt Mask Register */
    __IM uint32_t RESERVED3;
   __IOM uint32_t RES_CAUSE;                     /*!< 0x00000054 Reset Cause Observation Register */
-   __IM uint32_t RESERVED4[938];
-  __IOM uint32_t PWR_BG_TRIM1;                  /*!< 0x00000F00 Bandgap Trim Register */
-  __IOM uint32_t PWR_BG_TRIM2;                  /*!< 0x00000F04 Bandgap Trim Register */
+   __IM uint32_t RESERVED4[940];
   __IOM uint32_t CLK_IMO_SELECT;                /*!< 0x00000F08 IMO Frequency Select Register */
   __IOM uint32_t CLK_IMO_TRIM1;                 /*!< 0x00000F0C IMO Trim Register */
   __IOM uint32_t CLK_IMO_TRIM2;                 /*!< 0x00000F10 IMO Trim Register */
@@ -160,12 +158,6 @@ typedef struct {
 #define SRSSLT_RES_CAUSE_RESET_PROT_FAULT_Msk   0x8UL
 #define SRSSLT_RES_CAUSE_RESET_SOFT_Pos         4UL
 #define SRSSLT_RES_CAUSE_RESET_SOFT_Msk         0x10UL
-/* SRSSLT.PWR_BG_TRIM1 */
-#define SRSSLT_PWR_BG_TRIM1_REF_VTRIM_Pos       0UL
-#define SRSSLT_PWR_BG_TRIM1_REF_VTRIM_Msk       0x3FUL
-/* SRSSLT.PWR_BG_TRIM2 */
-#define SRSSLT_PWR_BG_TRIM2_REF_ITRIM_Pos       0UL
-#define SRSSLT_PWR_BG_TRIM2_REF_ITRIM_Msk       0x3FUL
 /* SRSSLT.CLK_IMO_SELECT */
 #define SRSSLT_CLK_IMO_SELECT_FREQ_Pos          0UL
 #define SRSSLT_CLK_IMO_SELECT_FREQ_Msk          0x7UL

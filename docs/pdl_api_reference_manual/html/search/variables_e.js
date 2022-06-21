@@ -34,9 +34,6 @@ var searchData=
   ['pumpctl',['pumpCtl',['../structcy__stc__msclp__base__config__t.html#a3fb30bc83cc346e244dbf0bae13ebb45',1,'cy_stc_msclp_base_config_t']]],
   ['pwmalignment',['pwmAlignment',['../structcy__stc__tcpwm__pwm__config__t.html#a44305a03f21dd618f4dcd4f0020c1917',1,'cy_stc_tcpwm_pwm_config_t']]],
   ['pwmmode',['pwmMode',['../structcy__stc__tcpwm__pwm__config__t.html#a4d95b8b2e7841f999f6994fa0a90bd2f',1,'cy_stc_tcpwm_pwm_config_t']]],
-  ['pwrbgtrim1',['pwrBgTrim1',['../structcy__stc__msclp__trim__t.html#aa7242a80a7276312d6faf8ce999f2eba',1,'cy_stc_msclp_trim_t']]],
-  ['pwrbgtrim2',['pwrBgTrim2',['../structcy__stc__msclp__trim__t.html#a6262b447861c12bee3547b989f8f9c8f',1,'cy_stc_msclp_trim_t']]],
-  ['pwrbgtrim3',['pwrBgTrim3',['../structcy__stc__msclp__trim__t.html#aa1c95d655d1d6ce69195dcc27a89c643',1,'cy_stc_msclp_trim_t']]],
   ['pwrlow',['pwrLow',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#a6015e8e64322022dae423d9eee959af1',1,'cy_pd_pd_do_t::DP_STATUS_VDO']]],
   ['pwrrole',['pwrRole',['../structcy__pd__pd__hdr__t_1_1_p_d___h_d_r.html#adfbef2feb05ca96aba41c8a5056a09b3',1,'cy_pd_pd_hdr_t::PD_HDR']]]
 ];

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.0
+* \version 4.10
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -58,6 +58,12 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>4.10</td>
+*     <td>SPI: Fixed the issue when SPI Master and Slave interrupts are not
+*         enabled by the \ref Cy_SCB_SPI_Init() function.</td>
+*     <td>Bug fixes.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">4.0</td>
 *     <td>Update the paths to the code snippets.</td>
@@ -356,7 +362,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (0)
+#define CY_SCB_DRV_VERSION_MINOR    (10)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

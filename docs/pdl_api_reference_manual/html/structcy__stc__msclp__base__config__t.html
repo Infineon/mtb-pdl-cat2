@@ -83,12 +83,12 @@ $(document).ready(function(){initNavTree('structcy__stc__msclp__base__config__t.
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">cy_stc_msclp_base_config_t Struct Reference<div class="ingroups"><a class="el" href="group__group__msclp.html">Group_msclp</a> &raquo; <a class="el" href="group__group__msclp__data__structures.html">Data Structures</a></div></div>  </div>
+<div class="title">cy_stc_msclp_base_config_t Struct Reference<div class="ingroups"><a class="el" href="group__group__msclp.html">MSCLP        (Low-Power Multi-Sense Converter)</a> &raquo; <a class="el" href="group__group__msclp__data__structures.html">Data Structures</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>MSCLP base configuration structure. </p>
-<p>This structure contains almost all register values of the MSCLP HW block. This structure is provided by middleware through the <a class="el" href="group__group__msclp__functions.html#gab88f9fb6678c6dcbce2e0e10b52c591b" title="Acquires, locks, and configures the MSCLP HW block. ">Cy_MSCLP_Init()</a> and <a class="el" href="group__group__msclp__functions.html#gad2313869c5ba6da379a38541ede0702c" title="Sets configuration of all MSCLP HW block registers at once. ">Cy_MSCLP_Configure()</a> functions to implement the MSCLP HW block supported sensing modes like self-cap / mutual-cap scanning, etc. </p>
+<p>This structure contains almost all register values of the MSCLP HW block. This structure is provided by middleware through the <a class="el" href="group__group__msclp__functions.html#gab88f9fb6678c6dcbce2e0e10b52c591b" title="Acquires, locks, and configures the MSCLP HW block. ">Cy_MSCLP_Init()</a> and <a class="el" href="group__group__msclp__functions.html#gad2313869c5ba6da379a38541ede0702c" title="Sets configuration of the MSCLP HW block registers at once. ">Cy_MSCLP_Configure()</a> functions to implement the MSCLP HW block supported sensing modes like self-cap / mutual-cap scanning, etc. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -204,34 +204,14 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a43b5eebbac96b8c00c0862da746d137d">swSelBgr</a></td></tr>
 <tr class="memdesc:a43b5eebbac96b8c00c0862da746d137d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SW_SEL_BGR register value. <br /></td></tr>
 <tr class="separator:a43b5eebbac96b8c00c0862da746d137d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5729b157df6598c9909b243083b1ccf2"><td class="memItemLeft" align="right" valign="top"><a id="a5729b157df6598c9909b243083b1ccf2"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a5729b157df6598c9909b243083b1ccf2">swSelCswFunc</a> [MSCLP_CSW_GLOBAL_FUNC_NR]</td></tr>
-<tr class="memdesc:a5729b157df6598c9909b243083b1ccf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SW_SEL_CSW_FUNC registers values. <br /></td></tr>
-<tr class="separator:a5729b157df6598c9909b243083b1ccf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a120df1d9caf1c2cc8919bf5203fef219"><td class="memItemLeft" align="right" valign="top"><a id="a120df1d9caf1c2cc8919bf5203fef219"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a120df1d9caf1c2cc8919bf5203fef219">cswCtlLo</a></td></tr>
-<tr class="memdesc:a120df1d9caf1c2cc8919bf5203fef219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.CSW_CTL_LO register value. <br /></td></tr>
-<tr class="separator:a120df1d9caf1c2cc8919bf5203fef219"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67bc609e70117898be086246837a579c"><td class="memItemLeft" align="right" valign="top"><a id="a67bc609e70117898be086246837a579c"></a>
-<a class="el" href="structcy__stc__msclp__mode__config__t.html">cy_stc_msclp_mode_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a67bc609e70117898be086246837a579c">mode</a> [MSCLP_SENSE_MODE_NR]</td></tr>
-<tr class="memdesc:a67bc609e70117898be086246837a579c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.MODE registers values. <br /></td></tr>
-<tr class="separator:a67bc609e70117898be086246837a579c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0881899a0449d650141707f17c99fc39"><td class="memItemLeft" align="right" valign="top"><a id="a0881899a0449d650141707f17c99fc39"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a0881899a0449d650141707f17c99fc39">frameCmd</a></td></tr>
-<tr class="memdesc:a0881899a0449d650141707f17c99fc39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SNS.FRAME_CMD register value. <br /></td></tr>
-<tr class="separator:a0881899a0449d650141707f17c99fc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e93aa958f59405dca2ce54d2078410f"><td class="memItemLeft" align="right" valign="top"><a id="a2e93aa958f59405dca2ce54d2078410f"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a2e93aa958f59405dca2ce54d2078410f">ceCmd</a></td></tr>
-<tr class="memdesc:a2e93aa958f59405dca2ce54d2078410f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SNS.CE_CMD register value. <br /></td></tr>
-<tr class="separator:a2e93aa958f59405dca2ce54d2078410f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe799c8fc37b0ee543dc7f6d091112ef"><td class="memItemLeft" align="right" valign="top"><a id="abe799c8fc37b0ee543dc7f6d091112ef"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#abe799c8fc37b0ee543dc7f6d091112ef">fifoCmd</a></td></tr>
-<tr class="memdesc:abe799c8fc37b0ee543dc7f6d091112ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SNS.FIFO_CMD register value. <br /></td></tr>
-<tr class="separator:abe799c8fc37b0ee543dc7f6d091112ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83b4cfcf8e3600b8e7651bed10dbe33d"><td class="memItemLeft" align="right" valign="top"><a id="a83b4cfcf8e3600b8e7651bed10dbe33d"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#a83b4cfcf8e3600b8e7651bed10dbe33d">ceInitCmd</a></td></tr>
-<tr class="memdesc:a83b4cfcf8e3600b8e7651bed10dbe33d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SNS.CE_INIT_CTL register value. <br /></td></tr>
-<tr class="separator:a83b4cfcf8e3600b8e7651bed10dbe33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5342d73dfd0a39b7c72eabba35f6f32"><td class="memItemLeft" align="right" valign="top"><a id="ac5342d73dfd0a39b7c72eabba35f6f32"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#ac5342d73dfd0a39b7c72eabba35f6f32">swSelCswFunc</a> [<a class="el" href="group__group__msclp__macros.html#ga383b718dc292219f099fc8cd8ecde6cc">CY_MSCLP_CSW_GLOBAL_FUNC_NR_MAX</a>]</td></tr>
+<tr class="memdesc:ac5342d73dfd0a39b7c72eabba35f6f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.SW_SEL_CSW_FUNC registers values, The real number of these registers may be limited by the particular devise settings, see MSCLP_CSW_GLOBAL_FUNC_NR in the device headers. <br /></td></tr>
+<tr class="separator:ac5342d73dfd0a39b7c72eabba35f6f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41221e9bb473cdeb1049131d6de9ca2"><td class="memItemLeft" align="right" valign="top"><a id="ae41221e9bb473cdeb1049131d6de9ca2"></a>
+<a class="el" href="structcy__stc__msclp__mode__config__t.html">cy_stc_msclp_mode_config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__msclp__base__config__t.html#ae41221e9bb473cdeb1049131d6de9ca2">mode</a> [<a class="el" href="group__group__msclp__macros.html#gac4666d2c3553e5b833d00713ebc2bd08">CY_MSCLP_SENSE_MODE_NR_MAX</a>]</td></tr>
+<tr class="memdesc:ae41221e9bb473cdeb1049131d6de9ca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the MSCLP.MODE registers values, The real number of these structures may be limited by the particular devise settings, see MSCLP_SENSE_MODE_NR in the device headers. <br /></td></tr>
+<tr class="separator:ae41221e9bb473cdeb1049131d6de9ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

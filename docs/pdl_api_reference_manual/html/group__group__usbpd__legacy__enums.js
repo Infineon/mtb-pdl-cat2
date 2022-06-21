@@ -8,6 +8,7 @@ var group__group__usbpd__legacy__enums =
       [ "CHGB_SRC_TERM_APPLE_1A", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a7507f06f2c4183e965427241e39b190f", null ],
       [ "CHGB_SRC_TERM_APPLE_2_1A", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a1d679ac47c83d1ab3faac7c81751ed0b", null ],
       [ "CHGB_SRC_TERM_APPLE_2_4A", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a90c117f8bec575cd76c09e044995d27f", null ],
+      [ "CHGB_SRC_TERM_APPLE_3A", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063afef425f3b79c68a488c63d1559d38bcd", null ],
       [ "CHGB_SRC_TERM_QC", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a5ec024ac7f7fc6fcc4dc513d9c054a47", null ],
       [ "CHGB_SRC_TERM_AFC", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a3657bc215a8eca6357c21b070aef7732", null ],
       [ "CHGB_SRC_TERM_DCP", "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a4e0c312e9542c604afe8eccba33b1b9d", null ],
@@ -45,5 +46,9 @@ var group__group__usbpd__legacy__enums =
       [ "CHGB_COMP_EDGE_FALLING", "group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa444e12e72b6de4896f5fba4765f57592", null ],
       [ "CHGB_COMP_EDGE_RISING", "group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa0422a334f8c4371906c634f3e1b5a7e5", null ],
       [ "CHGB_COMP_EDGE_BOTH", "group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fae5664e545819c2411babc81d526fa1fe", null ]
+    ] ],
+    [ "cy_en_usbpd_vbat_gnd_scp_level_t", "group__group__usbpd__legacy__enums.html#ga882504d230ebad6ca6d4ab69905bc87b", [
+      [ "PD_VBAT_GND_SCP_6A", "group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba125814ab0d45f5a64fa84eed580b223e", null ],
+      [ "PD_VBAT_GND_SCP_10A", "group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba27cdefd5a202f7b84ce84d2c75bd3c90", null ]
     ] ]
 ];

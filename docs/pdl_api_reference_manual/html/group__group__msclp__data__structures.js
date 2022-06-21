@@ -1,26 +1,5 @@
 var group__group__msclp__data__structures =
 [
-    [ "cy_stc_msclp_sensor_config_t", "structcy__stc__msclp__sensor__config__t.html", [
-      [ "snsSwSelCswLoMask2", "structcy__stc__msclp__sensor__config__t.html#a3ddd53462741ba75a05259a11e768560", null ],
-      [ "snsSwSelCswLoMask1", "structcy__stc__msclp__sensor__config__t.html#a13f1ea9558641dc071e3fa52869e0f13", null ],
-      [ "snsSwSelCswLoMask0", "structcy__stc__msclp__sensor__config__t.html#a4eedc2b9325c302c5bda6d6a065fa784", null ],
-      [ "snsScanCtl", "structcy__stc__msclp__sensor__config__t.html#aab85bb3c080aadb033eba4d174241f7b", null ],
-      [ "snsCdacCtl", "structcy__stc__msclp__sensor__config__t.html#aeef55ccd9ac511c78fb661795112a091", null ],
-      [ "snsCtl", "structcy__stc__msclp__sensor__config__t.html#aa43e2c2821ac84147780a04024a72dba", null ]
-    ] ],
-    [ "cy_stc_msclp_sensor_lp_config_t", "structcy__stc__msclp__sensor__lp__config__t.html", [
-      [ "snsAosSnsCtl0", "structcy__stc__msclp__sensor__lp__config__t.html#a61ca9e8447a4f86a9797bdcf270cdd20", null ],
-      [ "snsAosSnsCtl1", "structcy__stc__msclp__sensor__lp__config__t.html#aa906f649cdbfc75196947477999a6c61", null ],
-      [ "snsAosSnsCtl2", "structcy__stc__msclp__sensor__lp__config__t.html#a9fd78e496eaceea6b737417d8f8bf5b9", null ],
-      [ "snsAosSnsCtl3", "structcy__stc__msclp__sensor__lp__config__t.html#ad0853df6d83cb72b244e2bd3e8d0f603", null ],
-      [ "snsAosSnsCtl4", "structcy__stc__msclp__sensor__lp__config__t.html#acf4598b3c02fd2b797631933d0d41dd3", null ],
-      [ "snsSwSelCswLoMask2", "structcy__stc__msclp__sensor__lp__config__t.html#a95b48de2165461b7b1faf481d80c96eb", null ],
-      [ "snsSwSelCswLoMask1", "structcy__stc__msclp__sensor__lp__config__t.html#a37eb0d598f4df9b0057a57e5ba4ee709", null ],
-      [ "snsSwSelCswLoMask0", "structcy__stc__msclp__sensor__lp__config__t.html#af7e0dd5066f3933a5620e7fbbbbd8377", null ],
-      [ "snsScanCtl", "structcy__stc__msclp__sensor__lp__config__t.html#aa3ec441f0d95124a549f89e208ab2e68", null ],
-      [ "snsCdacCtl", "structcy__stc__msclp__sensor__lp__config__t.html#a8c14211ab71a71a65291393943b4193d", null ],
-      [ "snsCtl", "structcy__stc__msclp__sensor__lp__config__t.html#ae49892d5f42952ca66b034e328dfde2a", null ]
-    ] ],
     [ "cy_stc_msclp_mode_config_t", "structcy__stc__msclp__mode__config__t.html", [
       [ "senseDutyCtl", "structcy__stc__msclp__mode__config__t.html#ab0005c2ca7daab415b2d6a7b541dc580", null ],
       [ "swSelCdacFl", "structcy__stc__msclp__mode__config__t.html#adfde3796b7d42ccda68de385d686212b", null ],
@@ -59,21 +38,14 @@ var group__group__msclp__data__structures =
       [ "swSelCdacCo", "structcy__stc__msclp__base__config__t.html#a341b9c7f295a0f3cbb84d0407f73fcad", null ],
       [ "swSelCdacCf", "structcy__stc__msclp__base__config__t.html#a2ff923eab852c27acd3f8568a862feb8", null ],
       [ "swSelBgr", "structcy__stc__msclp__base__config__t.html#a43b5eebbac96b8c00c0862da746d137d", null ],
-      [ "swSelCswFunc", "structcy__stc__msclp__base__config__t.html#a5729b157df6598c9909b243083b1ccf2", null ],
-      [ "cswCtlLo", "structcy__stc__msclp__base__config__t.html#a120df1d9caf1c2cc8919bf5203fef219", null ],
-      [ "mode", "structcy__stc__msclp__base__config__t.html#a67bc609e70117898be086246837a579c", null ],
-      [ "frameCmd", "structcy__stc__msclp__base__config__t.html#a0881899a0449d650141707f17c99fc39", null ],
-      [ "ceCmd", "structcy__stc__msclp__base__config__t.html#a2e93aa958f59405dca2ce54d2078410f", null ],
-      [ "fifoCmd", "structcy__stc__msclp__base__config__t.html#abe799c8fc37b0ee543dc7f6d091112ef", null ],
-      [ "ceInitCmd", "structcy__stc__msclp__base__config__t.html#a83b4cfcf8e3600b8e7651bed10dbe33d", null ]
+      [ "swSelCswFunc", "structcy__stc__msclp__base__config__t.html#ac5342d73dfd0a39b7c72eabba35f6f32", null ],
+      [ "mode", "structcy__stc__msclp__base__config__t.html#ae41221e9bb473cdeb1049131d6de9ca2", null ]
     ] ],
-    [ "cy_stc_msclp_trim_t", "structcy__stc__msclp__trim__t.html", [
-      [ "clkImoTrim1", "structcy__stc__msclp__trim__t.html#aea7abca78a18fae9caa0c8af6c362e5d", null ],
-      [ "clkImoTrim2", "structcy__stc__msclp__trim__t.html#aee07ddc89143dbea69e1373a8fd9806e", null ],
-      [ "clkImoTrim3", "structcy__stc__msclp__trim__t.html#ad10e3597240377ff107783377a94cacb", null ],
-      [ "pwrBgTrim1", "structcy__stc__msclp__trim__t.html#aa7242a80a7276312d6faf8ce999f2eba", null ],
-      [ "pwrBgTrim2", "structcy__stc__msclp__trim__t.html#a6262b447861c12bee3547b989f8f9c8f", null ],
-      [ "pwrBgTrim3", "structcy__stc__msclp__trim__t.html#aa1c95d655d1d6ce69195dcc27a89c643", null ]
+    [ "cy_stc_msclp_mrss_config_t", "structcy__stc__msclp__mrss__config__t.html", [
+      [ "imoFreq", "structcy__stc__msclp__mrss__config__t.html#aca0750891dd94cc4103d82ac4ca1cb06", null ],
+      [ "syncDiv", "structcy__stc__msclp__mrss__config__t.html#aed5c7a42f2de4ee3b8f0dc3b0f7a926e", null ],
+      [ "mscDiv", "structcy__stc__msclp__mrss__config__t.html#a49059851743800cb29021a3a0816b7bc", null ],
+      [ "vdda", "structcy__stc__msclp__mrss__config__t.html#aacec35c12d979a2b4cf4f32009b7f48f", null ]
     ] ],
     [ "cy_stc_msclp_context_t", "structcy__stc__msclp__context__t.html", [
       [ "lockKey", "structcy__stc__msclp__context__t.html#ab03c0d0269cdeae99a1e54856a88712b", null ]

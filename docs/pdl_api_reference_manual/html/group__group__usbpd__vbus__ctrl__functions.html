@@ -126,6 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga0c4d68af856ac66ea3e81e1f5a81f853">Cy_USBPD_Adc_GetVbusLevel</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, uint16_t volt, int8_t per)</td></tr>
 <tr class="memdesc:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ADC level that corresponds to the actual voltage on vbus.  <a href="#ga0c4d68af856ac66ea3e81e1f5a81f853">More...</a><br /></td></tr>
 <tr class="separator:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga095f7808a499959ef41d6e7ce2e70ad6">Cy_USBPD_Adc_MeasureInternalTemp</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
+<tr class="memdesc:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the temperature using ADC and internal BJT temperature sensor.  <a href="#ga095f7808a499959ef41d6e7ce2e70ad6">More...</a><br /></td></tr>
+<tr class="separator:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga4c9c5b639eef8c6d2095803c4da0faad">Cy_USBPD_Adc_MeasureVbusIn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
 <tr class="memdesc:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the current voltage on the VBus-in.  <a href="#ga4c9c5b639eef8c6d2095803c4da0faad">More...</a><br /></td></tr>
 <tr class="separator:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,9 +183,90 @@ Functions</h2></td></tr>
 <tr class="memitem:gaba6a1865c3fbcb299fdb0e093d7e98cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaba6a1865c3fbcb299fdb0e093d7e98cc">Cy_USBPD_Vbus_GdrvIsSnkFetOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:gaba6a1865c3fbcb299fdb0e093d7e98cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the Sink FET has been turned on.  <a href="#gaba6a1865c3fbcb299fdb0e093d7e98cc">More...</a><br /></td></tr>
 <tr class="separator:gaba6a1865c3fbcb299fdb0e093d7e98cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga21e62db6dc73d7155d4435bc1ca4660f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga21e62db6dc73d7155d4435bc1ca4660f">Cy_USBPD_Adc_GetVbatVolt</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, uint8_t level)</td></tr>
+<tr class="memdesc:ga21e62db6dc73d7155d4435bc1ca4660f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the ADC Battery voltage.  <a href="#ga21e62db6dc73d7155d4435bc1ca4660f">More...</a><br /></td></tr>
+<tr class="separator:ga21e62db6dc73d7155d4435bc1ca4660f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1b345c08ad062a460653dbdf55e6f958"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga1b345c08ad062a460653dbdf55e6f958">Cy_USBPD_MeasureVbat</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga1b345c08ad062a460653dbdf55e6f958"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function measures the battery voltage on Vin.  <a href="#ga1b345c08ad062a460653dbdf55e6f958">More...</a><br /></td></tr>
+<tr class="separator:ga1b345c08ad062a460653dbdf55e6f958"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3da8cb9d6eff89e7c52ff66df5c3e4cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga3da8cb9d6eff89e7c52ff66df5c3e4cd">Cy_USBPD_PfetDynDsEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga3da8cb9d6eff89e7c52ff66df5c3e4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dynamically change the VBUS FET drive strength.  <a href="#ga3da8cb9d6eff89e7c52ff66df5c3e4cd">More...</a><br /></td></tr>
+<tr class="separator:ga3da8cb9d6eff89e7c52ff66df5c3e4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b25b9ff5b838a990264bb88cdd16e2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga4b25b9ff5b838a990264bb88cdd16e2b">Cy_USBPD_Vbus_GdrvPfetOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool turnOnSeq)</td></tr>
+<tr class="memdesc:ga4b25b9ff5b838a990264bb88cdd16e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on producer FET using the internal gate driver or dedicated GPIO.  <a href="#ga4b25b9ff5b838a990264bb88cdd16e2b">More...</a><br /></td></tr>
+<tr class="separator:ga4b25b9ff5b838a990264bb88cdd16e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9963cd1dec2a7b37af68f3f78139ab18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9963cd1dec2a7b37af68f3f78139ab18">Cy_USBPD_Vbus_GdrvPfetOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool turnOffSeq)</td></tr>
+<tr class="memdesc:ga9963cd1dec2a7b37af68f3f78139ab18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn OFF producer FET using the internal gate driver or dedicated GPIO.  <a href="#ga9963cd1dec2a7b37af68f3f78139ab18">More...</a><br /></td></tr>
+<tr class="separator:ga9963cd1dec2a7b37af68f3f78139ab18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e7b0e4353c60d569776bfd401eddc20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga7e7b0e4353c60d569776bfd401eddc20">Cy_USBPD_Vbus_GdrvCfetOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool turnOnSeq)</td></tr>
+<tr class="memdesc:ga7e7b0e4353c60d569776bfd401eddc20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on consumer FET using the internal gate driver or dedicated GPIO.  <a href="#ga7e7b0e4353c60d569776bfd401eddc20">More...</a><br /></td></tr>
+<tr class="separator:ga7e7b0e4353c60d569776bfd401eddc20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c651f72ea46e27bbb8181b6a0873213"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9c651f72ea46e27bbb8181b6a0873213">Cy_USBPD_Vbus_GdrvCfetOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool turnOffSeq)</td></tr>
+<tr class="memdesc:ga9c651f72ea46e27bbb8181b6a0873213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn OFF consumer FET using the internal gate driver or dedicated GPIO.  <a href="#ga9c651f72ea46e27bbb8181b6a0873213">More...</a><br /></td></tr>
+<tr class="separator:ga9c651f72ea46e27bbb8181b6a0873213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga77883874b338c6e7c8e96fbcb473d435"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga77883874b338c6e7c8e96fbcb473d435">Cy_USBPD_Vbus_NgdoOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pfet)</td></tr>
+<tr class="memdesc:ga77883874b338c6e7c8e96fbcb473d435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns on the FET using the internal NGDO.  <a href="#ga77883874b338c6e7c8e96fbcb473d435">More...</a><br /></td></tr>
+<tr class="separator:ga77883874b338c6e7c8e96fbcb473d435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa8fc717186767741f6455fcd9f486fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaaa8fc717186767741f6455fcd9f486fa">Cy_USBPD_Vbus_NgdoSetDriveStrength</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint8_t value)</td></tr>
+<tr class="memdesc:gaaa8fc717186767741f6455fcd9f486fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the drive strength of the producer FET using the internal gate driver.  <a href="#gaaa8fc717186767741f6455fcd9f486fa">More...</a><br /></td></tr>
+<tr class="separator:gaaa8fc717186767741f6455fcd9f486fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1de167412810bd9817d36cbce3086c2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga1de167412810bd9817d36cbce3086c2f">Cy_USBPD_Vbus_NgdoOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pfet)</td></tr>
+<tr class="memdesc:ga1de167412810bd9817d36cbce3086c2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns off the FET using the internal NGDO.  <a href="#ga1de167412810bd9817d36cbce3086c2f">More...</a><br /></td></tr>
+<tr class="separator:ga1de167412810bd9817d36cbce3086c2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga661ba9aab2b70cb98a15b58a5e1dccfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga661ba9aab2b70cb98a15b58a5e1dccfa">Cy_USBPD_Vbus_DischargeOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga661ba9aab2b70cb98a15b58a5e1dccfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on the internal VBus discharge path.  <a href="#ga661ba9aab2b70cb98a15b58a5e1dccfa">More...</a><br /></td></tr>
+<tr class="separator:ga661ba9aab2b70cb98a15b58a5e1dccfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ff29223d43b496ce03da131646f6b9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga2ff29223d43b496ce03da131646f6b9e">Cy_USBPD_Vbus_DischargeOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga2ff29223d43b496ce03da131646f6b9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off the internal VBus discharge path.  <a href="#ga2ff29223d43b496ce03da131646f6b9e">More...</a><br /></td></tr>
+<tr class="separator:ga2ff29223d43b496ce03da131646f6b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa393e80a055ff9e2fc11e616af636693"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaa393e80a055ff9e2fc11e616af636693">Cy_USBPD_VbusIn_DischargeOn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gaa393e80a055ff9e2fc11e616af636693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on the internal VBUS_IN discharge path.  <a href="#gaa393e80a055ff9e2fc11e616af636693">More...</a><br /></td></tr>
+<tr class="separator:gaa393e80a055ff9e2fc11e616af636693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaabb39750221440be2906162d9fc545a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaabb39750221440be2906162d9fc545a5">Cy_USBPD_VbusIn_DischargeOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gaabb39750221440be2906162d9fc545a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off the internal VBUS_IN discharge path.  <a href="#gaabb39750221440be2906162d9fc545a5">More...</a><br /></td></tr>
+<tr class="separator:gaabb39750221440be2906162d9fc545a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3af07ed897140f4ed46127f7696e2952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga3af07ed897140f4ed46127f7696e2952">Cy_USBPD_Vbus_NgdoG1Ctrl</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool value)</td></tr>
+<tr class="memdesc:ga3af07ed897140f4ed46127f7696e2952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the Gate-1 on the VBUS-C side of the Gate driver circuit.  <a href="#ga3af07ed897140f4ed46127f7696e2952">More...</a><br /></td></tr>
+<tr class="separator:ga3af07ed897140f4ed46127f7696e2952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a7f56915943d65c1f283bb35afa0738"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga0a7f56915943d65c1f283bb35afa0738">Cy_USBPD_Vbus_NgdoEqCtrl</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool value)</td></tr>
+<tr class="memdesc:ga0a7f56915943d65c1f283bb35afa0738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable the equalizer between the Gates and Source/Drain of the Gate driver circuit.  <a href="#ga0a7f56915943d65c1f283bb35afa0738">More...</a><br /></td></tr>
+<tr class="separator:ga0a7f56915943d65c1f283bb35afa0738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad81e92da8be48f9b9fc9b1c87f154282"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gad81e92da8be48f9b9fc9b1c87f154282">Cy_USBPD_Vbus_HalCleanup</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gad81e92da8be48f9b9fc9b1c87f154282"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function cleans up the PD block after a disconnect.  <a href="#gad81e92da8be48f9b9fc9b1c87f154282">More...</a><br /></td></tr>
+<tr class="separator:gad81e92da8be48f9b9fc9b1c87f154282"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae148d5e48bfa256a251f420de3e74a7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gae148d5e48bfa256a251f420de3e74a7f">Cy_USBPD_Vbus_Mon_SetDivider</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint8_t divider)</td></tr>
 <tr class="memdesc:gae148d5e48bfa256a251f420de3e74a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify the voltage division ratio between the voltage applied on VBUS_MON and the actual VBus voltage.  <a href="#gae148d5e48bfa256a251f420de3e74a7f">More...</a><br /></td></tr>
 <tr class="separator:gae148d5e48bfa256a251f420de3e74a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga7b63df251bf74bc9dc84f301d593ffaf">Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes internal feedback res divider.  <a href="#ga7b63df251bf74bc9dc84f301d593ffaf">More...</a><br /></td></tr>
+<tr class="separator:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad1b813a8699a59b296f5a167fb290556"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gad1b813a8699a59b296f5a167fb290556">Cy_USBPD_Fault_VbatGndScpLevelSet</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__legacy__enums.html#ga882504d230ebad6ca6d4ab69905bc87b">cy_en_usbpd_vbat_gnd_scp_level_t</a> cur_level)</td></tr>
+<tr class="memdesc:gad1b813a8699a59b296f5a167fb290556"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets threshold for VBAT-GND SCP.  <a href="#gad1b813a8699a59b296f5a167fb290556">More...</a><br /></td></tr>
+<tr class="separator:gad1b813a8699a59b296f5a167fb290556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae2dc014808332e16964d0417c1751917"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gae2dc014808332e16964d0417c1751917">Cy_USBPD_Fault_VbatGndScpEn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pctrl, uint8_t mode)</td></tr>
+<tr class="memdesc:gae2dc014808332e16964d0417c1751917"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables VBAT-GND SCP Fault.  <a href="#gae2dc014808332e16964d0417c1751917">More...</a><br /></td></tr>
+<tr class="separator:gae2dc014808332e16964d0417c1751917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d6347ba3ef2f1fe64089d041c8c228e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9d6347ba3ef2f1fe64089d041c8c228e">Cy_USBPD_Fault_VbatGndScpDis</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pctrl)</td></tr>
+<tr class="memdesc:ga9d6347ba3ef2f1fe64089d041c8c228e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables VBAT-GND SCP Fault.  <a href="#ga9d6347ba3ef2f1fe64089d041c8c228e">More...</a><br /></td></tr>
+<tr class="separator:ga9d6347ba3ef2f1fe64089d041c8c228e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6772afb6a234054ed3259da974b9f084"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga6772afb6a234054ed3259da974b9f084">Cy_USBPD_Fault_BrownOutDetEn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga6772afb6a234054ed3259da974b9f084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the detection of Brown Out Fault.  <a href="#ga6772afb6a234054ed3259da974b9f084">More...</a><br /></td></tr>
+<tr class="separator:ga6772afb6a234054ed3259da974b9f084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90bf3450a22d38872f16299dec80516b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga90bf3450a22d38872f16299dec80516b">Cy_USBPD_Fault_BrownOutDetDis</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga90bf3450a22d38872f16299dec80516b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the detection of Brown Out Fault.  <a href="#ga90bf3450a22d38872f16299dec80516b">More...</a><br /></td></tr>
+<tr class="separator:ga90bf3450a22d38872f16299dec80516b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9cddb7b2037d96a112c3c7966c7f4075"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9cddb7b2037d96a112c3c7966c7f4075">Cy_USBPD_Fault_BrownOutStatus</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga9cddb7b2037d96a112c3c7966c7f4075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the status of Brown Out Fault.  <a href="#ga9cddb7b2037d96a112c3c7966c7f4075">More...</a><br /></td></tr>
+<tr class="separator:ga9cddb7b2037d96a112c3c7966c7f4075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f149e97c22312e0a6ecc3dbd030df77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga6f149e97c22312e0a6ecc3dbd030df77">Cy_USBPD_Fault_VregInrushDetEn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga6f149e97c22312e0a6ecc3dbd030df77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the detection of Vreg Inrush Fault.  <a href="#ga6f149e97c22312e0a6ecc3dbd030df77">More...</a><br /></td></tr>
+<tr class="separator:ga6f149e97c22312e0a6ecc3dbd030df77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac68aad64019e5cc5b3e817c25b7d4364"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gac68aad64019e5cc5b3e817c25b7d4364">Cy_USBPD_Fault_VregInrushDetDis</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gac68aad64019e5cc5b3e817c25b7d4364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the detection of Vreg Inrush Fault.  <a href="#gac68aad64019e5cc5b3e817c25b7d4364">More...</a><br /></td></tr>
+<tr class="separator:gac68aad64019e5cc5b3e817c25b7d4364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5621ff46b6e6acb6cbd0290f7b92cc89"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga5621ff46b6e6acb6cbd0290f7b92cc89">Cy_USBPD_Fault_VregInrushStatus</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga5621ff46b6e6acb6cbd0290f7b92cc89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the status of Vreg Inrush Fault.  <a href="#ga5621ff46b6e6acb6cbd0290f7b92cc89">More...</a><br /></td></tr>
+<tr class="separator:ga5621ff46b6e6acb6cbd0290f7b92cc89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga29cf4b6b2646cd4ddc60859f9b611101"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga29cf4b6b2646cd4ddc60859f9b611101">Cy_USBPD_Fault_Vbus_OvpIntrHandler</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga29cf4b6b2646cd4ddc60859f9b611101"><td class="mdescLeft">&#160;</td><td class="mdescRight">VBUS OVP fault interrupt handler function.  <a href="#ga29cf4b6b2646cd4ddc60859f9b611101">More...</a><br /></td></tr>
 <tr class="separator:ga29cf4b6b2646cd4ddc60859f9b611101"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,6 +314,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gae2238029622f4cbac2ee4a9d288309e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gae2238029622f4cbac2ee4a9d288309e4">Cy_USBPD_Fault_Vconn_OcpDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:gae2238029622f4cbac2ee4a9d288309e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable Over-Current detection on the VConn power source.  <a href="#gae2238029622f4cbac2ee4a9d288309e4">More...</a><br /></td></tr>
 <tr class="separator:gae2238029622f4cbac2ee4a9d288309e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaca3f1accf22804ef71a6afdbee102e54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaca3f1accf22804ef71a6afdbee102e54">Cy_USBPD_Fault_Vconn_ScpEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e">cy_cb_vbus_fault_t</a> cb)</td></tr>
+<tr class="memdesc:gaca3f1accf22804ef71a6afdbee102e54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable short circuit detection on the VConn power source.  <a href="#gaca3f1accf22804ef71a6afdbee102e54">More...</a><br /></td></tr>
+<tr class="separator:gaca3f1accf22804ef71a6afdbee102e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaac59f290228f1c1df66bc5cc06022c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaaac59f290228f1c1df66bc5cc06022c6">Cy_USBPD_Fault_Vconn_ScpDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gaaac59f290228f1c1df66bc5cc06022c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable short circuit detection on the VConn power source.  <a href="#gaaac59f290228f1c1df66bc5cc06022c6">More...</a><br /></td></tr>
+<tr class="separator:gaaac59f290228f1c1df66bc5cc06022c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4230213e2c61ae6d094460836d438a3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga4230213e2c61ae6d094460836d438a3f">Cy_USBPD_Fault_Vbus_ScpEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint32_t current, <a class="el" href="group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e">cy_cb_vbus_fault_t</a> cb)</td></tr>
 <tr class="memdesc:ga4230213e2c61ae6d094460836d438a3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable Short Circuit Protection (SCP).  <a href="#ga4230213e2c61ae6d094460836d438a3f">More...</a><br /></td></tr>
 <tr class="separator:ga4230213e2c61ae6d094460836d438a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,6 +341,30 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8fa93f5bf074f23a197b0141728c37a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga8fa93f5bf074f23a197b0141728c37a5">Cy_USBPD_Fault_CcSbuSetCB</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e">cy_cb_vbus_fault_t</a> cb)</td></tr>
 <tr class="memdesc:ga8fa93f5bf074f23a197b0141728c37a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a callback function for CC/SBU OVP faults.  <a href="#ga8fa93f5bf074f23a197b0141728c37a5">More...</a><br /></td></tr>
 <tr class="separator:ga8fa93f5bf074f23a197b0141728c37a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59243d89e6073c670d56a4dcca50b577"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga59243d89e6073c670d56a4dcca50b577">Cy_USBPD_Fault_VinUvpEn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint16_t threshold, <a class="el" href="group__group__usbpd__common__data__structures.html#ga7edc12e66b14ecd91e44913bcfed40d0">cy_cb_adc_events_t</a> cb, bool pctrl, <a class="el" href="group__group__usbpd__common__enums.html#gae2623e0d7c0d6c58365b907995249c13">cy_en_usbpd_vbus_uvp_mode_t</a> mode)</td></tr>
+<tr class="memdesc:ga59243d89e6073c670d56a4dcca50b577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables VIN UVP Fault.  <a href="#ga59243d89e6073c670d56a4dcca50b577">More...</a><br /></td></tr>
+<tr class="separator:ga59243d89e6073c670d56a4dcca50b577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab125587f126d528ea553e9b8ac9a4bb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gab125587f126d528ea553e9b8ac9a4bb2">Cy_USBPD_Fault_VinUvpDis</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pctrl)</td></tr>
+<tr class="memdesc:gab125587f126d528ea553e9b8ac9a4bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables VIN UVP fault.  <a href="#gab125587f126d528ea553e9b8ac9a4bb2">More...</a><br /></td></tr>
+<tr class="separator:gab125587f126d528ea553e9b8ac9a4bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0b82553461268677f9cce35203353c4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga0b82553461268677f9cce35203353c4b">Cy_USBPD_Fault_VinOvpEn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint16_t threshold, <a class="el" href="group__group__usbpd__common__data__structures.html#ga7edc12e66b14ecd91e44913bcfed40d0">cy_cb_adc_events_t</a> cb, bool pctrl, <a class="el" href="group__group__usbpd__common__enums.html#ga186a7582e79dd8de856494bb61cfbf9d">cy_en_usbpd_vbus_ovp_mode_t</a> mode)</td></tr>
+<tr class="memdesc:ga0b82553461268677f9cce35203353c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables VIN OVP Fault.  <a href="#ga0b82553461268677f9cce35203353c4b">More...</a><br /></td></tr>
+<tr class="separator:ga0b82553461268677f9cce35203353c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c378b7596603a46ac4d707e12b2cba9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9c378b7596603a46ac4d707e12b2cba9">Cy_USBPD_Fault_VinOvpDis</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool pctrl)</td></tr>
+<tr class="memdesc:ga9c378b7596603a46ac4d707e12b2cba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables VIN OVP Fault.  <a href="#ga9c378b7596603a46ac4d707e12b2cba9">More...</a><br /></td></tr>
+<tr class="separator:ga9c378b7596603a46ac4d707e12b2cba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf49392d48a4b504b09bd4abaee9b5423"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaf49392d48a4b504b09bd4abaee9b5423">Cy_USBPD_CcOvpControl</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool flag)</td></tr>
+<tr class="memdesc:gaf49392d48a4b504b09bd4abaee9b5423"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables/disables the CC OVP.  <a href="#gaf49392d48a4b504b09bd4abaee9b5423">More...</a><br /></td></tr>
+<tr class="separator:gaf49392d48a4b504b09bd4abaee9b5423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ef645f42648e5a6ace9b8045e6c2fac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga1ef645f42648e5a6ace9b8045e6c2fac">Cy_USBPD_Vbus_V5vChangeDetectHandler</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga1ef645f42648e5a6ace9b8045e6c2fac"><td class="mdescLeft">&#160;</td><td class="mdescRight">VCONN 5V supply change interrupt handler function.  <a href="#ga1ef645f42648e5a6ace9b8045e6c2fac">More...</a><br /></td></tr>
+<tr class="separator:ga1ef645f42648e5a6ace9b8045e6c2fac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63fd7f3c9e114fcef8fb836f9a9a717f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga63fd7f3c9e114fcef8fb836f9a9a717f">Cy_USBPD_Vbus_Ctrl_FbGetIdacStep</a> (uint16_t new_volt, uint16_t cur_volt)</td></tr>
+<tr class="memdesc:ga63fd7f3c9e114fcef8fb836f9a9a717f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the signed iDAC step change required to reach the new voltage specified from the current voltage specified.  <a href="#ga63fd7f3c9e114fcef8fb836f9a9a717f">More...</a><br /></td></tr>
+<tr class="separator:ga63fd7f3c9e114fcef8fb836f9a9a717f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d5fa4e816ade0eb937ebee18e207223"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga5d5fa4e816ade0eb937ebee18e207223">Cy_USBPD_Vbus_GetTrimIdac</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint16_t volt_mv)</td></tr>
+<tr class="memdesc:ga5d5fa4e816ade0eb937ebee18e207223"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the iDAC value to be used for attaining the voltage.  <a href="#ga5d5fa4e816ade0eb937ebee18e207223">More...</a><br /></td></tr>
+<tr class="separator:ga5d5fa4e816ade0eb937ebee18e207223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga10b2a7fd00324e275643a7cc76f2602d"></a>
@@ -822,6 +936,51 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t Returns the ADC level. </dd></dl>
+
+</div>
+</div>
+<a id="ga095f7808a499959ef41d6e7ce2e70ad6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga095f7808a499959ef41d6e7ce2e70ad6">&#9670;&nbsp;</a></span>Cy_USBPD_Adc_MeasureInternalTemp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Cy_USBPD_Adc_MeasureInternalTemp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a>&#160;</td>
+          <td class="paramname"><em>adcId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a>&#160;</td>
+          <td class="paramname"><em>input</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Measure the temperature using ADC and internal BJT temperature sensor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t Internal temperature in degree celsius units. </dd></dl>
 
 </div>
 </div>
@@ -1408,6 +1567,596 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga21e62db6dc73d7155d4435bc1ca4660f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga21e62db6dc73d7155d4435bc1ca4660f">&#9670;&nbsp;</a></span>Cy_USBPD_Adc_GetVbatVolt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Cy_USBPD_Adc_GetVbatVolt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a>&#160;</td>
+          <td class="paramname"><em>adcId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the ADC Battery voltage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID for voltage measurement.</td></tr>
+    <tr><td class="paramname">level</td><td>PD_ADC_NUM levels</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint16_t Battery Voltage </dd></dl>
+
+</div>
+</div>
+<a id="ga1b345c08ad062a460653dbdf55e6f958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1b345c08ad062a460653dbdf55e6f958">&#9670;&nbsp;</a></span>Cy_USBPD_MeasureVbat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Cy_USBPD_MeasureVbat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function measures the battery voltage on Vin. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint16_t Returns the battery voltage on Vin. </dd></dl>
+
+</div>
+</div>
+<a id="ga3da8cb9d6eff89e7c52ff66df5c3e4cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3da8cb9d6eff89e7c52ff66df5c3e4cd">&#9670;&nbsp;</a></span>Cy_USBPD_PfetDynDsEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_PfetDynDsEnable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dynamically change the VBUS FET drive strength. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga4b25b9ff5b838a990264bb88cdd16e2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4b25b9ff5b838a990264bb88cdd16e2b">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_GdrvPfetOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_GdrvPfetOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>turnOnSeq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn on producer FET using the internal gate driver or dedicated GPIO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">turnOnSeq</td><td>Turn On sequence On PMG1S2, this bit selects which FET turns on first.<ul>
+<li>0: FET 0 turns on first.</li>
+<li>1: FET 1 turns on first. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9963cd1dec2a7b37af68f3f78139ab18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9963cd1dec2a7b37af68f3f78139ab18">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_GdrvPfetOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_GdrvPfetOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>turnOffSeq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn OFF producer FET using the internal gate driver or dedicated GPIO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">turnOffSeq</td><td>Turn Off sequence On PMG1S2, this bit selects which FET turns on first.<ul>
+<li>0: FET 0 turns on first.</li>
+<li>1: FET 1 turns on first. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga7e7b0e4353c60d569776bfd401eddc20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7e7b0e4353c60d569776bfd401eddc20">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_GdrvCfetOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_GdrvCfetOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>turnOnSeq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn on consumer FET using the internal gate driver or dedicated GPIO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">turnOnSeq</td><td>Turn On sequence On PMG1S2, this bit selects which FET turns on first.<ul>
+<li>0: FET 0 turns on first.</li>
+<li>1: FET 1 turns on first. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9c651f72ea46e27bbb8181b6a0873213"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9c651f72ea46e27bbb8181b6a0873213">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_GdrvCfetOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_GdrvCfetOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>turnOffSeq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn OFF consumer FET using the internal gate driver or dedicated GPIO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">turnOffSeq</td><td>Turn Off sequence On PMG1S2, this bit selects which FET turns on first.<ul>
+<li>0: FET 0 turns on first.</li>
+<li>1: FET 1 turns on first. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga77883874b338c6e7c8e96fbcb473d435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga77883874b338c6e7c8e96fbcb473d435">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_NgdoOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_NgdoOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pfet</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turns on the FET using the internal NGDO. </p>
+<p>This API is only applicable to PMG1S3.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pfet</td><td>Flag indicating whether the NGDO is connected to Provider FET<ul>
+<li>0: Connected to Consumer FET.</li>
+<li>1: Connected to Provider FET. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaaa8fc717186767741f6455fcd9f486fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa8fc717186767741f6455fcd9f486fa">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_NgdoSetDriveStrength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_NgdoSetDriveStrength </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the drive strength of the producer FET using the internal gate driver. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">value</td><td>The drive strength value with bit step size (current) as 150nA. Max value allowed is 4200nA (0x1C). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1de167412810bd9817d36cbce3086c2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1de167412810bd9817d36cbce3086c2f">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_NgdoOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_NgdoOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pfet</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turns off the FET using the internal NGDO. </p>
+<p>This API is only applicable to PMG1S3.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pfet</td><td>Flag indicating whether the NGDO is connected to Provider FET<ul>
+<li>0: Connected to Consumer FET.</li>
+<li>1: Connected to Provider FET. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga661ba9aab2b70cb98a15b58a5e1dccfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga661ba9aab2b70cb98a15b58a5e1dccfa">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_DischargeOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_DischargeOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn on the internal VBus discharge path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga2ff29223d43b496ce03da131646f6b9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2ff29223d43b496ce03da131646f6b9e">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_DischargeOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_DischargeOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off the internal VBus discharge path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaa393e80a055ff9e2fc11e616af636693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa393e80a055ff9e2fc11e616af636693">&#9670;&nbsp;</a></span>Cy_USBPD_VbusIn_DischargeOn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_VbusIn_DischargeOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn on the internal VBUS_IN discharge path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaabb39750221440be2906162d9fc545a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaabb39750221440be2906162d9fc545a5">&#9670;&nbsp;</a></span>Cy_USBPD_VbusIn_DischargeOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_VbusIn_DischargeOff </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Turn off the internal VBUS_IN discharge path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga3af07ed897140f4ed46127f7696e2952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3af07ed897140f4ed46127f7696e2952">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_NgdoG1Ctrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_NgdoG1Ctrl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Control the Gate-1 on the VBUS-C side of the Gate driver circuit. </p>
+<p>This is only applicable to PMG1S3 device.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">value</td><td>Gate-1 control value. False: Gate-1 is pulled down to turn the FET off. True: Gate-1 is allowed to charge for turning on the FET. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga0a7f56915943d65c1f283bb35afa0738"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0a7f56915943d65c1f283bb35afa0738">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_NgdoEqCtrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_NgdoEqCtrl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable/Disable the equalizer between the Gates and Source/Drain of the Gate driver circuit. </p>
+<p>Use this API after turning off Gate-1 during Pfet turn Off sequence. This is only applicable to PMG1S3 device.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">value</td><td>Gate-1 control value. False: Disable the equalizer. True: Enable the equalizer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad81e92da8be48f9b9fc9b1c87f154282"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad81e92da8be48f9b9fc9b1c87f154282">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_HalCleanup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_HalCleanup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function cleans up the PD block after a disconnect. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
 <a id="gae148d5e48bfa256a251f420de3e74a7f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gae148d5e48bfa256a251f420de3e74a7f">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_Mon_SetDivider()</h2>
 
@@ -1443,6 +2192,316 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga7b63df251bf74bc9dc84f301d593ffaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7b63df251bf74bc9dc84f301d593ffaf">&#9670;&nbsp;</a></span>Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes internal feedback res divider. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gad1b813a8699a59b296f5a167fb290556"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad1b813a8699a59b296f5a167fb290556">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VbatGndScpLevelSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VbatGndScpLevelSet </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__legacy__enums.html#ga882504d230ebad6ca6d4ab69905bc87b">cy_en_usbpd_vbat_gnd_scp_level_t</a>&#160;</td>
+          <td class="paramname"><em>cur_level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets threshold for VBAT-GND SCP. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">cur_level</td><td>Current level</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gae2dc014808332e16964d0417c1751917"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2dc014808332e16964d0417c1751917">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VbatGndScpEn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VbatGndScpEn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables VBAT-GND SCP Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+    <tr><td class="paramname">mode</td><td>VBAT-GND SCP Fault Mode.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga9d6347ba3ef2f1fe64089d041c8c228e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9d6347ba3ef2f1fe64089d041c8c228e">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VbatGndScpDis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VbatGndScpDis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables VBAT-GND SCP Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga6772afb6a234054ed3259da974b9f084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6772afb6a234054ed3259da974b9f084">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_BrownOutDetEn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_BrownOutDetEn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the detection of Brown Out Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga90bf3450a22d38872f16299dec80516b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga90bf3450a22d38872f16299dec80516b">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_BrownOutDetDis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_BrownOutDetDis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the detection of Brown Out Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga9cddb7b2037d96a112c3c7966c7f4075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9cddb7b2037d96a112c3c7966c7f4075">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_BrownOutStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Cy_USBPD_Fault_BrownOutStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the status of Brown Out Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool Returns the status of Brown Out Fault. </dd></dl>
+
+</div>
+</div>
+<a id="ga6f149e97c22312e0a6ecc3dbd030df77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f149e97c22312e0a6ecc3dbd030df77">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VregInrushDetEn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VregInrushDetEn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the detection of Vreg Inrush Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gac68aad64019e5cc5b3e817c25b7d4364"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac68aad64019e5cc5b3e817c25b7d4364">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VregInrushDetDis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VregInrushDetDis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the detection of Vreg Inrush Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga5621ff46b6e6acb6cbd0290f7b92cc89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5621ff46b6e6acb6cbd0290f7b92cc89">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VregInrushStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Cy_USBPD_Fault_VregInrushStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the status of Vreg Inrush Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool Returns the status of Vreg Inrush Fault. </dd></dl>
 
 </div>
 </div>
@@ -1980,6 +3039,69 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaca3f1accf22804ef71a6afdbee102e54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaca3f1accf22804ef71a6afdbee102e54">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vconn_ScpEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vconn_ScpEnable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e">cy_cb_vbus_fault_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable short circuit detection on the VConn power source. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">cb</td><td>Callback function to be called on fault detection. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaaac59f290228f1c1df66bc5cc06022c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaac59f290228f1c1df66bc5cc06022c6">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vconn_ScpDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vconn_ScpDisable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disable short circuit detection on the VConn power source. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga4230213e2c61ae6d094460836d438a3f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4230213e2c61ae6d094460836d438a3f">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vbus_ScpEnable()</h2>
 
@@ -2249,6 +3371,342 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga59243d89e6073c670d56a4dcca50b577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga59243d89e6073c670d56a4dcca50b577">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VinUvpEn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VinUvpEn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__data__structures.html#ga7edc12e66b14ecd91e44913bcfed40d0">cy_cb_adc_events_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#gae2623e0d7c0d6c58365b907995249c13">cy_en_usbpd_vbus_uvp_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables VIN UVP Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">threshold</td><td>Vin UVP Threshold</td></tr>
+    <tr><td class="paramname">cb</td><td>Callback</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+    <tr><td class="paramname">mode</td><td>Vin UVP Mode</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gab125587f126d528ea553e9b8ac9a4bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab125587f126d528ea553e9b8ac9a4bb2">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VinUvpDis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VinUvpDis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables VIN UVP fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga0b82553461268677f9cce35203353c4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0b82553461268677f9cce35203353c4b">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VinOvpEn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VinOvpEn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__data__structures.html#ga7edc12e66b14ecd91e44913bcfed40d0">cy_cb_adc_events_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#ga186a7582e79dd8de856494bb61cfbf9d">cy_en_usbpd_vbus_ovp_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables VIN OVP Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">threshold</td><td>Vin OVP Threshold</td></tr>
+    <tr><td class="paramname">cb</td><td>Callback</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+    <tr><td class="paramname">mode</td><td>Vin OVP Mode</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga9c378b7596603a46ac4d707e12b2cba9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9c378b7596603a46ac4d707e12b2cba9">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_VinOvpDis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_VinOvpDis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pctrl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables VIN OVP Fault. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gaf49392d48a4b504b09bd4abaee9b5423"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf49392d48a4b504b09bd4abaee9b5423">&#9670;&nbsp;</a></span>Cy_USBPD_CcOvpControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_CcOvpControl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function enables/disables the CC OVP. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">flag</td><td>Flag to indicate to enable or disable the fault.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None. </dd></dl>
+
+</div>
+</div>
+<a id="ga1ef645f42648e5a6ace9b8045e6c2fac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ef645f42648e5a6ace9b8045e6c2fac">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_V5vChangeDetectHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_V5vChangeDetectHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>VCONN 5V supply change interrupt handler function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga63fd7f3c9e114fcef8fb836f9a9a717f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga63fd7f3c9e114fcef8fb836f9a9a717f">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_Ctrl_FbGetIdacStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t Cy_USBPD_Vbus_Ctrl_FbGetIdacStep </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>new_volt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>cur_volt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the signed iDAC step change required to reach the new voltage specified from the current voltage specified. </p>
+<p>It does not rely on the actual voltage global variables but the parameters to the function. The calculation is done without any voltage accuracy improvement algorithm and is used by the control algorithms to reach the required voltage.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_volt</td><td>New voltage to reach</td></tr>
+    <tr><td class="paramname">cur_volt</td><td>Current voltage</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int16_t Returns required signed iDAC step change. </dd></dl>
+
+</div>
+</div>
+<a id="ga5d5fa4e816ade0eb937ebee18e207223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d5fa4e816ade0eb937ebee18e207223">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_GetTrimIdac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t Cy_USBPD_Vbus_GetTrimIdac </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>volt_mv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the iDAC value to be used for attaining the voltage. </p>
+<p>It calculates the value based on the TRIM setting loaded in SFLASH and is applicable only for opto-isolator based designs.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">volt_mv</td><td>Voltage in millivolts</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int16_t Returns the iDAC value. </dd></dl>
 
 </div>
 </div>

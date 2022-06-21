@@ -340,6 +340,7 @@ typedef struct {
 } PDSS_REGS_T, *PPDSS_REGS_T;
 
 #define PDSS        ((PPDSS_REGS_T) PDSS_BASE_ADDR)
+#define PDSS0        PDSS
 
 
 #define PDSS_TRIMS_BASE_ADDR                             (0x400aff00UL)
@@ -397,6 +398,7 @@ typedef struct {
 } PDSS_TRIMS_REGS_T, *PPDSS_TRIMS_REGS_T;
 
 #define PDSS_TRIMS        ((PPDSS_TRIMS_REGS_T) PDSS_TRIMS_BASE_ADDR)
+#define PDSS_TRIMS0        PDSS_TRIMS
 
 
 #define ROMTABLE_BASE_ADDR                               (0xf0000000UL)
@@ -14644,15 +14646,17 @@ typedef struct {
  * NOTE: If BBCTRL_FILT_CTRL.BB_PWMCOMP_EARLY_DET_ASYNC is set, then the
  * value programmed has to be 1 more than the required value.
  */
-#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_HS1_FIXED_DUTY_CYCLE_BBBOOST_MASK    (0x000001ffUL) /* <0:8> R:RW:48: */
-#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_HS1_FIXED_DUTY_CYCLE_BBBOOST_POS    (0UL)
+/* Changing name of the macros to resolve coverity issues : MISRA C-2012 Rule 5.4  */
+#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_HS1_FIXD_DUTY_CYCLE_BBOOST_MASK    (0x000001ffUL) /* <0:8> R:RW:48: */
+#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_HS1_FIXD_DUTY_CYCLE_BBOOST_POS    (0UL)
 
 
 /*
  * LS2 Fixed duty cycle in BB-Buck mode in 24/48 MHz cycles
  */
-#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_LS2_FIXED_DUTY_CYCLE_BBBUCK_MASK    (0x0001fc00UL) /* <10:16> R:RW:12: */
-#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_LS2_FIXED_DUTY_CYCLE_BBBUCK_POS    (10UL)
+ /* Changing name of the macros to resolve coverity issues : MISRA C-2012 Rule 5.4  */
+#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_LS2_FIXD_DUTY_CYCLE_BBUCK_MASK    (0x0001fc00UL) /* <10:16> R:RW:12: */
+#define PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_LS2_FIXD_DUTY_CYCLE_BBUCK_POS    (10UL)
 
 
 /*

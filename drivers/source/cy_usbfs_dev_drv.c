@@ -1111,7 +1111,7 @@ void Cy_USBFS_Dev_Drv_Ep0Read(USBFS_Type *base, uint8_t *buffer, uint32_t size,
 
         /* Stores the Endpoint 0 buffer to put read operation results */
         context->ep0Buffer     = buffer;
-        context->ep0BufferSize = (uint8_t) size; /* The Endpoint 0 max packet is 8 bytes */
+        context->ep0BufferSize = (uint8_t) (size > 64U ? 64U: size); /* The Endpoint 0 max packet is 64 bytes */
 
         /* Updates the CNT and CR registers to continue the OUT transfer */
         Cy_USBFS_Dev_Drv_SetEp0Count (base, 0U, 0U);

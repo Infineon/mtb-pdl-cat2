@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_spi.h
-* \version 4.0
+* \version 4.10
 *
 * Provides SPI API declarations of the SCB driver.
 *

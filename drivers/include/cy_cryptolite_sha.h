@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_sha.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides common constants and parameters for the Cryptolite driver.

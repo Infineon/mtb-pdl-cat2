@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -238,6 +238,18 @@
 #define BC_CMP_0_IDX                    (0u)    /**< Battery charger comparator #1. */
 #define BC_CMP_1_IDX                    (1u)    /**< Battery charger comparator #2. */
 
+#define  BC_PORT_0_IDX                      (0u)
+/**< BC PORT 0 INDEX. */
+
+#define  BC_PORT_1_IDX                      (1u)
+/**< BC PORT 1 INDEX. */
+
+#define CY_FLIPPED_DP_DM                    (0u)
+/**< Flipped DP and DM Enable. */
+
+#define CY_TYPE_A_PORT_ENABLE               (0u)
+/**< Enable TYPE-A support. */
+
 #define BC_AMP_LIMIT                    (300)   /**< Maximum current across various BC modes: 3.0 A. */
 #define APPLE_AMP_1A                    (100)   /**< Current limit for Apple 1.0A brick. */
 #define APPLE_AMP_2_1A                  (210)   /**< Current limit for Apple 2.1A brick. */
@@ -279,6 +291,10 @@
 #ifndef PDSS_CTRL_AFC_ENABLED
 #define PDSS_CTRL_AFC_ENABLED           (1UL << 25UL)   /**< AFC enable bit value. */
 #endif /* PDSS_CTRL_AFC_ENABLED */
+
+#define CDP_DX_VOLTAGE_CHECK_PERIOD             (15u)    /**< Frequency of D+/D- voltage checks in CDP state machine. */
+#define CDP_VDMSRC_FAULT_CHECK_PERIOD           (2u)     /**< Frequency of D- voltage checks once a fault has been detected. */
+#define MAX_CDP_VDMSRC_FAULT_COUNT              (3u)     /**< Max. number of faulty D- voltage readings allowed. */
 
 /** \} group_usbpd_legacy_macros */
 
@@ -364,6 +380,7 @@ void Cy_USBPD_Bch_Phy_Config_Wakeup(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context);
 
+#if (!QC_AFC_CHARGING_DISABLED)
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcInit(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcStop(cy_stc_usbpd_context_t *context);
@@ -392,8 +409,6 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context);
 
-void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context);
-
 void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context);
@@ -404,6 +419,24 @@ void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_AfcReset_IntrHandler(cy_stc_usbpd_context_t *context);
 
+void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context);
+
+#endif /* (!QC_AFC_CHARGING_DISABLED) */
+
+#if (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE)
+bool Cy_USBPD_Bch_CompareVolt(cy_stc_usbpd_context_t *context, uint8_t inp, uint8_t vref);
+
+void Cy_USBPD_Bch_Dm_VoltPoll(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_BcDis(cy_stc_usbpd_context_t *context);
+
+bool Cy_USBPD_Bch_CdpSm(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Bch_CdpEn(cy_stc_usbpd_context_t *context);
+
+bool Cy_USBPD_Bch_Is_Cdp_SmBusy(cy_stc_usbpd_context_t *context);
+
+#endif /* (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
 /*******************************************************************************
 * Function Name: Cy_USBPD_Bch_Get_QcPulseCount
 ****************************************************************************//**

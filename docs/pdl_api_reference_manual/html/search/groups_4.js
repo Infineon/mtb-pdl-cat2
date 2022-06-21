@@ -39,7 +39,9 @@ var searchData=
   ['enumerated_20types',['Enumerated Types',['../group__group__trigmux__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__usbfs__dev__drv__enums.html',1,'']]],
   ['endpoint_200_20service_20functions',['Endpoint 0 Service Functions',['../group__group__usbfs__dev__hal__functions__ep0__service.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__buck__boost__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__common__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__idac__ctrl__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__legacy__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__usbpd__vbus__ctrl__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__wdc__enums.html',1,'']]]

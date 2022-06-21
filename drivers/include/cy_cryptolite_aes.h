@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_aes.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * This file provides AES API declaration of the Cryptolite driver

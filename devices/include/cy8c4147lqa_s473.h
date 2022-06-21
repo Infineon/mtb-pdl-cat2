@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -91,7 +91,7 @@ typedef enum {
 #define __NVIC_PRIO_BITS                2       /*!< Number of Bits used for Priority Levels */
 #define __Vendor_SysTickConfig          0       /*!< Set to 1 if different SysTick Config is used */
 #define __VTOR_PRESENT                  1       /*!< Set to 1 if CPU supports Vector Table Offset Register */
-#define __MPU_PRESENT                   0       /*!< MPU present or not */
+#define __MPU_PRESENT                   1       /*!< MPU present or not */
 
 /** \} Configuration_of_CMSIS */
 
@@ -176,6 +176,7 @@ typedef enum {
 #include "gpio_psoc4100sp_40_qfn_2.h"
 
 #define CY_DEVICE_PSOC4AS3
+#define CY_DEVICE_SERIES_PSOC_4100S_PLUS
 #define CY_SILICON_ID                   0x255711B5UL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 

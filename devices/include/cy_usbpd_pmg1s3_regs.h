@@ -274,7 +274,6 @@ typedef struct {
  */
 extern const PPDSS_REGS_T PDSS[];
 
-
 #define PDSS_TRIMS_BASE_ADDR                             (0x400aff00UL)
 #define PDSS_TRIMS0_BASE_ADDR                            (0x400aff00UL)
 #define PDSS_TRIMS1_BASE_ADDR                            (0x400bff00UL)
@@ -322,7 +321,6 @@ typedef struct {
  * const PPDSS_TRIMS_REGS_T PDSS_TRIMS[2] = {PDSS_TRIMS0, PDSS_TRIMS1};
  */
 extern const PPDSS_TRIMS_REGS_T PDSS_TRIMS[];
-
 
 #define ROMTABLE_BASE_ADDR                               (0xf0000000UL)
 

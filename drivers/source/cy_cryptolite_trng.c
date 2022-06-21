@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_trng.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides TRNG API implementation of the Cryptolite driver.

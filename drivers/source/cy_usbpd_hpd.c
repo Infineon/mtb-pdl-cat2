@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -303,6 +303,48 @@ void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value)
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(value);
 #endif /* defined(CY_DEVICE_CCG3) */
+}
+
+/*
+* This reads the level of HPD input from GPIO.
+*/
+#define PDSS_STATUS_HPD_STATUS (1UL << 24) /* <24:24> RW:R:0: */
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Hpd_ReceiveGetStatus
+****************************************************************************//**
+*
+* This function is used to fetch the current state of the signal if the HPD
+* receive block is turned ON.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \return
+* true if HPD input from GPIO is high
+* false if HPD input from GPIO is low
+*
+*******************************************************************************/
+bool Cy_USBPD_Hpd_ReceiveGetStatus(cy_stc_usbpd_context_t *context)
+{
+    bool ret = false;
+
+#if PMG1_HPD_RX_ENABLE
+    PPDSS_REGS_T pd = context->base;
+
+    /* If the HPD receive block is turned ON, get the current state of the signal. */
+    if (context->hpdReceiveEnable)
+    {
+        ret = ((pd->status & PDSS_STATUS_HPD_STATUS) != 0) ? true : false;
+    }
+#else
+    (void) context;
+#endif /* PMG1_HPD_RX_ENABLE */
+
+    return ret;
 }
 
 /*******************************************************************************

@@ -120,6 +120,10 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td>rowspan="2"&gt;3.0 </td><td>Fixed <a class="el" href="group__group__gpio__functions__gpio.html#gae9d812b72a9490fd1222b0a760a92777">Cy_GPIO_MscControlEnable()</a> and <a class="el" href="group__group__gpio__functions__gpio.html#gaff549083a1c901a9c204e3e60de11470">Cy_GPIO_MscControlDisable()</a> implementation. </td><td>Defect fix.  </td></tr>
+<tr>
+<td>Removed useless fields from vregEn to vohSel in the <a class="el" href="structcy__stc__gpio__pin__config__t.html">cy_stc_gpio_pin_config_t</a> and field sio in the <a class="el" href="structcy__stc__gpio__prt__config__t.html">cy_stc_gpio_prt_config_t</a>. </td><td>Memory usage optimization.  </td></tr>
+<tr>
 <td rowspan="4">2.0 </td><td>Fixed <a class="el" href="group__group__gpio__functions__init.html#gad61553f65d4e6bd827eb6464a7913461" title="Initializes all pin configuration settings for the specified pin. ">Cy_GPIO_Pin_Init()</a> to configure input buffer voltage trip and output buffer slew rate properly. </td><td>Defect fix.  </td></tr>
 <tr>
 <td>Update the paths to the code snippets. </td><td>PDL structure update.  </td></tr>

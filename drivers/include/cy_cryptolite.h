@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides an API declaration of the Cryptolite driver
@@ -137,7 +137,12 @@
 * \section group_cryptolite_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
-*      <tr>
+*   <tr>
+*     <td>1.10</td>
+*     <td>Updated the code to work with optimization enabled and VU_BITS_TO_WORDS logic updated.</td>
+*     <td>Defect fix.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>

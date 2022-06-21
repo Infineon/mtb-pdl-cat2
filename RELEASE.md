@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v1.5.0
+# mtb-pdl-cat2 peripheral driver library v2.0.0 Beta1
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,43 +6,56 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
+### New Features
+
+Support for a new device of the PSoC 4 device series:
+- PSoC 4000T
+
+Note: Non-backward compatible interface changes were made in the sysclk and gpio drivers. For details, refer to the driver's changelog.
+
+Removed startup files. Now it's a part of the BSP package.
+
+### New personalities
+
+- MSCLP
+
 ### Updated personalities
 
-- SCB (UART, I2C, SPI, EZI2C) - Corrected SCB personalities that did offer interfaces, that can not be used.
-- USBFS -  The DMA endpoint management modes for the USBFS driver, both manual/automatic, have been implemented.
-- DMAC - The DMA personality reserves Hardware Abstraction Layer (HAL) resources.
-- Pin, Port-Intrinsic - Added port-level configuration option.
+All the legacy (non-latest) personality versions are removed.
+
+- SCB 1.0 - Personality updated to do not show empty connection options.
+- Pin 2.0 - Deleted Input Buffer Mode, because this mode isn't in the current devices.
+- CSD 1.2 - The 'Enable CSDADC' disappeared because the CSDADC functionality is not supported yet.
+- ILO 2.0 - The CY_CFG_SYSCLK_ILO_ENABLED generation is removed as not needed anymore.
+- HFCLK 3.0 - The maximum output frequency check is added for devices with system clock frequency limitation.
+- PLL 2.0 - The DRC which required to upgrade the HFCLK version to latest is removed (because there are no non-latest versions).
+- PUMPCLK 2.0 - The personality became unavailable for devices which do not have any pump clock consumers.
+- SYSCLOCK 2.0 - The Cy_SysClk_IloDisable()() is called in case when the ILO resource is not enabled.
+- WCO 2.0 - The personality became unavailable for devices which do not have WCO-GPIO connections.
+- WDT 2.0 - The Cy_WDT_Enable() call is removed from the generated code to eliminate unexpected WDT reset. User should explicitly call the Cy_WDT_Enable() in the application code.
+
+Note that most personality revisions are major, so the backward incompatible changes are possible.
 
 ### Added drivers
 
-- [CryptoLite 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- [MSCLP 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__msclp.html)
 
 ### Updated drivers
 
-- [USBPD (USB Power Delivery) 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [GPIO 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__gpio.html)
 
-- [CAN FD 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
+- [SysClk (System Clock) 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
 
-- [SCB 4.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+- [SYSLIB 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
 
-- [GPIO 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__gpio.html)
+- [CryptoLite 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
 
-- [SAR 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [SCB 4.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
 
-- [SysClk (System Clock) 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
-
-- [SYSPM 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
-
-- [USBFS (USB Full-Speed Device) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+Note that most driver revisions are major, so the backward incompatible API changes are possible.
+In case of ModusToolbox usage regenerate the generated source files with Device Configurator (and other configurators if any used).
 
 ### Drivers with patch-version updates
-
-- Updated patch version for all drivers because updated the paths to the code snippets.
-
-## Known Issues
-
-* Keep the Enable CSDADC parameter of the CSD personality disabled (default state) because at the moment, the CSDADC middleware does not support PSoC™ 4 families and thus is not present in the Library manager. Enabling the parameter leads to build errors.
-* Check manually for newer versions of enabled personalities in the Device Configurator and upgrade them if needed because the personality migration mechanism does not work.
 
 ## Defect fixes
 
@@ -52,14 +65,15 @@ See the Changelog section of each driver in [PDL API reference](https://infineon
 
 This version of PDL was validated for compatibility with the following software and tools:
 
-| Software and tools                                                            | Version      |
-| :---                                                                          | :----        |
-| ModusToolbox&#8482;                                                           |  2.3.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.2.0       |
-| CMSIS-Core(M)                                                                 |  5.4.0       |
-| GCC compiler                                                                  | 10.3.1       |
-| IAR compiler                                                                  |  8.42.2      |
-| Arm&reg; compiler 6                                                           |  6.13        |
+| Software and tools                                                            | Version           |
+| :---                                                                          | :----             |
+| ModusToolbox&#8482;                                                           |  3.0.0            |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.2.0            |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.0.0.2381       |
+| CMSIS-Core(M)                                                                 |  5.4.0            |
+| GCC compiler                                                                  | 10.3.1            |
+| IAR compiler                                                                  |  8.42.2           |
+| Arm&reg; compiler 6                                                           |  6.13             |
 
 ## More information
 

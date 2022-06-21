@@ -96,6 +96,15 @@
 #define SFLASH_CSD0_ADC_VREF_TRIM1          (((SFLASH_Type *) SFLASH)->CSDV2_CSD0_ADC_TRIM1)
 #define SFLASH_CSD0_ADC_VREF_TRIM2          (((SFLASH_Type *) SFLASH)->CSDV2_CSD0_ADC_TRIM2)
 
+#if defined(CY_IP_M0S8MSCV3LP)
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM1_48_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM1_48))
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM3_48_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_48))
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM1_36_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM1_36))
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM3_36_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_36))
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM1_24_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM1_24))
+    #define SFLASH_MSCLP0_CLK_IMO_TRIM3_24_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_24))
+#endif /* CY_IP_M0S8MSCV3LP */
+
 
 /*******************************************************************************
 *                CPUSS

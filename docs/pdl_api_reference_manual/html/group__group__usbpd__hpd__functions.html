@@ -102,6 +102,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa6da907cef0c4e8c86ee03b58d102889"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd__functions.html#gaa6da907cef0c4e8c86ee03b58d102889">Cy_USBPD_Hpd_Wakeup</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool value)</td></tr>
 <tr class="memdesc:gaa6da907cef0c4e8c86ee03b58d102889"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restores the HPD Tx signal driver after device wakes up from deep-sleep.  <a href="#gaa6da907cef0c4e8c86ee03b58d102889">More...</a><br /></td></tr>
 <tr class="separator:gaa6da907cef0c4e8c86ee03b58d102889"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6355c8b61202269c5691ffd3e9162e35"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd__functions.html#ga6355c8b61202269c5691ffd3e9162e35">Cy_USBPD_Hpd_ReceiveGetStatus</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga6355c8b61202269c5691ffd3e9162e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function is used to fetch the current state of the signal if the HPD receive block is turned ON.  <a href="#ga6355c8b61202269c5691ffd3e9162e35">More...</a><br /></td></tr>
+<tr class="separator:ga6355c8b61202269c5691ffd3e9162e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72117806f8276475cc0495f126bc9f86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd__functions.html#ga72117806f8276475cc0495f126bc9f86">Cy_USBPD_Hpd_RxSleepEntry</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool hpdState)</td></tr>
 <tr class="memdesc:ga72117806f8276475cc0495f126bc9f86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares the HPD RX block for deep-sleep.  <a href="#ga72117806f8276475cc0495f126bc9f86">More...</a><br /></td></tr>
 <tr class="separator:ga72117806f8276475cc0495f126bc9f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,6 +269,33 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga6355c8b61202269c5691ffd3e9162e35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6355c8b61202269c5691ffd3e9162e35">&#9670;&nbsp;</a></span>Cy_USBPD_Hpd_ReceiveGetStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Cy_USBPD_Hpd_ReceiveGetStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function is used to fetch the current state of the signal if the HPD receive block is turned ON. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if HPD input from GPIO is high false if HPD input from GPIO is low </dd></dl>
 
 </div>
 </div>

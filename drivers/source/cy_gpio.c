@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_gpio.c
-* \version 2.0
+* \version 3.0
 *
 * Provides an API implementation of the GPIO driver
 *
@@ -81,9 +81,6 @@ cy_en_gpio_status_t Cy_GPIO_Pin_Init(GPIO_PRT_Type *base, uint32_t pinNum, const
         CY_ASSERT_L2(CY_GPIO_IS_INT_EDGE_VALID(config->intEdge));
         CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(config->vtrip));
         CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(config->slewRate));
-        CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(config->vregEn));
-        CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(config->ibufMode));
-        CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(config->vtripSel));
 
         Cy_GPIO_Write(base, pinNum, config->outVal);
         Cy_GPIO_SetDrivemode(base, pinNum, config->driveMode);

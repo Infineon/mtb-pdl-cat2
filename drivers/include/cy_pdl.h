@@ -41,6 +41,7 @@
 #include "cy_i2s.h"
 #include "cy_lpcomp.h"
 #include "cy_msc.h"
+#include "cy_msclp.h"
 #include "cy_sar.h"
 #include "cy_scb_ezi2c.h"
 #include "cy_scb_i2c.h"
@@ -66,5 +67,6 @@
 #include "cy_usbpd_vbus_ctrl.h"
 #include "cy_wdc.h"
 #include "cy_wdt.h"
+#include "cy_usbpd_idac_ctrl.h"
 
 #endif /* CY_PDL_H */

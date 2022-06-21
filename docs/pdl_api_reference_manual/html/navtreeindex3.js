@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"group__group__gpio__enums.html#gae2449cca47330934a26281d8f3cba110":[2,7,3,3],
+"group__group__gpio__enums.html#gaf794ce2cae36756be0cccfcd2c6ab077":[2,7,3,2],
 "group__group__gpio__enums.html#gga0ba12c6f18fa9e356ceea0218beb7259aae4105d35a3e7596ab55977a283b474b":[2,7,3,1,1],
 "group__group__gpio__enums.html#gga0ba12c6f18fa9e356ceea0218beb7259ac12fe3dac92e654617ce1a0cda34c0b0":[2,7,3,1,0],
 "group__group__gpio__enums.html#ggae2449cca47330934a26281d8f3cba110a247e7e587ee20b9d878ea0deb58d8b71":[2,7,3,3,0],
@@ -21,16 +23,16 @@ var NAVTREEINDEX3 =
 "group__group__gpio__functions__gpio.html#ga52c69476c1755f4d60b491862f10f68c":[2,7,1,1,1],
 "group__group__gpio__functions__gpio.html#ga59bcde56c9057284dfa4eada6f852241":[2,7,1,1,9],
 "group__group__gpio__functions__gpio.html#ga5c6e1b88d80a5b9fcdb215273e7cf058":[2,7,1,1,7],
-"group__group__gpio__functions__gpio.html#ga5f5f1eb49752a3ded639e68757e3dbe2":[2,7,1,1,15],
 "group__group__gpio__functions__gpio.html#ga849c813d6771bf8d3c59b89b28a07bca":[2,7,1,1,3],
 "group__group__gpio__functions__gpio.html#ga8d7972a161fe097a01a55f9cd31b1f03":[2,7,1,1,0],
 "group__group__gpio__functions__gpio.html#ga97e64dc8c45e7cd73e3012100d03b1fd":[2,7,1,1,8],
 "group__group__gpio__functions__gpio.html#ga9f02e2358613a412cb4e44a6c9c092e5":[2,7,1,1,16],
 "group__group__gpio__functions__gpio.html#gab36ba6901fc0b12355a0f8f9b2f3708e":[2,7,1,1,4],
 "group__group__gpio__functions__gpio.html#gacd73037c676059312d4dc794a32aec13":[2,7,1,1,6],
-"group__group__gpio__functions__gpio.html#gad7492265bfbdc0c5a27600856efa06af":[2,7,1,1,14],
 "group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645":[2,7,1,1,11],
 "group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c":[2,7,1,1,12],
+"group__group__gpio__functions__gpio.html#gae9d812b72a9490fd1222b0a760a92777":[2,7,1,1,14],
+"group__group__gpio__functions__gpio.html#gaff549083a1c901a9c204e3e60de11470":[2,7,1,1,15],
 "group__group__gpio__functions__init.html":[2,7,1,0],
 "group__group__gpio__functions__init.html#ga968337147a5819a52b37dc7dd218107b":[2,7,1,0,5],
 "group__group__gpio__functions__init.html#gab0eeafea970eadb4e147ff6d0e3804dc":[2,7,1,0,6],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "group__group__msc__reg__const.html#ga32946ef30dfd4feca24db923a248329a":[2,10,0,0,29],
 "group__group__msc__reg__const.html#ga37b840758f607766b9c89b478c4df79c":[2,10,0,0,61],
 "group__group__msc__reg__const.html#ga394d34339cc968ca81ef9eb348011eb5":[2,10,0,0,15],
-"group__group__msc__reg__const.html#ga4634adeb695d95b89bd2eebc4d7147ac":[2,10,0,0,51],
-"group__group__msc__reg__const.html#ga492e618e1d941538a79b557948b6232a":[2,10,0,0,112],
-"group__group__msc__reg__const.html#ga4cea590784bc27f6c6a11fb0397ffca2":[2,10,0,0,1]
+"group__group__msc__reg__const.html#ga4634adeb695d95b89bd2eebc4d7147ac":[2,10,0,0,51]
 };

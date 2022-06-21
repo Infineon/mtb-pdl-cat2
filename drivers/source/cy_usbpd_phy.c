@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -34,6 +34,9 @@
 #include "cy_usbpd_phy.h"
 #include "cy_usbpd_bch.h"
 #include "cy_usbpd_hpd.h"
+#if PDL_VBTR_ENABLE
+#include "cy_usbpd_idac_ctrl.h"
+#endif /* PDL_VBTR_ENABLE */
 
 /* Select types of PD control messages for which GoodCRC response should be sent. All except
      GoodCRC are enabled. */
@@ -806,9 +809,9 @@ void Cy_USBPD_Phy_EnRx(cy_stc_usbpd_context_t *context)
 
     pd->intr0_mask |= RX_INTERRUPTS;
 
-#if PD_CRC_ERR_HANDLING_ENABLE
+#if CY_PD_CRC_ERR_HANDLING_ENABLE
     pd->intr0_mask |= PDSS_INTR0_RCV_BAD_PACKET_COMPLETE;
-#endif /* PD_CRC_ERR_HANDLING_ENABLE */    
+#endif /* CY_PD_CRC_ERR_HANDLING_ENABLE */
 }
 
 
@@ -1196,6 +1199,12 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
     uint32_t rval;
     uint32_t i = 0;
+    bool phy_busy_flag;
+
+#if VBTR_MULTI_SLOPE_ENABLE
+    pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context->port);
+    uint32_t hfclk_mhz = (Cy_SysClk_ClkHfGetFrequency() / 1000000);
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
 
     CY_UNUSED_PARAMETER(i);
 
@@ -1302,8 +1311,8 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
                      * upper layer. Also do not create a packet received event
                      * just now.
                      */
-                    context->rxPkt.sop = (uint8_t)(((pd->status & PDSS_STATUS_SOP_TYPE_DETECTED_MASK) >>
-                                PDSS_STATUS_SOP_TYPE_DETECTED_POS) - 1U);
+                    context->rxPkt.sop = (cy_en_pd_sop_t)((uint8_t)(((pd->status & PDSS_STATUS_SOP_TYPE_DETECTED_MASK) >>
+                                PDSS_STATUS_SOP_TYPE_DETECTED_POS) - 1U));
 
                     /* Copy out the header from the PD hardware. */
                     context->rxPkt.hdr.val = pd->rx_header;
@@ -1321,7 +1330,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
                     /* Copy the data from the hardware buffer to the software buffer. */
                     context->rxPkt.len = (uint8_t)(context->rxPkt.hdr.hdr.len);
                     context->rxPkt.msg = (uint8_t)(context->rxPkt.hdr.hdr.msgType);
-                    context->rxPkt.dataRole = (uint8_t)(context->rxPkt.hdr.hdr.dataRole);
+                    context->rxPkt.dataRole = (cy_en_pd_port_role_t)(context->rxPkt.hdr.hdr.dataRole);
 
 #if CY_PD_REV3_ENABLE
                     if(context->rxUnchunked == false)
@@ -1380,7 +1389,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_TX_MSG_PHY_IDLE);
         }
  
-#if PD_CRC_ERR_HANDLING_ENABLE        
+#if CY_PD_CRC_ERR_HANDLING_ENABLE        
         if ((pd->intr0_masked & PDSS_INTR0_RCV_BAD_PACKET_COMPLETE) != 0u)
         {
             /* Create a bad packet received event. */
@@ -1388,7 +1397,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             /* Clear the interrupt. */
             pd->intr0 = PDSS_INTR0_RCV_BAD_PACKET_COMPLETE;
         }
-#endif /* PD_CRC_ERR_HANDLING_ENABLE */
+#endif /* CY_PD_CRC_ERR_HANDLING_ENABLE */
 
         /*
          * Tx interrupt handling.
@@ -1410,7 +1419,10 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
         {
             context->txDone = 0;
 
-            if (context->retryCnt < 0)
+            phy_busy_flag = Cy_USBPD_Phy_IsBusy(context);
+            if ((context->retryCnt < 0) ||
+                    ((phy_busy_flag == false) && ((pd->tx_ctrl & PDSS_TX_CTRL_TX_RETRY_ENABLE) == 0u)))
+
             {
                 /* Transmission failed. */
                 pd->intr0_mask &= ~TX_INTERRUPTS;
@@ -1444,13 +1456,26 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 
         if ((pd->intr0_masked & PDSS_INTR0_TX_RETRY_ENABLE_CLRD) != 0u)
         {
-            Cy_SysLib_DelayUs(5);
-            /* Enable retry. */
-            pd->tx_ctrl |= PDSS_TX_CTRL_TX_RETRY_ENABLE;
+            if (Cy_USBPD_Phy_IsBusy(context) == false)
+            {
+                /*
+                 * In cases where there is a delayed response to PD CRC timer expiry interrupt, force the
+                 * firmware to move to TX message fail state (PD_PHY_EVT_TX_MSG_FAILED) to restart PD state machine.
+                 */
+                context->retryCnt = -1;
+                pd->intr0_set |= PDSS_INTR0_CRC_RX_TIMER_EXP;
 
-            /* Disable interrupts. */
-            pd->intr0_mask &= ~PDSS_INTR0_TX_RETRY_ENABLE_CLRD;
-            pd->intr0 = PDSS_INTR0_TX_RETRY_ENABLE_CLRD;
+            }
+            else
+            {
+                Cy_SysLib_DelayUs(5);
+                /* Enable retry. */
+                pd->tx_ctrl |= PDSS_TX_CTRL_TX_RETRY_ENABLE;
+
+                /* Disable interrupts. */
+                pd->intr0_mask &= ~PDSS_INTR0_TX_RETRY_ENABLE_CLRD;
+                pd->intr0 = PDSS_INTR0_TX_RETRY_ENABLE_CLRD;
+            }
         }
 
         if ((pd->intr0_masked & (PDSS_INTR0_COLLISION_TYPE1 | PDSS_INTR0_COLLISION_TYPE2)) != 0u)
@@ -1579,7 +1604,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* (!(CY_PD_SOURCE_ONLY)) */
     }
     
-#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA)) && (!QC_AFC_CHARGING_DISABLED))
+#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) && (!QC_AFC_CHARGING_DISABLED))
     if(pd->intr4_masked != 0u)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
@@ -1589,7 +1614,144 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
     }
-#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA)) && (!QC_AFC_CHARGING_DISABLED)) */
+#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) && (!QC_AFC_CHARGING_DISABLED)) */
+#if PDL_VBTR_ENABLE
+    if ((pd->intr8_masked & (PDSS_INTR8_VBTR_OPR_DONE)) != 0u)
+    {
+        /* Load latest VBTR source and sink IDAC values to EA control */
+        uint32_t src_dac_u32;
+        uint32_t snk_dac_u32;
+        int16_t src_dac = 0;
+        int16_t snk_dac = 0;
+
+        if ((pd->vbtr_cfg & PDSS_VBTR_CFG_SRC_EN) != 0u)
+        {
+            src_dac_u32 = ((pd->vbtr_src_snk_opr_value & PDSS_VBTR_SRC_SNK_OPR_VALUE_SRC_DAC_MASK) >>
+                    PDSS_VBTR_SRC_SNK_OPR_VALUE_SRC_DAC_POS);
+            src_dac = (int16_t)src_dac_u32;
+#if VBTR_MULTI_SLOPE_ENABLE
+            context->vbtrSrcPending = false;
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
+        }
+        if ((pd->vbtr_cfg & PDSS_VBTR_CFG_SNK_EN) != 0u)
+        {
+            snk_dac_u32 = ((pd->vbtr_src_snk_opr_value & PDSS_VBTR_SRC_SNK_OPR_VALUE_SNK_DAC_MASK) >>
+                    PDSS_VBTR_SRC_SNK_OPR_VALUE_SNK_DAC_POS);
+            snk_dac = (int16_t)snk_dac_u32;
+#if VBTR_MULTI_SLOPE_ENABLE
+            context->vbtrSnkPending = false;
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
+        }
+
+        /*
+         * Load the DAC register with the final data. We have to copy the data from
+         * the VBTR shadow register to main register. Also, by calling the set function,
+         * the TRIM will be loaded according to the DAC used.
+         */
+        Cy_USBPD_Hal_Set_Fb_Dac(context, (snk_dac - src_dac));
+
+        /*
+         * It is must to load the ea_ctrl with latest VBTR source
+         * and sink values and then clear the interrupt flags.
+         * This sequence is a must because once the interrupt is cleared, DAC
+         * control signal to EA will be driven and EA gets triggered for the
+         * old IDAC values.
+         */
+        pd->intr8 = (PDSS_INTR8_VBTR_OPR_DONE | PDSS_INTR8_VBTR_EXIT_DONE);
+
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)
+#if BB_VBTR_IBTR_FCCM_DIS
+        /* Re-enable FCCM once VBTR/IBTR is done */
+        Cy_USBPD_BB_SetMode(port, BB_MODE_FCCM);
+#endif /* BB_VBTR_IBTR_FCCM_DIS */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
+
+#if VBTR_MULTI_SLOPE_ENABLE
+        /*
+         * If it is a multi slope VBTR transition across SRC and SINK,
+         * then initiate the pending SRC or SINK transition with a different
+         * step size or slope value.
+         */
+        if ((context->vbtrSrcPending == true) || (context->vbtrSnkPending == true))
+        {
+            if(context->vbtrSnkPending == true)
+            {
+                pd->vbtr_cfg &= ~PDSS_VBTR_CFG_SRC_EN;
+                pd->vbtr_cfg |= PDSS_VBTR_CFG_SNK_EN;
+                Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_16_BIT, 0U, (hfclk_mhz * (pwr_cfg->vbtr_up_step_width)));
+            }
+            else
+            {
+                pd->vbtr_cfg &= ~PDSS_VBTR_CFG_SNK_EN;
+                pd->vbtr_cfg |= PDSS_VBTR_CFG_SRC_EN;
+                Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_16_BIT, 0U, (hfclk_mhz * (pwr_cfg->vbtr_down_step_width_below_5V)));
+            }
+
+            /* Clear and enable VBTR interrupt */
+            pd->intr8 = (PDSS_INTR8_VBTR_OPR_DONE | PDSS_INTR8_VBTR_EXIT_DONE);
+            pd->intr8_mask |= (PDSS_INTR8_VBTR_OPR_DONE);
+
+            /* Start idac operation */
+            pd->vbtr_ctrl |= PDSS_VBTR_CTRL_START;
+        }
+        else
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
+        {
+            /* Reset VBTR configuration */
+            pd->vbtr_cfg = 0;
+
+            /* Invoke callback. */
+            context->vbtrIdle = true;
+            if (context->vbtrCbk != NULL)
+            {
+                context->vbtrCbk (context, true);
+            }
+        }
+    }
+#endif /* PDL_VBTR_ENABLE */
+
+#if PDL_IBTR_ENABLE
+    if(pd->intr8_masked & (PDSS_INTR8_IBTR_OPR_DONE))
+    {
+        uint16_t ibtr_dac = 0;
+
+        if (pd->intr8 & (PDSS_INTR8_IBTR_OPR_DONE | PDSS_INTR8_IBTR_EXIT_DONE))
+        {
+            /* Load latest IBTR DAC values to EA comparator refgen */
+            if (pd->ibtr_cfg & PDSS_IBTR_CFG_IBTR_EN)
+            {
+                ibtr_dac = ((pd->ibtr_opr_value & PDSS_IBTR_OPR_VALUE_IBTR_DAC_MASK) >>
+                        PDSS_IBTR_OPR_VALUE_IBTR_DAC_POS);
+                CY_USBPD_REG_FIELD_UPDATE(pd->refgen_3_ctrl, PDSS_REFGEN_3_CTRL_SEL10, ibtr_dac);
+            }
+        }
+
+        /*
+         * It is must to load the refgen with latest IBTR value and
+         * then clear the interrupt flags.
+         * This sequence is a must because once the interrupt is cleared, refgen
+         * control signal EA will be driven and EA gets triggered for the
+         * old refgen values.
+         */
+        pd->ibtr_cfg = 0;
+        pd->intr8 = (PDSS_INTR8_IBTR_OPR_DONE | PDSS_INTR8_IBTR_EXIT_DONE);
+
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)
+#if BB_VBTR_IBTR_FCCM_DIS
+        /* Re-enable FCCM once VBTR/IBTR is done */
+        Cy_USBPD_BB_SetMode(port, BB_MODE_FCCM);
+#endif /* BB_VBTR_IBTR_FCCM_DIS */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
+
+        /* Invoke callback. */
+        context->ibtrIdle = true;
+
+        if (context->ibtrCbk != NULL)
+        {
+            context->ibtrCbk (context, true);
+        }
+    }
+#endif /* PDL_IBTR_ENABLE */
 }
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

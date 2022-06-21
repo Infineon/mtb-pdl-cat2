@@ -1,6 +1,7 @@
 var searchData=
 [
   ['char_5ft',['char_t',['../group__group__syslib__macros.html#ga40bb5262bf908c328fbcfbe5d29d0201',1,'cy_syslib.h']]],
+  ['cy_5fcable_5fcomp_5fvbus_5fcur_5fcbk',['cy_cable_comp_vbus_cur_cbk',['../group__group__usbpd__common__data__structures.html#gacf5bc005dcdda02862517ef412a25c9e',1,'cy_usbpd_common.h']]],
   ['cy_5fcanfd_5ferror_5ffunc_5fptr_5ft',['cy_canfd_error_func_ptr_t',['../group__group__canfd__data__structures.html#gae198512e1fb6df10b86da3a393b536ec',1,'cy_canfd.h']]],
   ['cy_5fcanfd_5frx_5fmsg_5ffunc_5fptr_5ft',['cy_canfd_rx_msg_func_ptr_t',['../group__group__canfd__data__structures.html#ga3fdd841e17fd4e706f5f217ca80a691a',1,'cy_canfd.h']]],
   ['cy_5fcanfd_5ftx_5fmsg_5ffunc_5fptr_5ft',['cy_canfd_tx_msg_func_ptr_t',['../group__group__canfd__data__structures.html#ga7300609d8a0291692ae148456fee951c',1,'cy_canfd.h']]],
@@ -24,7 +25,14 @@ var searchData=
   ['cy_5fcb_5fusbpd_5fvbus_5fload_5fchg_5ft',['cy_cb_usbpd_vbus_load_chg_t',['../group__group__usbpd__common__data__structures.html#gad0bed33779f8bd033d56a7994afca81f',1,'cy_usbpd_common.h']]],
   ['cy_5fcb_5fvbus_5ffault_5ft',['cy_cb_vbus_fault_t',['../group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e',1,'cy_usbpd_common.h']]],
   ['cy_5ffn_5fusbfs_5fdev_5fdrv_5fmemcpy_5fptr_5ft',['cy_fn_usbfs_dev_drv_memcpy_ptr_t',['../group__group__usbfs__dev__drv__data__structures.html#gaece00619a6241ca4ed9b05bd937269c1',1,'cy_usbfs_dev_drv.h']]],
+  ['cy_5fpd_5fcmp_5fcbk_5ft',['cy_pd_cmp_cbk_t',['../group__group__usbpd__common__data__structures.html#ga0983608a262274879abd9c6a85ec161a',1,'cy_usbpd_common.h']]],
+  ['cy_5fslow_5fdischarge_5ft',['cy_slow_discharge_t',['../group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c',1,'cy_usbpd_common.h']]],
+  ['cy_5ftimer_5fcbk_5ft',['cy_timer_cbk_t',['../group__group__usbpd__common__data__structures.html#ga0602fd17082834541c195042a928626d',1,'cy_usbpd_common.h']]],
+  ['cy_5ftimer_5fis_5frunning_5ft',['cy_timer_is_running_t',['../group__group__usbpd__common__data__structures.html#gab41e913c356507c5cf554fac83bbc68e',1,'cy_usbpd_common.h']]],
+  ['cy_5ftimer_5fstart_5ft',['cy_timer_start_t',['../group__group__usbpd__common__data__structures.html#ga1b8b9984e7a22ba18a909b3e19dbbf9e',1,'cy_usbpd_common.h']]],
+  ['cy_5ftimer_5fstop_5ft',['cy_timer_stop_t',['../group__group__usbpd__common__data__structures.html#ga81f4fc39bdfcd53ab9d746d58ae10d36',1,'cy_usbpd_common.h']]],
   ['cy_5fusbpd_5fevt_5fcbk_5ft',['cy_usbpd_evt_cbk_t',['../group__group__usbpd__common__data__structures.html#gad99623cda55411b6527f976f497f0fd9',1,'cy_usbpd_common.h']]],
   ['cy_5fusbpd_5fsupply_5fchange_5fcbk_5ft',['cy_usbpd_supply_change_cbk_t',['../group__group__usbpd__common__data__structures.html#ga6d672e8bc81f6286f1340d181798d413',1,'cy_usbpd_common.h']]],
-  ['cy_5fusbpd_5ftypec_5fevt_5fcbk_5ft',['cy_usbpd_typec_evt_cbk_t',['../group__group__usbpd__common__data__structures.html#gae58b0ccfcfcf1d53adf0d3abd157ef46',1,'cy_usbpd_common.h']]]
+  ['cy_5fusbpd_5ftypec_5fevt_5fcbk_5ft',['cy_usbpd_typec_evt_cbk_t',['../group__group__usbpd__common__data__structures.html#gae58b0ccfcfcf1d53adf0d3abd157ef46',1,'cy_usbpd_common.h']]],
+  ['cy_5fvbus_5fcf_5fcbk_5ft',['cy_vbus_cf_cbk_t',['../group__group__usbpd__common__data__structures.html#gaf91f2bc9107fe79dea47e1f24f5cc246',1,'cy_usbpd_common.h']]]
 ];

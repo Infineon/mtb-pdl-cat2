@@ -1340,7 +1340,7 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
     endpointData->DmaEpBurstCount = (uint8_t) (size / USBFS_DMA_BYTES_PER_BURST);
    
     /* Get number of elements in the last burst. */
-    endpointData->DmaEpLastBurst = (uint8) (size % USBFS_DMA_BYTES_PER_BURST);
+    endpointData->DmaEpLastBurst = (uint8_t) (size % USBFS_DMA_BYTES_PER_BURST);
 
     /* Get total number of bursts. */
     endpointData->DmaEpBurstCount += (0U !=  endpointData->DmaEpLastBurst) ? 1U : 0U;

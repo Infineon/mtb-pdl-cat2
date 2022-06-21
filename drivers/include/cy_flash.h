@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_flash.h
-* \version 1.0
+* \version 1.0.1
 *
 * Provides the API declarations of the Flash driver.
 *
@@ -84,6 +84,11 @@
 *
 * <table class="doxtable">
 *   <tr><th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.1</td>
+*     <td>Removed unused library.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
