@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io.c
-* \version 1.10
+* \version 2.0
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -275,8 +275,8 @@ void RestoreEndpointHwBuffer(USBFS_Type *base,
     Cy_USBFS_Dev_Drv_SetArbWriteAddr(base, endpoint, (uint32_t) endpointData->startBuf);
     Cy_USBFS_Dev_Drv_SetArbReadAddr (base, endpoint, (uint32_t) endpointData->startBuf);
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
 
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
     bool inDirection  = IS_EP_DIR_IN(endpointData->address);
 
     /* Enables the endpoint Arbiter interrupt sources */
@@ -294,7 +294,7 @@ void RestoreEndpointHwBuffer(USBFS_Type *base,
          Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
     }
     else
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
     {
         /* Enables the error interrupt triggered by SIE */
@@ -391,8 +391,7 @@ cy_en_usbfs_dev_drv_status_t AddEndpointHwBuffer(USBFS_Type *base,
             Cy_USBFS_Dev_Drv_FlushInBuffer(base, endpoint);
         }
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
-
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
         /* Enables the endpoint arbiter interrupt sources */
         if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA == context->mode)
         {
@@ -412,7 +411,7 @@ cy_en_usbfs_dev_drv_status_t AddEndpointHwBuffer(USBFS_Type *base,
             Cy_USBFS_Dev_Drv_EnableArbEpInterrupt(base, endpoint);
         }
         else
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
         {
             /* Enables the error interrupt triggered by SIE */
@@ -880,7 +879,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Abort(USBFS_Type *base,
             }
             break;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
             case CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO:
             {
                 /* IN endpoint: Flushes the buffer to discard the loaded data.
@@ -889,7 +888,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Abort(USBFS_Type *base,
                 retStatus = DynamicEndpointReConfiguration(base, inDirection, endpoint);
             }
             break;
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
             default:
             {
                 retStatus = CY_USBFS_DEV_DRV_BAD_PARAM;     

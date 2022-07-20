@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_spi.c
-* \version 4.0
+* \version 4.10
 *
 * Provides SPI API implementation of the SCB driver.
 *
@@ -152,8 +152,8 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Init(CySCB_Type *base, cy_stc_scb_spi_config_t
         /* Set up interrupt sources */
         SCB_INTR_RX_MASK(base) = (config->rxFifoIntEnableMask & CY_SCB_SPI_RX_INTR_MASK);
         SCB_INTR_TX_MASK(base) = (config->txFifoIntEnableMask & CY_SCB_SPI_TX_INTR_MASK);
-        SCB_INTR_M(base)       = (config->masterSlaveIntEnableMask & CY_SCB_SPI_MASTER_DONE);
-        SCB_INTR_S(base)       = (config->masterSlaveIntEnableMask & CY_SCB_SPI_SLAVE_ERR);
+        SCB_INTR_M_MASK(base)  = (config->masterSlaveIntEnableMask & CY_SCB_SPI_MASTER_DONE);
+        SCB_INTR_S_MASK(base)  = (config->masterSlaveIntEnableMask & CY_SCB_SPI_SLAVE_ERR);
         SCB_INTR_SPI_EC_MASK(base) = 0UL;
 
         /* Initialize the context */

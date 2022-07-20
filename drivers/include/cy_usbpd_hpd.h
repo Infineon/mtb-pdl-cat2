@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 1.30
+* \version 2.00
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -129,7 +129,7 @@
 #define HPD_P1_PIN                              (6U)
 #define HPD_HSIOM_SETTING                       (13U)
 
-#elif (defined(CY_DEVICE_CCG7S))
+#elif (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
 #define HPD_P0_PORT_PIN                         (0x03U)    /* GPIO_PORT_0_PIN_3 */
 #define HPD_P1_PORT_PIN                         (0x03U)    /* GPIO_PORT_0_PIN_3 */
 #define HPD_P0_PORT                             (0U)
@@ -188,6 +188,8 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_TransmitInit(cy_stc_usbpd_context_t *context,
 void Cy_USBPD_Hpd_SleepEntry(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value);
+
+bool Cy_USBPD_Hpd_ReceiveGetStatus(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Hpd_RxSleepEntry(cy_stc_usbpd_context_t *context, bool hpdState);
 

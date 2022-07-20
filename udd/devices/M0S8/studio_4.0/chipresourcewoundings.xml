@@ -13,6 +13,8 @@
     <Block name="csd.capsense"/>
     <Block name="msc.msc"/>
     <Block name="msc.msc_superblock"/>
+    <Block name="msclp.msclp"/>
+    <Block name="msclp.msclp_superblock"/>
   </BooleanWounding>
   <BooleanWounding name="DIRDRIVELCD">
     <Block name="lcd"/>

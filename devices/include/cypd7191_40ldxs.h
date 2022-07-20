@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -146,6 +146,7 @@ typedef enum {
 #include "gpio_ccg7s_40_qfn.h"
 
 #define CY_DEVICE_CCG7S
+#define CY_DEVICE_SERIES_CCG7S
 #define CY_SILICON_ID                   0x3A0011CAUL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 

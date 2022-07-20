@@ -4,6 +4,7 @@ var group__group__usbpd__hpd__functions =
     [ "Cy_USBPD_Hpd_TransmitInit", "group__group__usbpd__hpd__functions.html#gacb111432858d066b7a75f7f217fee209", null ],
     [ "Cy_USBPD_Hpd_SleepEntry", "group__group__usbpd__hpd__functions.html#ga90579f1712b7542decfcc449e3aee075", null ],
     [ "Cy_USBPD_Hpd_Wakeup", "group__group__usbpd__hpd__functions.html#gaa6da907cef0c4e8c86ee03b58d102889", null ],
+    [ "Cy_USBPD_Hpd_ReceiveGetStatus", "group__group__usbpd__hpd__functions.html#ga6355c8b61202269c5691ffd3e9162e35", null ],
     [ "Cy_USBPD_Hpd_RxSleepEntry", "group__group__usbpd__hpd__functions.html#ga72117806f8276475cc0495f126bc9f86", null ],
     [ "Cy_USBPD_Hpd_RxWakeup", "group__group__usbpd__hpd__functions.html#gabac8e65a8e9a8018c79c6badb08cd501", null ],
     [ "Cy_USBPD_Hpd_Deinit", "group__group__usbpd__hpd__functions.html#ga5559337f69d031fbd42bd093032da4a6", null ],

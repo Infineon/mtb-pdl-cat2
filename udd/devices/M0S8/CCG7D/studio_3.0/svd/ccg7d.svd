@@ -5426,7 +5426,7 @@ PWM, PWM_DT, PWM_PR modes:
                 <name>AUTO_RELOAD_PERIOD</name>
                 <description>Specifies switching of the PERIOD and buffered PERIOD values. This field has a function in PWM, PWM_DT and PWM_PR modes.
 '0': never switch.
-'1': switch on a terminal count event with and actively pending siwtch event.</description>
+'1': switch on a terminal count event with an actively pending siwtch event.</description>
                 <bitRange>[1:1]</bitRange>
                 <access>read-write</access>
               </field>
@@ -6486,7 +6486,7 @@ When changing the source of a specific interrupt, it is advised to temporarily d
             <field>
               <name>PREF_EN</name>
               <description>Prefetch enable:
-'0': disabled. This is a desirable seeting when FLASH_WS is '0' or when predictable execution behavior is required.
+'0': disabled. This is a desirable setting when FLASH_WS is '0' or when predictable execution time is required.
 '1': enabled.</description>
               <bitRange>[4:4]</bitRange>
               <access>read-write</access>

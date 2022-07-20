@@ -96,6 +96,33 @@ Macros</h2></td></tr>
 <tr class="memitem:gaae07f65282092e3b3ea5580c4ec36352"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaae07f65282092e3b3ea5580c4ec36352">CY_USBPD_GET_MIN</a>(a,  b)&#160;&#160;&#160;(((a) &gt; (b)) ? (b) : (a))</td></tr>
 <tr class="memdesc:gaae07f65282092e3b3ea5580c4ec36352"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum from among two numbers.  <a href="#gaae07f65282092e3b3ea5580c4ec36352">More...</a><br /></td></tr>
 <tr class="separator:gaae07f65282092e3b3ea5580c4ec36352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaed5fe9e183a8bb2ef205f87dd27e82cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaed5fe9e183a8bb2ef205f87dd27e82cf">CY_USBPD_DIV_ROUND_UP</a>(x,  y)&#160;&#160;&#160;(((x) + ((y) - 1)) / (y))</td></tr>
+<tr class="memdesc:gaed5fe9e183a8bb2ef205f87dd27e82cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integer division - round up to next integer.  <a href="#gaed5fe9e183a8bb2ef205f87dd27e82cf">More...</a><br /></td></tr>
+<tr class="separator:gaed5fe9e183a8bb2ef205f87dd27e82cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadd0986e611c7cdf53c6aa3cb61febd9c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gadd0986e611c7cdf53c6aa3cb61febd9c">CY_USBPD_DIV_ROUND_NEAREST</a>(x,  y)&#160;&#160;&#160;(((x) + ((y) / 2u)) / (y))</td></tr>
+<tr class="memdesc:gadd0986e611c7cdf53c6aa3cb61febd9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integer division - round to nearest integer.  <a href="#gadd0986e611c7cdf53c6aa3cb61febd9c">More...</a><br /></td></tr>
+<tr class="separator:gadd0986e611c7cdf53c6aa3cb61febd9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9b0d5f89961b82e7c20b6f7609d76096"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga9b0d5f89961b82e7c20b6f7609d76096">CY_USBPD_MAKE_WORD</a>(hi,  lo)&#160;&#160;&#160;(((uint16_t)(hi) &lt;&lt; 8) | ((uint16_t)(lo)))</td></tr>
+<tr class="memdesc:ga9b0d5f89961b82e7c20b6f7609d76096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine two bytes to create one 16-bit WORD.  <a href="#ga9b0d5f89961b82e7c20b6f7609d76096">More...</a><br /></td></tr>
+<tr class="separator:ga9b0d5f89961b82e7c20b6f7609d76096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7bc97e36f43d6410084dbda0a8fab483"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga7bc97e36f43d6410084dbda0a8fab483">CY_USBPD_MAKE_DWORD</a>(b3,  b2,  b1,  b0)</td></tr>
+<tr class="memdesc:ga7bc97e36f43d6410084dbda0a8fab483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine four bytes to create one 32-bit DWORD.  <a href="#ga7bc97e36f43d6410084dbda0a8fab483">More...</a><br /></td></tr>
+<tr class="separator:ga7bc97e36f43d6410084dbda0a8fab483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa93c2014690a05cb818e610b67168acc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaa93c2014690a05cb818e610b67168acc">CY_USBPD_MAKE_DWORD_FROM_WORD</a>(hi,  lo)&#160;&#160;&#160;(((uint32_t)(hi) &lt;&lt; 16) | ((uint32_t)(lo)))</td></tr>
+<tr class="memdesc:gaa93c2014690a05cb818e610b67168acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine two WORDs to create one DWORD.  <a href="#gaa93c2014690a05cb818e610b67168acc">More...</a><br /></td></tr>
+<tr class="separator:gaa93c2014690a05cb818e610b67168acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga25b338f52620a413fb733de902cdb510"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga25b338f52620a413fb733de902cdb510">CY_USBPD_WORD_GET_MSB</a>(w)&#160;&#160;&#160;((uint8_t)((w) &gt;&gt; 8))</td></tr>
+<tr class="memdesc:ga25b338f52620a413fb733de902cdb510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the MSB from a WORD.  <a href="#ga25b338f52620a413fb733de902cdb510">More...</a><br /></td></tr>
+<tr class="separator:ga25b338f52620a413fb733de902cdb510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa840978c291e822e8d1df5bfa4d24f74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaa840978c291e822e8d1df5bfa4d24f74">CY_USBPD_WORD_GET_LSB</a>(w)&#160;&#160;&#160;((uint8_t)((w) &amp; 0xFF))</td></tr>
+<tr class="memdesc:gaa840978c291e822e8d1df5bfa4d24f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the LSB from a WORD.  <a href="#gaa840978c291e822e8d1df5bfa4d24f74">More...</a><br /></td></tr>
+<tr class="separator:gaa840978c291e822e8d1df5bfa4d24f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b37ee178b0bcbe841e552e4b75d7c9b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga4b37ee178b0bcbe841e552e4b75d7c9b">CY_USBPD_BYTE_GET_UPPER_NIBBLE</a>(w)&#160;&#160;&#160;((uint8_t)(((w) &gt;&gt; 4) &amp; 0xF))</td></tr>
+<tr class="memdesc:ga4b37ee178b0bcbe841e552e4b75d7c9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the Upper nibble from a BYTE.  <a href="#ga4b37ee178b0bcbe841e552e4b75d7c9b">More...</a><br /></td></tr>
+<tr class="separator:ga4b37ee178b0bcbe841e552e4b75d7c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae83b20a08a85ee63d65c5b8c604ba5ea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gae83b20a08a85ee63d65c5b8c604ba5ea">CY_USBPD_BYTE_GET_LOWER_NIBBLE</a>(w)&#160;&#160;&#160;((uint8_t)((w) &amp; 0xF))</td></tr>
+<tr class="memdesc:gae83b20a08a85ee63d65c5b8c604ba5ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the Lower nibble from a BYTE.  <a href="#gae83b20a08a85ee63d65c5b8c604ba5ea">More...</a><br /></td></tr>
+<tr class="separator:gae83b20a08a85ee63d65c5b8c604ba5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga3b16b1abcf2af81244c4ac02eddaf937">CY_USBPD_DWORD_GET_BYTE0</a>(dw)&#160;&#160;&#160;((uint8_t)((dw) &amp; 0xFFUL))</td></tr>
 <tr class="memdesc:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the LSB from a DWORD.  <a href="#ga3b16b1abcf2af81244c4ac02eddaf937">More...</a><br /></td></tr>
 <tr class="separator:ga3b16b1abcf2af81244c4ac02eddaf937"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,6 +135,24 @@ Macros</h2></td></tr>
 <tr class="memitem:gac378a40256090dddea601575cc881358"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gac378a40256090dddea601575cc881358">CY_USBPD_DWORD_GET_BYTE3</a>(dw)&#160;&#160;&#160;((uint8_t)(((dw) &gt;&gt; 24) &amp; 0xFFUL))</td></tr>
 <tr class="memdesc:gac378a40256090dddea601575cc881358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the MSB from a DWORD.  <a href="#gac378a40256090dddea601575cc881358">More...</a><br /></td></tr>
 <tr class="separator:gac378a40256090dddea601575cc881358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7d051aa49ca7594efb19d66b01afea0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gae7d051aa49ca7594efb19d66b01afea0">CCG_FLASH_ROW_SHIFT_NUM</a>&#160;&#160;&#160;(6u)</td></tr>
+<tr class="memdesc:gae7d051aa49ca7594efb19d66b01afea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flash row shift number.  <a href="#gae7d051aa49ca7594efb19d66b01afea0">More...</a><br /></td></tr>
+<tr class="separator:gae7d051aa49ca7594efb19d66b01afea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d3fde609208448eea254b662583ee50"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga0d3fde609208448eea254b662583ee50">CY_USBPD_REV_BYTE_ORDER</a>(b,  i)</td></tr>
+<tr class="memdesc:ga0d3fde609208448eea254b662583ee50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to combine 4 bytes in reverse order to make a 32-bit integer.  <a href="#ga0d3fde609208448eea254b662583ee50">More...</a><br /></td></tr>
+<tr class="separator:ga0d3fde609208448eea254b662583ee50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaacf6d8dd3aa9e81b6777c785112b55f0">CY_USBPD_REG_FIELD_UPDATE</a>(reg,  field,  value)&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_MASK)) | ((value) &lt;&lt; (field##_POS))))</td></tr>
+<tr class="memdesc:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update a single field in a register.  <a href="#gaacf6d8dd3aa9e81b6777c785112b55f0">More...</a><br /></td></tr>
+<tr class="separator:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga855840dcebe7635d8f4fbd05f0577018"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga855840dcebe7635d8f4fbd05f0577018">CY_USBPD_REG_FIELD_GET</a>(reg,  field)&#160;&#160;&#160;(((reg) &amp; field##_MASK) &gt;&gt; field##_POS)</td></tr>
+<tr class="memdesc:ga855840dcebe7635d8f4fbd05f0577018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a specific field from a register.  <a href="#ga855840dcebe7635d8f4fbd05f0577018">More...</a><br /></td></tr>
+<tr class="separator:ga855840dcebe7635d8f4fbd05f0577018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ab0e2071d9c820bca9a547b5a7a3c45"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga5ab0e2071d9c820bca9a547b5a7a3c45">LSCSA_DEF_RSENSE_P0</a>&#160;&#160;&#160;(50u)</td></tr>
+<tr class="memdesc:ga5ab0e2071d9c820bca9a547b5a7a3c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default RSENSE value is 5mOhm.  <a href="#ga5ab0e2071d9c820bca9a547b5a7a3c45">More...</a><br /></td></tr>
+<tr class="separator:ga5ab0e2071d9c820bca9a547b5a7a3c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa1d8dd25bcf93939fa25b13fafd56bdc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaa1d8dd25bcf93939fa25b13fafd56bdc">LSCSA_DEF_RSENSE_P1</a>&#160;&#160;&#160;(50u)</td></tr>
+<tr class="memdesc:gaa1d8dd25bcf93939fa25b13fafd56bdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default RSENSE value is 5mOhm.  <a href="#gaa1d8dd25bcf93939fa25b13fafd56bdc">More...</a><br /></td></tr>
+<tr class="separator:gaa1d8dd25bcf93939fa25b13fafd56bdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaef1d10c83d3d7bff03a66c19ded53ab0">TYPEC_PORT_0_IDX</a>&#160;&#160;&#160;(0u)</td></tr>
 <tr class="memdesc:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">USB-C port number 0.  <a href="#gaef1d10c83d3d7bff03a66c19ded53ab0">More...</a><br /></td></tr>
 <tr class="separator:gaef1d10c83d3d7bff03a66c19ded53ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,6 +311,248 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="gaed5fe9e183a8bb2ef205f87dd27e82cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaed5fe9e183a8bb2ef205f87dd27e82cf">&#9670;&nbsp;</a></span>CY_USBPD_DIV_ROUND_UP</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_DIV_ROUND_UP</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((x) + ((y) - 1)) / (y))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Integer division - round up to next integer. </p>
+
+</div>
+</div>
+<a id="gadd0986e611c7cdf53c6aa3cb61febd9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadd0986e611c7cdf53c6aa3cb61febd9c">&#9670;&nbsp;</a></span>CY_USBPD_DIV_ROUND_NEAREST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_DIV_ROUND_NEAREST</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((x) + ((y) / 2u)) / (y))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Integer division - round to nearest integer. </p>
+
+</div>
+</div>
+<a id="ga9b0d5f89961b82e7c20b6f7609d76096"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9b0d5f89961b82e7c20b6f7609d76096">&#9670;&nbsp;</a></span>CY_USBPD_MAKE_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_MAKE_WORD</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">hi, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">lo&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((uint16_t)(hi) &lt;&lt; 8) | ((uint16_t)(lo)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Combine two bytes to create one 16-bit WORD. </p>
+
+</div>
+</div>
+<a id="ga7bc97e36f43d6410084dbda0a8fab483"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7bc97e36f43d6410084dbda0a8fab483">&#9670;&nbsp;</a></span>CY_USBPD_MAKE_DWORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_MAKE_DWORD</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b3, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b2, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b1, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b0&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(((uint32_t)(b3) &lt;&lt; 24) | ((uint32_t)(b2) &lt;&lt; 16) |  \</div><div class="line">     ((uint32_t)(b1) &lt;&lt; 8) | ((uint32_t)(b0)))</div></div><!-- fragment -->
+<p>Combine four bytes to create one 32-bit DWORD. </p>
+
+</div>
+</div>
+<a id="gaa93c2014690a05cb818e610b67168acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa93c2014690a05cb818e610b67168acc">&#9670;&nbsp;</a></span>CY_USBPD_MAKE_DWORD_FROM_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_MAKE_DWORD_FROM_WORD</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">hi, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">lo&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((uint32_t)(hi) &lt;&lt; 16) | ((uint32_t)(lo)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Combine two WORDs to create one DWORD. </p>
+
+</div>
+</div>
+<a id="ga25b338f52620a413fb733de902cdb510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga25b338f52620a413fb733de902cdb510">&#9670;&nbsp;</a></span>CY_USBPD_WORD_GET_MSB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_WORD_GET_MSB</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">w</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)((w) &gt;&gt; 8))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the MSB from a WORD. </p>
+
+</div>
+</div>
+<a id="gaa840978c291e822e8d1df5bfa4d24f74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa840978c291e822e8d1df5bfa4d24f74">&#9670;&nbsp;</a></span>CY_USBPD_WORD_GET_LSB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_WORD_GET_LSB</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">w</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)((w) &amp; 0xFF))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the LSB from a WORD. </p>
+
+</div>
+</div>
+<a id="ga4b37ee178b0bcbe841e552e4b75d7c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4b37ee178b0bcbe841e552e4b75d7c9b">&#9670;&nbsp;</a></span>CY_USBPD_BYTE_GET_UPPER_NIBBLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_BYTE_GET_UPPER_NIBBLE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">w</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)(((w) &gt;&gt; 4) &amp; 0xF))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the Upper nibble from a BYTE. </p>
+
+</div>
+</div>
+<a id="gae83b20a08a85ee63d65c5b8c604ba5ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae83b20a08a85ee63d65c5b8c604ba5ea">&#9670;&nbsp;</a></span>CY_USBPD_BYTE_GET_LOWER_NIBBLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_BYTE_GET_LOWER_NIBBLE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">w</td><td>)</td>
+          <td>&#160;&#160;&#160;((uint8_t)((w) &amp; 0xF))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the Lower nibble from a BYTE. </p>
+
+</div>
+</div>
 <a id="ga3b16b1abcf2af81244c4ac02eddaf937"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga3b16b1abcf2af81244c4ac02eddaf937">&#9670;&nbsp;</a></span>CY_USBPD_DWORD_GET_BYTE0</h2>
 
@@ -346,6 +633,158 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="gae7d051aa49ca7594efb19d66b01afea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae7d051aa49ca7594efb19d66b01afea0">&#9670;&nbsp;</a></span>CCG_FLASH_ROW_SHIFT_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CCG_FLASH_ROW_SHIFT_NUM&#160;&#160;&#160;(6u)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flash row shift number. </p>
+
+</div>
+</div>
+<a id="ga0d3fde609208448eea254b662583ee50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0d3fde609208448eea254b662583ee50">&#9670;&nbsp;</a></span>CY_USBPD_REV_BYTE_ORDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_REV_BYTE_ORDER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">b, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">i&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">( (uint32_t) (b)[(i)    ] &lt;&lt; 24 )             \</div><div class="line">        | ( (uint32_t) (b)[(i) + 1] &lt;&lt; 16 )             \</div><div class="line">        | ( (uint32_t) (b)[(i) + 2] &lt;&lt;  8 )             \</div><div class="line">        | ( (uint32_t) (b)[(i) + 3]       );            \</div></div><!-- fragment -->
+<p>Macro to combine 4 bytes in reverse order to make a 32-bit integer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>Input array of bytes to be combined. </td></tr>
+    <tr><td class="paramname">i</td><td>Index into the input byte array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaacf6d8dd3aa9e81b6777c785112b55f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaacf6d8dd3aa9e81b6777c785112b55f0">&#9670;&nbsp;</a></span>CY_USBPD_REG_FIELD_UPDATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_REG_FIELD_UPDATE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">reg, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_MASK)) | ((value) &lt;&lt; (field##_POS))))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update a single field in a register. </p>
+<p>It first clears the field and then updates the data. </p>
+
+</div>
+</div>
+<a id="ga855840dcebe7635d8f4fbd05f0577018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga855840dcebe7635d8f4fbd05f0577018">&#9670;&nbsp;</a></span>CY_USBPD_REG_FIELD_GET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_REG_FIELD_GET</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">reg, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(((reg) &amp; field##_MASK) &gt;&gt; field##_POS)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve a specific field from a register. </p>
+
+</div>
+</div>
+<a id="ga5ab0e2071d9c820bca9a547b5a7a3c45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5ab0e2071d9c820bca9a547b5a7a3c45">&#9670;&nbsp;</a></span>LSCSA_DEF_RSENSE_P0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LSCSA_DEF_RSENSE_P0&#160;&#160;&#160;(50u)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default RSENSE value is 5mOhm. </p>
+
+</div>
+</div>
+<a id="gaa1d8dd25bcf93939fa25b13fafd56bdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa1d8dd25bcf93939fa25b13fafd56bdc">&#9670;&nbsp;</a></span>LSCSA_DEF_RSENSE_P1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LSCSA_DEF_RSENSE_P1&#160;&#160;&#160;(50u)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default RSENSE value is 5mOhm. </p>
+
+</div>
+</div>
 <a id="gaef1d10c83d3d7bff03a66c19ded53ab0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaef1d10c83d3d7bff03a66c19ded53ab0">&#9670;&nbsp;</a></span>TYPEC_PORT_0_IDX</h2>
 
@@ -359,7 +798,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>USB-C port number 0. </p>
-<p>Supported on all PMG1 devices. </p>
+<p>Supported on all PMG1/CCGx devices. </p>
 
 </div>
 </div>
@@ -376,7 +815,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>USB-C port number 1. </p>
-<p>Supported only on the CYPM1322-97BZXIT device. </p>
+<p>Supported only on the Dual Port devices. </p>
 
 </div>
 </div>

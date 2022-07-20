@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_regs.h
-* \version 1.30
+* \version 2.0
 *
 * Generic device specific USBPD register header definition.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -41,10 +41,10 @@
 #elif defined(CY_DEVICE_PMG1S3)
 #include "cy_usbpd_pmg1s3_regs.h"
 
-#elif defined(CY_DEVICE_CCG7D)
+#elif defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_WLC1)
 #include "cy_usbpd_ccg7d_regs.h"
 
-#elif defined(CY_DEVICE_CCG7S)
+#elif defined(CY_DEVICE_CCG7S) 
 #include "cy_usbpd_ccg7s_regs.h"
 
 #else

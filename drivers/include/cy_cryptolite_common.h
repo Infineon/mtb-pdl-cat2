@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_common.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides common constants and parameters for the Cryptolite driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -61,7 +61,7 @@ extern "C" {
 #define CY_CRYPTOLITE_DRV_VERSION_MAJOR         1
 
 /** Driver minor version */
-#define CY_CRYPTOLITE_DRV_VERSION_MINOR         0
+#define CY_CRYPTOLITE_DRV_VERSION_MINOR         10
 
 /** \} group_cryptolite_common_macros */
 

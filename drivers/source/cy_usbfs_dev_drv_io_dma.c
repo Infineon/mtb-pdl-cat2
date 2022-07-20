@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io_dma.c
-* \version 1.10
+* \version 2.0
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -88,7 +88,8 @@ extern "C" {
 #define DMA_WRITE_REQUEST_ONE_TICK    (1U)      /* 1 tick = 1 us */
 #define DMA_WRITE_REQUEST_TIMEOUT     (25000UL) /* (25000 * tick)us = 25 ms ( TDRQCMPLTND / 2 ) */
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
+
 #include "cy_trigmux.h"
 /*******************************************************************************
 *                        Internal Functions Prototypes
@@ -1251,7 +1252,6 @@ void Cy_USBFS_Dev_Drv_EP_DmaDone(cy_stc_usbfs_dev_drv_context_t* context, uint32
        }
 
     }
-
 }
 
 /*******************************************************************************
@@ -1403,14 +1403,14 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
     return CY_USBFS_DEV_DRV_SUCCESS;
 }
 
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
+
+#endif /* CY_IP_M0S8USBDSS */
+
 #if defined(__cplusplus)
 }
 #endif
 
-
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
-
-#endif /* CY_IP_M0S8USBDSS */
 
 
 /* [] END OF FILE */

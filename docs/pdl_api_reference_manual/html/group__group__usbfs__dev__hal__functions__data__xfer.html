@@ -103,9 +103,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ga3699408b8336670b36c2e7a3fa6949d7"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE <a class="el" href="group__group__usbfs__dev__drv__enums.html#gace2573b482baf5a2a0f796b72cc244ac">cy_en_usbfs_dev_drv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbfs__dev__hal__functions__data__xfer.html#ga3699408b8336670b36c2e7a3fa6949d7">Cy_USBFS_Dev_Drv_ReadOutEndpoint</a> (USBFS_Type *base, uint32_t endpoint, uint8_t *buffer, uint32_t size, uint32_t *actSize, <a class="el" href="structcy__stc__usbfs__dev__drv__context__t.html">cy_stc_usbfs_dev_drv_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga3699408b8336670b36c2e7a3fa6949d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the OUT endpoint buffer.  <a href="#ga3699408b8336670b36c2e7a3fa6949d7">More...</a><br /></td></tr>
 <tr class="separator:ga3699408b8336670b36c2e7a3fa6949d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga86c72bf880802fa432b69dec31b03099"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbfs__dev__hal__functions__data__xfer.html#ga86c72bf880802fa432b69dec31b03099">Cy_USBFS_Dev_Drv_EP_DmaDone</a> (<a class="el" href="structcy__stc__usbfs__dev__drv__context__t.html">cy_stc_usbfs_dev_drv_context_t</a> *context, uint32_t intrMask)</td></tr>
-<tr class="memdesc:ga86c72bf880802fa432b69dec31b03099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Endpoint DMA Done Interrupt handler.  <a href="#ga86c72bf880802fa432b69dec31b03099">More...</a><br /></td></tr>
-<tr class="separator:ga86c72bf880802fa432b69dec31b03099"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae4dba7b4e7a47b69f1732d5a216382eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__usbfs__dev__drv__enums.html#gace2573b482baf5a2a0f796b72cc244ac">cy_en_usbfs_dev_drv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbfs__dev__hal__functions__data__xfer.html#gae4dba7b4e7a47b69f1732d5a216382eb">Cy_USBFS_Dev_Drv_Abort</a> (USBFS_Type *base, uint32_t endpoint, <a class="el" href="structcy__stc__usbfs__dev__drv__context__t.html">cy_stc_usbfs_dev_drv_context_t</a> *context)</td></tr>
 <tr class="memdesc:gae4dba7b4e7a47b69f1732d5a216382eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort operation for data endpoint.  <a href="#gae4dba7b4e7a47b69f1732d5a216382eb">More...</a><br /></td></tr>
 <tr class="separator:gae4dba7b4e7a47b69f1732d5a216382eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -338,43 +335,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status code of the function execution <a class="el" href="group__group__usbfs__dev__drv__enums.html#gace2573b482baf5a2a0f796b72cc244ac">cy_en_usbfs_dev_drv_status_t</a>. </dd></dl>
-
-</div>
-</div>
-<a id="ga86c72bf880802fa432b69dec31b03099"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga86c72bf880802fa432b69dec31b03099">&#9670;&nbsp;</a></span>Cy_USBFS_Dev_Drv_EP_DmaDone()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Cy_USBFS_Dev_Drv_EP_DmaDone </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structcy__stc__usbfs__dev__drv__context__t.html">cy_stc_usbfs_dev_drv_context_t</a> *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>intrMask</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Endpoint DMA Done Interrupt handler. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbfs__dev__drv__context__t.html">cy_stc_usbfs_dev_drv_context_t</a> allocated by the user. The structure is used during the USBFS Device operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
-    <tr><td class="paramname">intrMask</td><td>The DMAC Interrupt Status Mask. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

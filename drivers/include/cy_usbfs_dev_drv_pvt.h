@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_pvt.h
-* \version 1.10
+* \version 2.0
 *
 * Provides API declarations of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -45,6 +45,7 @@ __STATIC_INLINE uint8_t  GetEndpointActiveMode(bool inDirection, uint8_t attribu
 __STATIC_INLINE uint32_t GetEndpointInactiveMode(uint32_t mode);
 
 
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
 /* DMA configuration functions */
 cy_en_usbfs_dev_drv_status_t DmaInit(cy_stc_usbfs_dev_drv_config_t const *config,
                                      cy_stc_usbfs_dev_drv_context_t      *context);
@@ -57,10 +58,6 @@ cy_en_usbfs_dev_drv_status_t DmaEndpointInit(USBFS_Type *base,
                                              cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData);
 
 void DmaOutEndpointRestore(cy_stc_usbfs_dev_drv_endpoint_data_t *endpointData, bool useReg16);
-
-cy_en_usbfs_dev_drv_status_t GetEndpointBuffer(uint32_t size,
-                                               uint32_t *idx,
-                                               cy_stc_usbfs_dev_drv_context_t *context);
 
 /* Endpoint restore functions (driver specific) */
 void RestoreEndpointRamBuffer(USBFS_Type *base,
@@ -100,6 +97,11 @@ cy_en_usbfs_dev_drv_status_t ReadOutEndpointDmaAuto(USBFS_Type *base,
 cy_en_usbfs_dev_drv_status_t DynamicEndpointReConfiguration(USBFS_Type *base,
                                                             bool        inDirection,
                                                             uint32_t    endpoint);
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
+
+cy_en_usbfs_dev_drv_status_t GetEndpointBuffer(uint32_t size,
+                                               uint32_t *idx,
+                                               cy_stc_usbfs_dev_drv_context_t *context);
 
 /* Endpoint restore functions (driver specific) */
 void RestoreEndpointHwBuffer(USBFS_Type *base,

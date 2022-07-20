@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -83,6 +83,8 @@
     #include "cy8c4124azi_s413.h"
 #elif defined (CY8C4124FNI_S433)
     #include "cy8c4124fni_s433.h"
+#elif defined (CY8C4124FNQ_S433)
+    #include "cy8c4124fnq_s433.h"
 #elif defined (CY8C4124LQI_S432)
     #include "cy8c4124lqi_s432.h"
 #elif defined (CY8C4124LQI_S433)
@@ -107,6 +109,8 @@
     #include "cy8c4125azi_s413.h"
 #elif defined (CY8C4125FNI_S433)
     #include "cy8c4125fni_s433.h"
+#elif defined (CY8C4125FNQ_S433)
+    #include "cy8c4125fnq_s433.h"
 #elif defined (CY8C4125LQI_S432)
     #include "cy8c4125lqi_s432.h"
 #elif defined (CY8C4125LQI_S433)
@@ -123,6 +127,8 @@
     #include "cy8c4146azi_s423.h"
 #elif defined (CY8C4146FNI_S433)
     #include "cy8c4146fni_s433.h"
+#elif defined (CY8C4146FNQ_S433)
+    #include "cy8c4146fnq_s433.h"
 #elif defined (CY8C4146LQI_S432)
     #include "cy8c4146lqi_s432.h"
 #elif defined (CY8C4146LQI_S433)
@@ -989,6 +995,10 @@
     #include "cypd7275_68lqxq.h"
 #elif defined (CYPD7191_40LDXS)
     #include "cypd7191_40ldxs.h"
+#elif defined (WLC1115_68LQXQ)
+    #include "wlc1115_68lqxq.h"
+#elif defined (WLC1150_68LQXQ)
+    #include "wlc1150_68lqxq.h"
 #else
     #error Undefined part number
 #endif

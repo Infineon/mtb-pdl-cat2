@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_flash.c
-* \version 1.0
+* \version 1.0.1
 *
 * \brief
 * Provides the public functions for the API for the Flash driver.
@@ -24,7 +24,6 @@
 *******************************************************************************/
 #include "cy_flash.h"
 #include "cy_sysclk.h"
-#include "cy_sysint.h"
 #include "cy_device.h"
 #include "cy_syslib.h"
 

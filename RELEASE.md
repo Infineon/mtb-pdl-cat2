@@ -1,48 +1,23 @@
-# mtb-pdl-cat2 peripheral driver library v1.5.0
+# mtb-pdl-cat2 peripheral driver library v1.6.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 for a complete description of the Peripheral driver library.
 
-## What's included?
-
 ### Updated personalities
 
-- SCB (UART, I2C, SPI, EZI2C) - Corrected SCB personalities that did offer interfaces, that can not be used.
-- USBFS -  The DMA endpoint management modes for the USBFS driver, both manual/automatic, have been implemented.
-- DMAC - The DMA personality reserves Hardware Abstraction Layer (HAL) resources.
-- Pin, Port-Intrinsic - Added port-level configuration option.
-
-### Added drivers
-
-- [CryptoLite 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- USBPD -  Updated the USBPD personality to add clocks for VBTR, BB, BB_SOFT, and IBTR.
 
 ### Updated drivers
 
-- [USBPD (USB Power Delivery) 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
-
-- [CAN FD 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
-
-- [SCB 4.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
-
-- [GPIO 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__gpio.html)
-
-- [SAR 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
-
-- [SysClk (System Clock) 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
-
-- [SYSPM 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
-
-- [USBFS (USB Full-Speed Device) 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+- [CryptoLite 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- [SCB (Serial Comunication Block) 4.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+- [USBFS 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+- [USBPD 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 ### Drivers with patch-version updates
 
-- Updated patch version for all drivers because updated the paths to the code snippets.
-
-## Known Issues
-
-* Keep the Enable CSDADC parameter of the CSD personality disabled (default state) because at the moment, the CSDADC middleware does not support PSoC™ 4 families and thus is not present in the Library manager. Enabling the parameter leads to build errors.
-* Check manually for newer versions of enabled personalities in the Device Configurator and upgrade them if needed because the personality migration mechanism does not work.
+- [Flash (Flash System Routine) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html)
 
 ## Defect fixes
 
@@ -54,7 +29,7 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| ModusToolbox&#8482;                                                           |  2.3.0       |
+| ModusToolbox&#8482;                                                           |  2.4.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.2.0       |
 | CMSIS-Core(M)                                                                 |  5.4.0       |
 | GCC compiler                                                                  | 10.3.1       |
@@ -67,17 +42,18 @@ This version of PDL was validated for compatibility with the following software 
 
 - [Peripheral driver library API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 
-- [ModusToolbox&trade; software environment, Quick Start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
+- [ModusToolbox&trade; software environment, Quick Start guide, documentation, and videos](https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software/)
 
-- [ModusToolbox&trade; Device Configurator guide](https://www.cypress.com/ModusToolboxDeviceConfig)
+- [ModusToolbox&trade; Device Configurator guide]  (https://www.infineon.com/dgdl/Infineon-ModusToolbox_Device_Configurator_Guide_4-UserManual-v01_00-EN.pdf?fileId=8ac78c8c7d718a49017d99ab297631cb) 
 
-- [AN79953 - Getting started with PSoC&trade; 4](https://www.cypress.com/an79953)
+- [AN79953 - Getting started with PSoC&trade; 4] (https://www.infineon.com/dgdl/Infineon-AN79953_Getting_Started_with_PSoC_4-ApplicationNotes-v21_00-EN.pdf?fileId=8ac78c8c7cdc391c017d07271fd64bc1)
 
-- [PSoC&trade; 4 technical reference manuals](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=resource_meta_type%3A583&f%5B2%5D=field_related_products%3A1314)
+- [PSoC&trade; 4 technical reference manuals]
+(https://www.infineon.com/cms/en/search.html#!term=psoc%204%20technical%20reference%20manual&view=downloads)
 
-- [PSoC&trade; 4 datasheets](https://www.cypress.com/search/all?f%5B0%5D=meta_type%3Atechnical_documents&f%5B1%5D=field_related_products%3A1297&f%5B2%5D=resource_meta_type%3A575)
+- [PSoC&trade; 4 datasheets](https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-4-32-bit-arm-cortex-m0-mcu/)
 
-- [PMG1 device family](http://www.cypress.com/PMG1)
+- [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/)
 
 ---
-© 2020-2021, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© 2020-2022, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

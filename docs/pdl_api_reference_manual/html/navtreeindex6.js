@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"group__group__scb__common__functions.html#ga6fd9d349b8acb303ff1ef728e29b0e22":[2,12,0,1,31],
+"group__group__scb__common__functions.html#ga70aa562e7df60c7d97bb02679aefe39f":[2,12,0,1,22],
 "group__group__scb__common__functions.html#ga7c051a76e2379b38fbb0c466f1f7dbd8":[2,12,0,1,39],
 "group__group__scb__common__functions.html#ga88953f39b6d4177b53e1c44239681f83":[2,12,0,1,14],
 "group__group__scb__common__functions.html#ga89b1ccc2fcdac4dc12e430bb8865a693":[2,12,0,1,41],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "group__group__scb__i2c__slave__functions.html#ga50157a71ba992433bd4fde948d25d44e":[2,12,2,1,1,3],
 "group__group__scb__i2c__slave__functions.html#ga73636c22f0db8c09d790f387aa35e6be":[2,12,2,1,1,6],
 "group__group__scb__i2c__slave__functions.html#ga9499272c3ec7013ec130291239793199":[2,12,2,1,1,5],
-"group__group__scb__i2c__slave__functions.html#gaaf2d216e9cb246dd2256521cb7f50170":[2,12,2,1,1,2],
-"group__group__scb__i2c__slave__functions.html#gab3e1c474d6a5c7c5547ea08aa5d59e22":[2,12,2,1,1,4],
-"group__group__scb__i2c__slave__functions.html#gaf8f2f880c12a526b2e459f3137c45d5c":[2,12,2,1,1,7]
+"group__group__scb__i2c__slave__functions.html#gaaf2d216e9cb246dd2256521cb7f50170":[2,12,2,1,1,2]
 };

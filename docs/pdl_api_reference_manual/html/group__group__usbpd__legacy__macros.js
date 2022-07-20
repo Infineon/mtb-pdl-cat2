@@ -65,6 +65,10 @@ var group__group__usbpd__legacy__macros =
     [ "BC_SRC_QC_VER_3_CLASS_B_VAL", "group__group__usbpd__legacy__macros.html#ga10b2cf7a7755315745896e944f30b5bf", null ],
     [ "BC_CMP_0_IDX", "group__group__usbpd__legacy__macros.html#ga167af7fb2cd95a22cab0f67525ddb212", null ],
     [ "BC_CMP_1_IDX", "group__group__usbpd__legacy__macros.html#ga4f87efabf0db12be8187e184829a4545", null ],
+    [ "BC_PORT_0_IDX", "group__group__usbpd__legacy__macros.html#ga2ce8ca1da82720434cf72646e642fe83", null ],
+    [ "BC_PORT_1_IDX", "group__group__usbpd__legacy__macros.html#gafb22d5940cb68fe02ae19566cd4efb34", null ],
+    [ "CY_FLIPPED_DP_DM", "group__group__usbpd__legacy__macros.html#gad6a90e2620f10858207209269f45476b", null ],
+    [ "CY_TYPE_A_PORT_ENABLE", "group__group__usbpd__legacy__macros.html#gae8b32004c9168febc21904f54625cff8", null ],
     [ "BC_AMP_LIMIT", "group__group__usbpd__legacy__macros.html#gaea3657458ae00450c7f70e5fc8155a4b", null ],
     [ "APPLE_AMP_1A", "group__group__usbpd__legacy__macros.html#ga46845bb54e7a35f44014fb12885a5f22", null ],
     [ "APPLE_AMP_2_1A", "group__group__usbpd__legacy__macros.html#ga3f70e97e177a422a76a1d219fd613fd7", null ],
@@ -83,5 +87,8 @@ var group__group__usbpd__legacy__macros =
     [ "PDSS_INTR4_AFC_RX_RESET", "group__group__usbpd__legacy__macros.html#ga05bd1d8ff92d17c89efbb6645dd594f0", null ],
     [ "PDSS_INTR4_UPDATE_PING_PONG", "group__group__usbpd__legacy__macros.html#ga10b2d2a2d1661707941d1ddad745bccf", null ],
     [ "PDSS_INTR4_AFC_ERROR", "group__group__usbpd__legacy__macros.html#ga31ec84a8c471bfcf71c8542db506dd6d", null ],
-    [ "PDSS_CTRL_AFC_ENABLED", "group__group__usbpd__legacy__macros.html#ga7463db9e875e9d52b5a4712230921aca", null ]
+    [ "PDSS_CTRL_AFC_ENABLED", "group__group__usbpd__legacy__macros.html#ga7463db9e875e9d52b5a4712230921aca", null ],
+    [ "CDP_DX_VOLTAGE_CHECK_PERIOD", "group__group__usbpd__legacy__macros.html#ga71721d83ba1241e31cd1509ccc0f2a77", null ],
+    [ "CDP_VDMSRC_FAULT_CHECK_PERIOD", "group__group__usbpd__legacy__macros.html#ga50c36105d508eb9357cfcf9cf612da0e", null ],
+    [ "MAX_CDP_VDMSRC_FAULT_COUNT", "group__group__usbpd__legacy__macros.html#ga23c6874b5c4c1352db56ba78cb774921", null ]
 ];

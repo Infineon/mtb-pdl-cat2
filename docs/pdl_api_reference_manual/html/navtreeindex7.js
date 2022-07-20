@@ -1,5 +1,7 @@
 var NAVTREEINDEX7 =
 {
+"group__group__scb__i2c__slave__functions.html#gab3e1c474d6a5c7c5547ea08aa5d59e22":[2,12,2,1,1,4],
+"group__group__scb__i2c__slave__functions.html#gaf8f2f880c12a526b2e459f3137c45d5c":[2,12,2,1,1,7],
 "group__group__scb__spi.html":[2,12,3],
 "group__group__scb__spi__data__structures.html":[2,12,3,2],
 "group__group__scb__spi__data__structures.html#ga6993bf4b5fb7c1e5b53f4b408476be31":[2,12,3,2,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX7 =
 "group__group__seglcd__enums.html#ga2b57420866b0307ca04c1e033790661c":[2,13,4,3],
 "group__group__seglcd__enums.html#gad9a3f6a9bdb312ad774c5e55d5f1847c":[2,13,4,4],
 "group__group__seglcd__enums.html#gaf81660a051e97187b6617ae3f709b047":[2,13,4,0],
-"group__group__seglcd__enums.html#gaff012223bec16a8c88dfdb39bd304893":[2,13,4,2],
-"group__group__seglcd__enums.html#gga255aa427b265f88cc6e618cdc5491248a5c1a7cd720aedee901d6527dd617f57b":[2,13,4,1,1],
-"group__group__seglcd__enums.html#gga255aa427b265f88cc6e618cdc5491248abcd6f7af5e4246b340be76a8497ed936":[2,13,4,1,0]
+"group__group__seglcd__enums.html#gaff012223bec16a8c88dfdb39bd304893":[2,13,4,2]
 };

@@ -32,5 +32,6 @@ var searchData=
   ['interrupt_20functions',['Interrupt Functions',['../group__group__usbfs__dev__drv__functions__interrupts.html',1,'']]],
   ['interrupt_20cause',['Interrupt Cause',['../group__group__usbfs__dev__drv__macros__intr__cause.html',1,'']]],
   ['interrupt_20level',['Interrupt Level',['../group__group__usbfs__dev__drv__macros__intr__level.html',1,'']]],
-  ['initialization_20functions',['Initialization Functions',['../group__group__usbfs__dev__hal__functions__common.html',1,'']]]
+  ['initialization_20functions',['Initialization Functions',['../group__group__usbfs__dev__hal__functions__common.html',1,'']]],
+  ['idac_20_28usbpd_29',['IDAC (USBPD)',['../group__group__usbpd__idac__ctrl.html',1,'']]]
 ];

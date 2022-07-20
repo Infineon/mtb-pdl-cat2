@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -133,6 +133,7 @@ typedef enum {
 #include "gpio_pmg1s1_40_qfn_pmg1_s1.h"
 
 #define CY_DEVICE_CCG6
+#define CY_DEVICE_SERIES_PMG1S1
 #define CY_SILICON_ID                   0x2A2011BAUL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 

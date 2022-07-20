@@ -10,5 +10,6 @@ var group__group__usbfs__dev__drv__macros =
     [ "CY_USBFS_ID", "group__group__usbfs__dev__drv__macros.html#ga0fd85a9c08e49f0eb5689de046b145f9", null ],
     [ "CY_USBFS_MODE_POS", "group__group__usbfs__dev__drv__macros.html#ga9ddfead83e9aa551ce7e34b77f4f43f0", null ],
     [ "CY_USBFS_DEV_DRV_STATUS_CODE", "group__group__usbfs__dev__drv__macros.html#gaae31a017f5d6c6421979c5badc869df3", null ],
+    [ "CY_USBFS_DRV_DMA_ENABLE", "group__group__usbfs__dev__drv__macros.html#gabeb8b0104edd7af351bc7cf7730a246f", null ],
     [ "CY_USBFS_DEV_DRV_ALLOC_ENDPOINT_BUFFER", "group__group__usbfs__dev__drv__macros.html#gaef72dcffc85aefe650f79dd21dbdb29c", null ]
 ];

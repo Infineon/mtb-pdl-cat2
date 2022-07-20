@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 1.30
+* \version 2.0
 *
 * Provides API declarations of the USBPD Type C driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -97,6 +97,15 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *    <tr>
+*     <td rowspan="2">2.0</td>
+*     <td>Added support for CCG7D, CCG7s and WLC1 devices.</td>
+*     <td>New device support.</td>
+*    </tr>
+*    <tr>
+*     <td>Added support for PPS source and regulation control via internal error amplifier</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
 *     <td rowspan="3">1.30</td>
 *     <td>Added SBU Level Detection</td>
 *     <td>New feature support.</td>
@@ -151,6 +160,8 @@
 * \defgroup group_usbpd_phy Phy (USBPD)
 * \defgroup group_usbpd_typec Type C (USBPD)
 * \defgroup group_usbpd_vbus_ctrl VBus Ctrl (USBPD)
+* \defgroup group_usbpd_idac_ctrl IDAC (USBPD)
+* \defgroup group_usbpd_buck_boost Buck Boost (USBPD)
 *
 */
 
@@ -174,13 +185,41 @@
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
 
 /** \cond DOXYGEN_HIDE */
-#define REG_FIELD_UPDATE(reg,field,value)               \
-    (reg) = ((reg & ~(field##_MASK)) | ((value) << field##_POS))
-/**< Update a single field in a register. It first clears the field and then updates the data. */
 
-#define REG_FIELD_GET(reg,field)                        \
-    (((reg) & field##_MASK) >> field##_POS)
-/**< Retrieve a specific field from a register. */
+#ifndef VBUS_IN_DISCHARGE_EN
+/* VBUS in discharge enable */
+#define VBUS_IN_DISCHARGE_EN                    (0u)
+#endif /* VBUS_IN_DISCHARGE_EN */
+
+/* VBUS discharge drive strength settings. */
+#if VBUS_IN_DISCHARGE_EN
+#ifndef VBUS_C_DISCHG_DS
+#define VBUS_C_DISCHG_DS                        (1u)
+#endif /* VBUS_C_DISCHG_DS */
+#else /* !VBUS_IN_DISCHARGE_EN */
+#ifndef VBUS_C_DISCHG_DS
+#define VBUS_C_DISCHG_DS                        (4u)
+#endif /* VBUS_C_DISCHG_DS */
+#endif /* VBUS_IN_DISCHARGE_EN */
+#define VBUS_IN_DISCHG_DS                       (4u)
+
+#if VBUS_SLOW_DISCHARGE_EN
+/* Time interval in ms between every steps of discharge strength setting */
+#define VBUS_SLOW_DISCHARGE_TIME_MS              (1u)
+
+/* Minimum VBUS_C Discharge Drive strength control value */
+#define VBUS_C_DISCHG_DS_MIN                     (1u)
+
+/* Minimum VBUS_IN Discharge Drive strength control value */
+#define VBUS_IN_DISCHG_DS_MIN                    (1u)
+
+#endif /* VBUS_SLOW_DISCHARGE_EN */
+
+/* VCONN SCP limit in mA */
+#define VCONN_SCP_TRIM_115_MA                   (15u)
+
+/* VCONN ramp charging current limit for inrush control in nA */
+#define VCONN_INRUSH_TRIM_50_NA                 (1u)
 
 #if defined(CY_DEVICE_CCG3PA)
 #define PDSS_CC_CTRL_0_CMP_LA_VSEL_CFG          (0UL)
@@ -208,10 +247,10 @@
 
 
 /** The USBPD driver major version */
-#define CY_USBPD_DRV_VERSION_MAJOR                       1
+#define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       30
+#define CY_USBPD_DRV_VERSION_MINOR                       0
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
@@ -359,6 +398,13 @@ bool Cy_USBPD_IsVsysUp (
 void Cy_USBPD_Phy_VbusDetachCbk (
         void *context,
         bool  compOut);
+#if CY_USBPD_CGND_SHIFT_ENABLE
+void Cy_USBPD_TypeC_CgndWrapperEnable(
+        cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_TypeC_CgndWrapperDisable(
+        cy_stc_usbpd_context_t *context);
+#endif /* CY_USBPD_CGND_SHIFT_ENABLE */
 /** \endcond */
 
 bool Cy_USBPD_VsysCompStatus (

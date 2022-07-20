@@ -1,5 +1,7 @@
 var NAVTREEINDEX10 =
 {
+"group__group__syspm__data__enumerates.html#gga601b1cb722cb091133caf33d8ab235caa5e406c6cb40fdf6663df0208737d4f11":[2,19,3,0,4],
+"group__group__syspm__data__enumerates.html#gga601b1cb722cb091133caf33d8ab235caa6fdc8eb4acb4311a17b4da53c13f212e":[2,19,3,0,1],
 "group__group__syspm__data__enumerates.html#gga601b1cb722cb091133caf33d8ab235caaa5235017680123b2ee29b7acb4097783":[2,19,3,0,2],
 "group__group__syspm__data__enumerates.html#gga601b1cb722cb091133caf33d8ab235caaf00d22f1ee891a8a56f8bbf58132e775":[2,19,3,0,0],
 "group__group__syspm__data__enumerates.html#gga8c2960c0164ead1cfa86e7d6846b6ff0a613e2f83e3ab88e3569cf34ff0fa5912":[2,19,3,1,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX10 =
 "group__group__tcpwm__reg__const.html#gacb1b7540dbdb055615314b3e3f8f6cdc":[2,21,0,0,3,10],
 "group__group__tcpwm__reg__const.html#gaf7f5f31d90d94c95069aa9ba2aa5af34":[2,21,0,0,3,9],
 "group__group__tcpwm__reg__const.html#gaf807fc443779425def0f2ac6eec4d7ff":[2,21,0,0,3,4],
-"group__group__trigmux.html":[2,22],
-"group__group__trigmux__enums.html":[2,22,2],
-"group__group__trigmux__enums.html#ga30a0d3f7caf6a59d3fb7a618a95ed6ae":[2,22,2,0]
+"group__group__trigmux.html":[2,22]
 };

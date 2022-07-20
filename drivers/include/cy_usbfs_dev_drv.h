@@ -1,12 +1,12 @@
 /*
 * \file cy_usbfs_dev_drv.h
-* \version 1.10
+* \version 2.0
 *
 * Provides API declarations of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -83,9 +83,12 @@
 *
 * This section explains how to configure the USBFS driver and system resources to
 * enable USB Device operation. The pointers to the populated \ref cy_stc_usbfs_dev_drv_config_t configuration
-* structure and allocated context are passed in the middleware initialization.
+* structure and allocated context are passed in the middleware initialization
 * function Cy_USB_Dev_Init. After middleware initialization, it calls
 * \ref Cy_USBFS_Dev_Drv_Init to initialize the USBFS driver for Device operation.
+* \warning The USBFS driver's DMA feature is disabled by default. To enable it,
+* set the \ref CY_USBFS_DRV_DMA_ENABLE macro to 1 in the application Makefile.
+* Before doing that, do the steps given in the section below.
 
 ********************************************************************************
 * \subsection group_usbfs_dev_drv_config Configure Driver
@@ -180,17 +183,18 @@
 * \subsection group_usbfs_dev_drv_dma Assign and Route DMA Channels
 ********************************************************************************
 *
-* The USBFS driver requires a DMA controller to operate in DMA Manual and Automatic modes.
-* The USB hardware block supports the DMA request and feedback lines for each
-* data endpoint. Therefore, up to eight DMA channels serve eight data endpoints.
-* The connection between the USB block and the DMA channels is set using the trigger
-* muxes infrastructure. The USB block output DMA request line is connected to
-* the DMA channel trigger input. This allows the USB block to request a DMA transfer.
-* The DMA completion output is connected to the USB block burst end input.
-* This allows the USB block to get notification that a DMA transfer has been completed
-* and a next DMA request can be sent. The USBFS driver DMA configuration
-* structure requires the <i>outTrigMux</i> field to provide the trigger mux that
-* performs DMA completion and USB block burst end connection.
+* The USBFS driver requires a DMA controller to operate in DMA Manual and
+* Automatic modes. The USB hardware block supports the DMA request and feedback
+* lines for each data endpoint. Therefore, up to eight DMA channels serve eight
+* data endpoints.  The connection between the USB block and the DMA channels is
+* set using the trigger muxes infrastructure. The USB block output DMA request
+* line is connected to the DMA channel trigger input. This allows the USB block
+* to request a DMA transfer.  The DMA completion output is connected to the USB
+* block burst end input.  This allows the USB block to get notification that a
+* DMA transfer has been completed and a next DMA request can be sent. The USBFS
+* driver DMA configuration structure requires the <i>outTrigMux</i> field to
+* provide the trigger mux that performs DMA completion and USB block burst end
+* connection.
 *
 * Refer to \ref group_trigmux for more detail on the routing capabilities.
 *
@@ -486,6 +490,18 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">2.0</td>
+*     <td>The USBFS driver's DMA feature is disabled by default. You can enable it by setting the macro \ref CY_USBFS_DRV_DMA_ENABLE to 1 in the application Makefile.
+* \note
+*     If DMA was enabled in an existing project, the \ref CY_USBFS_DRV_DMA_ENABLE macro should be set to 1.
+*     </td>
+*     <td>Feature support</td>
+*   </tr>
+*    <tr>
+*     <td>Updated the Cy_USBFS_Dev_Drv_Ep0Read function to read upto 64 bytes of data at a time.</td>
+*     <td>Defect fix</td>
+*    </tr>
+*   <tr>
 *     <td>1.10</td>
 *     <td>Add DMA endpoint buffer management</td>
 *     <td>New feature support</td>
@@ -549,16 +565,16 @@ extern "C" {
 */
 
 /** USBFS Driver major version */
-#define CY_USBFS_VERSION_MAJOR      (1)
+#define CY_USBFS_VERSION_MAJOR      (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_VERSION_MINOR      (10)
+#define CY_USBFS_VERSION_MINOR      (0)
 
 /** USBFS Driver major version */
-#define CY_USBFS_DRV_VERSION_MAJOR  (1)
+#define CY_USBFS_DRV_VERSION_MAJOR  (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_DRV_VERSION_MINOR  (10)
+#define CY_USBFS_DRV_VERSION_MINOR  (0)
 /** USBFS Driver identifier */
 #define CY_USBFS_ID                 CY_PDL_DRV_ID(0x3BU)
 
@@ -567,6 +583,12 @@ extern "C" {
 
 /** USBFS Driver status code Device */
 #define CY_USBFS_DEV_DRV_STATUS_CODE    (0U)
+
+/** USBFS Driver DMA Feature Enable/Disable macro */
+#ifndef CY_USBFS_DRV_DMA_ENABLE
+#define CY_USBFS_DRV_DMA_ENABLE         (0U)
+#endif /* CY_USBFS_DRV_DMA_ENABLE */
+
 /** \} group_usbfs_dev_drv_macros */
 
 /*******************************************************************************
@@ -777,7 +799,7 @@ typedef cy_en_usbfs_dev_drv_status_t (* cy_fn_usbfs_dev_drv_read_ep_ptr_t)
                                          struct cy_stc_usbfs_dev_drv_context *context);
 /** \endcond */
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
 /** DMA Channel Configuration Structure */
 typedef struct
 {
@@ -793,7 +815,7 @@ typedef struct
 
 } cy_stc_usbfs_dev_drv_dma_config_t;
 
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
 /** Driver Configuration Structure */
 typedef struct cy_stc_usbfs_dev_drv_config
@@ -806,9 +828,9 @@ typedef struct cy_stc_usbfs_dev_drv_config
     * pointer if endpoint is not used. Applicable when \ref mode is
     * \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA or \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO.
     */
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
     const cy_stc_usbfs_dev_drv_dma_config_t *dmaConfig[CY_USBFS_DEV_DRV_NUM_EPS_MAX];
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
     /**
     * The pointer to the buffer allocated for the OUT endpoints (applicable only when \ref mode
     * is \ref CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO)
@@ -850,7 +872,7 @@ typedef struct
     /** Completes an event notification callback */
     cy_cb_usbfs_dev_drv_ep_callback_t epComplete;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
     volatile bool LastDescr;    /**< The last DMA descriptor for a transfer */
     volatile bool RevertDescr;  /**< Flag for descriptor revert */
 
@@ -861,7 +883,7 @@ typedef struct
     volatile uint32_t DmaEpBurstCount;           /**< The number of bursts for a transfer */ 
     volatile uint32_t DmaOutEpBurstCountRestore; /**< The burst count to be restored */
     volatile uint32_t DmaEpLastBurst;            /**< Size of the last burst */
-#endif /* defined(CY_IP_M0S8CPUSSV3_DMAC) */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
     cy_fn_usbfs_dev_drv_memcpy_ptr_t copyData;  /**< The pointer to the user memcpy function */
 
@@ -1068,7 +1090,9 @@ __STATIC_INLINE cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_ReadOutEndpoint(US
                                                               uint32_t *actSize,
                                                               cy_stc_usbfs_dev_drv_context_t *context);
 
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
 void Cy_USBFS_Dev_Drv_EP_DmaDone(cy_stc_usbfs_dev_drv_context_t* context, uint32_t intrMask);
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
 cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Abort(USBFS_Type *base,
                                                     uint32_t   endpoint,

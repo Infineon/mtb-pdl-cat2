@@ -60,11 +60,13 @@
 #include "cy_usbfs_dev_drv.h"
 #include "cy_usbpd_bch.h"
 #include "cy_usbpd_hpd.h"
+#include "cy_usbpd_idac_ctrl.h"
 #include "cy_usbpd_mux.h"
 #include "cy_usbpd_phy.h"
 #include "cy_usbpd_typec.h"
 #include "cy_usbpd_vbus_ctrl.h"
 #include "cy_wdc.h"
 #include "cy_wdt.h"
+
 
 #endif /* CY_PDL_H */

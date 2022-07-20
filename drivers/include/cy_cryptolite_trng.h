@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_trng.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides TRNG API declaration of the Crypto driver
 *
 *******************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

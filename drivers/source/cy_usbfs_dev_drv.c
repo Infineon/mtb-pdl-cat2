@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv.c
-* \version 1.10
+* \version 2.0
 *
 * Provides general API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -171,8 +171,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
         }
         break;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
-
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
         case CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA:
         {
             context->addEndpoint     = &AddEndpointHwBuffer;
@@ -195,7 +194,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
                                              USBFS_ARB_CFG_AUTO_MEM_Msk);
         }
         break;
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
         default:
         {
@@ -205,7 +204,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
     }
 
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
     /* Configure DMA and store info about DMA channels */
 
     if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_CPU != context->mode)
@@ -213,7 +212,7 @@ cy_en_usbfs_dev_drv_status_t Cy_USBFS_Dev_Drv_Init(USBFS_Type *base,
         retStatus = DmaInit(config, context);
     }
 
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
     return retStatus;
 }
@@ -411,7 +410,7 @@ void Cy_USBFS_Dev_Drv_Disable(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t *
     /* Disables the device to respond to usb traffic */
     USBFS_DEV_CR0(base) &= ~USBFS_CR0_USB_ENABLE_Msk;
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
 
     /* Disables the DMA channels */
     if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_CPU != context->mode)
@@ -419,7 +418,7 @@ void Cy_USBFS_Dev_Drv_Disable(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t *
         DmaDisable(context);
     }
 
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
 }
 
@@ -730,7 +729,7 @@ static void ArbiterIntrHandler(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t 
                 endpointData->state = CY_USB_DEV_EP_COMPLETED;
             }
 
-#if defined(CY_IP_M0S8CPUSSV3_DMAC)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
 
             /* Mode 3: Handles a DMA completion event for OUT endpoints */
             if (0U != (sourceMask & USBFS_USBDEV_ARB_EP_DMA_TERMIN_Msk))
@@ -742,7 +741,7 @@ static void ArbiterIntrHandler(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t 
                 EndpointTransferComplete(base, endpoint, endpointData, context);
             }
 
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
             /* This error condition indicates system failure */
             if (0U != (sourceMask & USBFS_USBDEV_ARB_EP_BUF_OVER_Msk))
@@ -1111,7 +1110,7 @@ void Cy_USBFS_Dev_Drv_Ep0Read(USBFS_Type *base, uint8_t *buffer, uint32_t size,
 
         /* Stores the Endpoint 0 buffer to put read operation results */
         context->ep0Buffer     = buffer;
-        context->ep0BufferSize = (uint8_t) size; /* The Endpoint 0 max packet is 8 bytes */
+        context->ep0BufferSize = (uint8_t) (size > 64U ? 64U: size); /* The Endpoint 0 max packet is 64 bytes */
 
         /* Updates the CNT and CR registers to continue the OUT transfer */
         Cy_USBFS_Dev_Drv_SetEp0Count (base, 0U, 0U);
@@ -1240,7 +1239,7 @@ static void RestoreDeviceConfiguration(USBFS_Type *base,
     {
         if (0U != context->epPool[endpoint].address)
         {
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
             /* Restores the endpoint configuration */
             if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_DMA_AUTO == context->mode)
             {
@@ -1248,7 +1247,7 @@ static void RestoreDeviceConfiguration(USBFS_Type *base,
             }
 
             else
-#endif /* CY_IP_M0S8CPUSSV3_DMA */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
             {
                 RestoreEndpointHwBuffer(base, context->mode, &context->epPool[endpoint]);
@@ -1289,13 +1288,13 @@ void Cy_USBFS_Dev_Drv_Suspend(USBFS_Type *base, cy_stc_usbfs_dev_drv_context_t *
     USBFS_DEV_POWER_CTL(base) |= USBFS_BCD_POWER_CTRL_SUSPEND_Msk;
     (void) USBFS_DEV_POWER_CTL(base);
 
-#if defined(CY_IP_M0S8CPUSSV3_DMA)
+#if (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1))
     /* Disables all DMA channels: DMA registers are retention */
     if (CY_USBFS_DEV_DRV_EP_MANAGEMENT_CPU != context->mode)
     {
         DmaDisable(context);
     }
-#endif /* CY_IP_M0S8CPUSSV3_DMAC */
+#endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */
 
     (void)context;
 }

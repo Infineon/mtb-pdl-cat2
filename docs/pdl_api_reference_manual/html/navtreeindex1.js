@@ -122,8 +122,10 @@ var NAVTREEINDEX1 =
 "group__group__cryptolite__vu__macros.html#ga74f28c8569f3cf73cc60492ce11dd99a":[2,2,3,0,7],
 "group__group__cryptolite__vu__macros.html#ga849d36a7b437a6e195d68abf141d5b5f":[2,2,3,0,11],
 "group__group__cryptolite__vu__macros.html#ga8da1b79389c6defc4ad03252916a6e9d":[2,2,3,0,4],
+"group__group__cryptolite__vu__macros.html#ga8e5f3fec349f5e19ed1777e51568be66":[2,2,3,0,17],
 "group__group__cryptolite__vu__macros.html#ga917ebb9c44be248f70c2fb0b8672b740":[2,2,3,0,13],
 "group__group__cryptolite__vu__macros.html#gaa16f5f5c505b70cbc7f1f273503f00c9":[2,2,3,0,10],
+"group__group__cryptolite__vu__macros.html#gab2f643c778e1a6bf7d79afe5a0f158c9":[2,2,3,0,16],
 "group__group__cryptolite__vu__macros.html#gac74eb53e097adc8fef41223918c91a55":[2,2,3,0,14],
 "group__group__cryptolite__vu__macros.html#gad8a4e9d10a9beba7f00b2d1ba60d88a3":[2,2,3,0,1],
 "group__group__csd.html":[2,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "group__group__ctb__enums.html#ggaf9b8b9512f975d689cc24c30a44a4ef1ab83e871e2b33644cbf1cf84481a2457b":[2,4,3,7,3],
 "group__group__ctb__enums.html#ggaf9b8b9512f975d689cc24c30a44a4ef1ae6b1cbfa484f221ea5991f77e58d3134":[2,4,3,7,1],
 "group__group__ctb__functions.html":[2,4,1],
-"group__group__ctb__functions__basic.html":[2,4,1,1],
-"group__group__ctb__functions__basic.html#ga36848961977f3415408598f09fb47e19":[2,4,1,1,0],
-"group__group__ctb__functions__basic.html#ga37f284f2e03d4cd3f680c9c93cf0976c":[2,4,1,1,1]
+"group__group__ctb__functions__basic.html":[2,4,1,1]
 };

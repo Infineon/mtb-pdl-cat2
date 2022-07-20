@@ -24,6 +24,8 @@ var searchData=
   ['lowerlimit',['lowerLimit',['../structcy__stc__sysclk__csv__config__t.html#af8519a1d5433784a7abdd47339fa4962',1,'cy_stc_sysclk_csv_config_t']]],
   ['lowphasedutycycle',['lowPhaseDutyCycle',['../structcy__stc__scb__i2c__config__t.html#a8b742ccfd88a2a9216e9ad7b018a6d51',1,'cy_stc_scb_i2c_config_t']]],
   ['lr',['lr',['../structcy__stc__fault__frame__t.html#a2194671c2c38dc854a05b2851110aa0a',1,'cy_stc_fault_frame_t']]],
+  ['lscsa_5fdef_5frsense_5fp0',['LSCSA_DEF_RSENSE_P0',['../group__group__usbpd__common__macros.html#ga5ab0e2071d9c820bca9a547b5a7a3c45',1,'cy_usbpd_common.h']]],
+  ['lscsa_5fdef_5frsense_5fp1',['LSCSA_DEF_RSENSE_P1',['../group__group__usbpd__common__macros.html#gaa1d8dd25bcf93939fa25b13fafd56bdc',1,'cy_usbpd_common.h']]],
   ['lutcfg0',['lutCfg0',['../structcy__stc__smartio__config__t.html#aef2b7f0a6046e13c757acbcef7c729f1',1,'cy_stc_smartio_config_t']]],
   ['lutcfg1',['lutCfg1',['../structcy__stc__smartio__config__t.html#a29a89d5dd32bf090e54092377a502af4',1,'cy_stc_smartio_config_t']]],
   ['lutcfg2',['lutCfg2',['../structcy__stc__smartio__config__t.html#a1386142a4e417eb4695d25f2abf12fe1',1,'cy_stc_smartio_config_t']]],

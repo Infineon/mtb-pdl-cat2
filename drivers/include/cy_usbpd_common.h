@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 1.30
+* \version 2.00
 *
 * Provides Common Header File of the USBPD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -32,6 +32,7 @@
 #include <stdbool.h>
 #include "cy_device.h"
 #include "cy_device_headers.h"
+#include "cy_flash.h"
 #include "cy_syslib.h"
 #include "cy_syspm.h"
 #include "cy_usbpd_defines.h"
@@ -60,6 +61,37 @@
 /**  Get the minimum from among two numbers. */
 #define CY_USBPD_GET_MIN(a,b)    (((a) > (b)) ? (b) : (a))
 
+/** Integer division - round up to next integer. */
+#define CY_USBPD_DIV_ROUND_UP(x, y) (((x) + ((y) - 1)) / (y))
+
+/** Integer division - round to nearest integer. */
+#define CY_USBPD_DIV_ROUND_NEAREST(x, y) (((x) + ((y) / 2u)) / (y))
+
+/** Combine two bytes to create one 16-bit WORD. */
+#define CY_USBPD_MAKE_WORD(hi,lo)                        (((uint16_t)(hi) << 8) | ((uint16_t)(lo)))
+
+/**
+ * @brief Combine four bytes to create one 32-bit DWORD.
+ */
+#define CY_USBPD_MAKE_DWORD(b3,b2,b1,b0)                         \
+    (((uint32_t)(b3) << 24) | ((uint32_t)(b2) << 16) |  \
+     ((uint32_t)(b1) << 8) | ((uint32_t)(b0)))
+
+/** Combine two WORDs to create one DWORD. */
+#define CY_USBPD_MAKE_DWORD_FROM_WORD(hi,lo)             (((uint32_t)(hi) << 16) | ((uint32_t)(lo)))
+
+/** Retrieve the MSB from a WORD. */
+#define CY_USBPD_WORD_GET_MSB(w)         ((uint8_t)((w) >> 8))
+
+/** Retrieve the LSB from a WORD. */
+#define CY_USBPD_WORD_GET_LSB(w)         ((uint8_t)((w) & 0xFF))
+
+/** Retrieve the Upper nibble from a BYTE. */
+#define CY_USBPD_BYTE_GET_UPPER_NIBBLE(w)         ((uint8_t)(((w) >> 4) & 0xF))
+
+/** Retrieve the Lower nibble from a BYTE. */
+#define CY_USBPD_BYTE_GET_LOWER_NIBBLE(w)         ((uint8_t)((w) & 0xF))
+
 /** Retrieve the LSB from a DWORD. */
 #define CY_USBPD_DWORD_GET_BYTE0(dw)     ((uint8_t)((dw) & 0xFFUL))
 
@@ -72,7 +104,52 @@
 /** Retrieve the MSB from a DWORD. */
 #define CY_USBPD_DWORD_GET_BYTE3(dw)     ((uint8_t)(((dw) >> 24) & 0xFFUL))
 
+#if (CY_FLASH_SIZEOF_ROW == 64U)
+/** Flash row shift number. */
+#define CCG_FLASH_ROW_SHIFT_NUM          (6u)
+#elif (CY_FLASH_SIZEOF_ROW == 128U)
+/** Flash row shift number. */
+#define CCG_FLASH_ROW_SHIFT_NUM          (7u)
+/** Flash row shift number. */
+#elif (CY_FLASH_SIZEOF_ROW == 256U)
+/** Flash row shift number. */
+#define CCG_FLASH_ROW_SHIFT_NUM          (8u)
+#endif /* CY_FLASH_SIZEOF_ROW */
+
+/**
+ * @brief Macro to combine 4 bytes in reverse order to make a 32-bit integer.
+ * @param b Input array of bytes to be combined.
+ * @param i Index into the input byte array.
+ */
+#define CY_USBPD_REV_BYTE_ORDER(b,i)                    \
+          ( (uint32_t) (b)[(i)    ] << 24 )             \
+        | ( (uint32_t) (b)[(i) + 1] << 16 )             \
+        | ( (uint32_t) (b)[(i) + 2] <<  8 )             \
+        | ( (uint32_t) (b)[(i) + 3]       );            \
+
+/** Update a single field in a register. It first clears the field and then updates the data. */
+#define CY_USBPD_REG_FIELD_UPDATE(reg,field,value)               \
+    ((reg) = (((reg) & ~(field##_MASK)) | ((value) << (field##_POS))))
+
+/** Retrieve a specific field from a register. */
+#define CY_USBPD_REG_FIELD_GET(reg,field)                        \
+    (((reg) & field##_MASK) >> field##_POS)
+
+/** Default RSENSE value is 5mOhm. */
+#define LSCSA_DEF_RSENSE_P0        (50u)
+
+/** Default RSENSE value is 5mOhm. */
+#define LSCSA_DEF_RSENSE_P1        (50u)
+
+#if PDL_VBAT_GND_SCP_ENABLE
+/** Battery to ground short circuit protection mode */
+#define VBAT_GND_SCP_MODE_INT_AUTOCTRL (2u)
+#endif /* PDL_VBAT_GND_SCP_ENABLE */
+
 /** \} group_usbpd_common_macros */
+
+/** Forward declaration for USBPD-IP context structure */
+struct cy_stc_usbpd_context_t_;
 
 /*******************************************************************************
 *                            Enumerated Types
@@ -178,12 +255,473 @@ typedef enum PD_ADC_VREF_T
     CY_USBPD_ADC_VREF_VDDD                    /**< VDDD supply used as ADC reference voltage. */
 } cy_en_usbpd_adc_vref_t;
 
+/** Timer Callback type selection */
+typedef enum
+{
+    CY_USBPD_PD_TIMERS_START_ID = 0u,
+    /**< 000: Start index for USB-PD stack timers. */
+
+    CY_USBPD_PD_CABLE_TIMER,
+    /**< 001: Timer used for cable capability check. */
+
+    CY_USBPD_PD_NO_RESPONSE_TIMER,
+    /**< 002: Response timer. */
+
+    CY_USBPD_PD_CBL_DSC_ID_TIMER,
+    /**< 003: Timer used for cable discovery state machine. */
+
+    CY_USBPD_PD_CBL_DELAY_TIMER,
+    /**< 004: Timer used to enforce cable delay. */
+
+    CY_USBPD_PD_PHY_BUSY_TIMER,
+    /**< 005: Timer used to handle PHY busy status. */
+
+    CY_USBPD_PD_GOOD_CRC_TX_TIMER,
+    /**< 006: GoodCRC timer. */
+
+    CY_USBPD_PD_HARD_RESET_TX_TIMER,
+    /**< 007: Hard reset transmit timer. */
+
+    CY_USBPD_PD_VCONN_SWAP_INITIATOR_TIMER,
+    /**< 008: VConn swap initiator timer. */
+
+    CY_USBPD_PD_GENERIC_TIMER,
+    /**< 009: Generic AMS timer. */
+
+    CY_USBPD_PD_PPS_TIMER,
+    /**< 010: PPS related timer. */
+
+    CY_USBPD_PD_SINK_TX_TIMER,
+    /**< 011: PD 3.0 sink Rp flow control timer. */
+
+    CY_USBPD_PD_DATA_RESET_COMP_TIMER,
+    /**< 012: Reserved for future use. */
+
+    CY_USBPD_PD_TIMER_RESERVED_13,
+    /**< 013: Reserved for future use. */
+
+    CY_USBPD_PD_TIMERS_END_ID,
+    /**< 014: End index (inclusive) for USB-PD stack timers. */
+
+    CY_USBPD_TYPEC_TIMERS_START_ID = 15u,
+    /**< 015: Start index for Type-C timers. */
+
+    CY_USBPD_TYPEC_GENERIC_TIMER2 = 15u,
+    /**< 015: Generic Type-C state machine timer #2. */
+
+    CY_USBPD_TYPEC_GENERIC_TIMER1,
+    /**< 016: Generic Type-C state machine timer #1. */
+
+    CY_USBPD_TYPEC_CC1_DEBOUNCE_TIMER,
+    /**< 017: Timer used for CC1 debounce. */
+
+    CY_USBPD_TYPEC_CC2_DEBOUNCE_TIMER,
+    /**< 018: Timer used for CC2 debounce. */
+
+    CY_USBPD_TYPEC_RD_DEBOUNCE_TIMER,
+    /**< 019: Timer used for Rd debounce. */
+
+    CY_USBPD_TYPEC_VBUS_DISCHARGE_TIMER,
+    /**< 020: VBus discharge timer id. */
+
+    CY_USBPD_TYPEC_ACTIVITY_TIMER,
+    /**< 021: Type-C activity timer id. */
+
+    CY_USBPD_TYPEC_RP_CHANGE_TIMER,
+    /**< 022: Timer used to trigger current limit update after Rp change. */
+
+    CY_USBPD_TYPEC_TIMER_RESERVED_23,
+    /**< 023: Reserved for future use. */
+
+    CY_USBPD_TYPEC_TIMERS_END_ID,
+    /**< 024: End index (inclusive) for Type-C timers. */
+
+    CY_USBPD_PD_OCP_DEBOUNCE_TIMER,
+    /**< 025: Timer used for FW debounce of VBus OCP. */
+
+    CY_USBPD_HPD_RX_ACTIVITY_TIMER_ID,
+    /**< 026: Timer used for HPD receive handling. */
+
+    CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER,
+    /**< 027: Timer used for FW debounce of VConn OCP. */
+
+    CY_USBPD_PD_SNK_EPR_MODE_TIMER,
+    /**< 028: Timer used for Pd Sink EPR Mode. */
+
+    CY_USBPD_PD_SRC_EPR_MODE_TIMER,
+    /**< 029: Timer used for Pd Source EPR Mode. */
+
+    CY_USBPD_PD_EPR_KEEPALIVE_TIMER,
+    /**< 030: Timer used by EPR state machine for sending KeepAlive message. */
+
+    CY_USBPD_PD_TIMER_RESERVED_31,
+    /**< 031: Reserved for future use. */
+
+    CY_USBPD_PD1_TIMERS_START_ID = 32u,
+    /**< 032: Start index for USB-PD stack timers. */
+
+    CY_USBPD_PD1_CABLE_TIMER,
+    /**< 033: Timer used for cable capability check. */
+
+    CY_USBPD_PD1_NO_RESPONSE_TIMER,
+    /**< 034: Response timer. */
+
+    CY_USBPD_PD1_CBL_DSC_ID_TIMER,
+    /**< 035: Timer used for cable discovery state machine. */
+
+    CY_USBPD_PD1_CBL_DELAY_TIMER,
+    /**< 036: Timer used to enforce cable delay. */
+
+    CY_USBPD_PD1_PHY_BUSY_TIMER,
+    /**< 037: Timer used to handle PHY busy status. */
+
+    CY_USBPD_PD1_GOOD_CRC_TX_TIMER,
+    /**< 038: GoodCRC timer. */
+
+    CY_USBPD_PD1_HARD_RESET_TX_TIMER,
+    /**< 039: Hard reset transmit timer. */
+
+    CY_USBPD_PD1_VCONN_SWAP_INITIATOR_TIMER,
+    /**< 040: VConn swap initiator timer. */
+
+    CY_USBPD_PD1_GENERIC_TIMER,
+    /**< 041: Generic AMS timer. */
+
+    CY_USBPD_PD1_PPS_TIMER,
+    /**< 042: PPS related timer. */
+
+    CY_USBPD_PD1_SINK_TX_TIMER,
+    /**< 043: PD 3.0 sink Rp flow control timer. */
+
+    CY_USBPD_PD1_DATA_RESET_COMP_TIMER,
+    /**< 044: Reserved for future use. */
+
+    CY_USBPD_PD1_TIMER_RESERVED_43,
+    /**< 045: Reserved for future use. */
+
+    CY_USBPD_PD1_TIMERS_END_ID,
+    /**< 046: End index (inclusive) for USB-PD stack timers. */
+
+    CY_USBPD_TYPEC1_TIMERS_START_ID = 47u,
+    /**< 047: Start index for Type-C timers. */
+
+    CY_USBPD_TYPEC1_GENERIC_TIMER2 = 47u,
+    /**< 047: Generic Type-C state machine timer #2. */
+
+    CY_USBPD_TYPEC1_GENERIC_TIMER1,
+    /**< 048: Generic Type-C state machine timer #1. */
+
+    CY_USBPD_TYPEC1_CC1_DEBOUNCE_TIMER,
+    /**< 049: Timer used for CC1 debounce. */
+
+    CY_USBPD_TYPEC1_CC2_DEBOUNCE_TIMER,
+    /**< 050: Timer used for CC2 debounce. */
+
+    CY_USBPD_TYPEC1_RD_DEBOUNCE_TIMER,
+    /**< 051: Timer used for Rd debounce. */
+
+    CY_USBPD_TYPEC1_VBUS_DISCHARGE_TIMER,
+    /**< 052: VBus discharge timer id. */
+
+    CY_USBPD_TYPEC1_ACTIVITY_TIMER,
+    /**< 053: Type-C activity timer id. */
+
+    CY_USBPD_TYPEC1_RP_CHANGE_TIMER,
+    /**< 054: Timer used to trigger current limit update after Rp change. */
+
+    CY_USBPD_TYPEC1_TIMER_RESERVED_53,
+    /**< 055: Reserved for future use. */
+
+    CY_USBPD_TYPEC1_TIMERS_END_ID,
+    /**< 056: End index (inclusive) for Type-C timers. */
+
+    CY_USBPD_PD1_OCP_DEBOUNCE_TIMER,
+    /**< 057: Timer used for FW debounce of VBus OCP. */
+
+    CY_USBPD_HPD1_RX_ACTIVITY_TIMER_ID,
+    /**< 058: Timer used for HPD receive handling. */
+
+    CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER,
+    /**< 059: Timer used for FW debounce of VConn OCP. */
+
+    CY_USBPD_CCG_ACTIVITY_TIMER_ID,
+    /**< 060: PD Application level activity timer. */
+
+    CY_USBPD_PD1_SNK_EPR_MODE_TIMER,
+    /**< 061: Timer used for Pd Sink EPR Mode. */
+
+    CY_USBPD_PD1_SRC_EPR_MODE_TIMER,
+    /**< 062: Timer used for Pd Source EPR Mode. */
+
+    CY_USBPD_PD1_EPR_KEEPALIVE_TIMER,
+    /**< 63: Timer used by EPR state machine for sending KeepAlive message. */
+
+    CY_USBPD_APP_TIMERS_START_ID = 64u,
+    /**< 064: Start index for Application level timers. */
+
+    CY_USBPD_APP_PSOURCE_EN_TIMER = 64u,
+    /**< 064: Timer used to ensure timely completion of power source enable operation. */
+
+    CY_USBPD_APP_PSOURCE_EN_MONITOR_TIMER,
+    /**< 065: Timer used to monitor voltage during power source enable operation. */
+
+    CY_USBPD_APP_PSOURCE_EN_HYS_TIMER,
+    /**< 066: Timer used to add hysteresis at the end of a power source enable operation. */
+
+    CY_USBPD_APP_PSOURCE_DIS_TIMER,
+    /**< 067: Timer used to ensure timely completion of power source disable operation. */
+
+    CY_USBPD_APP_PSOURCE_DIS_MONITOR_TIMER,
+    /**< 068: Timer used to monitor voltage during power source disable operation. */
+
+    CY_USBPD_APP_PSOURCE_CF_TIMER,
+    /**< 069: Power source Current foldback restart timer ID. */
+
+    CY_USBPD_APP_PSOURCE_DIS_EXT_DIS_TIMER,
+    /**< 070: Timer used to discharge VBus for some extra time at the end of a power source disable operation. */
+
+    CY_USBPD_APP_DB_SNK_FET_DIS_DELAY_TIMER,
+    /**< 071: Dead battery Sink Fet disable delay timer. */
+
+    CY_USBPD_APP_PSINK_DIS_TIMER,
+    /**< 072: Timer used to ensure timely completion of power sink disable operation. */
+
+    CY_USBPD_APP_PSINK_DIS_MONITOR_TIMER,
+    /**< 073: Timer used to monitor voltage during power sink disable operation. */
+
+    CY_USBPD_APP_VDM_BUSY_TIMER,
+    /**< 074: Timer used to delay retry of VDMs due to BUSY responses or errors. */
+
+    CY_USBPD_APP_AME_TIMEOUT_TIMER,
+    /**< 075: Timer used to implement AME timeout. */
+
+    CY_USBPD_APP_VBUS_OCP_OFF_TIMER,
+    /**< 076: Timer used to disable VBus supply after OC fault. */
+
+    CY_USBPD_APP_VBUS_OVP_OFF_TIMER,
+    /**< 077: Timer used to disable VBus supply after OV fault. */
+
+    CY_USBPD_APP_VBUS_UVP_OFF_TIMER,
+    /**< 078: Timer used to disable VBus supply after UV fault. */
+
+    CY_USBPD_APP_VBUS_SCP_OFF_TIMER,
+    /**< 079: Timer used to disable VBus supply after SC fault. */
+
+    CY_USBPD_APP_FAULT_RECOVERY_TIMER,
+    /**< 080: App timer used to delay port enable after detecting a fault. */
+
+    CY_USBPD_APP_SBU_DELAYED_CONNECT_TIMER,
+    /**< 081: Timer used to do delayed SBU connection in Thunderbolt mode. */
+
+    CY_USBPD_APP_MUX_DELAY_TIMER,
+    /**< 082: Timer used to delay VDM response. */
+
+    CY_USBPD_APP_MUX_POLL_TIMER,
+    /**< 083: Timer used to MUX status. */
+
+    CY_USBPD_APP_CBL_DISC_TRIGGER_TIMER,
+    /**< 084: Timer used to trigger cable discovery after a V5V supply change. */
+
+    CY_USBPD_APP_V5V_CHANGE_DEBOUNCE_TIMER,
+    /**< 085: Timer used to debounce V5V voltage changes. */
+
+    CY_USBPD_APP_VCONN_RECOVERY_TIMER,
+    /**< 086: Timer used to run Vconn swap after V5V was lost and recovered while UFP. */
+
+    CY_USBPD_APP_OT_DETECTION_TIMER,
+    /**< 087: Timer used to call OT measurement handler. */
+
+    CY_USBPD_APP_CHUNKED_MSG_RESP_TIMER,
+    /**< 088: Timer ID used to respond to chunked messages with NOT_SUPPORTED. */
+
+    CY_USBPD_APP_RESET_VDM_LAYER_TIMER,
+    /**< 089: Timer used to run reset of VDM layer. */
+
+    CY_USBPD_APP_BB_ON_TIMER,
+    /**< 090: Timer used to provide delay between disabling the Billboard device and re-enabling it. */
+
+    CY_USBPD_APP_BB_OFF_TIMER,
+    /**< 091: Timer used to display USB billboard interface to save power. */
+
+    CY_USBPD_APP_INITIATE_SWAP_TIMER,
+    /**< 092: Timer used to initiate SWAP operations in DRP applications with a power/data role preference. */
+
+    CY_USBPD_APP_VDM_NOT_SUPPORT_RESP_TIMER_ID,
+    /**< 093: VDM Not supported response timer. */
+
+    CY_USBPD_APP_BC_TIMERS_START_ID,
+    /**< 094: Start of Battery Charging State Machine timers. */
+
+    CY_USBPD_APP_BC_GENERIC_TIMER1,
+    /**< 095: Generic timer #1 used by the BC state machine. */
+
+    CY_USBPD_APP_BC_GENERIC_TIMER2,
+    /**< 096: Generic timer #2 used by the BC state machine. */
+
+    CY_USBPD_APP_BC_DP_DM_DEBOUNCE_TIMER,
+    /**< 097: Timer used to debounce voltage changes on DP and DM pins. */
+
+    CY_USBPD_APP_BC_DETACH_DETECT_TIMER,
+    /**< 098: Timer used to detect detach of a BC 1.2 sink while functioning as a CDP. */
+
+    CY_USBPD_APP_CDP_DP_DM_POLL_TIMER,
+    /**< 099: Timer used to initiate DP/DM voltage polling while connected as a CDP. */
+
+    CY_USBPD_APP_EPR_MODE_TIMER,
+    /**< 100: Timer used by EPR state machine. */
+
+    CY_USBPD_APP_EPR_EXT_CMD_TIMER,
+    /**< 101: Timer used to send enter/exit EPR mode events to EPR state machine. */
+
+    CY_USBPD_APP_TIMER_HPD_DELAY_TIMER,
+    /**< 102: This timer is used to delay HPD events. */
+    CY_USBPD_APP_PSOURCE_VBUS_SET_TIMER_ID,
+    /**< 103: Power source VBUS set timer ID. */
+
+    CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID,
+    /**< 104: Timeout timer to set safe voltage during FET On operation. */
+
+    CY_USBPD_APP_PSOURCE_SAFE_FET_ON_MONITOR_TIMER_ID,
+    /**< 105: Timer to monitor voltage during FET On operation. */
+
+    CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER,
+    /**< 106: Timer for VBUS SLow Discharge */
+
+    CY_USBPD_CCG_LS_MASTER_PORT_DEBOUNCE_TIMER_ID,
+    /**< 107: Macro defines Master Debounce Timer ID. */
+
+    CY_USBPD_CCG_LS_SLAVE_PORT_DEBOUNCE_TIMER_ID,
+    /**< 108: Macro defines Slave Debounce Timer ID. */
+
+    CY_USBPD_CCG_LS_MASTER_WRITE_TIMER_ID,
+    /**< 109: Macro defines Master Write Timer ID. */
+
+    CY_USBPD_CCG_LS_HEART_BEAT_TIMER_ID,
+    /**< 110: Macro defines Heart Beat Timer ID. */
+
+    CY_USBPD_THROTTLE_TIMER_ID,
+    /**< 111: Power Throttling timer ID. */
+
+    CY_USBPD_THROTTLE_WAIT_FOR_PD_TIMER_ID,
+    /**< 112: Power Throttling timer ID. */
+
+    CY_USBPD_HPI_PD_CMD_TIMER,
+    /**< 113: Timer ID reserved for future use. */
+
+
+    CY_USBPD_LINS_BUS_INACTIVE_TIMER,
+    /**< 114: Bus Inactivity Timeout for LIN. */
+    
+    CY_USBPD_LINS_BUS_LISTEN_TIMER,
+    /**< 115: Nominal Time for Reception of a single frame from BREAK */
+    
+    CY_USBPD_LINS_MULTIFRAME_DROP_TIMER,
+    /**< 116: Multiframe timer to drop the frame upon late reception. */
+
+    CY_USBPD_APP_FET_SOFT_START_TIMER_ID,
+    /**< 117: Timer used to control soft turn-on of power FET gate drivers. */
+
+    CY_USBPD_APP_HAL_VREG_TIMER,
+    /**< 118: Timer that can be used for Vreg fault handling. */
+
+    CY_USBPD_APP_HAL_GENERIC_TIMER,
+    /**< 119: Timer that can be used for generic HAL functions. */
+
+    CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER,             
+    /**< 120: Timer ID reserved for regulator startup monitoring. */
+
+    CY_USBPD_APP_DATA_RESET_TIMER,
+    /**< 121: Timer ID for DATA Reset handling. */
+
+    CY_USBPD_SYS_BLACK_BOX_TIMER_ID,
+    /**< 122: Timer ID reserved for blackbox. */
+
+    CY_USBPD_APP_PSOURCE_REGULATOR_MON_TIMER,
+    /**< 123: Timer ID used to monitor regulator enable status periodically. */
+
+    CY_USBPD_APP_BAD_SINK_TIMEOUT_TIMER,
+    /**< 124: PD bad sink timeout timer ID. */
+
+    CY_USBPD_APP_VBAT_GND_SCP_TIMER_ID,
+    /**< 125: VBAT-GND SCP recovery timer. */
+
+    CY_USBPD_APP_VCONN_OCP_TIMER,
+    /**< 126: Timer to perform delayed start for VCONN OCP. */
+    
+    CY_USBPD_APP_TIMERS_RESERVED_START_ID = 127u,
+    /**< 127: App Reserved Timer Id Start. */
+    
+    CY_USBPD_APP_TIMER_RESERVED_127 = CY_USBPD_APP_TIMERS_RESERVED_START_ID,
+    /**< 127: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_128,
+    /**< 128: Timer ID reserved for future use. */
+    
+    CY_USBPD_APP_TIMER_RESERVED_129,
+    /**< 129: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_130,
+    /**< 130: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_131,
+    /**< 131: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_132,
+    /**< 132: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_133,
+    /**< 133: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_134,
+    /**< 134: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_TIMER_RESERVED_135,
+    /**< 135: Timer ID reserved for future use. */
+
+    CY_USBPD_APP_PORT1_TIMER_START_ID = 136u,
+    /**< 136: Start of timer IDs reserved for the application layer management of PD port #1. */
+
+    CY_USBPD_I2C_SLAVE_SCB0_TIMER = 208u,
+    /**< 208: I2C transfer timeout for SCB0. */
+
+    CY_USBPD_I2C_SLAVE_SCB1_TIMER = 209u,
+    /**< 209: I2C transfer timeout for SCB1. */
+
+    CY_USBPD_I2C_SLAVE_SCB2_TIMER = 210u,
+    /**< 210: I2C transfer timeout for SCB2. */
+
+    CY_USBPD_I2C_SLAVE_SCB3_TIMER = 211u,
+    /**< 211: I2C transfer timeout for SCB3. */
+
+    CY_USBPD_USER_TIMERS_START_ID = 212u,
+    /**< 212: Start of timer IDs left for generic solution level usage. */
+
+    CY_USBPD_MAX_TIMER_ID = 65535u,
+
+} cy_en_usbpd_timer_id_t;
+
 /** \} group_usbpd_common_enums */
 
 /**
 * \addtogroup group_usbpd_common_enums
 * \{
 */
+
+/** List of dedicated comparators supported by the PD block on various devices.
+ * The actual comparators supported vary across device families. See comments
+ * associated with each comparator ID for list of devices that support this
+ * comparator.
+ */
+typedef enum
+{
+    CY_USBPD_VBUS_LSCSA_OCP_CONFIG,                           /**< OCP comparator gain control. Only available on PMG1S0.*/
+    CY_USBPD_VBUS_LSCSA_EA_CONFIG,                            /**< EA comparator gain control. Only available on PMG1S0. */
+    CY_USBPD_VBUS_LSCSA_PFC_OFF_CONFIG,                       /**< PFC OFF comparator gain control. Only available on PMG1S0. */
+    CY_USBPD_VBUS_LSCSA_PFC_ON_CONFIG,                        /**< PFC ON comparator gain control. Only available on PMG1S0. */
+    CY_USBPD_VBUS_LSCSA_SR_OFF_CONFIG,                        /**< SR OFF comparator gain control. Only available on PMG1S0. */
+    CY_USBPD_VBUS_LSCSA_SR_ON_CONFIG,                         /**< SR ON comparator gain control. Only available on PMG1S0. */
+    CY_USBPD_VBUS_LSCSA_MAX_CONFIG_VALUE                      /**< End of comparator list. */
+} cy_en_usbpd_vbus_lscsa_app_config_t;
 
 /** List of dedicated comparators supported by the PD block on various devices.
  * The actual comparators supported vary across device families. See comments
@@ -204,7 +742,7 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_P0_SBU1               = 3,    /**< Port-0 SBU1 Comparator. Only available on PMG1S3. */
     CY_USBPD_VBUS_COMP_ID_P0_SBU2               = 4,    /**< Port-0 SBU2 Comparator. Only available on PMG1S3. */
-#elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+#elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_VBUS_DISCHARGE        = 3,    /**< Discharge comparator. */
     CY_USBPD_VBUS_COMP_ID_LSCSA_SCP             = 4,    /**< SCP comparator. */
@@ -220,8 +758,12 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_DP_DETACH             = 4,    /**< D+ voltage comparator. Only available on PMG1S1. */
     CY_USBPD_VBUS_COMP_ID_DM_DETACH             = 5,    /**< D- voltage comparator. Only available on PMG1S1. */
 #endif /* CY_DEVICE_CCG3PA */
-
-    COMP_ID_MAX                                 = 7     /**< End of comparator list. */
+#if defined(CY_DEVICE_CCG3PA)
+    CY_USBPD_VBUS_COMP_ID_LSCSA_PFC             = 6,    /**< PFC comparator. Only available on PMG1S0. */
+    CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P            = 7,    /**< VSRC_NEW comparator. Only available on PMG1S0. */
+    CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M            = 8,    /**< VSRC_NEW comparator. Only available on PMG1S0. */
+#endif /* CY_DEVICE_CCG3PA */
+    COMP_ID_MAX                                 = 9     /**< End of comparator list. */
 
 } cy_en_usbpd_comp_id_t;
 
@@ -239,7 +781,9 @@ typedef enum
     CY_USBPD_VBUS_FILTER_ID_DISCH_EN  = 2,              /**< Discharge enable filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_SCP = 3,              /**< SCP filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP = 4,              /**< OCP filter for PMG1S0. */
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+    CY_USBPD_VBUS_FILTER_ID_LSCSA_PFC = 5,              /**< PFC filter for PMG1S0. Can run based on HF or LF clock. */
+    CY_USBPD_VBUS_FILTER_ID_LSCSA_SR  = 6,              /**< SR filter for PMG1S0. Can run based on HF or LF clock. */
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     CY_USBPD_VBUS_FILTER_ID_DISCH_EN  = 2,              /**< Discharge enable filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_SR  = 3,              /**< CBL_0, SR filter for CCG7D. Can run based on HF or LF clock. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_PFC = 4,              /**< CBL_1, PFC filter for CCG7D. Can run based on HF or LF clock. */
@@ -376,6 +920,7 @@ typedef enum
     CHGB_SRC_TERM_APPLE_1A = 0,         /**< Apple 1A termination */
     CHGB_SRC_TERM_APPLE_2_1A,           /**< Apple 2.1A termination */
     CHGB_SRC_TERM_APPLE_2_4A,           /**< Apple 2.4A termination */
+    CHGB_SRC_TERM_APPLE_3A,             /**< Apple 3.0A termination */ 
     CHGB_SRC_TERM_QC,                   /**< Quick Charge termination */
     CHGB_SRC_TERM_AFC,                  /**< AFC termination */
     CHGB_SRC_TERM_DCP,                  /**< DCP termination */
@@ -424,7 +969,7 @@ typedef enum
  */
 typedef enum
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     CHGB_VREF_0_325V = 0,               /**< 0.325 V */
     CHGB_VREF_0_425V = 0,               /**< 0.425 V. Use of 0.325 with offset of 100 mV */
     CHGB_VREF_0_7V,                     /**< 0.7 V */
@@ -458,6 +1003,14 @@ typedef enum
     CHGB_COMP_EDGE_BOTH                 /**< Interrupt on either  edge. */
 } cy_en_usbpd_bch_comp_edge_t;
 
+/**
+ * VBAT_GND Short circuit detection levels.
+ */
+typedef enum
+{
+    PD_VBAT_GND_SCP_6A = 0,               /**< 6A is current limit */
+    PD_VBAT_GND_SCP_10A                   /**< 10A is current limit */
+} cy_en_usbpd_vbat_gnd_scp_level_t;
 /** \} group_usbpd_legacy_enums */
 
 /**
@@ -556,6 +1109,94 @@ typedef void (*cy_usbpd_typec_evt_cbk_t) (
         void *context,
         cy_en_pd_typec_events_t event);
 
+/**
+ * @brief Vbus current change callback prototype
+ * This is the function prototype for the Vbus current change callback.
+ * Callback can be registered with the cable compensation through
+ * 'cable_comp_enable' function and the callback handler will be called on every
+ * comparator interrupt for the changing Vbus current level.
+ * @param port Port index.
+ * @param vbus_cur Latest Vbus current in 10mA units
+ * @return None
+ */
+typedef void (*cy_cable_comp_vbus_cur_cbk)(void *context, uint16_t vbus_cur);
+
+/**
+ * @typedef cy_pd_cmp_cbk_t
+ * @brief Comparator interrupt callback function.
+ *
+ * @param port PD port on which the event occurred.
+ * @param state State of the comparator.
+ */
+typedef void (*cy_pd_cmp_cbk_t)(void *context, bool state);
+
+/**
+ * @typedef cy_timer_cbk_t
+ * @brief Timer callback function.
+ *
+ * This callback function is invoked on timer expiry and
+ * should be treated as interrupt.
+ */
+typedef void (*cy_timer_cbk_t)(cy_en_usbpd_timer_id_t id, void *callbackContext);
+
+/**
+ * @typedef cy_timer_start_t
+ * @brief Timer Start callback function.
+ *
+ * This callback function is invoked for timer start from driver.
+ */
+typedef bool (*cy_timer_start_t)(struct cy_stc_usbpd_context_t_ *context, void *callbackContext, 
+        cy_en_usbpd_timer_id_t id, uint16_t period, cy_timer_cbk_t cbk);
+
+/**
+ * @typedef cy_timer_stop_t
+ * @brief Timer Stop callback function.
+ *
+ * This callback function is invoked for timer stop from driver.
+ */
+typedef void (*cy_timer_stop_t)(struct cy_stc_usbpd_context_t_ *context, cy_en_usbpd_timer_id_t id);
+
+/**
+ * @typedef cy_timer_is_running_t
+ * @brief Timer callback function.
+ *
+ * This callback function is invoked to check if software timer is running from driver.
+ */
+typedef bool (*cy_timer_is_running_t)(struct cy_stc_usbpd_context_t_ *context, cy_en_usbpd_timer_id_t id);
+
+/**
+ * @typedef cy_slow_discharge_t
+ * @brief vbus_slow_discharge_cbk.
+ *
+ * This callback function is invoked to call vbus_slow_discharge_cbk from driver.
+ */
+typedef void (*cy_slow_discharge_t)(void *pdStackContext);
+
+/**
+ * VBUS current foldback callback function.
+ *
+ * \param pdStackContext
+ * Caller context pointer.
+ *
+ * \param cf_state
+ * Current foldback state.
+ *
+ * \return
+ * None
+ */
+typedef void (*cy_vbus_cf_cbk_t)(void *pdStackContext, bool cf_state);
+
+#if (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && defined(CCG_CDP_EN)) && BATTERY_CHARGING_ENABLE)
+
+/** Structure holding CDP state machine variables. */
+typedef struct cdp_sm_vars
+{
+    bool     isActive;                 /**< Whether the state machine is active. */
+    bool     vdmsrcOn;                 /**< Whether the VDM_SRC supply has been turned ON. */
+    uint8_t  vdmsrcLvCnt;              /**< Number of times the VDM_SRC output has been detected as low. */
+} cdp_sm_vars;
+
+#endif /* (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
 
 /** Config structure for VBUS OVP parameters */
 typedef struct
@@ -691,6 +1332,9 @@ typedef struct
      *  0 - Disable */
     uint8_t enable;
 
+    /** SCP mode. */
+    uint8_t mode;
+
     /** Sense Resistor impedance in milli-Ohm units */
     uint8_t senseRes;
 
@@ -705,6 +1349,13 @@ typedef struct
     uint8_t retryCount;
 
 } cy_stc_fault_vbus_scp_cfg_t;
+
+/** Config structure for VIN UVP / OVP parameters */
+typedef struct
+{
+    /** VIN UVP protection mode. */
+    uint8_t mode;
+} cy_stc_fault_vin_uvp_ovp_cfg_t;
 
 /** Config structure for VBUS RCP parameters */
 typedef struct
@@ -745,7 +1396,62 @@ typedef struct
 
 } cy_stc_fault_sbu_ovp_cfg_t;
 
-/** Config structure for legacy charging parameters */
+/**
+ * @brief Struct to hold the port legacy charging parameters.
+ */
+#if CY_USE_CONFIG_TABLE
+typedef struct
+{
+    uint8_t srcSel;            /**< Legacy charging source selection bit mask:
+                                 *   Bit 0 --> BC 1.2 support
+                                 *   Bit 1 --> Apple charger
+                                 *   Bit 2 --> Quick charge
+                                 *   Bit 3 --> AFC charger
+                                 *   Bit 4 --> QC 4.0 (TypeC PD 3.0 only)
+                                 *  Other bits reserved
+                                 *  BC 1.2 bit is required to support QC (2.0/3.0) and AFC.
+                                 *  For CCG5/CCG5C projects:
+                                 *  Only Bit 0 is valid as the device supports only BC1.2 (DCP) in power states other than S0. In S0 state, device supports only BC1.2 CDP.
+
+                                 *  For CCG6 projects:
+                                 *  Only Bit 0 and Bit 1 are valid as the device supports only BC1.2 (DCP) or  Apple in power states other than S0. In S0 state, device supports only BC1.2 CDP.
+                                 *  Note that both modes cannot be supported simultaneously due to device limitations. If both bits are set, Apple mode is given preference.
+
+                                 *  For CCG3PA/CCG3PA2 projects :
+                                 *  When Apple charger is enabled along with BC 1.2, the Apple charger brick ID should be 2.4A (2). Also, in case of CCG3PA, this require firmware update and hardware changes.
+
+                                 *  Bit 4 is valid regardless of the legacy mode of operation.
+
+                                 *  Legacy can operation in the following modes:
+                                 *  1. Disabled. Bit 0-3 should be zero.
+                                 *  2. BC 1.2: Bit 0 must be set.
+                                 *  Bit 1-3 can be set or cleared based on requirement. But if Bit 1 is set, it requires external hardware support. Refer to CCGx Power SDK User Guide for more details.
+                                 *  3. Apple: Bit 1 should be set and Bits 0, 2, 3 must be zero.
+                                 */
+    uint8_t snkSel;            /**< Legacy charging sink selection bit mask:
+                                 *   Bit 0 --> BC 1.2
+                                 *   Bit 1 --> Apple brick
+                                 *   Bit 2 --> Quick charge
+                                 *   Other bits reserved
+                                 */
+    uint8_t enable;            /**< Reserved for future use */
+    uint8_t appleSrcId;       /**< Apple charger brick ID to be used as source:
+                                 *   Bit 0 --> 1 A
+                                 *   Bit 1 --> 2.1 A
+                                 *   Bit 2 --> 2.4 A
+                                 *   Bit 3 --> 3 A
+                                 */
+    uint8_t qcSrcType;        /**< Quick charge source type:
+                                 *   Bit 0 --> QC 2.0 Class-A
+                                 *   Bit 1 --> QC 2.0 Class-B
+                                 *   Bit 2 --> QC 3.0 Class-A
+                                 *   Bit 3 --> QC 3.0 Class-B
+                                 */
+    uint8_t reserved_1[2];    /**< Reserved for future use */
+    uint8_t afcSrcCapCnt;     /**< Number of AFC source voltage-current capabilities supported. */
+    uint8_t afcSrcCaps[16];   /**< AFC source voltage-current capabilities list. */
+} cy_stc_legacy_charging_cfg_t;
+#else
 typedef struct
 {
     uint8_t enable;           /**< Whether to enable/disable legacy charging Feature
@@ -777,6 +1483,76 @@ typedef struct
     uint8_t afcSrcCapCnt;     /**< Number of AFC source voltage-current capabilities supported. */
     uint8_t afcSrcCaps[16];   /**< AFC source voltage-current capabilities list. */
 } cy_stc_legacy_charging_cfg_t;
+#endif /* CY_USE_CONFIG_TABLE */
+
+/** Config structure for Cable Compensation*/
+typedef struct
+{
+    /** Whether to enable/disable cable compensation Feature
+     *  1 - Enable
+     *  0 - Disable */
+    bool enable;
+
+    /** Whether comparator interrupt received or not. */
+    volatile bool start;
+
+    /** The latest cable compensation Vbus current. */
+    volatile uint16_t cableCompCur;
+
+    /** The current cable compensation voltage drop. */
+    uint16_t cableCompDrop;
+
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    uint8_t vbusCblGain;
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+} cy_stc_cable_comp_cfg_t;
+
+/** Config structure for VBUS SLOW DISCHARGE*/
+typedef struct
+{
+    /** Placeholder for VBUS discharge strength for DISCHG_SHV_CTRL[0]*/
+    uint8_t vbus_discharge_ds0;
+
+    /** Placeholder for VBUS discharge strength for DISCHG_SHV_CTRL[1]*/
+    uint8_t vbus_discharge_ds1;
+
+    /** Flag determines if VBUS discharge ON request is ongoing */
+    uint8_t vbus_is_slow_dischargeOn;
+
+    /** Flag determines if VBUS discharge OFF request is ongoing */
+    uint8_t vbus_is_slow_dischargeOff;
+
+} cy_stc_slow_discharge_cfg_t;
+
+/** Structure for trim variables*/
+typedef struct
+{
+/** \cond DOXYGEN_HIDE */
+    uint32_t lszcd_trim;
+    uint32_t hsrcp_trim;
+/** \endcond */
+
+    /** Variables are created to use dynamic CC/CF gain setting at 3A switchover. 
+    For 3A application, using fixed gain of 80 across 1A to 3A.
+    For 5A application, using fixed gain of 60 across 1A to 5A.  */
+   
+/** \cond DOXYGEN_HIDE */
+    uint8_t cc_trim_1a;
+    uint8_t cc_trim_2a;
+    uint8_t cc_trim_3a;
+    uint8_t cc_trim_3a_g2;
+    uint8_t cc_trim_4a_g2;
+    uint8_t cc_trim_5a_g2;
+/** \endcond */
+
+/** 20CSA current sense offset in 10uV with gain = 1. This offset shall be treated as 20CSA trim.
+    This trim has to be subtracted while sampling 20CSA output.
+   And added, while setting reference to 20CSA trigger. */
+   
+    uint16_t offset_20csa;
+    
+} cy_stc_trims_cfg_t;
+
 
 /** Config structure for USBPD IP configuration */
 typedef struct
@@ -807,10 +1583,17 @@ typedef struct
     
     /** Legacy Charging Configuration. */
     const cy_stc_legacy_charging_cfg_t *legacyChargingConfig;
+
+    /** Input under voltage protection configuration */
+    cy_stc_fault_vin_uvp_ovp_cfg_t vinUvpConfig;
+
+    /** Input over voltage protection configuration */
+    cy_stc_fault_vin_uvp_ovp_cfg_t vinOvpConfig;
+
 } cy_stc_usbpd_config_t;
 
 /** Context structure for USBPD-IP */
-typedef struct
+typedef struct cy_stc_usbpd_context_t_
 {
     /** USBPD port Index. **/
     uint8_t port;
@@ -938,6 +1721,12 @@ typedef struct
     
     /** CFET ON-OFF State */
     bool vbusCfetOn;
+    
+    /** VBUS RSENSE value */
+    uint8_t vbusCsaRsense;
+    
+    /** Flag to indicate current foldback is active */
+    uint32_t cfCur;
 
     /** Auto toggle enable from stack. */
     uint8_t volatile autoToggleEn;
@@ -1001,6 +1790,190 @@ typedef struct
 
     /** Pointer to the DPM status structure. */
     cy_cb_pd_dpm_get_config_t dpmGetConfig;
+
+    /** The Vbus current change callback handler, refer to 'cy_cable_comp_vbus_cur_cbk'. */
+    cy_cable_comp_vbus_cur_cbk cableCompVbusCurCbk;
+
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    
+    /** Callback function for SR Comparator */
+    cy_pd_cmp_cbk_t srCmpCbk;
+    
+    /** Callback function for PFC Comparator */
+    cy_pd_cmp_cbk_t pfcCmpCbk;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+
+    /** Cable compensation structure */
+    cy_stc_cable_comp_cfg_t cableStat;
+
+    /** VBUS slow discharge structure */
+    cy_stc_slow_discharge_cfg_t vbusSlowDischarge;
+
+    /** Callback function for fault timer start */
+    cy_timer_start_t timerStartcbk;
+
+    /** Callback function for fault timer stop */
+    cy_timer_stop_t  timerStopcbk;
+
+    /** Callback function for fault timer is running */
+    cy_timer_is_running_t timerIsRunningcbk;
+
+    /** Callback function for vbus slow discharge */
+    cy_slow_discharge_t vbusSlowDischargecbk;
+
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    /** Structure to use use dynamic CC/CF gain setting at 3A switchover */
+    cy_stc_trims_cfg_t trimsConfig;
+    
+    /** Peak Current Resistance */
+    uint8_t peak_current_sense_resistor;
+#endif /*(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+
+    /** Callback function for vbus current foldback */
+    cy_vbus_cf_cbk_t cfCbk;
+
+    /** Flag that indicates VBUS voltage transition is in idle state. */
+    volatile bool vbtrIdle;
+
+    /** Callback function for VBUS voltage transition. */
+    cy_cb_adc_events_t vbtrCbk;
+
+    /** Flag that indicates VBUS current transition is in idle state. */
+    volatile bool ibtrIdle;
+
+    /** Callback function for VBUS current transition. */
+    cy_cb_adc_events_t ibtrCbk;
+
+    /** GPIO port base for VBAT-GND SCP. */
+    GPIO_PRT_Type *vbatGndFetPort;
+
+    /** GPIO pin number for VBAT-GND SCP. */
+    uint32_t vbatGndFetPin;
+
+    /** Flag that indicates the enable/disable status for VBAT-GND SCP */
+    bool vbatGndScpEnStatus;
+
+    /** Flag that indicates the VBAT-GND SCP mode */
+    uint8_t vbatGndScpMode;
+
+    /** Flag that indicates gate driver type for VBAT-GND SCP FET */
+    bool vbatGndScpPgdoType;
+
+    /** Callback function for VBAT-GND SCP */
+    cy_cb_adc_events_t vbatGndScpCb;
+
+    /** Inductor current limit fault enable/disable flag */
+    bool bbIlimDetEnStatus;
+
+    /** VDDD regulator brown out fault detect enable/disable flag */
+    volatile bool brownOutDetEnStatus;
+
+    /** VDDD regulator current inrush fault detect enable/disable flag */
+    volatile bool vregInrushDetEnStatus;
+
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+
+#if (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE)
+    
+    /** Structure to hold CDP State Machine related information */
+    cdp_sm_vars cdpState;
+    
+#endif /* (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
+
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    
+    /** VBUS_IN_DISCHARGE Enable */
+    bool vbusInDischargeEn;
+    
+    /** VBus SCP software Limit */
+    uint16_t vbusScpLimit;
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+
+    /** VBus OCP software debounce in ms. */
+    uint8_t ocpSwDbMs;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
+
+    /** VBTR module source transition pending status */
+    volatile bool vbtrSrcPending;
+
+    /** VBTR module sink transition pending status */
+    volatile bool vbtrSnkPending;
+
+    /** Buck boost soft start voltage ramp OVP callback function. OVP is detected using
+     * UVP comparator. */
+    cy_cb_vbus_fault_t bbOvpCbk;
+
+    /** Current foldback enable status */
+    bool cfEnStatus;
+
+    /** Input under voltage protection enable status */
+    bool vinUvpIsEnabled;
+
+    /** Callback function to be executed on input under voltage event */
+    cy_cb_adc_events_t vinUvpCbk;
+
+    /** Input over voltage protection enable status */
+    bool vinOvpIsEnabled;
+
+    /** Callback function to be executed on input over voltage event */
+    cy_cb_adc_events_t vinOvpCbk;
+
+    /** Callback function for VCONN SCP fault */
+    cy_cb_vbus_fault_t vconnScpCbk;
+    
+    /** Pointer to configuration table */
+    const void *cfg_table;
+
+    /** Callback function for PDS SCP comparator */
+    cy_cb_adc_events_t pdsScpCbk;
+
+    /** Callback function for CC Up comparator */
+    cy_cb_adc_events_t ccUpCbk;
+
+    /** Callback function for CC Down comparator */
+    cy_cb_adc_events_t ccDnCbk;
+
+    /** Callback function for iLim comparator */
+    cy_cb_adc_events_t bbIlimCbk;
+
+    /** Callback function for Internal regulator (VREG) inrush detection */
+    cy_cb_adc_events_t vregInrushCbk;
+
+    /** Callback function for Brown Out Detection (BOD) detection */
+    cy_cb_adc_events_t bodCbk;
+    
+    /** Buck-boost regulation enable status */
+    bool bbEnableStatus;
+
+    /** Buck-boost regulation enable sequence complete status */
+    bool bbEnableDoneStatus;
+    
+    /** Variable to keep soft start pwm duty */
+    uint16_t bbSsPwmDuty;
+    
+#if CCG_PD_DUALPORT_ENABLE
+
+    /** Variable to for number of active ports */
+    uint32_t pdssActivePorts;
+#endif /* CCG_PD_DUALPORT_ENABLE */
+
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    /** Deep sleep entry register backup. */
+    uint32_t vregActive40;
+    
+    /** Deep sleep entry register backup. */
+    uint32_t vconn20CtrlActive;
+    
+    /** Deep sleep entry register backup. */
+    uint32_t pump5vCtrlActive;
+#if PDL_VBAT_GND_SCP_ENABLE
+    /** VBAT-GND SCP uses VBUS SCP reference (SEL4) in deep sleep */
+    uint8_t bat2gndVrefActive;
+#else /* !PDL_VBAT_GND_SCP_ENABLE */
+    /** VBAT-GND SCP uses VBUS SCP reference (SEL4) in deep sleep */
+    uint32_t bbBat2gndProtCnfgActive;
+#endif /* !PDL_VBAT_GND_SCP_ENABLE */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
 
 } cy_stc_usbpd_context_t;
 

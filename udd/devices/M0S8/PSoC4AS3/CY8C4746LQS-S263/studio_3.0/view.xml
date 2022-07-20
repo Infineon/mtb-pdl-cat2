@@ -6,7 +6,7 @@
   <Param name="Silicon_Revision" value="PRODUCTION" />
   <Param name="Package" value="40-QFN-2" />
   <Param name="CPU" value="ARM CM0+" />
-  <Param name="DeviceSeries" value="PSoC 4100S Plus" />
+  <Param name="DeviceSeries" value="PSoC 4700S Plus" />
   <Param name="Speed_MHz" value="48" />
   <Param name="Flash_KB" value="64" />
   <Param name="SRAM_KB" value="8" />

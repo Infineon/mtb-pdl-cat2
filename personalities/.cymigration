@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Migration>
+  <Source id="m0s8pll-1.0">
+    <Destination id="m0s8pll-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8pll-1.0">
+    <Destination id="m0s8pll-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8pll-2.0">
+    <Destination id="m0s8pll-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8mscv3-1.0">
+    <Destination id="m0s8mscv3-1.1" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8csd-1.0">
+    <Destination id="m0s8csd-1.1" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8sar-1.0">
+    <Destination id="m0s8sar-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8hfclk-1.0">
+    <Destination id="m0s8hfclk-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="sourceClock" value="`${(value(&quot;sourceClock&quot;) eq &quot;ECO&quot;) ? &quot;EXCO&quot; : (value(&quot;sourceClock&quot;) eq &quot;PLL&quot;) ? &quot;EXCO&quot; : value(&quot;sourceClock&quot;)}`" />
+    </Destination>
+  </Source>
+</Migration>

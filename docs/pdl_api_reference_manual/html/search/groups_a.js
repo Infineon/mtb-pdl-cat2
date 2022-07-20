@@ -42,6 +42,7 @@ var searchData=
   ['macros',['Macros',['../group__group__usbfs__dev__drv__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__usbpd__common__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__usbpd__hpd__macros.html',1,'']]],
+  ['macro',['Macro',['../group__group__usbpd__idac__ctrl__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__usbpd__legacy__macros.html',1,'']]],
   ['mux_20_28usbpd_29',['MUX (USBPD)',['../group__group__usbpd__mux.html',1,'']]],
   ['macros',['Macros',['../group__group__usbpd__typec__macros.html',1,'']]],

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 1.30
+* \version 2.0
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -38,6 +38,213 @@
 */
 
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
+
+
+#if CY_USE_CONFIG_TABLE
+    /** VBUS OVP TABLE */
+    #define GET_VBUS_OVP_TABLE(x) pd_get_ptr_ovp_tbl(x)
+    /** VBUS OCP TABLE */
+    #define GET_VBUS_OCP_TABLE(x) pd_get_ptr_ocp_tbl(x)
+    /** VBUS RCP TABLE */
+    #define GET_VBUS_RCP_TABLE(x) pd_get_ptr_rcp_tbl(x)
+    /** VBUS UVP TABLE */
+    #define GET_VBUS_UVP_TABLE(x) pd_get_ptr_uvp_tbl(x)
+    /** VCONN OCP TABLE */
+    #define GET_VCONN_OCP_TABLE(x) pd_get_ptr_vconn_ocp_tbl(x)
+    /** VBUS SCP TABLE */
+    #define GET_VBUS_SCP_TABLE(x) pd_get_ptr_scp_tbl(x)
+#else
+    /** VBUS OVP TABLE */
+    #define GET_VBUS_OVP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vbusOvpConfig)
+    /** VBUS OCP TABLE */
+    #define GET_VBUS_OCP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vbusOcpConfig)
+    /** VBUS RCP TABLE */
+    #define GET_VBUS_RCP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vbusRcpConfig)
+    /** VBUS UVP TABLE */
+    #define GET_VBUS_UVP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vbusUvpConfig)
+    /** VCONN OCP TABLE */
+    #define GET_VCONN_OCP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vconnOcpConfig)
+    /** VBUS SCP TABLE */
+    #define GET_VBUS_SCP_TABLE(x) (((cy_stc_usbpd_context_t *)x)->usbpdConfig->vbusScpConfig)
+#endif /* CY_USE_CONFIG_TABLE */
+
+/** Default reference voltage on M0S8-USBPD IP. */
+#define PD_ADC_DEFAULT_VDDD_VOLT_MV             (3300u)
+
+/** Reference voltage in MX_PD IP (2.0 V) */
+#define MX_PD_ADC_REF_VOLT_MV                   (2000u)
+
+/** Bandgap voltage in millivolt. */
+#define PD_ADC_BAND_GAP_VOLT_MV                 (1200u)
+
+/** Maximum ADC count. */
+#define PD_ADC_MAX_VALUE                        (0xFFu)
+
+/** Number of ADC levels. */
+#define PD_ADC_NUM_LEVELS                       (PD_ADC_MAX_VALUE + 1u)
+
+/**
+ * The minimum comparator output shall be limited to this value to guard
+ * against ground bounce and other ADC noise.
+ */
+#define PD_ADC_LEVEL_MIN_THRESHOLD              (4u)
+
+/**
+ * The maximum comparator output shall be limited to this value to guard
+ * against max level.
+ */
+#define PD_ADC_LEVEL_MAX_THRESHOLD              (254u)
+
+/** Loop timeout count for ADC. */
+#define PD_ADC_TIMEOUT_COUNT                    (200UL)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_20P_VAL                    (10u)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_10P_VAL                    (20u)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_9P_VAL                     (22u)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_8P_VAL                     (25u)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_6P_VAL                     (33u)
+
+/** Multiplied by 2. */
+#define VBAT_MON_DIV_8P_VAL                     (25u)
+
+/** Maximum voltage in mV that can be measured with 20% divider. */
+#define VBUS_DIV_20_PER_MAX_VOLT                (9000U)
+
+/** Ideal Rsense value in 0.1mOhm units */
+#define CSA_IDEAL_RSENSE                         (50u)
+
+/**
+ * The macro holds the VBUS change per change in iDAC setting. This voltage assumes
+ * that the feedback divider resistance (R1) is 200KOhms. It needs to be 200KOhm
+ * for supporting PPS operation. This value is used in signed number operation
+ * and should be left as signed.
+ * This value should not be changed. The iDAC sink has 1024 steps of 20mV and iDAC
+ * source has 128 steps of 20mV. No bound checks are added as extreme values are
+ * outside operating condition.
+ */
+#define VBUS_CHANGE_PER_DAC_BIT             (20)
+
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+/* Fixed Gain settings */
+#define CC_GAIN_VALUE                           (80u)
+#define OCP_GAIN_VALUE                          (40u)
+#define SCP_GAIN_VALUE                          (20u)
+#define CSA_GAIN_VALUE_LOW                      (40u)
+#define CSA_GAIN_VALUE_HIGH                     (150u)
+
+/* CCG7D VOUT_MON and VOUT_CBL gain options mask */
+#define CSA_VOUT_MON_CBL_GAIN_OPTIONS_MASK      (3u)
+
+/* CCG7D VOUT_MON and VOUT_CBL gain selection */
+#define CSA_VOUT_MON_CBL_GAIN_OPTIONS_70_150    (0u)
+#define CSA_VOUT_MON_CBL_GAIN_OPTIONS_40_150    (1u)
+#define CSA_VOUT_MON_CBL_GAIN_OPTIONS_70_200    (2u)
+#define CSA_VOUT_MON_CBL_GAIN_OPTIONS_40_200    (3u)
+
+/* CCG7D VOUT_MON gain mask */
+#define CSA_VOUT_MON_GAIN_MASK                  ((uint32_t)1u << 7u)
+
+/* CCG7D VOUT_MON gain selection */
+#define CSA_VOUT_MON_GAIN_SEL_LOW               ((uint32_t)0u << 7u)
+#define CSA_VOUT_MON_GAIN_SEL_HIGH              ((uint32_t)1u << 7u)
+
+/* CCG7D VOUT_CBL gain mask */
+#define CSA_VOUT_CBL_GAIN_MASK                  ((uint32_t)1u << 6u)
+
+/* CCG7D VOUT_CBL gain selection */
+#define CSA_VOUT_CBL_GAIN_SEL_LOW               ((uint32_t)0u << 6u)
+#define CSA_VOUT_CBL_GAIN_SEL_HIGH              ((uint32_t)1u << 6u)
+
+/* USBPD load current in 10mA unites */
+#define CY_PD_I_0P9A                    (90u)
+#define CY_PD_I_3A                      (300u)
+
+#if (VBUS_CTRL_TRIM_ADJUST_ENABLE)
+
+#if !PSVP_FPGA_ENABLE
+/** Hardware register address information. Should not be modified. **/
+
+/* Sink DAC trim - 5V */
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#define BG_ISNK_DAC_CTRL_0_5V(port) (*(volatile uint8_t *)((0x0ffff461u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define BG_ISNK_DAC_CTRL_1_5V(port) (*(volatile uint8_t *)((0x0ffff460u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#define BG_ISNK_DAC_CTRL_0_5V(port) (*(volatile uint8_t *)(0x0FFFF28Eu))
+#define BG_ISNK_DAC_CTRL_1_5V(port) (*(volatile uint8_t *)(0x0FFFF28Fu))
+#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#define BG_ISNK_DAC_CTRL_COMBINED_5V(port) (BG_ISNK_DAC_CTRL_0_5V(port) | \
+        ((uint32_t)BG_ISNK_DAC_CTRL_1_5V(port) << 8))
+
+/* Sink DAC trim - 20V */
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#define BG_ISNK_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)((0x0ffff464u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define BG_ISNK_DAC_CTRL_1_20V(port) (*(volatile uint8_t *)((0x0ffff463u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#define BG_ISNK_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)(0x0FFFF291u))
+#define BG_ISNK_DAC_CTRL_1_20V(port) (*(volatile uint8_t *)(0x0FFFF292u))
+#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#define BG_ISNK_DAC_CTRL_COMBINED_20V(port) (BG_ISNK_DAC_CTRL_0_20V(port) | \
+        ((uint32_t)BG_ISNK_DAC_CTRL_1_20V(port) << 8))
+
+/* Source DAC trim - 3V */
+#define BG_ISRC_DAC_CTRL_0_3V(port)  (*(volatile uint8_t *)((0x0ffff46Eu) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* Source DAC trim - 5V */
+#define BG_ISRC_DAC_CTRL_0_5V(port)  (*(volatile uint8_t *)((0x0ffff462u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* Source DAC trim - 20V */
+#define BG_ISRC_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)((0x0ffff465u) + \
+        (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#else /* PSVP_FPGA_ENABLE */
+/* Source DAC trim - 3V */
+#define BG_ISRC_DAC_CTRL_0_3V(port)  (*(volatile uint8_t *)(0x0FFFF2A6u))
+/* Source DAC trim - 5V */
+#define BG_ISRC_DAC_CTRL_0_5V(port)  (*(volatile uint8_t *)(0x0FFFF290u))
+/* Source DAC trim - 20V */
+#define BG_ISRC_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)(0x0FFFF293u))
+
+#endif /* PSVP_FPGA_ENABLE */
+#endif /* (VBUS_CTRL_TRIM_ADJUST_ENABLE) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)
+#define SFLASH_VBE_LOW_TEMP_TRIM_ADDR            (0x0FFFF479)
+/**< Low temperature VBJT code sflash address. */
+
+#define SFLASH_VBE_HIGH_TEMP_TRIM_ADDR           (0x0FFFF478)
+/**< High temperature VBJT code sflash address. */
+
+#define SFLASH_VBE_25_C_TEMP_TRIM_ADDR           (0x0FFFF47A)
+/**< 25C temperature VBJT code sflash address. */
+
+#define INTERNAL_BJT_LOW_TEMP                    (-40)
+/**< Low temperature which corresponds to low temperature VBJT code stored in sflash (in Celsius degrees) */
+
+#define INTERNAL_BJT_HIGH_TEMP                   (120u)
+/**< High temperature which corresponds to high temperature VBJT code stored in sflash (in Celsius degrees) */
+
+#define INTERNAL_BJT_ROOM_TEMP                   (25)
+/**< Room temperature used for VBJT code stored in sflash (in Celsius degrees) */
+
+#define VBJT_LSB_TEMP_DELTA                      (5u)
+/**< Approximate temperature change for each LSB change in VBJT ADC reading. */
+
+#define INTERNAL_BJT_FAULT_TEMP                               (255u)
+/**< Fault temperature value returned when sflash VBJT code is not correct (in Celsius degrees) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
 
 /*******************************************************************************
 *                            Enumerated Types
@@ -95,6 +302,9 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_SelectVref(cy_stc_usbpd_context_t *context, cy
 
 uint8_t Cy_USBPD_Adc_GetVbusLevel(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId, uint16_t volt, int8_t per);
 
+uint8_t Cy_USBPD_Adc_MeasureInternalTemp(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,
+                                    cy_en_usbpd_adc_input_t input);
+
 uint16_t Cy_USBPD_Adc_MeasureVbusIn(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,
                                   cy_en_usbpd_adc_input_t input);
 
@@ -142,7 +352,13 @@ void Cy_USBPD_Vbus_RemoveIntrnlFbDiv(cy_stc_usbpd_context_t *context);
 
 bool Cy_USBPD_Vbus_GdrvIsSnkFetOn(cy_stc_usbpd_context_t *context);
 
-/** \cond DOXYGEN_HIDE */
+uint16_t Cy_USBPD_Adc_GetVbatVolt(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,
+                                  uint8_t level);
+                                  
+uint16_t Cy_USBPD_MeasureVbat(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_PfetDynDsEnable(cy_stc_usbpd_context_t *context);
+
 void Cy_USBPD_Vbus_GdrvPfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq);
 
 void Cy_USBPD_Vbus_GdrvPfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq);
@@ -165,14 +381,19 @@ void Cy_USBPD_VbusIn_DischargeOn(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_VbusIn_DischargeOff(cy_stc_usbpd_context_t *context);
 
+/** \cond DOXYGEN_HIDE */
 void Cy_USBPD_Vbus_LoadChangeISR_En(cy_stc_usbpd_context_t *context, uint32_t cur, 
                                    uint8_t filter, cy_cb_usbpd_vbus_load_chg_t cbk);
+
+uint16_t Cy_USBPD_Vbus_MeasureCur(cy_stc_usbpd_context_t *context);
+/** \endcond */
 
 void Cy_USBPD_Vbus_NgdoG1Ctrl(cy_stc_usbpd_context_t *context, bool value);
 
 void Cy_USBPD_Vbus_NgdoEqCtrl(cy_stc_usbpd_context_t *context, bool value);
 
-/** \endcond */
+void Cy_USBPD_Vbus_HalCleanup(cy_stc_usbpd_context_t *context);
+
 
 void Cy_USBPD_Vbus_Mon_SetDivider(cy_stc_usbpd_context_t *context, uint8_t divider);
 
@@ -183,10 +404,25 @@ void Cy_USBPD_Vbus_Mon_SetDivider(cy_stc_usbpd_context_t *context, uint8_t divid
 * \{
 */
 
-/** \cond DOXYGEN_HIDE */
-uint16_t Cy_USBPD_Vbus_MeasureCur(cy_stc_usbpd_context_t *context);
+void Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div(cy_stc_usbpd_context_t *context);
 
-/** \endcond */
+void Cy_USBPD_Fault_VbatGndScpLevelSet(cy_stc_usbpd_context_t *context, cy_en_usbpd_vbat_gnd_scp_level_t cur_level);
+
+void Cy_USBPD_Fault_VbatGndScpEn(cy_stc_usbpd_context_t *context, bool pctrl, uint8_t mode);
+
+void Cy_USBPD_Fault_VbatGndScpDis(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_BrownOutDetEn(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_BrownOutDetDis(cy_stc_usbpd_context_t *context);
+
+bool Cy_USBPD_Fault_BrownOutStatus(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_VregInrushDetEn(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context);
+
+bool Cy_USBPD_Fault_VregInrushStatus(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context);
 
@@ -220,6 +456,10 @@ void Cy_USBPD_Fault_Vconn_OcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_
 
 void Cy_USBPD_Fault_Vconn_OcpDisable(cy_stc_usbpd_context_t *context);
 
+void Cy_USBPD_Fault_Vconn_ScpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vconn_ScpDisable(cy_stc_usbpd_context_t *context);
+
 void Cy_USBPD_Fault_Vbus_ScpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb);
 
 void Cy_USBPD_Fault_Vbus_ScpDisable(cy_stc_usbpd_context_t *context);
@@ -234,16 +474,32 @@ void Cy_USBPD_Fault_FetAutoModeDisable(cy_stc_usbpd_context_t *context, bool pct
 
 void Cy_USBPD_Fault_CcSbuSetCB(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 
-/** \cond DOXYGEN_HIDE */
+void Cy_USBPD_Fault_VinUvpEn(cy_stc_usbpd_context_t *context, uint16_t threshold,
+        cy_cb_adc_events_t cb, bool pctrl, cy_en_usbpd_vbus_uvp_mode_t mode);
 
+void Cy_USBPD_Fault_VinUvpDis(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_VinOvpEn(cy_stc_usbpd_context_t *context, uint16_t threshold,
+    cy_cb_adc_events_t cb, bool pctrl, cy_en_usbpd_vbus_ovp_mode_t mode);
+
+void Cy_USBPD_Fault_VinOvpDis(cy_stc_usbpd_context_t *context, bool pctrl);
+
+/** \cond DOXYGEN_HIDE */
 void Cy_USBPD_Fault_CcOvp_SetPending(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Fault_Vbus_SetCsaRsense(cy_stc_usbpd_context_t *context, uint8_t rsense);
 
 bool Cy_USBPD_Vbus_CompGetStatus(cy_stc_usbpd_context_t *context, cy_en_usbpd_vbus_filter_id_t id, bool isFiltered);
+/** \endcond */
+
+void Cy_USBPD_CcOvpControl(cy_stc_usbpd_context_t * context, bool flag);
 
 void Cy_USBPD_Vbus_V5vChangeDetectHandler(cy_stc_usbpd_context_t *context);
-/** \endcond */
+
+int16_t Cy_USBPD_Vbus_Ctrl_FbGetIdacStep(uint16_t new_volt, uint16_t cur_volt);
+
+int16_t Cy_USBPD_Vbus_GetTrimIdac(cy_stc_usbpd_context_t * context, uint16_t volt_mv);
+
 /** \} group_usbpd_vbus_ctrl_functions */
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
