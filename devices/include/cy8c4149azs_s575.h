@@ -1,8 +1,8 @@
 /***************************************************************************//**
-* \file cy8c4747lqs_s453.h
+* \file cy8c4149azs_s575.h
 *
 * \brief
-* CY8C4747LQS-S453 device header
+* CY8C4149AZS-S575 device header
 *
 ********************************************************************************
 * \copyright
@@ -24,11 +24,11 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CY8C4747LQS_S453_H_
-#define _CY8C4747LQS_S453_H_
+#ifndef _CY8C4149AZS_S575_H_
+#define _CY8C4149AZS_S575_H_
 
 /**
-* \addtogroup group_device CY8C4747LQS-S453
+* \addtogroup group_device CY8C4149AZS-S575
 * \{
 */
 
@@ -49,7 +49,7 @@ typedef enum {
   SVCall_IRQn                       =  -5,      /*!<  -5 System Service Call via SVC instruction */
   PendSV_IRQn                       =  -2,      /*!<  -2 Pendable request for system service */
   SysTick_IRQn                      =  -1,      /*!<  -1 System Tick Timer */
-  /* CY8C4747LQS-S453 Peripheral Interrupt Numbers */
+  /* CY8C4149AZS-S575 Peripheral Interrupt Numbers */
   ioss_interrupts_gpio_0_IRQn       =   0,      /*!<   0 [DeepSleep] GPIO P0 */
   ioss_interrupts_gpio_1_IRQn       =   1,      /*!<   1 [DeepSleep] GPIO P1 */
   ioss_interrupts_gpio_2_IRQn       =   2,      /*!<   2 [DeepSleep] GPIO P2 */
@@ -66,7 +66,7 @@ typedef enum {
   wco_interrupt_IRQn                =  13,      /*!<  13 [DeepSleep] WCO WDT Interrupt */
   cpuss_interrupt_dma_IRQn          =  14,      /*!<  14 [Active] DMA Interrupt */
   cpuss_interrupt_spcif_IRQn        =  15,      /*!<  15 [Active] SPCIF interrupt */
-  csd_interrupt_IRQn                =  16,      /*!<  16 [Active] CSD #0 (Primarily Capsense) */
+  msc_0_interrupt_IRQn              =  16,      /*!<  16 [Active] CSD #0 (Primarily Capsense) */
   tcpwm_interrupts_0_IRQn           =  17,      /*!<  17 [Active] TCPWM #0, Counter #0 */
   tcpwm_interrupts_1_IRQn           =  18,      /*!<  18 [Active] TCPWM #0, Counter #1 */
   tcpwm_interrupts_2_IRQn           =  19,      /*!<  19 [Active] TCPWM #0, Counter #2 */
@@ -76,8 +76,12 @@ typedef enum {
   tcpwm_interrupts_6_IRQn           =  23,      /*!<  23 [Active] TCPWM #0, Counter #6 */
   tcpwm_interrupts_7_IRQn           =  24,      /*!<  24 [Active] TCPWM #0, Counter #7 */
   pass_0_interrupt_sar_IRQn         =  25,      /*!<  25 [Active] SAR */
-  can_interrupt_can_IRQn            =  26,      /*!<  26 [Active] CAN Interrupt */
-  crypto_interrupt_IRQn             =  27,      /*!<  27 [Active] Crypto Interrupt */
+  canfd_interrupts0_0_IRQn          =  26,      /*!<  26 [Active] CAN Interrupt */
+  canfd_interrupts1_0_IRQn          =  27,      /*!<  27 [Active] CAN Interrupt */
+  crypto_interrupt_IRQn             =  28,      /*!<  28 [Active] Crypto Interrupt */
+  msc_1_interrupt_IRQn              =  29,      /*!<  29 [Active] CSD #0 (Primarily Capsense) */
+  exco_interrupt_IRQn               =  30,      /*!<  30 [Active] EXCO */
+  audioss_interrupt_i2s_IRQn        =  31,      /*!<  31 [Active] I2S Interrupt */
   unconnected_IRQn                  = 240       /*!< 240 Unconnected */
 } IRQn_Type;
 
@@ -100,17 +104,25 @@ typedef enum {
 
 /* Memory Blocks */
 #define CY_SRAM_BASE                    0x20000000UL
-#define CY_SRAM_SIZE                    0x00004000UL
+#define CY_SRAM_SIZE                    0x00008000UL
 #define CY_FLASH_BASE                   0x00000000UL
-#define CY_FLASH_SIZE                   0x00020000UL
-#define CY_SFLASH_BASE                  0x0FFFF000UL
-#define CY_SFLASH_SIZE                  0x00000800UL
+#define CY_FLASH_SIZE                   0x00060000UL
+#define CY_SFLASH_BASE                  0x0FFFE000UL
+#define CY_SFLASH_SIZE                  0x00001800UL
 #define CY_ROM_BASE                     0x10000000UL
 #define CY_ROM_SIZE                     0x00002000UL
+#define CY_CAN0MRAM_BASE                0x40410000UL
+#define CY_CAN0MRAM_SIZE                0x00010000UL
 
 #include "system_cat2.h"                        /*!< Category 2 System */
 
 /* IP List */
+#define CY_IP_MXAUDIOSS                 1u
+#define CY_IP_MXAUDIOSS_INSTANCES       1u
+#define CY_IP_MXAUDIOSS_VERSION         2u
+#define CY_IP_MXTTCANFD                 1u
+#define CY_IP_MXTTCANFD_INSTANCES       1u
+#define CY_IP_MXTTCANFD_VERSION         2u
 #define CY_IP_ARMCM0P                   1u
 #define CY_IP_ARMCM0P_INSTANCES         0u
 #define CY_IP_ARMCM0P_VERSION           1u
@@ -120,15 +132,12 @@ typedef enum {
 #define CY_IP_M0S8CPUSSV3_DMAC          1u
 #define CY_IP_M0S8CPUSSV3_DMAC_INSTANCES 1u
 #define CY_IP_M0S8CPUSSV3_DMAC_VERSION  3u
-#define CY_IP_M0S8CRYPTO                1u
-#define CY_IP_M0S8CRYPTO_INSTANCES      1u
-#define CY_IP_M0S8CRYPTO_VERSION        2u
-#define CY_IP_M0S8CSDV2                 1u
-#define CY_IP_M0S8CSDV2_INSTANCES       1u
-#define CY_IP_M0S8CSDV2_VERSION         2u
+#define CY_IP_M0S8MSCV3                 1u
+#define CY_IP_M0S8MSCV3_INSTANCES       2u
+#define CY_IP_M0S8MSCV3_VERSION         1u
 #define CY_IP_M0S8EXCO                  1u
 #define CY_IP_M0S8EXCO_INSTANCES        1u
-#define CY_IP_M0S8EXCO_VERSION          1u
+#define CY_IP_M0S8EXCO_VERSION          2u
 #define CY_IP_M0S8IOSS                  1u
 #define CY_IP_M0S8IOSS_INSTANCES        1u
 #define CY_IP_M0S8IOSS_VERSION          1u
@@ -143,22 +152,22 @@ typedef enum {
 #define CY_IP_M0S8LPCOMP_VERSION        2u
 #define CY_IP_M0S8PASS4A                1u
 #define CY_IP_M0S8PASS4A_INSTANCES      1u
-#define CY_IP_M0S8PASS4A_VERSION        1u
+#define CY_IP_M0S8PASS4A_VERSION        2u
 #define CY_IP_M0S8PASS4A_SAR            1u
 #define CY_IP_M0S8PASS4A_SAR_INSTANCES  1u
-#define CY_IP_M0S8PASS4A_SAR_VERSION    1u
+#define CY_IP_M0S8PASS4A_SAR_VERSION    2u
 #define CY_IP_M0S8PASS4A_CTB            1u
 #define CY_IP_M0S8PASS4A_CTB_INSTANCES  1u
-#define CY_IP_M0S8PASS4A_CTB_VERSION    1u
+#define CY_IP_M0S8PASS4A_CTB_VERSION    2u
 #define CY_IP_M0S8PERI                  1u
 #define CY_IP_M0S8PERI_INSTANCES        1u
 #define CY_IP_M0S8PERI_VERSION          1u
 #define CY_IP_M0S8PERI_TR               1u
 #define CY_IP_M0S8PERI_TR_INSTANCES     1u
 #define CY_IP_M0S8PERI_TR_VERSION       1u
-#define CY_IP_M0S8SCB                   1u
-#define CY_IP_M0S8SCB_INSTANCES         4u
-#define CY_IP_M0S8SCB_VERSION           2u
+#define CY_IP_MXSCB                     1u
+#define CY_IP_MXSCB_INSTANCES           5u
+#define CY_IP_MXSCB_VERSION             3u
 #define CY_IP_S8SRSSLT                  1u
 #define CY_IP_S8SRSSLT_INSTANCES        1u
 #define CY_IP_S8SRSSLT_VERSION          1u
@@ -169,12 +178,12 @@ typedef enum {
 #define CY_IP_M0S8WCO_INSTANCES         1u
 #define CY_IP_M0S8WCO_VERSION           1u
 
-#include "psoc4100sp_config.h"
-#include "gpio_psoc4100sp_40_qfn_2.h"
+#include "psoc4100smax_config.h"
+#include "gpio_psoc4100smax_64_tqfp.h"
 
-#define CY_DEVICE_PSOC4AS3
-#define CY_DEVICE_SERIES_PSOC_4700S
-#define CY_SILICON_ID                   0x25F711B5UL
+#define CY_DEVICE_PSOC4AS4
+#define CY_DEVICE_SERIES_PSOC_4100S_MAX
+#define CY_SILICON_ID                   0x2E4511BEUL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
 
@@ -182,8 +191,8 @@ typedef enum {
 *                                    SFLASH
 *******************************************************************************/
 
-#define SFLASH_BASE                             0x0FFFF000UL
-#define SFLASH                                  ((SFLASH_Type*) SFLASH_BASE)                                      /* 0x0FFFF000 */
+#define SFLASH_BASE                             0x0FFFE000UL
+#define SFLASH                                  ((SFLASH_Type*) SFLASH_BASE)                                      /* 0x0FFFE000 */
 
 /*******************************************************************************
 *                                     PERI
@@ -210,6 +219,11 @@ typedef enum {
 #define HSIOM_PRT5                              ((HSIOM_PRT_Type*) &HSIOM->PRT[5])                                /* 0x40020500 */
 #define HSIOM_PRT6                              ((HSIOM_PRT_Type*) &HSIOM->PRT[6])                                /* 0x40020600 */
 #define HSIOM_PRT7                              ((HSIOM_PRT_Type*) &HSIOM->PRT[7])                                /* 0x40020700 */
+#define HSIOM_PRT8                              ((HSIOM_PRT_Type*) &HSIOM->PRT[8])                                /* 0x40020800 */
+#define HSIOM_PRT9                              ((HSIOM_PRT_Type*) &HSIOM->PRT[9])                                /* 0x40020900 */
+#define HSIOM_PRT10                             ((HSIOM_PRT_Type*) &HSIOM->PRT[10])                               /* 0x40020A00 */
+#define HSIOM_PRT11                             ((HSIOM_PRT_Type*) &HSIOM->PRT[11])                               /* 0x40020B00 */
+#define HSIOM_PRT12                             ((HSIOM_PRT_Type*) &HSIOM->PRT[12])                               /* 0x40020C00 */
 
 /*******************************************************************************
 *                                    SRSSLT
@@ -232,6 +246,11 @@ typedef enum {
 #define GPIO_PRT5                               ((GPIO_PRT_Type*) &GPIO->PRT[5])                                  /* 0x40040500 */
 #define GPIO_PRT6                               ((GPIO_PRT_Type*) &GPIO->PRT[6])                                  /* 0x40040600 */
 #define GPIO_PRT7                               ((GPIO_PRT_Type*) &GPIO->PRT[7])                                  /* 0x40040700 */
+#define GPIO_PRT8                               ((GPIO_PRT_Type*) &GPIO->PRT[8])                                  /* 0x40040800 */
+#define GPIO_PRT9                               ((GPIO_PRT_Type*) &GPIO->PRT[9])                                  /* 0x40040900 */
+#define GPIO_PRT10                              ((GPIO_PRT_Type*) &GPIO->PRT[10])                                 /* 0x40040A00 */
+#define GPIO_PRT11                              ((GPIO_PRT_Type*) &GPIO->PRT[11])                                 /* 0x40040B00 */
+#define GPIO_PRT12                              ((GPIO_PRT_Type*) &GPIO->PRT[12])                                 /* 0x40040C00 */
 
 /*******************************************************************************
 *                                    PRGIO
@@ -264,6 +283,14 @@ typedef enum {
 #define DMAC_DESCR5                             ((DMAC_DESCR_Type*) &DMAC->DESCR[5])                              /* 0x401018A0 */
 #define DMAC_DESCR6                             ((DMAC_DESCR_Type*) &DMAC->DESCR[6])                              /* 0x401018C0 */
 #define DMAC_DESCR7                             ((DMAC_DESCR_Type*) &DMAC->DESCR[7])                              /* 0x401018E0 */
+#define DMAC_DESCR8                             ((DMAC_DESCR_Type*) &DMAC->DESCR[8])                              /* 0x40101900 */
+#define DMAC_DESCR9                             ((DMAC_DESCR_Type*) &DMAC->DESCR[9])                              /* 0x40101920 */
+#define DMAC_DESCR10                            ((DMAC_DESCR_Type*) &DMAC->DESCR[10])                             /* 0x40101940 */
+#define DMAC_DESCR11                            ((DMAC_DESCR_Type*) &DMAC->DESCR[11])                             /* 0x40101960 */
+#define DMAC_DESCR12                            ((DMAC_DESCR_Type*) &DMAC->DESCR[12])                             /* 0x40101980 */
+#define DMAC_DESCR13                            ((DMAC_DESCR_Type*) &DMAC->DESCR[13])                             /* 0x401019A0 */
+#define DMAC_DESCR14                            ((DMAC_DESCR_Type*) &DMAC->DESCR[14])                             /* 0x401019C0 */
+#define DMAC_DESCR15                            ((DMAC_DESCR_Type*) &DMAC->DESCR[15])                             /* 0x401019E0 */
 
 /*******************************************************************************
 *                                    SPCIF
@@ -288,6 +315,13 @@ typedef enum {
 #define TCPWM_CNT7                              ((TCPWM_CNT_Type*) &TCPWM->CNT[7])                                /* 0x402002C0 */
 
 /*******************************************************************************
+*                                     LCD
+*******************************************************************************/
+
+#define LCD_BASE                                0x40210000UL
+#define LCD                                     ((LCD_Type*) LCD_BASE)                                            /* 0x40210000 */
+
+/*******************************************************************************
 *                                     WCO
 *******************************************************************************/
 
@@ -302,24 +336,27 @@ typedef enum {
 #define SCB1_BASE                               0x40250000UL
 #define SCB2_BASE                               0x40260000UL
 #define SCB3_BASE                               0x40270000UL
+#define SCB4_BASE                               0x40280000UL
 #define SCB0                                    ((CySCB_Type*) SCB0_BASE)                                         /* 0x40240000 */
 #define SCB1                                    ((CySCB_Type*) SCB1_BASE)                                         /* 0x40250000 */
 #define SCB2                                    ((CySCB_Type*) SCB2_BASE)                                         /* 0x40260000 */
 #define SCB3                                    ((CySCB_Type*) SCB3_BASE)                                         /* 0x40270000 */
+#define SCB4                                    ((CySCB_Type*) SCB4_BASE)                                         /* 0x40280000 */
 
 /*******************************************************************************
-*                                     CSD
+*                                     MSC
 *******************************************************************************/
 
-#define CSD0_BASE                               0x40290000UL
-#define CSD0                                    ((CSD_Type*) CSD0_BASE)                                           /* 0x40290000 */
-
-/*******************************************************************************
-*                                     LCD
-*******************************************************************************/
-
-#define LCD_BASE                                0x402A0000UL
-#define LCD                                     ((LCD_Type*) LCD_BASE)                                            /* 0x402A0000 */
+#define MSC0_BASE                               0x40290000UL
+#define MSC1_BASE                               0x402A0000UL
+#define MSC0                                    ((MSC_Type*) MSC0_BASE)                                           /* 0x40290000 */
+#define MSC1                                    ((MSC_Type*) MSC1_BASE)                                           /* 0x402A0000 */
+#define MSC0_MODE0                              ((MSC_MODE_Type*) &MSC0->MODE[0])                                 /* 0x40290500 */
+#define MSC0_MODE1                              ((MSC_MODE_Type*) &MSC0->MODE[1])                                 /* 0x40290520 */
+#define MSC0_MODE2                              ((MSC_MODE_Type*) &MSC0->MODE[2])                                 /* 0x40290540 */
+#define MSC1_MODE0                              ((MSC_MODE_Type*) &MSC1->MODE[0])                                 /* 0x402A0500 */
+#define MSC1_MODE1                              ((MSC_MODE_Type*) &MSC1->MODE[1])                                 /* 0x402A0520 */
+#define MSC1_MODE2                              ((MSC_MODE_Type*) &MSC1->MODE[2])                                 /* 0x402A0540 */
 
 /*******************************************************************************
 *                                    LPCOMP
@@ -327,13 +364,6 @@ typedef enum {
 
 #define LPCOMP_BASE                             0x402B0000UL
 #define LPCOMP                                  ((LPCOMP_Type*) LPCOMP_BASE)                                      /* 0x402B0000 */
-
-/*******************************************************************************
-*                                    CRYPTO
-*******************************************************************************/
-
-#define CRYPTO_BASE                             0x402C0000UL
-#define CRYPTO                                  ((CRYPTO_Type*) CRYPTO_BASE)                                      /* 0x402C0000 */
 
 /*******************************************************************************
 *                                     EXCO
@@ -364,9 +394,25 @@ typedef enum {
 #define PASS0                                   ((PASS_Type*) PASS0_BASE)                                         /* 0x403F0000 */
 #define PASS0_DSAB                              ((PASS_DSAB_Type*) &PASS0->DSAB)                                  /* 0x403F0E00 */
 
-/** \} CY8C4747LQS-S453 */
+/*******************************************************************************
+*                                    CANFD
+*******************************************************************************/
 
-#endif /* _CY8C4747LQS_S453_H_ */
+#define CANFD0_BASE                             0x40400000UL
+#define CANFD0                                  ((CANFD_Type*) CANFD0_BASE)                                       /* 0x40400000 */
+#define CANFD0_CH0                              ((CANFD_CH_Type*) &CANFD0->CH[0])                                 /* 0x40400000 */
+#define CANFD0_CH0_M_TTCAN                      ((CANFD_CH_M_TTCAN_Type*) &CANFD0->CH[0].M_TTCAN)                 /* 0x40400000 */
+
+/*******************************************************************************
+*                                     I2S
+*******************************************************************************/
+
+#define I2S0_BASE                               0x404F0000UL
+#define I2S0                                    ((I2S_Type*) I2S0_BASE)                                           /* 0x404F0000 */
+
+/** \} CY8C4149AZS-S575 */
+
+#endif /* _CY8C4149AZS_S575_H_ */
 
 
 /* [] END OF FILE */

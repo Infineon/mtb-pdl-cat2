@@ -1,27 +1,17 @@
-# mtb-pdl-cat2 peripheral driver library v1.6.0
+# mtb-pdl-cat2 peripheral driver library v1.6.1
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 for a complete description of the Peripheral driver library.
 
-### Updated personalities
+## New Features
 
-- USBPD -  Updated the USBPD personality to add clocks for VBTR, BB, BB_SOFT, and IBTR.
-
-### Updated drivers
-
-- [CryptoLite 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
-- [SCB (Serial Comunication Block) 4.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
-- [USBFS 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
-- [USBPD 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
-
-### Drivers with patch-version updates
-
-- [Flash (Flash System Routine) 1.0.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html)
-
-## Defect fixes
-
-See the Changelog section of each driver in [PDL API reference](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/modules.html) for all fixes and updates.
+Support for a new devices of the PSoC 4100S Max device family:
+- CY8C4149AZE-S595
+- CY8C4149AZE-S598
+- CY8C4149AZS-S555
+- CY8C4149AZS-S575
+- CY8C4149AZS-S578
 
 ## Supported software and tools
 

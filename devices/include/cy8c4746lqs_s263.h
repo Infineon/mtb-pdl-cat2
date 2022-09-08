@@ -167,7 +167,7 @@ typedef enum {
 #include "gpio_psoc4100sp_40_qfn_2.h"
 
 #define CY_DEVICE_PSOC4AS3
-#define CY_DEVICE_SERIES_PSOC_4700S_PLUS
+#define CY_DEVICE_SERIES_PSOC_4700S
 #define CY_SILICON_ID                   0x25F611B5UL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
