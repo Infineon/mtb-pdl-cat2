@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.h
-* \version 2.00
+* \version 2.10
 *
 * Provides API declarations of the USBPD Buck Boost Control driver.
 *
@@ -62,8 +62,8 @@
  * Possible range is 5nS to 50nS. Configurable value must in multiples of
  * 5nS only.
  */
+#ifdef CY_DEVICE_CCG7S
 #define BB_GDRV_HS_DEAD_TIME_NS                     (10u)
-
 /*
  * Buck-boost low-side or bottom gates (LS1 and LS2) dead time
  * configuration.
@@ -71,6 +71,19 @@
  * 5nS only.
  */
 #define BB_GDRV_LS_DEAD_TIME_NS                     (10u)
+#else
+#ifdef CY_DEVICE_CCG7D
+#define BB_GDRV_HS_DEAD_TIME_NS                     (5u)
+/*
+ * Buck-boost low-side or bottom gates (LS1 and LS2) dead time
+ * configuration.
+ * Possible range is 5nS to 50nS. Configurable value must in multiples of
+ * 5nS only.
+ */
+#define BB_GDRV_LS_DEAD_TIME_NS                     (5u)
+#endif /* CY_DEVICE_CCG7D */
+#endif /* CY_DEVICE_CCG7S */
+
 
 /* 20CSA vout_cc bandwidth configuration. */
 #define BBCTRL_20CSA_BW_CC_18_KHZ               ((uint32_t)0u)

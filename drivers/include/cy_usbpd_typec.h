@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.0
+* \version 2.10
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,11 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="1">2.10</td>
+*     <td>CCG7D updates.</td>
+*     <td>Feature support.</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="2">2.0</td>
 *     <td>Added support for CCG7D, CCG7s and WLC1 devices.</td>
@@ -250,7 +255,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       0
+#define CY_USBPD_DRV_VERSION_MINOR                       10
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

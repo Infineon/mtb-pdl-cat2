@@ -144,6 +144,9 @@ Macros</h2></td></tr>
 <tr class="memitem:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#gaacf6d8dd3aa9e81b6777c785112b55f0">CY_USBPD_REG_FIELD_UPDATE</a>(reg,  field,  value)&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_MASK)) | ((value) &lt;&lt; (field##_POS))))</td></tr>
 <tr class="memdesc:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update a single field in a register.  <a href="#gaacf6d8dd3aa9e81b6777c785112b55f0">More...</a><br /></td></tr>
 <tr class="separator:gaacf6d8dd3aa9e81b6777c785112b55f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4488500d3c424cea813b8a784e6605db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga4488500d3c424cea813b8a784e6605db">CY_USBPD_REG_FIELD_UPDATE_MTB</a>(reg,  field,  value)&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_Msk)) | ((value) &lt;&lt; (field##_Pos))))</td></tr>
+<tr class="memdesc:ga4488500d3c424cea813b8a784e6605db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update a single field in a register.  <a href="#ga4488500d3c424cea813b8a784e6605db">More...</a><br /></td></tr>
+<tr class="separator:ga4488500d3c424cea813b8a784e6605db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga855840dcebe7635d8f4fbd05f0577018"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__macros.html#ga855840dcebe7635d8f4fbd05f0577018">CY_USBPD_REG_FIELD_GET</a>(reg,  field)&#160;&#160;&#160;(((reg) &amp; field##_MASK) &gt;&gt; field##_POS)</td></tr>
 <tr class="memdesc:ga855840dcebe7635d8f4fbd05f0577018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a specific field from a register.  <a href="#ga855840dcebe7635d8f4fbd05f0577018">More...</a><br /></td></tr>
 <tr class="separator:ga855840dcebe7635d8f4fbd05f0577018"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -714,6 +717,43 @@ Macros</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td>&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_MASK)) | ((value) &lt;&lt; (field##_POS))))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update a single field in a register. </p>
+<p>It first clears the field and then updates the data. </p>
+
+</div>
+</div>
+<a id="ga4488500d3c424cea813b8a784e6605db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4488500d3c424cea813b8a784e6605db">&#9670;&nbsp;</a></span>CY_USBPD_REG_FIELD_UPDATE_MTB</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_USBPD_REG_FIELD_UPDATE_MTB</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">reg, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">field, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((reg) = (((reg) &amp; ~(field##_Msk)) | ((value) &lt;&lt; (field##_Pos))))</td>
         </tr>
       </table>
 </div><div class="memdoc">

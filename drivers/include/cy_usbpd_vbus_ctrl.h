@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.0
+* \version 2.10
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
@@ -221,6 +221,9 @@
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
 
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)
+#define CYDEV_BCLK__HFCLK__MHZ                    (48U)
+/**<HF Clock in MHz. */
+
 #define SFLASH_VBE_LOW_TEMP_TRIM_ADDR            (0x0FFFF479)
 /**< Low temperature VBJT code sflash address. */
 
@@ -500,6 +503,9 @@ int16_t Cy_USBPD_Vbus_Ctrl_FbGetIdacStep(uint16_t new_volt, uint16_t cur_volt);
 
 int16_t Cy_USBPD_Vbus_GetTrimIdac(cy_stc_usbpd_context_t * context, uint16_t volt_mv);
 
+void Cy_USBPD_Vbus_SystemClockDisable(cy_stc_usbpd_context_t * context);
+
+void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context);
 /** \} group_usbpd_vbus_ctrl_functions */
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

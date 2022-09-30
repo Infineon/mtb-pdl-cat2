@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file dmac.cypersonality
+* \version 1.0
+*
+* \brief
+* DMAC personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8dmac" name="DMAC" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8cpussv3,m0s8cpussv3_s8,m0s8cpussv3_ver5_s8" />
+    <Resource name="cpuss\.dmac\.chan" />
+  </Dependencies>
+
+  <ExposedMembers>
+    <ExposedMember key="dmac_tr_in" paramId="dmac_tr_in" />
+    <ExposedMember key="dmac_tr_out" paramId="dmac_tr_out" />
+    <ExposedMember key="priority" paramId="CHANNEL_PRIORITY" />
+    <ExposedMember key="channel" paramId="channel" />
+    <ExposedMember key="preemptable" paramId="DESCR_PING_PREEMPTABLE" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dmac.html" linkText="Open DMAC Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamString id="channel" name="channel number" group="Internal" default="`${getInstNumber(&quot;chan&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="version" name="version number" group="Internal" default="`${getVersion()}`" visible="false" editable="false" desc="" />
+
+    <!--Channel-->
+    <ParamSignal port="tr_in[0]" name="Trigger Input" group="Channel" visible="true" desc="Sets up the trigger input signal for the DMAC start." canBeEmpty="true" />
+    <ParamSignal port="tr_out[0]" name="Trigger Output" group="Channel" visible="true" desc="Sets up the trigger output signal for the DMAC completion." canBeEmpty="true" />
+
+    <ParamString id="dmac_tr_in" name="DMAC tr_in Resource" group="Channel" default="`${getBlockFromSignal(&quot;tr_in[0]&quot;)}`" visible="false" editable="false" desc="Stores the block tr_in signal belongs to" />
+    <ParamString id="dmac_tr_out" name="DMAC tr_out Resource" group="Channel" default="`${getBlockFromSignal(&quot;tr_out[0]&quot;)}`" visible="false" editable="false" desc="Stores the block tr_out signal belongs to" />
+
+    <ParamRange id="CHANNEL_PRIORITY" name="Channel Priority" group="Channel" default="3" min="0" max="3" resolution="1" visible="true" editable="true" desc="Priority of the channel in the DMAC. Lower number takes precedence." />
+
+    <ParamChoice id="DESCR_SELECTION" name="Active Descriptor" group="Channel" default="CY_DMAC_DESCRIPTOR_PING" visible="true" editable="true" desc="Select the descriptor to be first for execution.">
+      <Entry name="Descriptor Ping" value="CY_DMAC_DESCRIPTOR_PING" visible="true" />
+      <Entry name="Descriptor Pong" value="CY_DMAC_DESCRIPTOR_PONG" visible="true" />
+    </ParamChoice>
+
+    <!--Descriptor PING-->
+    <ParamRange id="DESCR_PING_DATA_CNT" name="Data Count" group="Descriptor Ping" default="1" min="1" max="65536" resolution="1" visible="true" editable="true" desc="Number of data elements that are transferred by a single descriptor." />
+    <ParamChoice id="DESCR_PING_DATA_TRANSFER_WIDTH" name="Data Transfer Width" group="Descriptor Ping" default="WordToWord" visible="true" editable="true" desc="This sets up the source and destination transfer size parameters.">
+      <Entry name="Byte to Byte" value="ByteToByte" visible="true" />
+      <Entry name="Halfword to Halfword" value="HalfwordToHalfword" visible="true" />
+      <Entry name="Word to Byte" value="WordToByte" visible="true" />
+      <Entry name="Word to Halfword" value="WordToHalfword" visible="true" />
+      <Entry name="Byte to Word" value="ByteToWord" visible="true" />
+      <Entry name="Halfword to Word" value="HalfwordToWord" visible="true" />
+      <Entry name="Word to Word (full 32 bit)" value="WordToWord" visible="true" />
+      <Entry name="Word to Word (16 bits masked)" value="WordToWord16" visible="true" />
+      <Entry name="Word to Word (24 bits masked)" value="WordToWord24" visible="true" />
+    </ParamChoice>
+    <ParamBool id="DESCR_PING_SRC_INCREMENT" name="Source Address Increment" desc="Specifies whether the source location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PING_DST_INCREMENT" name="Destination Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamChoice id="DESCR_PING_TRIG_DEACT" name="Trigger Deactivation And Retriggering" group="Descriptor Ping" default="CY_DMAC_RETRIG_IM" visible="true" editable="true" desc="This parameter sets up the trigger deactivation options for the descriptor.">
+      <Entry name="Retrigger immediately (pulse trigger)" value="CY_DMAC_RETRIG_IM" visible="true" />
+      <Entry name="Retrigger after 4 System Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />
+      <Entry name="Retrigger after 16 System Clock cycles" value="CY_DMAC_RETRIG_16CYC" visible="true" />
+      <Entry name="Wait for trigger reactivation" value="CY_DMAC_WAIT_FOR_REACT" visible="true" />
+    </ParamChoice>
+    <ParamBool id="DESCR_PING_INVALID" name="Invalidate On Completion" desc="Invalidate descriptor on its completion, the subsequent attempt to trigger this descriptor will result in channel disabling and interrupt with 'invalid descriptor' interrupt." group="Descriptor Ping" default="false" visible="true" editable="true" />
+    <ParamBool id="DESCR_PING_INTERRUPT" name="Interrupt On Completion" desc="Set channel interrupt on descriptor completion." group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PING_PREEMPTABLE" name="Preemptable" desc="Makes the channel preemptable by another higher priority channel." group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PING_FLIPPING" name="Flipping" desc="Flip active descriptor for channel on completion." group="Descriptor Ping" default="true" visible="true" editable="true" />
+    <ParamChoice id="DESCR_PING_TRIG_TYPE" name="Triggering Type" group="Descriptor Ping" default="CY_DMAC_SINGLE_ELEMENT" visible="true" editable="true" desc="The type of behavior on each trigger. The 'Descriptor list transfer' option is available when the 'Flipping' is enabled.">
+      <Entry name="Single data element transfer" value="CY_DMAC_SINGLE_ELEMENT" visible="true" />
+      <Entry name="Single descriptor transfer" value="CY_DMAC_SINGLE_DESCR" visible="true" />
+      <Entry name="Descriptor list transfer" value="CY_DMAC_DESCR_LIST" visible="`${DESCR_PING_FLIPPING}`" />
+    </ParamChoice>
+
+    <!--Descriptor PONG-->
+    <ParamRange id="DESCR_PONG_DATA_CNT" name="Data Count" group="Descriptor Pong" default="1" min="1" max="65536" resolution="1" visible="true" editable="true" desc="Number of data elements that are transferred by a single descriptor." />
+    <ParamChoice id="DESCR_PONG_DATA_TRANSFER_WIDTH" name="Data Transfer Width" group="Descriptor Pong" default="WordToWord" visible="true" editable="true" desc="This sets up the source and destination transfer size parameters.">
+      <Entry name="Byte to Byte" value="ByteToByte" visible="true" />
+      <Entry name="Halfword to Halfword" value="HalfwordToHalfword" visible="true" />
+      <Entry name="Word to Byte" value="WordToByte" visible="true" />
+      <Entry name="Word to Halfword" value="WordToHalfword" visible="true" />
+      <Entry name="Byte to Word" value="ByteToWord" visible="true" />
+      <Entry name="Halfword to Word" value="HalfwordToWord" visible="true" />
+      <Entry name="Word to Word (full 32 bit)" value="WordToWord" visible="true" />
+      <Entry name="Word to Word (16 bits masked)" value="WordToWord16" visible="true" />
+      <Entry name="Word to Word (24 bits masked)" value="WordToWord24" visible="true" />
+    </ParamChoice>
+    <ParamBool id="DESCR_PONG_SRC_INCREMENT" name="Source Address Increment" desc="Specifies whether the source location address is incremented" group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PONG_DST_INCREMENT" name="Destination Address Increment" desc="Specifies whether the destination location address is incremented" group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamChoice id="DESCR_PONG_TRIG_DEACT" name="Trigger Deactivation And Retriggering" group="Descriptor Pong" default="CY_DMAC_RETRIG_IM" visible="true" editable="true" desc="This parameter sets up the trigger deactivation options for the descriptor.">
+      <Entry name="Retrigger immediately (pulse trigger)" value="CY_DMAC_RETRIG_IM" visible="true" />
+      <Entry name="Retrigger after 4 Slow Clock cycles" value="CY_DMAC_RETRIG_4CYC" visible="true" />
+      <Entry name="Retrigger after 16 Slow Clock cycles" value="CY_DMAC_RETRIG_16CYC" visible="true" />
+      <Entry name="Wait for trigger reactivation" value="CY_DMAC_WAIT_FOR_REACT" visible="true" />
+    </ParamChoice>
+    <ParamBool id="DESCR_PONG_INVALID" name="Invalidate On Completion" desc="Invalidate descriptor on its completion, the subsequent attempt to trigger this descriptor will result in channel disabling and interrupt with 'invalid descriptor' interrupt." group="Descriptor Pong" default="false" visible="true" editable="true" />
+    <ParamBool id="DESCR_PONG_INTERRUPT" name="Interrupt On Completion" desc="Set channel interrupt on descriptor completion." group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PONG_PREEMPTABLE" name="Preemptable" desc="Makes the channel preemptable by another higher priority channel." group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamBool id="DESCR_PONG_FLIPPING" name="Flipping" desc="Flip active descriptor for channel on completion." group="Descriptor Pong" default="true" visible="true" editable="true" />
+    <ParamChoice id="DESCR_PONG_TRIG_TYPE" name="Triggering Type" group="Descriptor Pong" default="CY_DMAC_SINGLE_ELEMENT" visible="true" editable="true" desc="The type of behavior on each trigger. The 'Descriptor list transfer' option is available when the 'Flipping' is enabled.">
+      <Entry name="Single data element transfer" value="CY_DMAC_SINGLE_ELEMENT" visible="true" />
+      <Entry name="Single descriptor transfer" value="CY_DMAC_SINGLE_DESCR" visible="true" />
+      <Entry name="Descriptor list transfer" value="CY_DMAC_DESCR_LIST" visible="`${DESCR_PONG_FLIPPING}`" />
+    </ParamChoice>
+
+    <!--Config-->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <ParamString id="HWbase" name="base address" group="Internal" default="`${&quot;DMAC&quot;}`" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dmac.h" include="true" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+    
+    <ConfigDefine name="`${INST_NAME . &quot;_HW&quot;}`" value="`${HWbase}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME . &quot;_CHANNEL&quot;}`" value="`${channel}`UL" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME . &quot;_channel_config&quot;}`" type="cy_stc_dmac_channel_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="priority" value="`${CHANNEL_PRIORITY}`UL" />
+      <Member name="enable" value="false" />
+      <Member name="descriptor" value="`${DESCR_SELECTION}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_ping_config" type="cy_stc_dmac_descriptor_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="srcAddress" value="0UL" />
+      <Member name="dstAddress" value="0UL" />
+      <Member name="dataCount" value="`${DESCR_PING_DATA_CNT}`UL" />
+      <Member name="dataSize" value="`${(DESCR_PING_DATA_TRANSFER_WIDTH eq WordToWord) ? &quot;CY_DMAC_WORD&quot; :
+                                       ((DESCR_PING_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                        (DESCR_PING_DATA_TRANSFER_WIDTH eq WordToByte) ||
+                                        (DESCR_PING_DATA_TRANSFER_WIDTH eq ByteToWord) ||
+                                        (DESCR_PING_DATA_TRANSFER_WIDTH eq WordToWord24)) ? &quot;CY_DMAC_BYTE&quot; : &quot;CY_DMAC_HALFWORD&quot;}`" />
+      <Member name="srcTransferSize" value="`${((DESCR_PING_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq HalfwordToHalfword) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq ByteToWord) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq HalfwordToWord)) ? &quot;CY_DMAC_TRANSFER_SIZE_DATA&quot; : &quot;CY_DMAC_TRANSFER_SIZE_WORD&quot;}`" />
+      <Member name="srcAddrIncrement" value="`${DESCR_PING_SRC_INCREMENT}`" />
+      <Member name="dstTransferSize" value="`${((DESCR_PING_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq WordToByte) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq HalfwordToHalfword) ||
+                                                (DESCR_PING_DATA_TRANSFER_WIDTH eq WordToHalfword)) ? &quot;CY_DMAC_TRANSFER_SIZE_DATA&quot; : &quot;CY_DMAC_TRANSFER_SIZE_WORD&quot;}`" />
+      <Member name="dstAddrIncrement" value="`${DESCR_PING_DST_INCREMENT}`" />
+      <Member name="retrigger" value="`${DESCR_PING_TRIG_DEACT}`" />
+      <Member name="cpltState" value="`${DESCR_PING_INVALID}`" />
+      <Member name="interrupt" value="`${DESCR_PING_INTERRUPT}`" />
+      <Member name="preemptable" value="`${DESCR_PING_PREEMPTABLE}`" />
+      <Member name="flipping" value="`${DESCR_PING_FLIPPING}`" />
+      <Member name="triggerType" value="`${DESCR_PING_TRIG_TYPE}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_pong_config" type="cy_stc_dmac_descriptor_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="srcAddress" value="0UL" />
+      <Member name="dstAddress" value="0UL" />
+      <Member name="dataCount" value="`${DESCR_PONG_DATA_CNT}`UL" />
+      <Member name="dataSize" value="`${(DESCR_PONG_DATA_TRANSFER_WIDTH eq WordToWord) ? &quot;CY_DMAC_WORD&quot; :
+                                       ((DESCR_PONG_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                        (DESCR_PONG_DATA_TRANSFER_WIDTH eq WordToByte) ||
+                                        (DESCR_PONG_DATA_TRANSFER_WIDTH eq ByteToWord) ||
+                                        (DESCR_PONG_DATA_TRANSFER_WIDTH eq WordToWord24)) ? &quot;CY_DMAC_BYTE&quot; : &quot;CY_DMAC_HALFWORD&quot;}`" />
+      <Member name="srcTransferSize" value="`${((DESCR_PONG_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq HalfwordToHalfword) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq ByteToWord) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq HalfwordToWord)) ? &quot;CY_DMAC_TRANSFER_SIZE_DATA&quot; : &quot;CY_DMAC_TRANSFER_SIZE_WORD&quot;}`" />
+      <Member name="srcAddrIncrement" value="`${DESCR_PONG_SRC_INCREMENT}`" />
+      <Member name="dstTransferSize" value="`${((DESCR_PONG_DATA_TRANSFER_WIDTH eq ByteToByte) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq WordToByte) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq HalfwordToHalfword) ||
+                                                (DESCR_PONG_DATA_TRANSFER_WIDTH eq WordToHalfword)) ? &quot;CY_DMAC_TRANSFER_SIZE_DATA&quot; : &quot;CY_DMAC_TRANSFER_SIZE_WORD&quot;}`" />
+      <Member name="dstAddrIncrement" value="`${DESCR_PONG_DST_INCREMENT}`" />
+      <Member name="retrigger" value="`${DESCR_PONG_TRIG_DEACT}`" />
+      <Member name="cpltState" value="`${DESCR_PONG_INVALID}`" />
+      <Member name="interrupt" value="`${DESCR_PONG_INTERRUPT}`" />
+      <Member name="preemptable" value="`${DESCR_PONG_PREEMPTABLE}`" />
+      <Member name="flipping" value="`${DESCR_PONG_FLIPPING}`" />
+      <Member name="triggerType" value="`${DESCR_PONG_TRIG_TYPE}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_DMA" />
+      <Member name="block_num" value="0UL" />
+      <Member name="channel_num" value="`${channel}`UL" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+</Personality>

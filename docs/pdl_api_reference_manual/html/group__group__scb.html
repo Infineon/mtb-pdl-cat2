@@ -99,6 +99,8 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td>4.20 </td><td>The <a class="el" href="group__group__scb__ezi2c__low__power__functions.html#ga5875cdcf148b37407ee8360b79580426">Cy_SCB_EZI2C_DeepSleepCallback</a>, <a class="el" href="group__group__scb__i2c__low__power__functions.html#gaf2044790a92ba63cb11616f2e80d3d1f">Cy_SCB_I2C_DeepSleepCallback</a>, <a class="el" href="group__group__scb__spi__low__power__functions.html#gabf413c42a9ba8a20c38f2491ae2e36c0">Cy_SCB_SPI_DeepSleepCallback</a>, and <a class="el" href="group__group__scb__uart__low__power__functions.html#gaa26ee4aa1c2ac9fb98daddbfe6e151aa">Cy_SCB_UART_DeepSleepCallback</a> parameter types are changed to match the <a class="el" href="structcy__stc__syspm__callback__t.html#afc2210e66cc5a0513e42761df9a2021a">cy_stc_syspm_callback_t::callback</a> type. </td><td>Eliminate compiler warnings  </td></tr>
+<tr>
 <td>4.10 </td><td>SPI: Fixed the issue when SPI Master and Slave interrupts are not enabled by the <a class="el" href="group__group__scb__spi__general__functions.html#gabe68169c810119b93e1164127663033c">Cy_SCB_SPI_Init()</a> function. </td><td>Bug fixes.  </td></tr>
 <tr>
 <td rowspan="3">4.0 </td><td>Update the paths to the code snippets. </td><td>PDL structure update.  </td></tr>
@@ -152,9 +154,9 @@ Changelog</h1>
 <li><a class="el" href="group__group__scb__spi__low__power__functions.html#gade2ee7a5cc645b22f3d3031e27588de6" title="Registers a callback function that will occur in Cy_SCB_SPI_DeepSleepCallback when the SPI goes into ...">Cy_SCB_SPI_RegisterDSClockConfig()</a></li>
 </ul>
 <p class="endtd">Modified following function:</p><ul>
-<li><a class="el" href="group__group__scb__ezi2c__low__power__functions.html#ga103eedf178c2eb9df1b57dab101578e3" title="This function handles the transition of the EZI2C SCB into and out of Deep Sleep mode. ">Cy_SCB_EZI2C_DeepSleepCallback()</a></li>
-<li><a class="el" href="group__group__scb__i2c__low__power__functions.html#ga2fc0bdc1f29ef9c73cbd51bdba04a7cf" title="This function handles the transition of the I2C SCB into and out of Deep Sleep mode. ">Cy_SCB_I2C_DeepSleepCallback()</a></li>
-<li><a class="el" href="group__group__scb__spi__low__power__functions.html#gacb2d7494770b5316e151ac96d195c6e6" title="This function handles the transition of the SCB SPI into and out of Deep Sleep mode. ">Cy_SCB_SPI_DeepSleepCallback()</a> </li>
+<li><a class="el" href="group__group__scb__ezi2c__low__power__functions.html#ga5875cdcf148b37407ee8360b79580426" title="This function handles the transition of the EZI2C SCB into and out of Deep Sleep mode. ">Cy_SCB_EZI2C_DeepSleepCallback()</a></li>
+<li><a class="el" href="group__group__scb__i2c__low__power__functions.html#gaf2044790a92ba63cb11616f2e80d3d1f" title="This function handles the transition of the I2C SCB into and out of Deep Sleep mode. ">Cy_SCB_I2C_DeepSleepCallback()</a></li>
+<li><a class="el" href="group__group__scb__spi__low__power__functions.html#gabf413c42a9ba8a20c38f2491ae2e36c0" title="This function handles the transition of the SCB SPI into and out of Deep Sleep mode. ">Cy_SCB_SPI_DeepSleepCallback()</a> </li>
 </ul>
 </td><td>Low power feature support.  </td></tr>
 <tr>

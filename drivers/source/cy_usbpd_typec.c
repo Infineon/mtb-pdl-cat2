@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.0
+* \version 2.10
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -1521,7 +1521,7 @@ void Cy_USBPD_TypeC_DisableRd (
      * safe voltage >2.6V onto the CC line. Since VCONN is readily
      * available, we do about enabling VCONN with current limit mode.
      * This will ensure that we supply 5V on CC line where we want
-     * to minic Rd removal.
+     * to mimic Rd removal.
      *
      * But to avoid doing on both lines do only on active CC line.
      */
@@ -2358,7 +2358,7 @@ void Cy_USBPD_AdftDdftEnable(cy_stc_usbpd_context_t *context)
 * Function Name: Cy_USBPD_CurrentTrimInit
 ****************************************************************************//**
 * 
-* This function loads trim values for trim initialization  .
+* This function loads trim values for trim initialization.
 *
 * \param context
 * Pointer to the context structure \ref cy_stc_usbpd_context_t.
@@ -2565,7 +2565,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #if ((defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA)) && PMG1_FLIPPED_FET_CTRL)
     cy_stc_usbpd_context_t *usbpd_ctx_temp=context;
 #if (NO_OF_TYPEC_PORTS > 1)
-    if(context->port != 0u)
+    if(port != 0u)
     {
         usbpd_ctx_temp=context-(NO_OF_TYPEC_PORTS-1u);
     }
@@ -3985,8 +3985,6 @@ void Cy_USBPD_Intr1Handler (
 #if PMG1_HPD_RX_ENABLE
         if ((intrCause & PDSS_INTR1_HPDIN_CHANGED) != 0U)
         {
-            pd->intr1_mask &= ~PDSS_INTR1_HPDIN_CHANGED;
-            pd->intr1 = PDSS_INTR1_HPDIN_CHANGED;
             Cy_USBPD_Hpd_Intr1Handler(context);
         }
 #endif /* PMG1_HPD_RX_ENABLE */
@@ -4405,13 +4403,6 @@ void Cy_USBPD_Intr1Handler (
         {
             context->bbIlimCbk(context, true);
         }
-        else
-        {
-#if BB_ILIM_DET_ENABLE
-            pd_bb_ilim_fault_handler(context);
-#endif /* BB_ILIM_DET_ENABLE */
-        }
-
         /*
          * Clear the fault in buck-boost to allow
          * state machine to come out of IDLE state.
@@ -4436,12 +4427,6 @@ void Cy_USBPD_Intr1Handler (
         {
             context->bodCbk(context, true);
         }
-        else
-        {
-#if VREG_BROWN_OUT_DET_ENABLE
-            pd_brown_out_fault_handler();
-#endif /* VREG_BROWN_OUT_DET_ENABLE */
-        }
     }
 #endif /* PDL_VREG_BROWN_OUT_DET_ENABLE */
 
@@ -4456,12 +4441,6 @@ void Cy_USBPD_Intr1Handler (
         if(context->vregInrushCbk != NULL)
         {
             context->vregInrushCbk(context, true);
-        }
-        else
-        {
-#if VREG_INRUSH_DET_ENABLE
-            pd_vreg_inrush_det_fault_handler();
-#endif /* VREG_INRUSH_DET_ENABLE */
         }
     }
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */

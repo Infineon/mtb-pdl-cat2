@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 2.20
+* \version 3.0
 *
 * Provides an API declaration of the SysLib driver.
 *
@@ -110,6 +110,11 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.0</td>
+*     <td>Removed all the outdated legacy declarations.</td>
+*     <td>Major PDL revision.</td>
+*   </tr>
 *   <tr>
 *     <td>2.20</td>
 *     <td>Updated \ref Cy_SysLib_SetWaitStates() to enable flash prefetch buffer
@@ -256,10 +261,10 @@ typedef enum
 */
 
 /** The driver major version */
-#define CY_SYSLIB_DRV_VERSION_MAJOR    2
+#define CY_SYSLIB_DRV_VERSION_MAJOR    3
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    20
+#define CY_SYSLIB_DRV_VERSION_MINOR    0
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;
@@ -419,66 +424,6 @@ void Cy_SysLib_ExitCriticalSection(uint32_t savedIntrStatus);
 
 /** \cond */
 CY_MISRA_BLOCK_END('MISRA C-2012 Rule 8.6');
-typedef uint32_t cy_status;
-/** The ARM 32-bit status value for backward compatibility with the UDB components. Do not use it in your code. */
-typedef uint32_t cystatus;
-typedef uint8_t  uint8;    /**< Alias to uint8_t  for backward compatibility */
-typedef uint16_t uint16;   /**< Alias to uint16_t for backward compatibility */
-typedef uint32_t uint32;   /**< Alias to uint32_t for backward compatibility */
-typedef int8_t   int8;     /**< Alias to int8_t   for backward compatibility */
-typedef int16_t  int16;    /**< Alias to int16_t  for backward compatibility */
-typedef int32_t  int32;    /**< Alias to int32_t  for backward compatibility */
-typedef float    float32;  /**< Alias to float    for backward compatibility */
-typedef double   float64;  /**< Alias to double   for backward compatibility */
-typedef int64_t  int64;    /**< Alias to int64_t  for backward compatibility */
-typedef uint64_t uint64;   /**< Alias to uint64_t for backward compatibility */
-/* Signed or unsigned depending on the compiler selection */
-typedef char     char8;    /**< Alias to char for backward compatibility */
-typedef volatile uint8_t  reg8;   /**< Alias to uint8_t  for backward compatibility */
-typedef volatile uint16_t reg16;  /**< Alias to uint16_t for backward compatibility */
-typedef volatile uint32_t reg32;  /**< Alias to uint32_t for backward compatibility */
-
-/** The ARM 32-bit Return error / status code for backward compatibility.
-*  Do not use them in your code.
-*/
-#define CY_RET_SUCCESS           (0x00U)    /**< Successful */
-#define CY_RET_BAD_PARAM         (0x01U)    /**< One or more invalid parameters */
-#define CY_RET_INVALID_OBJECT    (0x02U)    /**< An invalid object specified */
-#define CY_RET_MEMORY            (0x03U)    /**< A memory-related failure */
-#define CY_RET_LOCKED            (0x04U)    /**< A resource lock failure */
-#define CY_RET_EMPTY             (0x05U)    /**< No more objects available */
-#define CY_RET_BAD_DATA          (0x06U)    /**< Bad data received (CRC or other error check) */
-#define CY_RET_STARTED           (0x07U)    /**< Operation started, but not necessarily completed yet */
-#define CY_RET_FINISHED          (0x08U)    /**< Operation is completed */
-#define CY_RET_CANCELED          (0x09U)    /**< Operation is canceled */
-#define CY_RET_TIMEOUT           (0x10U)    /**< Operation timed out */
-#define CY_RET_INVALID_STATE     (0x11U)    /**< Operation is not setup or is in an improper state */
-#define CY_RET_UNKNOWN           ((cy_status) 0xFFFFFFFFU)    /**< Unknown failure */
-
-/** ARM 32-bit Return error / status codes for backward compatibility with the UDB components.
-*  Do not use them in your code.
-*/
-#define CYRET_SUCCESS            (0x00U)    /**< Successful */
-#define CYRET_BAD_PARAM          (0x01U)    /**< One or more invalid parameters */
-#define CYRET_INVALID_OBJECT     (0x02U)    /**< An invalid object specified */
-#define CYRET_MEMORY             (0x03U)    /**< A memory-related failure */
-#define CYRET_LOCKED             (0x04U)    /**< A resource lock failure */
-#define CYRET_EMPTY              (0x05U)    /**< No more objects available */
-#define CYRET_BAD_DATA           (0x06U)    /**< Bad data received (CRC or other error check) */
-#define CYRET_STARTED            (0x07U)    /**< Operation started, but not necessarily completed yet */
-#define CYRET_FINISHED           (0x08U)    /**< Operation is completed */
-#define CYRET_CANCELED           (0x09U)    /**< Operation is canceled */
-#define CYRET_TIMEOUT            (0x10U)    /**< Operation timed out */
-#define CYRET_INVALID_STATE      (0x11U)    /**< Operation is not setup or is in an improper state */
-#define CYRET_UNKNOWN            ((cystatus) 0xFFFFFFFFU)    /**< Unknown failure */
-
-/** A type of ISR callbacks for backward compatibility with the UDB components. Do not use it in your code. */
-typedef void (* cyisraddress)(void);
-#if defined (__ICCARM__)
-    /** A type of ISR callbacks for backward compatibility with the UDB components. Do not use it in your code. */
-    typedef union { cyisraddress __fun; void * __ptr; } intvec_elem;
-#endif  /* defined (__ICCARM__) */
-
 /** \endcond */
 
 #if defined(__cplusplus)

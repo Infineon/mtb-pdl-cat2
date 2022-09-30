@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite.h
-* \version 1.10
+* \version 1.20
 *
 * \brief
 *  This file provides an API declaration of the Cryptolite driver
@@ -137,6 +137,11 @@
 * \section group_cryptolite_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.20</td>
+*     <td>Corrected variable type name.</td>
+*     <td>Defect fix.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Fixed optimization issue in Cryptolite VU driver and updated VU_BITS_TO_WORDS macro logic.</td>

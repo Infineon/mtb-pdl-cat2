@@ -11,7 +11,6 @@ var searchData=
   ['type_20c_20_28usbpd_29',['Type C (USBPD)',['../group__group__usbpd__typec.html',1,'']]],
   ['t0_5ff',['t0_f',['../structcy__stc__canfd__tx__buffer__t.html#abf34a8342fded952c54e85f3865ed1e5',1,'cy_stc_canfd_tx_buffer_t']]],
   ['t1_5ff',['t1_f',['../structcy__stc__canfd__tx__buffer__t.html#af3ed5987e09533673317136f35bd9a2c',1,'cy_stc_canfd_tx_buffer_t']]],
-  ['tbt_5fcbl_5fvdo',['TBT_CBL_VDO',['../structcy__pd__pd__do__t_1_1_t_b_t___c_b_l___v_d_o.html',1,'cy_pd_pd_do_t::TBT_CBL_VDO'],['../unioncy__pd__pd__do__t.html#a50c7590a9518250efd2bcf82646b3175',1,'cy_pd_pd_do_t::tbt_cbl_vdo()']]],
   ['tbt_5fufp_5fvdo',['TBT_UFP_VDO',['../structcy__pd__pd__do__t_1_1_t_b_t___u_f_p___v_d_o.html',1,'cy_pd_pd_do_t::TBT_UFP_VDO'],['../unioncy__pd__pd__do__t.html#a95d104519f18a5aac6d704a8a657829c',1,'cy_pd_pd_do_t::tbt_ufp_vdo()']]],
   ['tbt_5fvdo',['TBT_VDO',['../structcy__pd__pd__do__t_1_1_t_b_t___v_d_o.html',1,'cy_pd_pd_do_t::TBT_VDO'],['../unioncy__pd__pd__do__t.html#aad3a037cb3631c0e195e64f471fed18c',1,'cy_pd_pd_do_t::tbt_vdo()']]],
   ['tcpwm_5ftype',['TCPWM_Type',['../struct_t_c_p_w_m___type.html',1,'']]],

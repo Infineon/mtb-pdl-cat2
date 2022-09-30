@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.0
+* \version 2.10
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -3657,6 +3657,7 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
     }
     else
     {
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
 #if VBUS_IN_DISCHARGE_EN
         if((true == Cy_USBPD_BB_IsEnabled(context)) && (false == Cy_USBPD_BB_IsReady(context)))
         {
@@ -3673,6 +3674,7 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
             context->vbusInDischargeEn = true;
         }
 #endif /* VBUS_IN_DISCHARGE_EN */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
 
         /* Set the discharge ongoing flag */
         context->vbusSlowDischarge.vbus_is_slow_dischargeOn = 1u;
@@ -3681,7 +3683,7 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
         {
             /* Last Discharge OFF request ongoing. We will stop this and start
              * processing the current request */
-            context->timerStopcbk(context, CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER);
+            context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER));
             /* We will not be disabling the discharge flag here. */
         }
 
@@ -3735,6 +3737,7 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
     pd->dischg_shv_ctrl[1] |= (PDSS_DISCHG_SHV_CTRL_DISCHG_EN | PDSS_DISCHG_SHV_CTRL_DISCHG_EN_CFG);
 #endif /* PMG1_FLIPPED_FET_CTRL */
 
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
 #if VBUS_IN_DISCHARGE_EN
     if((true == Cy_USBPD_BB_IsEnabled(context)) && (false == Cy_USBPD_BB_IsReady(context)))
     {
@@ -3752,7 +3755,7 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
         Cy_USBPD_VbusIn_DischargeOn(context);
     }
 #endif /* VBUS_IN_DISCHARGE_EN */
-
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
 #endif /* !VBUS_SLOW_DISCHARGE_EN */
 
 #elif (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
@@ -3815,7 +3818,7 @@ void Cy_USBPD_Vbus_DischargeOff(cy_stc_usbpd_context_t *context)
         {
             /* Last Discharge ON request ongoing. We will stop this and start
              * processing the current request */
-            context->timerStopcbk(context, CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER);
+            context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER));
             /* Disable the discharge */
             context->vbusSlowDischarge.vbus_is_slow_dischargeOn = 0u;
         }
@@ -4658,7 +4661,7 @@ void Cy_USBPD_Fault_Vconn_OcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     /* Make sure VConn OCP debounce timer is not running. */
-    context->timerStopcbk(context, CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER);
+    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER));
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
 
     /* Enable the interrupt. */
@@ -4710,7 +4713,7 @@ void Cy_USBPD_Fault_Vconn_OcpDisable(cy_stc_usbpd_context_t *context)
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     /* Stop the CC12 OC debounce timer if it is running. */
-    context->timerStopcbk(context, CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER);
+    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER));
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
 
     /* Clear the stored configuration. */
@@ -4818,7 +4821,7 @@ void Cy_USBPD_Fault_Vconn_OcpIntrHandler(cy_stc_usbpd_context_t *context)
         (void)context->vconnOcpCbk (context, true);
 #else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
         /* Start the debounce timer. */
-        context->timerStartcbk(context, context, CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER, debounce, Cy_USBPD_Fault_Vconn_OcpTimerCb);
+        context->timerStartcbk(context, context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER), debounce, Cy_USBPD_Fault_Vconn_OcpTimerCb);
 #endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
     }
     /* If negative edge interrupt: Current is back within limit. */
@@ -4829,10 +4832,10 @@ void Cy_USBPD_Fault_Vconn_OcpIntrHandler(cy_stc_usbpd_context_t *context)
         if (retval == true)
         {
 #else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
-        if (context->timerIsRunningcbk(context, CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER))
+        if (context->timerIsRunningcbk(context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER)))
         {
             /* Stop the debounce timer. */
-            context->timerStopcbk(context, CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER);
+            context->timerStopcbk(context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER));
 #endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
 
             /* Look for positive edge of comparator. */
@@ -6747,7 +6750,7 @@ void Cy_USBPD_Fault_Vbus_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
     if (GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT_SW_DB)
     {
             /* Make sure any debounce timer is stopped. */
-            context->timerStopcbk(context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER);
+            context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER));
     }
 
     Cy_SysLib_ExitCriticalSection (state);
@@ -6989,77 +6992,77 @@ void Cy_USBPD_Fault_Vbus_OcpIntrHandler(cy_stc_usbpd_context_t *context)
     /* If positive edge interrupt. */
     if (((pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] & PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK) >>
          PDSS_INTR5_FILTER_CFG_FILT_CFG_POS) == (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS)
-    {
-        /* Clear and disable interrupt. */
-        pd->intr5_mask &= ~(1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP);
-        pd->intr5 = (uint32_t)1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
-
-        /* If No software debounce mode. */
-        if ((GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT) ||
-            (GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT_AUTOCTRL))
         {
-            /* Invoke the callback. */
-            (void)context->vbusOcpCbk(context,true);
-        }
-        /* If software debounce mode. */
-        else if (GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT_SW_DB)
-        {
-            uint32_t regval;
-            /*
-                * Look for negative edge of comparator. NOTE: Here we are using filter
-                * reset mechanism to simulate edge if the comparator status has already gone low.
-                * This assumes that the OCP comparator filter is being used during enable.
-                */
-            pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] &= ~PDSS_INTR5_FILTER_CFG_FILT_EN;
-            regval = pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP];
-            regval &= ~(PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK);
-            regval |= (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR5_FILTER_CFG_FILT_CFG_POS;
-            regval |= (PDSS_INTR5_FILTER_CFG_FILT_RESET | PDSS_INTR5_FILTER_CFG_FILT_EN);
-            pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] = regval;
-
-            /* Enable interrupt. */
-            pd->intr5_mask |= 1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
-            /* Start the debounce timer. */
-            context->timerStartcbk(context, context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER, context->ocpSwDbMs, Cy_USBPD_OcpHandlerWrapper);
-        }
-        else
-        {
-            /* Do nothing */
-        }
-    }
-    /* If negative edge interrupt. */
-    else
-    {
-        /* Clear the active interrupt. */
-        pd->intr5 = (uint32_t)1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
-
-        if (context->timerIsRunningcbk(context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER))
-        {
-            uint32_t regval;
-            /* Stop the debounce timer. */
-            context->timerStopcbk(context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER);
-
-            /* Clear the interrupt. */
+            /* Clear and disable interrupt. */
+            pd->intr5_mask &= ~(1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP);
             pd->intr5 = (uint32_t)1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
 
-            /*
-                * Look for positive edge of comparator. NOTE: Here we are using filter
-                * reset mechanism to simulate edge if the comparator status has already gone low.
-                * This assumes that the OCP comparator filter is being used during enable.
-            */
-            pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] &= ~PDSS_INTR5_FILTER_CFG_FILT_EN;
-            regval = pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP];
-            regval &= ~(PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK | PDSS_INTR5_FILTER_CFG_FILT_RESET);
-            regval |= (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR5_FILTER_CFG_FILT_CFG_POS;
-            regval |= PDSS_INTR5_FILTER_CFG_FILT_EN;
-            pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] = regval;
+            /* If No software debounce mode. */
+            if ((GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT) ||
+                (GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT_AUTOCTRL))
+                {
+                    /* Invoke the callback. */
+                    (void)context->vbusOcpCbk(context,true);
+                }
+            /* If software debounce mode. */
+            else if (GET_VBUS_OCP_TABLE(context)->mode == VBUS_OCP_MODE_INT_SW_DB)
+                {
+                    uint32_t regval;
+                    /*
+                     * Look for negative edge of comparator. NOTE: Here we are using filter
+                     * reset mechanism to simulate edge if the comparator status has already gone low.
+                     * This assumes that the OCP comparator filter is being used during enable.
+                     */
+                    pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] &= ~PDSS_INTR5_FILTER_CFG_FILT_EN;
+                    regval = pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP];
+                    regval &= ~(PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK);
+                    regval |= (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR5_FILTER_CFG_FILT_CFG_POS;
+                    regval |= (PDSS_INTR5_FILTER_CFG_FILT_RESET | PDSS_INTR5_FILTER_CFG_FILT_EN);
+                    pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] = regval;
+
+                    /* Enable interrupt. */
+                    pd->intr5_mask |= 1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
+                    /* Start the debounce timer. */
+                    context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER), context->ocpSwDbMs, Cy_USBPD_OcpHandlerWrapper);
+                }
+            else
+                {
+                    /* Do nothing */
+                }
         }
-        else
+    /* If negative edge interrupt. */
+    else
         {
-            /* Disable the interrupt as we are no longer interested in it. */
-            pd->intr5_mask &= ~(1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP);
+            /* Clear the active interrupt. */
+            pd->intr5 = (uint32_t)1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
+
+            if (context->timerIsRunningcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER)))
+            {
+                uint32_t regval;
+                /* Stop the debounce timer. */
+                context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER));
+
+                /* Clear the interrupt. */
+                pd->intr5 = (uint32_t)1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP;
+
+                /*
+                 * Look for positive edge of comparator. NOTE: Here we are using filter
+                 * reset mechanism to simulate edge if the comparator status has already gone low.
+                 * This assumes that the OCP comparator filter is being used during enable.
+                */
+                pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] &= ~PDSS_INTR5_FILTER_CFG_FILT_EN;
+                regval = pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP];
+                regval &= ~(PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK | PDSS_INTR5_FILTER_CFG_FILT_RESET);
+                regval |= (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR5_FILTER_CFG_FILT_CFG_POS;
+                regval |= PDSS_INTR5_FILTER_CFG_FILT_EN;
+                pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP] = regval;
+            }
+            else
+            {
+                /* Disable the interrupt as we are no longer interested in it. */
+                pd->intr5_mask &= ~(1u << (uint8_t)CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP);
+            }
         }
-    }
 #endif /* defined(CY_DEVICE_CCG3PA)  */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
@@ -7097,7 +7100,7 @@ void Cy_USBPD_Fault_Vbus_OcpIntrHandler(cy_stc_usbpd_context_t *context)
                 pd->intr13_cfg_csa_scp_hs = regval2;
 
                 /* Start the debounce timer. */
-                context->timerStartcbk(context, context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER, context->ocpSwDbMs, Cy_USBPD_OcpHandlerWrapper);
+                context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER), context->ocpSwDbMs, Cy_USBPD_OcpHandlerWrapper);
             }
             else
             {
@@ -7107,11 +7110,11 @@ void Cy_USBPD_Fault_Vbus_OcpIntrHandler(cy_stc_usbpd_context_t *context)
         /* If negative edge interrupt. */
         else
         {
-            if (context->timerIsRunningcbk(context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER))
+            if (context->timerIsRunningcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER)))
             {
                 uint32_t regval1;
                 /* Stop the debounce timer. */
-                context->timerStopcbk(context, CY_USBPD_PD_OCP_DEBOUNCE_TIMER);
+                context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER));
 
                 /*
                  * Look for positive edge of comparator. NOTE: Here we are using filter
@@ -8692,8 +8695,13 @@ void Cy_USBPD_Fault_VbatGndScpEn(cy_stc_usbpd_context_t *context, bool pctrl, ui
             (FAULT_GPIO_MASK_EXTR_VBAT_GND_SCP << PDSS_FAULT_GPIO_CTRL_EXTR_FAULT_MASK_EXTR_POS);
 
         /* HSIOM mode for P0 fault out and P1 fault out is same (12) */
+#if defined(CY_DEVICE_CCG7D)
+        Cy_GPIO_Pin_FastInit(context->vbatGndFetPort, context->vbatGndFetPin, CY_GPIO_DM_PULLUP,
+            true, P0_2_USBPD0_FAULT_GPIO0);
+#else
         Cy_GPIO_Pin_FastInit(context->vbatGndFetPort, context->vbatGndFetPin, CY_GPIO_DM_PULLUP,
             true, P0_5_USBPD0_FAULT_GPIO0);
+#endif /* defined(CY_DEVICE_CCG7D) */
 
         context->vbatGndScpEnStatus = true;
 
@@ -8789,14 +8797,51 @@ void Cy_USBPD_Fault_VbatGndScpDis(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 void Cy_USBPD_Fault_BrownOutDetEn(cy_stc_usbpd_context_t *context)
 {
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
-    PPDSS_REGS_T pd;
-    uint32_t state;
-    uint8_t i;
-
-    if(TYPEC_PORT_0_IDX == context->port)
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
     {
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t state;
         pd = context->base;
+
+        if (context->brownOutDetEnStatus == false)
+        {
+            state = Cy_SysLib_EnterCriticalSection();
+            /*
+            * Enable VDDD brown out detection fault.
+            * When fault is detected, buck-boost and provider fet turns off
+            * automatically through hardware.
+            * Delayed retry is done for the recovery.
+            */
+                
+            Cy_USBPD_Fault_FetAutoModeEnable(context, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
+
+            /* Clear and Enable interrupt. */
+            pd->intr17       = PDSS_INTR17_PDBB_VREG_VDDD_BOD;
+            pd->intr17_mask |= PDSS_INTR17_MASK_PDBB_VREG_VDDD_BOD_MASK;
+
+            context->brownOutDetEnStatus  = true;
+            Cy_SysLib_ExitCriticalSection(state);
+        }
+        else
+        {
+            /* Already enabled, do nothing */
+        }
+#else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+        CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t state;
+        uint8_t i;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp= --context;
+
+        pd = usbpd_ctx_temp->base;
 
         if (context->brownOutDetEnStatus == false)
         {
@@ -8807,9 +8852,13 @@ void Cy_USBPD_Fault_BrownOutDetEn(cy_stc_usbpd_context_t *context)
              * automatically through hardware.
              * Delayed retry is done for the recovery.
              */
+              
             for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
             {
-                Cy_USBPD_Fault_FetAutoModeEnable(context + i, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
+                Cy_USBPD_Fault_FetAutoModeEnable(usbpd_ctx_temp, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
+#if (NO_OF_TYPEC_PORTS > 1)
+                ++usbpd_ctx_temp;
+#endif /* (NO_OF_TYPEC_PORTS > 1) */
             }
 
             /* Clear and Enable interrupt. */
@@ -8823,10 +8872,11 @@ void Cy_USBPD_Fault_BrownOutDetEn(cy_stc_usbpd_context_t *context)
         {
             /* Already enabled, do nothing */
         }
-    }
 #else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_BrownOutDetDis
@@ -8847,13 +8897,12 @@ void Cy_USBPD_Fault_BrownOutDetEn(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Fault_BrownOutDetDis(cy_stc_usbpd_context_t *context)
 {
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
-    PPDSS_REGS_T pd;
-    uint32_t state;
-    uint8_t i;
-
-    if(TYPEC_PORT_0_IDX == context->port)
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
     {
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t state;
         pd = context->base;
 
         if (context->brownOutDetEnStatus == true)
@@ -8863,11 +8912,7 @@ void Cy_USBPD_Fault_BrownOutDetDis(cy_stc_usbpd_context_t *context)
             /* Disable and Clear interrupt. */
             pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_VREG_VDDD_BOD_MASK;
             pd->intr17 = PDSS_INTR17_PDBB_VREG_VDDD_BOD;
-
-            for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
-            {
-                Cy_USBPD_Fault_FetAutoModeDisable(context + i, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
-            }
+            Cy_USBPD_Fault_FetAutoModeDisable(context, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
 
             context->brownOutDetEnStatus = false;
 
@@ -8877,10 +8922,47 @@ void Cy_USBPD_Fault_BrownOutDetDis(cy_stc_usbpd_context_t *context)
         {
             /* Do nothing */
         }
-    }
 #else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t state;
+        uint8_t i;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp=--context;
+        pd = usbpd_ctx_temp->base;
+
+        if (context->brownOutDetEnStatus == true)
+        {
+            state = Cy_SysLib_EnterCriticalSection ();
+
+            /* Disable and Clear interrupt. */
+            pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_VREG_VDDD_BOD_MASK;
+            pd->intr17 = PDSS_INTR17_PDBB_VREG_VDDD_BOD;
+            for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
+            {
+                Cy_USBPD_Fault_FetAutoModeDisable(usbpd_ctx_temp, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_BROWN_OUT_DET);
+#if (NO_OF_TYPEC_PORTS > 1)
+                ++usbpd_ctx_temp;
+#endif /* (NO_OF_TYPEC_PORTS > 1) */
+            }
+            context->brownOutDetEnStatus = false;
+
+            Cy_SysLib_ExitCriticalSection (state);
+        }
+        else
+        {
+            /* Do nothing */
+        }
+#else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+        CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_BrownOutStatus
@@ -8901,24 +8983,52 @@ void Cy_USBPD_Fault_BrownOutDetDis(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 bool Cy_USBPD_Fault_BrownOutStatus(cy_stc_usbpd_context_t *context)
 {
-    bool status = false;
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
-    PPDSS_REGS_T pd;
-
-    if(TYPEC_PORT_0_IDX == context->port)
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
     {
+        bool status = false;
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
         pd = context->base;
 
         if ((pd->intr17_status_1 & PDSS_INTR17_STATUS_1_PDBB_VREG_VDDD_BOD_FILT) != 0u)
         {
             status = true;
         }
-    }
 
 #else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
-    return status;
+        return status;
+    }
+    else
+    { 
+        return false;
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+        bool status = false;
+#if PDL_VREG_BROWN_OUT_DET_ENABLE
+        PPDSS_REGS_T pd;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp=--context;
+        pd = usbpd_ctx_temp->base;
+
+        if ((pd->intr17_status_1 & PDSS_INTR17_STATUS_1_PDBB_VREG_VDDD_BOD_FILT) != 0u)
+        {
+            status = true;
+        }
+
+#else /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+            CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_BROWN_OUT_DET_ENABLE */
+            return status;
+    }
+    else
+    { 
+        return false;
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_VregInrushDetEn
@@ -8939,31 +9049,19 @@ bool Cy_USBPD_Fault_BrownOutStatus(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Fault_VregInrushDetEn(cy_stc_usbpd_context_t *context)
 {
-#if PDL_VREG_INRUSH_DET_ENABLE
-    PPDSS_REGS_T pd;
-    uint32_t regval;
-    uint32_t state;
-    uint8_t i;
-
-    if(TYPEC_PORT_0_IDX == context->port)
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
     {
+#if PDL_VREG_INRUSH_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t regval;
+        uint32_t state;
+        pd = context->base;
+
         if (context->vregInrushDetEnStatus == false)
         {
-            pd = context->base;
 
             state = Cy_SysLib_EnterCriticalSection();
-#if defined(CY_DEVICE_CCG7D)
-            /*
-             * Enable Vreg Inrush fault to detect VDDD droop.
-             * When fault is detected, buck-boost and provider fet turns off
-             * automatically through hardware.
-             * Delayed retry is done for the recovery.
-             */
-            for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
-            {
-                Cy_USBPD_Fault_FetAutoModeEnable(context + i, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_VREG_INRUSH_DET);
-            }
-#endif /* defined(CY_DEVICE_CCG7D) */
 
             /* Reset the Inrush filter. */
             regval = pd->intr17_cfg_0;
@@ -8991,10 +9089,73 @@ void Cy_USBPD_Fault_VregInrushDetEn(cy_stc_usbpd_context_t *context)
         {
             /* Already enabled, do nothing */
         }
-    }
 #else /* !PDL_VREG_INRUSH_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_INRUSH_DET_ENABLE */
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+#if PDL_VREG_INRUSH_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t regval;
+        uint32_t state;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp=--context;
+        pd = usbpd_ctx_temp->base;
+        uint8_t i;
+
+        if (context->vregInrushDetEnStatus == false)
+        {
+
+            state = Cy_SysLib_EnterCriticalSection();
+#if defined(CY_DEVICE_CCG7D)
+            /*
+             * Enable Vreg Inrush fault to detect VDDD droop.
+             * When fault is detected, buck-boost and provider fet turns off
+             * automatically through hardware.
+             * Delayed retry is done for the recovery.
+             */
+
+            for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
+            {
+                Cy_USBPD_Fault_FetAutoModeEnable(usbpd_ctx_temp, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_VREG_INRUSH_DET);
+#if (NO_OF_TYPEC_PORTS > 1)
+                ++usbpd_ctx_temp;
+#endif /* (NO_OF_TYPEC_PORTS > 1) */
+            }
+#endif /* defined(CY_DEVICE_CCG7D) */
+
+            /* Reset the Inrush filter. */
+            regval = pd->intr17_cfg_0;
+            regval &= ~(PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_EN |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_CFG_MASK |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_SEL_MASK |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_RESET |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_BYPASS);
+            pd->intr17_cfg_0 = regval;
+
+            /* Configure the filter. */
+            regval |= (CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_CFG_POS) |
+                    ((uint32_t)20u << PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_SEL_POS) |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_EN;
+            pd->intr17_cfg_0 = regval;
+
+            /* Clear and enable vreg inrush detect interrupt. */
+            pd->intr17 = PDSS_INTR17_PDBB_40VREG_IN_RUSH_DET;
+            pd->intr17_mask |= PDSS_INTR17_MASK_PDBB_40VREG_IN_RUSH_DET_MASK;
+
+            context->vregInrushDetEnStatus = true;
+            Cy_SysLib_ExitCriticalSection(state);
+        }
+        else
+        {
+            /* Already enabled, do nothing */
+        }
+#else /* !PDL_VREG_INRUSH_DET_ENABLE */
+        CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_INRUSH_DET_ENABLE */
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_VregInrushDetDis
@@ -9016,14 +9177,54 @@ void Cy_USBPD_Fault_VregInrushDetEn(cy_stc_usbpd_context_t *context)
 
 void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context)
 {
-#if PDL_VREG_INRUSH_DET_ENABLE
-    PPDSS_REGS_T pd;
-    uint32_t regval;
-    uint32_t state;
-    uint8_t i;
-
-    if(TYPEC_PORT_0_IDX == context->port)
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
     {
+#if PDL_VREG_INRUSH_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t regval;
+        uint32_t state;
+        pd = context->base;
+        if (context->vregInrushDetEnStatus == true)
+        {
+            pd = context->base;
+            state = Cy_SysLib_EnterCriticalSection ();
+
+            /* Disable and clear vreg inrush detect interrupt. */
+            pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_40VREG_IN_RUSH_DET_MASK;
+            pd->intr17 = PDSS_INTR17_PDBB_40VREG_IN_RUSH_DET;
+
+            /* Reset the Inrush filter. */
+            regval = pd->intr17_cfg_0;
+            regval &= ~(PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_EN |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_CFG_MASK |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_SEL_MASK |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_RESET |
+                    PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_BYPASS);
+            pd->intr17_cfg_0 = regval;
+
+            context->vregInrushDetEnStatus = false;
+
+            Cy_SysLib_ExitCriticalSection (state);
+        }
+        else
+        {
+            /* Do nothing */
+        }
+#else /* !PDL_VREG_INRUSH_DET_ENABLE */
+        CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_INRUSH_DET_ENABLE */
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+#if PDL_VREG_INRUSH_DET_ENABLE
+        PPDSS_REGS_T pd;
+        uint32_t regval;
+        uint32_t state;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp=--context;
+        pd = usbpd_ctx_temp->base;
+        uint8_t i;
         if (context->vregInrushDetEnStatus == true)
         {
             pd = context->base;
@@ -9046,7 +9247,10 @@ void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context)
 #if defined(CY_DEVICE_CCG7D)
             for (i = 0; i < NO_OF_TYPEC_PORTS; i++)
             {
-                Cy_USBPD_Fault_FetAutoModeDisable(context + i, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_VREG_INRUSH_DET);
+                Cy_USBPD_Fault_FetAutoModeDisable(usbpd_ctx_temp, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_VREG_INRUSH_DET);
+#if (NO_OF_TYPEC_PORTS > 1)
+                ++usbpd_ctx_temp;
+#endif /* (NO_OF_TYPEC_PORTS > 1) */
             }
 #endif /* defined(CY_DEVICE_CCG7D) */
 
@@ -9056,12 +9260,13 @@ void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context)
         }
         else
         {
-            /* Do nothing */
+                /* Do nothing */
         }
-    }
 #else /* !PDL_VREG_INRUSH_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_INRUSH_DET_ENABLE */
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_VregInrushStatus
@@ -9082,24 +9287,52 @@ void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 bool Cy_USBPD_Fault_VregInrushStatus(cy_stc_usbpd_context_t *context)
 {
-    bool status = false;
+#if (NO_OF_TYPEC_PORTS <= 1)
+    if (context-> port == TYPEC_PORT_0_IDX)
+    {
+        bool status = false;
 
 #if PDL_VREG_INRUSH_DET_ENABLE
-    PPDSS_REGS_T pd;
-
-    if(TYPEC_PORT_0_IDX == context->port)
-    {
+        PPDSS_REGS_T pd;
         pd = context->base;
 
         if ((pd->intr17_status_0 & PDSS_INTR17_STATUS_0_PDBB_40VREG_IN_RUSH_DET_STATUS) != 0u)
         {
             status = true;
         }
-    }
 #else /* !PDL_VREG_INRUSH_DET_ENABLE */
-    CY_UNUSED_PARAMETER(context);
+        CY_UNUSED_PARAMETER(context);
 #endif /* !PDL_VREG_INRUSH_DET_ENABLE */
-    return status;
+        return status;
+    }
+    else
+    { 
+        return false;
+    }
+#else
+    if (context-> port == TYPEC_PORT_1_IDX)
+    {
+         bool status = false;
+
+#if PDL_VREG_INRUSH_DET_ENABLE
+        PPDSS_REGS_T pd;
+        cy_stc_usbpd_context_t *usbpd_ctx_temp=--context;
+        pd = usbpd_ctx_temp->base;
+
+        if ((pd->intr17_status_0 & PDSS_INTR17_STATUS_0_PDBB_40VREG_IN_RUSH_DET_STATUS) != 0u)
+        {
+            status = true;
+        }
+#else /* !PDL_VREG_INRUSH_DET_ENABLE */
+            CY_UNUSED_PARAMETER(context);
+#endif /* !PDL_VREG_INRUSH_DET_ENABLE */
+            return status;
+    }
+    else
+    { 
+        return false;
+    }
+#endif /* (NO_OF_TYPEC_PORTS =< 1) */
 }
 
 /** \cond DOXYGEN_HIDE */
@@ -9740,7 +9973,120 @@ int16_t Cy_USBPD_Vbus_GetTrimIdac(cy_stc_usbpd_context_t * context, uint16_t vol
     return 0;
 #endif /* !(VBUS_CTRL_TRIM_ADJUST_ENABLE) */
 }
+/*******************************************************************************
+* Function Name: Cy_USBPD_Vbus_SystemClockDisable
+****************************************************************************//**
+*
+* Disables the system clocks while entering into sleep.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*
+*******************************************************************************/
+void Cy_USBPD_Vbus_SystemClockDisable(cy_stc_usbpd_context_t * context)
+{
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    /* We can use the same clocks for both PD ports for following functions. */
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_8_BIT, 5U);
 
+#if defined(CY_DEVICE_CCG7D)
+
+#if (!HFCLK_CHANGE_OVER_SLEEP)
+    /* Operating the below clock at 100KHz in sleep. */
+    context->bbSoftClkDividerValue = Cy_SysClk_PeriphGetDivider(CY_SYSCLK_DIV_8_BIT, 7U);
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 7U,CYDEV_BCLK__HFCLK__MHZ * 10u);
+#endif /* !HFCLK_CHANGE_OVER_SLEEP */
+
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_16_BIT, 0U);
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_16_BIT, 1U);
+    
+    /* We need separate clocks for second port for following functions */
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_16_BIT, 2U);
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_16_BIT, 3U);
+    
+    /* We can use the same clocks for both PD ports for following functions. */
+    (void)Cy_SysClk_PeriphDisableDivider(CY_SYSCLK_DIV_8_BIT, 6U);
+
+#if (HFCLK_CHANGE_OVER_SLEEP || SYSCLK_CHANGE_OVER_SLEEP)
+    context->clkSelectValue = SRSSLT->CLK_SELECT;
+#endif /* (HFCLK_CHANGE_OVER_SLEEP || SYSCLK_CHANGE_OVER_SLEEP) */
+    
+#if (!HFCLK_CHANGE_OVER_SLEEP)
+    /* operating the below clocks at 100KHz in sleep */
+    context->filt1ClkDividerValue = Cy_SysClk_PeriphGetDivider(CY_SYSCLK_DIV_8_BIT, 2U);
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 2U,CYDEV_BCLK__HFCLK__MHZ * 10u);
+#else
+    /* We can use the same clocks for both PD ports for following functions. */
+    context->filt1ClkDividerValue = Cy_SysClk_PeriphGetDivider(CY_SYSCLK_DIV_8_BIT, 3U);
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 3U, (((context->filt1ClkDividerValue + 1u) >> 3u) - 1u));
+#endif /* !HFCLK_CHANGE_OVER_SLEEP */
+
+#if HFCLK_CHANGE_OVER_SLEEP
+    CY_USBPD_REG_FIELD_UPDATE_MTB((SRSSLT->CLK_SELECT), SRSSLT_CLK_SELECT_HFCLK_DIV, (3u));
+#endif /* HFCLK_CHANGE_OVER_SLEEP */
+
+#if SYSCLK_CHANGE_OVER_SLEEP
+    CY_USBPD_REG_FIELD_UPDATE_MTB(SRSSLT->CLK_SELECT, SRSSLT_CLK_SELECT_HFCLK_DIV, 3u);
+#endif /* SYSCLK_CHANGE_OVER_SLEEP */
+#endif /* defined(CY_DEVICE_CCG7D) */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+     CY_UNUSED_PARAMETER(context);
+}
+/*******************************************************************************
+* Function Name: Cy_USBPD_Vbus_SystemClockEnable
+****************************************************************************//**
+*
+* Enables the system clocks with old stored value while wakeup.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context)
+{
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+#if (defined(CY_DEVICE_CCG7D))
+#if (HFCLK_CHANGE_OVER_SLEEP || SYSCLK_CHANGE_OVER_SLEEP)
+    SRSSLT->CLK_SELECT = context->clkSelectValue;
+#endif /* (HFCLK_CHANGE_OVER_SLEEP || SYSCLK_CHANGE_OVER_SLEEP) */
+#endif /* (defined(CY_DEVICE_CCG7D)) */
+
+#if (!HFCLK_CHANGE_OVER_SLEEP)
+    /* Retain the clocks to Old frequency */
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 2U, context->refgenClkDividerValue + 1u);
+#else
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 3U, context->filt1ClkDividerValue + 1u);
+#endif /* !HFCLK_CHANGE_OVER_SLEEP */
+
+#if defined(CY_DEVICE_CCG7D)
+
+#if (!HFCLK_CHANGE_OVER_SLEEP)
+    (void)Cy_SysClk_PeriphSetDivider(CY_SYSCLK_DIV_8_BIT, 7U,context->bbSoftClkDividerValue + 1u);
+#endif /* !HFCLK_CHANGE_OVER_SLEEP */
+
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_16_BIT, 0U);
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_16_BIT, 1U);
+
+    /* We need separate clocks for second port for following functions */
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_16_BIT, 2U);
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_16_BIT, 3U);
+
+    /* We can use the same clocks for both PD ports for following functions. */
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_8_BIT, 6U);
+
+#endif /* defined(CY_DEVICE_CCG7D) */   
+    /* We can use the same clocks for both PD ports for following functions. */
+    (void)Cy_SysClk_PeriphEnableDivider(CY_SYSCLK_DIV_8_BIT, 5U);
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+     CY_UNUSED_PARAMETER(context);
+}
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
 
 /* [] END OF FILE */

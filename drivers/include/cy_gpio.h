@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_gpio.h
-* \version 2.0
+* \version 3.0
 *
 * Provides an API declaration of the GPIO driver
 *
@@ -93,6 +93,16 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">3.0</td>
+*     <td>Fixed \ref Cy_GPIO_MscControlEnable() and \ref Cy_GPIO_MscControlDisable() implementation.</td>
+*     <td>Defect fix.</td>
+*   </tr>
+*   <tr>
+*     <td>Removed reserved fields from cy_stc_gpio_prt_config_t and
+*         cy_stc_gpio_pin_config_t.</td>
+*     <td>Memory usage optimization.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="4">2.0</td>
 *     <td>Fixed Cy_GPIO_Pin_Init() to configure input buffer voltage trip and
 *         output buffer slew rate properly.</td>
@@ -161,7 +171,7 @@ extern "C" {
 */
 
 /** Driver major version */
-#define CY_GPIO_DRV_VERSION_MAJOR       2
+#define CY_GPIO_DRV_VERSION_MAJOR       3
 
 /** Driver minor version */
 #define CY_GPIO_DRV_VERSION_MINOR       0
@@ -228,7 +238,6 @@ typedef struct
     uint32_t intrCfg;        /**< Port pin interrupt edge detection configuration */
     uint32_t pc;             /**< Port pin drive modes configuration */
     uint32_t pc2;            /**< Port pin input buffer state configuration */
-    uint32_t sio;            /**< Reserved for future */
     uint32_t selActive;      /**< HSIOM selection for port pins*/
 } cy_stc_gpio_prt_config_t;
 
@@ -241,11 +250,6 @@ typedef struct
     uint32_t intEdge;        /**< Interrupt Edge type */
     uint32_t vtrip;          /**< Input buffer voltage trip type */
     uint32_t slewRate;       /**< Output buffer slew rate */
-    uint32_t vregEn;         /**< Reserved for future */
-    uint32_t ibufMode;       /**< Reserved for future */
-    uint32_t vtripSel;       /**< Reserved for future */
-    uint32_t vrefSel;        /**< Reserved for future */
-    uint32_t vohSel;         /**< Reserved for future */
 } cy_stc_gpio_pin_config_t;
 
 /** \} group_gpio_data_structures */
@@ -263,17 +267,21 @@ typedef struct
 #define CY_GPIO_HSIOM_MASK                     (0x0FUL)   /**< HSIOM selection mask */
 #define CY_GPIO_DR_MASK                        (0x01UL)   /**< Single pin mask for DR register */
 #define CY_GPIO_PS_MASK                        (0x01UL)   /**< Single pin mask for PS register */
-#define CY_GPIO_MSC_ANA_MASK                   (0x01UL)   /**< Single pin mask for MSC_ANA register */
+#define CY_GPIO_MSC_ANA_PIN_MASK               (GPIO_PRT_MSC_ANA_DATA0_Msk)   /** Single pin mask for MSC_ANA register */
+#define CY_GPIO_MSC_ANA_REG_MASK               (GPIO_PRT_MSC_ANA_DATA0_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA1_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA2_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA3_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA4_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA5_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA6_Msk |\
+                                                GPIO_PRT_MSC_ANA_DATA7_Msk)   /** The combined mask of all the MSC_ANA register bitfields */
 #define CY_GPIO_PC_DM_MASK                     (0x07UL)   /**< Single pin mask for drive mode in PC register */
 #define CY_GPIO_PC_DM_IBUF_MASK                (0x01UL)   /**< Single pin mask for input buffer state in PC2 register */
 #define CY_GPIO_DM_VAL_IBUF_DISABLE_MASK       (0x08UL)   /**< The input buffer disable mask for the Pin Drive mode value */
 #define CY_GPIO_INTR_STATUS_MASK               (0x01UL)   /**< Single pin mask for interrupt status in INTR register */
 #define CY_GPIO_INTR_EDGE_MASK                 (0x03UL)   /**< Single pin mask for interrupt edge type in INTR_EDGE register */
 #define CY_GPIO_INTR_FLT_EDGE_MASK             (0x07UL)   /**< Single pin mask for setting filtered interrupt */
-
-
-
-
 
 /* Offsets */
 #define CY_GPIO_HSIOM_OFFSET                   (2UL)      /**< Offset for HSIOM */
@@ -442,8 +450,8 @@ __STATIC_INLINE void Cy_GPIO_SetSlewRate(GPIO_PRT_Type* base, uint32_t value);
 __STATIC_INLINE uint32_t Cy_GPIO_GetSlewRate(const GPIO_PRT_Type* base);
 
 #if (defined(CY_IP_M0S8MSCV3LP) || defined(CY_DOXYGEN))
-__STATIC_INLINE void Cy_GPIO_MscControlEnable(const GPIO_PRT_Type* base, uint32_t pinNum);
-__STATIC_INLINE void Cy_GPIO_MscControlDisable(const GPIO_PRT_Type* base, uint32_t pinNum);
+__STATIC_INLINE void Cy_GPIO_MscControlEnable(GPIO_PRT_Type* base, uint32_t pinNum);
+__STATIC_INLINE void Cy_GPIO_MscControlDisable(GPIO_PRT_Type* base, uint32_t pinNum);
 __STATIC_INLINE bool Cy_GPIO_MscControlIsEnabled(const GPIO_PRT_Type* base, uint32_t pinNum);
 #endif /* (defined(CY_IP_M0S8MSCV3LP) || defined(CY_DOXYGEN)) */
 /** \} group_gpio_functions_gpio */
@@ -1050,14 +1058,14 @@ __STATIC_INLINE uint32_t Cy_GPIO_GetSlewRate(const GPIO_PRT_Type* base)
 * Pointer to the pin's port register base address
 *
 * \param pinNum
-* Position of the pin bit-field within the port register
+* Position of the pin bit-field within the port register. Valid range: 0...7.
 *
 *******************************************************************************/
-__STATIC_INLINE void Cy_GPIO_MscControlEnable(const GPIO_PRT_Type* base, uint32_t pinNum)
+__STATIC_INLINE void Cy_GPIO_MscControlEnable(GPIO_PRT_Type* base, uint32_t pinNum)
 {
-    CY_ASSERT_L2(CY_GPIO_IS_FILTER_PIN_VALID(pinNum));
+    CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
 
-    GPIO_PRT_MSC_ANA(base) = CY_GPIO_MSC_ANA_MASK << pinNum;
+    GPIO_PRT_MSC_ANA(base) |= CY_GPIO_MSC_ANA_REG_MASK & (CY_GPIO_MSC_ANA_PIN_MASK << pinNum);
 }
 
 
@@ -1071,14 +1079,14 @@ __STATIC_INLINE void Cy_GPIO_MscControlEnable(const GPIO_PRT_Type* base, uint32_
 * Pointer to the pin's port register base address
 *
 * \param pinNum
-* Position of the pin bit-field within the port register
+* Position of the pin bit-field within the port register. Valid range: 0...7.
 *
 *******************************************************************************/
-__STATIC_INLINE void Cy_GPIO_MscControlDisable(const GPIO_PRT_Type* base, uint32_t pinNum)
+__STATIC_INLINE void Cy_GPIO_MscControlDisable(GPIO_PRT_Type* base, uint32_t pinNum)
 {
     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
 
-    GPIO_PRT_MSC_ANA(base) = (GPIO_PRT_MSC_ANA(base) & ~(CY_GPIO_MSC_ANA_MASK << pinNum));
+    GPIO_PRT_MSC_ANA(base) &= ~(CY_GPIO_MSC_ANA_REG_MASK & (CY_GPIO_MSC_ANA_PIN_MASK << pinNum));
 }
 
 
@@ -1093,7 +1101,7 @@ __STATIC_INLINE void Cy_GPIO_MscControlDisable(const GPIO_PRT_Type* base, uint32
 * Pointer to the pin's port register base address
 *
 * \param pinNum
-* Position of the pin bit-field within the port register
+* Position of the pin bit-field within the port register. Valid range: 0...7.
 *
 * \return
 * Status of MSCV3LP IP block control over specified pin
@@ -1101,20 +1109,9 @@ __STATIC_INLINE void Cy_GPIO_MscControlDisable(const GPIO_PRT_Type* base, uint32
 *******************************************************************************/
 __STATIC_INLINE bool Cy_GPIO_MscControlIsEnabled(const GPIO_PRT_Type* base, uint32_t pinNum)
 {
-    bool retVal;
-
     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
 
-    if (((GPIO_PRT_MSC_ANA(base) >> pinNum) & CY_GPIO_MSC_ANA_MASK) == 0u)
-    {
-        retVal = false;
-    }
-    else
-    {
-        retVal = true;
-    }
-
-    return (retVal);
+    return (0UL != (GPIO_PRT_MSC_ANA(base) & CY_GPIO_MSC_ANA_REG_MASK & (CY_GPIO_MSC_ANA_PIN_MASK << pinNum)));
 }
 #endif /* (defined(CY_IP_M0S8MSCV3LP) || defined(CY_DOXYGEN)) */
 

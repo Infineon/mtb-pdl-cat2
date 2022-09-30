@@ -91,5 +91,7 @@ var group__group__usbpd__vbus__ctrl__functions =
     [ "Cy_USBPD_CcOvpControl", "group__group__usbpd__vbus__ctrl__functions.html#gaf49392d48a4b504b09bd4abaee9b5423", null ],
     [ "Cy_USBPD_Vbus_V5vChangeDetectHandler", "group__group__usbpd__vbus__ctrl__functions.html#ga1ef645f42648e5a6ace9b8045e6c2fac", null ],
     [ "Cy_USBPD_Vbus_Ctrl_FbGetIdacStep", "group__group__usbpd__vbus__ctrl__functions.html#ga63fd7f3c9e114fcef8fb836f9a9a717f", null ],
-    [ "Cy_USBPD_Vbus_GetTrimIdac", "group__group__usbpd__vbus__ctrl__functions.html#ga5d5fa4e816ade0eb937ebee18e207223", null ]
+    [ "Cy_USBPD_Vbus_GetTrimIdac", "group__group__usbpd__vbus__ctrl__functions.html#ga5d5fa4e816ade0eb937ebee18e207223", null ],
+    [ "Cy_USBPD_Vbus_SystemClockDisable", "group__group__usbpd__vbus__ctrl__functions.html#gac5a1a5eee9d2f206d6eed89d9bfc25af", null ],
+    [ "Cy_USBPD_Vbus_SystemClockEnable", "group__group__usbpd__vbus__ctrl__functions.html#gac6ff36689f3d63e5b563d200bfb3da76", null ]
 ];

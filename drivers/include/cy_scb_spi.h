@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_spi.h
-* \version 4.10
+* \version 4.20
 *
 * Provides SPI API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -279,7 +279,7 @@
 * \snippet scb_spi_snippet.c SPI_DS_CLOCK_CONFIG_CALLBACK
 *
 * \note
-* Not applicable for PSoC 4100S Max.
+* Not applicable for PSoC 4100S Max and PSoC 4000T.
 *
 * \defgroup group_scb_spi_macros Macros
 * \defgroup group_scb_spi_functions Functions
@@ -649,7 +649,7 @@ typedef struct cy_stc_scb_spi_context
     * The pointer to a deep sleep callback that is called when any of
     * \ref group_scb_spi_macros_deep_sleep_callback_events occurs (applicable only
     * for the slave)
-    * \note Not applicable for PSoC 4100S Max.
+    * \note Not applicable for PSoC 4100S Max and PSoC 4000T.
     */
     cy_cb_scb_spi_handle_deep_sleep_mode_t cbDeepSleep;
 #endif /* CY_IP_M0S8SCB */
@@ -740,7 +740,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterCallback(CySCB_Type const *base, cy_cb_s
 * \addtogroup group_scb_spi_low_power_functions
 * \{
 */
-cy_en_syspm_status_t Cy_SCB_SPI_DeepSleepCallback(cy_stc_syspm_callback_params_t const *callbackParams, cy_en_syspm_callback_mode_t mode);
+cy_en_syspm_status_t Cy_SCB_SPI_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
 #if defined (CY_IP_M0S8SCB) || defined (CY_DOXYGEN)
 __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base, cy_cb_scb_spi_handle_deep_sleep_mode_t callback,
                                                           cy_stc_scb_spi_context_t *context);
@@ -920,7 +920,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base, cy
 * \defgroup group_scb_spi_macros_deep_sleep_callback_events SPI Deep Sleep Callback Events
 * Macros to check deep sleep event by \ref cy_cb_scb_spi_handle_deep_sleep_mode_t
 * callback.
-* \note Not applicable for PSoC 4100S Max.
+* \note Not applicable for PSoC 4100S Max and PSoC 4000T.
 * \{
 */
 /**
@@ -1670,7 +1670,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterCallback(CySCB_Type const *base,
 * To remove the callback, pass NULL as the pointer to the callback function.
 *
 * \note
-* Not applicable for PSoC 4100S Max.
+* Not applicable for PSoC 4100S Max and PSoC 4000T.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base,

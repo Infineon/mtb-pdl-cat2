@@ -365,6 +365,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga5d5fa4e816ade0eb937ebee18e207223"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga5d5fa4e816ade0eb937ebee18e207223">Cy_USBPD_Vbus_GetTrimIdac</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint16_t volt_mv)</td></tr>
 <tr class="memdesc:ga5d5fa4e816ade0eb937ebee18e207223"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the iDAC value to be used for attaining the voltage.  <a href="#ga5d5fa4e816ade0eb937ebee18e207223">More...</a><br /></td></tr>
 <tr class="separator:ga5d5fa4e816ade0eb937ebee18e207223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac5a1a5eee9d2f206d6eed89d9bfc25af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gac5a1a5eee9d2f206d6eed89d9bfc25af">Cy_USBPD_Vbus_SystemClockDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gac5a1a5eee9d2f206d6eed89d9bfc25af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the system clocks while entering into sleep.  <a href="#gac5a1a5eee9d2f206d6eed89d9bfc25af">More...</a><br /></td></tr>
+<tr class="separator:gac5a1a5eee9d2f206d6eed89d9bfc25af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac6ff36689f3d63e5b563d200bfb3da76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gac6ff36689f3d63e5b563d200bfb3da76">Cy_USBPD_Vbus_SystemClockEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gac6ff36689f3d63e5b563d200bfb3da76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the system clocks with old stored value while wakeup.  <a href="#gac6ff36689f3d63e5b563d200bfb3da76">More...</a><br /></td></tr>
+<tr class="separator:gac6ff36689f3d63e5b563d200bfb3da76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga10b2a7fd00324e275643a7cc76f2602d"></a>
@@ -3707,6 +3713,58 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int16_t Returns the iDAC value. </dd></dl>
+
+</div>
+</div>
+<a id="gac5a1a5eee9d2f206d6eed89d9bfc25af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac5a1a5eee9d2f206d6eed89d9bfc25af">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_SystemClockDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_SystemClockDisable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the system clocks while entering into sleep. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gac6ff36689f3d63e5b563d200bfb3da76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac6ff36689f3d63e5b563d200bfb3da76">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_SystemClockEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Vbus_SystemClockEnable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the system clocks with old stored value while wakeup. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

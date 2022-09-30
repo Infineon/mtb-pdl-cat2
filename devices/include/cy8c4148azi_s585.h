@@ -120,9 +120,6 @@ typedef enum {
 #define CY_IP_MXAUDIOSS                 1u
 #define CY_IP_MXAUDIOSS_INSTANCES       1u
 #define CY_IP_MXAUDIOSS_VERSION         2u
-#define CY_IP_MXTTCANFD                 1u
-#define CY_IP_MXTTCANFD_INSTANCES       1u
-#define CY_IP_MXTTCANFD_VERSION         2u
 #define CY_IP_ARMCM0P                   1u
 #define CY_IP_ARMCM0P_INSTANCES         0u
 #define CY_IP_ARMCM0P_VERSION           1u

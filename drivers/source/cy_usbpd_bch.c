@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.0
+* \version 2.10
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -801,7 +801,7 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
     if (vref == CHGB_VREF_0_325V)
     {
         /* The actual voltage needs to be 425 mV. Enable +100mV offset to get the desired voltage. */
-        regVal |= ((4UL << PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_SEL_POS) |
+        regVal |= ((5UL << PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_SEL_POS) |
                 (uint32_t)PDSS_BCH_DET_0_CTRL_CMP1_OFFSET_EN);
     }
 
@@ -2154,46 +2154,6 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStop(cy_stc_usbpd_context_t *context)
 }
 
 /*******************************************************************************
-* Function Name: Cy_USBPD_Bch_AfcGetRxDataPtr
-****************************************************************************//**
-*
-* This function returns the AFC received data pointer
-*
-* \param context
-* Pointer to the context structure \ref cy_stc_usbpd_context_t.
-*
-* \return
-* Received data pointer
-*
-*******************************************************************************/
-uint8_t * Cy_USBPD_Bch_AfcGetRxDataPtr(cy_stc_usbpd_context_t *context)
-{
-    return context->bcAfcRxBuf;
-}
-
-/*******************************************************************************
-* Function Name: Cy_USBPD_Bch_AfcGetRxDataCount
-****************************************************************************//**
-*
-* This function returns the AFC received data count
-*
-* \param context
-* Pointer to the context structure \ref cy_stc_usbpd_context_t.
-*
-* \return
-* received data count
-*
-*******************************************************************************/
-uint8_t Cy_USBPD_Bch_AfcGetRxDataCount(cy_stc_usbpd_context_t *context)
-{
-#if (!BCR) && (!QC_AFC_SNK_EN)
-    return context->bcAfcRxIdx + 1u;
-#else
-    return context->bcAfcRxIdx;
-#endif
-}
-
-/*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcLoadTxData
 ****************************************************************************//**
 *
@@ -3211,7 +3171,7 @@ bool Cy_USBPD_Bch_CdpSm(cy_stc_usbpd_context_t *context)
                     context->cdpState.vdmsrcLvCnt = 0;
 
                     /* Make sure the first D- voltage check is done 15 ms later. */
-                    context->timerStopcbk(context, CY_USBPD_APP_BC_GENERIC_TIMER1);
+                    context->timerStopcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1));
                 }
             }
             else
@@ -3358,15 +3318,15 @@ bool Cy_USBPD_Bch_Is_Cdp_SmBusy(cy_stc_usbpd_context_t *context)
         }
 
         /* Wake periodically to check voltage while the CDP state machine is running. */
-        if (!context->timerIsRunningcbk(context, CY_USBPD_APP_BC_GENERIC_TIMER1))
+        if (!context->timerIsRunningcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1)))
         {
             if (context->cdpState.vdmsrcLvCnt != 0u)
             {
-                (void)context->timerStartcbk(context, context, CY_USBPD_APP_BC_GENERIC_TIMER1, CDP_VDMSRC_FAULT_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
+                (void)context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1), CDP_VDMSRC_FAULT_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
             }
             else
             {
-                (void)context->timerStartcbk(context, context, CY_USBPD_APP_BC_GENERIC_TIMER1, CDP_DX_VOLTAGE_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
+                (void)context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1), CDP_DX_VOLTAGE_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
             }
         }
     }

@@ -81,6 +81,7 @@ $(document).ready(function(){initNavTree('group__group__usbpd__common__enums.htm
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">Enumerated Types<div class="ingroups"><a class="el" href="group__group__usbpd.html">USBPD        (USB Power Delivery)</a> &raquo; <a class="el" href="group__group__usbpd__common.html">Common</a></div></div>  </div>
@@ -88,6 +89,17 @@ $(document).ready(function(){initNavTree('group__group__usbpd__common__enums.htm
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga783707126fc2465504ee000b6ac7f0d9"><td class="memItemLeft" align="right" valign="top"><a id="ga783707126fc2465504ee000b6ac7f0d9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__enums.html#ga783707126fc2465504ee000b6ac7f0d9">CY_USBPD_GET_APP_TIMER_ID</a>(context,  id)&#160;&#160;&#160;(uint16_t)(((context)-&gt;port != 0u) ? ((uint16_t)(id) + (uint16_t)128u) : (uint16_t)(id))</td></tr>
+<tr class="memdesc:ga783707126fc2465504ee000b6ac7f0d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to get APP timer ids for port 0 and port 1. <br /></td></tr>
+<tr class="separator:ga783707126fc2465504ee000b6ac7f0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga42a4a90588971279bc40b4796c2e5dc5"><td class="memItemLeft" align="right" valign="top"><a id="ga42a4a90588971279bc40b4796c2e5dc5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__enums.html#ga42a4a90588971279bc40b4796c2e5dc5">CY_USBPD_GET_PD_TIMER_ID</a>(context,  id)&#160;&#160;&#160;(uint16_t)(((context)-&gt;port != 0u) ? ((uint16_t)(id) + (uint16_t)CY_USBPD_PD1_TIMERS_START_ID) : (uint16_t)(id))</td></tr>
+<tr class="memdesc:ga42a4a90588971279bc40b4796c2e5dc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to get PD timer ids for port 0 and port 1. <br /></td></tr>
+<tr class="separator:ga42a4a90588971279bc40b4796c2e5dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga07d345ebd78ee59e02d2dede5695ccec"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__enums.html#ga07d345ebd78ee59e02d2dede5695ccec">cy_en_usbpd_sbu_switch_state_t</a> { <br />
@@ -233,13 +245,19 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a3904a5a969af5c95c99a168b1bc02445">CY_USBPD_PD_DATA_RESET_COMP_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b4d2715cefd1d347f48770b806a1db7">CY_USBPD_PD_TIMER_RESERVED_13</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a32fcf8eccfdf1fcc2ac7567d95cf725a">CY_USBPD_PD_SNK_EPR_MODE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a2810228b113fe05aeb0422041be3950c">CY_USBPD_PD_TIMERS_END_ID</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3abfd4cdee3781084f5d16b95f3fa19095">CY_USBPD_PD_SRC_EPR_MODE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab3c4c2c447fa4c8b39de3d7eaae141e2">CY_USBPD_TYPEC_TIMERS_START_ID</a> = 15u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a72ca8d37ef9fd790069e4c685988e4e2">CY_USBPD_PD_EPR_KEEPALIVE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a7d052f9bcaedcf0486efc39528dc5737">CY_USBPD_TYPEC_GENERIC_TIMER2</a> = 15u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a9dc9f7af6fad6edfb7e352457ac752c0">CY_USBPD_PD_TIMER_RESERVED_16</a> = 16u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a2810228b113fe05aeb0422041be3950c">CY_USBPD_PD_TIMERS_END_ID</a> = 16u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab3c4c2c447fa4c8b39de3d7eaae141e2">CY_USBPD_TYPEC_TIMERS_START_ID</a> = 17u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a7d052f9bcaedcf0486efc39528dc5737">CY_USBPD_TYPEC_GENERIC_TIMER2</a> = 17u, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ae8e0cf0a87b21eb73432f1898aa93fbf">CY_USBPD_TYPEC_GENERIC_TIMER1</a>, 
 <br />
@@ -265,11 +283,7 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a343c1e2281cb13f9f47b8a39004b12d9">CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a32fcf8eccfdf1fcc2ac7567d95cf725a">CY_USBPD_PD_SNK_EPR_MODE_TIMER</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3abfd4cdee3781084f5d16b95f3fa19095">CY_USBPD_PD_SRC_EPR_MODE_TIMER</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a72ca8d37ef9fd790069e4c685988e4e2">CY_USBPD_PD_EPR_KEEPALIVE_TIMER</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ada5567afd3dd40c3826232efab726214">CY_USBPD_PD_TIMER_RESERVED_30</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a1df0c4a12f9c3c3c18560daa2333a3a3">CY_USBPD_PD_TIMER_RESERVED_31</a>, 
 <br />
@@ -299,13 +313,19 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a23ef8acea310d8361c6c2aed9438d78f">CY_USBPD_PD1_DATA_RESET_COMP_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a2bf176bcd065243b716905260c4f8e67">CY_USBPD_PD1_TIMER_RESERVED_43</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6d6ac4ab9e5c9f2183b8d000572ca4ef">CY_USBPD_PD1_SNK_EPR_MODE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3adee8c90b5786e6cebd33c46e2cbd7907">CY_USBPD_PD1_TIMERS_END_ID</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a86ade57a31b67acb02c336398d609158">CY_USBPD_PD1_SRC_EPR_MODE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a3177a4d108e43ca6455cb9f2d7405fa7">CY_USBPD_TYPEC1_TIMERS_START_ID</a> = 47u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3afd28fb87d227c47b30dea75b788f7780">CY_USBPD_PD1_EPR_KEEPALIVE_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a53e147f41fcd498c96735bc34bed038e">CY_USBPD_TYPEC1_GENERIC_TIMER2</a> = 47u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3abb4ac5eb93a5699cdb37b39a1c292a9c">CY_USBPD_PD1_TIMER_RESERVED_48</a> = 48u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3adee8c90b5786e6cebd33c46e2cbd7907">CY_USBPD_PD1_TIMERS_END_ID</a> = 48u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a3177a4d108e43ca6455cb9f2d7405fa7">CY_USBPD_TYPEC1_TIMERS_START_ID</a> = 49u, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a53e147f41fcd498c96735bc34bed038e">CY_USBPD_TYPEC1_GENERIC_TIMER2</a> = 49u, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a2719ad167dddf13b3b1827015ed5022a">CY_USBPD_TYPEC1_GENERIC_TIMER1</a>, 
 <br />
@@ -332,12 +352,6 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a3cf84b733d3c327d00f923c5ca88baff">CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a40a43ff8e79c6cb0984aeede87c73ff3">CY_USBPD_CCG_ACTIVITY_TIMER_ID</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6d6ac4ab9e5c9f2183b8d000572ca4ef">CY_USBPD_PD1_SNK_EPR_MODE_TIMER</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a86ade57a31b67acb02c336398d609158">CY_USBPD_PD1_SRC_EPR_MODE_TIMER</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3afd28fb87d227c47b30dea75b788f7780">CY_USBPD_PD1_EPR_KEEPALIVE_TIMER</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aa5a1163d60c62c52afff0393afbede74">CY_USBPD_APP_TIMERS_START_ID</a> = 64u, 
 <br />
@@ -421,9 +435,9 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ad1113b40b4b1da540b7e9be7b406299c">CY_USBPD_APP_PSOURCE_VBUS_SET_TIMER_ID</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a157aadb0dadf3a568e530ff805bfe421">CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID</a>, 
-<br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a82d62711680ccd04094726bc02ab41af">CY_USBPD_APP_PSOURCE_SAFE_FET_ON_MONITOR_TIMER_ID</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a157aadb0dadf3a568e530ff805bfe421">CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a9e7aa7b076fc701e779028deff89a096">CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER</a>, 
 <br />
@@ -467,37 +481,27 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aef6e71ce2de270e959e58cfc6eefedbc">CY_USBPD_APP_VCONN_OCP_TIMER</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b74ae15263d66b3ab6dda331498307e">CY_USBPD_APP_TIMERS_RESERVED_START_ID</a> = 127u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a1676ee1a75fc3de9336c23008cb12a71">CY_USBPD_CCG_LS_SNK_CAP_TIMEOUT_TIMER_ID</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a2be953a27278aede6711c151374a9e1b">CY_USBPD_APP_TIMER_RESERVED_127</a> = CY_USBPD_APP_TIMERS_RESERVED_START_ID, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a64b85358df23d42955c3c1f2762ee8a4">CY_USBPD_APP_GPIO_HPD_TIMER_ID</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a771b29c575c720dbeb1328212de50967">CY_USBPD_APP_TIMER_RESERVED_128</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b74ae15263d66b3ab6dda331498307e">CY_USBPD_APP_TIMERS_RESERVED_START_ID</a> = 129, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a791dd160c0f4277183092bdbd4d03636">CY_USBPD_APP_TIMER_RESERVED_129</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a791dd160c0f4277183092bdbd4d03636">CY_USBPD_APP_TIMER_RESERVED_129</a> = CY_USBPD_APP_TIMERS_RESERVED_START_ID, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3abead5426e9bed3453b7bc46e803cdc53">CY_USBPD_APP_TIMER_RESERVED_130</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab09b3cfa9229e4c78da71aab40ef61fc">CY_USBPD_APP_PORT1_TIMER_START_ID</a> = 192u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aa6a3ebb886e01582f3117125afaba9ef">CY_USBPD_APP_TIMER_RESERVED_131</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a82c75eeb79728913d58dfedb3395ebb7">CY_USBPD_I2C_SLAVE_SCB0_TIMER</a> = 320u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ae0f31e524d7a525f9ee07ae95634b376">CY_USBPD_APP_TIMER_RESERVED_132</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3adede4da924e872b133ded5fbde394fe6">CY_USBPD_I2C_SLAVE_SCB1_TIMER</a> = 321u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a733506d574aeba1ff9375753183cd0b9">CY_USBPD_APP_TIMER_RESERVED_133</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a69027055b07d1e66e5fb2e18bdad79f4">CY_USBPD_I2C_SLAVE_SCB2_TIMER</a> = 322u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3acfcee3ce93b75f3b32a4d1e2593b2b62">CY_USBPD_APP_TIMER_RESERVED_134</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3affc6f87785f44a7f39e67878ae0766a2">CY_USBPD_I2C_SLAVE_SCB3_TIMER</a> = 323u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a3d3bf03a47a1ebe8e6751c41c730f31e">CY_USBPD_APP_TIMER_RESERVED_135</a>, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab729141e8930681c1a0e6d08a6a5a15c">CY_USBPD_SYS_DEEPSLEEP_TIMER_ID</a> = 324u, 
 <br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab09b3cfa9229e4c78da71aab40ef61fc">CY_USBPD_APP_PORT1_TIMER_START_ID</a> = 136u, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a82c75eeb79728913d58dfedb3395ebb7">CY_USBPD_I2C_SLAVE_SCB0_TIMER</a> = 208u, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3adede4da924e872b133ded5fbde394fe6">CY_USBPD_I2C_SLAVE_SCB1_TIMER</a> = 209u, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a69027055b07d1e66e5fb2e18bdad79f4">CY_USBPD_I2C_SLAVE_SCB2_TIMER</a> = 210u, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3affc6f87785f44a7f39e67878ae0766a2">CY_USBPD_I2C_SLAVE_SCB3_TIMER</a> = 211u, 
-<br />
-&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aacc387c9ccf185038cd33ac540be50b0">CY_USBPD_USER_TIMERS_START_ID</a> = 212u, 
+&#160;&#160;<a class="el" href="group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aacc387c9ccf185038cd33ac540be50b0">CY_USBPD_USER_TIMERS_START_ID</a> = 325u, 
 <br />
 &#160;&#160;<b>CY_USBPD_MAX_TIMER_ID</b> = 65535u
 <br />
@@ -1132,43 +1136,45 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3904a5a969af5c95c99a168b1bc02445"></a>CY_USBPD_PD_DATA_RESET_COMP_TIMER&#160;</td><td class="fielddoc"><p>012: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b4d2715cefd1d347f48770b806a1db7"></a>CY_USBPD_PD_TIMER_RESERVED_13&#160;</td><td class="fielddoc"><p>013: Reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a32fcf8eccfdf1fcc2ac7567d95cf725a"></a>CY_USBPD_PD_SNK_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>013: Timer used for Pd Sink EPR Mode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2810228b113fe05aeb0422041be3950c"></a>CY_USBPD_PD_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>014: End index (inclusive) for USB-PD stack timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3abfd4cdee3781084f5d16b95f3fa19095"></a>CY_USBPD_PD_SRC_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>014: Timer used for Pd Source EPR Mode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ab3c4c2c447fa4c8b39de3d7eaae141e2"></a>CY_USBPD_TYPEC_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>015: Start index for Type-C timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a72ca8d37ef9fd790069e4c685988e4e2"></a>CY_USBPD_PD_EPR_KEEPALIVE_TIMER&#160;</td><td class="fielddoc"><p>015: Timer used by EPR state machine for sending KeepAlive message. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a7d052f9bcaedcf0486efc39528dc5737"></a>CY_USBPD_TYPEC_GENERIC_TIMER2&#160;</td><td class="fielddoc"><p>015: Generic Type-C state machine timer #2. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a9dc9f7af6fad6edfb7e352457ac752c0"></a>CY_USBPD_PD_TIMER_RESERVED_16&#160;</td><td class="fielddoc"><p>016: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ae8e0cf0a87b21eb73432f1898aa93fbf"></a>CY_USBPD_TYPEC_GENERIC_TIMER1&#160;</td><td class="fielddoc"><p>016: Generic Type-C state machine timer #1. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2810228b113fe05aeb0422041be3950c"></a>CY_USBPD_PD_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>016: End index (inclusive) for USB-PD stack timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a95f87b02453659a63fc1811ed0710dfb"></a>CY_USBPD_TYPEC_CC1_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>017: Timer used for CC1 debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ab3c4c2c447fa4c8b39de3d7eaae141e2"></a>CY_USBPD_TYPEC_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>017: Start index for Type-C timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aab2988c205aa89806b26c1c102b0cad6"></a>CY_USBPD_TYPEC_CC2_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>018: Timer used for CC2 debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a7d052f9bcaedcf0486efc39528dc5737"></a>CY_USBPD_TYPEC_GENERIC_TIMER2&#160;</td><td class="fielddoc"><p>017: Generic Type-C state machine timer #2. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2360ac970cdb4f0fb6ca276e3ef83383"></a>CY_USBPD_TYPEC_RD_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>019: Timer used for Rd debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ae8e0cf0a87b21eb73432f1898aa93fbf"></a>CY_USBPD_TYPEC_GENERIC_TIMER1&#160;</td><td class="fielddoc"><p>018: Generic Type-C state machine timer #1. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a0a950251986de97a3ed50b3e8f9b0001"></a>CY_USBPD_TYPEC_VBUS_DISCHARGE_TIMER&#160;</td><td class="fielddoc"><p>020: VBus discharge timer id. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a95f87b02453659a63fc1811ed0710dfb"></a>CY_USBPD_TYPEC_CC1_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>019: Timer used for CC1 debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a692255185f7440e67368135bc7680e56"></a>CY_USBPD_TYPEC_ACTIVITY_TIMER&#160;</td><td class="fielddoc"><p>021: Type-C activity timer id. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aab2988c205aa89806b26c1c102b0cad6"></a>CY_USBPD_TYPEC_CC2_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>020: Timer used for CC2 debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a716f2e17ea2b1b2a9a84c96c202d39d8"></a>CY_USBPD_TYPEC_RP_CHANGE_TIMER&#160;</td><td class="fielddoc"><p>022: Timer used to trigger current limit update after Rp change. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2360ac970cdb4f0fb6ca276e3ef83383"></a>CY_USBPD_TYPEC_RD_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>021: Timer used for Rd debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a73b95cc555b822b9b4f17c299888bcd1"></a>CY_USBPD_TYPEC_TIMER_RESERVED_23&#160;</td><td class="fielddoc"><p>023: Reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a0a950251986de97a3ed50b3e8f9b0001"></a>CY_USBPD_TYPEC_VBUS_DISCHARGE_TIMER&#160;</td><td class="fielddoc"><p>022: VBus discharge timer id. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a77b94a0b66541565afb074b8bb84dca5"></a>CY_USBPD_TYPEC_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>024: End index (inclusive) for Type-C timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a692255185f7440e67368135bc7680e56"></a>CY_USBPD_TYPEC_ACTIVITY_TIMER&#160;</td><td class="fielddoc"><p>023: Type-C activity timer id. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ae7e0a6ce36e68b1c3014c9a142c5bfec"></a>CY_USBPD_PD_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>025: Timer used for FW debounce of VBus OCP. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a716f2e17ea2b1b2a9a84c96c202d39d8"></a>CY_USBPD_TYPEC_RP_CHANGE_TIMER&#160;</td><td class="fielddoc"><p>024: Timer used to trigger current limit update after Rp change. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a7cff0d844bcfb83e4044e0e6ae034a9e"></a>CY_USBPD_HPD_RX_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>026: Timer used for HPD receive handling. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a73b95cc555b822b9b4f17c299888bcd1"></a>CY_USBPD_TYPEC_TIMER_RESERVED_23&#160;</td><td class="fielddoc"><p>025: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a343c1e2281cb13f9f47b8a39004b12d9"></a>CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>027: Timer used for FW debounce of VConn OCP. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a77b94a0b66541565afb074b8bb84dca5"></a>CY_USBPD_TYPEC_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>026: End index (inclusive) for Type-C timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a32fcf8eccfdf1fcc2ac7567d95cf725a"></a>CY_USBPD_PD_SNK_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>028: Timer used for Pd Sink EPR Mode. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ae7e0a6ce36e68b1c3014c9a142c5bfec"></a>CY_USBPD_PD_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>027: Timer used for FW debounce of VBus OCP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3abfd4cdee3781084f5d16b95f3fa19095"></a>CY_USBPD_PD_SRC_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>029: Timer used for Pd Source EPR Mode. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a7cff0d844bcfb83e4044e0e6ae034a9e"></a>CY_USBPD_HPD_RX_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>028: Timer used for HPD receive handling. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a72ca8d37ef9fd790069e4c685988e4e2"></a>CY_USBPD_PD_EPR_KEEPALIVE_TIMER&#160;</td><td class="fielddoc"><p>030: Timer used by EPR state machine for sending KeepAlive message. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a343c1e2281cb13f9f47b8a39004b12d9"></a>CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>029: Timer used for FW debounce of VConn OCP. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ada5567afd3dd40c3826232efab726214"></a>CY_USBPD_PD_TIMER_RESERVED_30&#160;</td><td class="fielddoc"><p>030: Reserved for future use. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a1df0c4a12f9c3c3c18560daa2333a3a3"></a>CY_USBPD_PD_TIMER_RESERVED_31&#160;</td><td class="fielddoc"><p>031: Reserved for future use. </p>
 </td></tr>
@@ -1198,45 +1204,45 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a23ef8acea310d8361c6c2aed9438d78f"></a>CY_USBPD_PD1_DATA_RESET_COMP_TIMER&#160;</td><td class="fielddoc"><p>044: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2bf176bcd065243b716905260c4f8e67"></a>CY_USBPD_PD1_TIMER_RESERVED_43&#160;</td><td class="fielddoc"><p>045: Reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a6d6ac4ab9e5c9f2183b8d000572ca4ef"></a>CY_USBPD_PD1_SNK_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>045: Timer used for Pd Sink EPR Mode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3adee8c90b5786e6cebd33c46e2cbd7907"></a>CY_USBPD_PD1_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>046: End index (inclusive) for USB-PD stack timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a86ade57a31b67acb02c336398d609158"></a>CY_USBPD_PD1_SRC_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>046: Timer used for Pd Source EPR Mode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3177a4d108e43ca6455cb9f2d7405fa7"></a>CY_USBPD_TYPEC1_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>047: Start index for Type-C timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3afd28fb87d227c47b30dea75b788f7780"></a>CY_USBPD_PD1_EPR_KEEPALIVE_TIMER&#160;</td><td class="fielddoc"><p>047: Timer used by EPR state machine for sending KeepAlive message. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a53e147f41fcd498c96735bc34bed038e"></a>CY_USBPD_TYPEC1_GENERIC_TIMER2&#160;</td><td class="fielddoc"><p>047: Generic Type-C state machine timer #2. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3abb4ac5eb93a5699cdb37b39a1c292a9c"></a>CY_USBPD_PD1_TIMER_RESERVED_48&#160;</td><td class="fielddoc"><p>048: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2719ad167dddf13b3b1827015ed5022a"></a>CY_USBPD_TYPEC1_GENERIC_TIMER1&#160;</td><td class="fielddoc"><p>048: Generic Type-C state machine timer #1. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3adee8c90b5786e6cebd33c46e2cbd7907"></a>CY_USBPD_PD1_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>048: End index (inclusive) for USB-PD stack timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ad758bba7c17ad4e3d6c31721a68fecd4"></a>CY_USBPD_TYPEC1_CC1_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>049: Timer used for CC1 debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3177a4d108e43ca6455cb9f2d7405fa7"></a>CY_USBPD_TYPEC1_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>049: Start index for Type-C timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac0bc50a34fd271ea61eb2817fd41caaf"></a>CY_USBPD_TYPEC1_CC2_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>050: Timer used for CC2 debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a53e147f41fcd498c96735bc34bed038e"></a>CY_USBPD_TYPEC1_GENERIC_TIMER2&#160;</td><td class="fielddoc"><p>049: Generic Type-C state machine timer #2. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3af21109d970d9ede87a0683296f47f657"></a>CY_USBPD_TYPEC1_RD_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>051: Timer used for Rd debounce. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2719ad167dddf13b3b1827015ed5022a"></a>CY_USBPD_TYPEC1_GENERIC_TIMER1&#160;</td><td class="fielddoc"><p>050: Generic Type-C state machine timer #1. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a34dd88a4e2ed19e99d84948dcaf07573"></a>CY_USBPD_TYPEC1_VBUS_DISCHARGE_TIMER&#160;</td><td class="fielddoc"><p>052: VBus discharge timer id. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ad758bba7c17ad4e3d6c31721a68fecd4"></a>CY_USBPD_TYPEC1_CC1_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>051: Timer used for CC1 debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a31ed3fe5671b90df25728119c8b8ba2d"></a>CY_USBPD_TYPEC1_ACTIVITY_TIMER&#160;</td><td class="fielddoc"><p>053: Type-C activity timer id. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac0bc50a34fd271ea61eb2817fd41caaf"></a>CY_USBPD_TYPEC1_CC2_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>052: Timer used for CC2 debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3af3b40c6d4c4c55d8855f1c77774b5fd0"></a>CY_USBPD_TYPEC1_RP_CHANGE_TIMER&#160;</td><td class="fielddoc"><p>054: Timer used to trigger current limit update after Rp change. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3af21109d970d9ede87a0683296f47f657"></a>CY_USBPD_TYPEC1_RD_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>053: Timer used for Rd debounce. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a316b5327c0c3d187807ea87a0cd83822"></a>CY_USBPD_TYPEC1_TIMER_RESERVED_53&#160;</td><td class="fielddoc"><p>055: Reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a34dd88a4e2ed19e99d84948dcaf07573"></a>CY_USBPD_TYPEC1_VBUS_DISCHARGE_TIMER&#160;</td><td class="fielddoc"><p>054: VBus discharge timer id. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3affa8395855d0f77c3133d65ccceb1dcc"></a>CY_USBPD_TYPEC1_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>056: End index (inclusive) for Type-C timers. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a31ed3fe5671b90df25728119c8b8ba2d"></a>CY_USBPD_TYPEC1_ACTIVITY_TIMER&#160;</td><td class="fielddoc"><p>055: Type-C activity timer id. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac6ddb6c06b2c67fea881963778cd23e2"></a>CY_USBPD_PD1_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>057: Timer used for FW debounce of VBus OCP. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3af3b40c6d4c4c55d8855f1c77774b5fd0"></a>CY_USBPD_TYPEC1_RP_CHANGE_TIMER&#160;</td><td class="fielddoc"><p>056: Timer used to trigger current limit update after Rp change. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac4b46bf80f5363e52d759ef8458c243b"></a>CY_USBPD_HPD1_RX_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>058: Timer used for HPD receive handling. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a316b5327c0c3d187807ea87a0cd83822"></a>CY_USBPD_TYPEC1_TIMER_RESERVED_53&#160;</td><td class="fielddoc"><p>057: Reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3cf84b733d3c327d00f923c5ca88baff"></a>CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>059: Timer used for FW debounce of VConn OCP. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3affa8395855d0f77c3133d65ccceb1dcc"></a>CY_USBPD_TYPEC1_TIMERS_END_ID&#160;</td><td class="fielddoc"><p>058: End index (inclusive) for Type-C timers. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a40a43ff8e79c6cb0984aeede87c73ff3"></a>CY_USBPD_CCG_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>060: PD Application level activity timer. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac6ddb6c06b2c67fea881963778cd23e2"></a>CY_USBPD_PD1_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>059: Timer used for FW debounce of VBus OCP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a6d6ac4ab9e5c9f2183b8d000572ca4ef"></a>CY_USBPD_PD1_SNK_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>061: Timer used for Pd Sink EPR Mode. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ac4b46bf80f5363e52d759ef8458c243b"></a>CY_USBPD_HPD1_RX_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>060: Timer used for HPD receive handling. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a86ade57a31b67acb02c336398d609158"></a>CY_USBPD_PD1_SRC_EPR_MODE_TIMER&#160;</td><td class="fielddoc"><p>062: Timer used for Pd Source EPR Mode. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3cf84b733d3c327d00f923c5ca88baff"></a>CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER&#160;</td><td class="fielddoc"><p>061: Timer used for FW debounce of VConn OCP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3afd28fb87d227c47b30dea75b788f7780"></a>CY_USBPD_PD1_EPR_KEEPALIVE_TIMER&#160;</td><td class="fielddoc"><p>63: Timer used by EPR state machine for sending KeepAlive message. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a40a43ff8e79c6cb0984aeede87c73ff3"></a>CY_USBPD_CCG_ACTIVITY_TIMER_ID&#160;</td><td class="fielddoc"><p>062: PD Application level activity timer. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aa5a1163d60c62c52afff0393afbede74"></a>CY_USBPD_APP_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>064: Start index for Application level timers. </p>
 </td></tr>
@@ -1320,9 +1326,9 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ad1113b40b4b1da540b7e9be7b406299c"></a>CY_USBPD_APP_PSOURCE_VBUS_SET_TIMER_ID&#160;</td><td class="fielddoc"><p>103: Power source VBUS set timer ID. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a157aadb0dadf3a568e530ff805bfe421"></a>CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID&#160;</td><td class="fielddoc"><p>104: Timeout timer to set safe voltage during FET On operation. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a82d62711680ccd04094726bc02ab41af"></a>CY_USBPD_APP_PSOURCE_SAFE_FET_ON_MONITOR_TIMER_ID&#160;</td><td class="fielddoc"><p>104: Timer to monitor voltage during FET On operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a82d62711680ccd04094726bc02ab41af"></a>CY_USBPD_APP_PSOURCE_SAFE_FET_ON_MONITOR_TIMER_ID&#160;</td><td class="fielddoc"><p>105: Timer to monitor voltage during FET On operation. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a157aadb0dadf3a568e530ff805bfe421"></a>CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID&#160;</td><td class="fielddoc"><p>105: Timeout timer to set safe voltage during FET On operation. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a9e7aa7b076fc701e779028deff89a096"></a>CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER&#160;</td><td class="fielddoc"><p>106: Timer for VBUS SLow Discharge </p>
 </td></tr>
@@ -1366,37 +1372,27 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aef6e71ce2de270e959e58cfc6eefedbc"></a>CY_USBPD_APP_VCONN_OCP_TIMER&#160;</td><td class="fielddoc"><p>126: Timer to perform delayed start for VCONN OCP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b74ae15263d66b3ab6dda331498307e"></a>CY_USBPD_APP_TIMERS_RESERVED_START_ID&#160;</td><td class="fielddoc"><p>127: App Reserved Timer Id Start. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a1676ee1a75fc3de9336c23008cb12a71"></a>CY_USBPD_CCG_LS_SNK_CAP_TIMEOUT_TIMER_ID&#160;</td><td class="fielddoc"><p>127: PD Timeout Timer for LS Slave. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a2be953a27278aede6711c151374a9e1b"></a>CY_USBPD_APP_TIMER_RESERVED_127&#160;</td><td class="fielddoc"><p>127: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a64b85358df23d42955c3c1f2762ee8a4"></a>CY_USBPD_APP_GPIO_HPD_TIMER_ID&#160;</td><td class="fielddoc"><p>128: GPIO based HPD timer. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a771b29c575c720dbeb1328212de50967"></a>CY_USBPD_APP_TIMER_RESERVED_128&#160;</td><td class="fielddoc"><p>128: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b74ae15263d66b3ab6dda331498307e"></a>CY_USBPD_APP_TIMERS_RESERVED_START_ID&#160;</td><td class="fielddoc"><p>129: App Reserved Timer Id Start. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a791dd160c0f4277183092bdbd4d03636"></a>CY_USBPD_APP_TIMER_RESERVED_129&#160;</td><td class="fielddoc"><p>129: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a791dd160c0f4277183092bdbd4d03636"></a>CY_USBPD_APP_TIMER_RESERVED_129&#160;</td><td class="fielddoc"><p>129 - 191: Timer ID reserved for future use. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3abead5426e9bed3453b7bc46e803cdc53"></a>CY_USBPD_APP_TIMER_RESERVED_130&#160;</td><td class="fielddoc"><p>130: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ab09b3cfa9229e4c78da71aab40ef61fc"></a>CY_USBPD_APP_PORT1_TIMER_START_ID&#160;</td><td class="fielddoc"><p>192: Start of timer IDs reserved for the application layer management of PD port #1. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aa6a3ebb886e01582f3117125afaba9ef"></a>CY_USBPD_APP_TIMER_RESERVED_131&#160;</td><td class="fielddoc"><p>131: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a82c75eeb79728913d58dfedb3395ebb7"></a>CY_USBPD_I2C_SLAVE_SCB0_TIMER&#160;</td><td class="fielddoc"><p>320: I2C transfer timeout for SCB0. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ae0f31e524d7a525f9ee07ae95634b376"></a>CY_USBPD_APP_TIMER_RESERVED_132&#160;</td><td class="fielddoc"><p>132: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3adede4da924e872b133ded5fbde394fe6"></a>CY_USBPD_I2C_SLAVE_SCB1_TIMER&#160;</td><td class="fielddoc"><p>321: I2C transfer timeout for SCB1. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a733506d574aeba1ff9375753183cd0b9"></a>CY_USBPD_APP_TIMER_RESERVED_133&#160;</td><td class="fielddoc"><p>133: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a69027055b07d1e66e5fb2e18bdad79f4"></a>CY_USBPD_I2C_SLAVE_SCB2_TIMER&#160;</td><td class="fielddoc"><p>322: I2C transfer timeout for SCB2. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3acfcee3ce93b75f3b32a4d1e2593b2b62"></a>CY_USBPD_APP_TIMER_RESERVED_134&#160;</td><td class="fielddoc"><p>134: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3affc6f87785f44a7f39e67878ae0766a2"></a>CY_USBPD_I2C_SLAVE_SCB3_TIMER&#160;</td><td class="fielddoc"><p>323: I2C transfer timeout for SCB3. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a3d3bf03a47a1ebe8e6751c41c730f31e"></a>CY_USBPD_APP_TIMER_RESERVED_135&#160;</td><td class="fielddoc"><p>135: Timer ID reserved for future use. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ab729141e8930681c1a0e6d08a6a5a15c"></a>CY_USBPD_SYS_DEEPSLEEP_TIMER_ID&#160;</td><td class="fielddoc"><p>324: Timer reserved for System Deep Sleep. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3ab09b3cfa9229e4c78da71aab40ef61fc"></a>CY_USBPD_APP_PORT1_TIMER_START_ID&#160;</td><td class="fielddoc"><p>136: Start of timer IDs reserved for the application layer management of PD port #1. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a82c75eeb79728913d58dfedb3395ebb7"></a>CY_USBPD_I2C_SLAVE_SCB0_TIMER&#160;</td><td class="fielddoc"><p>208: I2C transfer timeout for SCB0. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3adede4da924e872b133ded5fbde394fe6"></a>CY_USBPD_I2C_SLAVE_SCB1_TIMER&#160;</td><td class="fielddoc"><p>209: I2C transfer timeout for SCB1. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3a69027055b07d1e66e5fb2e18bdad79f4"></a>CY_USBPD_I2C_SLAVE_SCB2_TIMER&#160;</td><td class="fielddoc"><p>210: I2C transfer timeout for SCB2. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3affc6f87785f44a7f39e67878ae0766a2"></a>CY_USBPD_I2C_SLAVE_SCB3_TIMER&#160;</td><td class="fielddoc"><p>211: I2C transfer timeout for SCB3. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aacc387c9ccf185038cd33ac540be50b0"></a>CY_USBPD_USER_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>212: Start of timer IDs left for generic solution level usage. </p>
+<tr><td class="fieldname"><a id="ggae21a3e8eee0088f55a06e6fad2b0b7f3aacc387c9ccf185038cd33ac540be50b0"></a>CY_USBPD_USER_TIMERS_START_ID&#160;</td><td class="fielddoc"><p>325: Start of timer IDs left for generic solution level usage. </p>
 </td></tr>
 </table>
 

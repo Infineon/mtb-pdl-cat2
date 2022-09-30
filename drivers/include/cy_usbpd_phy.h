@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.h
-* \version 2.0
+* \version 2.10
 *
 * Provides API declarations of the USBPD transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

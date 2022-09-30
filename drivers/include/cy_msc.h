@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_msc.h
-* \version 1.10.1
+* \version 1.10.2
 *
 * The header file of the MSC driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -34,19 +34,19 @@
 ********************************************************************************
 * \{
 *
-* The MSC HW block represents the devices of the fifth CapSense generation.
-* It enables multiple sensing capabilities on PSoC devices,
+* The MSC HW block represents the devices of the fifth CAPSENSE&trade; generation.
+* It enables multiple sensing capabilities on PSoC&trade; devices,
 * including self-cap and mutual-cap capacitive touch-sense solutions.
 *
-* The CapSense solution includes:
-* * The CapSense Configurator tool, which is a configuration wizard to create
-*   and configure CapSense widgets. It can be launched in ModusToolbox
+* The CAPSENSE&trade; solution includes:
+* * The CAPSENSE&trade; Configurator tool, which is a configuration wizard to create
+*   and configure CAPSENSE&trade; widgets. It can be launched in ModusToolbox&trade;
 *   from the MSC personality as well as in standalone mode.
 *   It contains separate documentation on how to create and
 *   configure widgets, parameters, and algorithm descriptions.
 * * An API to control the design from the application program. This
 *   documentation describes the API with code snippets about how to use them.
-* * The CapSense Tuner tool for real-time tuning, testing, and debugging,
+* * The CAPSENSE&trade; Tuner tool for real-time tuning, testing, and debugging,
 *   for easy and smooth design of human interfaces on customer products.
 *   The Tuner tool communicates with a device through a HW bridge and
 *   communication drivers (EzI2C, UART, etc.) and allows monitoring of
@@ -55,7 +55,7 @@
 * and/or other drivers such as GPIO or SysClk directly. All of that is
 * configured and managed by the middleware.
 *
-* \image html capsense_solution_msc.png "CapSense Solution" width=800px
+* \image html capsense_solution_msc.png "CAPSENSE&trade; Solution" width=800px
 * \image latex capsense_solution_msc.png
 *
 * This section describes only the MSC driver. Refer to the corresponding
@@ -116,7 +116,7 @@
 * 3. The START_SCAN bit of SNS_CTL register should be set in the sensor frame
 *    to start the conversion.
 *
-* The entire solution, like CapSense, in addition to
+* The entire solution, like CAPSENSE&trade;, in addition to
 * the MSC HW block, incorporates the following instances:
 *
 * * \ref group_msc_config_clocks
@@ -124,7 +124,7 @@
 * * \ref group_msc_config_pin
 *
 * The MSC driver does not configure those blocks and they should be managed by
-* an upper level. When using CapSense, those blocks are managed by the
+* an upper level. When using CAPSENSE&trade;, those blocks are managed by the
 * middleware.
 *
 ********************************************************************************
@@ -142,7 +142,7 @@
 * \subsection group_msc_config_pin GPIO Pins
 ********************************************************************************
 *
-* CapSense provides the ability to form a user interface using widgets. Each
+* CAPSENSE&trade; provides the ability to form a user interface using widgets. Each
 * widget consists of one or more sensors. These sensors are connected to the
 * GPIO pins.
 *
@@ -151,7 +151,7 @@
 * 1. Through analog buses.
 *
 * This is a legacy connection through an analog multiplexed bus (AMUXBUS)
-* available in previous generations of CapSense devices.
+* available in previous generations of CAPSENSE&trade; devices.
 *
 * Any analog-capable GPIO pin that can be connected to an analog multiplexed
 * bus (AMUXBUS) can be connected to the MSC HW block as an input / sensor.
@@ -175,7 +175,7 @@
 * 2. With a direct pin-to-block wire.
 *
 * The enhanced direct HW-wire connection pin-to-MSC HW block is
-* available in the devices of the fifth generation CapSense.
+* available in the devices of the fifth generation CAPSENSE&trade;.
 *
 * Only dedicated pins can be used for such a type of connection. Refer to
 * the device datasheet for the exact pin definition.
@@ -189,11 +189,11 @@
 * * Configure a pin to High-Z analog mode without any connection to analog buses.
 * * Configure the pin connection inside the MSC HW block.
 *
-* The advantages of this type of a connection under the CapSense MW usage are
+* The advantages of this type of a connection under the CAPSENSE&trade; MW usage are
 * the following:
-* * CapSense MW pre-calculates all needed configurations in advance (during
+* * CAPSENSE&trade; MW pre-calculates all needed configurations in advance (during
 *   initialization)
-* * CapSense MW triggers the next scanning by writing to several registers
+* * CAPSENSE&trade; MW triggers the next scanning by writing to several registers
 *   of the MSC HW block (instead of disconnecting a previously scanned sensor
 *   and connecting a new sensor).
 * If in your case, the scanning refresh rate is as an important characteristic,
@@ -213,7 +213,7 @@
 * The MSC HW block is powered down in the Deep Sleep power mode.
 * So, it cannot be used as a wake-up source in this power mode.
 *
-* If a CapSense is used, the interrupt service routine is managed
+* If a CAPSENSE&trade; is used, the interrupt service routine is managed
 * by middleware. When using the MSC driver for custom implementation or other
 * middleware, the application program must manage the interrupt service routine.
 *
@@ -278,63 +278,63 @@
 * \section group_msc_more_information More Information
 ********************************************************************************
 *
-* Important information about the CapSense-technology overview, appropriate
-* device for the design, CapSense system and sensor design guidelines,
+* Important information about the CAPSENSE&trade; technology overview, appropriate
+* Infineon device for the design, CAPSENSE&trade; system and sensor design guidelines,
 * different interfaces and tuning guidelines necessary for a successful design
-* of a CapSense system is available in the Getting Started with CapSense
-* document and the product-specific CapSense design guide. It is highly
-* recommended to start with these documents. They can be found at www.cypress.com.
-* For details about application notes, code examples, and kits,
-* see the References section in this datasheet.
+* of a CAPSENSE&trade; system is available in the Getting Started with CAPSENSE&trade;
+* document and the product-specific CAPSENSE&trade; design guide. Infineon highly
+* recommends starting with these documents. They can be found on the
+* Infineon web site at www.infineon.com
 *
 * For more information, refer to the following documents:
 *
-* * CapSense Overview:
+* * CAPSENSE&trade; Overview:
 *
 *   * <a href="https://github.com/Infineon/capsense">
-*     <b>CapSense Middleware Library</b></a>
+*     <b>CAPSENSE&trade; Middleware Library</b></a>
 *
 *   * <a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html">
-*     <b>CapSense Middleware API Reference Guide</b></a>
+*     <b>CAPSENSE&trade; Middleware API Reference Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxCapSenseConfig"><b>ModusToolbox
-*     CapSense Configurator Tool Guide</b></a>
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Configurator_Guide.html">
+*     <b>ModusToolbox&trade; CAPSENSE&trade; Configurator Tool Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxCapSenseTuner"><b>ModusToolbox
-*     CapSense Tuner Tool Guide</b></a>
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Tuner_Guide.html">
+*     <b>ModusToolbox&trade; CAPSENSE&trade; Tuner Tool Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/application-notes/an85951-psoc-4-and-psoc-6-mcu-capsense-design-guide">
-*     <b>CapSense Design Guide</b></a>
+*   * <a href="https://www.infineon.com/dgdl/Infineon-AN85951_PSoC_4_and_PSoC_6_MCU_CapSense_Design_Guide-ApplicationNotes-v27_00-EN.pdf?fileId=8ac78c8c7cdc391c017d0723535d4661">
+*     <b>CAPSENSE&trade; Design Guide</b></a>
 *
-* * ModusToolbox Overview:
+* * ModusToolbox&trade; Overview:
 *
-*   * <a href="https://www.cypress.com/products/modustoolbox-software-environment">
-*     <b>ModusToolbox Software Environment, Quick Start Guide, Documentation,
-*     and Videos</b></a>
+*   * <a href="https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software">
+*     <b>ModusToolbox&trade; Software Environment, Quick Start Guide, Documentation, and Videos</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxDeviceConfig"><b>ModusToolbox
-*     Device Configurator Tool Guide</b></a>
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_Device_Configurator_Guide.html">
+*     <b>ModusToolbox&trade; Device Configurator Tool Guide</b></a>
 *
 * * Infineon Kits:
 *
-*   * Information will be available later. In case of urgency, contact
-*     the technical support group.
+*   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-041s-max/">
+*     <b>CY8CKIT-041S-MAX PSoC&trade; 4100S Max pioneer kit</b></a>
 *
 * * General Information:
 *
-*   * <a href="https://github.com/infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
+*   * <a href="https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
 *     <b>PDL API Reference</b></a>
 *
-*   * <a href="https://github.com/Infineon"><b>GitHub</b></a>
+*   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4100S_and_PSoC_4100S_Plus_PSoC_4_Architecture_TRM-AdditionalTechnicalInformation-v12_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f9433460188">
+*     <b>PSoC&trade; 4100S and PSoC&trade; 4100S Plus: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
+*
+*   * <a href="https://github.com/Infineon"><b>Infineon Technologies GitHub</b></a>
 *
 *   * <a href="http://www.infineon.com"><b>Infineon Technologies</b></a>
 *
 * \note
 * The links to another software component's documentation (middleware and PDL)
 * point to GitHub to the latest available version of the software.
-* To get documentation of the specified version, download from GitHub and
-* unzip the component archive. The documentation is available in
-* the <i>docs</i> folder.
+* To get documentation of the specified version, download from GitHub and unzip
+* the component archive. The documentation is available in the <i>docs</i> folder.
 *
 ********************************************************************************
 * \section group_msc_changelog Changelog
@@ -342,14 +342,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10.2</td>
+*     <td>Minor documentation updates</td>
+*     <td>Documentation improvement</td>
+*   </tr>
+*   <tr>
 *     <td>1.10.1</td>
-*     <td>Update the paths to the code snippets.</td>
-*     <td>PDL structure update.</td>
+*     <td>Update the paths to the code snippets</td>
+*     <td>PDL structure update</td>
 *   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Added Cy_MSC_Capture() function</td>
-*     <td>CapSense memory consumption optimization</td>
+*     <td>CAPSENSE&trade; memory consumption optimization</td>
 *   </tr>
 *   <tr>
 *     <td>1.0</td>
@@ -493,7 +498,7 @@ typedef enum
     */
     CY_MSC_USER_DEFINED_KEY = 1u,
 
-    /** The MSC HW block is captured by a CapSense middleware */
+    /** The MSC HW block is captured by a CAPSENSE middleware */
     CY_MSC_CAPSENSE_KEY = 2u,
 
 }cy_en_msc_key_t;

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_i2s.c
-* \version 1.0.1
+* \version 1.10
 *
 * The source code file for the I2S driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -165,7 +167,7 @@ void Cy_I2S_DeInit(I2S_Type * base)
 * \snippet i2s_snippet.c snippet_Cy_I2S_DeepSleepCallback
 *
 *******************************************************************************/
-cy_en_syspm_status_t Cy_I2S_DeepSleepCallback (cy_stc_syspm_callback_params_t const *callbackParams, cy_en_syspm_callback_mode_t mode)
+cy_en_syspm_status_t Cy_I2S_DeepSleepCallback (cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
 {
     cy_en_syspm_status_t ret = CY_SYSPM_SUCCESS;
     CY_ASSERT_L1(NULL != callbackParams->context);

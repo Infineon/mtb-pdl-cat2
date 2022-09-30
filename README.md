@@ -10,7 +10,7 @@ functions into a set of easy-to-use APIs. These are fully documented in the
 
 ## Features
 
-- Includes all the updates made to the peripheral drivers for ModusToolbox™
+- Includes all the updates made to the peripheral drivers for ModusToolbox&trade;
   software
 
 - Contains standard set of PSoC&trade; 4/EZ-PD&trade; PMG1 digital and analog peripheral
@@ -49,9 +49,9 @@ See the "Getting started" section of the [PDL API reference manual](https://infi
 
 - [Peripheral driver library API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 
-- [ModusToolbox&trade; software environment, quick start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
+- [ModusToolbox&trade; Software Environment, Quick Start Guide, Documentation, and Videos](https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software)
 
-- [ModusToolbox&trade; device configurator tool guide](https://www.cypress.com/ModusToolboxDeviceConfig)
+- [ModusToolbox&trade; Device Configurator Tool Guide](https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_Device_Configurator_Guide.html)
 
 - [AN79953 - Getting started with PSoC&trade; 4](https://www.cypress.com/an79953)
 
@@ -63,4 +63,4 @@ See the "Getting started" section of the [PDL API reference manual](https://infi
 
 
 ---
-© 2020-2021, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© 2020-2022, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

@@ -14,7 +14,7 @@ var group__group__gpio__functions__gpio =
     [ "Cy_GPIO_GetVtrip", "group__group__gpio__functions__gpio.html#gae9116df3a707b97adf599e1a1db04645", null ],
     [ "Cy_GPIO_SetSlewRate", "group__group__gpio__functions__gpio.html#gae947fe086e6914e0d7d509e6b1660e0c", null ],
     [ "Cy_GPIO_GetSlewRate", "group__group__gpio__functions__gpio.html#ga17ee3ee4a555dbb05c6a4d6509cf27d9", null ],
-    [ "Cy_GPIO_MscControlEnable", "group__group__gpio__functions__gpio.html#gad7492265bfbdc0c5a27600856efa06af", null ],
-    [ "Cy_GPIO_MscControlDisable", "group__group__gpio__functions__gpio.html#ga5f5f1eb49752a3ded639e68757e3dbe2", null ],
+    [ "Cy_GPIO_MscControlEnable", "group__group__gpio__functions__gpio.html#gae9d812b72a9490fd1222b0a760a92777", null ],
+    [ "Cy_GPIO_MscControlDisable", "group__group__gpio__functions__gpio.html#gaff549083a1c901a9c204e3e60de11470", null ],
     [ "Cy_GPIO_MscControlIsEnabled", "group__group__gpio__functions__gpio.html#ga9f02e2358613a412cb4e44a6c9c092e5", null ]
 ];

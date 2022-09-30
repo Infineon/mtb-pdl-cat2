@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pin.cypersonality
+* \version 2.0
+*
+* \brief
+* Pin personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8pin" name="Pin" version="2.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8ioss" />
+    <Resource name="ioss\.port\.pin"/>
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="slewRate" paramId="slewRate" />
+    <ExposedMember key="vtrip" paramId="vtrip" />
+    <ExposedMember key="portLevelConfig" paramId="portLevelConfig" />
+    <ExposedMember key="inFlash" paramId="inFlash" />
+  </ExposedMembers>
+  <Parameters>
+    <!--Misc-->
+    <ParamBool id="hasIRQ" name="HasIRQ" group="Misc" default="`${lookupExpression(&quot;GPIO.GPIO_PORT_NR[&quot; . getInstNumber(&quot;port&quot;) . &quot;].GPIO_PRT.IRQ&quot;, 0) &gt; 0}`" visible="false" editable="false" desc="Has dedicated IRQ" />
+
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__gpio.html" linkText="Open GPIO Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!--General-->
+    <ParamChoice id="DriveModes" name="Drive Mode" group="General" default="CY_GPIO_DM_ANALOG" visible="true" editable="true" desc="The Drive Mode parameter configures the pin provide to one of the eight available pin drive modes. Please see the device DS for more details on each drive mode." >
+      <Entry name="Strong Drive. Input buffer on"             value="CY_GPIO_DM_STRONG"               visible="true" />
+      <Entry name="Strong Drive. Input buffer off"            value="CY_GPIO_DM_STRONG_IN_OFF"        visible="true" />
+      <Entry name="Digital High-Z. Input buffer on"           value="CY_GPIO_DM_HIGHZ"                visible="true" />
+      <Entry name="Analog High-Z. Input buffer off"           value="CY_GPIO_DM_ANALOG"               visible="true" />
+      <Entry name="Open Drain, Drives Low. Input buffer off"  value="CY_GPIO_DM_OD_DRIVESLOW_IN_OFF"  visible="true" />
+      <Entry name="Open Drain, Drives High. Input buffer off" value="CY_GPIO_DM_OD_DRIVESHIGH_IN_OFF" visible="true" />
+      <Entry name="Open Drain, Drives Low. Input buffer on"   value="CY_GPIO_DM_OD_DRIVESLOW"         visible="true" />
+      <Entry name="Open Drain, Drives High. Input buffer on"  value="CY_GPIO_DM_OD_DRIVESHIGH"        visible="true" />
+      <Entry name="Resistive Pull-Up. Input buffer off"       value="CY_GPIO_DM_PULLUP_IN_OFF"        visible="true" />
+      <Entry name="Resistive Pull-Down. Input buffer off"     value="CY_GPIO_DM_PULLDOWN_IN_OFF"      visible="true" />
+      <Entry name="Resistive Pull-Up/Down. Input buffer off"  value="CY_GPIO_DM_PULLUP_DOWN_IN_OFF"   visible="true" />
+      <Entry name="Resistive Pull-Up. Input buffer on"        value="CY_GPIO_DM_PULLUP"               visible="true" />
+      <Entry name="Resistive Pull-Down. Input buffer on"      value="CY_GPIO_DM_PULLDOWN"             visible="true" />
+      <Entry name="Resistive Pull-Up/Down. Input buffer on"   value="CY_GPIO_DM_PULLUP_DOWN"          visible="true" />
+
+    </ParamChoice>
+    <ParamChoice id="initialState" name="Initial Drive State" group="General" default="1" visible="true" editable="true" desc="This parameter specifies the pin-specific initial value written to the pin's OUT Register after a device reset/power-on." >
+      <Entry name="High (1)" value="1" visible="true" />
+      <Entry name="Low (0)"  value="0" visible="true" />
+    </ParamChoice>
+
+    <!--Input-->
+    <ParamChoice id="vtrip" name="Threshold" group="Input" default="CY_GPIO_VTRIP_CMOS" visible="true" editable="true" desc="This parameter selects the threshold levels that define a logic high level (1) and a logic low level (0)." >
+      <Entry name="CMOS" value="CY_GPIO_VTRIP_CMOS" visible="true" />
+      <Entry name="TTL"  value="CY_GPIO_VTRIP_TTL"  visible="true" />
+    </ParamChoice>
+    <ParamChoice id="isrTrigger" name="Interrupt Trigger Type" group="Input" default="CY_GPIO_INTR_DISABLE" visible="true" editable="true" desc="This parameter selects whether the pin can generate an interrupt and, if selected, the interrupt type." >
+      <Entry name="None"         value="CY_GPIO_INTR_DISABLE" visible="true" />
+      <Entry name="Rising Edge"  value="CY_GPIO_INTR_RISING"  visible="true" />
+      <Entry name="Falling Edge" value="CY_GPIO_INTR_FALLING" visible="true" />
+      <Entry name="Both Edges"   value="CY_GPIO_INTR_BOTH"    visible="true" />
+    </ParamChoice>
+
+    <!--Output-->
+    <ParamChoice id="slewRate" name="Slew Rate" group="Output" default="CY_GPIO_SLEW_FAST" visible="true" editable="true" desc="The slew rate parameter determines the rise and fall ramp rate for the pin as it changes output logic levels." >
+      <Entry name="Fast" value="CY_GPIO_SLEW_FAST" visible="true" />
+      <Entry name="Slow" value="CY_GPIO_SLEW_SLOW" visible="true" />
+    </ParamChoice>
+
+    <!--Internal Connection-->
+    <ParamSignal port="analog[0]" name="Analog" group="Internal Connection" visible="`${hasVisibleOption(&quot;analog[0]&quot;)}`" desc="An analog signal to connect to" canBeEmpty="true" />
+    <ParamSignal port="digital_in[0]" name="Digital Input" group="Internal Connection" visible="`${hasVisibleOption(&quot;digital_in[0]&quot;)}`" desc="A digital input signal to connect to" canBeEmpty="true" />
+    <ParamSignal port="digital_out[0]" name="Digital Output" group="Internal Connection" visible="`${hasVisibleOption(&quot;digital_out[0]&quot;)}`" desc="A digital output signal to connect to" canBeEmpty="true" />
+    <ParamSignal port="digital_inout[0]" name="Digital InOut" group="Internal Connection" visible="`${hasVisibleOption(&quot;digital_inout[0]&quot;)}`" desc="A digital inout signal to connect to" canBeEmpty="true" />
+    <ParamSignal port="aux[0]" name="AUX" group="Internal Connection" visible="`${hasVisibleOption(&quot;aux[0]&quot;)}`" desc="A fixed function signal to connect to" canBeEmpty="true" />
+    <ParamSignal port="oe[0]" name="OE" group="Internal Connection" visible="`${hasVisibleOption(&quot;oe[0]&quot;)}`" desc="The Output Enable terminal." canBeEmpty="true" />
+
+    <!-- Skip code gen -->
+    <ParamBool id="analogSkipCodeGen" name="analogSkipCodeGen" group="Internal" default="`${hasConnection(&quot;analog&quot;, 0) &amp;&amp; hasExposedMember(getBlockFromSignal(&quot;analog[0]&quot;), &quot;suppressCodeGen&quot;) &amp;&amp; getExposedMember(getBlockFromSignal(&quot;analog[0]&quot;), &quot;suppressCodeGen&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="digital_inSkipCodeGen" name="digital_inSkipCodeGen" group="Internal" default="`${hasConnection(&quot;digital_in&quot;, 0) &amp;&amp; hasExposedMember(getBlockFromSignal(&quot;digital_in[0]&quot;), &quot;suppressCodeGen&quot;) &amp;&amp; getExposedMember(getBlockFromSignal(&quot;digital_in[0]&quot;), &quot;suppressCodeGen&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="digital_inoutSkipCodeGen" name="digital_inoutSkipCodeGen" group="Internal" default="`${hasConnection(&quot;digital_inout&quot;, 0) &amp;&amp; hasExposedMember(getBlockFromSignal(&quot;digital_inout[0]&quot;), &quot;suppressCodeGen&quot;) &amp;&amp; getExposedMember(getBlockFromSignal(&quot;digital_inout[0]&quot;), &quot;suppressCodeGen&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="skipConfigCodeGen" name="Skip Configuration Code Gen" group="Internal" default="`${analogSkipCodeGen || digital_inSkipCodeGen || digital_inoutSkipCodeGen}`" visible="false" editable="false" desc="Whether configuration code generation should be skipped" />
+
+    <!--Config-->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+    <ParamBool id="hasDigitalConnection" name="Has digital connection" group="Internal" default="`${hasConnection(&quot;digital_in&quot;, 0) || hasConnection(&quot;digital_out&quot;, 0) || hasConnection(&quot;digital_inout&quot;, 0)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="port" name="Port number" group="Internal" default="`${getInstNumber(&quot;port&quot;)}`" min="0" max="127" resolution="1" visible="false" editable="false" desc="" />
+    <ParamRange id="pin" name="Pin number" group="Internal" default="`${getInstNumber(&quot;pin&quot;)}`" min="0" max="7" resolution="1" visible="false" editable="false" desc="" />
+    <ParamString id="blockName" name="Block name" group="Internal" default="`${&quot;ioss_0_port_&quot; . port . &quot;_pin_&quot; . pin}`" visible="false" editable="false" desc="" />
+    <ParamBool id="portLevelConfig" name="Port-level Config" group="Advanced" default="false" visible="true" editable="true" desc="Perform port-level configuration instead of pin-level. Disabled pins will be initialized with default values." />
+  </Parameters>
+
+  <DRCs>
+    <!--sioOutputBuffer DRCs-->
+    <DRC type="ERROR" text="The digital_in terminal cannot be connected when the digital_inout terminal is connected." condition="`${hasConnection(&quot;digital_in&quot;, 0) &amp;&amp; hasConnection(&quot;digital_inout&quot;, 0)}`" />
+    <DRC type="ERROR" text="The digital_out terminal cannot be connected when the digital_inout terminal is connected." condition="`${hasConnection(&quot;digital_out&quot;, 0) &amp;&amp; hasConnection(&quot;digital_inout&quot;, 0)}`" />
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_gpio.h" include="true" />
+    <ConfigInclude value="cycfg_routing.h" include="`${hasDigitalConnection}`" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine name="`${INST_NAME}`_PORT" value="GPIO_PRT`${port}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_PORT_NUM" value="`${port}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_PIN" value="`${pin}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_NUM" value="`${pin}`U" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_DRIVEMODE" value="`${DriveModes}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_INIT_DRIVESTATE" value="`${initialState}`" public="true" include="true" />
+    <ConfigDefine name="`${blockName . &quot;_HSIOM&quot;}`" value="HSIOM_SEL_GPIO" public="true" include="true" preventOverride="true" />
+    <ConfigDefine name="`${INST_NAME}`_HSIOM" value="`${blockName . &quot;_HSIOM&quot;}`" public="true" include="`${!(INST_NAME eq blockName)}`" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="`${hasIRQ ? &quot;ioss_interrupts_gpio_&quot; . port . &quot;_IRQn&quot; : &quot;ioss_interrupt_gpio_IRQn&quot;}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HAL_PORT_PIN" value="P`${port}`_`${pin}`" public="true" include="true" guard="defined (CY_USING_HAL)"/>
+    <ConfigDefine name="`${INST_NAME}`" value="P`${port}`_`${pin}`" public="true" include="true" guard="defined (CY_USING_HAL)" />
+    <ConfigDefine name="`${INST_NAME}`_HAL_IRQ" value="`${(isrTrigger eq CY_GPIO_INTR_DISABLE) ? &quot;CYHAL_GPIO_IRQ_NONE&quot; :
+                                                          (isrTrigger eq CY_GPIO_INTR_RISING) ? &quot;CYHAL_GPIO_IRQ_RISE&quot; :
+                                                          (isrTrigger eq CY_GPIO_INTR_FALLING) ? &quot;CYHAL_GPIO_IRQ_FALL&quot; : &quot;CYHAL_GPIO_IRQ_BOTH&quot;}`"
+                                                public="true" include="true" guard="defined (CY_USING_HAL)" />
+    <ConfigDefine name="`${INST_NAME}`_HAL_DIR" value="`${((DriveModes eq CY_GPIO_DM_HIGHZ) || (DriveModes eq CY_GPIO_DM_ANALOG)) ? &quot;CYHAL_GPIO_DIR_INPUT &quot; :
+                                                          ((DriveModes eq CY_GPIO_DM_STRONG_IN_OFF) ||
+                                                           (DriveModes eq CY_GPIO_DM_OD_DRIVESLOW_IN_OFF) ||
+                                                           (DriveModes eq CY_GPIO_DM_OD_DRIVESHIGH_IN_OFF) ||
+                                                           (DriveModes eq CY_GPIO_DM_PULLUP_IN_OFF) ||
+                                                           (DriveModes eq CY_GPIO_DM_PULLDOWN_IN_OFF) ||
+                                                           (DriveModes eq CY_GPIO_DM_PULLUP_DOWN_IN_OFF)) ? &quot;CYHAL_GPIO_DIR_OUTPUT &quot; : &quot;CYHAL_GPIO_DIR_BIDIRECTIONAL &quot;}`"
+                                                public="true" include="true" guard="defined (CY_USING_HAL)" />
+    <ConfigDefine name="`${INST_NAME}`_HAL_DRIVEMODE" value="`${(DriveModes eq CY_GPIO_DM_HIGHZ) ? &quot;CYHAL_GPIO_DRIVE_NONE&quot; :
+                                                                (DriveModes eq CY_GPIO_DM_ANALOG) ? &quot;CYHAL_GPIO_DRIVE_ANALOG&quot; :
+                                                               ((DriveModes eq CY_GPIO_DM_PULLUP_IN_OFF) ||
+                                                                (DriveModes eq CY_GPIO_DM_PULLUP)) ? &quot;CYHAL_GPIO_DRIVE_PULLUP&quot; :
+                                                               ((DriveModes eq CY_GPIO_DM_PULLDOWN_IN_OFF) ||
+                                                                (DriveModes eq CY_GPIO_DM_PULLDOWN)) ? &quot;CYHAL_GPIO_DRIVE_PULLDOWN&quot; :
+                                                               ((DriveModes eq CY_GPIO_DM_OD_DRIVESLOW_IN_OFF) ||
+                                                                (DriveModes eq CY_GPIO_DM_OD_DRIVESLOW)) ? &quot;CYHAL_GPIO_DRIVE_OPENDRAINDRIVESLOW&quot; :
+                                                               ((DriveModes eq CY_GPIO_DM_OD_DRIVESHIGH_IN_OFF) ||
+                                                                (DriveModes eq CY_GPIO_DM_OD_DRIVESHIGH)) ? &quot;CYHAL_GPIO_DRIVE_OPENDRAINDRIVESHIGH&quot; :
+                                                               ((DriveModes eq CY_GPIO_DM_STRONG_IN_OFF) ||
+                                                                (DriveModes eq CY_GPIO_DM_STRONG)) ? &quot;CYHAL_GPIO_DRIVE_STRONG&quot; : &quot;CYHAL_GPIO_DRIVE_PULLUPDOWN&quot;}`"
+                                                      public="true" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_PC_DM_MASK"
+      value="((`${DriveModes}` &amp; CY_GPIO_PC_DM_MASK) &lt;&lt; GPIO_PRT_PC_DM`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_PC2_INP_DIS_MASK"
+      value="(`${((DriveModes eq CY_GPIO_DM_HIGHZ)        || (DriveModes eq CY_GPIO_DM_PULLUP)       ||
+                 (DriveModes eq CY_GPIO_DM_PULLDOWN)      || (DriveModes eq CY_GPIO_DM_OD_DRIVESLOW) ||
+                 (DriveModes eq CY_GPIO_DM_OD_DRIVESHIGH) || (DriveModes eq CY_GPIO_DM_STRONG)       ||
+                 (DriveModes eq CY_GPIO_DM_PULLUP_DOWN)) ? 0U : 1U}` &lt;&lt; GPIO_PRT_PC2_INP_DIS`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_DR_MASK"
+      value="(`${initialState}` &lt;&lt; GPIO_PRT_DR_DATA`${pin}`_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_INTR_CFG_MASK"
+      value="(`${isrTrigger}` &lt;&lt; GPIO_PRT_INTR_CFG_EDGE`${pin}`_SEL_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigDefine
+      name="CY_CFG_PORT`${port}`_PIN`${pin}`_HSIOM_PORT_SEL_MASK"
+      value="(`${INST_NAME}`_HSIOM &lt;&lt; HSIOM_PRT_PORT_SEL_IO`${pin}`_SEL_Pos)"
+      public="true"
+      include="`${portLevelConfig}`"/>
+
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_gpio_pin_config_t" const="`${inFlash}`" public="true" include="`${!portLevelConfig}`">
+      <Member name="outVal" value="`${initialState}`" />
+      <Member name="driveMode" value="`${DriveModes}`" />
+      <Member name="hsiom" value="`${INST_NAME}`_HSIOM" />
+      <Member name="intEdge" value="`${isrTrigger}`" />
+      <Member name="vtrip" value="`${vtrip}`" />
+      <Member name="slewRate" value="`${slewRate}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_GPIO" />
+      <Member name="block_num" value="`${INST_NAME}`_PORT_NUM" />
+      <Member name="channel_num" value="`${INST_NAME}`_PIN" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_GPIO_Pin_Init(`${INST_NAME}`_PORT, `${INST_NAME}`_PIN, &amp;`${INST_NAME}`_config);" include="`${!skipConfigCodeGen &amp;&amp; !portLevelConfig }`"/>
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+</Personality>

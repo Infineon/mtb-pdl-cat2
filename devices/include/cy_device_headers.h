@@ -985,10 +985,12 @@
     #include "cypm1322_97bzxit.h"
 #elif defined (CYPM1311_48LQXI)
     #include "cypm1311_48lqxi.h"
-#elif defined (CYPD8225_97BZXIT)
-    #include "cypd8225_97bzxit.h"
 #elif defined (CYPM1211_42FNXIT)
     #include "cypm1211_42fnxit.h"
+#elif defined (CYPM1115_48LQXI)
+    #include "cypm1115_48lqxi.h"
+#elif defined (CYPM1116_48LQXI)
+    #include "cypm1116_48lqxi.h"
 #elif defined (CYPD7291_68LDXS)
     #include "cypd7291_68ldxs.h"
 #elif defined (CYPD7299_68LDXS)
@@ -1009,6 +1011,18 @@
     #include "wlc1115_68lqxq.h"
 #elif defined (WLC1150_68LQXQ)
     #include "wlc1150_68lqxq.h"
+#elif defined (CYPD8225_97BZXIT)
+    #include "cypd8225_97bzxit.h"
+#elif defined (CYPD8125_48LDXI)
+    #include "cypd8125_48ldxi.h"
+#elif defined (CYPAS213_24SXQ)
+    #include "cypas213_24sxq.h"
+#elif defined (CYPAS211_32LQXQ)
+    #include "cypas211_32lqxq.h"
+#elif defined (CYPAS212_32LQXQ)
+    #include "cypas212_32lqxq.h"
+#elif defined (CYPAS213_32LQXQ)
+    #include "cypas213_32lqxq.h"
 #else
     #error Undefined part number
 #endif

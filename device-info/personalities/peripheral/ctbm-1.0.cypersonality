@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file ctbm.cypersonality
+* \version 1.0
+*
+* \brief
+* Ctbm personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8ctbm" name="CTBm" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2" />
+    <Resource name="pass\.ctb" />
+    <DependentResource name="pass.ctb.oa" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="deepSleep" paramId="deepSleep" />
+    <ExposedMember key="frequency" paramId="frequency" />
+    <ExposedMember key="accuracy"  paramId="accuracy" />
+    <ExposedMember key="error"     paramId="error" />
+    <ExposedMember key="clock"     paramId="clock" />
+
+    <!--GBW, Active mode, amp-->
+    <ExposedMember key="GBwActiveModePowerHigh" paramId="GBw_ActiveMode_PowerHigh" />
+    <ExposedMember key="GBwActiveModePowerMid" paramId="GBw_ActiveMode_PowerMid" />
+    <ExposedMember key="GBwActiveModePowerLow" paramId="GBw_ActiveMode_PowerLow" />
+    <!--Response time, Active mode, comp-->
+    <ExposedMember key="ResponseTimeActiveModePowerHigh" paramId="ResponseTime_ActiveMode_PowerHigh" />
+    <ExposedMember key="ResponseTimeActiveModePowerMid" paramId="ResponseTime_ActiveMode_PowerMid" />
+    <ExposedMember key="ResponseTimeActiveModePowerLow" paramId="ResponseTime_ActiveMode_PowerLow" />
+    <!--Vin, Active mode, amp-->
+    <ExposedMember key="VinActiveModeOpampPumpOff" paramId="Vin_ActiveMode_Opamp_PumpOff" />
+    <ExposedMember key="VinActiveModeOpampPumpOn" paramId="Vin_ActiveMode_Opamp_PumpOn" />
+    <!--Vin, Active mode, amp-->
+    <ExposedMember key="VinActiveModeCompPumpOff" paramId="Vin_ActiveMode_Comp_PumpOff" />
+    <ExposedMember key="VinActiveModeCompPumpOn" paramId="Vin_ActiveMode_Comp_PumpOn" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__ctb.html" linkText="Open CTB Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!--Internal-->
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamString id="version" name="version number" group="Internal" default="`${getVersion()}`" visible="false" editable="false" desc="" />
+    <ParamString id="passNum" name="passNum" group="Internal" default="`${getInstNumber(&quot;pass&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="ctbNum" name="ctbNum" group="Internal" default="`${getInstNumber(&quot;ctb&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="oa0Rsc" name="oa0Rsc" group="Internal" default="`${&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;].oa[0]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="oa1Rsc" name="oa1Rsc" group="Internal" default="`${&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;].oa[1]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="oa0used" name="oa0used" group="Internal" default="`${isBlockUsed(oa0Rsc)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="oa1used" name="oa1used" group="Internal" default="`${isBlockUsed(oa1Rsc)}`" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamBool id="hasHsiomPump" name="hasHsiomPump" group="Internal" default="`${hasBlock(&quot;ioss[0].hsiom_pump[0]&quot;)}`" visible="false" editable="false" desc="IOSS has HSIOM pump." />
+    <ParamBool id="isPowerEnabled" name="isPowerEnabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="false" editable="false" desc="Power resource is enabled." />
+
+    <ParamBool id="deepSleep" name="Deep Sleep Enable" group="General" default="false" visible="true" editable="true" desc="Maintain the opamp output during Deep Sleep for CTB. Enabling Deep Sleep will reduce the input range of the opamps." />
+
+    <!--Advanced-->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <!--GBW, Active mode, amp-->
+    <ParamString id="GBw_ActiveMode_PowerHigh" name="GBw_ActiveMode_PowerHigh" group="General" default="6" visible="false" editable="false" desc="" />
+    <ParamString id="GBw_ActiveMode_PowerMid" name="GBw_ActiveMode_PowerMid" group="General" default="3" visible="false" editable="false" desc="" />
+    <ParamString id="GBw_ActiveMode_PowerLow" name="GBw_ActiveMode_PowerLow" group="General" default="1" visible="false" editable="false" desc="" />
+    <!--Response time, Active mode, comp-->
+    <ParamString id="ResponseTime_ActiveMode_PowerHigh" name="ResponseTime_ActiveMode_PowerHigh" group="General" default="150" visible="false" editable="false" desc="" />
+    <ParamString id="ResponseTime_ActiveMode_PowerMid" name="ResponseTime_ActiveMode_PowerMid" group="General" default="500" visible="false" editable="false" desc="" />
+    <ParamString id="ResponseTime_ActiveMode_PowerLow" name="ResponseTime_ActiveMode_PowerLow" group="General" default="2500" visible="false" editable="false" desc="" />
+    <!--Vin, Active mode, amp-->
+    <ParamString id="Vin_ActiveMode_Opamp_PumpOff" name="Vin_ActiveMode_Opamp_PumpOff" group="General" default="0 to Vdda - 1.3 V" visible="false" editable="false" desc="" />
+    <ParamString id="Vin_ActiveMode_Opamp_PumpOn" name="Vin_ActiveMode_Opamp_PumpOn" group="General" default="0 to Vdda - 0.2 V" visible="false" editable="false" desc="" />
+    <!--Vin, Active mode, comp-->
+    <ParamString id="Vin_ActiveMode_Comp_PumpOff" name="Vin_ActiveMode_Comp_PumpOff" group="General" default="0 to Vddd - 1.15 V" visible="false" editable="false" desc="" />
+    <ParamString id="Vin_ActiveMode_Comp_PumpOn" name="Vin_ActiveMode_Comp_PumpOn" group="General" default="0 to Vddd - 0.1 V" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="INFO" text="Enable the Power resource if AMUXBUS is used. For some VDDA values, enable the charge pump." condition="`${hasHsiomPump &amp;&amp; !isPowerEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="m0s8power-1.0" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_ctb.h" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="CTBM`${passNum}`" public="true" include="true" />
+    <ConfigStruct name="`${INST_NAME . &quot;_config&quot;}`" type="cy_stc_ctb_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="deepSleep" value="`${deepSleep}`" />
+      <Member name="oa0" value="`${oa0used ? &quot;&amp;&quot; . getExposedMember(oa0Rsc, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="oa1" value="`${oa1used ? &quot;&amp;&quot; . getExposedMember(oa1Rsc, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+    </ConfigStruct>
+  </ConfigFirmware>
+</Personality>

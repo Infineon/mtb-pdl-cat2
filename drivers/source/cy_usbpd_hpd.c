@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.c
-* \version 2.0
+* \version 2.10
 *
 * The source file of the USBPD Hot-Plug Detect driver.
 *
@@ -109,11 +109,11 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_ReceiveInit(cy_stc_usbpd_context_t *context, c
     pd->intr2 = PDSS_INTR2_MASK_HPD_QUEUE_MASK;
     pd->intr2_mask |= PDSS_INTR2_MASK_HPD_QUEUE_MASK;
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     pd->intr1_cfg |= (3UL << PDSS_INTR1_CFG_HPDIN_CFG_POS);
     /* Disable HPD IN filter. */
     pd->intr1_cfg &= ~(PDSS_INTR1_CFG_HPDIN_FILT_EN);
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 
 #if defined(CY_DEVICE_CCG3)
     pd->intr_1_cfg |= (3UL << PDSS_INTR_1_CFG_HPDIN_CFG_POS);
@@ -221,7 +221,7 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_TransmitInit(cy_stc_usbpd_context_t *context, 
 *******************************************************************************/
 void Cy_USBPD_Hpd_SleepEntry(cy_stc_usbpd_context_t *context)
 {
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     /* Configure the relevant pin for GPIO functionality. */
     if (context->hpdTransmitEnable)
     {
@@ -236,7 +236,7 @@ void Cy_USBPD_Hpd_SleepEntry(cy_stc_usbpd_context_t *context)
     }
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 }
 
 
@@ -263,7 +263,7 @@ void Cy_USBPD_Hpd_SleepEntry(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value)
 {
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     PPDSS_REGS_T pd = context->base;
 
     /* Configure the relevant GPIO for HPD functionality. */
@@ -302,7 +302,7 @@ void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value)
 #else
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(value);
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 }
 
 /*
@@ -367,10 +367,15 @@ bool Cy_USBPD_Hpd_ReceiveGetStatus(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Hpd_RxSleepEntry(cy_stc_usbpd_context_t *context, bool hpdState)
 {
-    PPDSS_REGS_T pd = context->base;
-    
     /* Store HPD Connection status. */
     context->hpdState = hpdState;
+
+    /*
+     * CCG7D does not go into deep sleep in unattached state.
+     * So work around for wakeup interrupts are not required.
+     */
+#if (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)))
+    PPDSS_REGS_T pd = context->base;
 
     if (context->hpdReceiveEnable)
     {
@@ -400,6 +405,7 @@ void Cy_USBPD_Hpd_RxSleepEntry(cy_stc_usbpd_context_t *context, bool hpdState)
             pd->intr2_mask &= ~PDSS_INTR2_MASK_HPD_QUEUE_MASK;
         }
     }
+#endif /* (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))) */
 }
 
 /*******************************************************************************
@@ -420,6 +426,11 @@ void Cy_USBPD_Hpd_RxSleepEntry(cy_stc_usbpd_context_t *context, bool hpdState)
 *******************************************************************************/
 void Cy_USBPD_Hpd_RxWakeup(cy_stc_usbpd_context_t *context)
 {
+    /*
+     * CCG7D does not go into deep sleep in unattached state.
+     * So work around for wakeup interrupts are not required.
+     */
+#if (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)))
     /* CDT 245126 workaround: This routine implements the wakeup portion of workaround. */    
     PPDSS_REGS_T pd = context->base;
     uint8_t timeout = 0;
@@ -451,6 +462,9 @@ void Cy_USBPD_Hpd_RxWakeup(cy_stc_usbpd_context_t *context)
         pd->intr2 = PDSS_INTR2_HPD_QUEUE;
         pd->intr2_mask |= PDSS_INTR2_MASK_HPD_QUEUE_MASK;
     }
+#else
+    (void)context;
+#endif /* (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))) */
 }
 
 
@@ -685,9 +699,10 @@ void Cy_USBPD_Hpd_Intr0Handler(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Hpd_Intr1Handler(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
-    
+
     if ((pd->intr1_masked & PDSS_INTR1_HPDIN_CHANGED) != 0UL)
     {
+        pd->intr1_mask &= ~PDSS_INTR1_HPDIN_CHANGED;
         pd->intr1 = PDSS_INTR1_HPDIN_CHANGED;
 
         /*

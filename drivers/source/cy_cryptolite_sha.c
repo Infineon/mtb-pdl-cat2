@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_sha.c
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * Provides API implementation of the Cryptolite PDL driver.
@@ -264,7 +264,7 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
     cy_en_cryptolite_status_t err = CY_CRYPTOLITE_BAD_PARAMS;
     uint32_t readIdx = 0U;
     uint32_t idx = 0U;
-    uint32_t msg_add = (uint32)message;
+    uint32_t msg_add = (uint32_t)message;
     uint32_t lmessageSize;
 
     if (0UL == messageSize)

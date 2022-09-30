@@ -3,7 +3,7 @@ var modules =
     [ "CAN FD       (CAN with Flexible Data-Rate)", "group__group__canfd.html", "group__group__canfd" ],
     [ "Crypto       (Cryptography)", "group__group__crypto.html", "group__group__crypto" ],
     [ "CryptoLite   (Cryptography)", "group__group__cryptolite.html", "group__group__cryptolite" ],
-    [ "CSD          (CapSense Sigma Delta)", "group__group__csd.html", "group__group__csd" ],
+    [ "CSD          (CAPSENSE™ Sigma Delta)", "group__group__csd.html", "group__group__csd" ],
     [ "CTB          (Continuous Time Block)", "group__group__ctb.html", "group__group__ctb" ],
     [ "DMAC         (Direct Memory Access Controller)", "group__group__dmac.html", "group__group__dmac" ],
     [ "Flash        (Flash System Routine)", "group__group__flash.html", "group__group__flash" ],
@@ -11,6 +11,7 @@ var modules =
     [ "I2S          (Inter-IC Sound)", "group__group__i2s.html", "group__group__i2s" ],
     [ "LPCOMP       (Low Power Comparator)", "group__group__lpcomp.html", "group__group__lpcomp" ],
     [ "MSC          (Multi-Sense Converter)", "group__group__msc.html", "group__group__msc" ],
+    [ "MSCLP        (Multi-Sense Converter Low-Power)", "group__group__msclp.html", "group__group__msclp" ],
     [ "SAR          (SAR ADC)", "group__group__sar.html", "group__group__sar" ],
     [ "SCB          (Serial Communication Block)", "group__group__scb.html", "group__group__scb" ],
     [ "SegLCD       (Segment LCD)", "group__group__seglcd.html", "group__group__seglcd" ],
@@ -26,6 +27,5 @@ var modules =
     [ "USBFS        (USB Full-Speed Device)", "group__group__usbfs__dev__drv.html", "group__group__usbfs__dev__drv" ],
     [ "USBPD        (USB Power Delivery)", "group__group__usbpd.html", "group__group__usbpd" ],
     [ "WDC          (Watchdog Counters)", "group__group__wdc.html", "group__group__wdc" ],
-    [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ],
-    [ "Group_msclp", "group__group__msclp.html", "group__group__msclp" ]
+    [ "WDT          (Watchdog Timer)", "group__group__wdt.html", "group__group__wdt" ]
 ];

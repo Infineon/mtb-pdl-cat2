@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.c
-* \version 2.0
+* \version 2.10
 *
 * This file specifies helper functions to retrieve Configuration table data
 * present in flash for various supported devices.
@@ -51,10 +51,10 @@ const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context)
 
 const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((const pd_port_config_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_wireless_config(context)->port_0_config_offset));  /* PRQA S 0310, 3305 */
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     if(context->port==0u)
     {
     /* QAC suppression 0310, 3305: The correct pointer alignment is ensured by the placement
@@ -67,10 +67,10 @@ const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context)
     return ((const pd_port_config_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_auto_config(context)->port_1_config_offset));
     }
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 #if(defined(CY_DEVICE_WLC1))
@@ -111,7 +111,7 @@ const cy_stc_qi_coil_cfg_t * get_wireless_coil_config(const void *cfgPtr, uint8_
     }
     else
     {
-        /*Return COIL 0 Params if no number is sent */
+        /*Return COIL 0 Parameters if no number is sent */
         return ((const cy_stc_qi_coil_cfg_t *)((uint32_t)(const uint8_t *)((const wireless_config_t *)(cfgPtr)) +
         get_wireless_port_config(cfgPtr)->qiCoil0TableOffset));  /* PRQA S 0310, 3305 */
     }
@@ -182,20 +182,21 @@ auto_cfg_settings_t* pd_get_ptr_auto_cfg_tbl(cy_stc_usbpd_context_t *context)
 }
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)- || defined(CY_DEVICE_CCG3PA)) */
 
+#if CY_USE_CONFIG_TABLE
 ovp_settings_t* pd_get_ptr_ovp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     /* Update the OVP settings from the configuration table. */
     return ((ovp_settings_t *)(uint32_t)((const uint8_t *)(get_wireless_config (context)) +
                 get_pd_port_config(context)->port_n_ovp_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the OVP settings from the configuration table. */
     return ((ovp_settings_t *)(uint32_t)((const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_ovp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 #if (BATTERY_CHARGING_ENABLE) || (QC_PPS_ENABLE)
@@ -208,162 +209,175 @@ cy_stc_legacy_charging_cfg_t* pd_get_ptr_chg_cfg_tbl(cy_stc_usbpd_context_t *con
         return pd_get_ptr_type_a_chg_cfg_tbl (0);
     }
 #endif /* CCG_TYPE_A_PORT_ENABLE */
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return context->usbpdConfig->legacyChargingConfig;
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the legacy charging parameters from the configuration table */
     return ((cy_stc_legacy_charging_cfg_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
             get_pd_port_config(context)->port_n_bch_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 #endif /* (BATTERY_CHARGING_ENABLE) || (QC_PPS_ENABLE) */
 
 rcp_settings_t* pd_get_ptr_rcp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((rcp_settings_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_pd_port_config(context)->port_n_rcp_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the VBus OCP settings from the configuration table */
     return ((rcp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_rcp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 ocp_settings_t* pd_get_ptr_ocp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     /** Cast into  ocp_settings_t as a Workaround*/
     return ((ocp_settings_t *)(((cy_stc_usbpd_context_t *)context)->usbpdConfig->vbusOcpConfig));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the VBus OCP settings from the configuration table */
     return ((ocp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_ocp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 scp_settings_t* pd_get_ptr_scp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     /** Cast into  scp_settings_t as a Workaround*/
     return ((scp_settings_t *)(((cy_stc_usbpd_context_t *)context)->usbpdConfig->vbusScpConfig));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the VBus SCP settings from the configuration table */
     return ((scp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_scp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif     
+#endif     
 }
 
 vconn_ocp_settings_t* pd_get_ptr_vconn_ocp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((vconn_ocp_settings_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_pd_port_config(context)->port_n_vconn_ocp_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the Vcon OCP settings from the configuration table */
     return ((vconn_ocp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_vconn_ocp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 otp_settings_t* pd_get_ptr_otp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((otp_settings_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_pd_port_config(context)->port_n_otp_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the OTP settings from the configuration table */
     return ((otp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_otp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 uvp_settings_t* pd_get_ptr_uvp_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     /** Cast into  uvp_settings_t as a Workaround*/
     return ((uvp_settings_t *)(((cy_stc_usbpd_context_t *)context)->usbpdConfig->vbusUvpConfig));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the VBus UVP settings from the configuration table */
     return ((uvp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_uvp_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((const cy_stc_pdstack_port_cfg_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
                 get_pd_port_config(context)->port_n_pd_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     return ((const cy_stc_pdstack_port_cfg_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                     get_pd_port_config(context)->port_n_pd_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
-
+#endif /* CY_USE_CONFIG_TABLE */
 pwr_params_t* pd_get_ptr_pwr_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((pwr_params_t *)((uint32_t)(const uint8_t *)(get_wireless_regulation_config((context->cfg_table), 0))));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the power parameters from the configuration table */
     return ((pwr_params_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_power_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
 app_config_t* pd_get_ptr_app_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
+#if(defined(CY_DEVICE_WLC1))
     return ((app_config_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_pd_port_config(context)->port_n_app_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the power parameters from the configuration table */
     return ((app_config_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_app_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
 
-base_alt_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t *context)
+cy_stc_pdaltmode_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t *context)
 {
-    #if(defined(CY_DEVICE_WLC1))
-    return ((base_alt_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
+#if(defined(CY_DEVICE_WLC1))
+    return ((cy_stc_pdaltmode_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_wireless_config (context)) +
             get_pd_port_config(context)->port_n_base_alt_mode_table_offset));
-    #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the Alt from the configuration table */
-    return ((base_alt_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+    return ((cy_stc_pdaltmode_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_base_alt_mode_table_offset));
-    #else
+#else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-    #endif 
+#endif 
 }
-#endif
+#if defined(CY_DEVICE_CCG7D)
+cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context)
+{
+    /* Update the Alt from the configuration table */
+    return ((cy_stc_bb_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+            get_auto_config(context)->bb_offset));
+}
+cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *context)
+{
+    return ((cy_stc_pdaltmode_dp_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+                    get_pd_port_config(context)->port_n_dp_table_offset));
+}
+#endif /* defined(CY_DEVICE_CCG7D) */
+#endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

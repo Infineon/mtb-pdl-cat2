@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.00
+* \version 2.10
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -224,7 +224,7 @@
 #endif /* CY_PD_HW_DRP_TOGGLE_ENABLE */
 
 #ifndef BATTERY_CHARGING_ENABLE
-#define BATTERY_CHARGING_ENABLE         (1u)
+#define BATTERY_CHARGING_ENABLE         (0u)
 #endif /* BATTERY_CHARGING_ENABLE */
 
 #ifndef PSVP_FPGA_ENABLE
@@ -481,6 +481,18 @@
 #ifndef SBU_LEVEL_DETECT_EN
 #define SBU_LEVEL_DETECT_EN            (0u)
 #endif /* SBU_LEVEL_DETECT_EN */
+
+#ifndef HFCLK_CHANGE_OVER_SLEEP
+#if SYS_DEEPSLEEP_ENABLE
+#define HFCLK_CHANGE_OVER_SLEEP          (1u)
+#else
+#define HFCLK_CHANGE_OVER_SLEEP          (0u)
+#endif /* SYS_DEEPSLEEP_ENABLE */
+#endif /* HFCLK_CHANGE_OVER_SLEEP */
+
+#ifndef SYSCLK_CHANGE_OVER_SLEEP
+#define SYSCLK_CHANGE_OVER_SLEEP (0u)
+#endif /* SYSCLK_CHANGE_OVER_SLEEP */
 
 /*******************************************************************************
  * MACRO Definitions
@@ -1264,6 +1276,21 @@ typedef union
         uint32_t rsvd                       : 8;    /**< Reserved field. */
     } std_dp_vdo;                                   /**< DO interpreted as a DisplayPort Mode response. */
 
+    /** @brief DisplayPort Mode Cable VDO as defined by VESA spec. */
+    struct DP_CBL_VDO
+    {
+        uint32_t rsvd1                      : 2;    /**< Reserved field. */
+        uint32_t signal                     : 4;    /**< Signalling supported. */
+        uint32_t rsvd2                      : 2;    /**< Reserved field. */
+        uint32_t dfpDPin                    : 8;    /**< DFP_D pin assignments supported. */
+        uint32_t ufpDPin                    : 8;    /**< UFP_D pin assignments supported. */
+        uint32_t rsvd3                      : 2;    /**< Reserved field. */
+        uint32_t uhbr13CblSupp              : 1;    /**< Cable UHBR13 Support. */
+        uint32_t actCompNumb                : 1;    /**< Cable number of active components. */
+        uint32_t actComp                    : 2;    /**< Cable active component. */
+        uint32_t vdoVersion                 : 2;    /**< VDO version. */
+    } dp_cbl_vdo;                                   /**< DO interpreted as a DisplayPort Mode response. */
+
     /** @brief DisplayPort status update VDO as defined by VESA spec. */
     struct DP_STATUS_VDO
     {
@@ -1285,8 +1312,11 @@ typedef union
         uint32_t sign                       : 4;    /**< Signalling for DP protocol. */
         uint32_t rsvd1                      : 2;    /**< Reserved. */
         uint32_t dfpAsgmnt                  : 8;    /**< DFP_D pin assignment. */
-        uint32_t ufpAsgmnt                  : 8;    /**< UFP_D pin assignment. */
-        uint32_t rsvd2                      : 8;    /**< Reserved field. */
+        uint32_t rsvd2                      : 10;   /**< Reserved field. */
+        uint32_t uhbr13CblSupp              : 1;    /**< Cable UHBR13 Support. */
+        uint32_t actCompNumb                : 1;    /**< Cable number of active components. */
+        uint32_t actComp                    : 2;    /**< Cable active component. */
+        uint32_t vdoVersion                 : 2;    /**< VDO version. */
     } dp_cfg_vdo;                                   /**< DO interpreted as a DisplayPort Configure command. */
 
     /** @brief Programmable Power Supply Source PDO. */
@@ -1406,6 +1436,23 @@ typedef union
         uint32_t rsvd1                      : 5;    /**< Reserved field. */
     } tbt_ufp_vdo;                                  /**< Data Object interpreted as a Thunderbolt3 mode VDO. */
 
+#if (!CY_PD_USB4_SUPPORT_ENABLE)
+    /** @brief Thunderbolt Discover Modes Response Data Object. */
+    struct TBT_VDO
+    {
+        uint32_t intelMode                  : 16;   /**< Thunderbolt (Intel) modes identifier. */
+        uint32_t cblSpeed                   : 3;    /**< Data bandwidth supported by the Type-C cable. */
+        uint32_t cblGen                     : 2;    /**< Thunderbolt cable generation. */
+        uint32_t cblType                    : 1;    /**< Whether cable is non-optical or optical. */
+        uint32_t cbl                        : 1;    /**< Type of Type-C cable: Passive or Active. */
+        uint32_t linkTraining               : 1;    /**< Type of link training supported by active cable. */
+        uint32_t legAdpt                    : 1;    /**< Whether this is a legacy Thunderbolt adapter. */
+        uint32_t rsvd0                      : 1;    /**< Reserved field. */
+        uint32_t vproDockHost               : 1;    /**< Whether the device supports VPRO feature. */
+        uint32_t rsvd1                      : 5;    /**< Reserved field. */
+    } tbt_vdo;                                      /**< DO interpreted as a Thunderbolt Discovery response. */
+#else
+
     /** @brief Thunderbolt Discover Modes Response Data Object. */
     struct TBT_VDO
     {
@@ -1433,7 +1480,7 @@ typedef union
         uint32_t linkTraining               : 1;    /**< Type of link training supported by active cable. */
         uint32_t rsvd1                      : 8;    /**< Reserved field. */
     } tbt_cbl_vdo;                                  /**< DO interpreted as a Thunderbolt Discovery response. */
-
+#endif /* CY_PD_USB4_SUPPORT_ENABLE */
     /** @brief UFP VDO #1 */
     struct UFP_VDO_1
     {
@@ -1507,6 +1554,16 @@ typedef union
         uint32_t multiPart                 : 1;
         uint32_t dataCnt                   : 8;
     } slice_subhdr;
+    
+    /** @brief Different fields of source information*/
+    struct SRC_INFO
+    {
+        uint32_t portRepPdp   : 8;                /**< Bits 07:00 - Reported Port PDP */
+        uint32_t portPresPdp  : 8;                /**< Bits 15:8 - Present Port PDP */
+        uint32_t portMaxPdp   : 8;                /**< Bits 23:16 - Maximum Port PDP. */
+        uint32_t reserved     : 7;                /**< Bits 30: 24 - Reserved. */
+        uint32_t portType     : 1;                /**< Bit     31 - Port Type. */
+    } src_info;  
     /** @endcond */
 
 } cy_pd_pd_do_t;

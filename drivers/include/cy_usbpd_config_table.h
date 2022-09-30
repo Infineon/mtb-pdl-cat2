@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.00
+* \version 2.10
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -64,8 +64,8 @@ typedef struct
                                         * 1) First option is to restrict firmware to have only four modes in total.
                                         * 2) Second option is to have a single discover mode response and each of the response will be programmed one after the other.
                                         * The size of each response needs to be maintained separately.*/
-    uint8_t reserved[6];              /**< Reserved for future use */
-} base_alt_cfg_settings_t;
+    uint8_t reserved[2];              /**< Reserved for future use */
+} cy_stc_pdaltmode_cfg_settings_t;
 
 /**
  * @brief Struct to hold the Custom Alt mode settings.
@@ -147,6 +147,7 @@ typedef struct
 
 } auto_cfg_settings_t;
 
+#if CY_USE_CONFIG_TABLE
 /**
  * @brief Struct to hold the OVP settings.
  */
@@ -291,7 +292,7 @@ typedef struct
     uint8_t mfgLenInfo;
 
     /** Reserved byte for alignment. */
-    uint8_t reserved0;
+    uint8_t reserved_0;
 
     /** Manufacturer Vendor Id. Range 0x0000 - 0xFFFF. */
     uint16_t mfgVid;
@@ -427,7 +428,7 @@ typedef struct
     uint16_t snkPdoMinMaxCur[7];
 
     /** Reserved for future use. */
-    uint16_t reserved2;
+    uint16_t reserved_2;
 
     /** Get_Revision message response */
     uint32_t pdRevision;
@@ -456,6 +457,7 @@ typedef struct
     uint32_t eprSnkPdo[6];
 } cy_stc_pdstack_port_cfg_t;
 
+#endif /* CY_USE_CONFIG_TABLE */
 
 /**
  * @brief Struct to hold the Billboard settings.
@@ -525,7 +527,7 @@ typedef struct
                                                  */
     uint8_t    reserved_1[2];                   /**< Reserved area for future expansion. */
 
-} bb_settings_t;
+} cy_stc_bb_settings_t;
 
 
 /**
@@ -543,13 +545,13 @@ typedef struct
     uint16_t wpcVersion;
     /* Console verbosity levels */
     uint8_t consoleVerbosity;
-    uint8_t reserved1[7];
+    uint8_t reserved_1[7];
 
     /** Coil Configuration - 4 Bytes*/
 
     /** Number of Coils is Always 1 for WiCG1 */
     uint8_t numCoils;
-    uint8_t reserved2[3];
+    uint8_t reserved_2[3];
 
     /** Wireless Mode Configuration - 16 Bytes */
 
@@ -562,7 +564,7 @@ typedef struct
     uint8_t samsungPpdeEnable;
     /** Enable PPP Mode */
     uint8_t externalClockEnable;
-    uint8_t reserved3[12];
+    uint8_t reserved_3[12];
 
     /** Packet Timeout Configuration - 16 Bytes*/
 
@@ -572,7 +574,7 @@ typedef struct
     uint16_t cepPacketTimeout;
     /** RPP Packet Timeout */
     uint16_t rppPacketTimeout;
-    uint8_t reserved5[10];
+    uint8_t reserved_5[10];
 
     /** EPT Timer Configuration - 20 Bytes*/
 
@@ -590,7 +592,7 @@ typedef struct
     uint8_t eptOCPRetCnt;
     /** Digital Ping retry Count on Battery Failure */
     uint8_t eptPingDelayBatFailRetCnt;
-    uint8_t reserved6[13];
+    uint8_t reserved_6[13];
 
 } cy_stc_qi_main_cfg_t;
 
@@ -607,7 +609,7 @@ typedef struct
     /** Qi Coil operating mode */
     uint8_t coilOPMode;
     /** Reserved */
-    uint8_t reserved0;
+    uint8_t reserved_0;
     /** Minimum operating frequency in frequency control mode. */
     uint16_t pwmMinFreq;
     /** Maximum operating frequency in frequency control mode. */
@@ -615,11 +617,11 @@ typedef struct
     /** Minimum duty in frequency control mode.  */
     uint16_t pwmMinDuty;
     /** Reserved.  */
-    uint16_t reserved1;
+    uint16_t reserved_1;
     /** Analog ping time Vbridge voltage.  */
     uint16_t vbridgeAnaPingVolt;
     /** Reserved  */
-    uint16_t reserved2;
+    uint16_t reserved_2;
     /** Maximum Vbridge voltage in BPP Mode*/
     uint16_t vbridgeMaxBPPVolt;
     /** Maximum Vbridge voltage in EPP Mode*/
@@ -627,14 +629,14 @@ typedef struct
     /** Maximum Vbridge voltage in PPP Mode*/
     uint16_t vbridgeMaxPPPVolt;
     /** Reserved  */
-    uint16_t reserved13;
+    uint16_t reserved_13;
     /** EPP mode potential load power*/
     uint8_t eppPotentialPow;
     /** PPP mode potential load power*/
     uint8_t pppPotentialPow;
     /** EPP mode guaranteed load power*/
     uint16_t guaranteedPow;
-    uint8_t reserved3[14];
+    uint8_t reserved_3[14];
 
 
     /** Analog Ping Configuration - 12 Bytes*/
@@ -649,7 +651,7 @@ typedef struct
     uint16_t anaPingdutyCycles;
     /** Minimum number of Analog Pings for Q */
     uint8_t anaPingMinCount;
-    uint8_t reserved4[3];
+    uint8_t reserved_4[3];
 
     /** Digital Ping Configuration - 24 Bytes*/
 
@@ -663,7 +665,7 @@ typedef struct
     uint16_t digPingIntr;
     /** Error Mode Digital ping Interval */
     uint16_t digPingIntrInErr;
-    uint8_t reserved5[14];
+    uint8_t reserved_5[14];
 
 
     /** ASK Demod Configuration - 12 Bytes*/
@@ -676,7 +678,7 @@ typedef struct
     uint8_t askDemodCurrGain;
     /** ASK Demod Sequence selection */
     uint8_t askDemodSeqSel;
-    uint8_t reserved6[8];
+    uint8_t reserved_6[8];
 
     /** PID Configuration - 28 Bytes */
 
@@ -689,7 +691,7 @@ typedef struct
     /** Coil SV MV Selection */
     uint8_t pidSvMvSel;
     /** Reserved */
-    uint8_t reserved7;
+    uint8_t reserved_7;
     /** Coil SV MV ; PID Scaling Multiplication Factor*/
     uint16_t pidSvMvScale;
     /** Coil Integral Term Maximum Change*/
@@ -702,19 +704,19 @@ typedef struct
     uint8_t pidEPPlowLoadThr;
     /** High gain Kp to be used for low load conditions*/
     uint16_t pidLowLoadKp;
-    uint8_t reserved8[78];
+    uint8_t reserved_8[78];
 
     /** Buck Boost Base Configuration  - 20 Bytes*/
 
     /** Vbridge Regulator Selection */
     uint8_t vbridgeRegulatorSel;
     /** Reserved */
-    uint8_t reserved9;
+    uint8_t reserved_9;
     /** Vbridge Regulation Table Offset */
     uint16_t vbridgeRegTableoffset;
     /** Vbridge Regulation Table Length */
     uint16_t vbridgeRegTableLen;
-    uint8_t reserved10[14];
+    uint8_t reserved_10[14];
 
     /** Inverter Bridge Configuration  - 20 Bytes*/
 
@@ -722,7 +724,7 @@ typedef struct
     uint16_t invBridgeTableoffset;
     /** Vbridge Regulation Table Length */
     uint16_t invBridgeTableLen;
-    uint8_t reserved11[16];
+    uint8_t reserved_11[16];
 
     /** FOD Base Configuration - 16 Bytes*/
 
@@ -730,7 +732,7 @@ typedef struct
     uint16_t fodTableOffset;
     /** FOD Configuration Table Length */
     uint16_t fodTableLen;
-    uint8_t reserved12[12];
+    uint8_t reserved_12[12];
 } cy_stc_qi_coil_cfg_t;
 
 typedef struct 
@@ -773,7 +775,7 @@ typedef struct
     /** Q free air FOD enable/disable. */
     uint8_t qFODEn;
     /* reserved */
-    uint8_t reserved0;
+    uint8_t reserved_0;
     /** Q free air value. Measured by LCR meter without anything on the Tx */
     uint8_t qFreeAirVal;
     /** Q Tolerance to consider */
@@ -786,7 +788,7 @@ typedef struct
     uint8_t qHiScaleFactor;
     /** Scale factor for low reported Q calibration, percentage */
     uint8_t qLoScaleFactor;
-    uint8_t reserved1[12];
+    uint8_t reserved_1[12];
 
     /** Resonant Frequency  - 32 Bytes*/
 
@@ -794,7 +796,7 @@ typedef struct
     uint16_t resFreqThresholdPer;
     /** Resonance frequency calibration factor */
     uint16_t resFreqScaleFactor;
-    uint8_t reserved2[24];
+    uint8_t reserved_2[24];
 
     /** Power Loss FOD Configuration - 112 Bytes*/
 
@@ -803,19 +805,19 @@ typedef struct
         0x07 - Enable FOD with BPP and 5w EPP 
         0x0F - Enable FOD ; BPP FOD;5w EPP and 15w EPP */
     uint8_t powLossFODEn;
-    uint8_t reserved3[3];
+    uint8_t reserved_3[3];
 
     /** Power Loss FOD Configuration for BPP */
     cy_stc_qi_fod_powloss_cfg_t powLossFODBppCfg;
-    uint8_t reserved4[4];
+    uint8_t reserved_4[4];
     /** Power Loss FOD Configuration for EPP - 5w */
     cy_stc_qi_fod_powloss_cfg_t powLossFODEpp5wCfg;
-    uint8_t reserved5[4];
+    uint8_t reserved_5[4];
     /** Power Loss FOD Configuration for EPP - 15w */
     cy_stc_qi_fod_powloss_cfg_t powLossFODEpp15wCfg;
     /** Power Loss FOD Configuration for Samsung PPDE */
     cy_stc_qi_fod_powloss_cfg_ppde_t powLossFODPpdeCfg;
-    uint8_t reserved6[36];
+    uint8_t reserved_6[36];
 }cy_stc_fod_cfg_t;
 
 /**
@@ -847,7 +849,7 @@ typedef struct
     uint8_t faultOCPRetryCnt;
     /** Maximum power limit threshold*/
     uint8_t maxPowThr;
-    uint8_t reserved0[3];
+    uint8_t reserved_0[3];
     /** Vbridge OVP Threshold ; 0-Disable */
     uint16_t faultOVPThr;
     /** Persistent OVP condition debounce time in uS */
@@ -862,7 +864,7 @@ typedef struct
     uint8_t faultCoilOTPTrigThr;
     /**Coil  Over temperature protection release threshold */
     uint8_t faultCoilOTPRelThr;
-    uint8_t reserved1[20];
+    uint8_t reserved_1[20];
 
 }cy_stc_fault_protect_cfg_t;
 
@@ -884,7 +886,7 @@ typedef struct {
     uint16_t vinConfigTableLen;
     uint16_t faultProtectTableOffset;
     uint16_t faultProtectTableLen;
-    uint32_t reserved1[9];
+    uint32_t reserved_1[9];
 }cy_wireless_port_config;
 
 typedef struct
@@ -913,14 +915,18 @@ typedef struct
     uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
                                  *   byte (size - 1).
                                  */
-    uint8_t     reserved_0[8];   /** < Reserved for future use */
+    uint8_t     app_table_size;  /* Size of auto application table */                     
+    uint8_t     reserved_0[7];   /** < Reserved for future use */
     uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
     uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
     uint16_t    port_1_config_offset; /** < Offset of the Port 1 Configuration table */
     uint16_t    port_1_config_size; /** < Size of the Port 1 Configuration table */
     uint16_t    auto_config_offset; /** < Offset of the Auto Configuration table */
     uint16_t    auto_config_size; /** < Size of the Auto Configuration table */
-    uint8_t    reserved_1[4];                   /**< Reserved area for future expansion. */
+    uint16_t    bb_offset; /** < Offset of the Port 1 Configuration table */
+    uint16_t    bb_size; /** < Size of the Port 1 Configuration table */
+    uint16_t    user_area_offset; /** < Offset of the User Parameter Configuration */
+    uint16_t    user_area_size; /** < Size of the User Parameter Configuration */
 } auto_config_t;
 
 typedef struct
@@ -996,35 +1002,36 @@ typedef struct
 
 typedef struct
 {
-   uint8_t volatile dp_config_supported;   /**< Supported Pin configurations for DP modes
-                                             *   0b00000000: USB SS only.
-                                             *   0b00000001: Reserved for future use (A).
-                                             *   0b00000010: Reserved for future use (B).
-                                             *   0b00000100: Pin Config C.
-                                             *   0b00001000: Pin Config D.
-                                             *   0b00010000: Pin Config E.
-                                             *   0b00100000: Pin Config F.
-                                             */
-    uint8_t volatile dp_mux_control;    /**<  DP_MUX_CONTROL method:
-                                         *   0 => DP MUX Controlled by CCG.
-                                         *   1 => DP MUX Controlled by EC.
-                                         */
-    uint8_t volatile dp_mode_trigger;  /**< Whether DP mode entry should be automatically triggered:
-                                         *  0 -> Auto trigger
-                                         *  1 -> Wait for EC input */
-    uint8_t     dp_operation;             /**< Type of DP operation supported.
-                                         *   Bit 0: DP Sink supported
-                                         *   Bit 1: DP Source supported.
-                                         */
-    uint8_t volatile dp_pref_mode;      /**<  DP preferred mode.
-                                         *   Bit 0:
-                                         *          0: CCG as DP Sink prefers 4 lane DP mode only.
-                                         *          1: CCG as DP Sink prefers 2 lane DP + USB SS Mode.
-                                         *  All other bits are reserved.
-                                         */
-    uint8_t     reserved[3];          /**< Byte 0xA5: Reserved area for future expansion. */
+     uint8_t dp_config_supported;        /**< Byte 0xA0: Supported Pin configurations for DP modes
+                                                 *  0b00000000: USB SS only.
+                                                 *  0b00000001: Reserved for future use (A).
+                                                 *  0b00000010: Reserved for future use (B).
+                                                 *  0b00000100: Pin Config C.
+                                                 *  0b00001000: Pin Config D.
+                                                 *  0b00010000: Pin Config E.
+                                                 *  0b00100000: Pin Config F.
+                                                 */
+     uint8_t dp_mux_control;             /**< Byte 0xA1: DP_MUX_CONTROL method:
+                                                 *  0 => DP MUX Controlled by CCG.
+                                                 *  1 => DP MUX Controlled by EC.
+                                                 */
+     uint8_t dp_mode_trigger;            /**< Byte 0xA2: DP_MODE_TRIGGER: Trigger for initializing DP modes.
+                                                 *  0 => CCG initiates DP after contract.
+                                                 *  1 => CCG waits for a trigger from EC.
+                                                 */
+     uint8_t dp_oper;                    /**< Byte 0xA3: Type of DP operation supported.
+                                                 *  Bit 0: DP Sink supported
+                                                 *  Bit 1: DP Source supported.
+                                                 */
+     uint8_t dp_pref_mode;               /**< Byte 0xA4: DP preferred mode.
+                                                 *  Bit 0:
+                                                 *   0: CCG as DP Sink prefers 4 lane DP mode only.
+                                                 *   1: CCG as DP Sink prefers 2 lane DP + USB SS Mode.
+                                                 *  All other bits are reserved. */
+     uint8_t reserved_6[3];              /**< Byte 0xA5: Reserved area for future expansion. */
 
-} dp_cfg_settings_t;
+}cy_stc_pdaltmode_dp_cfg_settings_t;
+
 
 typedef struct
 {
@@ -1212,7 +1219,7 @@ typedef struct
     uint8_t pwm_fix_freq_dith;                  /**< Center PWM switching frequency when dithering is enabled */
     uint8_t pwm_dith_spread_cycles;             /**< Number of BBCLK cycles of spread required to achieve
                                                  * configured range of frequency spread */
-    uint8_t reserved_3[3];                      /**< Reserved for future use */
+    uint8_t reserved_3[8];                      /**< Reserved for future use */
 } pwr_params_t;
 
 /*****************************************************************************
@@ -1244,6 +1251,7 @@ const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context);
  */
 const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context);
 
+#if CY_USE_CONFIG_TABLE
 /**
  * @brief Retrieve pointer to VBus OVP settings from the configuration table.
  *
@@ -1346,6 +1354,7 @@ cy_stc_legacy_charging_cfg_t* pd_get_ptr_chg_cfg_tbl(cy_stc_usbpd_context_t *con
  * @return Pointer to pdstack parameters.
  */
 const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *context);
+#endif /* CY_USE_CONFIG_TABLE */
 
 /**
  * @brief Retrieve pointer to power parameters from the configuration table.
@@ -1395,7 +1404,7 @@ app_config_t* pd_get_ptr_app_tbl(cy_stc_usbpd_context_t *context);
  *
  * @return Pointer to Base Alt parameters(Discover ID etc) parameters.
  */
-base_alt_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t *context);
+cy_stc_pdaltmode_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t *context);
 
 #if (defined(CY_DEVICE_WLC1))
 const cy_wireless_port_config * get_wireless_port_config(const void *cfgPtr);
@@ -1415,6 +1424,11 @@ const cy_stc_vin_cfg_t  * get_wireless_vin_config(const void *cfgPtr);
 const cy_stc_fault_protect_cfg_t * get_wireless_fault_config(const void *cfgPtr);
 
 #endif /* (defined(CY_DEVICE_WLC1))*/
+#if defined(CY_DEVICE_CCG7D)
+cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);
+
+cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *context);
+#endif /* defined(CY_DEVICE_CCG7D) */
 
 /** \endcond */
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

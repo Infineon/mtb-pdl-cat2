@@ -41,6 +41,7 @@
 #include "cy_i2s.h"
 #include "cy_lpcomp.h"
 #include "cy_msc.h"
+#include "cy_msclp.h"
 #include "cy_sar.h"
 #include "cy_scb_ezi2c.h"
 #include "cy_scb_i2c.h"

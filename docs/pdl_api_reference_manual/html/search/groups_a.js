@@ -16,6 +16,7 @@ var searchData=
   ['macros',['Macros',['../group__group__lpcomp__macros.html',1,'']]],
   ['msc_20_20_20_20_20_20_20_20_20_20_28multi_2dsense_20converter_29',['MSC          (Multi-Sense Converter)',['../group__group__msc.html',1,'']]],
   ['macros',['Macros',['../group__group__msc__macros.html',1,'']]],
+  ['msclp_20_20_20_20_20_20_20_20_28multi_2dsense_20converter_20low_2dpower_29',['MSCLP        (Multi-Sense Converter Low-Power)',['../group__group__msclp.html',1,'']]],
   ['macros',['Macros',['../group__group__msclp__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__sar__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__scb__common__macros.html',1,'']]],

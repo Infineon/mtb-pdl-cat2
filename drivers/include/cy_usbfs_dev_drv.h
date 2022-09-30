@@ -1,6 +1,6 @@
-/*
+/*******************************************************************************
 * \file cy_usbfs_dev_drv.h
-* \version 2.0
+* \version 2.10
 *
 * Provides API declarations of the USBFS driver.
 *
@@ -490,6 +490,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.10</td>
+*     <td>Corrected variable type name.</td>
+*     <td>Defect fix.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="2">2.0</td>
 *     <td>The USBFS driver's DMA feature is disabled by default. You can enable it by setting the macro \ref CY_USBFS_DRV_DMA_ENABLE to 1 in the application Makefile.
 * \note
@@ -568,13 +573,13 @@ extern "C" {
 #define CY_USBFS_VERSION_MAJOR      (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_VERSION_MINOR      (0)
+#define CY_USBFS_VERSION_MINOR      (10)
 
 /** USBFS Driver major version */
 #define CY_USBFS_DRV_VERSION_MAJOR  (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_DRV_VERSION_MINOR  (0)
+#define CY_USBFS_DRV_VERSION_MINOR  (10)
 /** USBFS Driver identifier */
 #define CY_USBFS_ID                 CY_PDL_DRV_ID(0x3BU)
 

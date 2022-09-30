@@ -3,8 +3,8 @@ var group__group__dmac__data__structures =
     [ "DMAC_Type", "struct_d_m_a_c___type.html", null ],
     [ "DMAC_DESCR_Type", "struct_d_m_a_c___d_e_s_c_r___type.html", null ],
     [ "cy_stc_dmac_descriptor_config_t", "structcy__stc__dmac__descriptor__config__t.html", [
-      [ "srcAddress", "structcy__stc__dmac__descriptor__config__t.html#a56e737e12986f1f9ae07bbb23a547ba7", null ],
-      [ "dstAddress", "structcy__stc__dmac__descriptor__config__t.html#ab9807708f96de4c232798b9862726f81", null ],
+      [ "srcAddress", "structcy__stc__dmac__descriptor__config__t.html#a476237c781aef1f5ac5b84903f439e25", null ],
+      [ "dstAddress", "structcy__stc__dmac__descriptor__config__t.html#a6acfcd27f2febb91579a20947f70c384", null ],
       [ "dataCount", "structcy__stc__dmac__descriptor__config__t.html#a32bf7808aad4dfb852ca2bf8f66e4200", null ],
       [ "dataSize", "structcy__stc__dmac__descriptor__config__t.html#a7f23f95c4fc072b1aafbde341dd9a683", null ],
       [ "srcTransferSize", "structcy__stc__dmac__descriptor__config__t.html#af95d0b9ee761cee84ab931dd87f89911", null ],

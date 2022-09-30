@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.10
+* \version 4.20
 *
 * Provides common API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -58,6 +58,15 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>4.20</td>
+*     <td>The \ref Cy_SCB_EZI2C_DeepSleepCallback,
+*             \ref Cy_SCB_I2C_DeepSleepCallback, 
+*             \ref Cy_SCB_SPI_DeepSleepCallback, and 
+*             \ref Cy_SCB_UART_DeepSleepCallback parameter types are changed
+*             to match the \ref cy_stc_syspm_callback_t::callback type.</td>
+*     <td>Eliminate compiler warnings</td>
+*   </tr>
 *   <tr>
 *     <td>4.10</td>
 *     <td>SPI: Fixed the issue when SPI Master and Slave interrupts are not
@@ -362,7 +371,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (10)
+#define CY_SCB_DRV_VERSION_MINOR    (20)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

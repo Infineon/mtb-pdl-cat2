@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_dmac.h
-* \version 1.10.1
+* \version 1.20
 *
 * \brief
 * The header file of the DMAC driver.
@@ -106,6 +106,11 @@
 *
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.20</td>
+*     <td>Interface update for Cy_DMAC_Descriptor_SetSrcAddress() and Cy_DMAC_Descriptor_SetDstAddress(), parameter update for cy_stc_dmac_descriptor_config_t. </td>
+*     <td>MISRA violation fix.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10.1</td>
 *     <td>Update the paths to the code snippets.</td>
@@ -361,8 +366,8 @@ typedef enum
 */
 typedef struct
 {
-    void *                       srcAddress;       /**< The source address of the transfer. */
-    void *                       dstAddress;       /**< The destination address of the transfer. */
+    void volatile const *        srcAddress;       /**< The source address of the transfer. */
+    void volatile *              dstAddress;       /**< The destination address of the transfer. */
     uint32_t                     dataCount;        /**< The natural number of data elements to transfer,
                                                      *  for example, "1" means one data element is transferred.
                                                      *  The valid range is 1...65536. */
@@ -439,8 +444,8 @@ __STATIC_INLINE cy_en_dmac_descriptor_t Cy_DMAC_Channel_GetCurrentDescriptor(DMA
  cy_en_dmac_status_t Cy_DMAC_Descriptor_Init              (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, const cy_stc_dmac_descriptor_config_t * config);
                 void Cy_DMAC_Descriptor_DeInit            (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor);
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetState          (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, bool valid);
-__STATIC_INLINE void Cy_DMAC_Descriptor_SetSrcAddress     (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, void const * srcAddress);
-__STATIC_INLINE void Cy_DMAC_Descriptor_SetDstAddress     (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, void const * dstAddress);
+__STATIC_INLINE void Cy_DMAC_Descriptor_SetSrcAddress     (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, void volatile const * srcAddress);
+__STATIC_INLINE void Cy_DMAC_Descriptor_SetDstAddress     (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, void volatile * dstAddress);
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetDataCount      (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, uint32_t count);
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetSrcIncrement   (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, bool increment);
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetDstIncrement   (DMAC_Type * base, uint32_t channel, cy_en_dmac_descriptor_t descriptor, bool increment);
@@ -883,7 +888,7 @@ __STATIC_INLINE bool Cy_DMAC_Descriptor_GetState(DMAC_Type const * base,
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetSrcAddress(DMAC_Type * base,
                                                          uint32_t channel,
                                           cy_en_dmac_descriptor_t descriptor,
-                                                     void const * srcAddress)
+                                            void volatile const * srcAddress)
 {
     CY_ASSERT_L1(CY_DMAC_IS_CH_NR_VALID(channel));
     CY_ASSERT_L3(CY_DMAC_IS_DESCR_VALID(descriptor));
@@ -950,7 +955,7 @@ __STATIC_INLINE void * Cy_DMAC_Descriptor_GetSrcAddress(DMAC_Type const * base,
 __STATIC_INLINE void Cy_DMAC_Descriptor_SetDstAddress(DMAC_Type * base,
                                                          uint32_t channel,
                                           cy_en_dmac_descriptor_t descriptor,
-                                                     void const * dstAddress)
+                                                  void volatile * dstAddress)
 {
 
     CY_ASSERT_L1(CY_DMAC_IS_CH_NR_VALID(channel));

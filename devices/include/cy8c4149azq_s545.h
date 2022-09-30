@@ -117,9 +117,6 @@ typedef enum {
 #include "system_cat2.h"                        /*!< Category 2 System */
 
 /* IP List */
-#define CY_IP_MXTTCANFD                 1u
-#define CY_IP_MXTTCANFD_INSTANCES       1u
-#define CY_IP_MXTTCANFD_VERSION         2u
 #define CY_IP_ARMCM0P                   1u
 #define CY_IP_ARMCM0P_INSTANCES         0u
 #define CY_IP_ARMCM0P_VERSION           1u

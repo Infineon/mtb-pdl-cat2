@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_aes.c
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * This file provides the source code for the API for the AES method in the 

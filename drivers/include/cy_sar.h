@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.20
+* \version 2.30
 *
 * Header file for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -361,6 +361,16 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">2.30</td>
+*     <td>The \ref Cy_SAR_DeepSleepCallback parameter type is changed to match with the
+*             \ref cy_stc_syspm_callback_t::callback type</td>
+*     <td>Eliminate compiler warnings</td>
+*   </tr>
+*   <tr>
+*     <td>The \ref Cy_SAR_IsEndConversion timeout is corrected</td>
+*     <td>Fixed incorrect timeout value and related documentation</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="2">2.20</td>
 *     <td>The \ref Cy_SAR_CountsTo_uVolts is updated to avoid 64-bit math</td>
 *     <td>Memory consumption reduction</td>
@@ -466,7 +476,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        20
+#define CY_SAR_DRV_VERSION_MINOR        30
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -949,7 +959,7 @@ __STATIC_INLINE void Cy_SAR_DisableChannels(SAR_Type * base, uint32_t chanMask);
 * This set of functions is for Deep Sleep entry and exit
 * \{
 */
-cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(const cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
+cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
 void Cy_SAR_DeepSleep(SAR_Type * base);
 void Cy_SAR_Wakeup(SAR_Type * base);
 /** \} */

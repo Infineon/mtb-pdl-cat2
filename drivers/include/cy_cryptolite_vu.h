@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_vu.h
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * This file provides common constants and parameters for the Cryptolite Vector 

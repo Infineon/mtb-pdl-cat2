@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file power.cypersonality
+* \version 1.0
+*
+* \brief
+* Power personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8power" name="Power Settings" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="s8srsslt" />
+    <Resource name="srss\.power" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="vddaMv" paramId="vddaMv" />
+    <ExposedMember key="deepsleepWhenIdle" paramId="deepsleepWhenIdle" />
+    <ExposedMember key="AmuxPumpEn" paramId="AmuxPumpEn" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- Documentation -->
+    <ParamDoc id="pdlDoc" name="SysPm API Reference" group="Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__syspm.html" linkText="Open SysPm Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!--Internal-->
+    <ParamBool id="isClkPumpEnabled" name="Is Pump Clock Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].clock[0].pumpclk[0]&quot;)}`" visible="false" editable="false" desc="Pump clock enabling state" />
+
+    <!-- RTOS -->
+    <ParamChoice id="idlePwrMode" name="System Idle Power Mode" group="RTOS" default="CY_CFG_PWR_MODE_DEEPSLEEP" visible="true" editable="true"
+      desc="Selects the lowest power mode the system attempts to enter when there is no active tasks to execute, i.e. the system is in idle state.
+            This option only applies for an RTOS based application.">
+      <Entry name="Active" value="CY_CFG_PWR_MODE_ACTIVE" visible="true" />
+      <Entry name="CPU Sleep" value="CY_CFG_PWR_MODE_SLEEP" visible="true" />
+      <Entry name="System Deep Sleep" value="CY_CFG_PWR_MODE_DEEPSLEEP" visible="true" />
+    </ParamChoice>
+
+    <ParamRange id="deepsleepLatency" name="Deep Sleep Latency (ms)" group="RTOS" default="0" min="0" max="10" resolution="1" visible="true" editable="true"
+      desc="Greater between the time required to enter to and exit from the deep sleep power mode.
+            This option only applies for an RTOS based application." />
+
+    <!-- Operating conditions -->
+    <ParamRange id="vddaMv"    name="VDDA Voltage (mV)"    group="Operating Conditions" default="3300" min="1710" max="5500" resolution="1" visible="true" editable="true" desc="VDDA voltage in millivolts." />
+    <ParamRange id="vdddMv"    name="VDDD Voltage (mV)"    group="Operating Conditions" default="3300" min="1710" max="5500" resolution="1" visible="true" editable="true" desc="VDDD voltage in millivolts." />
+
+    <ParamBool id="deepsleepWhenIdle" name="deepsleepWhenIdle" group="Internal" default="`${idlePwrMode eq CY_CFG_PWR_MODE_DEEPSLEEP}`" visible="false" editable="false" desc="" />
+    <ParamBool id="hasHsiomPump" name="hasHsiomPump" group="Internal" default="`${hasBlock(&quot;ioss[0].hsiom_pump[0]&quot;)}`" visible="false" editable="false" desc="IOSS has HSIOM pump." />
+    <ParamBool id="Vddale4" name="Vddalt4" group="Internal" default="`${vddaMv &lt;= 4000}`" visible="false" editable="false" desc="VDDA less than or equal 4 V." />
+    <ParamBool id="AmuxPumpEn" name="AMUXBUS pump enable" group="Analog System" default="false" visible="`${hasHsiomPump}`" editable="true" desc="Enable the HSIOM AMUXBUS charge pump." />
+  </Parameters>
+
+  <!-- Error checking -->
+  <DRCs>
+    <DRC type="ERROR" text="The input voltage of VDDD is set to `${vdddMv}` which is out of range. The value must be between 1710 and VDDA (`${vddaMv}`)." condition="`${(vdddMv &gt; vddaMv)}`" />
+    <DRC type="INFO" text="The VDDA voltage is not greater than 4 V - it is recommended to enable the AMUXBUS charge pump if the AMUXBUS is used." condition="`${hasHsiomPump &amp;&amp; Vddale4 &amp;&amp; !AmuxPumpEn}`" >
+      <FixIt action="SET_PARAM" target="AmuxPumpEn" value="true" valid="true" />
+    </DRC>
+    <DRC type="INFO" text="The AMUXBUS charge pump should be disabled if VDDA voltage greater than 4 V to avoid AMUXBUS circuits overvoltage." condition="`${hasHsiomPump &amp;&amp; !Vddale4 &amp;&amp; AmuxPumpEn}`" >
+      <FixIt action="SET_PARAM" target="AmuxPumpEn" value="false" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Pump clock (CLK_PUMP) resource must be enabled when the AMUXBUS charge pump is enabled." condition="`${!isClkPumpEnabled &amp;&amp; AmuxPumpEn &amp;&amp; hasHsiomPump}`"  location="srss[0].clock[0].pumpclk[0]">
+        <FixIt action="ENABLE_BLOCK" target="srss[0].clock[0].pumpclk[0]" value="m0s8pumpclk-2.0" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <!-- Generated firmware -->
+  <ConfigFirmware>
+    <ConfigInclude value="cy_syspm.h" include="true" />
+    <ConfigInclude value="cy_gpio.h" include="`${AmuxPumpEn}`" />
+
+    <!-- RTOS -->
+    <ConfigDefine name="CY_CFG_PWR_MODE_ACTIVE"         public="true" value="0x04UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_MODE_SLEEP"          public="true" value="0x08UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_MODE_DEEPSLEEP"      public="true" value="0x10UL" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_SYS_IDLE_MODE"       public="true" value="`${idlePwrMode}`" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_DEEPSLEEP_LATENCY"   public="true" value="`${deepsleepLatency}`UL" include="true" />
+
+    <!-- Operating conditions -->
+    <ConfigDefine name="CY_CFG_PWR_VDDA_MV"    public="true" value="`${vddaMv}`" include="true" />
+    <ConfigDefine name="CY_CFG_PWR_VDDD_MV"    public="true" value="`${vdddMv}`" include="true" />
+
+    <!-- Enable AMUXBUS pump -->
+    <ConfigInstruction value="Cy_GPIO_AmuxPumpEnable();" include="`${AmuxPumpEn &amp;&amp; hasHsiomPump}`" />
+
+  </ConfigFirmware>
+</Personality>

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 2.00
+* \version 2.10
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

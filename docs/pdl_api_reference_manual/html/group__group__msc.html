@@ -87,17 +87,17 @@ $(document).ready(function(){initNavTree('group__group__msc.html','');});
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p>The MSC HW block represents the devices of the fifth CapSense generation. </p>
-<p>It enables multiple sensing capabilities on PSoC devices, including self-cap and mutual-cap capacitive touch-sense solutions.</p>
-<p>The CapSense solution includes:</p><ul>
-<li>The CapSense Configurator tool, which is a configuration wizard to create and configure CapSense widgets. It can be launched in ModusToolbox from the MSC personality as well as in standalone mode. It contains separate documentation on how to create and configure widgets, parameters, and algorithm descriptions.</li>
+<p>The MSC HW block represents the devices of the fifth CAPSENSE&trade; generation. </p>
+<p>It enables multiple sensing capabilities on PSoC&trade; devices, including self-cap and mutual-cap capacitive touch-sense solutions.</p>
+<p>The CAPSENSE&trade; solution includes:</p><ul>
+<li>The CAPSENSE&trade; Configurator tool, which is a configuration wizard to create and configure CAPSENSE&trade; widgets. It can be launched in ModusToolbox&trade; from the MSC personality as well as in standalone mode. It contains separate documentation on how to create and configure widgets, parameters, and algorithm descriptions.</li>
 <li>An API to control the design from the application program. This documentation describes the API with code snippets about how to use them.</li>
-<li>The CapSense Tuner tool for real-time tuning, testing, and debugging, for easy and smooth design of human interfaces on customer products. The Tuner tool communicates with a device through a HW bridge and communication drivers (EzI2C, UART, etc.) and allows monitoring of widget statuses, sensor signals, detected touch positions, gestures, etc. The application program does not need to interact with the MSC driver and/or other drivers such as GPIO or SysClk directly. All of that is configured and managed by the middleware.</li>
+<li>The CAPSENSE&trade; Tuner tool for real-time tuning, testing, and debugging, for easy and smooth design of human interfaces on customer products. The Tuner tool communicates with a device through a HW bridge and communication drivers (EzI2C, UART, etc.) and allows monitoring of widget statuses, sensor signals, detected touch positions, gestures, etc. The application program does not need to interact with the MSC driver and/or other drivers such as GPIO or SysClk directly. All of that is configured and managed by the middleware.</li>
 </ul>
 <div class="image">
 <img src="capsense_solution_msc.png" alt="capsense_solution_msc.png" width="800px"/>
 <div class="caption">
-CapSense Solution</div></div>
+CAPSENSE&trade; Solution</div></div>
  <p>This section describes only the MSC driver. Refer to the corresponding sections for documentation of middleware supported by the MSC HW block.</p>
 <p>The MSC driver is a low-level peripheral driver that provides an interface to a complex mixed signal of the MSC HW block.</p>
 <p>The MSC driver alone does not provide system-level functions. Instead, it is used by upper-level middleware to configure the MSC HW block required by an application.</p>
@@ -121,13 +121,13 @@ Usage</h1>
 <li>The START_SCAN bit of SNS_CTL register should be set in the sensor frame to start the conversion.</li>
 </ol>
 </dd></dl>
-<p>The entire solution, like CapSense, in addition to the MSC HW block, incorporates the following instances:</p>
+<p>The entire solution, like CAPSENSE&trade;, in addition to the MSC HW block, incorporates the following instances:</p>
 <ul>
 <li><a class="el" href="group__group__msc.html#group_msc_config_clocks">Clocks</a></li>
 <li><a class="el" href="group__group__msc.html#group_msc_config_interrupts">Interrupts</a></li>
 <li><a class="el" href="group__group__msc.html#group_msc_config_pin">GPIO Pins</a></li>
 </ul>
-<p>The MSC driver does not configure those blocks and they should be managed by an upper level. When using CapSense, those blocks are managed by the middleware.</p>
+<p>The MSC driver does not configure those blocks and they should be managed by an upper level. When using CAPSENSE&trade;, those blocks are managed by the middleware.</p>
 <h2><a class="anchor" id="group_msc_config_clocks"></a>
 Clocks</h2>
 <p>The MSC HW block requires a peripheral clock (clk_peri) input. It can be assigned using two methods:</p><ul>
@@ -136,12 +136,12 @@ Clocks</h2>
 </ul>
 <h2><a class="anchor" id="group_msc_config_pin"></a>
 GPIO Pins</h2>
-<p>CapSense provides the ability to form a user interface using widgets. Each widget consists of one or more sensors. These sensors are connected to the GPIO pins.</p>
+<p>CAPSENSE&trade; provides the ability to form a user interface using widgets. Each widget consists of one or more sensors. These sensors are connected to the GPIO pins.</p>
 <p>The MSC HW block supports two types of the connection GPIO pin-to-block:</p>
 <ol type="1">
 <li>Through analog buses.</li>
 </ol>
-<p>This is a legacy connection through an analog multiplexed bus (AMUXBUS) available in previous generations of CapSense devices.</p>
+<p>This is a legacy connection through an analog multiplexed bus (AMUXBUS) available in previous generations of CAPSENSE&trade; devices.</p>
 <p>Any analog-capable GPIO pin that can be connected to an analog multiplexed bus (AMUXBUS) can be connected to the MSC HW block as an input / sensor.</p>
 <p>A GPIO input can be assigned to the MSC HW block using the following methods:</p><ul>
 <li>Using the Device Configurator (Pins tab).</li>
@@ -153,16 +153,16 @@ GPIO Pins</h2>
 <ol type="1">
 <li>With a direct pin-to-block wire.</li>
 </ol>
-<p>The enhanced direct HW-wire connection pin-to-MSC HW block is available in the devices of the fifth generation CapSense.</p>
+<p>The enhanced direct HW-wire connection pin-to-MSC HW block is available in the devices of the fifth generation CAPSENSE&trade;.</p>
 <p>Only dedicated pins can be used for such a type of connection. Refer to the device datasheet for the exact pin definition.</p>
 <p>A GPIO input can be assigned to the MSC HW block only by proper configuration of the MSC HW block. If middleware is used, pin configuration is managed by the middleware.</p>
 <p>Under the MSC driver custom implementation, the application program must manage the pin connections.</p><ul>
 <li>Configure a pin to High-Z analog mode without any connection to analog buses.</li>
 <li>Configure the pin connection inside the MSC HW block.</li>
 </ul>
-<p>The advantages of this type of a connection under the CapSense MW usage are the following:</p><ul>
-<li>CapSense MW pre-calculates all needed configurations in advance (during initialization)</li>
-<li>CapSense MW triggers the next scanning by writing to several registers of the MSC HW block (instead of disconnecting a previously scanned sensor and connecting a new sensor). If in your case, the scanning refresh rate is as an important characteristic, use the second connection type.</li>
+<p>The advantages of this type of a connection under the CAPSENSE&trade; MW usage are the following:</p><ul>
+<li>CAPSENSE&trade; MW pre-calculates all needed configurations in advance (during initialization)</li>
+<li>CAPSENSE&trade; MW triggers the next scanning by writing to several registers of the MSC HW block (instead of disconnecting a previously scanned sensor and connecting a new sensor). If in your case, the scanning refresh rate is as an important characteristic, use the second connection type.</li>
 </ul>
 <h2><a class="anchor" id="group_msc_config_interrupts"></a>
 Interrupts</h2>
@@ -172,7 +172,7 @@ Interrupts</h2>
 <li>End of frame: scanning of a whole set of sensors (frame) is complete.</li>
 </ul>
 <p>Additionally, the MSC interrupt can wake the device from the Sleep power mode. The MSC HW block is powered down in the Deep Sleep power mode. So, it cannot be used as a wake-up source in this power mode.</p>
-<p>If a CapSense is used, the interrupt service routine is managed by middleware. When using the MSC driver for custom implementation or other middleware, the application program must manage the interrupt service routine.</p>
+<p>If a CAPSENSE&trade; is used, the interrupt service routine is managed by middleware. When using the MSC driver for custom implementation or other middleware, the application program must manage the interrupt service routine.</p>
 <p>Implement an interrupt routine and assign it to the MSC interrupt. Use the pre-defined enumeration as the interrupt source of the MSC HW block. The MSC interrupt to the NVIC is raised any time the intersection (logic AND) of the interrupt flags and the corresponding interrupt masks are non-zero. The peripheral interrupt status register should be read in the ISR to detect which condition generated the interrupt. The appropriate interrupt registers should be cleared so that subsequent interrupts can be handled.</p>
 <p>The following code snippet demonstrates how to implement a routine to handle the interrupt. The routine is called when a MSC interrupt is triggered.</p>
 <div class="fragment"><div class="line"></div><div class="line">    <span class="keywordtype">void</span> snippet_Cy_MSC_IntHandler(<span class="keywordtype">void</span>)</div><div class="line">    {</div><div class="line">        uint32_t intrStatus;</div><div class="line"></div><div class="line">        <span class="comment">/* Read interrupt status register */</span></div><div class="line">        intrStatus = <a class="code" href="group__group__msc__functions.html#gaa3fd30f4bdda2c15d7a5893f1b7accdf">Cy_MSC_ReadReg</a>(MSC0, <a class="code" href="group__group__msc__reg__const.html#gae48f5040a961aa4f57c29da590a3b5a3">CY_MSC_REG_OFFSET_INTR</a>);</div><div class="line"></div><div class="line">        <span class="comment">/* Check an event that triggered the interrupt */</span></div><div class="line">        <span class="keywordflow">if</span> ((intrStatus &amp; MSC_INTR_SET_SCAN_Msk) == MSC_INTR_SET_SCAN_Msk)</div><div class="line">        {</div><div class="line">            <span class="comment">/* End of scan occurred, get the result and do something with it here */</span></div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="comment">/* Clear pending interrupt */</span></div><div class="line">        <a class="code" href="group__group__msc__functions.html#ga71f834fa6681635cb621565482ddda9c">Cy_MSC_WriteReg</a>(MSC0, <a class="code" href="group__group__msc__reg__const.html#gae48f5040a961aa4f57c29da590a3b5a3">CY_MSC_REG_OFFSET_INTR</a>, intrStatus);</div><div class="line">        (void)<a class="code" href="group__group__msc__functions.html#gaa3fd30f4bdda2c15d7a5893f1b7accdf">Cy_MSC_ReadReg</a>(MSC0, <a class="code" href="group__group__msc__reg__const.html#gae48f5040a961aa4f57c29da590a3b5a3">CY_MSC_REG_OFFSET_INTR</a>);</div><div class="line">    }</div><div class="line">    </div></div><!-- fragment --><p> The following code snippet demonstrates how to configure and enable the MSC interrupt:</p>
@@ -194,29 +194,30 @@ Power Modes</h1>
 <p>Refer to the <a class="el" href="group__group__syspm.html">SysPm (System Power Management)</a> driver for more information about low-power mode transitions.</p>
 <h1><a class="anchor" id="group_msc_more_information"></a>
 More Information</h1>
-<p>Important information about the CapSense-technology overview, appropriate device for the design, CapSense system and sensor design guidelines, different interfaces and tuning guidelines necessary for a successful design of a CapSense system is available in the Getting Started with CapSense document and the product-specific CapSense design guide. It is highly recommended to start with these documents. They can be found at www.cypress.com. For details about application notes, code examples, and kits, see the References section in this datasheet.</p>
+<p>Important information about the CAPSENSE&trade; technology overview, appropriate Infineon device for the design, CAPSENSE&trade; system and sensor design guidelines, different interfaces and tuning guidelines necessary for a successful design of a CAPSENSE&trade; system is available in the Getting Started with CAPSENSE&trade; document and the product-specific CAPSENSE&trade; design guide. Infineon highly recommends starting with these documents. They can be found on the Infineon web site at www.infineon.com</p>
 <p>For more information, refer to the following documents:</p>
 <ul>
-<li>CapSense Overview:<ul>
-<li><a href="https://github.com/Infineon/capsense"><b>CapSense Middleware Library</b></a></li>
-<li><a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html"><b>CapSense Middleware API Reference Guide</b></a></li>
-<li><a href="https://www.cypress.com/ModusToolboxCapSenseConfig"><b>ModusToolbox CapSense Configurator Tool Guide</b></a></li>
-<li><a href="https://www.cypress.com/ModusToolboxCapSenseTuner"><b>ModusToolbox CapSense Tuner Tool Guide</b></a></li>
-<li><a href="https://www.cypress.com/documentation/application-notes/an85951-psoc-4-and-psoc-6-mcu-capsense-design-guide"><b>CapSense Design Guide</b></a></li>
+<li>CAPSENSE&trade; Overview:<ul>
+<li><a href="https://github.com/Infineon/capsense"><b>CAPSENSE&trade; Middleware Library</b></a></li>
+<li><a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html"><b>CAPSENSE&trade; Middleware API Reference Guide</b></a></li>
+<li><a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Configurator_Guide.html"><b>ModusToolbox&trade; CAPSENSE&trade; Configurator Tool Guide</b></a></li>
+<li><a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Tuner_Guide.html"><b>ModusToolbox&trade; CAPSENSE&trade; Tuner Tool Guide</b></a></li>
+<li><a href="https://www.infineon.com/dgdl/Infineon-AN85951_PSoC_4_and_PSoC_6_MCU_CapSense_Design_Guide-ApplicationNotes-v27_00-EN.pdf?fileId=8ac78c8c7cdc391c017d0723535d4661"><b>CAPSENSE&trade; Design Guide</b></a></li>
 </ul>
 </li>
-<li>ModusToolbox Overview:<ul>
-<li><a href="https://www.cypress.com/products/modustoolbox-software-environment"><b>ModusToolbox Software Environment, Quick Start Guide, Documentation, and Videos</b></a></li>
-<li><a href="https://www.cypress.com/ModusToolboxDeviceConfig"><b>ModusToolbox Device Configurator Tool Guide</b></a></li>
+<li>ModusToolbox&trade; Overview:<ul>
+<li><a href="https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software"><b>ModusToolbox&trade; Software Environment, Quick Start Guide, Documentation, and Videos</b></a></li>
+<li><a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_Device_Configurator_Guide.html"><b>ModusToolbox&trade; Device Configurator Tool Guide</b></a></li>
 </ul>
 </li>
 <li>Infineon Kits:<ul>
-<li>Information will be available later. In case of urgency, contact the technical support group.</li>
+<li><a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-041s-max/"><b>CY8CKIT-041S-MAX PSoC&trade; 4100S Max pioneer kit</b></a></li>
 </ul>
 </li>
 <li>General Information:<ul>
-<li><a href="https://github.com/infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html"><b>PDL API Reference</b></a></li>
-<li><a href="https://github.com/Infineon"><b>GitHub</b></a></li>
+<li><a href="https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html"><b>PDL API Reference</b></a></li>
+<li><a href="https://www.infineon.com/dgdl/Infineon-PSoC_4100S_and_PSoC_4100S_Plus_PSoC_4_Architecture_TRM-AdditionalTechnicalInformation-v12_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f9433460188"><b>PSoC&trade; 4100S and PSoC&trade; 4100S Plus: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a></li>
+<li><a href="https://github.com/Infineon"><b>Infineon Technologies GitHub</b></a></li>
 <li><a href="http://www.infineon.com"><b>Infineon Technologies</b></a></li>
 </ul>
 </li>
@@ -228,9 +229,11 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
-<td>1.10.1 </td><td>Update the paths to the code snippets. </td><td>PDL structure update.  </td></tr>
+<td>1.10.2 </td><td>Minor documentation updates </td><td>Documentation improvement  </td></tr>
 <tr>
-<td>1.10 </td><td>Added <a class="el" href="group__group__msc__functions.html#ga0921e6a5b84094b5b7ca967bb0f20c35" title="Acquires and locks the MSC HW block without changing its configuration. ">Cy_MSC_Capture()</a> function </td><td>CapSense memory consumption optimization  </td></tr>
+<td>1.10.1 </td><td>Update the paths to the code snippets </td><td>PDL structure update  </td></tr>
+<tr>
+<td>1.10 </td><td>Added <a class="el" href="group__group__msc__functions.html#ga0921e6a5b84094b5b7ca967bb0f20c35" title="Acquires and locks the MSC HW block without changing its configuration. ">Cy_MSC_Capture()</a> function </td><td>CAPSENSE&trade; memory consumption optimization  </td></tr>
 <tr>
 <td>1.0 </td><td>The initial version </td><td></td></tr>
 </table>

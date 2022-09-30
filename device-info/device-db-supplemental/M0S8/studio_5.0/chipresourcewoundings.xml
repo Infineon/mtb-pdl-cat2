@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Woundings xml_version="1" xmlns="http://cypress.com/xsd/cychipresourcewoundings_v1">
+  <BooleanWounding name="WCO">
+    <Block name="wco"/>
+  </BooleanWounding>
+  <BooleanWounding name="UDB_COUNT">
+    <Block name="udb"/>
+  </BooleanWounding>
+  <BooleanWounding name="UAB_COUNT">
+    <Block name="pass.uab"/>
+  </BooleanWounding>
+  <BooleanWounding name="CAPSENSEADC">
+    <Block name="csd.csd"/>
+  </BooleanWounding>
+  <BooleanWounding name="CAPSENSE">
+    <Block name="csd.capsense"/>
+    <Block name="msc.msc"/>
+    <Block name="msc.msc_superblock"/>
+    <Block name="msclp.msclp"/>
+    <Block name="msclp.msclp_superblock"/>
+  </BooleanWounding>
+  <BooleanWounding name="INDUCTIVE SENSING">
+    <Block name="msclp.isx"/>
+  </BooleanWounding>
+  <BooleanWounding name="DIRDRIVELCD">
+    <Block name="lcd"/>
+  </BooleanWounding>
+  <BooleanWounding name="I2S">
+    <Block name="audioss.i2s"/>
+  </BooleanWounding>
+  <BooleanWounding name="CRYPTO">
+    <Block name="crypto"/>
+  </BooleanWounding>
+  <NaWounding name="USB_TYPE">
+    <Block name="usb"/>
+  </NaWounding>
+  <RemoveListWounding name="COMP_REMOVED">
+    <Block name="csd.comp"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="CAN20B_REMOVED">
+    <Block name="can"/>
+    <Block name="canfd.chan"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="LPCOMP_REMOVED">
+    <Block name="lpcomp.comp"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="SCB_REMOVED">
+    <Block name="scb"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="TIMERCOUNTERPWM_REMOVED">
+    <Block name="tcpwm.cnt"/>
+  </RemoveListWounding>
+  <RemoveListWounding name="USBPD_REMOVED">
+    <Block name="usbpd"/>
+  </RemoveListWounding>
+  <IndexResourceWounding name="OPAMP_REMOVED">
+    <ResourceIndex index="0">
+      <Block name="pass[0].ctb[0].oa[0]" />
+    </ResourceIndex>
+    <ResourceIndex index="1">
+      <Block name="pass[0].ctb[0].oa[1]" />
+    </ResourceIndex>
+    <ResourceIndex index="2">
+      <Block name="pass[0].ctb[1].oa[0]" />
+      <Block name="pass[1].ctb[0].oa[0]" />
+    </ResourceIndex>
+    <ResourceIndex index="3">
+      <Block name="pass[0].ctb[1].oa[1]" />
+      <Block name="pass[1].ctb[0].oa[1]" />
+    </ResourceIndex>
+  </IndexResourceWounding>
+  <IndexResourceWounding name="SAR12_REMOVED">
+    <ResourceIndex index="0">
+      <Block name="pass[0].sar[0]" />
+      <Block name="pass[0].sarmux[0].tempsensor[0]" />
+    </ResourceIndex>
+    <ResourceIndex index="1">
+      <Block name="pass[1].sar[0]" />
+      <Block name="pass[1].sarmux[0].tempsensor[0]" />
+    </ResourceIndex>
+  </IndexResourceWounding>
+  <IndexResourceWounding name="DAC8_REMOVED">
+    <ResourceIndex index="0">
+      <Block name="csd.idac0" />
+    </ResourceIndex>
+    <ResourceIndex index="1">
+      <Block name="csd.idac1" />
+    </ResourceIndex>
+  </IndexResourceWounding>
+</Woundings>

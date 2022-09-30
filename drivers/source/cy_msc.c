@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_msc.c
-* \version 1.10.1
+* \version 1.10.2
 *
 * The source file of the MSC driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

@@ -160,9 +160,6 @@ typedef enum {
 #define CY_IP_M0S8TCPWM                 1u
 #define CY_IP_M0S8TCPWM_INSTANCES       1u
 #define CY_IP_M0S8TCPWM_VERSION         2u
-#define CY_IP_M0S8USBDSS                1u
-#define CY_IP_M0S8USBDSS_INSTANCES      1u
-#define CY_IP_M0S8USBDSS_VERSION        2u
 #define CY_IP_MXUSBPD                   1u
 #define CY_IP_MXUSBPD_INSTANCES         2u
 #define CY_IP_MXUSBPD_VERSION           1u
@@ -171,7 +168,7 @@ typedef enum {
 #include "gpio_pmg1s3_97_bga_cypd8225.h"
 
 #define CY_DEVICE_PMG1S3
-#define CY_DEVICE_SERIES_PMG1S3
+#define CY_DEVICE_SERIES_CCG8
 #define CY_SILICON_ID                   0x358011C5UL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
@@ -308,26 +305,11 @@ typedef enum {
 #define SCB7                                    ((CySCB_Type*) SCB7_BASE)                                         /* 0x40290000 */
 
 /*******************************************************************************
-*                                     CSD
-*******************************************************************************/
-
-#define CSD0_BASE                               0x402A0000UL
-#define CSD0                                    ((CSD_Type*) CSD0_BASE)                                           /* 0x402A0000 */
-
-/*******************************************************************************
 *                                    LPCOMP
 *******************************************************************************/
 
 #define LPCOMP_BASE                             0x402B0000UL
 #define LPCOMP                                  ((LPCOMP_Type*) LPCOMP_BASE)                                      /* 0x402B0000 */
-
-/*******************************************************************************
-*                                    USBFS
-*******************************************************************************/
-
-#define USBFS_BASE                              0x402C0000UL
-#define USBFS                                   ((USBFS_Type*) USBFS_BASE)                                        /* 0x402C0000 */
-#define USBFS_BCD                               ((USBFS_BCD_Type*) &USBFS->BCD)                                   /* 0x402C2000 */
 
 /*******************************************************************************
 *                                  CRYPTOLITE

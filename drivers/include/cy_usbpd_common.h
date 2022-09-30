@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.00
+* \version 2.10
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -130,6 +130,10 @@
 /** Update a single field in a register. It first clears the field and then updates the data. */
 #define CY_USBPD_REG_FIELD_UPDATE(reg,field,value)               \
     ((reg) = (((reg) & ~(field##_MASK)) | ((value) << (field##_POS))))
+    
+/** Update a single field in a register. It first clears the field and then updates the data. */
+#define CY_USBPD_REG_FIELD_UPDATE_MTB(reg,field,value)               \
+    ((reg) = (((reg) & ~(field##_Msk)) | ((value) << (field##_Pos))))
 
 /** Retrieve a specific field from a register. */
 #define CY_USBPD_REG_FIELD_GET(reg,field)                        \
@@ -255,6 +259,14 @@ typedef enum PD_ADC_VREF_T
     CY_USBPD_ADC_VREF_VDDD                    /**< VDDD supply used as ADC reference voltage. */
 } cy_en_usbpd_adc_vref_t;
 
+/** Macro to get APP timer ids for port 0 and port 1*/
+#define CY_USBPD_GET_APP_TIMER_ID(context, id)                                \
+    (uint16_t)(((context)->port != 0u) ? ((uint16_t)(id) + (uint16_t)128u) : (uint16_t)(id))
+
+/** Macro to get PD timer ids for port 0 and port 1*/
+#define CY_USBPD_GET_PD_TIMER_ID(context, id)                                 \
+    (uint16_t)(((context)->port != 0u) ? ((uint16_t)(id) + (uint16_t)CY_USBPD_PD1_TIMERS_START_ID) : (uint16_t)(id))
+
 /** Timer Callback type selection */
 typedef enum
 {
@@ -297,62 +309,65 @@ typedef enum
     CY_USBPD_PD_DATA_RESET_COMP_TIMER,
     /**< 012: Reserved for future use. */
 
-    CY_USBPD_PD_TIMER_RESERVED_13,
-    /**< 013: Reserved for future use. */
-
-    CY_USBPD_PD_TIMERS_END_ID,
-    /**< 014: End index (inclusive) for USB-PD stack timers. */
-
-    CY_USBPD_TYPEC_TIMERS_START_ID = 15u,
-    /**< 015: Start index for Type-C timers. */
-
-    CY_USBPD_TYPEC_GENERIC_TIMER2 = 15u,
-    /**< 015: Generic Type-C state machine timer #2. */
-
-    CY_USBPD_TYPEC_GENERIC_TIMER1,
-    /**< 016: Generic Type-C state machine timer #1. */
-
-    CY_USBPD_TYPEC_CC1_DEBOUNCE_TIMER,
-    /**< 017: Timer used for CC1 debounce. */
-
-    CY_USBPD_TYPEC_CC2_DEBOUNCE_TIMER,
-    /**< 018: Timer used for CC2 debounce. */
-
-    CY_USBPD_TYPEC_RD_DEBOUNCE_TIMER,
-    /**< 019: Timer used for Rd debounce. */
-
-    CY_USBPD_TYPEC_VBUS_DISCHARGE_TIMER,
-    /**< 020: VBus discharge timer id. */
-
-    CY_USBPD_TYPEC_ACTIVITY_TIMER,
-    /**< 021: Type-C activity timer id. */
-
-    CY_USBPD_TYPEC_RP_CHANGE_TIMER,
-    /**< 022: Timer used to trigger current limit update after Rp change. */
-
-    CY_USBPD_TYPEC_TIMER_RESERVED_23,
-    /**< 023: Reserved for future use. */
-
-    CY_USBPD_TYPEC_TIMERS_END_ID,
-    /**< 024: End index (inclusive) for Type-C timers. */
-
-    CY_USBPD_PD_OCP_DEBOUNCE_TIMER,
-    /**< 025: Timer used for FW debounce of VBus OCP. */
-
-    CY_USBPD_HPD_RX_ACTIVITY_TIMER_ID,
-    /**< 026: Timer used for HPD receive handling. */
-
-    CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER,
-    /**< 027: Timer used for FW debounce of VConn OCP. */
-
     CY_USBPD_PD_SNK_EPR_MODE_TIMER,
-    /**< 028: Timer used for Pd Sink EPR Mode. */
+    /**< 013: Timer used for Pd Sink EPR Mode. */
 
     CY_USBPD_PD_SRC_EPR_MODE_TIMER,
-    /**< 029: Timer used for Pd Source EPR Mode. */
+    /**< 014: Timer used for Pd Source EPR Mode. */
 
     CY_USBPD_PD_EPR_KEEPALIVE_TIMER,
-    /**< 030: Timer used by EPR state machine for sending KeepAlive message. */
+    /**< 015: Timer used by EPR state machine for sending KeepAlive message. */
+
+    CY_USBPD_PD_TIMER_RESERVED_16 = 16u,
+    /**< 016: Reserved for future use. */
+
+    CY_USBPD_PD_TIMERS_END_ID = 16u,
+    /**< 016: End index (inclusive) for USB-PD stack timers. */
+
+    CY_USBPD_TYPEC_TIMERS_START_ID = 17u,
+    /**< 017: Start index for Type-C timers. */
+
+    CY_USBPD_TYPEC_GENERIC_TIMER2 = 17u,
+    /**< 017: Generic Type-C state machine timer #2. */
+
+    CY_USBPD_TYPEC_GENERIC_TIMER1,
+    /**< 018: Generic Type-C state machine timer #1. */
+
+    CY_USBPD_TYPEC_CC1_DEBOUNCE_TIMER,
+    /**< 019: Timer used for CC1 debounce. */
+
+    CY_USBPD_TYPEC_CC2_DEBOUNCE_TIMER,
+    /**< 020: Timer used for CC2 debounce. */
+
+    CY_USBPD_TYPEC_RD_DEBOUNCE_TIMER,
+    /**< 021: Timer used for Rd debounce. */
+
+    CY_USBPD_TYPEC_VBUS_DISCHARGE_TIMER,
+    /**< 022: VBus discharge timer id. */
+
+    CY_USBPD_TYPEC_ACTIVITY_TIMER,
+    /**< 023: Type-C activity timer id. */
+
+    CY_USBPD_TYPEC_RP_CHANGE_TIMER,
+    /**< 024: Timer used to trigger current limit update after Rp change. */
+
+    CY_USBPD_TYPEC_TIMER_RESERVED_23,
+    /**< 025: Reserved for future use. */
+
+    CY_USBPD_TYPEC_TIMERS_END_ID,
+    /**< 026: End index (inclusive) for Type-C timers. */
+
+    CY_USBPD_PD_OCP_DEBOUNCE_TIMER,
+    /**< 027: Timer used for FW debounce of VBus OCP. */
+
+    CY_USBPD_HPD_RX_ACTIVITY_TIMER_ID,
+    /**< 028: Timer used for HPD receive handling. */
+
+    CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER,
+    /**< 029: Timer used for FW debounce of VConn OCP. */
+
+    CY_USBPD_PD_TIMER_RESERVED_30,
+    /**< 030: Reserved for future use. */
 
     CY_USBPD_PD_TIMER_RESERVED_31,
     /**< 031: Reserved for future use. */
@@ -396,65 +411,65 @@ typedef enum
     CY_USBPD_PD1_DATA_RESET_COMP_TIMER,
     /**< 044: Reserved for future use. */
 
-    CY_USBPD_PD1_TIMER_RESERVED_43,
-    /**< 045: Reserved for future use. */
-
-    CY_USBPD_PD1_TIMERS_END_ID,
-    /**< 046: End index (inclusive) for USB-PD stack timers. */
-
-    CY_USBPD_TYPEC1_TIMERS_START_ID = 47u,
-    /**< 047: Start index for Type-C timers. */
-
-    CY_USBPD_TYPEC1_GENERIC_TIMER2 = 47u,
-    /**< 047: Generic Type-C state machine timer #2. */
-
-    CY_USBPD_TYPEC1_GENERIC_TIMER1,
-    /**< 048: Generic Type-C state machine timer #1. */
-
-    CY_USBPD_TYPEC1_CC1_DEBOUNCE_TIMER,
-    /**< 049: Timer used for CC1 debounce. */
-
-    CY_USBPD_TYPEC1_CC2_DEBOUNCE_TIMER,
-    /**< 050: Timer used for CC2 debounce. */
-
-    CY_USBPD_TYPEC1_RD_DEBOUNCE_TIMER,
-    /**< 051: Timer used for Rd debounce. */
-
-    CY_USBPD_TYPEC1_VBUS_DISCHARGE_TIMER,
-    /**< 052: VBus discharge timer id. */
-
-    CY_USBPD_TYPEC1_ACTIVITY_TIMER,
-    /**< 053: Type-C activity timer id. */
-
-    CY_USBPD_TYPEC1_RP_CHANGE_TIMER,
-    /**< 054: Timer used to trigger current limit update after Rp change. */
-
-    CY_USBPD_TYPEC1_TIMER_RESERVED_53,
-    /**< 055: Reserved for future use. */
-
-    CY_USBPD_TYPEC1_TIMERS_END_ID,
-    /**< 056: End index (inclusive) for Type-C timers. */
-
-    CY_USBPD_PD1_OCP_DEBOUNCE_TIMER,
-    /**< 057: Timer used for FW debounce of VBus OCP. */
-
-    CY_USBPD_HPD1_RX_ACTIVITY_TIMER_ID,
-    /**< 058: Timer used for HPD receive handling. */
-
-    CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER,
-    /**< 059: Timer used for FW debounce of VConn OCP. */
-
-    CY_USBPD_CCG_ACTIVITY_TIMER_ID,
-    /**< 060: PD Application level activity timer. */
-
     CY_USBPD_PD1_SNK_EPR_MODE_TIMER,
-    /**< 061: Timer used for Pd Sink EPR Mode. */
+    /**< 045: Timer used for Pd Sink EPR Mode. */
 
     CY_USBPD_PD1_SRC_EPR_MODE_TIMER,
-    /**< 062: Timer used for Pd Source EPR Mode. */
+    /**< 046: Timer used for Pd Source EPR Mode. */
 
     CY_USBPD_PD1_EPR_KEEPALIVE_TIMER,
-    /**< 63: Timer used by EPR state machine for sending KeepAlive message. */
+    /**< 047: Timer used by EPR state machine for sending KeepAlive message. */
+
+    CY_USBPD_PD1_TIMER_RESERVED_48 = 48u,
+    /**< 048: Reserved for future use. */
+
+    CY_USBPD_PD1_TIMERS_END_ID = 48u,
+    /**< 048: End index (inclusive) for USB-PD stack timers. */
+
+    CY_USBPD_TYPEC1_TIMERS_START_ID = 49u,
+    /**< 049: Start index for Type-C timers. */
+
+    CY_USBPD_TYPEC1_GENERIC_TIMER2 = 49u,
+    /**< 049: Generic Type-C state machine timer #2. */
+
+    CY_USBPD_TYPEC1_GENERIC_TIMER1,
+    /**< 050: Generic Type-C state machine timer #1. */
+
+    CY_USBPD_TYPEC1_CC1_DEBOUNCE_TIMER,
+    /**< 051: Timer used for CC1 debounce. */
+
+    CY_USBPD_TYPEC1_CC2_DEBOUNCE_TIMER,
+    /**< 052: Timer used for CC2 debounce. */
+
+    CY_USBPD_TYPEC1_RD_DEBOUNCE_TIMER,
+    /**< 053: Timer used for Rd debounce. */
+
+    CY_USBPD_TYPEC1_VBUS_DISCHARGE_TIMER,
+    /**< 054: VBus discharge timer id. */
+
+    CY_USBPD_TYPEC1_ACTIVITY_TIMER,
+    /**< 055: Type-C activity timer id. */
+
+    CY_USBPD_TYPEC1_RP_CHANGE_TIMER,
+    /**< 056: Timer used to trigger current limit update after Rp change. */
+
+    CY_USBPD_TYPEC1_TIMER_RESERVED_53,
+    /**< 057: Reserved for future use. */
+
+    CY_USBPD_TYPEC1_TIMERS_END_ID,
+    /**< 058: End index (inclusive) for Type-C timers. */
+
+    CY_USBPD_PD1_OCP_DEBOUNCE_TIMER,
+    /**< 059: Timer used for FW debounce of VBus OCP. */
+
+    CY_USBPD_HPD1_RX_ACTIVITY_TIMER_ID,
+    /**< 060: Timer used for HPD receive handling. */
+
+    CY_USBPD_PD1_VCONN_OCP_DEBOUNCE_TIMER,
+    /**< 061: Timer used for FW debounce of VConn OCP. */
+
+    CY_USBPD_CCG_ACTIVITY_TIMER_ID,
+    /**< 062: PD Application level activity timer. */
 
     CY_USBPD_APP_TIMERS_START_ID = 64u,
     /**< 064: Start index for Application level timers. */
@@ -578,11 +593,11 @@ typedef enum
     CY_USBPD_APP_PSOURCE_VBUS_SET_TIMER_ID,
     /**< 103: Power source VBUS set timer ID. */
 
-    CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID,
-    /**< 104: Timeout timer to set safe voltage during FET On operation. */
-
     CY_USBPD_APP_PSOURCE_SAFE_FET_ON_MONITOR_TIMER_ID,
-    /**< 105: Timer to monitor voltage during FET On operation. */
+    /**< 104: Timer to monitor voltage during FET On operation. */
+
+    CY_USBPD_APP_PSOURCE_SAFE_FET_ON_TIMER_ID,
+    /**< 105: Timeout timer to set safe voltage during FET On operation. */
 
     CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER,
     /**< 106: Timer for VBUS SLow Discharge */
@@ -648,53 +663,38 @@ typedef enum
     CY_USBPD_APP_VCONN_OCP_TIMER,
     /**< 126: Timer to perform delayed start for VCONN OCP. */
     
-    CY_USBPD_APP_TIMERS_RESERVED_START_ID = 127u,
-    /**< 127: App Reserved Timer Id Start. */
+    CY_USBPD_CCG_LS_SNK_CAP_TIMEOUT_TIMER_ID,
+    /**< 127: PD Timeout Timer for LS Slave. */
+
+    CY_USBPD_APP_GPIO_HPD_TIMER_ID,
+    /**< 128: GPIO based HPD timer. */
+
+    CY_USBPD_APP_TIMERS_RESERVED_START_ID = 129,
+    /**< 129: App Reserved Timer Id Start. */
     
-    CY_USBPD_APP_TIMER_RESERVED_127 = CY_USBPD_APP_TIMERS_RESERVED_START_ID,
-    /**< 127: Timer ID reserved for future use. */
-
-    CY_USBPD_APP_TIMER_RESERVED_128,
-    /**< 128: Timer ID reserved for future use. */
+    CY_USBPD_APP_TIMER_RESERVED_129 = CY_USBPD_APP_TIMERS_RESERVED_START_ID,
+    /**< 129 - 191: Timer ID reserved for future use. */
     
-    CY_USBPD_APP_TIMER_RESERVED_129,
-    /**< 129: Timer ID reserved for future use. */
+    CY_USBPD_APP_PORT1_TIMER_START_ID = 192u,
+    /**< 192: Start of timer IDs reserved for the application layer management of PD port #1. */
 
-    CY_USBPD_APP_TIMER_RESERVED_130,
-    /**< 130: Timer ID reserved for future use. */
+    CY_USBPD_I2C_SLAVE_SCB0_TIMER = 320u,
+    /**< 320: I2C transfer timeout for SCB0. */
 
-    CY_USBPD_APP_TIMER_RESERVED_131,
-    /**< 131: Timer ID reserved for future use. */
+    CY_USBPD_I2C_SLAVE_SCB1_TIMER = 321u,
+    /**< 321: I2C transfer timeout for SCB1. */
 
-    CY_USBPD_APP_TIMER_RESERVED_132,
-    /**< 132: Timer ID reserved for future use. */
+    CY_USBPD_I2C_SLAVE_SCB2_TIMER = 322u,
+    /**< 322: I2C transfer timeout for SCB2. */
 
-    CY_USBPD_APP_TIMER_RESERVED_133,
-    /**< 133: Timer ID reserved for future use. */
+    CY_USBPD_I2C_SLAVE_SCB3_TIMER = 323u,
+    /**< 323: I2C transfer timeout for SCB3. */
+    
+    CY_USBPD_SYS_DEEPSLEEP_TIMER_ID = 324u,
+    /**< 324: Timer reserved for System Deep Sleep. */
 
-    CY_USBPD_APP_TIMER_RESERVED_134,
-    /**< 134: Timer ID reserved for future use. */
-
-    CY_USBPD_APP_TIMER_RESERVED_135,
-    /**< 135: Timer ID reserved for future use. */
-
-    CY_USBPD_APP_PORT1_TIMER_START_ID = 136u,
-    /**< 136: Start of timer IDs reserved for the application layer management of PD port #1. */
-
-    CY_USBPD_I2C_SLAVE_SCB0_TIMER = 208u,
-    /**< 208: I2C transfer timeout for SCB0. */
-
-    CY_USBPD_I2C_SLAVE_SCB1_TIMER = 209u,
-    /**< 209: I2C transfer timeout for SCB1. */
-
-    CY_USBPD_I2C_SLAVE_SCB2_TIMER = 210u,
-    /**< 210: I2C transfer timeout for SCB2. */
-
-    CY_USBPD_I2C_SLAVE_SCB3_TIMER = 211u,
-    /**< 211: I2C transfer timeout for SCB3. */
-
-    CY_USBPD_USER_TIMERS_START_ID = 212u,
-    /**< 212: Start of timer IDs left for generic solution level usage. */
+    CY_USBPD_USER_TIMERS_START_ID = 325u,
+    /**< 325: Start of timer IDs left for generic solution level usage. */
 
     CY_USBPD_MAX_TIMER_ID = 65535u,
 
@@ -1871,8 +1871,17 @@ typedef struct cy_stc_usbpd_context_t_
     /** VDDD regulator current inrush fault detect enable/disable flag */
     volatile bool vregInrushDetEnStatus;
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
 
+    /** Variables used to backup the Ref Gen clock divider values before entering into sleep */
+    uint32_t refgenClkDividerValue;
+    
+      /** Variables used to backup the clock select values before entering into sleep */
+    uint32_t clkSelectValue;
+    
+    /** Variables used to backup the Filter1 clock divider values before entering into sleep */
+    uint32_t filt1ClkDividerValue;
+    
 #if (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE)
     
     /** Structure to hold CDP State Machine related information */
@@ -1973,7 +1982,11 @@ typedef struct cy_stc_usbpd_context_t_
     /** VBAT-GND SCP uses VBUS SCP reference (SEL4) in deep sleep */
     uint32_t bbBat2gndProtCnfgActive;
 #endif /* !PDL_VBAT_GND_SCP_ENABLE */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#if defined(CY_DEVICE_CCG7D) 
+    /** Variables used to backup the BB Soft divider values before entering into sleep */
+    uint32_t bbSoftClkDividerValue;
+#endif /* defined(CY_DEVICE_CCG7D)  */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
 
 } cy_stc_usbpd_context_t;
 

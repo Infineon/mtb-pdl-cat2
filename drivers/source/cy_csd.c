@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_csd.c
-* \version 1.10.1
+* \version 1.10.2
 *
 * The source file of the CSD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -297,8 +297,8 @@ cy_en_csd_status_t Cy_CSD_Configure(
 * Adjusts the provided reference voltage based on factory trimmed
 * SFALSH Vref trim registers.
 *
-* This function is mainly used for VDDA measurement by BIST CapSense module
-* to get the most accurate reference voltage possible.
+* This function is mainly used for VDDA measurement by BIST CAPSENSE&trade; module
+* and CSDADC middleware to get the most accurate reference voltage possible.
 *
 * \param referenceVoltage
 * The reference voltage to trim.

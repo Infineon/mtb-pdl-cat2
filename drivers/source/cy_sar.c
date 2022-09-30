@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.20
+* \version 2.30
 *
 * Provides the functions for the API for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -695,7 +695,7 @@ void Cy_SAR_SetConvertMode(SAR_Type * base, cy_en_sar_sample_ctrl_trigger_mode_t
 * Immediately return the status of the conversion or does not return (blocking)
 * until the conversion completes, depending on the retMode parameter.
 * In blocking mode, there is a time out of about 10 seconds for a CPU speed of
-* 100 MHz.
+* 48 MHz.
 *
 * \param base
 * Pointer to structure describing registers
@@ -725,7 +725,7 @@ cy_en_sar_status_t Cy_SAR_IsEndConversion(SAR_Type * base, cy_en_sar_return_mode
 
     cy_en_sar_status_t result;
 
-    uint32_t wdt = 0x1555555UL; /* Watchdog timer for blocking while loop */
+    uint32_t wdt = 0x2355555UL; /* Watchdog timer for blocking while loop */
     uint32_t mask = ((CY_SAR_RETURN_STATUS_INJ == retMode) || (CY_SAR_WAIT_FOR_RESULT_INJ == retMode)) ? CY_SAR_INTR_INJ_EOC : CY_SAR_INTR_EOS;
     uint32_t intr = mask & Cy_SAR_GetInterruptStatus(base);
 
@@ -1603,7 +1603,7 @@ void Cy_SAR_SetSwitchSarSeqCtrl(SAR_Type * base, uint32_t switchMask, bool ctrl)
 * \snippet sar_snippet.c SNIPPET_SAR_DEEPSLEEP_CALLBACK
 *
 *******************************************************************************/
-cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(const cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
+cy_en_syspm_status_t Cy_SAR_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
 {
     if (CY_SYSPM_BEFORE_TRANSITION == mode)
     { /* Actions that should be done before entering the Deep Sleep mode */

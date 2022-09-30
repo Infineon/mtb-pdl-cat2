@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 2.20
+* \version 3.0
 *
 * Provides an API declaration of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -48,6 +48,16 @@
 * The availability of clock functions depend on the availability of the chip
 * resources that support those functions. Consult the device TRM before
 * attempting to use these functions.
+* 
+* Usually the default clock configuration is IMO (24 MHz) -> ClkHf (24 MHz) -> SysClk (24 MHz)
+*
+* The example of ECO -> HFCLK clock initialization:
+*
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_ECO_CONFIG_MACRO
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_ECO_INIT
+*
+* The example of ECO -> PLL -> HFCLK clock initialization (taking into account the previous code snippet):
+* \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_PLL_INIT
 *
 * Low power modes may limit the maximum clock frequency.
 * Refer to the SysPm driver and the TRM for details.
@@ -58,6 +68,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.0</td>
+*     <td>Removed the legacy deprecated interfaces.</td>
+*     <td>PDL major revision.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">2.20</td>
 *     <td>The implementation of the \ref Cy_SysClk_ClkHfSetSource function is updated.</td>
@@ -454,9 +469,9 @@ extern "C" {
 * \{
 */
 /** Driver major version */
-#define  CY_SYSCLK_DRV_VERSION_MAJOR   2
+#define  CY_SYSCLK_DRV_VERSION_MAJOR   3
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   20
+#define  CY_SYSCLK_DRV_VERSION_MINOR   0
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -802,12 +817,6 @@ typedef enum
                                            *   so the \ref CY_SYSCLK_PLL_BYP_AUTO is preferable;
                                            *   In case of ECO is disabled - this is the only valid PLL bypass option.
                                            */
-/** \cond */
-    CY_SYSCLK_PLL_OUTPUT_AUTO   = 0U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_AUTO instead */
-    CY_SYSCLK_PLL_OUTPUT_AUTO1  = 1U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_AUTO instead */
-    CY_SYSCLK_PLL_OUTPUT_INPUT  = 2U,     /* Deprecated, use CY_SYSCLK_PLL_BYP_ECO instead */
-    CY_SYSCLK_PLL_OUTPUT_OUTPUT = 3U      /* Deprecated, use CY_SYSCLK_PLL_BYP_PLL instead */
-/** \endcond */
 } cy_en_sysclk_pll_bypass_t;
 
 /** \} group_sysclk_pll_enums */
@@ -1627,21 +1636,19 @@ typedef enum
 #if defined (CY_IP_M0S8EXCO)
     CY_SYSCLK_CLKHF_IN_EXCO   = 2U,  /**< EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them */
     /** \cond */
-    CY_SYSCLK_CLKHF_IN_ECO   = 10U,  /* deprecated, use CY_SYSCLK_CLKHF_IN_EXCO and
+    CY_SYSCLK_CLKHF_IN_ECO   = 10U,  /* Deprecated, BWC for HAL 2.0.0 only,
+                                      * use CY_SYSCLK_CLKHF_IN_EXCO and
                                       * Cy_SysClk_PllBypass(CY_SYSCLK_PLL_BYP_ECO)
                                       */
 #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
-    CY_SYSCLK_CLKHF_IN_PLL    = 6U,  /* deprecated, use CY_SYSCLK_CLKHF_IN_EXCO and
+    CY_SYSCLK_CLKHF_IN_PLL    = 6U,  /* Deprecated, BWC for HAL 2.0.0 only,
+                                      * use CY_SYSCLK_CLKHF_IN_EXCO and
                                       * Cy_SysClk_PllBypass() with CY_SYSCLK_PLL_BYP_AUTO or CY_SYSCLK_PLL_BYP_PLL
                                       */
 #endif /* EXCO_PLL_PRESENT */
     /** \endcond */
 #endif /* CY_IP_M0S8EXCO */
 } cy_en_sysclk_clkhf_src_t;
-
-/** \cond BWC macro */
-#define CY_SYSCLK_CLKHF_IN_EXT (CY_SYSCLK_CLKHF_IN_EXTCLK)
-/** \endcond */
 
 /**
 * Clock divider values.
@@ -1839,7 +1846,7 @@ typedef enum
 /** \} group_sysclk_clk_peripheral_enums */
 
 /** \cond */
-#define cy_en_divider_types_t cy_en_sysclk_divider_types_t /* BWC macro for capsense!!! */
+#define cy_en_divider_types_t cy_en_sysclk_divider_types_t /* Deprecated, BWC for HAL 2.0.0 only */
 /** \endcond */
 
 

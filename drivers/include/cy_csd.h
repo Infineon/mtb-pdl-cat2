@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_csd.h
-* \version 1.10.1
+* \version 1.10.2
 *
 * The header file of the CSD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -34,19 +34,19 @@
 ********************************************************************************
 * \{
 *
-* The CSD HW block enables multiple sensing capabilities on PSoC devices,
+* The CSD HW block enables multiple sensing capabilities on PSoC&trade; devices,
 * including self-cap and mutual-cap capacitive touch sensing solutions,
 * a 10-bit ADC, IDAC, and Comparator.
 *
-* The CapSense solution includes:
-* * The CapSense Configurator tool, which is a configuration wizard to create
-*   and configure CapSense widgets. It can be launched in ModusToolbox
+* The CAPSENSE&trade; solution includes:
+* * The CAPSENSE&trade; Configurator tool, which is a configuration wizard to create
+*   and configure CAPSENSE&trade; widgets. It can be launched in ModusToolbox&trade;
 *   from the CSD personality as well as in standalone mode.
 *   It contains separate documentation on how to create and
 *   configure widgets, parameters, and algorithm descriptions.
 * * An API to control the design from the application program. This
 *   documentation describes the API with code snippets about how to use them.
-* * The CapSense Tuner tool for real-time tuning, testing, and debugging,
+* * The CAPSENSE&trade; Tuner tool for real-time tuning, testing, and debugging,
 *   for easy and smooth design of human interfaces on customer products.
 *   The Tuner tool communicates with a device through a HW bridge and
 *   communication drivers (EzI2C, UART, etc.) and allows monitoring of
@@ -55,7 +55,7 @@
 * and/or other drivers such as GPIO or SysClk directly. All of that is
 * configured and managed by middleware.
 *
-* \image html capsense_solution.png "CapSense Solution" width=800px
+* \image html capsense_solution.png "CAPSENSE&trade; Solution" width=800px
 * \image latex capsense_solution.png
 *
 * This section describes only the CSD driver. Refer to the corresponding
@@ -105,7 +105,7 @@
 *
 * \snippet csd_snippet.c snippet_Cy_CSD_Conversion
 *
-* The entire solution, like CapSense, in addition to
+* The entire solution, like CAPSENSE&trade; or CSDADC, in addition to
 * the CSD HW block, incorporates the following instances:
 *
 * * \ref group_csd_config_clocks
@@ -115,7 +115,7 @@
 * * \ref group_csd_config_pin
 *
 * The CSD driver does not configure those blocks and they should be managed by
-* an upper level. When using CapSense, those blocks are managed by
+* an upper level. When using CAPSENSE&trade; or CSDADC, those blocks are managed by
 * middleware.
 *
 ********************************************************************************
@@ -176,12 +176,13 @@
 *
 * * End of sample: when scanning of a single sensor is complete.
 * * End of initialization: when initialization of an analog circuit is complete.
+* * End of measurement: when conversion of an CSDADC channel is complete.
 *
 * Additionally, the CSD interrupt can wake the device from the Sleep power mode.
 * The CSD HW block is powered down in the Deep Sleep power mode.
 * So, it cannot be used as a wake-up source in this power mode.
 *
-* If a CapSense is used, the interrupt service routine is managed
+* If a CAPSENSE&trade; is used, the interrupt service routine is managed
 * by middleware. When using the CSD driver for custom implementation or other
 * middleware, the application program must manage the interrupt service routine.
 *
@@ -245,70 +246,76 @@
 * \section group_csd_more_information More Information
 ********************************************************************************
 *
-* Important information about the CapSense-technology overview, appropriate
-* Infineon device for the design, CapSense system and sensor design guidelines,
+* Important information about the CAPSENSE&trade; technology overview, appropriate
+* Infineon device for the design, CAPSENSE&trade; system and sensor design guidelines,
 * different interfaces and tuning guidelines necessary for a successful design
-* of a CapSense system is available in the Getting Started with CapSense
-* document and the product-specific CapSense design guide. Infineon highly
+* of a CAPSENSE&trade; system is available in the Getting Started with CAPSENSE&trade;
+* document and the product-specific CAPSENSE&trade; design guide. Infineon highly
 * recommends starting with these documents. They can be found on the
-* Infineon web site at www.infineon.com. For details about application notes,
-* code examples, and kits, see the References section in this datasheet.
+* Infineon web site at www.infineon.com
 *
 * For more information, refer to the following documents:
 *
-* * CapSense Overview:
+* * CAPSENSE&trade; Overview:
 *
 *   * <a href="https://github.com/Infineon/capsense">
-*     <b>CapSense Middleware Library</b></a>
+*     <b>CAPSENSE&trade; Middleware Library</b></a>
 *
 *   * <a href="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html">
-*     <b>CapSense Middleware API Reference Guide</b></a>
+*     <b>CAPSENSE&trade; Middleware API Reference Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxCapSenseConfig"><b>ModusToolbox
-*     CapSense Configurator Tool Guide</b></a>
+*   * <a href="https://github.com/Infineon/csdadc">
+*     <b>CSDADC Middleware Library</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxCapSenseTuner"><b>ModusToolbox
-*     CapSense Tuner Tool Guide</b></a>
+*   * <a href="https://infineon.github.io/csdadc/csdadc_api_reference_manual/html/index.html">
+*     <b>CSDADC Middleware API Reference Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/application-notes/an85951-psoc-4-and-psoc-6-mcu-capsense-design-guide">
-*     <b>CapSense Design Guide</b></a>
+*   * <a href="https://github.com/Infineon/csdidac">
+*     <b>CSDIDAC Middleware Library</b></a>
 *
-* * ModusToolbox Overview:
+*   * <a href="https://infineon.github.io/csdidac/csdidac_api_reference_manual/html/index.html">
+*     <b>CSDIDAC Middleware API Reference Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/products/modustoolbox-software-environment">
-*     <b>ModusToolbox Software Environment, Quick Start Guide, Documentation,
-*     and Videos</b></a>
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Configurator_Guide.html">
+*     <b>ModusToolbox&trade; CAPSENSE&trade; Configurator Tool Guide</b></a>
 *
-*   * <a href="https://www.cypress.com/ModusToolboxDeviceConfig"><b>ModusToolbox
-*     Device Configurator Tool Guide</b></a>
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_CapSense_Tuner_Guide.html">
+*     <b>ModusToolbox&trade; CAPSENSE&trade; Tuner Tool Guide</b></a>
+*
+*   * <a href="https://www.infineon.com/dgdl/Infineon-AN85951_PSoC_4_and_PSoC_6_MCU_CapSense_Design_Guide-ApplicationNotes-v27_00-EN.pdf?fileId=8ac78c8c7cdc391c017d0723535d4661">
+*     <b>CAPSENSE&trade; Design Guide</b></a>
+*
+* * ModusToolbox&trade; Overview:
+*
+*   * <a href="https://www.infineon.com/cms/en/design-support/tools/sdk/modustoolbox-software">
+*     <b>ModusToolbox&trade; Software Environment, Quick Start Guide, Documentation, and Videos</b></a>
+*
+*   * <a href="https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_Device_Configurator_Guide.html">
+*     <b>ModusToolbox&trade; Device Configurator Tool Guide</b></a>
 *
 * * Infineon Kits:
 *
-*   * <a href="https://www.cypress.com/documentation/development-kitsboards/cy8ckit-145-40xx-psoc-4000s-capsense-prototyping-kit">
-*     <b>CY8CKIT-145-40XX PSoC 4000S CapSense Prototyping Kit</b></a>
+*   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-145-40xx/">
+*     <b>CY8CKIT-145-40XX PSoC&trade; 4000S CAPSENSE&trade; Prototyping Kit</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/development-kitsboards/cy8ckit-149-psoc-4100s-plus-prototyping-kit">
-*     <b>CY8CKIT-149 PSoC 4100S Plus Prototyping Kit</b></a>
+*   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-149/">
+*     <b>CY8CKIT-149 PSoC&trade; 4100S Plus Prototyping Kit</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/development-kitsboards/cy8ckit-041-psoc-4-s-series-pioneer-kit">
-*     <b>CY8CKIT-041-40XX PSoC 4 S-Series Pioneer Kit</b></a>
-*
-*   * <a href="https://www.cypress.com/documentation/development-kitsboards/cy8ckit-041-41xx-psoc-4100s-capsense-pioneer-kit">
-*     <b>CY8CKIT-041-41XX PSoC 4100S CapSense Pioneer Kit</b></a>
+*   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-041-41xx/">
+*     <b>CY8CKIT-041-41XX PSoC&trade; 4100S CAPSENSE&trade; Pioneer Kit</b></a>
 *
 * * General Information:
 *
-*   * <a href="https://github.com/infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
+*   * <a href="https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html">
 *     <b>PDL API Reference</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/technical-reference-manuals/psoc-4000s-family-psoc-4-architecture-technical-reference">
-*     <b>PSoC 4000S Family: PSoC 4 Architecture Technical Reference Manual (TRM)</b></a>
+*   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4000S_Family_PSoC_4_Architecture_Technical_Reference_Manual_(TRM)-AdditionalTechnicalInformation-v04_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f915c737eb7">
+*     <b>PSoC&trade; 4000S Family: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
-*   * <a href="https://www.cypress.com/documentation/technical-reference-manuals/psoc-4100s-and-psoc-4100s-plus-psoc-4-architecture">
-*     <b>PSoC 4100S and PSoC 4100S Plus: PSoC 4 Architecture Technical Reference Manual (TRM)</b></a>
+*   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4100S_and_PSoC_4100S_Plus_PSoC_4_Architecture_TRM-AdditionalTechnicalInformation-v12_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f9433460188">
+*     <b>PSoC&trade; 4100S and PSoC&trade; 4100S Plus: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
-*   * <a href="https://github.com/Infineon"><b>
-*     Infineon Technologies GitHub</b></a>
+*   * <a href="https://github.com/Infineon"><b>Infineon Technologies GitHub</b></a>
 *
 *   * <a href="http://www.infineon.com"><b>Infineon Technologies</b></a>
 *
@@ -324,14 +331,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10.2</td>
+*     <td>Minor documentation updates</td>
+*     <td>Documentation improvement</td>
+*   </tr>
+*   <tr>
 *     <td>1.10.1</td>
-*     <td>Update the paths to the code snippets.</td>
-*     <td>PDL structure update.</td>
+*     <td>Update the paths to the code snippets</td>
+*     <td>PDL structure update</td>
 *   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Added Cy_CSD_Capture() function</td>
-*     <td>CapSense memory consumption optimization</td>
+*     <td>CAPSENSE&trade; memory consumption optimization</td>
 *   </tr>
 *   <tr>
 *     <td>1.0</td>
@@ -469,13 +481,13 @@ typedef enum
     */
     CY_CSD_USER_DEFINED_KEY = 1U,
 
-    /** The CSD HW block is captured by a CapSense middleware */
+    /** The CSD HW block is captured by a CAPSENSE&trade; middleware */
     CY_CSD_CAPSENSE_KEY = 2U,
 
-    /** The CSD HW block is captured by a ADC middleware */
+    /** The CSD HW block is captured by a CSDADC middleware */
     CY_CSD_ADC_KEY = 3U,
 
-    /** The CSD HW block is captured by a IDAC middleware */
+    /** The CSD HW block is captured by a CSDIDAC middleware */
     CY_CSD_IDAC_KEY = 4U,
 
     /** The CSD HW block is captured by a CMP middleware */

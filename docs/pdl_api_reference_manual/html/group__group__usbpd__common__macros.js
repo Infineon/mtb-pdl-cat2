@@ -18,6 +18,7 @@ var group__group__usbpd__common__macros =
     [ "CCG_FLASH_ROW_SHIFT_NUM", "group__group__usbpd__common__macros.html#gae7d051aa49ca7594efb19d66b01afea0", null ],
     [ "CY_USBPD_REV_BYTE_ORDER", "group__group__usbpd__common__macros.html#ga0d3fde609208448eea254b662583ee50", null ],
     [ "CY_USBPD_REG_FIELD_UPDATE", "group__group__usbpd__common__macros.html#gaacf6d8dd3aa9e81b6777c785112b55f0", null ],
+    [ "CY_USBPD_REG_FIELD_UPDATE_MTB", "group__group__usbpd__common__macros.html#ga4488500d3c424cea813b8a784e6605db", null ],
     [ "CY_USBPD_REG_FIELD_GET", "group__group__usbpd__common__macros.html#ga855840dcebe7635d8f4fbd05f0577018", null ],
     [ "LSCSA_DEF_RSENSE_P0", "group__group__usbpd__common__macros.html#ga5ab0e2071d9c820bca9a547b5a7a3c45", null ],
     [ "LSCSA_DEF_RSENSE_P1", "group__group__usbpd__common__macros.html#gaa1d8dd25bcf93939fa25b13fafd56bdc", null ],
