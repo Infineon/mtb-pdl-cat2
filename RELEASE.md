@@ -39,11 +39,11 @@ All the legacy (non-latest) personality versions are removed.
 
 - [SysLib 3.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
 
-- [CryptoLite 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- [CryptoLite 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
 
-- [USBFS 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+- [USBFS 2.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
 
-- [USBPD (USB Power Delivery) 2.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [USBPD (USB Power Delivery) 2.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 - [SCB 4.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
 
@@ -63,7 +63,7 @@ The compilation error will be reported if the IAR compiler is used with the defa
 
 To compile the project using the IAR compiler with the Eclipse IDE for ModusToolbox™, update the CFLAGS section of the project Makefile with the --diag_warning=Pe167 option (CFLAGS+=--diag_warning=Pe167).  
 To compile the project using the IAR Embedded Workbench IDE, do the following:  
-1.	Right-click the capsense node in the Workspace explorer and select *Options* from the context menu.
+1.	Right-click the CapSense node in the Workspace explorer and select *Options* from the context menu.
 2.	Select the C/C++ Compiler category and switch to the Diagnostics tab.
 3.	Check the Override Inherited Settings CheckBox.
 4.	Update the Treat as Warning EditBox with the Pe167 option.
