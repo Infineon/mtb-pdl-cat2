@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.10
+* \version 2.20
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,23 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="4">2.20</td>
+*     <td>Added support for PMG1B1 device.</td>
+*     <td>New device support.</td>
+*    </tr>
+*    <tr>
+*     <td>Added API to measure Vbus current.</td>
+*     <td>New feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Vsys-Vbus switch issue fixed.</td>
+*     <td>Defect Fix</td>
+*    </tr>
+*    <tr>
+*     <td>Fixed deep sleep reference not enabled during Type-C restart.</td>
+*     <td>Defect Fix</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="1">2.10</td>
 *     <td>CCG7D updates.</td>
@@ -255,7 +272,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       10
+#define CY_USBPD_DRV_VERSION_MINOR                       20
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
@@ -360,6 +377,9 @@ void Cy_USBPD_SetReference(
         bool flag);
 
 void Cy_USBPD_DisableVsysReg(
+        cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_DisableVsysSwitch (
         cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_SwitchVsysToVbus(

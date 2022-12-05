@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cable_5fresistance',['cable_resistance',['../structcy__stc__buck__boost__cfg__t.html#abc1b9250b78f40503ebd54155fa5bb68',1,'cy_stc_buck_boost_cfg_t']]],
   ['cablecompcur',['cableCompCur',['../structcy__stc__cable__comp__cfg__t.html#a7932a0b359e274177b07b309a21ab54a',1,'cy_stc_cable_comp_cfg_t']]],
   ['cablecompdrop',['cableCompDrop',['../structcy__stc__cable__comp__cfg__t.html#a764513f48121cf2536769dbc7d8dedb3',1,'cy_stc_cable_comp_cfg_t']]],
   ['cablecompvbuscurcbk',['cableCompVbusCurCbk',['../structcy__stc__usbpd__context__t.html#af5f3f0963036133cab8232efadf7a2bc',1,'cy_stc_usbpd_context_t']]],
@@ -66,6 +67,8 @@ var searchData=
   ['compintren',['compIntrEn',['../structcy__stc__ctb__opamp__config__t.html#a7fe81d0d7c89bd32a77ca013f7e29f1c',1,'cy_stc_ctb_opamp_config_t']]],
   ['complevel',['compLevel',['../structcy__stc__ctb__opamp__config__t.html#adbe277c38f9ed40d511d1557996e1693',1,'cy_stc_ctb_opamp_config_t']]],
   ['config',['config',['../structcy__stc__csd__config__t.html#a5239f2ac87e2cdb57c61d89457891bbc',1,'cy_stc_csd_config_t']]],
+  ['configurable_5fpower_5foc2',['configurable_power_OC2',['../structcy__stc__auto__cfg__settings__t.html#a079d0823f4c0cfee226b8c7ee60594fb',1,'cy_stc_auto_cfg_settings_t']]],
+  ['configurable_5fpower_5foc3',['configurable_power_OC3',['../structcy__stc__auto__cfg__settings__t.html#a419f9c37357a863e382f4d8e41ab5aad',1,'cy_stc_auto_cfg_settings_t']]],
   ['connect',['connect',['../structcy__stc__pd__dpm__config__t.html#af8327ddd17956fc8a6be36848fbbbe2f',1,'cy_stc_pd_dpm_config_t']]],
   ['conntype',['connType',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___i_d___h_d_r.html#af6df1827c2c1724e776e19bcfa685c2e',1,'cy_pd_pd_do_t::STD_VDM_ID_HDR::connType()'],['../structcy__pd__pd__do__t_1_1_u_f_p___v_d_o__1.html#a8f593f463c0ac694df4f880820aa2bab',1,'cy_pd_pd_do_t::UFP_VDO_1::connType()'],['../structcy__pd__pd__do__t_1_1_d_f_p___v_d_o.html#a815809ab1d5efc91bc52003ae62cee06',1,'cy_pd_pd_do_t::DFP_VDO::connType()']]],
   ['context',['context',['../structcy__stc__syspm__callback__params__t.html#abac771f244791efe23d4964a40bbf8c8',1,'cy_stc_syspm_callback_params_t']]],
@@ -94,6 +97,7 @@ var searchData=
   ['curfb',['curFb',['../structcy__pd__pd__do__t_1_1_p_p_s___s_n_k.html#a63b9e07a725d072ea375e56d4d19309d',1,'cy_pd_pd_do_t::PPS_SNK']]],
   ['curportrole',['curPortRole',['../structcy__stc__pd__dpm__config__t.html#ab8d02ee3c374297d219338018d724fda',1,'cy_stc_pd_dpm_config_t']]],
   ['curporttype',['curPortType',['../structcy__stc__pd__dpm__config__t.html#afbeff47f4b228b4430ce79f164b89f15',1,'cy_stc_pd_dpm_config_t']]],
+  ['current_5fsense_5fres',['current_sense_res',['../structcy__stc__buck__boost__cfg__t.html#a413b08057086a6026844e2c7ae2e8dbf',1,'cy_stc_buck_boost_cfg_t']]],
   ['cy_5ffaultframe',['cy_faultFrame',['../group__group__syslib__macros.html#gaa7dba06c278f198fd2322d855eaaf54a',1,'cy_faultFrame():&#160;cy_syslib.c'],['../group__group__syslib__macros.html#gaa7dba06c278f198fd2322d855eaaf54a',1,'cy_faultFrame():&#160;cy_syslib.c']]],
   ['cy_5fseglcd_5f14segfont',['cy_segLCD_14SegFont',['../group__group__seglcd__globals.html#ga1b57c6dd10d2ece225575a7fa35ca1d3',1,'cy_segLCD_14SegFont():&#160;cy_seglcd.c'],['../group__group__seglcd__globals.html#ga1b57c6dd10d2ece225575a7fa35ca1d3',1,'cy_segLCD_14SegFont():&#160;cy_seglcd.c']]],
   ['cy_5fseglcd_5f16segfont',['cy_segLCD_16SegFont',['../group__group__seglcd__globals.html#ga412c43214259dcc17b24581cfa79094b',1,'cy_segLCD_16SegFont():&#160;cy_seglcd.c'],['../group__group__seglcd__globals.html#ga412c43214259dcc17b24581cfa79094b',1,'cy_segLCD_16SegFont():&#160;cy_seglcd.c']]],

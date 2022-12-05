@@ -22,6 +22,7 @@ var group__group__usbpd__common__macros =
     [ "CY_USBPD_REG_FIELD_GET", "group__group__usbpd__common__macros.html#ga855840dcebe7635d8f4fbd05f0577018", null ],
     [ "LSCSA_DEF_RSENSE_P0", "group__group__usbpd__common__macros.html#ga5ab0e2071d9c820bca9a547b5a7a3c45", null ],
     [ "LSCSA_DEF_RSENSE_P1", "group__group__usbpd__common__macros.html#gaa1d8dd25bcf93939fa25b13fafd56bdc", null ],
+    [ "CY_PD_VSAFE_5V_FRS_SWAP_RX_MARGIN", "group__group__usbpd__common__macros.html#gaf47760cdfa028df7f81cedbd809ba7c5", null ],
     [ "TYPEC_PORT_0_IDX", "group__group__usbpd__common__macros.html#gaef1d10c83d3d7bff03a66c19ded53ab0", null ],
     [ "TYPEC_PORT_1_IDX", "group__group__usbpd__common__macros.html#gafb1ab39fbb01d0fe59a6f5b2f39d538f", null ],
     [ "NO_OF_TYPEC_PORTS", "group__group__usbpd__common__macros.html#ga094fc3ff03903fcd881b09a6c062b10c", null ],

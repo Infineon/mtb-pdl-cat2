@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.10
+* \version 2.20
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
@@ -387,9 +387,9 @@ void Cy_USBPD_VbusIn_DischargeOff(cy_stc_usbpd_context_t *context);
 /** \cond DOXYGEN_HIDE */
 void Cy_USBPD_Vbus_LoadChangeISR_En(cy_stc_usbpd_context_t *context, uint32_t cur, 
                                    uint8_t filter, cy_cb_usbpd_vbus_load_chg_t cbk);
+/** \endcond */
 
 uint16_t Cy_USBPD_Vbus_MeasureCur(cy_stc_usbpd_context_t *context);
-/** \endcond */
 
 void Cy_USBPD_Vbus_NgdoG1Ctrl(cy_stc_usbpd_context_t *context, bool value);
 
@@ -427,6 +427,14 @@ void Cy_USBPD_Fault_VregInrushDetDis(cy_stc_usbpd_context_t *context);
 
 bool Cy_USBPD_Fault_VregInrushStatus(cy_stc_usbpd_context_t *context);
 
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbat_UvpIntrHandler(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vbat_OcpIntrHandler(cy_stc_usbpd_context_t *context);
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+
 void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Fault_Vbus_UvpIntrHandler(cy_stc_usbpd_context_t *context);
@@ -454,6 +462,20 @@ void Cy_USBPD_Fault_Vbus_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 void Cy_USBPD_Fault_Vbus_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl);
 
 void Cy_USBPD_Fault_Vbus_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+void Cy_USBPD_Fault_Vbat_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t threshold, uint8_t filterSel, cy_cb_vbus_fault_t cb, bool pctrl);
+
+void Cy_USBPD_Fault_Vbat_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_Vbat_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t threshold, uint8_t filterSel, cy_cb_vbus_fault_t cb, bool pctrl);
+
+void Cy_USBPD_Fault_Vbat_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+
+void Cy_USBPD_Fault_Vbat_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb);
+
+void Cy_USBPD_Fault_Vbat_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl);
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
 
 void Cy_USBPD_Fault_Vconn_OcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 

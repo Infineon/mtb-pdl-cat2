@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.10
+* \version 2.20
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -108,8 +108,12 @@
 #endif /* PDL_VBUS_UVP_ENABLE */
 
 #ifndef PMG1_HPD_RX_ENABLE
-#define PMG1_HPD_RX_ENABLE               (0u)
+#define PMG1_HPD_RX_ENABLE              (0u)
 #endif /* PMG1_HPD_RX_ENABLE */
+
+#ifndef PMG1B1_USB_CHARGER
+#define PMG1B1_USB_CHARGER              (0u)
+#endif /* PMG1B1_USB_CHARGER */
 
 #ifndef QC_AFC_CHARGING_DISABLED
 #define QC_AFC_CHARGING_DISABLED        (1u)
@@ -120,7 +124,7 @@
 #endif /* QC_SRC_AFC_CHARGING_DISABLED */
 
 #ifndef ENABLE_APPLE_BC12_SUPPORT
-#define ENABLE_APPLE_BC12_SUPPORT      (0u)
+#define ENABLE_APPLE_BC12_SUPPORT       (0u)
 #endif /* ENABLE_APPLE_BC12_SUPPORT */
 
 #ifndef BC_SOURCE_ONLY
@@ -208,7 +212,7 @@
 #endif /* PMG1_V5V_CHANGE_DETECT */
 
 #ifndef CY_PD_CRC_ERR_HANDLING_ENABLE
-#define CY_PD_CRC_ERR_HANDLING_ENABLE      (1u)
+#define CY_PD_CRC_ERR_HANDLING_ENABLE   (1u)
 #endif /* CY_PD_CRC_ERR_HANDLING_ENABLE */
 
 #ifndef CY_PD_BIST_MODE_DISABLE
@@ -363,15 +367,15 @@
 #endif /* CCG_PD_DUALPORT_ENABLE */
 
 #ifndef CCG_TYPE_A_PORT_ENABLE
-#define CCG_TYPE_A_PORT_ENABLE     (0u)
+#define CCG_TYPE_A_PORT_ENABLE                  (0u)
 #endif /* CCG_TYPE_A_PORT_ENABLE */
 
 #ifndef CY_USBPD_CGND_SHIFT_ENABLE
 
 #if defined(CY_DEVICE_CCG7S)
-#define CY_USBPD_CGND_SHIFT_ENABLE    (1u)
+#define CY_USBPD_CGND_SHIFT_ENABLE              (1u)
 #else /* !(defined(CY_DEVICE_CCG7S)) */
-#define CY_USBPD_CGND_SHIFT_ENABLE    (0u)
+#define CY_USBPD_CGND_SHIFT_ENABLE              (0u)
 #endif /* (defined(CY_DEVICE_CCG7S)) */
 
 #endif /* CY_USBPD_CGND_SHIFT_ENABLE */
@@ -387,74 +391,74 @@
 #endif /* BB_PWM_ASYNC_MODE_ENABLE */
 
 #ifndef BB_MODE_PSM_ONLY
-#define BB_MODE_PSM_ONLY (0u)
+#define BB_MODE_PSM_ONLY                        (0u)
 #endif /* BB_MODE_PSM_ONLY */
 
 #ifndef VBTR_MULTI_SLOPE_ENABLE
-#define VBTR_MULTI_SLOPE_ENABLE (0u)
+#define VBTR_MULTI_SLOPE_ENABLE                 (0u)
 #endif /* VBTR_MULTI_SLOPE_ENABLE */
 
 #ifndef VIN_UVP_ENABLE
-#define VIN_UVP_ENABLE (0u)
+#define VIN_UVP_ENABLE                          (0u)
 #endif /* VIN_UVP_ENABLE */
 
 #if VIN_UVP_ENABLE
-#define PDL_VIN_UVP_ENABLE (1u)
+#define PDL_VIN_UVP_ENABLE                      (1u)
 #endif /* VIN_UVP_ENABLE */
 
 #ifndef PDL_VIN_UVP_ENABLE
-#define PDL_VIN_UVP_ENABLE (0u)
+#define PDL_VIN_UVP_ENABLE                      (0u)
 #endif /* PDL_VIN_UVP_ENABLE */
 
 #ifndef VIN_OVP_ENABLE
-#define VIN_OVP_ENABLE (0u)
+#define VIN_OVP_ENABLE                          (0u)
 #endif /* VIN_OVP_ENABLE */
 
 #if VIN_OVP_ENABLE
-#define PDL_VIN_OVP_ENABLE (1u)
+#define PDL_VIN_OVP_ENABLE                      (1u)
 #endif /* VIN_OVP_ENABLE */
 
 #ifndef PDL_VIN_OVP_ENABLE
-#define PDL_VIN_OVP_ENABLE (0u)
+#define PDL_VIN_OVP_ENABLE                      (0u)
 #endif /* PDL_VIN_OVP_ENABLE */
 
 #ifndef VCONN_OCP_ENABLE
-#define VCONN_OCP_ENABLE (0u)
+#define VCONN_OCP_ENABLE                        (0u)
 #endif /* VCONN_OCP_ENABLE */
 
 #if VCONN_OCP_ENABLE
-#define PDL_VCONN_OCP_ENABLE (1u)
+#define PDL_VCONN_OCP_ENABLE                    (1u)
 #endif /* VCONN_OCP_ENABLE */
 
 #ifndef PDL_VCONN_OCP_ENABLE
-#define PDL_VCONN_OCP_ENABLE (0u)
+#define PDL_VCONN_OCP_ENABLE                    (0u)
 #endif /* PDL_VCONN_OCP_ENABLE */
 
 #ifndef VCONN_SCP_ENABLE
-#define VCONN_SCP_ENABLE (0u)
+#define VCONN_SCP_ENABLE                        (0u)
 #endif /* VCONN_SCP_ENABLE */
 
 #if VCONN_SCP_ENABLE
-#define PDL_VCONN_SCP_ENABLE (1u)
+#define PDL_VCONN_SCP_ENABLE                    (1u)
 #endif /* VCONN_SCP_ENABLE */
 
 #ifndef PDL_VCONN_SCP_ENABLE
-#define PDL_VCONN_SCP_ENABLE (0u)
+#define PDL_VCONN_SCP_ENABLE                    (0u)
 #endif /* PDL_VCONN_SCP_ENABLE */
 
 #ifndef CCG_DYN_PFET_GATE_DRV_ENABLE
-#define CCG_DYN_PFET_GATE_DRV_ENABLE (0u)
+#define CCG_DYN_PFET_GATE_DRV_ENABLE            (0u)
 #endif /* CCG_DYN_PFET_GATE_DRV_ENABLE */
 
 #ifndef CCG_DYN_PFET_GATE_DRV_TYP
-#define CCG_DYN_PFET_GATE_DRV_TYP (30u)
+#define CCG_DYN_PFET_GATE_DRV_TYP               (30u)
 #endif /* CCG_DYN_PFET_GATE_DRV_TYP */
 
 #if PDL_VBUS_OCP_ENABLE
 /* Enables to set solution specific max OCP current threshold */
-#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN             (1u)
+#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN         (1u)
 #else
-#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN             (0u)
+#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN         (0u)
 #endif /* PDL_VBUS_OCP_ENABLE */
 
 #if VBUS_DEFINE_SOLN_MAX_CURRENT_EN
@@ -466,33 +470,37 @@
 #endif /* VBUS_DEFINE_SOLN_MAX_CURRENT_EN */
 
 #ifndef QC_PPS_ENABLE
-#define QC_PPS_ENABLE              (0u)
+#define QC_PPS_ENABLE                               (0u)
 #endif /* QC_PPS_ENABLE */
 
 #ifndef CY_USE_CONFIG_TABLE
-#define CY_USE_CONFIG_TABLE              (0u)
+#define CY_USE_CONFIG_TABLE                         (0u)
 #endif /* CY_USE_CONFIG_TABLE */
 
 
 #ifndef CY_PD_EPR_AVS_ENABLE
-#define CY_PD_EPR_AVS_ENABLE            (0u)
+#define CY_PD_EPR_AVS_ENABLE                        (0u)
 #endif /* CY_PD_EPR_AVS_ENABLE */
 
 #ifndef SBU_LEVEL_DETECT_EN
-#define SBU_LEVEL_DETECT_EN            (0u)
+#define SBU_LEVEL_DETECT_EN                         (0u)
 #endif /* SBU_LEVEL_DETECT_EN */
 
 #ifndef HFCLK_CHANGE_OVER_SLEEP
 #if SYS_DEEPSLEEP_ENABLE
-#define HFCLK_CHANGE_OVER_SLEEP          (1u)
+#define HFCLK_CHANGE_OVER_SLEEP                     (1u)
 #else
-#define HFCLK_CHANGE_OVER_SLEEP          (0u)
+#define HFCLK_CHANGE_OVER_SLEEP                     (0u)
 #endif /* SYS_DEEPSLEEP_ENABLE */
 #endif /* HFCLK_CHANGE_OVER_SLEEP */
 
 #ifndef SYSCLK_CHANGE_OVER_SLEEP
-#define SYSCLK_CHANGE_OVER_SLEEP (0u)
+#define SYSCLK_CHANGE_OVER_SLEEP                    (0u)
 #endif /* SYSCLK_CHANGE_OVER_SLEEP */
+
+#ifndef CY_PD_USE_ADC_IN_DS
+#define CY_PD_USE_ADC_IN_DS                         (0u)
+#endif /* CY_PD_USE_ADC_IN_DS */
 
 /*******************************************************************************
  * MACRO Definitions
@@ -845,7 +853,7 @@ typedef union
         uint32_t maxCurrent               : 10;     /**< Maximum current in 100mA units. */
         uint32_t voltage                  : 10;     /**< Voltage in 50mV units. */
         uint32_t pkCurrent                : 2;      /**< Peak current. */
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t rsrvd                    : 1;      /**< Reserved field. */
         uint32_t eprModeCapable           : 1;      /**< EPR mode capable. */
 #else
@@ -925,7 +933,7 @@ typedef union
     {
         uint32_t maxOpCurrent               : 10;   /**< Maximum operating current in 10mA units. */
         uint32_t opCurrent                  : 10;   /**< Operating current in 10mA units. */
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t rsrvd1                     : 2;    /**< Reserved field. */
         uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
 #else
@@ -937,11 +945,12 @@ typedef union
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack flag = 0. */
 #if CY_PD_REV3_ENABLE
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
 #else
-        uint32_t objPos                     : 4;    /**< Object position. */
+        uint32_t objPos                     : 3;    /**< Object position. */
+        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
 #endif /* CY_PD_EPR_ENABLE */
 #else
         uint32_t objPos                     : 3;    /**< Object position. */
@@ -1011,7 +1020,7 @@ typedef union
     {
         uint32_t minMaxPowerCur             : 10;   /**< Min/Max power or current requirement. */
         uint32_t opPowerCur                 : 10;   /**< Operating power or current requirement. */
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t rsrvd1                     : 2;    /**< Reserved field. */
         uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
 #else
@@ -1023,11 +1032,12 @@ typedef union
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack supported flag = 0. */
 #if CY_PD_REV3_ENABLE
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
 #else
-        uint32_t objPos                     : 4;    /**< Object position. */
+        uint32_t objPos                     : 3;    /**< Object position. */
+        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
 #endif /* CY_PD_EPR_ENABLE */
 #else
         uint32_t objPos                     : 3;    /**< Object position. */
@@ -1157,7 +1167,7 @@ typedef union
         uint32_t maxVbusVolt                : 2;    /**< Max. VBus voltage supported. */
         uint32_t cblTerm                    : 2;    /**< Cable termination and VConn power requirement. */
         uint32_t cblLatency                 : 4;    /**< Cable latency. */
-#if (CY_PD_EPR_ENABLE)
+#if CY_PD_EPR_ENABLE
         uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
 #else
         uint32_t typecPlug                  : 1;    /**< Reserved field. */

@@ -327,6 +327,10 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <a class="el" href="group__group__usbpd__common__data__structures.html#gab41e913c356507c5cf554fac83bbc68e">cy_timer_is_running_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#a400672d3389636183951166e440eeaf6">timerIsRunningcbk</a></td></tr>
 <tr class="memdesc:a400672d3389636183951166e440eeaf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for fault timer is running. <br /></td></tr>
 <tr class="separator:a400672d3389636183951166e440eeaf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a737f5b4c477b322cb784fe5357f2e519"><td class="memItemLeft" align="right" valign="top"><a id="a737f5b4c477b322cb784fe5357f2e519"></a>
+<a class="el" href="group__group__usbpd__common__data__structures.html#ga9324a955f5109bb09691f5320eb9968c">cy_timer_get_multiplier_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#a737f5b4c477b322cb784fe5357f2e519">timerGetMultipliercbk</a></td></tr>
+<tr class="memdesc:a737f5b4c477b322cb784fe5357f2e519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for get timer multiplier. <br /></td></tr>
+<tr class="separator:a737f5b4c477b322cb784fe5357f2e519"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa271c08f6b8dc30b949934273b3ec7b9"><td class="memItemLeft" align="right" valign="top"><a id="aa271c08f6b8dc30b949934273b3ec7b9"></a>
 <a class="el" href="group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c">cy_slow_discharge_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#aa271c08f6b8dc30b949934273b3ec7b9">vbusSlowDischargecbk</a></td></tr>
 <tr class="memdesc:aa271c08f6b8dc30b949934273b3ec7b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for vbus slow discharge. <br /></td></tr>
@@ -456,6 +460,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stru
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#aee65cc90037bbcc5bd5d9448a2f53bb4">bbSsPwmDuty</a></td></tr>
 <tr class="memdesc:aee65cc90037bbcc5bd5d9448a2f53bb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable to keep soft start pwm duty. <br /></td></tr>
 <tr class="separator:aee65cc90037bbcc5bd5d9448a2f53bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab58d87aa74b8a7b03e546c476c02ebdf"><td class="memItemLeft" align="right" valign="top"><a id="ab58d87aa74b8a7b03e546c476c02ebdf"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#ab58d87aa74b8a7b03e546c476c02ebdf">pollForVsys</a></td></tr>
+<tr class="memdesc:ab58d87aa74b8a7b03e546c476c02ebdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable polling for VSYS status change. <br /></td></tr>
+<tr class="separator:ab58d87aa74b8a7b03e546c476c02ebdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07a01a1cc2e540a1714905ad3fc43438"><td class="memItemLeft" align="right" valign="top">struct cy_stc_usbpd_context_t_ *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438">altPortUsbPdCtx</a> [<a class="el" href="group__group__usbpd__common__macros.html#ga094fc3ff03903fcd881b09a6c062b10c">NO_OF_TYPEC_PORTS</a>]</td></tr>
+<tr class="memdesc:a07a01a1cc2e540a1714905ad3fc43438"><td class="mdescLeft">&#160;</td><td class="mdescRight">USBPD context pointer for all ports.  <a href="#a07a01a1cc2e540a1714905ad3fc43438">More...</a><br /></td></tr>
+<tr class="separator:a07a01a1cc2e540a1714905ad3fc43438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
 <a id="a78aa853d7fd5f132737e5dd49d067044"></a>
@@ -1017,6 +1028,22 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 
 <p>Buck boost soft start voltage ramp OVP callback function. </p>
 <p>OVP is detected using UVP comparator. </p>
+
+</div>
+</div>
+<a id="a07a01a1cc2e540a1714905ad3fc43438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07a01a1cc2e540a1714905ad3fc43438">&#9670;&nbsp;</a></span>altPortUsbPdCtx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cy_stc_usbpd_context_t_* cy_stc_usbpd_context_t::altPortUsbPdCtx[<a class="el" href="group__group__usbpd__common__macros.html#ga094fc3ff03903fcd881b09a6c062b10c">NO_OF_TYPEC_PORTS</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>USBPD context pointer for all ports. </p>
 
 </div>
 </div>

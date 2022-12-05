@@ -21,6 +21,7 @@ var group__group__usbpd__typec__functions =
     [ "Cy_USBPD_TypeC_SMRestart", "group__group__usbpd__typec__functions.html#gae951155ac2a05f7cb2274c3b9518afb3", null ],
     [ "Cy_USBPD_SetReference", "group__group__usbpd__typec__functions.html#ga7fa285fb27c5d81da6092def2bbc829e", null ],
     [ "Cy_USBPD_DisableVsysReg", "group__group__usbpd__typec__functions.html#ga079c192fb3d82a290cb62dc73d271f45", null ],
+    [ "Cy_USBPD_DisableVsysSwitch", "group__group__usbpd__typec__functions.html#gad80f30fb55abac6dc0422e7a4aea4fe2", null ],
     [ "Cy_USBPD_SwitchVsysToVbus", "group__group__usbpd__typec__functions.html#gaaac492b3d481697c23afb9fb4c27ae3d", null ],
     [ "Cy_USBPD_SwitchVbusToVsys", "group__group__usbpd__typec__functions.html#ga510dcfb3584d7bf984819c698c31fb8b", null ],
     [ "Cy_USBPD_Init", "group__group__usbpd__typec__functions.html#ga9882cd335076678ab7564e92fee29b75", null ],

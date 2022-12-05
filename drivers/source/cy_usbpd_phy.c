@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD Transceiver driver.
 *
@@ -1565,7 +1565,10 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr2 = PDSS_INTR2_EXTENDED_MSG_DET | PDSS_INTR2_CHUNK_DET | PDSS_INTR2_RX_SRAM_OVER_FLOW;
 
             /* Turn off the consumer fet */
-            context->usbpdEventsCbk (context, CY_USBPD_EVT_FRS_SIGNAL_RCVD, NULL);
+            if (NULL != context->usbpdEventsCbk)
+            {
+                context->usbpdEventsCbk (context, CY_USBPD_EVT_FRS_SIGNAL_RCVD, (void *)(context->pdStackContext));
+            }
             dpmConfig->skipScan = true;
 
             if(context->pdPhyCbk != NULL)
@@ -1574,7 +1577,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             }
 
             /* Cannot clear interrupt here as this will cause auto fet turn on to assume no FRS signal */
-            NVIC_ClearPendingIRQ(usbpd_interrupt_IRQn + context->port);
+            NVIC_ClearPendingIRQ(usbpd_0_interrupt_IRQn + context->port);
 
             /* Enable the SWAP_VBUS_LESS_5_DONE interrupt so that we can identify when the power swap is done. */
             pd->intr1_mask |= PDSS_INTR1_VSWAP_VBUS_LESS_5_DONE;
@@ -1593,7 +1596,10 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             Cy_USBPD_TypeC_ChangeRp(context, CY_PD_RP_TERM_RP_CUR_3A);
 
             /* Turn On the sink fet and stop sourcing the power. */
-            context->usbpdEventsCbk (context, CY_USBPD_EVT_FRS_SIGNAL_SENT, NULL);
+            if (NULL != context->usbpdEventsCbk)
+            {
+                context->usbpdEventsCbk (context, CY_USBPD_EVT_FRS_SIGNAL_SENT, NULL);
+            }
 
             if(context->pdPhyCbk != NULL)
             {

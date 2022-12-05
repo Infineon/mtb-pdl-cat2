@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.10
+* \version 2.20
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -145,10 +145,29 @@
 /** Default RSENSE value is 5mOhm. */
 #define LSCSA_DEF_RSENSE_P1        (50u)
 
+/** @cond DOXYGEN_HIDE */
+/* Gain settings */
+#define LSCSA_AV_SEL_150                        (0x1Cu)
+#define LSCSA_AV_SEL_125                        (0x18u)
+#define LSCSA_AV_SEL_35                         (0x03u)
+
+/*
+ * The maximum gain * Vsense value which can be accurately sampled. Above this,
+ * the gain has to be lowered. The ideal value for low current is 125 and for
+ * high current, it is 35. This threshold (in mV) is used to switch between the
+ * gain.
+ */
+#define LSCSA_GAIN_MAX_VALUE                    (1850u)
+
+/** @endcond */
+
 #if PDL_VBAT_GND_SCP_ENABLE
 /** Battery to ground short circuit protection mode */
 #define VBAT_GND_SCP_MODE_INT_AUTOCTRL (2u)
 #endif /* PDL_VBAT_GND_SCP_ENABLE */
+
+/** VSafe5V margin for Fast Role Swap. */
+#define CY_PD_VSAFE_5V_FRS_SWAP_RX_MARGIN         (10)
 
 /** \} group_usbpd_common_macros */
 
@@ -665,15 +684,18 @@ typedef enum
     
     CY_USBPD_CCG_LS_SNK_CAP_TIMEOUT_TIMER_ID,
     /**< 127: PD Timeout Timer for LS Slave. */
-
+    
     CY_USBPD_APP_GPIO_HPD_TIMER_ID,
     /**< 128: GPIO based HPD timer. */
 
-    CY_USBPD_APP_TIMERS_RESERVED_START_ID = 129,
-    /**< 129: App Reserved Timer Id Start. */
+    CY_USBPD_APP_PSOURCE_VBUS_SRC_FET_BYPASS_TIMER_ID,
+    /**< 129: Timer to wait for BB_Enable before performing VBTR transition. */
+
+    CY_USBPD_APP_TIMERS_RESERVED_START_ID = 130,
+    /**< 130: App Reserved Timer Id Start. */
     
-    CY_USBPD_APP_TIMER_RESERVED_129 = CY_USBPD_APP_TIMERS_RESERVED_START_ID,
-    /**< 129 - 191: Timer ID reserved for future use. */
+    CY_USBPD_APP_TIMER_RESERVED_130 = CY_USBPD_APP_TIMERS_RESERVED_START_ID,
+    /**< 130 - 191: Timer ID reserved for future use. */
     
     CY_USBPD_APP_PORT1_TIMER_START_ID = 192u,
     /**< 192: Start of timer IDs reserved for the application layer management of PD port #1. */
@@ -689,11 +711,23 @@ typedef enum
 
     CY_USBPD_I2C_SLAVE_SCB3_TIMER = 323u,
     /**< 323: I2C transfer timeout for SCB3. */
-    
-    CY_USBPD_SYS_DEEPSLEEP_TIMER_ID = 324u,
+
+    CY_USBPD_I2C_SLAVE_SCB4_TIMER = 324u,
+    /**< 324: I2C transfer timeout for SCB4. */
+
+    CY_USBPD_I2C_SLAVE_SCB5_TIMER = 325u,
+    /**< 325: I2C transfer timeout for SCB5. */
+
+    CY_USBPD_I2C_SLAVE_SCB6_TIMER = 326u,
+    /**< 326: I2C transfer timeout for SCB6. */
+
+    CY_USBPD_I2C_SLAVE_SCB7_TIMER = 327u,
+    /**< 327: I2C transfer timeout for SCB7. */
+
+    CY_USBPD_SYS_DEEPSLEEP_TIMER_ID = 328u,
     /**< 324: Timer reserved for System Deep Sleep. */
 
-    CY_USBPD_USER_TIMERS_START_ID = 325u,
+    CY_USBPD_USER_TIMERS_START_ID = 329u,
     /**< 325: Start of timer IDs left for generic solution level usage. */
 
     CY_USBPD_MAX_TIMER_ID = 65535u,
@@ -867,7 +901,8 @@ typedef enum
 /** USBPD Driver Events */
 typedef enum {
     CY_USBPD_EVT_FRS_SIGNAL_RCVD = 0,         /**< FRS Signal Was received. */
-    CY_USBPD_EVT_FRS_SIGNAL_SENT              /**< FRS Signal was sent. */
+    CY_USBPD_EVT_FRS_SIGNAL_SENT,             /**< FRS Signal was sent. */
+    CY_USBPD_EVT_FRS_VBUS_LESS_5_DONE         /**< FRS VBUS is less than vSafe5V. */
 } cy_en_usbpd_events_t;
 
 /** USBPD status codes */
@@ -1165,6 +1200,14 @@ typedef void (*cy_timer_stop_t)(struct cy_stc_usbpd_context_t_ *context, cy_en_u
 typedef bool (*cy_timer_is_running_t)(struct cy_stc_usbpd_context_t_ *context, cy_en_usbpd_timer_id_t id);
 
 /**
+ * @typedef cy_timer_get_multiplier_t
+ * @brief Timer callback function.
+ *
+ * This callback function is invoked to get timer multiplier count.
+ */
+typedef uint16_t (*cy_timer_get_multiplier_t)(struct cy_stc_usbpd_context_t_ *context);
+
+/**
  * @typedef cy_slow_discharge_t
  * @brief vbus_slow_discharge_cbk.
  *
@@ -1303,6 +1346,28 @@ typedef struct
     uint8_t csRes;
 
 } cy_stc_fault_vbus_ocp_cfg_t;
+
+/** Config structure for VBAT OCP parameters */
+typedef struct
+{
+    /** Vbat OCP Mode Selection
+     *  0 - OCP using external hardware
+     *  1 - Internal OCP with neither software debounce nor automatic FET
+     *      control
+     *  2 - Internal OCP with automatic FET control by hardware when an OCP
+     *      event is detected
+     *  3 - Internal OCP with software debounce using delay in milliseconds
+     *      specified by the user */
+    uint8_t mode;
+
+    /** Current threshold percentage (0-100) above the contract current to
+     * trigger fault. */
+    uint8_t threshold;
+
+    /** Fault event debounce period in ms (0-255) */
+    uint8_t debounce;
+
+} cy_stc_fault_vbat_ocp_cfg_t;
 
 /** Config structure for VCONN OCP parameters */
 typedef struct
@@ -1543,6 +1608,12 @@ typedef struct
     uint8_t cc_trim_3a_g2;
     uint8_t cc_trim_4a_g2;
     uint8_t cc_trim_5a_g2;
+#if PMG1B1_USB_CHARGER
+    uint8_t cc_trim_1a_100;
+    uint8_t cc_trim_2a_100;
+    uint8_t cc_trim_1a_110;
+    uint8_t cc_trim_2a_110;
+#endif /* PMG1B1_USB_CHARGER */
 /** \endcond */
 
 /** 20CSA current sense offset in 10uV with gain = 1. This offset shall be treated as 20CSA trim.
@@ -1553,42 +1624,196 @@ typedef struct
     
 } cy_stc_trims_cfg_t;
 
+/**
+ * @brief Struct to hold the sensor throttling settings.
+ */
+typedef struct
+{
+    uint8_t sensor_ctrl;       /**< Bit 7: 0 -> Disabled, 1 -> Enabled; Bit 6-0: I2C address */
+    uint8_t sensor_oc1;        /**< Maximum sensor temperature for the system to function in OC1 (100%) power rating. */
+    uint8_t sensor_oc2;        /**< Maximum sensor temperature for the system to function in OC2 (50%) power rating.
+                                *   To skip this power level, load with the 0x00.
+                                *   To terminate at this level, load with 0xFF.
+                                */
+    uint8_t sensor_oc3;        /**< Maximum sensor temperature for the system to function in OC3 (15W) power rating.
+                                *   To skip this power level, load with the 0x00.
+                                *   To terminate at this level, load with 0xFF.
+                                *   Beyond this threshold, the port shall be shutoff.
+                                */
+
+} sensor_data_t;
+
+/**
+ * @brief Struct to hold the power parameters settings.
+ */
+typedef struct
+{
+    uint8_t fb_type;                            /**< Type of power feedback:
+                                                 *   Bit 0 --> No feedback
+                                                 *   Bit 1 --> PWM
+                                                 *   Bit 2 --> Direct feedback
+                                                 *   Bit 3 --> Opto-isolator based feedback
+                                                 */
+    uint8_t reserved;                           /**< Reserved area for future expansion. */
+    uint16_t vbus_min_volt;                     /**< VBus minimum voltage in mV */
+    uint16_t vbus_max_volt;                     /**< VBus maximum voltage in mV */
+    uint16_t vbus_dflt_volt;                    /**< Default VBus supply voltage when feedback control is tri-stated. */
+    uint16_t cable_resistance;                  /**< Cable resistance in mOhm */
+    uint16_t vbus_offset_volt;                  /**< VBus offset voltage in addition to contracted voltage in mV */
+    uint8_t current_sense_res;                  /**< Available to adjust CSA accuracy on board. Unit of 0.1mOhm min_value = 10  max_value = 100*/
+    uint8_t src_gate_drv_str;                   /**< Vbus source gate drive strength.
+                                                 *   0 -> Slow
+                                                 *   1 -> Normal
+                                                 *   2 -> Fast*/
+    uint16_t vbtr_up_step_width;                /**< Vbtr Upward transition step width in 1us units. For single slope
+                                                 *   design, this shall be used for full voltage range. For dual slope
+                                                 *   design this shall be used only for transitions above 5v. */
+    uint16_t vbtr_down_step_width;              /**< Vbtr Downward transition step width in 1us units For single slope
+                                                 *   design, this shall be used for full voltage range. For dual slope
+                                                 *   design this shall be used only for transitions above 5v. */
+    uint8_t prim_sec_turns_ratio;               /**< Primary to secondary turns ratio rounded to nearest decimal. min_value = 4 max_value = 10 */
+    uint8_t sr_enable;                          /**< Enable/Disable the SR controller */
+    uint8_t sr_rise_time;                       /**< SR gate driver rise time configuration.
+                                                 *   0 -> Slow
+                                                 *   1 -> Normal
+                                                 *   2 -> Fast */
+    uint8_t sr_fall_time;                       /**< SR gate driver fall time configuration
+                                                 *   0 -> Slow
+                                                 *   1 -> Normal
+                                                 *   2 -> Fast */
+    uint8_t sr_async_thresh;                    /**< Secondary width below which GDRV will be gated. Units in number of PASC Clock cycles. */
+    uint8_t sr_supply_doubler;                  /**< Enable/Disable the doubler for gate drive function */
+    uint8_t reserved_1;                         /**< Reserved for future use */
+    uint8_t buck_boost_operating_mode;          /**< Indicates mode of Buck-Boost regulation. */
+    uint8_t pwm_mode;                           /**< Indicates operational mode of power adapter secondary controller */
+    uint8_t pwm_min_freq;                       /**< Minimum allowed switching frequency in QR/QR+FF mode in KHz */
+    uint8_t pwm_max_freq;                       /**< Maximum allowed switching frequency in QR/QR+FF mode in KHz */
+    uint8_t pwm_fix_freq;                       /**< PWM switching frequency in FF mode in KHz */
+    uint8_t max_pwm_duty_cycle;                 /**< Maximum allowed PWM pulse duty cycle */
+    uint8_t min_pwm_duty_cycle;                 /**< Minimum allowed PWM pulse duty cycle */
+    uint8_t pwm_gate_pull_up_drv_strnth_LS1;    /**< adjust gate pull-up drive strength */
+    uint8_t pwm_gate_pull_up_drv_strnth_LS2;    /**< adjust gate pull-up drive strength */
+    uint8_t pwm_gate_pull_up_drv_strnth_HS1;    /**< adjust gate pull-up drive strength */
+    uint8_t pwm_gate_pull_up_drv_strnth_HS2;    /**< adjust gate pull-up drive strength */
+    uint8_t pwm_dithering_type;                 /**< enable / disable the dithering frequency configuration and pwm_dithering_type  */
+    uint8_t pwm_dithering_freq_range;           /**< % of frequency dithering based on the set switching frequency */
+    uint8_t power_inductor_value;               /**< Inductance L required for slope_comp_control calculation */
+    uint8_t peak_current_sense_resistor;        /**< Ri required for slope_comp_control calculation */
+    uint8_t phase_angle_control;                /**< phase angle between ports in degrees */
+    uint8_t peak_current_limit;                 /**< Set the Current limit to shutdown the converter so that inductor shall not saturate */
+    uint8_t max_pwm_duty_cycle_high_line;       /**< Maximum allowed PWM pulse duty cycle for high line condition */
+    uint8_t reserved_2;                         /**< Reserved for future use */
+    uint16_t vbtr_up_step_width_below_5v;       /**< Vbtr Upward transition step width in 1us units for dual slope
+                                                 *   design when VBUS is below 5V */
+    uint16_t vbtr_down_step_width_below_5V;     /**< Vbtr Downward transition step width in 1us units for dual slope
+                                                 *   design when VBUS is below 5V */
+    uint16_t pwm_max_freq_ex;                   /**< Maximum allowed switching frequency in QR/QR+FF mode in KHz, extended
+                                                 *   for more than 254kHz operation. */
+    uint8_t pwm_gate_pull_down_drv_strnth_LS1;  /**< adjust gate pull-down drive strength */
+    uint8_t pwm_gate_pull_down_drv_strnth_LS2;  /**< adjust gate pull-down drive strength */
+    uint8_t pwm_gate_pull_down_drv_strnth_HS1;  /**< adjust gate pull-down drive strength */
+    uint8_t pwm_gate_pull_down_drv_strnth_HS2;  /**< adjust gate pull-down drive strength */
+    uint8_t bbclk_freq;                         /**< Buck boost controller clock frequency in units of MHz */
+    uint8_t pwm_fix_freq_dith;                  /**< Center PWM switching frequency when dithering is enabled */
+    uint8_t pwm_dith_spread_cycles;             /**< Number of BBCLK cycles of spread required to achieve
+                                                 * configured range of frequency spread */
+    uint8_t reserved_3[3];                      /**< Reserved for future use */
+} cy_stc_buck_boost_cfg_t;
+
+/**
+ * @brief Struct to hold the automotive charger settings.
+ */
+typedef struct
+{
+    uint8_t reserved;                 /**< Reserved for ROM issue. */
+    bool policy_manager_enable;      /**< Source policy manager.
+                                      * Source policy manager Enable/Disable
+                                      *  0 -> Disable
+                                      * 1 ->Enable */
+    uint8_t sys_power;                /**< VBUS total system power in Watts. Fractional input in 0.5 Watts increment is acceptable provided the difference between this value and port maximum power is in the range of 7.5 Watts - 9.5 Watts. */
+    uint8_t port_power;               /**< VBUS per port maximum power in Watts */
+    uint8_t configurable_power_OC2;   /**< Maximum Port's Budget OC2 Level either in % or Value  */
+    uint8_t configurable_power_OC3;   /**< Maximum Port's Budget OC3 Level either in % or Value  */
+    bool pps_enable;                  /**< PPS Enable/Disable
+                                        * 0 -> Disable
+                                        * 1 ->Enable */
+    bool unconstrained_power_enable;   /**< Unconstrained Power Enable/Disable
+                                        * 0 -> Disable
+                                        *  1 ->Enable*/
+    uint8_t vin_throttling_ctrl;  /**< Battery voltage throttling control */
+    uint8_t vin_oc1;              /**< Minimum input voltage in 100mV units required for the system to supply OC1 (100%) power rating */
+    uint8_t vin_oc2;              /**< Minimum input voltage in 100mV units required for the system to supply OC2 (50%) power rating.
+                                   *   To skip this power level, load with the 0xFF.
+                                   *   To terminate at this level, load with 0.
+                                   */
+    uint8_t vin_oc3;              /**< Minimum input voltage in 100mV units required for the system to supply OC3 (15W) power rating. To skip this power level, load with the 0xFF. To terminate at this level, load with 0.
+                                   *   Beyond this threshold, the port shall be shutoff.
+                                   */
+    sensor_data_t sensor_data[4]; /**< Temperature throttling information for sensors */
+    uint8_t vin_fault_max_safe_voltage; /**< VIN maximum safe voltage */
+    uint8_t pdo_all_voltage_rail; /**< Enable/Disable all PDO voltage rail availability in SRC_CAP,
+                                   * instead of spec recommended PDO source voltages for the
+                                   * given port power (PDP).
+                                   * PDO list customization option.
+                                   */
+    uint16_t max_current;         /**<  Maximum current that can be sourced in steps of 10 mA units.
+                                   * All PDOs generated through Automotive policy/features are
+                                   * capped with this maximum current limit.
+                                   * PDO list customization option.
+                                   */
+    bool fractional_system_power; /**< Gets set if valid fractional total system power is selected.
+                                      * 0->Selected Total System Power is an integer
+                                      * 1->Selected Total System Power is a fraction. Actual selected system power is 0.5 Watts more than the integer value present in ""sys_pwr"" field.
+                                      * This field is not visible in EZ-PD Config utility GUI and is updated internally by the tool as required.
+                                      */
+    uint8_t reserved_1[3];           /**< Reserved bytes */
+
+} cy_stc_auto_cfg_settings_t;
 
 /** Config structure for USBPD IP configuration */
 typedef struct
 {
     /** Pointer for VBUS OVP config structure */
     const cy_stc_fault_vbus_ovp_cfg_t *vbusOvpConfig;
-    
+
     /** Pointer for VBUS UVP config structure */
     const cy_stc_fault_vbus_uvp_cfg_t *vbusUvpConfig;
-    
+
     /** Pointer for VBUS OCP config structure */
     const cy_stc_fault_vbus_ocp_cfg_t *vbusOcpConfig;
-    
+
     /** Pointer for VCONN OCP config structure */
     const cy_stc_fault_vconn_ocp_cfg_t *vconnOcpConfig;
-    
+
     /** Pointer for VBUS SCP config structure */
     const cy_stc_fault_vbus_scp_cfg_t *vbusScpConfig;
-    
+
     /** Pointer for VBUS RCP config structure */
     const cy_stc_fault_vbus_rcp_cfg_t *vbusRcpConfig;
-    
+
     /** Pointer for CC OVP config structure */
     const cy_stc_fault_cc_ovp_cfg_t *ccOvpConfig;
-    
+
     /** Pointer for SBU OVP config structure */
     const cy_stc_fault_sbu_ovp_cfg_t *sbuOvpConfig;
-    
+
     /** Legacy Charging Configuration. */
     const cy_stc_legacy_charging_cfg_t *legacyChargingConfig;
+
+    /** Buck-Boost Configuration. */
+    cy_stc_buck_boost_cfg_t *buckBoostConfig;
+
+    /** Auto SDK Configuration. */
+    cy_stc_auto_cfg_settings_t *autoConfig;
 
     /** Input under voltage protection configuration */
     cy_stc_fault_vin_uvp_ovp_cfg_t vinUvpConfig;
 
     /** Input over voltage protection configuration */
     cy_stc_fault_vin_uvp_ovp_cfg_t vinOvpConfig;
+
+    /** Pointer for VBAT OCP config structure */
+    const cy_stc_fault_vbat_ocp_cfg_t *vbatOcpConfig;
 
 } cy_stc_usbpd_config_t;
 
@@ -1685,7 +1910,6 @@ typedef struct cy_stc_usbpd_context_t_
     /** HPD event callback. */
     cy_cb_usbpd_hpd_events_t hpdCbk;
 
-
    /**
     * This flag keeps track of HPD Connection status. It is used in HPD CHANGE wakeup
     * interrupt.
@@ -1766,7 +1990,18 @@ typedef struct cy_stc_usbpd_context_t_
     
     /** Callback function for VBUS OCP fault */
     cy_cb_vbus_fault_t vbusOcpCbk;
-    
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+    /** Callback function for VBAT OVP fault */
+    cy_cb_vbus_fault_t vbatOvpCbk;
+
+    /** Callback function for VBAT UVP fault */
+    cy_cb_vbus_fault_t vbatUvpCbk;
+
+    /** Callback function for VBAT OCP fault */
+    cy_cb_vbus_fault_t vbatOcpCbk;
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+
     /** Callback function for CC/SBU OVP fault */
     cy_cb_vbus_fault_t ccSbuOvpCbk;
 
@@ -1817,6 +2052,9 @@ typedef struct cy_stc_usbpd_context_t_
 
     /** Callback function for fault timer is running */
     cy_timer_is_running_t timerIsRunningcbk;
+
+    /** Callback function for get timer multiplier */
+    cy_timer_get_multiplier_t timerGetMultipliercbk;
 
     /** Callback function for vbus slow discharge */
     cy_slow_discharge_t vbusSlowDischargecbk;
@@ -1960,11 +2198,11 @@ typedef struct cy_stc_usbpd_context_t_
     /** Variable to keep soft start pwm duty */
     uint16_t bbSsPwmDuty;
     
-#if CCG_PD_DUALPORT_ENABLE
+#if PMG1_PD_DUALPORT_ENABLE
 
     /** Variable to for number of active ports */
     uint32_t pdssActivePorts;
-#endif /* CCG_PD_DUALPORT_ENABLE */
+#endif /* PMG1_PD_DUALPORT_ENABLE */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
     /** Deep sleep entry register backup. */
@@ -1986,8 +2224,12 @@ typedef struct cy_stc_usbpd_context_t_
     /** Variables used to backup the BB Soft divider values before entering into sleep */
     uint32_t bbSoftClkDividerValue;
 #endif /* defined(CY_DEVICE_CCG7D)  */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+    /** Enable polling for VSYS status change */
+    bool pollForVsys;
 
+    /** USBPD context pointer for all ports. */
+    struct cy_stc_usbpd_context_t_ *altPortUsbPdCtx[NO_OF_TYPEC_PORTS];
 } cy_stc_usbpd_context_t;
 
 

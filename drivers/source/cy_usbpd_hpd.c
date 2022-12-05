@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD Hot-Plug Detect driver.
 *

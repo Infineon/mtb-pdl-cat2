@@ -45,6 +45,7 @@ var group__group__usbpd__vbus__ctrl__functions =
     [ "Cy_USBPD_Vbus_DischargeOff", "group__group__usbpd__vbus__ctrl__functions.html#ga2ff29223d43b496ce03da131646f6b9e", null ],
     [ "Cy_USBPD_VbusIn_DischargeOn", "group__group__usbpd__vbus__ctrl__functions.html#gaa393e80a055ff9e2fc11e616af636693", null ],
     [ "Cy_USBPD_VbusIn_DischargeOff", "group__group__usbpd__vbus__ctrl__functions.html#gaabb39750221440be2906162d9fc545a5", null ],
+    [ "Cy_USBPD_Vbus_MeasureCur", "group__group__usbpd__vbus__ctrl__functions.html#ga3b2b7baa7506508064ff36c80221d0a9", null ],
     [ "Cy_USBPD_Vbus_NgdoG1Ctrl", "group__group__usbpd__vbus__ctrl__functions.html#ga3af07ed897140f4ed46127f7696e2952", null ],
     [ "Cy_USBPD_Vbus_NgdoEqCtrl", "group__group__usbpd__vbus__ctrl__functions.html#ga0a7f56915943d65c1f283bb35afa0738", null ],
     [ "Cy_USBPD_Vbus_HalCleanup", "group__group__usbpd__vbus__ctrl__functions.html#gad81e92da8be48f9b9fc9b1c87f154282", null ],

@@ -913,6 +913,16 @@
     #include "cy8c4149azs_s575.h"
 #elif defined (CY8C4149AZS_S578)
     #include "cy8c4149azs_s578.h"
+#elif defined (CY8C4147AZS_S568)
+    #include "cy8c4147azs_s568.h"
+#elif defined (CY8C4147AZS_S595)
+    #include "cy8c4147azs_s595.h"
+#elif defined (CY8C4148LDA_S553)
+    #include "cy8c4148lda_s553.h"
+#elif defined (CY8C4149LDS_S593)
+    #include "cy8c4149lds_s593.h"
+#elif defined (CY8C4149LDE_S593)
+    #include "cy8c4149lde_s593.h"
 #elif defined (CY8C4724FNI_S402)
     #include "cy8c4724fni_s402.h"
 #elif defined (CY8C4724LQI_S401)
@@ -1015,14 +1025,6 @@
     #include "cypd8225_97bzxit.h"
 #elif defined (CYPD8125_48LDXI)
     #include "cypd8125_48ldxi.h"
-#elif defined (CYPAS213_24SXQ)
-    #include "cypas213_24sxq.h"
-#elif defined (CYPAS211_32LQXQ)
-    #include "cypas211_32lqxq.h"
-#elif defined (CYPAS212_32LQXQ)
-    #include "cypas212_32lqxq.h"
-#elif defined (CYPAS213_32LQXQ)
-    #include "cypas213_32lqxq.h"
 #else
     #error Undefined part number
 #endif

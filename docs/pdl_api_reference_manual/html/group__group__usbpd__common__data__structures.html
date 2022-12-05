@@ -103,6 +103,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__fault__vbus__ocp__cfg__t.html">cy_stc_fault_vbus_ocp_cfg_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config structure for VBUS OCP parameters.  <a href="structcy__stc__fault__vbus__ocp__cfg__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__fault__vbat__ocp__cfg__t.html">cy_stc_fault_vbat_ocp_cfg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config structure for VBAT OCP parameters.  <a href="structcy__stc__fault__vbat__ocp__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__fault__vconn__ocp__cfg__t.html">cy_stc_fault_vconn_ocp_cfg_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config structure for VCONN OCP parameters.  <a href="structcy__stc__fault__vconn__ocp__cfg__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +135,15 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__trims__cfg__t.html">cy_stc_trims_cfg_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for trim variables.  <a href="structcy__stc__trims__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsensor__data__t.html">sensor_data_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold the sensor throttling settings.  <a href="structsensor__data__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__buck__boost__cfg__t.html">cy_stc_buck_boost_cfg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold the power parameters settings.  <a href="structcy__stc__buck__boost__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__auto__cfg__settings__t.html">cy_stc_auto_cfg_settings_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct to hold the automotive charger settings.  <a href="structcy__stc__auto__cfg__settings__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__usbpd__config__t.html">cy_stc_usbpd_config_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config structure for USBPD IP configuration.  <a href="structcy__stc__usbpd__config__t.html#details">More...</a><br /></td></tr>
@@ -348,6 +360,9 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr class="memitem:gab41e913c356507c5cf554fac83bbc68e"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#gab41e913c356507c5cf554fac83bbc68e">cy_timer_is_running_t</a>) (struct cy_stc_usbpd_context_t_ *context, <a class="el" href="group__group__usbpd__common__enums.html#gae21a3e8eee0088f55a06e6fad2b0b7f3">cy_en_usbpd_timer_id_t</a> id)</td></tr>
 <tr class="memdesc:gab41e913c356507c5cf554fac83bbc68e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback function.  <a href="#gab41e913c356507c5cf554fac83bbc68e">More...</a><br /></td></tr>
 <tr class="separator:gab41e913c356507c5cf554fac83bbc68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9324a955f5109bb09691f5320eb9968c"><td class="memItemLeft" align="right" valign="top">typedef uint16_t(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga9324a955f5109bb09691f5320eb9968c">cy_timer_get_multiplier_t</a>) (struct cy_stc_usbpd_context_t_ *context)</td></tr>
+<tr class="memdesc:ga9324a955f5109bb09691f5320eb9968c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback function.  <a href="#ga9324a955f5109bb09691f5320eb9968c">More...</a><br /></td></tr>
+<tr class="separator:ga9324a955f5109bb09691f5320eb9968c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae1b3d79433bd819ea403e392f247229c"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c">cy_slow_discharge_t</a>) (void *pdStackContext)</td></tr>
 <tr class="memdesc:gae1b3d79433bd819ea403e392f247229c"><td class="mdescLeft">&#160;</td><td class="mdescRight">vbus_slow_discharge_cbk.  <a href="#gae1b3d79433bd819ea403e392f247229c">More...</a><br /></td></tr>
 <tr class="separator:gae1b3d79433bd819ea403e392f247229c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -633,6 +648,23 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 <p>Timer callback function. </p>
 <p>This callback function is invoked to check if software timer is running from driver. </p>
+
+</div>
+</div>
+<a id="ga9324a955f5109bb09691f5320eb9968c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9324a955f5109bb09691f5320eb9968c">&#9670;&nbsp;</a></span>cy_timer_get_multiplier_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cy_timer_get_multiplier_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Timer callback function. </p>
+<p>This callback function is invoked to get timer multiplier count. </p>
 
 </div>
 </div>

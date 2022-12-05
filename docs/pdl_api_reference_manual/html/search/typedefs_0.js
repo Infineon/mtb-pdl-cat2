@@ -28,6 +28,7 @@ var searchData=
   ['cy_5fpd_5fcmp_5fcbk_5ft',['cy_pd_cmp_cbk_t',['../group__group__usbpd__common__data__structures.html#ga0983608a262274879abd9c6a85ec161a',1,'cy_usbpd_common.h']]],
   ['cy_5fslow_5fdischarge_5ft',['cy_slow_discharge_t',['../group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c',1,'cy_usbpd_common.h']]],
   ['cy_5ftimer_5fcbk_5ft',['cy_timer_cbk_t',['../group__group__usbpd__common__data__structures.html#ga0602fd17082834541c195042a928626d',1,'cy_usbpd_common.h']]],
+  ['cy_5ftimer_5fget_5fmultiplier_5ft',['cy_timer_get_multiplier_t',['../group__group__usbpd__common__data__structures.html#ga9324a955f5109bb09691f5320eb9968c',1,'cy_usbpd_common.h']]],
   ['cy_5ftimer_5fis_5frunning_5ft',['cy_timer_is_running_t',['../group__group__usbpd__common__data__structures.html#gab41e913c356507c5cf554fac83bbc68e',1,'cy_usbpd_common.h']]],
   ['cy_5ftimer_5fstart_5ft',['cy_timer_start_t',['../group__group__usbpd__common__data__structures.html#ga1b8b9984e7a22ba18a909b3e19dbbf9e',1,'cy_usbpd_common.h']]],
   ['cy_5ftimer_5fstop_5ft',['cy_timer_stop_t',['../group__group__usbpd__common__data__structures.html#ga81f4fc39bdfcd53ab9d746d58ae10d36',1,'cy_usbpd_common.h']]],

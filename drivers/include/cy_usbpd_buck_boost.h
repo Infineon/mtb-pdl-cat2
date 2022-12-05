@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.h
-* \version 2.10
+* \version 2.20
 *
 * Provides API declarations of the USBPD Buck Boost Control driver.
 *
@@ -192,6 +192,9 @@
 #define BB_ENABLE_VOUT_VOLT                 (5000u)
 #endif /* defined(CY_DEVICE_WLC1) */
 
+/* BB overvoltage filter debounce time */
+#define BB_BAT_OVP_DEBOUNCE                 (0x0Au)
+
 /* CC loop trim settings */
 
 /* Trims flag */
@@ -326,6 +329,79 @@
         (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
 #define CC_GAIN40_GM0P6_TRIM_3A_ROOM(port) (*(volatile uint8_t *)((0x0ffff4CDu) + \
         (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#if PMG1B1_USB_CHARGER
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.6mS.Hot. */
+#define CC_GAIN100_GM0P6_TRIM_1A_H(port) (*(volatile uint8_t *)((0x0ffff5CCu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P6_TRIM_2A_H(port) (*(volatile uint8_t *)((0x0ffff5CDu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS */
+#define CC_GAIN110_GM0P6_TRIM_1A_H(port) (*(volatile uint8_t *)((0x0ffff5CEu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P6_TRIM_2A_H(port) (*(volatile uint8_t *)((0x0ffff5CFu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.2mS.Hot. */
+#define CC_GAIN100_GM0P2_TRIM_1A_H(port) (*(volatile uint8_t *)((0x0ffff5D1u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P2_TRIM_2A_H(port) (*(volatile uint8_t *)((0x0ffff5D2u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS.Cold. */
+#define CC_GAIN110_GM0P2_TRIM_1A_H(port) (*(volatile uint8_t *)((0x0ffff5D3u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P2_TRIM_2A_H(port) (*(volatile uint8_t *)((0x0ffff5D4u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.6mS.Cold. */
+#define CC_GAIN100_GM0P6_TRIM_1A_C(port) (*(volatile uint8_t *)((0x0ffff5D7u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P6_TRIM_2A_C(port) (*(volatile uint8_t *)((0x0ffff5D8u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS */
+#define CC_GAIN110_GM0P6_TRIM_1A_C(port) (*(volatile uint8_t *)((0x0ffff5D9u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P6_TRIM_2A_C(port) (*(volatile uint8_t *)((0x0ffff5DAu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.2mS.Cold. */
+#define CC_GAIN100_GM0P2_TRIM_1A_C(port) (*(volatile uint8_t *)((0x0ffff5DCu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P2_TRIM_2A_C(port) (*(volatile uint8_t *)((0x0ffff5DDu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS.Cold. */
+#define CC_GAIN110_GM0P2_TRIM_1A_C(port) (*(volatile uint8_t *)((0x0ffff5DEu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P2_TRIM_2A_C(port) (*(volatile uint8_t *)((0x0ffff5DFu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.6mS */
+#define CC_GAIN100_GM0P6_TRIM_1A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E2u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P6_TRIM_2A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E3u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS */
+#define CC_GAIN110_GM0P6_TRIM_1A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E4u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P6_TRIM_2A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E5u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+/* PMG1B1 silicon. Gain = 100, GM_CC = 0.2mS */
+#define CC_GAIN100_GM0P2_TRIM_1A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E7u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN100_GM0P2_TRIM_2A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E8u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+/* New silicon. Gain = 110, GM_CC = 0.2mS */
+#define CC_GAIN110_GM0P2_TRIM_1A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5E9u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define CC_GAIN110_GM0P2_TRIM_2A_ROOM(port) (*(volatile uint8_t *)((0x0ffff5EAu) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#endif /* PMG1B1_USB_CHARGER */
+
+
+
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)*/
 
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -451,8 +451,15 @@ void Cy_USBPD_Pump_Enable (
     PPDSS_REGS_T pd = context->base;
     if ((pd->pump5v_ctrl & PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN) == 0u)
     {
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+        pd->pump5v_ctrl = PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN;
+        Cy_SysLib_DelayUs (10);
+#else
         pd->pump5v_ctrl = PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN | PDSS_PUMP5V_CTRL_PUMP5V_BYPASS_LV;
         Cy_SysLib_DelayUs (10);
+#endif /* #if defined(CY_DEVICE_SERIES_PMG1B1) */
+
     }
     CY_UNUSED_PARAMETER(index);
 #else /* CY_DEVICE_CCG3PA */
@@ -627,10 +634,28 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
 
     pd = context->base;
 
+#if defined(CY_IP_MXUSBPD)
     /* Power up the block. */
     pd->cc_ctrl_0 &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
 
-#if defined(CY_IP_MXUSBPD)
+#if (!CCG_PD_BLOCK_ALWAYS_ON)
+    /* Turn off PHY deepsleep. References require 100us to stabilize. */
+    pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+
+#if PMG1_PD_DUALPORT_ENABLE
+    if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]) && (context->port == TYPEC_PORT_1_IDX))
+    {
+        /* Deep sleep reference has to be enabled on PD0 block. */
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+    }
+#endif
+
+    /*
+     * Enable deep-sleep current reference outputs.
+     */
+    pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_IGEN_EN;
+    Cy_SysLib_DelayUs(100);
+#endif /* (!CCG_PD_BLOCK_ALWAYS_ON) */
 
     /* Enable PUMP */
     Cy_USBPD_Pump_Enable (context, 0);
@@ -828,9 +853,12 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
 
 #endif /* !(defined(CCG7D) || defined(CCG7S) || defined(WICG1)) */
 
-#if CCG_PD_DUALPORT_ENABLE
-    context->pdssActivePorts |= ((uint32_t)1u << context->port);
-#endif /* CCG_PD_DUALPORT_ENABLE */
+#if PMG1_PD_DUALPORT_ENABLE
+    if(NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX])
+    {
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->pdssActivePorts |= ((uint32_t)1u << context->port);
+    }
+#endif /* PMG1_PD_DUALPORT_ENABLE */
 
 #endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_PMG1S3) */
 
@@ -924,16 +952,22 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
     /* Disable PUMP */
     Cy_USBPD_Pump_Disable (context, 0);
 #if (!CCG_PD_BLOCK_ALWAYS_ON)
-#if (CCG_PD_DUALPORT_ENABLE)
-    if (context->pdssActivePorts == 0u)
+#if (PMG1_PD_DUALPORT_ENABLE)
+    if(NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX])
     {
-        /* Deep sleep reference has to be disabled on PD0 block. */
-        pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+        /* Clearing the PORT enable status bit. */
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->pdssActivePorts &= ~((uint32_t)1u << context->port);
+
+        if (context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->pdssActivePorts == 0u)
+        {
+            /* Deep sleep reference has to be disabled on PD0 block. */
+            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+        }
     }
-    if (TYPEC_PORT_0_IDX != (context->port))
-#endif /* CCG_PD_DUALPORT_ENABLE */
+    if (TYPEC_PORT_0_IDX != context->port)
+#endif /* PMG1_PD_DUALPORT_ENABLE */
     {
-        /* Turn off references. */
+        /* Deep sleep reference has to be disabled on current PD block. */
         pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
     }
 #endif /* !CCG_PD_BLOCK_ALWAYS_ON */
@@ -987,6 +1021,17 @@ void Cy_USBPD_TypeC_RdEnable (
 
     pd = context->base;
 
+    /* Deep sleep reference has to be enabled on PD0 block. */
+    pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+
+#if PMG1_PD_DUALPORT_ENABLE
+    if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]) && (context->port == TYPEC_PORT_1_IDX))
+    {
+        /* Deep sleep reference has to be enabled on PD0 block. */
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+    }
+#endif
+
     /* Power up the block. */
     pd->cc_ctrl_0 &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
     pd->cc_ctrl_0 |= (PDSS_CC_CTRL_0_CMP_EN | PDSS_CC_CTRL_0_RX_EN);
@@ -1037,7 +1082,6 @@ void Cy_USBPD_TypeC_RdEnable (
 * None
 *
 *******************************************************************************/
-#if (!(CY_PD_SOURCE_ONLY))
 void Cy_USBPD_TypeC_SnkUpdateTrim (
         cy_stc_usbpd_context_t *context)
 {
@@ -1091,7 +1135,6 @@ void Cy_USBPD_TypeC_SnkUpdateTrim (
 
 #endif /* defined(CY_IP_M0S8USBPD) */
 }
-#endif /* (!(CY_PD_SOURCE_ONLY)) */
 
 #if defined(CY_DEVICE_CCG3)
 #define SFLASH_PDSS_PORT0_TRIM1_BASE            (0x0FFFF282u)
@@ -1864,7 +1907,10 @@ void Cy_USBPD_SetReference (
          * DS1 register configuration.
          */
         pd->vconn20_ctrl = PDSS_VCONN20_CTRL_DEFAULT;
+#if !defined(CY_DEVICE_SERIES_PMG1B1)
+        /* Exclude disabling the pump in deepsleep mode for PMG1B1 */
         pd->pump5v_ctrl = PDSS_PUMP5V_CTRL_DEFAULT;
+#endif
 
 #if PDL_VREG_BROWN_OUT_DET_ENABLE
         /*
@@ -1890,7 +1936,9 @@ void Cy_USBPD_SetReference (
 #if (!PDL_VREG_INRUSH_DET_ENABLE)
                 pd_temp->bb_40vreg_ctrl = 0x0AD10003;
 #else /* (PDL_VREG_INRUSH_DET_ENABLE) */
+#if (PMG1B1_USB_CHARGER == 0)
                 pd_temp->bb_40vreg_ctrl = 0x0A310003;
+#endif /* PMG1B1_USB_CHARGER == 0 */
 #endif /* (!PDL_VREG_INRUSH_DET_ENABLE) */
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_WLC1)
                 /*
@@ -2001,13 +2049,13 @@ void Cy_USBPD_SetReference (
         pd->bb_40vreg_ctrl = context->vregActive40;
         Cy_SysLib_DelayUs(20);
 
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
+#if (PDL_VREG_BROWN_OUT_DET_ENABLE && (PMG1B1_USB_CHARGER == 0))
         /*
          * Re-enable Vddd brown out detection in firmware as
          * 40vreg is in active mode.
          */
         Cy_USBPD_Fault_BrownOutDetEn(context);
-#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE */
+#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE && PMG1B1_USB_CHARGER == 0 */
 
 #if !PDL_VBAT_GND_SCP_ENABLE
         pd->bb_bat2gnd_prot_cnfg = context->bbBat2gndProtCnfgActive;
@@ -2069,6 +2117,36 @@ void Cy_USBPD_DisableVsysReg (
 }
 
 /*******************************************************************************
+* Function Name: Cy_USBPD_DisableVsysSwitch
+****************************************************************************//**
+*
+* This function disables the VDDD-VSYS Switch.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_DisableVsysSwitch (
+        cy_stc_usbpd_context_t *context)
+{
+    if (context != NULL)
+    {
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+        /*
+         * If system has internal VBUS regulator, external VDDD source shall
+         * be turned off.
+         */
+        PPDSS_REGS_T pd = NULL;
+        pd = context->base;
+        pd->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH);
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+    }
+}
+
+/*******************************************************************************
 * Function Name: Cy_USBPD_IsVsysUp
 ****************************************************************************//**
 * 
@@ -2099,28 +2177,32 @@ bool Cy_USBPD_IsVsysUp (
     pd = context->base;
 
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
-    if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
+    if(context->pollForVsys)
     {
-        /* Enable the VSYS detect comparator. */
-        pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
-        pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
-
-        /* Wait for a maximum of 200 us to allow VSYS detection to be completed. */
-        Cy_SysLib_DelayUs (200);
-
-        /* Disable interrupts while checking for status to prevent race conditions. */
-        state = Cy_SysLib_EnterCriticalSection();
         if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
         {
-            /* VSYS still not detected. Turn off the comparator again. */
-            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
+            /* Enable the VSYS detect comparator. */
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
+
+            /* Wait for a maximum of 200 us to allow VSYS detection to be completed. */
+            Cy_SysLib_DelayUs (200);
+
+            /* Disable interrupts while checking for status to prevent race conditions. */
+            state = Cy_SysLib_EnterCriticalSection();
+            if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
+            {
+                /* VSYS still not detected. Turn off the comparator again. */
+                pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
+            }
+            else
+            {
+                retVal = true;
+            }
+            Cy_SysLib_ExitCriticalSection(state);
         }
-        else
-        {
-            retVal = true;
-        }
-        Cy_SysLib_ExitCriticalSection(state);
     }
+
 #elif defined(CY_DEVICE_CCG3)
     if ((pd->ncell_status & PDSS_NCELL_STATUS_VSYS_STATUS) != 0U)
     {
@@ -2220,7 +2302,7 @@ bool Cy_USBPD_VsysCompStatus (
 void Cy_USBPD_SwitchVsysToVbus (
         cy_stc_usbpd_context_t *context)
 {
-#if defined(CY_DEVICE_CCG6)
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     PPDSS_REGS_T pd = NULL;
 
     if (context != NULL)
@@ -2246,7 +2328,7 @@ void Cy_USBPD_SwitchVsysToVbus (
     }
 #else
     (void)context;
-#endif /* defined(CY_DEVICE_CCG6 */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
 }
 
 /*******************************************************************************
@@ -2265,7 +2347,7 @@ void Cy_USBPD_SwitchVsysToVbus (
 void Cy_USBPD_SwitchVbusToVsys (
         cy_stc_usbpd_context_t *context)
 {
-#if defined(CY_DEVICE_CCG6)
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     PPDSS_REGS_T pd = NULL;
 
     if (context != NULL)
@@ -2289,7 +2371,7 @@ void Cy_USBPD_SwitchVbusToVsys (
     }
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* defined(CY_DEVICE_CCG6) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
 }
 
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
@@ -2387,7 +2469,12 @@ static void Cy_USBPD_CurrentTrimInit(cy_stc_usbpd_context_t *context)
     */
    if(CC_TRIM_ROOM_FLAG((port)) != 0u)
    {
+
+#if CY_USE_CONFIG_TABLE
         if (pd_get_ptr_auto_cfg_tbl(context)->max_current > CY_PD_I_3A)
+#else
+        if (context->usbpdConfig->autoConfig->max_current > CY_PD_I_3A)
+#endif
         {
             context->trimsConfig.cc_trim_1a = CC_GAIN60_GM0P2_TRIM_1A_ROOM((port));
             context->trimsConfig.cc_trim_2a = CC_GAIN60_GM0P2_TRIM_2A_ROOM((port));
@@ -2405,6 +2492,13 @@ static void Cy_USBPD_CurrentTrimInit(cy_stc_usbpd_context_t *context)
             context->trimsConfig.cc_trim_4a_g2 = CC_VREF_VALUE_MAX;
             context->trimsConfig.cc_trim_5a_g2 = CC_VREF_VALUE_MAX; 
         }
+#if PMG1B1_USB_CHARGER
+        context->trimsConfig.cc_trim_1a_100 = CC_GAIN100_GM0P2_TRIM_1A_ROOM((port));
+        context->trimsConfig.cc_trim_2a_100 = CC_GAIN100_GM0P2_TRIM_2A_ROOM((port));
+        context->trimsConfig.cc_trim_1a_110 = CC_GAIN110_GM0P2_TRIM_1A_ROOM((port));
+        context->trimsConfig.cc_trim_2a_110 = CC_GAIN110_GM0P2_TRIM_2A_ROOM((port));
+#endif /* PMG1B1_USB_CHARGER */
+
     }
 #else /* Temporary Offset */
     uint16_t trim_delta;
@@ -2451,7 +2545,11 @@ static void Cy_USBPD_CurrentTrimInit(cy_stc_usbpd_context_t *context)
 #endif /* !FG_PART */
     else
     {
+#if CY_USE_CONFIG_TABLE
         if (pd_get_ptr_auto_cfg_tbl(context)->max_current > CY_PD_I_3A)
+#else
+        if (context->usbpdConfig->autoConfig->max_current > CY_PD_I_3A)
+#endif
         {
             context->trimsConfig.cc_trim_1a = ((CC_GAIN60_GM0P2_TRIM_1A_H((port)) + 
                 CC_GAIN60_GM0P2_TRIM_1A_C((port))) >> 1);
@@ -2478,6 +2576,16 @@ static void Cy_USBPD_CurrentTrimInit(cy_stc_usbpd_context_t *context)
             context->trimsConfig.cc_trim_4a_g2 = CC_VREF_VALUE_MAX;
             context->trimsConfig.cc_trim_5a_g2 = CC_VREF_VALUE_MAX;
         }
+#if PMG1B1_USB_CHARGER
+        context->trimsConfig.cc_trim_1a_100 = ((CC_GAIN100_GM0P2_TRIM_1A_H((port)) +
+            CC_GAIN100_GM0P2_TRIM_1A_C((port))) >> 1);
+        context->trimsConfig.cc_trim_2a_100 = ((CC_GAIN100_GM0P2_TRIM_2A_H((port)) +
+            CC_GAIN100_GM0P2_TRIM_2A_C((port))) >> 1);
+        context->trimsConfig.cc_trim_1a_110 = ((CC_GAIN110_GM0P2_TRIM_1A_H((port)) +
+            CC_GAIN110_GM0P2_TRIM_1A_C((port))) >> 1);
+        context->trimsConfig.cc_trim_2a_110 = ((CC_GAIN110_GM0P2_TRIM_2A_H((port)) +
+            CC_GAIN110_GM0P2_TRIM_2A_C((port))) >> 1);
+#endif /* PMG1B1_USB_CHARGER */
     }
 
     /* 20CSA trim calculation from CC trims */
@@ -2610,7 +2718,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         /* Power up the block. */
         pd->cc_ctrl_0 &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
 
-        /* Turn off PHY deepsleep. References require 100us to stabilize. */
+        /* Turn ON PHY deepsleep. References require 100us to stabilize. */
         pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 
         /*
@@ -2756,6 +2864,8 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 
             /* Enable interrupt for VSYS detection. */
             pd->intr7_mask |= (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+            /* Enable polling for VSYS status change. */
+            context->pollForVsys = true;
         }
 
         /* Enable HF Clk as source for Fault protection filters. */
@@ -2917,7 +3027,11 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
             CY_USBPD_REG_FIELD_UPDATE(pd->bb_ea_0_ctrl, 
                 PDSS_BB_EA_0_CTRL_BB_EA_TRIM_GMBOOSTN_CC, GMBOOSTN_CC_NOBOOST);
 
+#if CY_USE_CONFIG_TABLE
             if (pd_get_ptr_auto_cfg_tbl(context)->max_current > CY_PD_I_3A)
+#else
+            if (context->usbpdConfig->autoConfig->max_current > CY_PD_I_3A)
+#endif
             {
                 CY_USBPD_REG_FIELD_UPDATE(pd->bb_ea_1_ctrl, 
                     PDSS_BB_EA_1_CTRL_BB_EA_TRIM_BOOSTP_CC, GMBOOSTP_CC_3P5X);
@@ -3014,16 +3128,19 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                     PDSS_REFGEN_4_CTRL_SEL12, BB_40VREG_5V_VREF_750_MV);
 
 #if defined(CY_DEVICE_CCG7S)
+#if (PMG1B1_USB_CHARGER == 0)
+                /* Don't disable the secondary regulator for battery charging*/
                 pd->bb_40vregld_ctrl &= ~(PDSS_BB_40VREGLD_CTRL_BB_40VREG_VBUSIN_REG_EN);
+#endif /* (PMG1B1_USB_CHARGER == 0) */
 #endif /* defined(CY_DEVICE_CCG7S) */
 
                 pd->bb_40vreg_ctrl = ((pd->bb_40vreg_ctrl &
                     ~(PDSS_BB_40VREG_CTRL_BB_40VREG_T_VREG_3P3_MASK |
                         PDSS_BB_40VREG_CTRL_BB_40VREG_INRSH_DET_SEL_MASK |
                         PDSS_BB_40VREG_CTRL_BB_40VREG_T_INRSH_CLAMP_ON)) |
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
+#if (PDL_VREG_BROWN_OUT_DET_ENABLE && (PMG1B1_USB_CHARGER == 0))
                         PDSS_BB_40VREG_CTRL_BB_40VREG_EN_VDDD_DET_COMP |
-#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE */
+#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE && PMG1B1_USB_CHARGER == 0 */
 #if ((!PDL_VREG_INRUSH_DET_ENABLE) && (!PDL_VREG_BROWN_OUT_DET_ENABLE))
                         PDSS_BB_40VREG_CTRL_BB_40VREG_T_DIS_INRSH_CLAMP |
 #endif /* ((!PDL_VREG_INRUSH_DET_ENABLE) && (!PDL_VREG_BROWN_OUT_DET_ENABLE)) */
@@ -3035,13 +3152,13 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 /* Wait for VDDD to settle for 5V and enable Brown Out Detect */
                 Cy_SysLib_Delay(1);
 
-#if PDL_VREG_BROWN_OUT_DET_ENABLE
+#if (PDL_VREG_BROWN_OUT_DET_ENABLE && (PMG1B1_USB_CHARGER == 0))
                 Cy_USBPD_Fault_BrownOutDetEn(context);
-#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE */
+#endif /* PDL_VREG_BROWN_OUT_DET_ENABLE && PMG1B1_USB_CHARGER == 0 */
 
-#if PDL_VREG_INRUSH_DET_ENABLE
+#if (PDL_VREG_INRUSH_DET_ENABLE && (PMG1B1_USB_CHARGER == 0))
                 Cy_USBPD_Fault_VregInrushDetEn(context);
-#endif /* PDL_VREG_INRUSH_DET_ENABLE */
+#endif /* PDL_VREG_INRUSH_DET_ENABLE && PMG1B1_USB_CHARGER == 0 */
             }
 
             /*
@@ -3118,6 +3235,8 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #if (PDL_IBTR_ENABLE)
         context->ibtrIdle = true;
 #endif /* PDL_IBTR_ENABLE */
+        /* Enable polling for VSYS status change. */
+        context->pollForVsys = true;
 
         /* Initialize ADCs. */
         status = Cy_USBPD_Adc_Init (context, CY_USBPD_ADC_ID_0);
@@ -3523,6 +3642,9 @@ bool Cy_USBPD_PrepareDeepSleep (
                 ((cc1_edge == CY_USBPD_ADC_INT_RISING) && (cc2_edge == CY_USBPD_ADC_INT_RISING))
           )
         {
+#if (CY_PDUTILS_TIMER_TYPE == CY_PDUTILS_TIMER_TYPE_WDT)
+            uint16_t timerMultiplier = context->timerGetMultipliercbk(context);
+#endif /* CY_PDUTILS_TIMER_TYPE == CY_PDUTILS_TIMER_TYPE_WDT */
             if (context->typecEventsCbk)
             {
                 context->typecEventsCbk (context->pdStackContext, CY_PD_TYPEC_EVT_STOP_FSM);
@@ -3553,11 +3675,11 @@ bool Cy_USBPD_PrepareDeepSleep (
                     PDSS_RP_RD_CFG1_BASE_HIGH_WIDTH_MASK |
                     PDSS_RP_RD_CFG1_CONTINUE_PREV);
 
-#if (TIMER_TYPE == TIMER_TYPE_WDT)
+#if (CY_PDUTILS_TIMER_TYPE == CY_PDUTILS_TIMER_TYPE_WDT)
             /* If WDT timer is being used, we can use a calibrated period setting. */
             pd->rp_rd_cfg1 |= (
-                    ((PDSS_CY_PD_DRP_TOGGLE_PERIOD_MS * timer_get_multiplier()) << PDSS_RP_RD_CFG1_TOGGLE_PERIOD_POS) |
-                    ((PDSS_DRP_HIGH_PERIOD_MS * timer_get_multiplier()) << PDSS_RP_RD_CFG1_BASE_HIGH_WIDTH_POS) |
+                    ((PDSS_CY_PD_DRP_TOGGLE_PERIOD_MS * timerMultiplier) << PDSS_RP_RD_CFG1_TOGGLE_PERIOD_POS) |
+                    ((PDSS_DRP_HIGH_PERIOD_MS * timerMultiplier) << PDSS_RP_RD_CFG1_BASE_HIGH_WIDTH_POS) |
                     PDSS_RP_RD_CFG1_HW_RP_RD_AUTO_TOGGLE |
                     PDSS_RP_RD_CFG1_RESET_COUNT
                     );
@@ -3569,7 +3691,7 @@ bool Cy_USBPD_PrepareDeepSleep (
                     PDSS_RP_RD_CFG1_HW_RP_RD_AUTO_TOGGLE |
                     PDSS_RP_RD_CFG1_RESET_COUNT
                     );
-#endif /* TIMER_TYPE */
+#endif /* CY_PDUTILS_TIMER_TYPE */
 
             while(pd->rp_rd_cfg1 & PDSS_RP_RD_CFG1_RESET_COUNT);
 
@@ -3682,7 +3804,7 @@ bool Cy_USBPD_Resume(
     pd->intr1_mask &= ~mask;
     pd->intr1       = mask;
 
-#if (!(CY_PD_SOURCE_ONLY))
+#if ((!(CY_PD_SOURCE_ONLY)) && (!(CY_PD_USE_ADC_IN_DS))) 
     if ((dpmConfig->connect == true) && (dpmConfig->curPortRole == CY_PD_PRT_ROLE_SINK))
     {
 #if CY_PD_REV3_ENABLE
@@ -3703,7 +3825,7 @@ bool Cy_USBPD_Resume(
     {
 
     }
-#endif /* (!(CY_PD_SOURCE_ONLY)) */
+#endif /* ((!(CY_PD_SOURCE_ONLY)) && (!(CY_PD_USE_ADC_IN_DS))) */
     else if(dpmConfig->connect == false)
     {
 #if ((!(CY_PD_SOURCE_ONLY)) && (!CY_PD_SINK_ONLY))
@@ -3717,7 +3839,7 @@ bool Cy_USBPD_Resume(
                     /*
                        Auto toggle is active and attach has not been detected. Do nothing.
                      */
-                    return;
+                    return true;
                 }
 
                 /* Type-C restart will be done below if required. */
@@ -3731,14 +3853,14 @@ bool Cy_USBPD_Resume(
                 {
                     if (pd->status & PDSS_STATUS_RP_RD_STATUS)
                     {
-                        Cy_USBPD_TypeC_EnableRp(port, CY_PD_CC_CHANNEL_1, (cy_en_pd_rp_term_t)dpmConfig->srcCurLevelLive);
-                        Cy_USBPD_TypeC_EnableRp(port, CY_PD_CC_CHANNEL_2, (cy_en_pd_rp_term_t)dpmConfig->srcCurLevelLive);
+                        Cy_USBPD_TypeC_EnableRp(context, CY_PD_CC_CHANNEL_1, (cy_en_pd_rp_term_t)dpmConfig->srcCurLevelLive);
+                        Cy_USBPD_TypeC_EnableRp(context, CY_PD_CC_CHANNEL_2, (cy_en_pd_rp_term_t)dpmConfig->srcCurLevelLive);
 
                         /* Disable the deep sleep Rp. */
                         pd->cc_ctrl_1 &= ~PDSS_CC_CTRL_1_DS_ATTACH_DET_EN;
 
                         dpmConfig->curPortRole = CY_PD_PRT_ROLE_SOURCE;
-                        dpmConfig->curPortType = PRT_TYPE_DFP;
+                        dpmConfig->curPortType = CY_PD_PRT_TYPE_DFP;
                         if (context->typecEventsCbk)
                         {
                             context->typecEventsCbk(context->pdStackContext, CY_PD_TYPEC_EVT_UNATTACHED_SRC);
@@ -3750,7 +3872,7 @@ bool Cy_USBPD_Resume(
                         Cy_USBPD_TypeC_EnableRd(context, CY_PD_CC_CHANNEL_2);
 
                         dpmConfig->curPortRole = CY_PD_PRT_ROLE_SINK;
-                        dpmConfig->curPortType = PRT_TYPE_UFP;
+                        dpmConfig->curPortType = CY_PD_PRT_TYPE_UFP;
 
                         if (context->typecEventsCbk)
                         {
@@ -4190,6 +4312,21 @@ void Cy_USBPD_Intr1Handler (
     }
 #endif /* defined(CY_IP_MXUSBPD) */
 
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+    if (pd->intr7_masked != 0U)
+    {
+        if ((pd->intr7_masked & (1u << CY_USBPD_VBUS_FILTER_ID_OV)) != 0U)
+        {
+            Cy_USBPD_Fault_Vbat_OvpIntrHandler(context);
+        }
+
+        if ((pd->intr7_masked & (1UL << CY_USBPD_VBUS_FILTER_ID_UV)) != 0U)
+        {
+            Cy_USBPD_Fault_Vbat_UvpIntrHandler(context);
+        }
+    }
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     if (pd->intr7_masked != 0U)
     {
@@ -4204,7 +4341,16 @@ void Cy_USBPD_Intr1Handler (
             pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
             Cy_SysLib_DelayUs (100);
 
+            /* Disable the vbus regulator on port0 */
             pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
+#if PMG1_PD_DUALPORT_ENABLE
+            /* Disable the vbus regulator on port1 */
+            if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]) && (context->port == TYPEC_PORT_0_IDX))
+            {
+                PPDSS_REGS_T pdPort1 = context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]->base;
+                pdPort1->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_VREG20_1_EN);
+            }
+#endif /* PMG1_PD_DUALPORT_ENABLE */
 
             /* Notify application about presence of VSYS supply. */
             if (context->supplyChangeCbk != NULL)
@@ -4358,12 +4504,20 @@ void Cy_USBPD_Intr1Handler (
         }
     }
 #endif /* CCG_CF_HW_DET_ENABLE */
+
+#if PMG1B1_USB_CHARGER
+    if ((pd->intr13_masked & (PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED)) != 0u)
+    {
+        Cy_USBPD_Fault_Vbat_OcpIntrHandler(context);
+    }
+#else
 #if PDL_VBUS_OCP_ENABLE
     if ((pd->intr13_masked & (PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED)) != 0u)
     {
         Cy_USBPD_Fault_Vbus_OcpIntrHandler(context);
     }
 #endif /* PDL_VBUS_OCP_ENABLE */
+#endif /* PMG1B1_USB_CHARGER */
 
 #if PDL_VIN_OVP_ENABLE
     if ((pd->intr17_masked & PDSS_INTR17_MASKED_PDBB_PWM_VIN_OV_DET_MASKED) != 0u)

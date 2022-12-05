@@ -90,6 +90,168 @@
     <ParamBool id="clock_bb_soft_ok" name="clock_bb_soft_ok" group="Internal" default="`${hasConnection(&quot;clock_bb_soft&quot;, 0) &amp;&amp; isBlockUsed(source_clock_bb_soft)}`" visible="false" editable="false" desc="" />
     <ParamBool id="clock_ibtr_ok" name="clock_ibtr_ok" group="Internal" default="`${hasConnection(&quot;clock_ibtr&quot;, 0) &amp;&amp; isBlockUsed(source_clock_ibtr)}`" visible="false" editable="false" desc="" />
 
+    <!-- IP Block property BuckBoost capable-->
+    <ParamBool id="buckBoostCapable" name="BuckBoost capable" group="Internal" default="`${lookupExpression(&quot;CCG7S_EN&quot;, 0) == 1}`"
+            visible="false" editable="false" desc="This parameter specifies if BuckBoost is present in USBPD Ip block capable" />
+
+    <!-- Buck Boost Configuration -->
+    <ParamBool id="BuckBoost" name="Buck Boost" group="Buck Boost Configuration" default="false" visible="`${buckBoostCapable}`" editable="true" desc="Enables Buck Boost Feature." />  
+    <ParamRange id="CableResistance" name="-- Cable Resistance" group="Buck Boost Configuration" default="0" min="0" max="700" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Cable Resistance in mO" />
+    <ParamRange id="OutOffsetVolt" name="-- Buck Boost output offset voltage" group="Buck Boost Configuration" default="0" min="0" max="2000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output offset voltage (mV)" />
+    <ParamRange id="CurrSenseResistor" name="-- Current sense resistor" group="Buck Boost Configuration" default="5000" min="1000" max="10000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Current sense resistor (µO)" />
+    <ParamChoice id="NfetSrcDrvStrength" name="-- NFET Source Drive strength" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="NFET Source Drive strength" >
+      <Entry name="Slow" value="0" visible="true" />
+      <Entry name="Normal" value="1" visible="true" />
+      <Entry name="High" value="2" visible="true" />
+    </ParamChoice>
+    <ParamRange id="TransitionUp" name="-- Buck Boost transition up step width" group="Buck Boost Configuration" default="40" min="0" max="1000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost transition up step width (µs)" />
+    <ParamRange id="TransitionDown" name="-- Buck Boost transition down step width" group="Buck Boost Configuration" default="1" min="0" max="1000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost transition up step width (µs)" />
+    <ParamChoice id="BuckBoostOperatingMode" name="-- Buck-Boost Operating Mode" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="Buck-Boost Operating Mode" >
+      <Entry name="Buck-Boost (4-Switch)" value="0" visible="true" />
+      <Entry name="Forced Buck (2- switch)" value="1" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PwmMode" name="-- PWM mode" group="Buck Boost Configuration" default="4" visible="`${BuckBoost}`" editable="true" desc="Buck-Boost Operating Mode" >
+      <Entry name="FCCM" value="4" visible="true" />
+      <Entry name="DCM" value="3" visible="true" />
+    </ParamChoice>
+    <ParamRange id="PwmFixedFrequency" name="-- PWM Fixed Frequency" group="Buck Boost Configuration" default="400" min="150" max="600" resolution="1" visible="`${BuckBoost}`" editable="true" desc=" PWM Fixed Frequency (KHz)" />
+    <ParamChoice id="LS1GatePullUp" name="-- LS1 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS1 Gate Pull up drive Strength" >
+      <Entry name="1.69" value="9" visible="true" />
+      <Entry name="2.2" value="8" visible="true" />
+      <Entry name="2.9" value="7" visible="true" />
+      <Entry name="4.2" value="6" visible="true" />
+      <Entry name="5.9" value="5" visible="true" />
+      <Entry name="8.2" value="4" visible="true" />
+      <Entry name="10.8" value="3" visible="true" />
+      <Entry name="13.4" value="2" visible="true" />
+      <Entry name="17.9" value="1" visible="true" />
+      <Entry name="26.7" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS2GatePullUp" name="-- LS2 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS2 Gate Pull up drive Strength" >
+      <Entry name="1.69" value="9" visible="true" />
+      <Entry name="2.2" value="8" visible="true" />
+      <Entry name="2.9" value="7" visible="true" />
+      <Entry name="4.2" value="6" visible="true" />
+      <Entry name="5.9" value="5" visible="true" />
+      <Entry name="8.2" value="4" visible="true" />
+      <Entry name="10.8" value="3" visible="true" />
+      <Entry name="13.4" value="2" visible="true" />
+      <Entry name="17.9" value="1" visible="true" />
+      <Entry name="26.7" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS1GatePullUp" name="-- HS1 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS1 Gate Pull up drive Strength" >
+      <Entry name="1.71" value="9" visible="true" />
+      <Entry name="2.4" value="8" visible="true" />
+      <Entry name="3.3" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.9" value="5" visible="true" />
+      <Entry name="9.7" value="4" visible="true" />
+      <Entry name="12.2" value="3" visible="true" />
+      <Entry name="15.5" value="2" visible="true" />
+      <Entry name="20.1" value="1" visible="true" />
+      <Entry name="30.0" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS2GatePullUp" name="-- HS2 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull up drive Strength" >
+      <Entry name="1.71" value="9" visible="true" />
+      <Entry name="2.4" value="8" visible="true" />
+      <Entry name="3.3" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.9" value="5" visible="true" />
+      <Entry name="9.7" value="4" visible="true" />
+      <Entry name="12.2" value="3" visible="true" />
+      <Entry name="15.5" value="2" visible="true" />
+      <Entry name="20.1" value="1" visible="true" />
+      <Entry name="30.0" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS1GatePullDown" name="-- LS1 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS1 Gate Pull down drive Strength" >
+      <Entry name="1.12" value="9" visible="true" />
+      <Entry name="1.7" value="8" visible="true" />
+      <Entry name="3.1" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.6" value="5" visible="true" />
+      <Entry name="9.3" value="4" visible="true" />
+      <Entry name="11.8" value="3" visible="true" />
+      <Entry name="16.3" value="2" visible="true" />
+      <Entry name="20.3" value="1" visible="true" />
+      <Entry name="26.9" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS2GatePullDown" name="-- LS2 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS2 Gate Pull down drive Strength" >
+      <Entry name="1.12" value="9" visible="true" />
+      <Entry name="1.7" value="8" visible="true" />
+      <Entry name="3.1" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.6" value="5" visible="true" />
+      <Entry name="9.3" value="4" visible="true" />
+      <Entry name="11.8" value="3" visible="true" />
+      <Entry name="16.3" value="2" visible="true" />
+      <Entry name="20.3" value="1" visible="true" />
+      <Entry name="26.9" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS1GatePullDown" name="-- HS1 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS1 Gate Pull down drive Strength" >
+      <Entry name="1.34" value="9" visible="true" />
+      <Entry name="2.0" value="8" visible="true" />
+      <Entry name="3.4" value="7" visible="true" />
+      <Entry name="4.5" value="7" visible="true" />
+      <Entry name="7.1" value="5" visible="true" />
+      <Entry name="10.1" value="4" visible="true" />
+      <Entry name="12.8" value="3" visible="true" />
+      <Entry name="15.7" value="2" visible="true" />
+      <Entry name="20.4" value="1" visible="true" />
+      <Entry name="29.2" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS2GatePullDown" name="-- HS2 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull down drive Strength" >
+      <Entry name="1.34" value="9" visible="true" />
+      <Entry name="2.0" value="8" visible="true" />
+      <Entry name="3.4" value="7" visible="true" />
+      <Entry name="4.5" value="7" visible="true" />
+      <Entry name="7.1" value="5" visible="true" />
+      <Entry name="10.1" value="4" visible="true" />
+      <Entry name="12.8" value="3" visible="true" />
+      <Entry name="15.7" value="2" visible="true" />
+      <Entry name="20.4" value="1" visible="true" />
+      <Entry name="29.2" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PwmDitheringType" name="-- PWM dithering type" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull up drive Strength" >
+      <Entry name="Disable" value="0" visible="true" />
+      <Entry name="Pseudo Random" value="1" visible="true" />
+      <Entry name="Triangular" value="2" visible="true" />
+    </ParamChoice>
+    <ParamRange id="PwmDitheringRange" name="-- PWM dithering frequency range" group="Buck Boost Configuration" default="0" min="0" max="300" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering frequency range (%)" />
+    <ParamRange id="PowerInductor" name="-- Power inductor" group="Buck Boost Configuration" default="6800" min="1000" max="20000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering Power inductor (nH)" />
+    <ParamRange id="PeakCurrentSenseResistor" name="-- Peak current sense resistor" group="Buck Boost Configuration" default="5000" min="2500" max="25000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Peak current sense resistor (µO)" />
+    <ParamRange id="PeakCurrentLimit" name="-- Peak current limit" group="Buck Boost Configuration" default="30000" min="10000" max="50000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Peak current limit (mA)" />
+    <ParamChoice id="BbClkFrequency" name="-- Buck - boost controller clock frequency" group="Buck Boost Configuration" default="24" visible="`${BuckBoost}`" editable="true" desc="Buck - boost controller clock frequency (MHz)" >
+      <Entry name="12" value="12" visible="true" />
+      <Entry name="24" value="24" visible="true" />
+      <Entry name="48" value="48" visible="true" />
+    </ParamChoice>
+
+    <ParamString id="PwmFixFreqDith" name="-- Pwm Fix Freq Dith" group="Buck Boost Configuration" default="`${((PwmFixedFrequency / 5) * (10000 - PwmDitheringRange * PwmDitheringRange)) / 10000.0}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
+    <ParamString id="PwmDithSpreadCycles" name="-- Pwm Dith Spread Cycles" group="Buck Boost Configuration" default="`${(100 * BbClkFrequency * 1000 * PwmDitheringRange)/ ((PwmFixedFrequency) * (10000 - PwmDitheringRange * PwmDitheringRange))}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
+
+    <!-- Power params that not used in USB Charging project -->
+    <ParamBool id="powerParams" name="Power Parameters Capable" group="Internal" default="0"
+            visible="false" editable="false" desc="This parameter specifies if Power params required. Will be implemented in next version" />
+    
+    <ParamString id="PhaseAngleControl" name="-- Phase Angle Control" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Phase Angle Control" />
+    <ParamString id="FbType" name="-- Fb Type" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Fb Type" />
+    <ParamString id="VbusMinVolt" name="-- VBUS Minimum Voltage" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="VBUS Minimum Voltage" />
+    <ParamString id="VbusMaxVolt" name="-- VBUS Maximum Voltage" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="VBUS Maximum Voltage" />
+    <ParamString id="PrimSecTurnsRatio" name="-- Prim Sec Turns Ratio" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Prim Sec Turns Ratio" />
+    <ParamString id="SrEnable" name="-- Sr Enable" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Enable" />
+    <ParamString id="SrRiseTime" name="-- Sr Rise Time" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Rise Time" />
+    <ParamString id="SrFallTime" name="-- Sr Fall Time" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Fall Time" />
+    <ParamString id="SrAsyncThresh" name="-- Sr Async Thresh" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Async Thresh" />
+    <ParamString id="SrSupplyDoubler" name="-- Sr Supply Doubler" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Supply Doubler" />
+    <ParamString id="PwmMinFreq" name="-- Pwm Min Freq" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Min Freq" />
+    <ParamString id="PwmMaxFreq" name="-- Pwm Max Freq" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Max Freq" />
+    <ParamString id="MaxPwmDutyCycle" name="-- Max Pwm Duty Cycle" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Max Pwm Duty Cycle" />
+    <ParamString id="MinPwmDutyCycle" name="-- Min Pwm Duty Cycle" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Min Pwm Duty Cycle" />
+    <ParamString id="MaxPwmDutyCycleHighLine" name="-- Max Pwm Duty Cycle High Line" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Max Pwm Duty Cycle High Line" />
+    <ParamString id="VbtrUpStepWidthBelow5v" name="-- Vbtr Up Step Width Below 5v" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Vbtr Up Step Width Below 5v" />
+    <ParamString id="VbtrDownStepWidthBelow5v" name="-- Vbtr Down Step Width Below 5v" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Vbtr Down Step Width Below 5v" />
+    <ParamString id="PwmMaxFreqEx" name="-- Pwm Max Freq Ex" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Max Freq Ex" />
+
     <!-- VBUS OVP Fault Protection Configuration -->
     <ParamBool id="VbusOvp" name="VBus Over Voltage Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS OVP Feature." />  
     <ParamChoice id="OvpMode" name="-- Mode" group="Fault Protection" default="2" visible="`${VbusOvp}`" editable="true" desc="Configures the mode of detecting VBUS OVP" >
@@ -178,6 +340,8 @@
     <ParamBool id="Bch" name="Legacy Charging" group="Legacy Charging Configuration" default="false" visible="true" editable="true" desc="Enables Legacy Charging Feature." />  
     <ParamChoice id="SinkSel" name="-- Sink Mode Selection" group="Legacy Charging Configuration" default="1" visible="`${Bch}`" editable="true" desc="Configures the sink features" >
       <Entry name="BC 1.2" value="1" visible="true" />
+      <Entry name="Apple Charger" value="2" visible="true" />
+      <Entry name="BC 1.2 + Apple Charger" value="3" visible="true" />
     </ParamChoice>
 
     <!-- Advanced-->
@@ -257,6 +421,34 @@
         <Member name="enable" value="`${Bch}`" />
         <Member name="snkSel" value="`${SinkSel}`" />
     </ConfigStruct>
+    <ConfigStruct name="`${USBPD_INST_NAME}`_buck_boost_config" type="cy_stc_buck_boost_cfg_t" const="`${inFlash}`" public="true" include="`${BuckBoost}`">
+        <Member name="cable_resistance" value="`${CableResistance}`" />
+        <Member name="vbus_offset_volt" value="`${OutOffsetVolt}`" />
+        <Member name="current_sense_res" value="`${CurrSenseResistor / 100}`" />
+        <Member name="src_gate_drv_str" value="`${NfetSrcDrvStrength}`" />
+        <Member name="vbtr_up_step_width" value="`${TransitionUp}`" />
+        <Member name="vbtr_down_step_width" value="`${TransitionDown}`" />
+        <Member name="buck_boost_operating_mode" value="`${BuckBoostOperatingMode}`" />
+        <Member name="pwm_mode" value="`${PwmMode}`" />
+        <!-- Divide frequency for CCG7S and CCG7D -->
+        <Member name="pwm_fix_freq" value="`${PwmFixedFrequency / 5}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_LS1" value="`${LS1GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_LS2" value="`${LS2GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_HS1" value="`${HS1GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_HS2" value="`${HS2GatePullUp}`" />
+        <Member name="pwm_dithering_type" value="`${PwmDitheringType}`" />
+        <Member name="pwm_dithering_freq_range" value="`${PwmDitheringRange}`" />
+        <Member name="power_inductor_value" value="`${PowerInductor / 100}`" />
+        <Member name="peak_current_sense_resistor" value="`${PeakCurrentSenseResistor / 100}`" />
+        <Member name="peak_current_limit" value="`${PeakCurrentLimit / 500}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_LS1" value="`${LS1GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_LS2" value="`${LS2GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_HS1" value="`${HS1GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_HS2" value="`${HS2GatePullDown}`" />
+        <Member name="bbclk_freq" value="`${BbClkFrequency}`" />
+        <Member name="pwm_fix_freq_dith" value="`${PwmFixFreqDith}`" />
+        <Member name="pwm_dith_spread_cycles" value="`${PwmDithSpreadCycles}`" />
+    </ConfigStruct>
     
     <ConfigStruct name="`${USBPD_INST_NAME}`_config" type="cy_stc_usbpd_config_t" const="`${inFlash}`" public="true" include="true">
         <Member name="vbusOvpConfig" value="`${VbusOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
@@ -268,6 +460,7 @@
         <Member name="ccOvpConfig" value="`${CcOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_cc_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
         <Member name="sbuOvpConfig" value="`${SbuOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_sbu_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
         <Member name="legacyChargingConfig" value="`${Bch ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_legacy_charging_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="buckBoostConfig" value="`${BuckBoost ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_buck_boost_config&quot; : &quot;NULL&quot;}`" include="true" />
     </ConfigStruct>
     
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_RX, `${getExposedMember(getBlockFromSignal(&quot;clock_rx[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_rx_ok}`" />
@@ -284,6 +477,5 @@
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_BB, `${getExposedMember(getBlockFromSignal(&quot;clock_bb[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_bb_ok}`" />
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_BB_SOFT, `${getExposedMember(getBlockFromSignal(&quot;clock_bb_soft[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_bb_soft_ok}`" />
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_IBTR, `${getExposedMember(getBlockFromSignal(&quot;clock_ibtr[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_ibtr_ok}`" />
-
   </ConfigFirmware>
 </Personality>

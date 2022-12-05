@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.10
+* \version 2.20
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -2994,7 +2994,7 @@ bool Cy_USBPD_Bch_CompareVolt(cy_stc_usbpd_context_t *context, uint8_t inp, uint
 #endif /* !CY_FLIPPED_DP_DM */
         uint32_t val;
 
-        uint8_t  intr_state = Cy_SysLib_EnterCriticalSection ();
+        uint32_t  intr_state = Cy_SysLib_EnterCriticalSection ();
 
         /* Configure the comparator for voltage measurement. */
         val = pd->bch_det_0_ctrl[chgb_id];

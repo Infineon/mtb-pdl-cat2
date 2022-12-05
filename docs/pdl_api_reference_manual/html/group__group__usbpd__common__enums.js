@@ -194,13 +194,18 @@ var group__group__usbpd__common__enums =
       [ "CY_USBPD_APP_VCONN_OCP_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aef6e71ce2de270e959e58cfc6eefedbc", null ],
       [ "CY_USBPD_CCG_LS_SNK_CAP_TIMEOUT_TIMER_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a1676ee1a75fc3de9336c23008cb12a71", null ],
       [ "CY_USBPD_APP_GPIO_HPD_TIMER_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a64b85358df23d42955c3c1f2762ee8a4", null ],
+      [ "CY_USBPD_APP_PSOURCE_VBUS_SRC_FET_BYPASS_TIMER_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a91d181792578e78eb93330dbd70506f1", null ],
       [ "CY_USBPD_APP_TIMERS_RESERVED_START_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a6b74ae15263d66b3ab6dda331498307e", null ],
-      [ "CY_USBPD_APP_TIMER_RESERVED_129", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a791dd160c0f4277183092bdbd4d03636", null ],
+      [ "CY_USBPD_APP_TIMER_RESERVED_130", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3abead5426e9bed3453b7bc46e803cdc53", null ],
       [ "CY_USBPD_APP_PORT1_TIMER_START_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab09b3cfa9229e4c78da71aab40ef61fc", null ],
       [ "CY_USBPD_I2C_SLAVE_SCB0_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a82c75eeb79728913d58dfedb3395ebb7", null ],
       [ "CY_USBPD_I2C_SLAVE_SCB1_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3adede4da924e872b133ded5fbde394fe6", null ],
       [ "CY_USBPD_I2C_SLAVE_SCB2_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a69027055b07d1e66e5fb2e18bdad79f4", null ],
       [ "CY_USBPD_I2C_SLAVE_SCB3_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3affc6f87785f44a7f39e67878ae0766a2", null ],
+      [ "CY_USBPD_I2C_SLAVE_SCB4_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a64549c4d7f27020a7d69691143fcc376", null ],
+      [ "CY_USBPD_I2C_SLAVE_SCB5_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ad9a6ffa97ee6ad188e4062b860155d35", null ],
+      [ "CY_USBPD_I2C_SLAVE_SCB6_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a920ef5d97ebd8345c832bf400ce8021b", null ],
+      [ "CY_USBPD_I2C_SLAVE_SCB7_TIMER", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aa262787ca152110202c35aabfb13e10c", null ],
       [ "CY_USBPD_SYS_DEEPSLEEP_TIMER_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3ab729141e8930681c1a0e6d08a6a5a15c", null ],
       [ "CY_USBPD_USER_TIMERS_START_ID", "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3aacc387c9ccf185038cd33ac540be50b0", null ]
     ] ],
@@ -267,7 +272,8 @@ var group__group__usbpd__common__enums =
     ] ],
     [ "cy_en_usbpd_events_t", "group__group__usbpd__common__enums.html#ga8712c4ead0a5426fdfa5e89f5f3a021e", [
       [ "CY_USBPD_EVT_FRS_SIGNAL_RCVD", "group__group__usbpd__common__enums.html#gga8712c4ead0a5426fdfa5e89f5f3a021ea003c2ce3517575e8a2d76da413df4523", null ],
-      [ "CY_USBPD_EVT_FRS_SIGNAL_SENT", "group__group__usbpd__common__enums.html#gga8712c4ead0a5426fdfa5e89f5f3a021eaa984e28ff4013c7d595c33b6de7bd624", null ]
+      [ "CY_USBPD_EVT_FRS_SIGNAL_SENT", "group__group__usbpd__common__enums.html#gga8712c4ead0a5426fdfa5e89f5f3a021eaa984e28ff4013c7d595c33b6de7bd624", null ],
+      [ "CY_USBPD_EVT_FRS_VBUS_LESS_5_DONE", "group__group__usbpd__common__enums.html#gga8712c4ead0a5426fdfa5e89f5f3a021ea2f67582b73185809c597cd678bee0f45", null ]
     ] ],
     [ "cy_en_usbpd_status_t", "group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358", [
       [ "CY_USBPD_STAT_NO_RESPONSE", "group__group__usbpd__common__enums.html#gga7e13e85edf9c9c4e16cf27f1020c6358a88a24ca8ed8e9dbb476031e8a77c80cd", null ],

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.h
-* \version 2.10
+* \version 2.20
 *
 * Provides API declarations of the USBPD transceiver driver.
 *

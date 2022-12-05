@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD Buck Boost Driver.
 *
@@ -26,6 +26,7 @@
 
 #include "cy_device.h"
 #include "cy_device_headers.h"
+#include "cy_usbpd_common.h"
 
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
 #include "cy_usbpd_config_table.h"
@@ -33,7 +34,7 @@
 #include "cy_usbpd_typec.h"
 #include "cy_usbpd_vbus_ctrl.h"
 #include "cy_usbpd_idac_ctrl.h"
-#include "cy_usbpd_common.h"
+
 #include "cy_usbpd_defines.h"
 #include "cy_usbpd_buck_boost.h"
 
@@ -267,7 +268,11 @@
 static uint16_t Cy_USBPD_BB_GetFixFreq(cy_stc_usbpd_context_t *context)
 {
     uint16_t fix_freq;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     if (pwr_cfg->pwm_dithering_type != BB_DITHER_DIS)
     {
@@ -325,6 +330,7 @@ static uint16_t bb_ss_per_to_clk (cy_stc_usbpd_context_t *context, uint8_t perce
 /* Max. VREF setting. */
 #define BB_VREF_MAX_SETTING            (199u)
 
+#if (PMG1B1_USB_CHARGER == 0)
 static void pd_bb_vbus_in_ovp_en(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb)
 {
     PPDSS_REGS_T pd = context->base;
@@ -436,6 +442,7 @@ static void pd_bb_vbus_in_ovp_dis(cy_stc_usbpd_context_t *context)
 
     Cy_SysLib_ExitCriticalSection(state);
 }
+#endif /* PMG1B1_USB_CHARGER == 0 */
 
 static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context);
 
@@ -451,7 +458,11 @@ static const uint8_t gl_bb_gdrv_dead_time[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x0
 static void Cy_USBPD_BB_GdrvConfig(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
     uint8_t hs_dead_time;
     uint8_t ls_dead_time;
 
@@ -539,7 +550,11 @@ static void Cy_USBPD_BB_SetMode(cy_stc_usbpd_context_t *context, uint8_t mode)
 {
     PPDSS_REGS_T pd = context->base;
     PPDSS_TRIMS_REGS_T pd_trims = (PPDSS_TRIMS_REGS_T)context->trimsBase;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     if(mode == BB_MODE_FCCM)
     {
@@ -675,8 +690,14 @@ static void Cy_USBPD_BB_VregInrushDetEnCb( cy_en_usbpd_timer_id_t id, void *cont
 static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdContext)
 {
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)usbpdContext;
+#if (PMG1B1_USB_CHARGER == 0)
     PPDSS_REGS_T pd = context->base;
+#endif /* PMG1B_USB_CHARGER == 0 */
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
     (void)id;
 
 #if !BB_MODE_PSM_ONLY
@@ -684,6 +705,7 @@ static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdC
     Cy_USBPD_BB_SetMode(context, pwr_cfg->pwm_mode);
 #endif /* !BB_MODE_PSM_ONLY */
 
+#if (PMG1B1_USB_CHARGER == 0)
     /* 
      * Re-enable disabled faults to buck-boost controller.
      * VBUS_OCP has debounce in mS, hence do not enable VBUS_OCP for BB auto cut off.
@@ -697,6 +719,7 @@ static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdC
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VDDD_BOD |
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VSRC_NEW_N |
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VSRC_NEW_P);
+#endif /* PMG1B1_USB_CHARGER == 0 */
 
 #if PDL_BB_ILIM_DET_ENABLE
     Cy_USBPD_Fault_BbIlimDetEn(context);
@@ -733,7 +756,11 @@ static void bb_soft_start_to_ea_cb(cy_en_usbpd_timer_id_t id, void *callbackCont
     (void)id;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
     PPDSS_REGS_T pd = context->base;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     /* Disable soft start PWM */
     pd->bbctrl_func_ctrl &= ~PDSS_BBCTRL_FUNC_CTRL_BBCTRL_STARTUP_MODE;
@@ -807,7 +834,11 @@ static bool bb_en_vbus_ovp_cbk(void *context, bool comp_out)
          */
 
         /* Disable OVP for VBUS_IN and release control to VBUS_C. */
+#if PMG1B1_USB_CHARGER
+        Cy_USBPD_Fault_Vbat_OvpDisable(usbpd_ctx, CCG_SRC_FET);
+#else
         pd_bb_vbus_in_ovp_dis(usbpd_ctx);
+#endif /* PMG1B1_USB_CHARGER */
 
         /* Enable EA mode */
         bb_soft_start_to_ea_cb((cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx,CY_USBPD_APP_HAL_GENERIC_TIMER), usbpd_ctx);
@@ -836,6 +867,10 @@ static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
 {
     uint16_t vbus_in_volt;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
+#if PMG1B1_USB_CHARGER
+    PPDSS_REGS_T pd = context->base;
+#endif
+
     (void)id;
 
     vbus_in_volt = Cy_USBPD_Adc_MeasureVbusIn(context, CY_USBPD_ADC_ID_0, CY_USBPD_ADC_INPUT_AMUX_B);
@@ -845,7 +880,11 @@ static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
     {
         /* Make sure to turn on the discharge if the discharge got disabled during the timer was 
          * running. */
+#if PMG1B1_USB_CHARGER
+        pd->dischg_shv_ctrl[1] |= (PDSS_DISCHG_SHV_CTRL_DISCHG_EN | PDSS_DISCHG_SHV_CTRL_DISCHG_EN_CFG);
+#else
         Cy_USBPD_VbusIn_DischargeOn(context);
+#endif /* PMG1B1_USB_CHARGER */
         /* VBUS_IN is not in safe range */
         (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
             BB_SAFE_VBUS_IN_TIMER_MS, bb_safe_vbus_in_cb);
@@ -855,7 +894,11 @@ static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
         /* Make sure that timeout timer is off. */
         context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER));
         /* Disable VBUS_IN discharge. */
+#if PMG1B1_USB_CHARGER
+        pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_EN) | PDSS_DISCHG_SHV_CTRL_DISCHG_EN_CFG);
+#else
         Cy_USBPD_VbusIn_DischargeOff(context);
+#endif /* PMG1B1_USB_CHARGER */
 
         /* Revert VBUS_IN discharge drive strength to configured value */
         pd_internal_revert_vbus_in_ds(context);
@@ -892,7 +935,6 @@ static void bb_startup_monitor_cbk(cy_en_usbpd_timer_id_t id , void *callbackCon
 {
     (void)id;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
-
     /* If buck-boost startup is not completed in the given time period, disable the regulator. */
     Cy_USBPD_BB_Disable(context);
 }
@@ -901,7 +943,11 @@ static void bb_startup_monitor_cbk(cy_en_usbpd_timer_id_t id , void *callbackCon
  * required spread in frequency. */
 static uint8_t bb_calc_dithering_c2c_var(cy_stc_usbpd_context_t *context)
 {
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
     uint8_t range = pwr_cfg->pwm_dith_spread_cycles;
     uint8_t c2c_var = 1u + (range / 5u);
     return c2c_var;
@@ -910,7 +956,11 @@ static uint8_t bb_calc_dithering_c2c_var(cy_stc_usbpd_context_t *context)
 static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
 #if BB_SAFE_VBUS_IN_EN
     /* Disable VBUS_IN discharge. */
@@ -983,8 +1033,12 @@ static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context)
      * Enable OVP comparator on VBUS_IN to detect soft start voltage 
      * cut off and handover to EA mode.
      */
-
+#if PMG1B1_USB_CHARGER
+    Cy_USBPD_Fault_Vbat_OvpEnable(context, BB_SOFT_START_CUTOFF, BB_BAT_OVP_DEBOUNCE, bb_en_vbus_ovp_cbk, CCG_SRC_FET);
+#else
     pd_bb_vbus_in_ovp_en(context, BB_SOFT_START_CUTOFF, bb_en_vbus_ovp_cbk);
+#endif /* PMG1B1_USB_CHARGER */
+
 
 #if APP_VBUS_SRC_FET_BYPASS_EN
     /* Reset soft start duty to configured value */
@@ -1023,7 +1077,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
 #endif /* BB_SAFE_VBUS_IN_EN */
     uint32_t state;
-#if !defined(CY_DEVICE_WLC1)
+#if (!defined(CY_DEVICE_WLC1) && (PMG1B1_USB_CHARGER == 0))
     uint16_t vbat_volt;
 #endif /* !defined(CY_DEVICE_WLC1) */
 #if BB_SAFE_VBUS_IN_EN
@@ -1035,7 +1089,8 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
     if (context->bbEnableStatus == false)
     {
 #if !PSVP_FPGA_ENABLE
-#if !defined(CY_DEVICE_WLC1)
+
+#if (!defined(CY_DEVICE_WLC1) && (PMG1B1_USB_CHARGER == 0))
         /**
          * WICG1 uses AMUX for custom implementations and ensures 
          * VIN level before enabling buck-boost.
@@ -1070,7 +1125,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
         context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
 
 #if BB_SAFE_VBUS_IN_EN
-        /* Don't trun on the BB if Vbus-in voltage is not in safe range. */
+        /* Don't turn on the BB if Vbus-in voltage is not in safe range. */
 
         vbus_in_volt = Cy_USBPD_Adc_MeasureVbusIn(context, CY_USBPD_ADC_ID_0, CY_USBPD_ADC_INPUT_AMUX_B);
 
@@ -1083,19 +1138,35 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
         }
         else
         {
+#if PMG1B1_USB_CHARGER
+            /* Set VBUS_IN discharge drive strength to custom value and enable discharge. */
+            pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & 
+                ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK));
+            pd->dischg_shv_ctrl[1] = (pd->dischg_shv_ctrl[1] |
+                    (BB_SAFE_VBUS_IN_DISCHG_DS << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+
+            pd->dischg_shv_ctrl[0] = ((pd->dischg_shv_ctrl[0] &
+                ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK));
+            pd->dischg_shv_ctrl[0] = (pd->dischg_shv_ctrl[0] |
+                    (BB_SAFE_VBUS_IN_DISCHG_DS << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+#else
             /* Set VBUS_IN discharge drive strength to custom value and enable discharge. */
             pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & 
                 ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
                 (BB_SAFE_VBUS_IN_DISCHG_DS << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+#endif /* PMG1B1_USB_CHARGER */
 
 #if VBUS_IN_DISCHARGE_EN
             /* Clear the VBUS_IN discharge enabled flag */
             context->vbusInDischargeEn = false;
 #endif /* VBUS_IN_DISCHARGE_EN */
 
+#if PMG1B1_USB_CHARGER
+            pd->dischg_shv_ctrl[1] |= (PDSS_DISCHG_SHV_CTRL_DISCHG_EN | PDSS_DISCHG_SHV_CTRL_DISCHG_EN_CFG);
+#else
             /* CCG7D is VIN powered, so non comparator based discharge can be enabled */
             Cy_USBPD_VbusIn_DischargeOn(context);
-
+#endif /* PMG1B1_USB_CHARGER */
             (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
                 BB_SAFE_VBUS_IN_TIMER_MS, bb_safe_vbus_in_cb);
         }
@@ -1104,9 +1175,15 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
         context->bbEnableStatus = true;
         context->bbEnableDoneStatus = false;
 
+#if PMG1B1_USB_CHARGER
+        /* Start buck-boost startup monitor timer */
+        (void)context->timerStartcbk(context, context, CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER,
+                BB_STARTUP_MONITOR_TIMER_PERIOD * 10u, bb_startup_monitor_cbk);
+#else /* !PMG1B1_USB_CHARGER */
         /* Start buck-boost startup monitor timer */
         (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER),
                 BB_STARTUP_MONITOR_TIMER_PERIOD, bb_startup_monitor_cbk);
+#endif /* PMG1B1_USB_CHARGER */
     }
     else
     {
@@ -1143,8 +1220,11 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
         if (context->bbEnableDoneStatus == false)
         {
             /* Disable soft start OVP */
+#if PMG1B1_USB_CHARGER
+            Cy_USBPD_Fault_Vbat_OvpDisable(context, CCG_SRC_FET);
+#else
             pd_bb_vbus_in_ovp_dis(context);
-
+#endif /* PMG1B1_USB_CHARGER */
 #if VBUS_IN_DISCHARGE_EN
             /* Clear the VBUS_IN discharge enabled flag here to prevent random register writes */
             context->vbusInDischargeEn = false;
@@ -1165,7 +1245,9 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
          * buck-boost is not frequently turned ON and OFF to generate noise.
          * But since this is an improvement, making this common for all.
          */
+#if (PMG1B1_USB_CHARGER == 0)
         Cy_USBPD_BB_SetMode(context, BB_MODE_PSM);
+#endif /* PMG1B1_USB_CHARGER == 0 */
 
         /* Disable EA BB control */
         pd->bbctrl_func_ctrl &= ~PDSS_BBCTRL_FUNC_CTRL_BBCTRL_EA_MODE;
@@ -1239,7 +1321,11 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
 #if BB_PWM_ASYNC_MODE_ENABLE
     PPDSS_TRIMS_REGS_T pdtrims = (PPDSS_TRIMS_REGS_T)context->trimsBase;
 #endif /* BB_PWM_ASYNC_MODE_ENABLE */
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
     uint32_t fix_freq_khz = Cy_USBPD_BB_GetFixFreq(context);
     uint32_t regval;
     uint32_t vref_sel = 0u;
@@ -1386,8 +1472,9 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
             PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_SEL_MASK | 
             PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_RESET |
             PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_BYPASS);
+    /* ILIM Digital filter time constant made 1 clock cycle */
     regval |= ((uint8_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_CFG_POS) |
-        (16u << PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_SEL_POS) |
+        (1u << PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_SEL_POS) |
         PDSS_INTR17_CFG_5_BB_40CSA_ILIM_DIG_FILT_EN;
     pd->intr17_cfg_5 = regval;
 
@@ -1399,6 +1486,9 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
      * start disable.
      */
     pd->bbctrl_func_ctrl3 |= (PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VOUT_OV |
+#if PMG1B1_USB_CHARGER
+        PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VOUT_UV |
+#endif
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VREG_INRUSH |
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_PDS_SCP |
         PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_FAULT_DET_DIS_VDDD_BOD |
@@ -1476,10 +1566,10 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
     pd->bb_40csa_2_ctrl &= ~PDSS_BB_40CSA_2_CTRL_BB_40CSA_PD_ILIMCMP_LV;
     pd->bb_40csa_3_ctrl |= PDSS_BB_40CSA_3_CTRL_BB_40CSA_ISO_N;
 
-    /* Calculate and update slope compensation. */
-    regval = ((BB_SLOPE_COMP_24X * (uint32_t)BB_SLOPE_COMP_24X_L * 
-               pd_get_ptr_pwr_tbl(context)->peak_current_sense_resistor) /
-              (pd_get_ptr_pwr_tbl(context)->power_inductor_value * (uint32_t)BB_SLOPE_COMP_24X_R));
+        /* Calculate and update slope compensation. */
+    regval = ((BB_SLOPE_COMP_24X * (uint32_t)BB_SLOPE_COMP_24X_L *
+            pwr_cfg->peak_current_sense_resistor) /
+              (pwr_cfg->power_inductor_value * (uint32_t)BB_SLOPE_COMP_24X_R));
 
     CY_USBPD_REG_FIELD_UPDATE(pd->bb_40csa_3_ctrl, PDSS_BB_40CSA_3_CTRL_BB_40CSA_SEL_IDAC_LV, regval);
 
@@ -1539,7 +1629,12 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_BB_PowerDown(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
+
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     /* Disable Buck-Boost */
     pd->bbctrl_func_ctrl &= ~PDSS_BBCTRL_FUNC_CTRL_BBCTRL_EN;
@@ -1604,7 +1699,11 @@ void Cy_USBPD_BB_PowerDown(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_BB_PowerUp(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     /* Disable Buck-Boost */
     pd->bbctrl_func_ctrl &= ~PDSS_BBCTRL_FUNC_CTRL_BBCTRL_EN;
@@ -1675,6 +1774,12 @@ void Cy_USBPD_Fault_BbIlimDetEn(cy_stc_usbpd_context_t *context)
     uint32_t state;
     uint32_t vref_sel;
 
+#if CY_USE_CONFIG_TABLE
+    pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
+
     if (context->bbIlimDetEnStatus == false)
     {
         state = Cy_SysLib_EnterCriticalSection();
@@ -1692,7 +1797,8 @@ void Cy_USBPD_Fault_BbIlimDetEn(cy_stc_usbpd_context_t *context)
          * we need it in 10mA units for reference calculation.
          */
         ilim_cur = CY_USBPD_GET_MIN(ILIM_DET_MAX_CURRENT,
-            ((uint32_t)50u * pd_get_ptr_pwr_tbl(context)->peak_current_limit));
+            ((uint32_t)50u * pwr_cfg->peak_current_limit));
+
         Cy_USBPD_CSA_Calc_Ref(context, ilim_cur, ILIM_DET_GAIN, &vref_sel, true);
 
         /* Configure Reference for comparator. */
@@ -1714,13 +1820,7 @@ void Cy_USBPD_Fault_BbIlimDetEn(cy_stc_usbpd_context_t *context)
         pd->bbctrl_func_ctrl3 |= PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_ILIM_FAULT_DET_CLR;
         Cy_SysLib_DelayUs(20);
 
-        /* Clear and Enable iLim detect interrupt. */
-        pd->intr17       = PDSS_INTR17_PDBB_40CSA_ILIM_DIG_OUT;
-        pd->intr17_mask |= PDSS_INTR17_MASK_PDBB_40CSA_ILIM_DIG_OUT_MASK;
         Cy_SysLib_ExitCriticalSection(state);
-
-        /* Enable iLimit fault */
-        pd->bbctrl_func_ctrl3 |= PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_ILIM_FAULT_DET_EN;
     }
     else
     {
@@ -1733,45 +1833,7 @@ void Cy_USBPD_Fault_BbIlimDetEn(cy_stc_usbpd_context_t *context)
 
 void Cy_USBPD_Fault_BbIlimDetDis(cy_stc_usbpd_context_t *context)
 {
-#if PDL_BB_ILIM_DET_ENABLE
-    PPDSS_REGS_T pd = context->base;
-    uint32_t regval;
-    uint32_t state;
-    uint32_t vref_sel;
-
-    state = Cy_SysLib_EnterCriticalSection ();
-
-    /* Disable and Clear iLim detect interrupt. */
-    pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_40CSA_ILIM_DIG_OUT_MASK;
-    pd->intr17 = PDSS_INTR17_PDBB_40CSA_ILIM_DIG_OUT;
-
-    /* Disable iLim protection */
-    pd->bbctrl_func_ctrl3 &= ~PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_ILIM_FAULT_DET_EN;
-
-    /* Clear existing iLim fault in buck-boost latch */
-    pd->bbctrl_func_ctrl3 |= PDSS_BBCTRL_FUNC_CTRL3_BBCTRL_ILIM_FAULT_DET_CLR;
-    Cy_SysLib_DelayUs(20);
-
-    /*
-     * Do not clear iLim reference as Buck-Boost cycle-by-cycle
-     * iLim has to be enabled always.
-     * Revert iLim reference configuration to cycle-by cycle limit.
-     */
-    Cy_USBPD_CSA_Calc_Ref(context, ILIM_DET_REF_CUR, ILIM_DET_GAIN, &vref_sel, true);
-    vref_sel += ILIM_DET_REF_OFFSET;
-    regval = pd->refgen_2_ctrl;
-    regval &= ~(PDSS_REFGEN_2_CTRL_SEL7_MASK);
-    regval |= ((uint32_t)vref_sel << PDSS_REFGEN_2_CTRL_SEL7_POS);
-    pd->refgen_2_ctrl = regval;
-
-    Cy_USBPD_Fault_FetAutoModeDisable(context, CCG_SRC_FET, CY_USBPD_VBUS_FILTER_ID_ILIM_DET);
-
-    context->bbIlimDetEnStatus = false;
-
-    Cy_SysLib_ExitCriticalSection (state);
-#else /* !PDL_BB_ILIM_DET_ENABLE */
     CY_UNUSED_PARAMETER(context);
-#endif /* !PDL_BB_ILIM_DET_ENABLE */
 }
 
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */

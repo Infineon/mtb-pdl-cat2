@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -48,6 +48,11 @@
 #define VIN_OVP_DETECT_MIN                      (12000u)
 #endif /* defined(CY_DEVICE_WLC1) */
 
+/* Buck-Boost operating modes */
+#define BB_BUCK_BOOST                       (0u)
+#define BB_FORCED_BUCK                      (1u)
+#define BB_FORCED_BOOST                     (2u)
+
 /* Default reference voltage on M0S8-USBPD IP. */
 #define PD_ADC_DEFAULT_VDDD_VOLT_MV             (3300u)
 
@@ -83,6 +88,9 @@
 #define VBUS_MON_DIV_9P_VAL                     (22u)   /* Multiplied by 2. */
 #define VBUS_MON_DIV_8P_VAL                     (25u)   /* Multiplied by 2. */
 #define VBUS_MON_DIV_6P_VAL                     (33u)   /* Multiplied by 2. */
+
+/* On CCG6, AMUX_NHV[4] enables connection of VBus divider to ADC_IN_2. */
+#define AMUX_ADC_CCG6_VBUS_DIV_EN_POS       (4u)
 
 /* PAG1S VBUS_IN resistor divider for Type-C VBUS monitoring using ADC. */
 #define AMUX_ADC_PAG1S_VBUS_IN_8P_EN_POS    (9u)
@@ -2338,7 +2346,7 @@ bool Cy_USBPD_VbusDiv_To_AMuxDiscon(cy_stc_usbpd_context_t *context)
 #define FRS_RX_SWAP_CTRL2_DFLT_VAL      ((50u << PDSS_SWAP_CTRL2_GLITCH_WIDTH_LOW_POS) | \
                                          (1u << PDSS_SWAP_CTRL2_GLITCH_WIDTH_HIGH_POS))
 
-#define FRS_RX_SWAP_CTRL3_DFLT_VAL      (160u << PDSS_SWAP_CTRL3_STABLE_LOW_POS)
+#define FRS_RX_SWAP_CTRL3_DFLT_VAL      (120u << PDSS_SWAP_CTRL3_STABLE_LOW_POS)
 
 #define FRS_RX_SWAP_CTRL5_DFLT_VAL      (750u << PDSS_SWAP_CTRL5_LONG_LOW_POS)
 
@@ -2367,11 +2375,11 @@ bool Cy_USBPD_Vbus_FrsRxEnable(cy_stc_usbpd_context_t *context)
     uint32_t regVal;
 
     /* Set the VBus detach comparator threshold to Vsafe5V */
-    uint8_t level = Cy_USBPD_Adc_GetVbusLevel (context, pd_hal_get_vbus_detach_adc(),
+    uint8_t level = Cy_USBPD_Adc_GetVbusLevel (context, context->vbusDetachAdcId,
             CY_PD_VSAFE_5V, CY_PD_VSAFE_5V_FRS_SWAP_RX_MARGIN);
 
     /* Enable VSAFE5V comparator */
-    Cy_USBPD_Adc_FreeRunCtrl(context, pd_hal_get_vbus_detach_adc(), pd_hal_get_vbus_detach_input(), level);
+    Cy_USBPD_Adc_FreeRunCtrl(context, context->vbusDetachAdcId, context->vbusDetachAdcInp, level);
 
     /* Configure CC line voltage thresholds to detect frs signal */
     regVal  = (pd->cc_ctrl_1 & ~(PDSS_CC_CTRL_1_CMP_FS_VSEL_MASK | PDSS_CC_CTRL_1_CMP_FS_CC1V2));
@@ -2388,7 +2396,7 @@ bool Cy_USBPD_Vbus_FrsRxEnable(cy_stc_usbpd_context_t *context)
      * Set the vsafe5v comp signal source:
      * Using VBUS_MON. Also clear Rx Swap Done status.
      */
-    pd->swap_ctrl0 = (pd_hal_get_vbus_detach_adc() << PDSS_SWAP_CTRL0_SWAPR_SOURCE_SEL_POS) |
+    pd->swap_ctrl0 = (context->vbusDetachAdcId << PDSS_SWAP_CTRL0_SWAPR_SOURCE_SEL_POS) |
         (1U << PDSS_SWAP_CTRL0_RX_SWAP_SOURCE_POS) |
         PDSS_SWAP_CTRL0_CLR_RX_SWAP_DONE;
 
@@ -2414,10 +2422,10 @@ bool Cy_USBPD_Vbus_FrsRxEnable(cy_stc_usbpd_context_t *context)
     pd->swap_ctrl0 &= ~PDSS_SWAP_CTRL0_CLR_RX_SWAP_DONE;
     pd->swap_ctrl0 |= PDSS_SWAP_CTRL0_SWAP_ENABLED;
 
+#if defined(CY_DEVICE_CCG6)
+
     /* Ensure that the FET switching happens based on SWAP IRQ and VBUS Detect. */
     pd->debug_cc_0 |= PDSS_DEBUG_CC_0_VBUS_C_SWAP_SOURCE_SEL | PDSS_DEBUG_CC_0_VBUS_P_SWAP_SOURCE_SEL;
-
-#if defined(CY_DEVICE_CCG6)
 
     /* Set the sink fet OFF settings as per current HW, and enable LF filter 0 for auto FET switching. */
     regVal = pd->pgdo_1_cfg;
@@ -2480,7 +2488,7 @@ bool Cy_USBPD_Vbus_FrsRxDisable(cy_stc_usbpd_context_t *context)
 #if (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE)
     PPDSS_REGS_T pd = context->base;
 
-    Cy_USBPD_Adc_CompCtrl (context, pd_hal_get_vbus_detach_adc(), CY_USBPD_ADC_INPUT_AMUX_A, 0, CY_USBPD_ADC_INT_DISABLED, NULL);
+    Cy_USBPD_Adc_CompCtrl (context, context->vbusDetachAdcId, CY_USBPD_ADC_INPUT_AMUX_A, 0, CY_USBPD_ADC_INT_DISABLED, NULL);
 
     /* Disable the swap controller */
     pd->swap_ctrl1 |= PDSS_SWAP_CTRL1_RESET_SWAP_STATE;
@@ -2541,8 +2549,10 @@ bool Cy_USBPD_Vbus_FrsRxDisable(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Vbus_FrsRx_IntrHandler(cy_stc_usbpd_context_t *context)
 {
 #if (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE)
+#if defined(CY_DEVICE_CCG6)
     PPDSS_REGS_T pd = context->base;
     uint32_t regVal;
+#endif /* defined(CY_DEVICE_CCG6) */
 
  #if defined(CY_DEVICE_CCG6)
     /*
@@ -2567,6 +2577,11 @@ void Cy_USBPD_Vbus_FrsRx_IntrHandler(cy_stc_usbpd_context_t *context)
     regVal |= PDSS_PGDO_PU_1_CFG_SEL_ON_OFF;
     pd->pgdo_pu_1_cfg = regVal;
 #endif /* defined(CY_DEVICE_CCG6) */
+    /* Signal event to enable provider path for devices like PMG1S3.*/
+    if (NULL != context->usbpdEventsCbk)
+    {
+        context->usbpdEventsCbk (context, CY_USBPD_EVT_FRS_VBUS_LESS_5_DONE, (void *)(context->pdStackContext));
+    }
 
     /* Remember the fact that the provider FET is on so that a subsequent
      * soft start does not cause supply to be turned off.
@@ -3241,13 +3256,22 @@ void Cy_USBPD_Vbus_GdrvPfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq)
     pd->ngdo_ctrl &= ~(PDSS_NGDO_CTRL_NGDO_CP_EN);
     Cy_SysLib_DelayUs(50);
     pd->ngdo_ctrl &= ~(PDSS_NGDO_CTRL_NGDO_ISO_N | PDSS_NGDO_CTRL_NGDO_EN_LV);
+
+#if CY_USE_CONFIG_TABLE
     uint8_t gdrv_slew_rate = pd_get_ptr_pwr_tbl(context)->src_gate_drv_str;
+#else
+    uint8_t gdrv_slew_rate = context->usbpdConfig->buckBoostConfig->src_gate_drv_str;
+#endif
 
     /* Reset Vbus Source gate driver slew configuration to config table value */
     switch(gdrv_slew_rate)
     {
         case 0:
+#if PMG1B1_USB_CHARGER
+            CY_USBPD_REG_FIELD_UPDATE(pd->ngdo_ctrl, PDSS_NGDO_CTRL_NGDO_SLEW_CTRL, (uint32_t)0x09u);
+#else /* !PMG1B1_USB_CHARGER */
             CY_USBPD_REG_FIELD_UPDATE(pd->ngdo_ctrl, PDSS_NGDO_CTRL_NGDO_SLEW_CTRL, (uint32_t)0x03u);
+#endif /* PMG1B1_USB_CHARGER */
             break;
         case 1:
             CY_USBPD_REG_FIELD_UPDATE(pd->ngdo_ctrl, PDSS_NGDO_CTRL_NGDO_SLEW_CTRL, (uint32_t)0x01Eu);
@@ -5510,9 +5534,16 @@ void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 /*
  * Minimum supported voltage for UVP. Any voltage lower may cause system to
  * not work as expected; the block references can get affected. This is now
- * limited to 3.15V.
+ * limited to 3.1V.
  */
 #define UVP_MIN_VOLT                (3100)
+
+/*
+ * Minimum supported voltage for UVP. Any voltage lower may cause system to
+ * not work as expected; the block references can get affected. This is now
+ * limited to 3V for Buck-Only solutions.
+ */
+#define UVP_MIN_VOLT_BUCK_ONLY      (3000)
 
 #define MAX_UVP_DEBOUNCE_CYCLES     (0x20u)
 #endif /* PDL_VBUS_UVP_ENABLE */
@@ -5545,15 +5576,21 @@ void Cy_USBPD_Fault_Vbus_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 {
 #if PDL_VBUS_UVP_ENABLE && defined(CY_IP_MXUSBPD)
     uint16_t threshold, vref;
+    uint16_t uvpLimit = UVP_MIN_VOLT;
     uint32_t regVal = 0;
     PPDSS_REGS_T pd = context->base;
     uint8_t filterSel;
+    
 
 #if (!defined(CY_DEVICE_CCG7S) && !defined(CY_DEVICE_CCG7D) && !defined(CY_DEVICE_WLC1))
     filterSel = (GET_VBUS_UVP_TABLE(context)->debounce + 1) / 2;
     filterSel = CY_USBPD_GET_MIN(filterSel, MAX_UVP_DEBOUNCE_CYCLES);
 #else
-
+#if CY_USE_CONFIG_TABLE
+    pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
     /* Convert debounce delay in us to filter clock cycles. */
     filterSel = GET_VBUS_UVP_TABLE(context)->debounce;
     filterSel = (uint8_t)system_get_clk_filt_sel(context->port, (((uint16_t) filterSel) * 10u));
@@ -5569,11 +5606,16 @@ void Cy_USBPD_Fault_Vbus_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 
     /* Calculate required VBUS for UVP. */
     threshold = ((volt * GET_VBUS_UVP_TABLE(context)->threshold) / 100);
-
-    /* Ensure that we are within the limits. */
-    if (threshold < UVP_MIN_VOLT)
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+    if(pwr_cfg->buck_boost_operating_mode == BB_FORCED_BUCK)
     {
-        threshold = UVP_MIN_VOLT;
+        uvpLimit = UVP_MIN_VOLT_BUCK_ONLY;
+    }
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+    /* Ensure that we are within the limits. */
+    if (threshold < uvpLimit)
+    {
+        threshold = uvpLimit;
     }
 
 #if (!defined(CY_DEVICE_CCG7S) && !defined(CY_DEVICE_WLC1) && !defined(CY_DEVICE_CCG7D))
@@ -6024,10 +6066,12 @@ void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
     /* Calculate required current for OCP. */
     vsense = current + ((current * GET_VBUS_OCP_TABLE(context)->threshold) / 100u);
 
+#if ((!defined(CY_DEVICE_SERIES_PMG1B1)) && (!defined(CY_DEVICE_CCG3PA_VBUS_OCP_UNLIM)))
     if(vsense > VBUS_MAX_CURRENT)
     {
         vsense = VBUS_MAX_CURRENT;
     }
+#endif /* ((!defined(CY_DEVICE_SERIES_PMG1B1)) && (!defined(CY_DEVICE_CCG3PA_VBUS_OCP_UNLIM))) */
 
 #if defined(CY_DEVICE_CCG6)
     /*
@@ -6544,7 +6588,7 @@ void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
         Cy_USBPD_Fault_FetAutoModeDisable(context, true, CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP);
     }
 
-    (void)Cy_USBPD_LSCSA_Config(context, CY_USBPD_VBUS_LSCSA_OCP_CONFIG, vrefSel);
+    (void)Cy_USBPD_LSCSA_Config(context, CY_USBPD_VBUS_LSCSA_OCP_CONFIG, gainSel);
     pd->lscsa_1_ctrl &= ~PDSS_LSCSA_1_CTRL_LSCSA_PD;
 
     /* Configure Reference for comparator. */
@@ -7768,13 +7812,141 @@ void Cy_USBPD_Fault_Vbus_RcpIntrHandler(cy_stc_usbpd_context_t *context)
 #endif /* (defined(PDL_VBUS_RCP_ENABLE) && defined(CY_DEVICE_CCG6)) */
 }
 
-/** \cond DOXYGEN_HIDE */
+/*******************************************************************************
+* Function Name: Cy_USBPD_Vbus_MeasureCur
+****************************************************************************//**
+*
+* Sample the VBus current using ADC.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*
+* \return uint16_t
+* Returns sampled current
+*
+*******************************************************************************/
 uint16_t Cy_USBPD_Vbus_MeasureCur(cy_stc_usbpd_context_t *context)
 {
+    uint16_t current = 0;
+
+#if (defined(CY_DEVICE_CCG6))
+    uint8_t level;
+    PPDSS_REGS_T pd = context->base;
+    uint32_t state;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    (void)Cy_USBPD_Adc_Calibrate(context, CY_USBPD_ADC_ID_0);
+
+    /* Disconnect VBus divider from AMUX-B. */
+    pd->amux_nhv_ctrl &= ~(1U << AMUX_ADC_CCG6_VBUS_DIV_EN_POS);
+    Cy_SysLib_DelayUs (50);
+
+    /* Use ADFT to connect the CSA stage-1 output to AMUX Bus B. */
+    pd->csa_scp_0_ctrl = ((pd->csa_scp_0_ctrl & ~PDSS_CSA_SCP_0_CTRL_CSA_ADFT_CTRL_MASK) |
+            (15UL << PDSS_CSA_SCP_0_CTRL_CSA_ADFT_CTRL_POS));
+    Cy_SysLib_DelayUs (100);
+
+    /* Sample and log the ADC reading. */
+    level = Cy_USBPD_Adc_Sample(context, CY_USBPD_ADC_ID_0, CY_USBPD_ADC_INPUT_AMUX_B);
+
+    /* Disconnect the stage-1 CSA output from AMUX. */
+    pd->csa_scp_0_ctrl &= ~PDSS_CSA_SCP_0_CTRL_CSA_ADFT_CTRL_MASK;
+    Cy_SysLib_DelayUs (50);
+
+    /* Reconnect VBus divider to AMUX-B. */
+    pd->amux_nhv_ctrl |= (1U << AMUX_ADC_CCG6_VBUS_DIV_EN_POS);
+
+    Cy_SysLib_ExitCriticalSection(state);
+
+    /* Calculate the amplified sense voltage in mV from the ADC reading. */
+    current = ((level * context->adcVdddMv[CY_USBPD_ADC_ID_0]) / 256U);
+    if (GET_VBUS_OCP_TABLE(context)->senseRes == 10U)
+    {
+        /*
+           Convert to current in 10 mA units.
+           We need to divide by gain (20) times the sense impedance (10 mOhm).
+           */
+        current = current / 2u;
+    }
+    else
+    {
+        /*
+           Convert to current in 10 mA units.
+           We need to divide by gain (50) times the sense impedance (5 mOhm).
+           */
+        current = (current * 2u) / 5u;
+    }
+#endif /* (CY_DEVICE_CCG6) */
+
+#if (defined(CY_DEVICE_CCG3PA))
+    /* Sample the VBus current using ADC. */
+    uint8_t gain;
+    cy_en_usbpd_adc_id_t adc;
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval;
+    uint32_t state;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    /* Ensure that LSCSA block is enabled. */
+    pd->lscsa_1_ctrl &= ~PDSS_LSCSA_1_CTRL_LSCSA_PD;
+
+    /*
+     * ADC_0 does not have path for VOUT through any AMUX.
+     * But, ADC_1 is hard wired to ADFT setting of PFC_ON signal.
+     */
+    adc = CY_USBPD_ADC_ID_1;
+
+    /* Setup the ADFT for measuring the out_pfc_on:
+     * 1 = scp, 2 = ocp, 3 = pfc_on, 4 = pfc_off, 5 = sr_on, 6 sr_off, 7 ea
+     * Since out_pfc_on is not used for any operation, it is best suited
+     * for this.
+     */
+    CY_USBPD_REG_FIELD_UPDATE(pd->lscsa_1_ctrl, PDSS_LSCSA_1_CTRL_LSCSA_ATSTCFG, ((uint32_t)3u));
+
+    /* By default, use the gain setting of 125. */
+    gain = 125u;
+    (void)Cy_USBPD_LSCSA_Config(context, CY_USBPD_VBUS_LSCSA_PFC_ON_CONFIG, LSCSA_AV_SEL_125);
+
+    Cy_SysLib_DelayUs(50);
+
+    /* Measure the amplified Vsense. */
+    regval = (uint32_t)Cy_USBPD_Adc_Sample(context, adc, CY_USBPD_ADC_INPUT_AMUX_B);
+    regval = (uint32_t)Cy_USBPD_Adc_LevelToVolt(context, adc, (uint8_t)regval);
+
+    if (regval > LSCSA_GAIN_MAX_VALUE)
+    {
+        gain = 35u;
+        (void)Cy_USBPD_LSCSA_Config(context, CY_USBPD_VBUS_LSCSA_PFC_ON_CONFIG, LSCSA_AV_SEL_35);
+
+        Cy_SysLib_DelayUs(50);
+
+        regval = (uint32_t)Cy_USBPD_Adc_Sample(context, adc, CY_USBPD_ADC_INPUT_AMUX_B);
+        regval = (uint32_t)Cy_USBPD_Adc_LevelToVolt(context, adc, (uint8_t)regval);
+    }
+
+    regval = (((regval * 1000u) + (((uint32_t)context->vbusCsaRsense * gain) >> 1)) /
+        ((uint32_t)context->vbusCsaRsense * gain));
+
+    /* Revert the ADFT and MUX configurations. */
+    CY_USBPD_REG_FIELD_UPDATE(pd->lscsa_1_ctrl, PDSS_LSCSA_1_CTRL_LSCSA_ATSTCFG, 0u);
+
+    Cy_SysLib_DelayUs(10);
+
+    Cy_SysLib_ExitCriticalSection(state);
+
+    current = (uint16_t)regval;
+
+#else
     CY_UNUSED_PARAMETER(context);
-    return 0U;
+#endif /* (CY_DEVICE_CCG3PA) */
+    return current;
 }
-/** \endcond */
 
 #if defined(PDL_VBUS_SCP_ENABLE)
 
@@ -7857,7 +8029,12 @@ static uint16_t Cy_USBPD_Fault_Vbus_Scp_SystemCalcLimit(cy_stc_usbpd_context_t *
     context->vbusScpLimit = VBUS_SCP_THRESHOLD;
 #else /* !VBUS_SCP_THRESHOLD_OVERRIDE */
 #if (CCG_LOAD_SHARING_ENABLE || CCG_TEMP_BASED_VOLTAGE_THROTTLING || CCG_VIN_BASED_VOLTAGE_THROTTLING)
+
+#if CY_USE_CONFIG_TABLE
     uint16_t max_current = pd_get_ptr_auto_cfg_tbl(context)->max_current;
+#else
+    uint16_t max_current = context->usbpdConfig->autoConfig->max_current;
+#endif
 
     if ((max_current >= CY_PD_I_0P9A) &&
         (max_current <= CY_PD_I_3A))
@@ -10087,6 +10264,834 @@ void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context)
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
      CY_UNUSED_PARAMETER(context);
 }
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+
+/* Min OVP detection level for VBAT. */
+#define BAT_OVP_DETECT_MIN              (3000u)
+
+/* min reference voltage in mV. */
+#define BAT_REF_VOLT_MIN                (200u)
+
+/* reference voltage step size in mV. */
+#define BAT_REF_VOLT_STEP               (10u)
+
+/* max voltage in mV. for 20% divider */
+#define BAT_VBUS_VOLT_MAX               (9000u)
+
+/* Max. VREF setting. */
+#define BAT_VREF_MAX_SETTING            (199u)
+
+/* Mux to select VBUS_C or VBUS_IN for GAIN 20% */
+#define AMUX_NHVN_OV_BIT_0              (0u)
+
+/* Mux to select VBUS_C or VBUS_IN for GAIN 8% */
+#define AMUX_NHVN_OV_BIT_7              (7u)
+
+/* Mux to select GAIN 20% or 8% output*/
+#define AMUX_OV_BIT_10                  (10u)
+
+/* Mux to select VBUS_C/VBUS_IN or VBUS_MON */
+#define AMUX_OV_BIT_11                  (11u)
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OvpEnable
+****************************************************************************//**
+*
+* Enable Over Voltage Protection (OVP) control using the internal UV-OV block.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param volt
+* Contract Voltage in mV units.
+*
+* \param filterSel
+* Filter value
+*
+* \param cb
+* Callback function to be called on fault detection.
+*
+* \param pctrl
+* Flag indicating the type of gate driver to be controlled, true for
+* P_CTRL and false for C_CTRL.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t threshold, uint8_t filterSel,
+        cy_cb_vbus_fault_t cb, bool pctrl)
+{
+    CY_UNUSED_PARAMETER(pctrl);
+
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regVal;
+    uint16_t vref;
+
+    /* Store OVP parameters. */
+    context->vbatOvpCbk = cb;
+
+    /* Make sure threshold is above the minimum trip point to avoid false triggers. */
+    if (threshold < BAT_OVP_DETECT_MIN)
+    {
+        threshold = BAT_OVP_DETECT_MIN;
+    }
+
+    if (threshold < BAT_VBUS_VOLT_MAX)
+    {
+        /* Connect output to divider */
+        pd->amux_nhvn_ctrl |= ((uint32_t)1u << AMUX_NHVN_OV_BIT_0);
+        pd->amux_ctrl |= ((uint32_t)1u << AMUX_OV_BIT_10);
+        pd->amux_ctrl &= ~((uint32_t)1u << AMUX_OV_BIT_11);
+
+        /* Calculate the actual reference voltage. Cap the value to the max. supported. */
+        /* Gain 20% */
+        vref = (((threshold / 5) - BAT_REF_VOLT_MIN) / BAT_REF_VOLT_STEP);
+    }
+    else
+    {
+        /* Connect output to divider */
+        pd->amux_nhvn_ctrl |= ((uint32_t)1u << AMUX_NHVN_OV_BIT_7);
+        pd->amux_ctrl &= ~((uint32_t)1u << AMUX_OV_BIT_10);
+        pd->amux_ctrl &= ~((uint32_t)1u << AMUX_OV_BIT_11);
+
+        /* Calculate the actual reference voltage. Cap the value to the max. supported. */
+        /* Gain 8% */
+        vref = ((((threshold * 2) / 25) - BAT_REF_VOLT_MIN) / BAT_REF_VOLT_STEP);
+    }
+
+    if (vref > BAT_VREF_MAX_SETTING)
+    {
+        vref = BAT_VREF_MAX_SETTING;
+    }
+
+    /* Program reference voltage for OV comparator. */
+    regVal = pd->refgen_1_ctrl;
+    regVal &= ~(PDSS_REFGEN_1_CTRL_SEL0_MASK);
+    regVal |= (vref << PDSS_REFGEN_1_CTRL_SEL0_POS);
+    pd->refgen_1_ctrl = regVal;
+
+    /* Turn on comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P] |= PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P] &= ~PDSS_COMP_CTRL_COMP_PD;
+
+    Cy_SysLib_DelayUs(10);
+
+    /* Filter configuration. */
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] &= ~PDSS_INTR7_FILTER_CFG_FILT_EN;
+    regVal = pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] & ~(PDSS_INTR7_FILTER_CFG_FILT_CFG_MASK
+            | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_SEL_MASK | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS);
+    regVal |= PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET;
+
+    /* Set filter clock cycles if filter is required. */
+    regVal |= (filterSel << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
+
+    /* Set edge detection. */
+    regVal |= (CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
+    regVal |= PDSS_INTR7_FILTER_CFG_FILT_EN;
+
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] = regVal;
+
+    /* Clear interrupt. */
+    pd->intr7 = (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+
+    /* Enable Interrupt. */
+    pd->intr7_mask |= (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OvpDisable
+****************************************************************************//**
+*
+* Disable Over Voltage Protection (OVP) control.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param pctrl
+* Flag indicating the type of gate driver to be controlled, true for
+* P_CTRL and false for C_CTRL.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
+{
+    CY_UNUSED_PARAMETER(pctrl);
+
+    PPDSS_REGS_T pd = context->base;
+    uint32_t state;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    /* Disable comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P] &= ~PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_P] |= PDSS_COMP_CTRL_COMP_PD;
+
+    /* Disable filter. */
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] &= ~(PDSS_INTR7_FILTER_CFG_FILT_EN |
+            PDSS_INTR7_FILTER_CFG_FILT_CFG_MASK | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_SEL_MASK |
+            PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS);
+
+    /* Disable and clear OV interrupts. */
+    pd->intr7_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_OV);
+    pd->intr7 = 1U << CY_USBPD_VBUS_FILTER_ID_OV;
+
+    /* Clear callback. */
+    context->vbatOvpCbk = NULL;
+
+    Cy_SysLib_ExitCriticalSection(state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OvpIntrHandler
+****************************************************************************//**
+*
+* VBAT OVP fault interrupt handler function.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context)
+{
+    PPDSS_REGS_T pd = context->base;
+
+    /* Disable and clear OV interrupt. */
+    pd->intr7_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_OV);
+    pd->intr7 = 1U << CY_USBPD_VBUS_FILTER_ID_OV;
+
+    /* Invoke OVP callback. */
+    if (context->vbatOvpCbk != NULL)
+    {
+        context->vbatOvpCbk(context, true);
+    }
+}
+
+/*
+ * Minimum supported voltage for UVP. Any voltage lower may cause system to
+ * not work as expected; the block references can get affected. This is now
+ * limited to 3.15V.
+ */
+#define BAT_UVP_MIN_VOLT                (3100)
+
+/* Mux to select VBUS_C or VBUS_IN for GAIN 10% */
+#define AMUX_NHVN_UV_BIT_5              (5u)
+
+/* Mux to select GAIN 20% or 10% output*/
+#define AMUX_UV_BIT_8                  (8u)
+
+/* Mux to select VBUS_C/VBUS_IN or VBUS_MON */
+#define AMUX_UV_BIT_9                  (9u)
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_UvpEnable
+****************************************************************************//**
+*
+* Enable Under Voltage Protection (UVP) control using the internal UV-OV block.
+* UVP is only expected to be used while PD-port is the power source.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param volt
+* Contract Voltage in mV units.
+*
+* \param filterSel
+* Filter value
+*
+* \param cb
+* Callback function to be called on fault detection.
+*
+* \param pctrl
+* Flag indicating the type of gate driver to be controlled, true for
+* P_CTRL and false for C_CTRL.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t threshold, uint8_t filterSel, cy_cb_vbus_fault_t cb, bool pctrl)
+{
+    CY_UNUSED_PARAMETER(pctrl);
+
+    uint16_t vref;
+    uint32_t regVal = 0;
+    PPDSS_REGS_T pd = context->base;
+
+    /* Set up UVP callback. */
+    context->vbatUvpCbk = cb;
+
+    /* Ensure that we are within the limits. */
+    if (threshold < BAT_UVP_MIN_VOLT)
+    {
+        threshold = BAT_UVP_MIN_VOLT;
+    }
+
+    /* Connect output to divider */
+    pd->amux_nhvn_ctrl |= ((uint32_t)1u << AMUX_NHVN_UV_BIT_5);
+    pd->amux_ctrl &= ~((uint32_t)1u << AMUX_UV_BIT_8);
+    pd->amux_ctrl &= ~((uint32_t)1u << AMUX_UV_BIT_9);
+
+    /* Gain 10% */
+    vref = (((threshold / 10) - BAT_REF_VOLT_MIN) / BAT_REF_VOLT_STEP);
+
+    if (vref > BAT_VREF_MAX_SETTING)
+    {
+        vref = BAT_VREF_MAX_SETTING;
+    }
+
+    /* Program reference voltage for UV comparator. */
+    regVal = pd->refgen_1_ctrl;
+    regVal &= ~(PDSS_REFGEN_1_CTRL_SEL1_MASK);
+    regVal |= (vref << PDSS_REFGEN_1_CTRL_SEL1_POS);
+    pd->refgen_1_ctrl = regVal;
+
+    /* Turn on comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M] |= PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M] &= ~PDSS_COMP_CTRL_COMP_PD;
+
+    Cy_SysLib_DelayUs(10);
+
+    /* Filter configuration. */
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_UV] &= ~PDSS_INTR7_FILTER_CFG_FILT_EN;
+
+    /* Set filter clock cycles if filter is required. */
+    regVal = pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_UV] & ~(PDSS_INTR7_FILTER_CFG_FILT_CFG_MASK
+            | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_SEL_MASK | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS);
+    regVal |= PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET;
+
+    /* Set filter clock cycles if filter is required. */
+    regVal |= (filterSel << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
+
+    /* Set edge detection. */
+    regVal |= (CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
+    regVal |= PDSS_INTR7_FILTER_CFG_FILT_EN;
+
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_UV] = regVal;
+
+    /* Clear interrupt. */
+    pd->intr7 = (1U << CY_USBPD_VBUS_FILTER_ID_UV);
+
+    /* Enable Interrupt. */
+    pd->intr7_mask |= (1U << CY_USBPD_VBUS_FILTER_ID_UV);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_UvpDisable
+****************************************************************************//**
+*
+* Disable Under Voltage Protection (UVP) control.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param pctrl
+* Flag indicating the type of gate driver to be controlled, true for
+* P_CTRL and false for C_CTRL.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
+{
+    CY_UNUSED_PARAMETER(pctrl);
+
+    PPDSS_REGS_T pd = context->base;
+    uint32_t state;
+
+    state = Cy_SysLib_EnterCriticalSection ();
+
+    /* Disable comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M] &= ~PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSRC_NEW_M] |= PDSS_COMP_CTRL_COMP_PD;
+
+    /* Disable filter. */
+    pd->intr7_filter_cfg[CY_USBPD_VBUS_FILTER_ID_UV] &= ~(PDSS_INTR7_FILTER_CFG_FILT_EN |
+            PDSS_INTR7_FILTER_CFG_FILT_CFG_MASK | PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_SEL_MASK |
+            PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS);
+
+    /* Disable and clear UV interrupts. */
+    pd->intr7_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_UV);
+    pd->intr7 = 1U << CY_USBPD_VBUS_FILTER_ID_UV;
+
+    /* Clear callback. */
+    context->vbatUvpCbk = NULL;
+
+    Cy_SysLib_ExitCriticalSection (state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_UvpIntrHandler
+****************************************************************************//**
+*
+* VBAT UVP fault interrupt handler function.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_UvpIntrHandler(cy_stc_usbpd_context_t *context)
+{
+    PPDSS_REGS_T pd = context->base;
+
+    /* Disable and clear UV interrupt. */
+    pd->intr7_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_UV);
+    pd->intr7 = 1U << CY_USBPD_VBUS_FILTER_ID_UV;
+
+    /* Invoke UVP callback. */
+    if (context->vbatUvpCbk != NULL)
+    {
+        context->vbatUvpCbk(context, false);
+    }
+}
+
+#if (!PDL_VBUS_OCP_ENABLE)
+
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+
+#define CCG_FLASH_ROW_SHIFT_NUM                 (8u)
+
+/* Trims flag */
+#define OCP_TRIM_ROOM_FLAG(port) (*(volatile uint8_t *)((0x0ffff45Du) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#define OCP_TRIM_1A_ROOM(port) (*(volatile uint8_t *)((0x0ffff456u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_2A_ROOM(port) (*(volatile uint8_t *)((0x0ffff457u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_3A_ROOM(port) (*(volatile uint8_t *)((0x0ffff458u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_4A_ROOM(port) (*(volatile uint8_t *)((0x0ffff459u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_5A_ROOM(port) (*(volatile uint8_t *)((0x0ffff45Au) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#define OCP_TRIM_1A_H(port) (*(volatile uint8_t *)((0x0ffff431u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_2A_H(port) (*(volatile uint8_t *)((0x0ffff433u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_3A_H(port) (*(volatile uint8_t *)((0x0ffff434u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_4A_H(port) (*(volatile uint8_t *)((0x0ffff435u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_5A_H(port) (*(volatile uint8_t *)((0x0ffff436u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#define OCP_TRIM_1A_C(port) (*(volatile uint8_t *)((0x0ffff445u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_2A_C(port) (*(volatile uint8_t *)((0x0ffff447u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_3A_C(port) (*(volatile uint8_t *)((0x0ffff448u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_4A_C(port) (*(volatile uint8_t *)((0x0ffff449u) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+#define OCP_TRIM_5A_C(port) (*(volatile uint8_t *)((0x0ffff44Au) + \
+        (((uint32_t)(port)) << (CCG_FLASH_ROW_SHIFT_NUM))))
+
+#define I_1P3A      (130u)
+#define I_2P6A      (260u)
+#define I_3P9A      (390u)
+#define I_5P2A      (520u)
+#define I_6P5A      (650u)
+#endif /* defined(CY_DEVICE_CCG7D) */
+#endif /* PDL_VBUS_OCP_ENABLE */
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OcpEnable
+****************************************************************************//**
+*
+* Enable Battery Over Current Protection (OCP) control using the internal Current Sense Amplifier.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param current
+* Charging current in mA units.
+*
+* \param cb
+* Callback function to be called on fault detection.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb)
+{
+    PPDSS_REGS_T pd = context->base;
+    uint32_t vsense = 0;
+    uint32_t vrefSel = 0;
+    uint32_t state = 0;
+    uint32_t regval = 0;
+    uint8_t gainSel = 0;
+    uint8_t filterSel = 0;
+
+    uint8_t ocp_trim_1A;
+    uint8_t ocp_trim_2A;
+    uint8_t ocp_trim_3A;
+    uint8_t ocp_trim_4A;
+    uint8_t ocp_trim_5A;
+    int32_t vref_1;
+    int32_t vref_2;
+    int32_t vref_sel_signed_32;
+    uint16_t cur_1;
+
+    /* Never set current less than 900mA */
+    if(current < 90u)
+    {
+        current = 90u;
+    }
+
+    /* Set up OCP callback. */
+    context->vbatOcpCbk = cb;
+
+    /* Calculate required current for OCP. */
+    vsense = current + ((current * context->usbpdConfig->vbatOcpConfig->threshold) / 100u);
+
+    /*
+     * ** Silicon has room temperature trims.
+     * Whereas,
+     * *A silicon does not have room temperature trims.
+     */
+    if (OCP_TRIM_ROOM_FLAG(context->port) == 0u)
+    {
+        ocp_trim_1A = ((OCP_TRIM_1A_H(context->port) + OCP_TRIM_1A_C(context->port)) >> 1u);
+        ocp_trim_2A = ((OCP_TRIM_2A_H(context->port) + OCP_TRIM_2A_C(context->port)) >> 1u);
+        ocp_trim_3A = ((OCP_TRIM_3A_H(context->port) + OCP_TRIM_3A_C(context->port)) >> 1u);
+        ocp_trim_4A = ((OCP_TRIM_4A_H(context->port) + OCP_TRIM_4A_C(context->port)) >> 1u);
+        ocp_trim_5A = ((OCP_TRIM_5A_H(context->port) + OCP_TRIM_5A_C(context->port)) >> 1u);
+    }
+    else
+    {
+        ocp_trim_1A = OCP_TRIM_1A_ROOM(context->port);
+        ocp_trim_2A = OCP_TRIM_2A_ROOM(context->port);
+        ocp_trim_3A = OCP_TRIM_3A_ROOM(context->port);
+        ocp_trim_4A = OCP_TRIM_4A_ROOM(context->port);
+        ocp_trim_5A = OCP_TRIM_5A_ROOM(context->port);
+    }
+
+    /* vsense contains the current setting required in 10mA units. */
+    /* Check if silicon has proper trims and then apply interpolation. */
+    if((ocp_trim_1A != 0u) &&
+       (ocp_trim_2A != 0u) &&
+       (ocp_trim_3A != 0u) &&
+       (ocp_trim_4A != 0u) &&
+       (ocp_trim_5A != 0u))
+    {
+        /* Calculate current for the actual Rsense */
+        vsense = ((vsense * context->vbusCsaRsense) / CSA_IDEAL_RSENSE);
+
+        /* Trim values are with 30% OCP threshold */
+        if(vsense >= I_5P2A)
+        {
+            vref_2 = (int32_t)ocp_trim_5A;
+            vref_1 = (int32_t)ocp_trim_4A;
+            cur_1 = I_5P2A;
+        }
+        else if(vsense >= I_3P9A)
+        {
+            vref_2 = (int32_t)ocp_trim_4A;
+            vref_1 = (int32_t)ocp_trim_3A;
+            cur_1 = I_3P9A;
+        }
+        else if(vsense >= I_2P6A)
+        {
+            vref_2 = (int32_t)ocp_trim_3A;
+            vref_1 = (int32_t)ocp_trim_2A;
+            cur_1 = I_2P6A;
+        }
+        else if(vsense >= I_1P3A)
+        {
+            vref_2 = (int32_t)ocp_trim_2A;
+            vref_1 = (int32_t)ocp_trim_1A;
+            cur_1 = I_1P3A;
+        }
+        else
+        {
+            /*
+             * Since reference value is 130mV by default for value '0',
+             * we need to consider corresponding negative reference
+             * for 0A base current.
+             */
+            vref_2 = (int32_t)ocp_trim_1A;
+            vref_1 = -13;
+            cur_1 = 0;
+        }
+
+        /*
+         * Calculate corrected reference with trim and rsense value.
+         * Adjust for current in 10mA units.
+         * Considering Ex: (2.6A - 1.3A) = 1.3A instead of 1A.
+         */
+        vref_sel_signed_32 = (vref_1 + (((vref_2 - vref_1) * ((int32_t)vsense - (int32_t)cur_1)) / 130));
+        vrefSel = (uint8_t)vref_sel_signed_32;
+
+        /*
+         * CC trims will give refgen value directly including
+         * 13 steps (130mV) offset. So, no need to adjust refgen offset.
+         */
+    }
+    else
+    {
+        gainSel = OCP_GAIN_VALUE;
+        Cy_USBPD_CSA_Calc_Ref(context, vsense, gainSel, &vrefSel, false);
+    }
+
+    filterSel = context->usbpdConfig->vbatOcpConfig->debounce;
+
+    if(context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_AUTOCTRL)
+    {
+        filterSel = (uint8_t)system_get_clk_filt_sel(context->port, (((uint16_t)filterSel) * 10u));
+    }
+
+    context->ocpSwDbMs = filterSel;
+
+    if(filterSel > 31)
+    {
+        filterSel = 31;
+    }
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    if(context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_AUTOCTRL)
+    {
+        Cy_USBPD_Fault_FetAutoModeDisable(context, true, CY_USBPD_VBUS_FILTER_ID_CSA_OCP);
+    }
+
+    /* Gain for OCP is fixed. So CSA programming is not required. */
+    /* Power up CSA block and enable output. */
+    regval = pd->csa_scp_0_ctrl;
+    regval &= ~PDSS_CSA_SCP_0_CTRL_PD_CSA;
+    regval |= PDSS_CSA_SCP_0_CTRL_SEL_OUT_D | PDSS_CSA_SCP_0_CTRL_CSA_ISO_N;
+    pd->csa_scp_0_ctrl = regval;
+
+    /* Configure Reference for comparator. */
+    regval = pd->refgen_2_ctrl;
+    regval &= ~(PDSS_REFGEN_2_CTRL_SEL5_MASK);
+    regval |= ((uint32_t)vrefSel << PDSS_REFGEN_2_CTRL_SEL5_POS);
+    pd->refgen_2_ctrl = regval;
+
+    regval = pd->refgen_2_ctrl;
+    regval &= ~(PDSS_REFGEN_2_CTRL_SEL5_MASK);
+    regval |= ((uint32_t)vrefSel << PDSS_REFGEN_2_CTRL_SEL5_POS);
+    pd->refgen_2_ctrl = regval;
+
+    /* Configuring the CSA output filter. */
+    regval = pd->intr13_cfg_csa_scp_hs;
+    regval &= ~(PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_MASK |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_SEL_MASK |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_RESET |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_BYPASS);
+    pd->intr13_cfg_csa_scp_hs = regval;
+
+    /* Configure the filter based on debounce parameter from config table. */
+    regval |= ((uint8_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_POS) |
+        (filterSel << PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_SEL_POS) |
+        PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN |
+        PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_DPSLP_MODE;
+    pd->intr13_cfg_csa_scp_hs = regval;
+
+    /* Clear and enable the OC detect interrupt. */
+    pd->intr13 = PDSS_INTR13_CSA_OCP_CHANGED;
+    pd->intr13_mask |= PDSS_INTR13_MASK_CSA_OCP_CHANGED_MASK;
+
+    if (context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_AUTOCTRL)
+    {
+         Cy_USBPD_Fault_FetAutoModeEnable(context, true, CY_USBPD_VBUS_FILTER_ID_CSA_OCP);
+    }
+
+    Cy_SysLib_ExitCriticalSection(state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OcpDisable
+****************************************************************************//**
+*
+* Disables the Battery Over Current Protection (OCP)
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param pctrl
+* Flag indicating the type of gate driver to be controlled, true for
+* P_CTRL and false for C_CTRL.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
+{
+    PPDSS_REGS_T pd = context->base;
+    uint32_t state;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    /* Deregister the callback. */
+    context->vbatOcpCbk = NULL;
+
+    uint32_t regval;
+
+    /* Clear reference. */
+    pd->refgen_2_ctrl &= ~(PDSS_REFGEN_2_CTRL_SEL5_MASK);
+
+    /* Disable and clear interrupts. */
+    pd->intr13_mask &= ~(PDSS_INTR13_CSA_OCP_CHANGED);
+    pd->intr13 = PDSS_INTR13_CSA_OCP_CHANGED;
+
+    /* Disable the filter. */
+    regval = pd->intr13_cfg_csa_scp_hs;
+    regval &= ~(PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_MASK |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_SEL_MASK |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_RESET |
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_BYPASS);
+    pd->intr13_cfg_csa_scp_hs = regval;
+
+    if(context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_AUTOCTRL)
+    {
+        Cy_USBPD_Fault_FetAutoModeDisable(context, pctrl, CY_USBPD_VBUS_FILTER_ID_CSA_OCP);
+    }
+
+    if (context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_SW_DB)
+    {
+        /* Make sure any debounce timer is stopped. */
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER));
+    }
+
+    Cy_SysLib_ExitCriticalSection (state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_BatOcpHandlerWrapper
+****************************************************************************//**
+*
+* VBAT OCP Wrapper function.
+*
+* \param id
+* Timer id
+*
+* \param callbackContext
+* Pointer to usbpd_context structure.
+*
+* \return
+* None
+*
+*******************************************************************************/
+static void Cy_USBPD_BatOcpHandlerWrapper(cy_en_usbpd_timer_id_t id, void *callbackContext)
+{
+    cy_stc_usbpd_context_t *context=callbackContext;
+     /* OCP debounced. Invoke callback. */
+    context->vbatOcpCbk(context, true);
+    CY_UNUSED_PARAMETER(id);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vbat_OcpIntrHandler
+****************************************************************************//**
+*
+* VBAT OCP fault interrupt handler function.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vbat_OcpIntrHandler(cy_stc_usbpd_context_t *context)
+{
+    PPDSS_REGS_T pd = context->base;
+    if ((pd->intr13_masked & (PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED)) != 0u)
+    {
+        /* Clear the active interrupt. */
+        pd->intr13 = PDSS_INTR13_CSA_OCP_CHANGED;
+
+        /* If positive edge interrupt. */
+        if (((pd->intr13_cfg_csa_scp_hs & PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_MASK) >>
+            PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_POS) == (uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS)
+        {
+            /* If No software debounce mode. */
+            if ((context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT) ||
+                (context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_AUTOCTRL))
+            {
+                /* Invoke the callback. */
+                (void)context->vbatOcpCbk(context,true);
+            }
+            /* If software debounce mode. */
+            else if (context->usbpdConfig->vbatOcpConfig->mode == VBUS_OCP_MODE_INT_SW_DB)
+            {
+                uint32_t regval2;
+                /*
+                 * Look for negative edge of comparator. NOTE: Here we are using filter
+                 * reset mechanism to simulate edge if the comparator status has already gone low.
+                 * This assumes that the OCP comparator filter is being used during enable.
+                 */
+                pd->intr13_cfg_csa_scp_hs &= ~PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN;
+                regval2 = pd->intr13_cfg_csa_scp_hs;
+                regval2 &= ~(PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_MASK);
+                regval2 |= (uint8_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_POS;
+                regval2 |= (PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_RESET | PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN);
+                pd->intr13_cfg_csa_scp_hs = regval2;
+
+                /* Start the debounce timer. */
+                context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER), context->ocpSwDbMs, Cy_USBPD_BatOcpHandlerWrapper);
+            }
+            else
+            {
+                /* Do nothing */
+            }
+        }
+        /* If negative edge interrupt. */
+        else
+        {
+            if (context->timerIsRunningcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER)))
+            {
+                uint32_t regval1;
+                /* Stop the debounce timer. */
+                context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER));
+
+                /*
+                 * Look for positive edge of comparator. NOTE: Here we are using filter
+                 * reset mechanism to simulate edge if the comparator status has already gone low.
+                 * This assumes that the OCP comparator filter is being used during enable.
+                 */
+                pd->intr13_cfg_csa_scp_hs &= ~PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN;
+                regval1 = pd->intr13_cfg_csa_scp_hs;
+                regval1 &= ~(PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_MASK | PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_RESET);
+                regval1 |= (uint8_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_DIS << PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_CFG_POS;
+                regval1 |= (PDSS_INTR13_CFG_CSA_SCP_HS_CSA_OCP_FILT_EN);
+                pd->intr13_cfg_csa_scp_hs = regval1;
+            }
+            else
+            {
+                /* Disable the interrupt as we are no longer interested in it. */
+                pd->intr13_mask &= ~PDSS_INTR13_CSA_OCP_CHANGED;
+            }
+        }
+    }
+}
+
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
 
 /* [] END OF FILE */

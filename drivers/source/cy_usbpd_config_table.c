@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.c
-* \version 2.10
+* \version 2.20
 *
 * This file specifies helper functions to retrieve Configuration table data
 * present in flash for various supported devices.
@@ -27,13 +27,14 @@
 
 #include "cy_device.h"
 #include "cy_device_headers.h"
+#include "cy_usbpd_common.h"
 
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
 
 #include "cy_usbpd_defines.h"
-#include "cy_usbpd_common.h"
 #include "cy_usbpd_config_table.h"
 
+#if CY_USE_CONFIG_TABLE
 
 const auto_config_t * get_auto_config(cy_stc_usbpd_context_t *context)
 {
@@ -181,8 +182,6 @@ auto_cfg_settings_t* pd_get_ptr_auto_cfg_tbl(cy_stc_usbpd_context_t *context)
             get_auto_config(context)->auto_config_offset));
 }
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)- || defined(CY_DEVICE_CCG3PA)) */
-
-#if CY_USE_CONFIG_TABLE
 ovp_settings_t* pd_get_ptr_ovp_tbl(cy_stc_usbpd_context_t *context)
 {
 #if(defined(CY_DEVICE_WLC1))
@@ -310,6 +309,7 @@ uvp_settings_t* pd_get_ptr_uvp_tbl(cy_stc_usbpd_context_t *context)
     return NULL;
 #endif 
 }
+
 const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *context)
 {
 #if(defined(CY_DEVICE_WLC1))
@@ -323,7 +323,7 @@ const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *
     return NULL;
 #endif 
 }
-#endif /* CY_USE_CONFIG_TABLE */
+
 pwr_params_t* pd_get_ptr_pwr_tbl(cy_stc_usbpd_context_t *context)
 {
 #if(defined(CY_DEVICE_WLC1))
@@ -367,6 +367,7 @@ cy_stc_pdaltmode_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t 
     return NULL;
 #endif 
 }
+
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context)
 {
@@ -380,4 +381,5 @@ cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *co
                     get_pd_port_config(context)->port_n_dp_table_offset));
 }
 #endif /* defined(CY_DEVICE_CCG7D) */
+#endif /* CY_USE_CONFIG_TABLE */
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.10
+* \version 2.20
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -78,24 +78,7 @@ typedef struct
     uint8_t reserved[4];             /**< Reserved for future */
 } custom_alt_cfg_settings_t;
 
-/**
- * @brief Struct to hold the sensor throttling settings.
- */
-typedef struct
-{
-    uint8_t sensor_ctrl;       /**< Bit 7: 0 -> Disabled, 1 -> Enabled; Bit 6-0: I2C address */
-    uint8_t sensor_oc1;        /**< Maximum sensor temperature for the system to function in OC1 (100%) power rating. */
-    uint8_t sensor_oc2;        /**< Maximum sensor temperature for the system to function in OC2 (50%) power rating.
-                                *   To skip this power level, load with the 0x00.
-                                *   To terminate at this level, load with 0xFF.
-                                */
-    uint8_t sensor_oc3;        /**< Maximum sensor temperature for the system to function in OC3 (15W) power rating.
-                                *   To skip this power level, load with the 0x00.
-                                *   To terminate at this level, load with 0xFF.
-                                *   Beyond this threshold, the port shall be shutoff.
-                                */
-
-} sensor_data_t;
+#if CY_USE_CONFIG_TABLE
 
 /**
  * @brief Struct to hold the automotive charger settings.
@@ -147,7 +130,6 @@ typedef struct
 
 } auto_cfg_settings_t;
 
-#if CY_USE_CONFIG_TABLE
 /**
  * @brief Struct to hold the OVP settings.
  */
@@ -557,8 +539,8 @@ typedef struct
 
     /** Enable EPP mode */
     uint8_t eppEnable;
-    /** Enable PPP Mode */
-    uint8_t pppEnable;
+    /** Enable HiPP Mode */
+    uint8_t hippEnable;
     
     /** Enable Samsung Ppde */
     uint8_t samsungPpdeEnable;
@@ -626,17 +608,19 @@ typedef struct
     uint16_t vbridgeMaxBPPVolt;
     /** Maximum Vbridge voltage in EPP Mode*/
     uint16_t vbridgeMaxEPPVolt;
-    /** Maximum Vbridge voltage in PPP Mode*/
-    uint16_t vbridgeMaxPPPVolt;
+    /** Maximum Vbridge voltage in HiPP Mode*/
+    uint16_t vbridgeMaxHiPPVolt;
     /** Reserved  */
     uint16_t reserved_13;
     /** EPP mode potential load power*/
     uint8_t eppPotentialPow;
-    /** PPP mode potential load power*/
-    uint8_t pppPotentialPow;
+    /** HiPP mode potential load power*/
+    uint8_t hippPotentialPow;
     /** EPP mode guaranteed load power*/
     uint16_t guaranteedPow;
-    uint8_t reserved_3[14];
+     /** HiPP mode guaranteed load power*/
+    uint16_t hippGuaranteedPow;
+    uint8_t reserved_3[12];
 
 
     /** Analog Ping Configuration - 12 Bytes*/
@@ -678,7 +662,10 @@ typedef struct
     uint8_t askDemodCurrGain;
     /** ASK Demod Sequence selection */
     uint8_t askDemodSeqSel;
-    uint8_t reserved_6[8];
+    /**Qi Timer FSK response time minimum & maximum in mS*/
+    uint8_t fskRespTimeMin;
+    uint8_t fskRespTimeMax;
+    uint8_t reserved_6[6];
 
     /** PID Configuration - 28 Bytes */
 
@@ -704,7 +691,13 @@ typedef struct
     uint8_t pidEPPlowLoadThr;
     /** High gain Kp to be used for low load conditions*/
     uint16_t pidLowLoadKp;
-    uint8_t reserved_8[78];
+    /** PID Max duty change */
+    uint16_t maxDutyChange;
+    /** PID supported duty */
+    uint16_t supportedDuty;
+    /** PID max frequency change */
+    uint16_t maxFreqChange;
+    uint8_t reserved_8[72];
 
     /** Buck Boost Base Configuration  - 20 Bytes*/
 
@@ -803,7 +796,8 @@ typedef struct
     /** FOD Power Loss Feature Enable/Disable with FOD manual calibration parameters for given power  
         0x03 - Enable FOD with BPP 
         0x07 - Enable FOD with BPP and 5w EPP 
-        0x0F - Enable FOD ; BPP FOD;5w EPP and 15w EPP */
+        0x0F - Enable FOD ; BPP FOD;5w EPP and 15w EPP
+        0x1F - Enable FOD ; BPP FOD;5w EPP 15w EPP and 50w HiPP */
     uint8_t powLossFODEn;
     uint8_t reserved_3[3];
 
@@ -817,7 +811,9 @@ typedef struct
     cy_stc_qi_fod_powloss_cfg_t powLossFODEpp15wCfg;
     /** Power Loss FOD Configuration for Samsung PPDE */
     cy_stc_qi_fod_powloss_cfg_ppde_t powLossFODPpdeCfg;
-    uint8_t reserved_6[36];
+     /** Power Loss FOD Configuration for HiPP - 50w */
+    cy_stc_qi_fod_powloss_cfg_t powLossFODHipp50wCfg;
+    uint8_t reserved_6[16];
 }cy_stc_fod_cfg_t;
 
 /**
@@ -886,7 +882,17 @@ typedef struct {
     uint16_t vinConfigTableLen;
     uint16_t faultProtectTableOffset;
     uint16_t faultProtectTableLen;
-    uint32_t reserved_1[9];
+    uint16_t port0OvpTableOffset;
+    uint16_t port0OvpTableLen;
+    uint16_t port0OcpTableOffset;
+    uint16_t port0OcpTableLen;
+    uint16_t port0UvpTableOffset;
+    uint16_t port0UvpTableLen;
+    uint16_t port0ScpTableOffset;
+    uint16_t port0ScpTableLen;
+    uint16_t legacyChargingConfigTableOffset;
+    uint16_t legacyChargingConfigTableLen;
+    uint32_t reserved_1[4];
 }cy_wireless_port_config;
 
 typedef struct
@@ -1147,6 +1153,7 @@ typedef struct
     uint8_t    reserved_1[8];                   /**< Reserved area for future expansion. */
 } power_config_t;
 
+#if CY_USE_CONFIG_TABLE
 typedef struct
 {
 
@@ -1251,7 +1258,6 @@ const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context);
  */
 const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context);
 
-#if CY_USE_CONFIG_TABLE
 /**
  * @brief Retrieve pointer to VBus OVP settings from the configuration table.
  *
@@ -1354,7 +1360,6 @@ cy_stc_legacy_charging_cfg_t* pd_get_ptr_chg_cfg_tbl(cy_stc_usbpd_context_t *con
  * @return Pointer to pdstack parameters.
  */
 const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *context);
-#endif /* CY_USE_CONFIG_TABLE */
 
 /**
  * @brief Retrieve pointer to power parameters from the configuration table.
@@ -1422,13 +1427,15 @@ const cy_stc_fod_cfg_t * get_wireless_fod_config(const void *cfgPtr, uint8_t coi
 const cy_stc_vin_cfg_t  * get_wireless_vin_config(const void *cfgPtr);
 
 const cy_stc_fault_protect_cfg_t * get_wireless_fault_config(const void *cfgPtr);
-
 #endif /* (defined(CY_DEVICE_WLC1))*/
+
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);
 
 cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *context);
 #endif /* defined(CY_DEVICE_CCG7D) */
+
+#endif /* CY_USE_CONFIG_TABLE */
 
 /** \endcond */
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

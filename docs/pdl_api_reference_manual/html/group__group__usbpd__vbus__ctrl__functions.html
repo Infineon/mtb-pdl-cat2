@@ -225,6 +225,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaabb39750221440be2906162d9fc545a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaabb39750221440be2906162d9fc545a5">Cy_USBPD_VbusIn_DischargeOff</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:gaabb39750221440be2906162d9fc545a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off the internal VBUS_IN discharge path.  <a href="#gaabb39750221440be2906162d9fc545a5">More...</a><br /></td></tr>
 <tr class="separator:gaabb39750221440be2906162d9fc545a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b2b7baa7506508064ff36c80221d0a9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga3b2b7baa7506508064ff36c80221d0a9">Cy_USBPD_Vbus_MeasureCur</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga3b2b7baa7506508064ff36c80221d0a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample the VBus current using ADC.  <a href="#ga3b2b7baa7506508064ff36c80221d0a9">More...</a><br /></td></tr>
+<tr class="separator:ga3b2b7baa7506508064ff36c80221d0a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3af07ed897140f4ed46127f7696e2952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga3af07ed897140f4ed46127f7696e2952">Cy_USBPD_Vbus_NgdoG1Ctrl</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, bool value)</td></tr>
 <tr class="memdesc:ga3af07ed897140f4ed46127f7696e2952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control the Gate-1 on the VBUS-C side of the Gate driver circuit.  <a href="#ga3af07ed897140f4ed46127f7696e2952">More...</a><br /></td></tr>
 <tr class="separator:ga3af07ed897140f4ed46127f7696e2952"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2057,6 +2060,33 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga3b2b7baa7506508064ff36c80221d0a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3b2b7baa7506508064ff36c80221d0a9">&#9670;&nbsp;</a></span>Cy_USBPD_Vbus_MeasureCur()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Cy_USBPD_Vbus_MeasureCur </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sample the VBus current using ADC. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint16_t Returns sampled current </dd></dl>
 
 </div>
 </div>

@@ -28,6 +28,11 @@ var group__group__usbpd__common__data__structures =
       [ "senseRes", "structcy__stc__fault__vbus__ocp__cfg__t.html#a2164cc0b85d4be736783291518fead24", null ],
       [ "csRes", "structcy__stc__fault__vbus__ocp__cfg__t.html#a6aad152dd70e01520e7659e50218d441", null ]
     ] ],
+    [ "cy_stc_fault_vbat_ocp_cfg_t", "structcy__stc__fault__vbat__ocp__cfg__t.html", [
+      [ "mode", "structcy__stc__fault__vbat__ocp__cfg__t.html#aca86b24a99df516778384a6c092d7ead", null ],
+      [ "threshold", "structcy__stc__fault__vbat__ocp__cfg__t.html#a20999bd6ddadfbdfc11c80653dbf477d", null ],
+      [ "debounce", "structcy__stc__fault__vbat__ocp__cfg__t.html#a50c68010421e6574b747ae871ae726f0", null ]
+    ] ],
     [ "cy_stc_fault_vconn_ocp_cfg_t", "structcy__stc__fault__vconn__ocp__cfg__t.html", [
       [ "enable", "structcy__stc__fault__vconn__ocp__cfg__t.html#a3f785b54d68a3f422c2fabc6edc063ea", null ],
       [ "threshold", "structcy__stc__fault__vconn__ocp__cfg__t.html#a60ae77daad991f86ece757b1f6cacb1e", null ],
@@ -81,6 +86,82 @@ var group__group__usbpd__common__data__structures =
     [ "cy_stc_trims_cfg_t", "structcy__stc__trims__cfg__t.html", [
       [ "offset_20csa", "structcy__stc__trims__cfg__t.html#a268cc38db2ef18bd9d49a5ef449d5274", null ]
     ] ],
+    [ "sensor_data_t", "structsensor__data__t.html", [
+      [ "sensor_ctrl", "structsensor__data__t.html#ada60f867afe0d2d160d04c15486a1922", null ],
+      [ "sensor_oc1", "structsensor__data__t.html#a2007ad97f516bf394c471cd9f4633753", null ],
+      [ "sensor_oc2", "structsensor__data__t.html#aa6063343487cbf832084b417214d4384", null ],
+      [ "sensor_oc3", "structsensor__data__t.html#a1df4e1ea06b4e488a2cc2b91a9c38322", null ]
+    ] ],
+    [ "cy_stc_buck_boost_cfg_t", "structcy__stc__buck__boost__cfg__t.html", [
+      [ "fb_type", "structcy__stc__buck__boost__cfg__t.html#a3a0c3641ead91b7fb3b6f68b0aca5804", null ],
+      [ "reserved", "structcy__stc__buck__boost__cfg__t.html#a72999e64880f6458ea76c10d06ffea6e", null ],
+      [ "vbus_min_volt", "structcy__stc__buck__boost__cfg__t.html#a4a43481ad08f52dcebc1169d88edd2f0", null ],
+      [ "vbus_max_volt", "structcy__stc__buck__boost__cfg__t.html#ae0f8522d9b59202fa93d8b9bb9c20d3f", null ],
+      [ "vbus_dflt_volt", "structcy__stc__buck__boost__cfg__t.html#a10c6deaeb2a8791872cc129ab7d90ed2", null ],
+      [ "cable_resistance", "structcy__stc__buck__boost__cfg__t.html#abc1b9250b78f40503ebd54155fa5bb68", null ],
+      [ "vbus_offset_volt", "structcy__stc__buck__boost__cfg__t.html#a9fbc0e7f494fdc240a344bc0fb0d868a", null ],
+      [ "current_sense_res", "structcy__stc__buck__boost__cfg__t.html#a413b08057086a6026844e2c7ae2e8dbf", null ],
+      [ "src_gate_drv_str", "structcy__stc__buck__boost__cfg__t.html#a98e35de655c0aa6323973321ce996b83", null ],
+      [ "vbtr_up_step_width", "structcy__stc__buck__boost__cfg__t.html#ab0e10bc32fc8e7ebf56d12cd8e46b3cc", null ],
+      [ "vbtr_down_step_width", "structcy__stc__buck__boost__cfg__t.html#ac31712cd9079ea403d0f8b23be32f03f", null ],
+      [ "prim_sec_turns_ratio", "structcy__stc__buck__boost__cfg__t.html#abfff9ef1c683d7ac10bf0a9f95c7219c", null ],
+      [ "sr_enable", "structcy__stc__buck__boost__cfg__t.html#a563f180de299bfbee8b1692fd52252e8", null ],
+      [ "sr_rise_time", "structcy__stc__buck__boost__cfg__t.html#aee2f82e674166816c24b13d23cca614e", null ],
+      [ "sr_fall_time", "structcy__stc__buck__boost__cfg__t.html#ad147e92eafd4893719e04d8985e15752", null ],
+      [ "sr_async_thresh", "structcy__stc__buck__boost__cfg__t.html#a84c8da1c741039bf6569a8e793a1179c", null ],
+      [ "sr_supply_doubler", "structcy__stc__buck__boost__cfg__t.html#a449d5533fd702f2b071017e51d65ca47", null ],
+      [ "reserved_1", "structcy__stc__buck__boost__cfg__t.html#aaadd2edf1d6b86c8332073ecab395f43", null ],
+      [ "buck_boost_operating_mode", "structcy__stc__buck__boost__cfg__t.html#a4e04942f1d6ad6615e691cfd00451c2d", null ],
+      [ "pwm_mode", "structcy__stc__buck__boost__cfg__t.html#ad501565c84b7a054660af22d3c3060c2", null ],
+      [ "pwm_min_freq", "structcy__stc__buck__boost__cfg__t.html#ad77c019b9c148fcb9d357e700eb8dce0", null ],
+      [ "pwm_max_freq", "structcy__stc__buck__boost__cfg__t.html#a731632edcbd6078465d8ddf3d8350253", null ],
+      [ "pwm_fix_freq", "structcy__stc__buck__boost__cfg__t.html#aef859779fe2c3e3435a413ee47831228", null ],
+      [ "max_pwm_duty_cycle", "structcy__stc__buck__boost__cfg__t.html#a0844b02382dabce8931a09e58cfba1e4", null ],
+      [ "min_pwm_duty_cycle", "structcy__stc__buck__boost__cfg__t.html#a71d341c761f84abcd36a4255b4e062c8", null ],
+      [ "pwm_gate_pull_up_drv_strnth_LS1", "structcy__stc__buck__boost__cfg__t.html#a1320bd9ff66906323f153eb9e97aa7fa", null ],
+      [ "pwm_gate_pull_up_drv_strnth_LS2", "structcy__stc__buck__boost__cfg__t.html#a54ca7cece2478c179a994a4ae5d3bc32", null ],
+      [ "pwm_gate_pull_up_drv_strnth_HS1", "structcy__stc__buck__boost__cfg__t.html#a9e2395258c97b1ad19d181e84f399617", null ],
+      [ "pwm_gate_pull_up_drv_strnth_HS2", "structcy__stc__buck__boost__cfg__t.html#a4bb2e36fdbe8e0f5056536d94620fbf2", null ],
+      [ "pwm_dithering_type", "structcy__stc__buck__boost__cfg__t.html#a53abd2d4a962ce5052da59e9c528742f", null ],
+      [ "pwm_dithering_freq_range", "structcy__stc__buck__boost__cfg__t.html#a24264ae18db02de2ce0fd1ef4ad394cf", null ],
+      [ "power_inductor_value", "structcy__stc__buck__boost__cfg__t.html#aa2718a17064f38d3bf4dd4464b058c97", null ],
+      [ "peak_current_sense_resistor", "structcy__stc__buck__boost__cfg__t.html#a9746cc8703a8c05f7e26598e97b3f758", null ],
+      [ "phase_angle_control", "structcy__stc__buck__boost__cfg__t.html#a92aa4ba6b10b495f0868ad1a7a38c22e", null ],
+      [ "peak_current_limit", "structcy__stc__buck__boost__cfg__t.html#ab6a9fcc5f683780a96b845384c48b75c", null ],
+      [ "max_pwm_duty_cycle_high_line", "structcy__stc__buck__boost__cfg__t.html#a003a0f3bbb4cc4adf2cbc29e356456b1", null ],
+      [ "reserved_2", "structcy__stc__buck__boost__cfg__t.html#a46f8ab88f89d9c41a6109201bd511605", null ],
+      [ "vbtr_up_step_width_below_5v", "structcy__stc__buck__boost__cfg__t.html#a6082af9ccd6ddf088b443cf975df03df", null ],
+      [ "vbtr_down_step_width_below_5V", "structcy__stc__buck__boost__cfg__t.html#a996c1a52c589b405a3b7740eaedc4ed2", null ],
+      [ "pwm_max_freq_ex", "structcy__stc__buck__boost__cfg__t.html#a7b1da180a239b61eef139dea89d03797", null ],
+      [ "pwm_gate_pull_down_drv_strnth_LS1", "structcy__stc__buck__boost__cfg__t.html#aee16121cd2944e9d8acdb7c9c9829468", null ],
+      [ "pwm_gate_pull_down_drv_strnth_LS2", "structcy__stc__buck__boost__cfg__t.html#ad14b672c5ccd1c1fef831789021725e1", null ],
+      [ "pwm_gate_pull_down_drv_strnth_HS1", "structcy__stc__buck__boost__cfg__t.html#a7ec0f49d2e182cf8ea7074ed3247280b", null ],
+      [ "pwm_gate_pull_down_drv_strnth_HS2", "structcy__stc__buck__boost__cfg__t.html#a2050d484b92f21e75f6de792a6edc380", null ],
+      [ "bbclk_freq", "structcy__stc__buck__boost__cfg__t.html#a1ee334d1a38af3a499c769927e3cf8cd", null ],
+      [ "pwm_fix_freq_dith", "structcy__stc__buck__boost__cfg__t.html#a2891214ee6fba53ab6ffab5ae12de232", null ],
+      [ "pwm_dith_spread_cycles", "structcy__stc__buck__boost__cfg__t.html#a7b48af0dd87a58e2becd2f2c9bde1418", null ],
+      [ "reserved_3", "structcy__stc__buck__boost__cfg__t.html#aca96c18a42dfcfe15024c6beb2c60232", null ]
+    ] ],
+    [ "cy_stc_auto_cfg_settings_t", "structcy__stc__auto__cfg__settings__t.html", [
+      [ "reserved", "structcy__stc__auto__cfg__settings__t.html#a0048ee72426d3d2e9250f19543306ccd", null ],
+      [ "policy_manager_enable", "structcy__stc__auto__cfg__settings__t.html#a226150b6d00602f40e0ffe61a7723261", null ],
+      [ "sys_power", "structcy__stc__auto__cfg__settings__t.html#a73c9404a80395c0e7cc734f9beff1d96", null ],
+      [ "port_power", "structcy__stc__auto__cfg__settings__t.html#ab095e18e9daac73743f3d59a1b8a3770", null ],
+      [ "configurable_power_OC2", "structcy__stc__auto__cfg__settings__t.html#a079d0823f4c0cfee226b8c7ee60594fb", null ],
+      [ "configurable_power_OC3", "structcy__stc__auto__cfg__settings__t.html#a419f9c37357a863e382f4d8e41ab5aad", null ],
+      [ "pps_enable", "structcy__stc__auto__cfg__settings__t.html#a98675350bb90c3b13839791384a29356", null ],
+      [ "unconstrained_power_enable", "structcy__stc__auto__cfg__settings__t.html#ab8a7421f55cbf27451063bd0ed12f610", null ],
+      [ "vin_throttling_ctrl", "structcy__stc__auto__cfg__settings__t.html#ad55bf149c82d7ecfc38efe249b95e112", null ],
+      [ "vin_oc1", "structcy__stc__auto__cfg__settings__t.html#a8a71fc4e3852f4aaa6f6e01c11a14cf8", null ],
+      [ "vin_oc2", "structcy__stc__auto__cfg__settings__t.html#a1a49fd8125eba342737f69e1a0e7ba78", null ],
+      [ "vin_oc3", "structcy__stc__auto__cfg__settings__t.html#a7d786eae0e74dab4177e039dfa1408e7", null ],
+      [ "sensor_data", "structcy__stc__auto__cfg__settings__t.html#a735ace11a9d96d12458972536b8282cc", null ],
+      [ "vin_fault_max_safe_voltage", "structcy__stc__auto__cfg__settings__t.html#a2832f5cd2db6e133fac5d9e3df2bdf2e", null ],
+      [ "pdo_all_voltage_rail", "structcy__stc__auto__cfg__settings__t.html#abf2c728dc2b1870373c4dca5062ead5a", null ],
+      [ "max_current", "structcy__stc__auto__cfg__settings__t.html#ab6a5e99d2c29a311920b55cb09ded780", null ],
+      [ "fractional_system_power", "structcy__stc__auto__cfg__settings__t.html#a4be81a3a01acc834e22d7b9b85f5aee6", null ],
+      [ "reserved_1", "structcy__stc__auto__cfg__settings__t.html#ad7974f56e95f6e43c2b47020640fb99f", null ]
+    ] ],
     [ "cy_stc_usbpd_config_t", "structcy__stc__usbpd__config__t.html", [
       [ "vbusOvpConfig", "structcy__stc__usbpd__config__t.html#ae51855c6bbea9934f761b5f8a1595f99", null ],
       [ "vbusUvpConfig", "structcy__stc__usbpd__config__t.html#af0ecb62644a38aaa087d6ea17fb1e24a", null ],
@@ -91,8 +172,11 @@ var group__group__usbpd__common__data__structures =
       [ "ccOvpConfig", "structcy__stc__usbpd__config__t.html#a3d2de7e3404692345de300893163040f", null ],
       [ "sbuOvpConfig", "structcy__stc__usbpd__config__t.html#a0cbf559bc7d9766225f5d33f3ce8b755", null ],
       [ "legacyChargingConfig", "structcy__stc__usbpd__config__t.html#adb0ffed00762ffa71a11d7b8a59db15d", null ],
+      [ "buckBoostConfig", "structcy__stc__usbpd__config__t.html#af6493319490a407f6cab886e451b34ac", null ],
+      [ "autoConfig", "structcy__stc__usbpd__config__t.html#a0c29cd21401194c21eb8829053722504", null ],
       [ "vinUvpConfig", "structcy__stc__usbpd__config__t.html#ad494b7e97bf179f2352780281c47014a", null ],
-      [ "vinOvpConfig", "structcy__stc__usbpd__config__t.html#a0c885bb9f7dc5ec812abb6574df9d732", null ]
+      [ "vinOvpConfig", "structcy__stc__usbpd__config__t.html#a0c885bb9f7dc5ec812abb6574df9d732", null ],
+      [ "vbatOcpConfig", "structcy__stc__usbpd__config__t.html#aa7b10aff6ea61c4eeb50bb8c52fb2809", null ]
     ] ],
     [ "cy_stc_usbpd_context_t", "structcy__stc__usbpd__context__t.html", [
       [ "port", "structcy__stc__usbpd__context__t.html#a78aa853d7fd5f132737e5dd49d067044", null ],
@@ -161,6 +245,7 @@ var group__group__usbpd__common__data__structures =
       [ "timerStartcbk", "structcy__stc__usbpd__context__t.html#ae2b3adfc0a38f79a632ee9afbd51939d", null ],
       [ "timerStopcbk", "structcy__stc__usbpd__context__t.html#a1b33ce73079f257368b873472570ebd2", null ],
       [ "timerIsRunningcbk", "structcy__stc__usbpd__context__t.html#a400672d3389636183951166e440eeaf6", null ],
+      [ "timerGetMultipliercbk", "structcy__stc__usbpd__context__t.html#a737f5b4c477b322cb784fe5357f2e519", null ],
       [ "vbusSlowDischargecbk", "structcy__stc__usbpd__context__t.html#aa271c08f6b8dc30b949934273b3ec7b9", null ],
       [ "cfCbk", "structcy__stc__usbpd__context__t.html#ae66bce04a95f8aec45877b1e8b674848", null ],
       [ "vbtrIdle", "structcy__stc__usbpd__context__t.html#a0f793dd528380dbba12e3272154de9cf", null ],
@@ -194,7 +279,9 @@ var group__group__usbpd__common__data__structures =
       [ "bodCbk", "structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543", null ],
       [ "bbEnableStatus", "structcy__stc__usbpd__context__t.html#add58507ffd062af7d70998c6a99afe33", null ],
       [ "bbEnableDoneStatus", "structcy__stc__usbpd__context__t.html#a3791230cec8327b89cea2e6487d071e7", null ],
-      [ "bbSsPwmDuty", "structcy__stc__usbpd__context__t.html#aee65cc90037bbcc5bd5d9448a2f53bb4", null ]
+      [ "bbSsPwmDuty", "structcy__stc__usbpd__context__t.html#aee65cc90037bbcc5bd5d9448a2f53bb4", null ],
+      [ "pollForVsys", "structcy__stc__usbpd__context__t.html#ab58d87aa74b8a7b03e546c476c02ebdf", null ],
+      [ "altPortUsbPdCtx", "structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438", null ]
     ] ],
     [ "cy_pd_pd_hdr_t", "unioncy__pd__pd__hdr__t.html", [
       [ "val", "unioncy__pd__pd__hdr__t.html#ad1109ebd4635054241eae5bf6d39a832", null ],
@@ -620,7 +707,8 @@ var group__group__usbpd__common__data__structures =
       [ "usbCommCap", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ad1c57ce6fc9f97d565d3826bb7bd49e2", null ],
       [ "capMismatch", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ad9c5f87ccd286fe7171eaef2680458a4", null ],
       [ "giveBackFlag", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ac257e263b0d90e82da22a4e9ad7bece8", null ],
-      [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#aba6846e9276d33f07bbf986a941cfe17", null ]
+      [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#aba6846e9276d33f07bbf986a941cfe17", null ],
+      [ "rsrvd2", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ae0890177e8ab621e5b8785c974c491a1", null ]
     ] ],
     [ "RDO_BAT_GIVEBACK", "structcy__pd__pd__do__t_1_1_r_d_o___b_a_t___g_i_v_e_b_a_c_k.html", [
       [ "minOpPower", "structcy__pd__pd__do__t_1_1_r_d_o___b_a_t___g_i_v_e_b_a_c_k.html#a12c20d90f24d4d2c292d59c7aaa35a3c", null ],
@@ -664,7 +752,8 @@ var group__group__usbpd__common__data__structures =
       [ "usbCommCap", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#a71826506aa1af19082c2b19b5b232e54", null ],
       [ "capMismatch", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#a0aefa1ac60cd4c1f84b528137ac9fa0f", null ],
       [ "giveBackFlag", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#a2a5fa66e1a62f20fe0c1a530d8071d8e", null ],
-      [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#ae94b9c2ab569b83267481ea1d1635b43", null ]
+      [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#ae94b9c2ab569b83267481ea1d1635b43", null ],
+      [ "rsrvd2", "structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#af1ae4ef6eede438be741e2cee6855f13", null ]
     ] ],
     [ "BAT_SNK", "structcy__pd__pd__do__t_1_1_b_a_t___s_n_k.html", [
       [ "opPower", "structcy__pd__pd__do__t_1_1_b_a_t___s_n_k.html#ab433d5787edcfe5161b12adacce1332f", null ],
@@ -778,6 +867,7 @@ var group__group__usbpd__common__data__structures =
     [ "cy_timer_start_t", "group__group__usbpd__common__data__structures.html#ga1b8b9984e7a22ba18a909b3e19dbbf9e", null ],
     [ "cy_timer_stop_t", "group__group__usbpd__common__data__structures.html#ga81f4fc39bdfcd53ab9d746d58ae10d36", null ],
     [ "cy_timer_is_running_t", "group__group__usbpd__common__data__structures.html#gab41e913c356507c5cf554fac83bbc68e", null ],
+    [ "cy_timer_get_multiplier_t", "group__group__usbpd__common__data__structures.html#ga9324a955f5109bb09691f5320eb9968c", null ],
     [ "cy_slow_discharge_t", "group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c", null ],
     [ "cy_vbus_cf_cbk_t", "group__group__usbpd__common__data__structures.html#gaf91f2bc9107fe79dea47e1f24f5cc246", null ],
     [ "cy_cb_pd_dpm_get_config_t", "group__group__usbpd__common__data__structures.html#ga6748c659883736d3d40a792dbbd504c1", null ]

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.10
+* \version 2.20
 *
 * The source file of the USBPD IDAC Control driver.
 *
@@ -50,11 +50,6 @@
 #define LSCSA_GAIN_150_VSENSE_MAX               (140u)
 #define LSCSA_GAIN_35_VSENSE_MIN                (160u)
 
-/* Gain settings */
-#define LSCSA_AV_SEL_150                        (0x1Cu)
-#define LSCSA_AV_SEL_125                        (0x18u)
-#define LSCSA_AV_SEL_35                         (0x03u)
-
 /* LSCSA measured error for 15mV Vsense location in SFLASH. */
 #define LSCSA_AMP1_ERR_SIGN                     (*(volatile uint8_t *)(0x0ffff2a0u))
 #define LSCSA_AMP1_ERR_VAL                      (*(volatile uint8_t *)(0x0ffff2a1u))
@@ -81,14 +76,6 @@
 
 /** VBus current usage = 5.0 A. */
 #define CY_USBPD_I_5A                           (500u)
-
-/*
- * The maximum gain * Vsense value which can be accurately sampled. Above this,
- * the gain has to be lowered. The ideal value for low current is 125 and for
- * high current, it is 35. This threshold (in mV) is used to switch between the
- * gain.
- */
-#define LSCSA_GAIN_MAX_VALUE                    (1850u)
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
 
@@ -1523,7 +1510,11 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
      * For 3A application, use fixed gain of 80 across 1A to 3A for accuracy.
      * For 5A application, use fixed gain of 60 across 1A to 5A for range.
      */
+#if CY_USE_CONFIG_TABLE
     if (pd_get_ptr_auto_cfg_tbl(context)->max_current > CY_USBPD_I_3A)
+#else
+    if (context->usbpdConfig->autoConfig->max_current > CY_USBPD_I_3A)
+#endif
     {
         CY_USBPD_REG_FIELD_UPDATE(pd->csa_scp_0_ctrl, PDSS_CSA_SCP_0_CTRL_AV1, CC_GAIN_60_AV1_VALUE);
     }
@@ -1540,7 +1531,12 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
 #endif /* CCGx */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+
+#if CY_USE_CONFIG_TABLE
     max_current = pd_get_ptr_auto_cfg_tbl(context)->max_current;
+#else
+    max_current = context->usbpdConfig->autoConfig->max_current;
+#endif
 
     /* Check if silicon has proper trims and then apply interpolation. */
     if((context->trimsConfig.cc_trim_1a != 0u) &&
@@ -1553,9 +1549,10 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
         /* Calculate current for the actual Rsense */
         cur = ((cur * context->vbusCsaRsense) / CSA_IDEAL_RSENSE);
 
+#if (PMG1B1_USB_CHARGER == 0)
         /* 1A is minimum CF reference */
         cur = CY_USBPD_GET_MAX(cur, CY_USBPD_I_1A);
-
+#endif /* PMG1B1_USB_CHARGER == 0 */
         /*
          * Use the lower gain setting only for 5A usage mode. For 3A and below current
          * configuration, use higher gain setting.
@@ -1578,6 +1575,7 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
             vref_1 = context->trimsConfig.cc_trim_2a;
             cur_1 = CY_USBPD_I_2A;
         }
+#if (PMG1B1_USB_CHARGER == 0)
         else
         {
             /* 1A is minimum CF reference */
@@ -1585,6 +1583,22 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
             vref_1 = context->trimsConfig.cc_trim_1a;
             cur_1 = CY_USBPD_I_1A;
         }
+#else /* PMG1B1_USB_CHARGER */
+        else if (cur >= CY_USBPD_I_1A)
+        {
+            vref_2 = context->trimsConfig.cc_trim_2a;
+            vref_1 = context->trimsConfig.cc_trim_1a;
+            cur_1 = CY_USBPD_I_1A;
+        }
+        else
+        {
+            /* 1A is minimum CF reference */
+            vref_2 = context->trimsConfig.cc_trim_1a;
+            vref_1 = 0;
+            cur_1 = 0;
+        }
+#endif /* (PMG1B1_USB_CHARGER == 0) */
+
 
         /*
          * Calculate corrected reference with trim and rsense value.
@@ -1613,6 +1627,9 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
     }
     else
     {
+#if PMG1B1_USB_CHARGER
+        Cy_USBPD_CSA_Calc_Ref(context, cur, CC_GAIN_60, &vref_sel, false);
+#else
         if ((cur > CY_USBPD_I_3A) && (max_current > CY_USBPD_I_3A))
         {
             Cy_USBPD_CSA_Calc_Ref(context, cur, CC_GAIN_60, &vref_sel, false);
@@ -1625,6 +1642,7 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
         /*
          * pd_csa_calc_ref takes care of VREF_VOLT_MIN (130mV) offset.
          */
+#endif /* PMG1B1_USB_CHARGER */
     }
 
     /* Reference rollover check */
@@ -2226,7 +2244,13 @@ void Cy_USBPD_Vbus_Slow_DischargeCbk(cy_en_usbpd_timer_id_t id, void *callbackCo
 {
 #if VBUS_SLOW_DISCHARGE_EN
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
-
+#if CCG_PD_DUALPORT_ENABLE
+    if (context->port != 0u)
+    {
+        /* For Port 1, the 128 needs to be subtracted as port1 timer ids are offset by 128 */
+        id = ((uint16_t)id - 128u);
+    }
+#endif /* CCG_PD_DUALPORT_ENABLE */
     if (CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER == (cy_en_usbpd_timer_id_t)id)
     {
         if (context->vbusSlowDischarge.vbus_is_slow_dischargeOn == 1u)
@@ -2341,7 +2365,12 @@ void Cy_USBPD_VBTR_Config(cy_stc_usbpd_context_t *context, int16_t dac_cur, int1
     uint8_t port = context->port;
 
     context->vbtrCbk = vbtr_cb;
+
+#if CY_USE_CONFIG_TABLE
     pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context);
+#else
+    cy_stc_buck_boost_cfg_t *pwr_cfg = context->usbpdConfig->buckBoostConfig;
+#endif
 
     state  = Cy_SysLib_EnterCriticalSection();
     /* Reset the source and sink IDAC modules */
