@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.h
-* \version 2.20
+* \version 2.30
 *
 * Header file for legacy charging feature of USBPD PDL.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -399,7 +399,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStop(cy_stc_usbpd_context_t *context);
 
-void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count);
+void Cy_USBPD_Bch_Afc_Set_Tx_Data(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context);
 
@@ -408,6 +408,10 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *conte
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context);
+
+uint8_t * Cy_USBPD_Bch_AfcGetRxDataPtr(cy_stc_usbpd_context_t *context);
+
+uint8_t Cy_USBPD_Bch_AfcGetRxDataCount(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context);
 

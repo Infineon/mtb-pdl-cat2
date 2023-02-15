@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.h
-* \version 2.20
+* \version 2.30
 *
 * Provides API declarations of the USBPD IDAC Control driver.
 *
@@ -42,7 +42,7 @@
 * \{
 */
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     
 
 /** Error amplifier current reference gain trim location for PDAC. */
@@ -126,14 +126,14 @@ void Cy_USBPD_PFC_Intr1Handler(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_SR_Intr1Handler(cy_stc_usbpd_context_t *context);
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S)) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S)) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 
 void Cy_USBPD_Vbus_Slow_DischargeOnProcess(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_Slow_DischargeOffProcess(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_Slow_DischargeCbk(cy_en_usbpd_timer_id_t id, void *callbackContext);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S)) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S)) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
 void Cy_USBPD_VBTR_Start(cy_stc_usbpd_context_t *context);
 

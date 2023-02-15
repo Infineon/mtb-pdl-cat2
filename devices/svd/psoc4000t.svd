@@ -8955,7 +8955,7 @@ Firmware Guideline: Recommend 290MHz when clk_mod = 48MHz, 115/64 Mhz if clk_mod
           <fields>
             <field>
               <name>WAKEUP_TIMER</name>
-              <description>Timer interval in terms of clk_lf cycles (minus 1) between AoS frames when using LP-AoS FSM. Assumes a 32kHz ILO operating clock (clk_lf). Desired range is typically 1-&gt;2000ms. Intended usage is in DEEP_SLEEP where only the ILO is on and every interval as defined by WAKEUP_TIMER, the timer restarts in parallel to the MRSS waking up. Once awake with the local MRSS IMO enabled, a frame scan is initiated. If no wakeup condition is detected during this frame, the MRSS shuts down again and only the ILO logic serving the wakeup timer is operating until the next WAKEUP_TIMER expire and the above process repeats.
+              <description>Timer interval in terms of ILO clk_lf cycles (minus 1) between AoS frames when using LP-AoS FSM. The ILO operates at a nominal frequency f_ILO. Desired interval range is typically 1-&gt;2000ms. Intended usage is in DEEP_SLEEP where only the ILO is on and every interval as defined by WAKEUP_TIMER, the timer restarts in parallel to the MRSS waking up. Once awake with the local MRSS IMO enabled, a frame scan is initiated. If no wakeup condition is detected during this frame, the MRSS shuts down again and only the ILO logic serving the wakeup timer is operating until the next WAKEUP_TIMER expire and the above process repeats.
 
 Firmware Rule:
 WAKEUP_TIMER should be programmed to account for the expected worst case frame time. If WAKEUP_TIMER is programmed in such a way as the hardware counter that counts until it WAKEUP_TIMER reaches WAKEUP_TIMER before the current frame N completes, the frame N+1 cannot start until frame N is complete (so slower than the programmed frame rate). The hardware counter will saturate at 0xFFFF to prevent rollover of the counter in this scenario - this ensures that frame N+1 will start as soon as possible after frame N.</description>
@@ -8967,7 +8967,7 @@ WAKEUP_TIMER should be programmed to account for the expected worst case frame t
               <description>Threshold for the number of consecutive frames initiated by the LP-AoS FSM before asserting FR_TIMEOUT interrupt. Once this threshold is met, the LP-AoS FSM asserts the FR_TIMEOUT interrupt. Setting this register to 0 disables this feature. If signal detection is enabled and detected (via SIG_DET) on a frame index in between the timeout interval, FR_TIMEOUT asserts at the end of this frame.
 
 Absolute time between consecutive INTR_LP.FR_TIMEOUT (with no signal detection):
-FR_TIMEOUT_INTERVAL * ((WAKEUP_TIMER+1) * 1/32kHz)</description>
+FR_TIMEOUT_INTERVAL * ((WAKEUP_TIMER+1) * 1/f_ILO)</description>
               <bitRange>[29:16]</bitRange>
               <access>read-write</access>
             </field>

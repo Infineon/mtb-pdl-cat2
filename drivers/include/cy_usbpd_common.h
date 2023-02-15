@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.20
+* \version 2.30
 *
 * Provides Common Header File of the USBPD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -776,7 +776,7 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_P0_SBU1               = 3,    /**< Port-0 SBU1 Comparator. Only available on PMG1S3. */
     CY_USBPD_VBUS_COMP_ID_P0_SBU2               = 4,    /**< Port-0 SBU2 Comparator. Only available on PMG1S3. */
-#elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_VBUS_DISCHARGE        = 3,    /**< Discharge comparator. */
     CY_USBPD_VBUS_COMP_ID_LSCSA_SCP             = 4,    /**< SCP comparator. */
@@ -817,7 +817,7 @@ typedef enum
     CY_USBPD_VBUS_FILTER_ID_LSCSA_OCP = 4,              /**< OCP filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_PFC = 5,              /**< PFC filter for PMG1S0. Can run based on HF or LF clock. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_SR  = 6,              /**< SR filter for PMG1S0. Can run based on HF or LF clock. */
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     CY_USBPD_VBUS_FILTER_ID_DISCH_EN  = 2,              /**< Discharge enable filter for PMG1S0. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_SR  = 3,              /**< CBL_0, SR filter for CCG7D. Can run based on HF or LF clock. */
     CY_USBPD_VBUS_FILTER_ID_LSCSA_PFC = 4,              /**< CBL_1, PFC filter for CCG7D. Can run based on HF or LF clock. */
@@ -1004,7 +1004,7 @@ typedef enum
  */
 typedef enum
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     CHGB_VREF_0_325V = 0,               /**< 0.325 V */
     CHGB_VREF_0_425V = 0,               /**< 0.425 V. Use of 0.325 with offset of 100 mV */
     CHGB_VREF_0_7V,                     /**< 0.7 V */
@@ -1229,7 +1229,7 @@ typedef void (*cy_slow_discharge_t)(void *pdStackContext);
  */
 typedef void (*cy_vbus_cf_cbk_t)(void *pdStackContext, bool cf_state);
 
-#if (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && defined(CCG_CDP_EN)) && BATTERY_CHARGING_ENABLE)
+#if (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && defined(CCG_CDP_EN)) && BATTERY_CHARGING_ENABLE)
 
 /** Structure holding CDP state machine variables. */
 typedef struct cdp_sm_vars
@@ -1239,7 +1239,7 @@ typedef struct cdp_sm_vars
     uint8_t  vdmsrcLvCnt;              /**< Number of times the VDM_SRC output has been detected as low. */
 } cdp_sm_vars;
 
-#endif /* (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
+#endif /* (((defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
 
 /** Config structure for VBUS OVP parameters */
 typedef struct
@@ -1567,9 +1567,9 @@ typedef struct
     /** The current cable compensation voltage drop. */
     uint16_t cableCompDrop;
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     uint8_t vbusCblGain;
-#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 } cy_stc_cable_comp_cfg_t;
 
 /** Config structure for VBUS SLOW DISCHARGE*/
@@ -2029,14 +2029,14 @@ typedef struct cy_stc_usbpd_context_t_
     /** The Vbus current change callback handler, refer to 'cy_cable_comp_vbus_cur_cbk'. */
     cy_cable_comp_vbus_cur_cbk cableCompVbusCurCbk;
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     
     /** Callback function for SR Comparator */
     cy_pd_cmp_cbk_t srCmpCbk;
     
     /** Callback function for PFC Comparator */
     cy_pd_cmp_cbk_t pfcCmpCbk;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     /** Cable compensation structure */
     cy_stc_cable_comp_cfg_t cableStat;
@@ -2059,13 +2059,13 @@ typedef struct cy_stc_usbpd_context_t_
     /** Callback function for vbus slow discharge */
     cy_slow_discharge_t vbusSlowDischargecbk;
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     /** Structure to use use dynamic CC/CF gain setting at 3A switchover */
     cy_stc_trims_cfg_t trimsConfig;
     
     /** Peak Current Resistance */
     uint8_t peak_current_sense_resistor;
-#endif /*(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /*(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     /** Callback function for vbus current foldback */
     cy_vbus_cf_cbk_t cfCbk;
@@ -2127,14 +2127,14 @@ typedef struct cy_stc_usbpd_context_t_
     
 #endif /* (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     
     /** VBUS_IN_DISCHARGE Enable */
     bool vbusInDischargeEn;
     
     /** VBus SCP software Limit */
     uint16_t vbusScpLimit;
-#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     /** VBus OCP software debounce in ms. */
     uint8_t ocpSwDbMs;
@@ -2204,7 +2204,7 @@ typedef struct cy_stc_usbpd_context_t_
     uint32_t pdssActivePorts;
 #endif /* PMG1_PD_DUALPORT_ENABLE */
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     /** Deep sleep entry register backup. */
     uint32_t vregActive40;
     
@@ -2224,7 +2224,7 @@ typedef struct cy_stc_usbpd_context_t_
     /** Variables used to backup the BB Soft divider values before entering into sleep */
     uint32_t bbSoftClkDividerValue;
 #endif /* defined(CY_DEVICE_CCG7D)  */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
     /** Enable polling for VSYS status change */
     bool pollForVsys;
 

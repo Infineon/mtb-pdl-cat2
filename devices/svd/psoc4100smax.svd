@@ -21897,7 +21897,7 @@ FIFO 0 can be operated in blocking or in overwrite mode (see Section 3.4.2).
                   <name>F0FL</name>
                   <description>Rx FIFO 0 Fill Level
 Number of elements stored in Rx FIFO 0, range 0 to 64.
-When the software reading the value immediately after writing to RXF0A.F0AI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to RXF0A.F0AI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[6:0]</bitRange>
                   <access>read-only</access>
                 </field>
@@ -21906,7 +21906,7 @@ When the software reading the value immediately after writing to RXF0A.F0AI, thi
                   <description>Rx FIFO 0 Get Index
 Rx FIFO 0 read index pointer, range 0 to 63.
 This field is updated by the software writing to RXF0A.F0AI.
-When the software reading the value immediately after writing to RXF0A.F0AI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to RXF0A.F0AI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[13:8]</bitRange>
                   <access>read-only</access>
                 </field>
@@ -22034,7 +22034,7 @@ FIFO 1 can be operated in blocking or in overwrite mode (see Section 3.4.2).
                   <name>F1FL</name>
                   <description>Rx FIFO 1 Fill Level
 Number of elements stored in Rx FIFO 1, range 0 to 64.
-When the software reading the value immediately after writing to RXF1A.F1AI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to RXF1A.F1AI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[6:0]</bitRange>
                   <access>read-only</access>
                 </field>
@@ -22043,7 +22043,7 @@ When the software reading the value immediately after writing to RXF1A.F1AI, thi
                   <description>Rx FIFO 1 Get Index
 Rx FIFO 1 read index pointer, range 0 to 63.
 This field is updated by the software writing to RXF1A.F1AI.
-When the software reading the value immediately after writing to RXF1A.F1AI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to RXF1A.F1AI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[13:8]</bitRange>
                   <access>read-only</access>
                 </field>
@@ -22485,7 +22485,7 @@ The Tx Event FIFO elements are indexed from 0 to EFS-1</description>
                   <name>EFFL</name>
                   <description>Event FIFO Fill Level
 Number of elements stored in Tx Event FIFO, range 0 to 32.
-When the software reading the value immediately after writing to TXEFA.EFAI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to TXEFA.EFAI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[5:0]</bitRange>
                   <access>read-only</access>
                 </field>
@@ -22494,7 +22494,7 @@ When the software reading the value immediately after writing to TXEFA.EFAI, thi
                   <description>Event FIFO Get Index
 Tx Event FIFO read index pointer, range 0 to 31.
 This field is updated by the software writing to TXEFA.EFAI.
-When the software reading the value immediately after writing to TXEFA.EFAI, this value should be read twice to ensure that the update is refracted.</description>
+When the software reading the value immediately after writing to TXEFA.EFAI, this value should be read twice to ensure that the update is reflected.</description>
                   <bitRange>[12:8]</bitRange>
                   <access>read-only</access>
                 </field>

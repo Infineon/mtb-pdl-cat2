@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.1.0
+# mtb-pdl-cat2 peripheral driver library v2.2.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -8,26 +8,18 @@ for a complete description of the Peripheral driver library.
 
 ### New Features
 
-Support for a new devices of the PSoC 4100S Max device family:
-- CY8C4149LDS-S593
-- CY8C4149LDE-S593
-- CY8C4147AZS-S595
-- CY8C4148LDA-S553
-- CY8C4147AZS-S568
+Support for a new devices of the PSoC 4100S Plus device family:
+- CY8C4147AZQ-S453
 
-Support for new devices of the PMG1B1 device series:
-- CYPM1115-48LQXI
-- CYPM1116-48LQXI
+Support for new devices of the PMG1S3 device series:
+- CYPM1321-97BZXIT
 
-Added an API in the USBPD driver to measure the Vbus current.
-
-### Updated personalities
-
-- USBPD 1.0 - Added PMG1B1 buck boost feature support.
+Support for new devices of the CCG7S device series:
+- CYPD7171-40LQXQ
 
 ### Updated drivers
 
-- [USBPD (USB Power Delivery) 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [USBPD (USB Power Delivery) 2.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 ## Defect fixes
 
@@ -41,7 +33,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.0.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.3.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.0.2       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.0.4       |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  | 10.3.1       |
 | IAR compiler                                                                  |  9.30.1      |
@@ -66,4 +58,4 @@ This version of PDL was validated for compatibility with the following software 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_familieshttps://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
 
 ---
-© 2020-2022, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© 2020-2023, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

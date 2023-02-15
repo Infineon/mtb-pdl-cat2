@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.20
+* \version 2.30
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.20
+* \version 2.30
 *
 * The source file of the USBPD Transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -88,7 +88,7 @@
 
 #endif /* defined(CY_DEVICE_CCG3) */
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 
 #define RX_CNT_MAX_CFG                  (RX_CNT_MAX_VAL << PDSS_RX_CC_0_CFG_RX_CNT_MAX_POS)
 #define RX_UI_BOUNDARY_DELTA_CFG        (RX_UI_BOUNDARY_DELTA_VAL << PDSS_RX_CC_0_CFG_RX_UI_BOUNDARY_DELTA_POS)
@@ -1610,7 +1610,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* (!(CY_PD_SOURCE_ONLY)) */
     }
     
-#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && (!QC_AFC_CHARGING_DISABLED))
+#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED))
     if(pd->intr4_masked != 0u)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
@@ -1620,7 +1620,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
     }
-#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) && (!QC_AFC_CHARGING_DISABLED)) */
+#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED)) */
 #if PDL_VBTR_ENABLE
     if ((pd->intr8_masked & (PDSS_INTR8_VBTR_OPR_DONE)) != 0u)
     {
@@ -1665,12 +1665,12 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
          */
         pd->intr8 = (PDSS_INTR8_VBTR_OPR_DONE | PDSS_INTR8_VBTR_EXIT_DONE);
 
-#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 #if BB_VBTR_IBTR_FCCM_DIS
         /* Re-enable FCCM once VBTR/IBTR is done */
         Cy_USBPD_BB_SetMode(port, BB_MODE_FCCM);
 #endif /* BB_VBTR_IBTR_FCCM_DIS */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
 #if VBTR_MULTI_SLOPE_ENABLE
         /*
@@ -1742,12 +1742,12 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
         pd->ibtr_cfg = 0;
         pd->intr8 = (PDSS_INTR8_IBTR_OPR_DONE | PDSS_INTR8_IBTR_EXIT_DONE);
 
-#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 #if BB_VBTR_IBTR_FCCM_DIS
         /* Re-enable FCCM once VBTR/IBTR is done */
         Cy_USBPD_BB_SetMode(port, BB_MODE_FCCM);
 #endif /* BB_VBTR_IBTR_FCCM_DIS */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
         /* Invoke callback. */
         context->ibtrIdle = true;

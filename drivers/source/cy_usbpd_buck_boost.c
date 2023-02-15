@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.20
+* \version 2.30
 *
 * The source file of the USBPD Buck Boost Driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -183,7 +183,7 @@
 
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 
 /* To monitor VBUS_IN while enabling buck-boost. */
 #define BB_SAFE_VBUS_IN_EN                  (1u)
@@ -1077,9 +1077,9 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
 #endif /* BB_SAFE_VBUS_IN_EN */
     uint32_t state;
-#if (!defined(CY_DEVICE_WLC1) && (PMG1B1_USB_CHARGER == 0))
+#if (!defined(CY_DEVICE_SERIES_WLC1) && (PMG1B1_USB_CHARGER == 0))
     uint16_t vbat_volt;
-#endif /* !defined(CY_DEVICE_WLC1) */
+#endif /* !defined(CY_DEVICE_SERIES_WLC1) */
 #if BB_SAFE_VBUS_IN_EN
     uint16_t vbus_in_volt;
 #endif /* BB_SAFE_VBUS_IN_EN */
@@ -1090,7 +1090,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
     {
 #if !PSVP_FPGA_ENABLE
 
-#if (!defined(CY_DEVICE_WLC1) && (PMG1B1_USB_CHARGER == 0))
+#if (!defined(CY_DEVICE_SERIES_WLC1) && (PMG1B1_USB_CHARGER == 0))
         /**
          * WICG1 uses AMUX for custom implementations and ensures 
          * VIN level before enabling buck-boost.
@@ -1116,7 +1116,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
             /* Do not enable regulator. Just exit here. */
             return;
         }
-#endif /* !defined(CY_DEVICE_WLC1) */
+#endif /* !defined(CY_DEVICE_SERIES_WLC1) */
 #endif /* !PSVP_FPGA_ENABLE */
 
         /* Stop the timer to ensure that we do not get re-entry. */
@@ -1544,13 +1544,13 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
         PDSS_CSA_SCP_0_CTRL_EN_ITRANCOMP_H2L)) |
         (CC_GAIN_60_AV1_VALUE << PDSS_CSA_SCP_0_CTRL_AV1_POS) |
         PDSS_CSA_SCP_0_CTRL_CSA_ISO_N);
-#if defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_SERIES_WLC1)
     CY_USBPD_REG_FIELD_UPDATE(pd->csa_scp_0_ctrl, 
         PDSS_CSA_SCP_0_CTRL_BW_CC, BBCTRL_20CSA_BW_CC_18_KHZ);
-#else /* !defined(CY_DEVICE_WLC1) */
+#else /* !defined(CY_DEVICE_SERIES_WLC1) */
     CY_USBPD_REG_FIELD_UPDATE(pd->csa_scp_0_ctrl, 
         PDSS_CSA_SCP_0_CTRL_BW_CC, BBCTRL_20CSA_BW_CC_45_KHZ);
-#endif /* defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_SERIES_WLC1) */
 
     CY_USBPD_REG_FIELD_UPDATE(pd->csa_scp_0_ctrl, 
         PDSS_CSA_SCP_0_CTRL_BW, BBCTRL_20CSA_BW_OCP_100_KHZ);

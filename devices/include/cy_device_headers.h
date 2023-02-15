@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -443,6 +443,8 @@
     #include "cy8c4147azi_s443.h"
 #elif defined (CY8C4147AZI_S453)
     #include "cy8c4147azi_s453.h"
+#elif defined (CY8C4147AZQ_S453)
+    #include "cy8c4147azq_s453.h"
 #elif defined (CY8C4147AZI_S463)
     #include "cy8c4147azi_s463.h"
 #elif defined (CY8C4146AZQ_S445)
@@ -1001,6 +1003,8 @@
     #include "cypm1115_48lqxi.h"
 #elif defined (CYPM1116_48LQXI)
     #include "cypm1116_48lqxi.h"
+#elif defined (CYPM1321_97BZXIT)
+    #include "cypm1321_97bzxit.h"
 #elif defined (CYPD7291_68LDXS)
     #include "cypd7291_68ldxs.h"
 #elif defined (CYPD7299_68LDXS)
@@ -1017,6 +1021,8 @@
     #include "cypd7275_68lqxq.h"
 #elif defined (CYPD7191_40LDXS)
     #include "cypd7191_40ldxs.h"
+#elif defined (CYPD7171_40LQXQ)
+    #include "cypd7171_40lqxq.h"
 #elif defined (WLC1115_68LQXQ)
     #include "wlc1115_68lqxq.h"
 #elif defined (WLC1150_68LQXQ)

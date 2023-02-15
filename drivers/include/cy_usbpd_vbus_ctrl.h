@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.20
+* \version 2.30
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -133,7 +133,7 @@
  */
 #define VBUS_CHANGE_PER_DAC_BIT             (20)
 
-#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 /* Fixed Gain settings */
 #define CC_GAIN_VALUE                           (80u)
 #define OCP_GAIN_VALUE                          (40u)
@@ -174,28 +174,28 @@
 /** Hardware register address information. Should not be modified. **/
 
 /* Sink DAC trim - 5V */
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #define BG_ISNK_DAC_CTRL_0_5V(port) (*(volatile uint8_t *)((0x0ffff461u) + \
         (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
 #define BG_ISNK_DAC_CTRL_1_5V(port) (*(volatile uint8_t *)((0x0ffff460u) + \
         (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
-#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #define BG_ISNK_DAC_CTRL_0_5V(port) (*(volatile uint8_t *)(0x0FFFF28Eu))
 #define BG_ISNK_DAC_CTRL_1_5V(port) (*(volatile uint8_t *)(0x0FFFF28Fu))
-#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #define BG_ISNK_DAC_CTRL_COMBINED_5V(port) (BG_ISNK_DAC_CTRL_0_5V(port) | \
         ((uint32_t)BG_ISNK_DAC_CTRL_1_5V(port) << 8))
 
 /* Sink DAC trim - 20V */
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #define BG_ISNK_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)((0x0ffff464u) + \
         (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
 #define BG_ISNK_DAC_CTRL_1_20V(port) (*(volatile uint8_t *)((0x0ffff463u) + \
         (((uint32_t)port) << (CCG_FLASH_ROW_SHIFT_NUM))))
-#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #define BG_ISNK_DAC_CTRL_0_20V(port) (*(volatile uint8_t *)(0x0FFFF291u))
 #define BG_ISNK_DAC_CTRL_1_20V(port) (*(volatile uint8_t *)(0x0FFFF292u))
-#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #define BG_ISNK_DAC_CTRL_COMBINED_20V(port) (BG_ISNK_DAC_CTRL_0_20V(port) | \
         ((uint32_t)BG_ISNK_DAC_CTRL_1_20V(port) << 8))
 
@@ -218,7 +218,7 @@
 
 #endif /* PSVP_FPGA_ENABLE */
 #endif /* (VBUS_CTRL_TRIM_ADJUST_ENABLE) */
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)
 #define CYDEV_BCLK__HFCLK__MHZ                    (48U)
@@ -245,7 +245,7 @@
 #define VBJT_LSB_TEMP_DELTA                      (5u)
 /**< Approximate temperature change for each LSB change in VBJT ADC reading. */
 
-#define INTERNAL_BJT_FAULT_TEMP                               (255u)
+#define INTERNAL_BJT_FAULT_TEMP                               (255)
 /**< Fault temperature value returned when sflash VBJT code is not correct (in Celsius degrees) */
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) */
 
@@ -305,7 +305,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_SelectVref(cy_stc_usbpd_context_t *context, cy
 
 uint8_t Cy_USBPD_Adc_GetVbusLevel(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId, uint16_t volt, int8_t per);
 
-uint8_t Cy_USBPD_Adc_MeasureInternalTemp(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,
+int16_t Cy_USBPD_Adc_MeasureInternalTemp(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,
                                     cy_en_usbpd_adc_input_t input);
 
 uint16_t Cy_USBPD_Adc_MeasureVbusIn(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId,

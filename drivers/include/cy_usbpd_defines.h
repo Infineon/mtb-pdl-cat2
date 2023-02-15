@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.20
+* \version 2.30
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -382,11 +382,11 @@
 
 #ifndef BB_PWM_ASYNC_MODE_ENABLE
 
-#if defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 #define BB_PWM_ASYNC_MODE_ENABLE (1u)
-#else /* !(defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#else /* !(defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #define BB_PWM_ASYNC_MODE_ENABLE (0u)
-#endif /* (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
 #endif /* BB_PWM_ASYNC_MODE_ENABLE */
 

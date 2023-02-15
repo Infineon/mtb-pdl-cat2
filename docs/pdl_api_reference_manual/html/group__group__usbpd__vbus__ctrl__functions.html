@@ -126,9 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga0c4d68af856ac66ea3e81e1f5a81f853">Cy_USBPD_Adc_GetVbusLevel</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, uint16_t volt, int8_t per)</td></tr>
 <tr class="memdesc:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ADC level that corresponds to the actual voltage on vbus.  <a href="#ga0c4d68af856ac66ea3e81e1f5a81f853">More...</a><br /></td></tr>
 <tr class="separator:ga0c4d68af856ac66ea3e81e1f5a81f853"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga095f7808a499959ef41d6e7ce2e70ad6">Cy_USBPD_Adc_MeasureInternalTemp</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
-<tr class="memdesc:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the temperature using ADC and internal BJT temperature sensor.  <a href="#ga095f7808a499959ef41d6e7ce2e70ad6">More...</a><br /></td></tr>
-<tr class="separator:ga095f7808a499959ef41d6e7ce2e70ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a592b0e8317d0370177732d37a19a95"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga0a592b0e8317d0370177732d37a19a95">Cy_USBPD_Adc_MeasureInternalTemp</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
+<tr class="memdesc:ga0a592b0e8317d0370177732d37a19a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the temperature using ADC and internal BJT temperature sensor.  <a href="#ga0a592b0e8317d0370177732d37a19a95">More...</a><br /></td></tr>
+<tr class="separator:ga0a592b0e8317d0370177732d37a19a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga4c9c5b639eef8c6d2095803c4da0faad">Cy_USBPD_Adc_MeasureVbusIn</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
 <tr class="memdesc:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the current voltage on the VBus-in.  <a href="#ga4c9c5b639eef8c6d2095803c4da0faad">More...</a><br /></td></tr>
 <tr class="separator:ga4c9c5b639eef8c6d2095803c4da0faad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -948,14 +948,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga095f7808a499959ef41d6e7ce2e70ad6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga095f7808a499959ef41d6e7ce2e70ad6">&#9670;&nbsp;</a></span>Cy_USBPD_Adc_MeasureInternalTemp()</h2>
+<a id="ga0a592b0e8317d0370177732d37a19a95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0a592b0e8317d0370177732d37a19a95">&#9670;&nbsp;</a></span>Cy_USBPD_Adc_MeasureInternalTemp()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t Cy_USBPD_Adc_MeasureInternalTemp </td>
+          <td class="memname">int16_t Cy_USBPD_Adc_MeasureInternalTemp </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
           <td class="paramname"><em>context</em>, </td>
@@ -989,7 +989,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t Internal temperature in degree celsius units. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int16_t Internal temperature in degree celsius units. </dd></dl>
 
 </div>
 </div>

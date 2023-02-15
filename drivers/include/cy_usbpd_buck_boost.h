@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.h
-* \version 2.20
+* \version 2.30
 *
 * Provides API declarations of the USBPD Buck Boost Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -40,7 +40,7 @@
 */
 
 
-#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 
 /*
  * Fixed PWM frequency during buck-boost soft start.
@@ -186,11 +186,11 @@
 #define VCONN_OCP_TRIM_CC2_OFFSET       (1u)
 
 /* BB enable target voltage */
-#if defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_SERIES_WLC1)
 #define BB_ENABLE_VOUT_VOLT                 (4000u)
-#else /* !defined(CY_DEVICE_WLC1) */
+#else /* !defined(CY_DEVICE_SERIES_WLC1) */
 #define BB_ENABLE_VOUT_VOLT                 (5000u)
-#endif /* defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_SERIES_WLC1) */
 
 /* BB overvoltage filter debounce time */
 #define BB_BAT_OVP_DEBOUNCE                 (0x0Au)
@@ -402,7 +402,7 @@
 
 
 
-#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)*/
+#endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)*/
 
 
 

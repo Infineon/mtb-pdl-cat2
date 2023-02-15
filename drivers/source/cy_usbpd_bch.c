@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.20
+* \version 2.30
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -354,18 +354,18 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
 
         case CHGB_SRC_TERM_APPLE_2_4A:
             pd->bch_det_1_ctrl[chgb_id] |= ((2UL << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_POS) |
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #if ENABLE_APPLE_BC12_SUPPORT
                 ((uint32_t)1u << PDSS_BCH_DET_1_CTRL_APPLE_TERM_POS) |
 #endif /* ENABLE_APPLE_BC12_SUPPORT */
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
                     (2UL << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DM_POS) |
                  PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET);
             pd->bch_det_0_ctrl[chgb_id] |= (PDSS_BCH_DET_0_CTRL_VDP_SRC_EN |
                     PDSS_BCH_DET_0_CTRL_VDM_SRC_EN);
             break;
 
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         case CHGB_SRC_TERM_APPLE_3A:
                 pd->bch_det_1_ctrl[chgb_id] |= (((uint32_t)2u << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_POS)
 #if ENABLE_APPLE_BC12_SUPPORT
@@ -375,7 +375,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
                 pd->bch_det_0_ctrl[chgb_id] |= (PDSS_BCH_DET_0_CTRL_VDP_SRC_EN |
                     PDSS_BCH_DET_0_CTRL_RDM_PD_EN | PDSS_BCH_DET_0_CTRL_RDM_PU_EN);
             break;
-#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
 
 #if (!QC_AFC_CHARGING_DISABLED)
@@ -1288,10 +1288,10 @@ void Cy_USBPD_Bch_Apply_AppleTermDp(cy_stc_usbpd_context_t *context,
 
     PPDSS_REGS_T pd = context->base ;
 
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     pd->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_VDP_SRC_EN;
     pd->bch_det_1_ctrl[chgb_id] |= PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     switch(appleTermId)
     {
@@ -1303,17 +1303,17 @@ void Cy_USBPD_Bch_Apply_AppleTermDp(cy_stc_usbpd_context_t *context,
             break;
         case CHGB_SRC_TERM_APPLE_2_4A:
             pd->bch_det_1_ctrl[chgb_id] |= ((uint32_t)2u << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_POS
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
                     | ((uint32_t)1u << PDSS_BCH_DET_1_CTRL_APPLE_TERM_POS)
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
                     );
             break;
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         case CHGB_SRC_TERM_APPLE_3A:
             pd->bch_det_1_ctrl[chgb_id] |= ((uint32_t)2u << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_POS
                     | ((uint32_t)1u << PDSS_BCH_DET_1_CTRL_APPLE_TERM_POS));
             break;
-#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))    */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))    */
 
         default:
             Cy_SysLib_DelayUs (1);
@@ -1373,10 +1373,10 @@ void Cy_USBPD_Bch_Apply_AppleTermDm(cy_stc_usbpd_context_t *context,
 
     PPDSS_REGS_T pd = context->base ;
 
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     pd->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_VDM_SRC_EN;
     pd->bch_det_1_ctrl[chgb_id] |= PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
-#endif /*(defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /*(defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     switch(appleTermId)
     {
@@ -1389,11 +1389,11 @@ void Cy_USBPD_Bch_Apply_AppleTermDm(cy_stc_usbpd_context_t *context,
         case CHGB_SRC_TERM_APPLE_2_4A:
             pd->bch_det_1_ctrl[chgb_id] |= (2u << PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DM_POS);
             break;
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         case CHGB_SRC_TERM_APPLE_3A:
              pd->bch_det_0_ctrl[chgb_id] |= (PDSS_BCH_DET_0_CTRL_RDM_PD_EN | PDSS_BCH_DET_0_CTRL_RDM_PU_EN);
              break;
-#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
         default:
             Cy_SysLib_DelayUs (1);
             break;
@@ -1533,14 +1533,14 @@ void Cy_USBPD_Bch_Remove_AppleSrcDp(cy_stc_usbpd_context_t *context)
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     pd->bch_det_1_ctrl[chgb_id] &=
                 ~(PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_MASK
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
                  | PDSS_BCH_DET_1_CTRL_APPLE_TERM_MASK
                  | PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
                  );
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         pd->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_VDP_SRC_EN;
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))*/
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))*/
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_1 &= ~(PDSS_CHGDET_CTRL_1_CHGDET_APPLE_MODE_DP_MASK);
 #else
@@ -1579,9 +1579,9 @@ pd->bch_det_1_ctrl[chgb_id] &=
                  | PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET
 #endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D)) */
                  );
-#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         pd->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_VDP_SRC_EN;
-#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_1 &= ~(PDSS_CHGDET_CTRL_1_CHGDET_APPLE_MODE_DM_MASK);
 #else
@@ -1657,7 +1657,7 @@ bool Cy_USBPD_Bch_Phy_DpStat(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     uint8_t chgb_id = 0;
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS_POS + chgb_id))) != 0UL)
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS)) != 0u)
 #endif /* CCGx */
     {
@@ -1693,7 +1693,7 @@ bool Cy_USBPD_Bch_Phy_DmStat(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
     uint8_t chgb_id = 0;
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS_POS + chgb_id))) != 0UL)
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
      if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS)) != 0u)
 #endif /* CCGx */
     {
@@ -1903,7 +1903,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseDis(cy_stc_usbpd_context_t *co
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     uint32_t regval;
     volatile uint32_t *qc3_chrger_ctrl = NULL;
@@ -1911,13 +1911,13 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *con
     
     context->bcQcPulseCount = 0;
     
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     qc3_chrger_ctrl = &pd->qc3_chrger_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
 #else
     qc3_chrger_ctrl = &pd->qc3_chrger_ctrl[0];
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
-#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */    
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */    
     
     /*
      * Enable pulse count and filter. DP filter should look for rising edge
@@ -1953,7 +1953,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *con
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)))  */
 }
 
 /*******************************************************************************
@@ -1972,11 +1972,11 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *con
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
 
     context->bcQcPulseCount = 0;
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
 #else
     pd->qc3_chrger_ctrl[0] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
@@ -1991,7 +1991,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *cont
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 
 /*******************************************************************************
@@ -2009,14 +2009,14 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *cont
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_1_ctrl = NULL;
     volatile uint32_t *afc_2_ctrl = NULL;
     volatile uint32_t *afc_hs_filter_cfg = NULL;
     uint32_t regval = 0;
     
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     afc_1_ctrl = &pd->afc_1_ctrl;
     afc_2_ctrl = &pd->afc_2_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
@@ -2051,7 +2051,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 
 /*******************************************************************************
@@ -2070,11 +2070,11 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL;
     
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
 #else
     afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
@@ -2104,7 +2104,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 
 /*******************************************************************************
@@ -2154,10 +2154,50 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStop(cy_stc_usbpd_context_t *context)
 }
 
 /*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcGetRxDataPtr
+****************************************************************************//**
+*
+* This function returns the AFC (Adaptive Fast Charging) received data pointer
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* Received data pointer
+*
+*******************************************************************************/
+uint8_t * Cy_USBPD_Bch_AfcGetRxDataPtr(cy_stc_usbpd_context_t *context)
+{
+    return context->bcAfcRxBuf;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_AfcGetRxDataCount
+****************************************************************************//**
+*
+* This function returns the AFC(Adaptive Fast Charging) received data count
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* received data count
+*
+*******************************************************************************/
+uint8_t Cy_USBPD_Bch_AfcGetRxDataCount(cy_stc_usbpd_context_t *context)
+{
+#if (!BCR) && (!QC_AFC_SNK_EN)
+    return context->bcAfcRxIdx + 1u;
+#else
+    return context->bcAfcRxIdx;
+#endif
+}
+
+/*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcLoadTxData
 ****************************************************************************//**
 *
-* This function load the USBPD context AFC tx data into AFC ping pong buffer.
+* This function load the USBPD context AFC (Adaptive Fast Charging) tx data into AFC ping pong buffer.
 *
 * \param context
 * Pointer to the context structure \ref cy_stc_usbpd_context_t.
@@ -2192,7 +2232,7 @@ void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context)
         {
             data |= (uint16_t)(context->bcAfcTxBuf[context->bcAfcTxIdx++]) << 8u;
         }
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3))
             pd->afc_ping_pong = data;
 #elif defined(CY_DEVICE_PAG1S)
             pd->afc_ping_pong[cport] = data;
@@ -2209,10 +2249,10 @@ void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context)
 }
 
 /*******************************************************************************
-* Function Name: Cy_USBPD_Bch_Set_AfcTxData
+* Function Name: Cy_USBPD_Bch_Afc_Set_Tx_Data
 ****************************************************************************//**
 *
-* This function transmits AFC data buffer provided.
+* This function transmits AFC (Adaptive Fast Charging) data buffer provided.
 *
 * \param context
 * Pointer to the context structure \ref cy_stc_usbpd_context_t.
@@ -2227,9 +2267,9 @@ void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context)
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count)
+void Cy_USBPD_Bch_Afc_Set_Tx_Data(cy_stc_usbpd_context_t *context, uint8_t* dataPtr, uint8_t count)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     uint32_t regval;
     uint8_t index = 0;
@@ -2246,11 +2286,11 @@ void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPt
     chgb_id = (cport == 0) ? 1 : 0;
 #endif /* (defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM) */
     
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     afc_1_ctrl = &pd->afc_1_ctrl;
 #else
     afc_1_ctrl = &pd->afc_1_ctrl[chgb_id];
-#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     regval = *afc_1_ctrl & ~PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_MASK;
 
@@ -2270,14 +2310,14 @@ void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPt
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(dataPtr);
     CY_UNUSED_PARAMETER(count);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */  
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */  
 }
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcSinkInit
 ****************************************************************************//**
 *
-* This function initialize the AFC clock, filters and enables block for sink 
+* This function initialize the AFC (Adaptive Fast Charging) clock, filters and enables block for sink 
 * operations. 
 *
 * \param context
@@ -2289,13 +2329,13 @@ void Cy_USBPD_Bch_Set_AfcTxData(cy_stc_usbpd_context_t *context, uint8_t* dataPt
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_1_ctrl = NULL;
     volatile uint32_t *afc_2_ctrl = NULL;
     volatile uint32_t *afc_hs_filter_cfg = NULL;
     
-#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_1_ctrl = &pd->afc_1_ctrl;
     afc_2_ctrl = &pd->afc_2_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
@@ -2303,7 +2343,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
     afc_1_ctrl = &pd->afc_1_ctrl[0];
     afc_2_ctrl = &pd->afc_2_ctrl[0];
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
-#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1) */
 
     *afc_1_ctrl &= ~(PDSS_AFC_1_CTRL_TX_RESET |
                      PDSS_AFC_1_CTRL_NO_OF_BYTES_TX_MASK);
@@ -2329,14 +2369,14 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcSinkStartPing
 ****************************************************************************//**
 *
-* This function sends a ping request to AFC source.
+* This function sends a ping request to AFC (Adaptive Fast Charging) source.
 * operations. 
 *
 * \param context
@@ -2348,15 +2388,15 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL;
     
-#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
 #else
     afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
-#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_WLC1) */
+#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1) */
 
     /* Set opcode for afc sink operation */
     *afc_opcode_ctrl = AFC_SINK_OPCODE_PING;
@@ -2378,14 +2418,14 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *conte
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcSinkStart
 ****************************************************************************//**
 *
-* This function configures the AFC state machine, interrupts and stats the AFC
+* This function configures the AFC (Adaptive Fast Charging) state machine, interrupts and stats the AFC
 * sink operations. 
 *
 * \param context
@@ -2397,12 +2437,12 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *conte
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL; 
 
     /* Set opcode for afc sink operation */
-#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_WLC1)
+#if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
 #else
     afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
@@ -2431,14 +2471,14 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context)
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Bch_AfcSinkStop
 ****************************************************************************//**
 *
-* This function disables all AFC interrupt.
+* This function disables all AFC (Adaptive Fast Charging) interrupt.
 *
 * \param context
 * Pointer to the context structure \ref cy_stc_usbpd_context_t.
@@ -2449,7 +2489,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     
     /* Disable Interrupts */
@@ -2462,7 +2502,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context)
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }    
 
 /*******************************************************************************
@@ -2480,7 +2520,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     uint32_t dp_pulse, dm_pulse;
     uint32_t regval;
     uint8_t cport=context->port;
@@ -2501,7 +2541,7 @@ void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
         PPDSS_REGS_T pd = context->base;
 
         /* Clear interrupts */
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3))
         pd->intr6 = QC3_PORT_0_DP_DM_PULSE_MASK;
 #elif defined(PAG1S)
         pd->intr6 = QC3_PORT_0_DP_DM_PULSE_MASK << cport;
@@ -2510,7 +2550,7 @@ void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
 #endif /* CCGx */
 
         /* Read count */
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3))
         pd->qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT;
         while(((pd->qc3_chrger_ctrl & PDSS_QC3_CHRGER_CTRL_READ_DPDM_COUNT) != 0u)) {};
         regval = pd->qc3_chrger_ctrl;
@@ -2543,7 +2583,7 @@ void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
 
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)  || (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */    
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)  || (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */    
 }
 
 /*******************************************************************************
@@ -2562,7 +2602,7 @@ void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_sm_status = NULL;
     volatile uint32_t *afc_ping_pong = NULL;
@@ -2581,7 +2621,7 @@ void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
 #endif /* (BCR == 1) */
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     afc_sm_status = &pd->afc_sm_status;
     afc_ping_pong = &pd->afc_ping_pong;
 #else
@@ -2636,7 +2676,7 @@ void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
     
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 
 /*******************************************************************************
@@ -2654,7 +2694,7 @@ void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
 #if defined(CY_DEVICE_CCG3PA)
     uint8_t cport=context->port;
     uint8_t chgb_id = cport;
@@ -2688,7 +2728,7 @@ void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context)
     
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)  || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)  || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 
 /*******************************************************************************
@@ -2748,7 +2788,7 @@ void Cy_USBPD_Bch_AfcReset_IntrHandler(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) 
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     if(pd->intr4_masked != 0)
@@ -2847,7 +2887,7 @@ void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
 }
 #endif /* (!QC_AFC_CHARGING_DISABLED) */
 /*******************************************************************************
@@ -2894,7 +2934,7 @@ void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context)
         }
     }
 
-#if !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1))
+#if !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #if ((NO_OF_BC_PORTS == 2) || (CY_FLIPPED_DP_DM))
     if ((pd->intr9_masked & BCH_PORT_1_CMP1_INTR_MASK) != 0u)
     {
@@ -2922,7 +2962,7 @@ void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context)
         }
     }
 #endif /* ((NO_OF_BC_PORTS == 2) || (CY_FLIPPED_DP_DM)) */
-#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_WLC1)) */
+#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
 #elif defined(CY_IP_M0S8USBPD)
 

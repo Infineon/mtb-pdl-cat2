@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.20
+* \version 2.30
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1411,7 +1411,7 @@ app_config_t* pd_get_ptr_app_tbl(cy_stc_usbpd_context_t *context);
  */
 cy_stc_pdaltmode_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t *context);
 
-#if (defined(CY_DEVICE_WLC1))
+#if (defined(CY_DEVICE_SERIES_WLC1))
 const cy_wireless_port_config * get_wireless_port_config(const void *cfgPtr);
 
 const cy_stc_qi_main_cfg_t * get_wireless_main_config(const void *cfgPtr);
@@ -1427,7 +1427,7 @@ const cy_stc_fod_cfg_t * get_wireless_fod_config(const void *cfgPtr, uint8_t coi
 const cy_stc_vin_cfg_t  * get_wireless_vin_config(const void *cfgPtr);
 
 const cy_stc_fault_protect_cfg_t * get_wireless_fault_config(const void *cfgPtr);
-#endif /* (defined(CY_DEVICE_WLC1))*/
+#endif /* (defined(CY_DEVICE_SERIES_WLC1))*/
 
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);

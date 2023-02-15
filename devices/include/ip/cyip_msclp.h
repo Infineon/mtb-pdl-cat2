@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -79,11 +79,12 @@ typedef struct {
    __IM uint32_t STATUS1;                       /*!< 0x00001400 General Status Register 1 */
    __IM uint32_t STATUS2;                       /*!< 0x00001404 General Status Register 2 */
    __IM uint32_t STATUS3;                       /*!< 0x00001408 General Status Register 3 */
-   __IM uint32_t RESULT_FIFO_STATUS;            /*!< 0x0000140C Result FIFO Status */
-   __IM uint32_t RESULT_FIFO_STATUS2;           /*!< 0x00001410 Result FIFO Status 2 */
-   __IM uint32_t CE_STATUS;                     /*!< 0x00001414 Channel Engine Status */
-   __IM uint32_t BRIDGE_STATUS;                 /*!< 0x00001418 AHB2AHB Bridge Status */
-   __IM uint32_t RESERVED2[249];
+   __IM uint32_t STATUS4;                       /*!< 0x0000140C General Status Register 4 */
+   __IM uint32_t RESULT_FIFO_STATUS;            /*!< 0x00001410 Result FIFO Status */
+   __IM uint32_t RESULT_FIFO_STATUS2;           /*!< 0x00001414 Result FIFO Status 2 */
+   __IM uint32_t CE_STATUS;                     /*!< 0x00001418 Channel Engine Status */
+   __IM uint32_t BRIDGE_STATUS;                 /*!< 0x0000141C AHB2AHB Bridge Status */
+   __IM uint32_t RESERVED2[248];
   __IOM uint32_t FRAME_CMD;                     /*!< 0x00001800 Frame Command Register */
   __IOM uint32_t CE_CMD;                        /*!< 0x00001804 Channel Engine Command */
   __IOM uint32_t FIFO_CMD;                      /*!< 0x00001808 FIFO Command */
@@ -396,13 +397,15 @@ typedef struct {
 #define MSCLP_SNS_SNS_SW_SEL_CSW_LO_MASK0_FUNC_MASK_Msk 0xFFFFFFFFUL
 /* MSCLP_SNS.SNS_SCAN_CTL */
 #define MSCLP_SNS_SNS_SCAN_CTL_NUM_SUB_CONVS_Pos 0UL
-#define MSCLP_SNS_SNS_SCAN_CTL_NUM_SUB_CONVS_Msk 0xFFFFUL
+#define MSCLP_SNS_SNS_SCAN_CTL_NUM_SUB_CONVS_Msk 0x3FFFUL
+#define MSCLP_SNS_SNS_SCAN_CTL_NUM_CONV_Pos     14UL
+#define MSCLP_SNS_SNS_SCAN_CTL_NUM_CONV_Msk     0x4000UL
+#define MSCLP_SNS_SNS_SCAN_CTL_INIT_BYPASS_Pos  15UL
+#define MSCLP_SNS_SNS_SCAN_CTL_INIT_BYPASS_Msk  0x8000UL
 #define MSCLP_SNS_SNS_SCAN_CTL_COMP_DIV_Pos     16UL
 #define MSCLP_SNS_SNS_SCAN_CTL_COMP_DIV_Msk     0xFFF0000UL
-#define MSCLP_SNS_SNS_SCAN_CTL_NUM_CONV_Pos     28UL
-#define MSCLP_SNS_SNS_SCAN_CTL_NUM_CONV_Msk     0x70000000UL
-#define MSCLP_SNS_SNS_SCAN_CTL_INIT_BYPASS_Pos  31UL
-#define MSCLP_SNS_SNS_SCAN_CTL_INIT_BYPASS_Msk  0x80000000UL
+#define MSCLP_SNS_SNS_SCAN_CTL_CIC2_SHIFT_Pos   28UL
+#define MSCLP_SNS_SNS_SCAN_CTL_CIC2_SHIFT_Msk   0xF0000000UL
 /* MSCLP_SNS.SNS_CDAC_CTL */
 #define MSCLP_SNS_SNS_CDAC_CTL_SEL_RE_Pos       0UL
 #define MSCLP_SNS_SNS_CDAC_CTL_SEL_RE_Msk       0xFFUL
@@ -446,10 +449,14 @@ typedef struct {
 #define MSCLP_SNS_RESULT_FIFO_RD_RAW_COUNT_Msk  0xFFFFUL
 #define MSCLP_SNS_RESULT_FIFO_RD_OVERFLOW_Pos   16UL
 #define MSCLP_SNS_RESULT_FIFO_RD_OVERFLOW_Msk   0x10000UL
+#define MSCLP_SNS_RESULT_FIFO_RD_CIC2_ACC_OVERFLOW_Pos 17UL
+#define MSCLP_SNS_RESULT_FIFO_RD_CIC2_ACC_OVERFLOW_Msk 0x20000UL
+#define MSCLP_SNS_RESULT_FIFO_RD_CIC2_SUBSAMPLE_COUNT_OVERFLOW_Pos 18UL
+#define MSCLP_SNS_RESULT_FIFO_RD_CIC2_SUBSAMPLE_COUNT_OVERFLOW_Msk 0x40000UL
 #define MSCLP_SNS_RESULT_FIFO_RD_RESAMPLE_COUNT_Pos 20UL
 #define MSCLP_SNS_RESULT_FIFO_RD_RESAMPLE_COUNT_Msk 0x700000UL
 #define MSCLP_SNS_RESULT_FIFO_RD_BAD_CONV_COUNT_Pos 24UL
-#define MSCLP_SNS_RESULT_FIFO_RD_BAD_CONV_COUNT_Msk 0xF000000UL
+#define MSCLP_SNS_RESULT_FIFO_RD_BAD_CONV_COUNT_Msk 0x3000000UL
 /* MSCLP_SNS.STATUS1 */
 #define MSCLP_SNS_STATUS1_RAW_COUNT_Pos         0UL
 #define MSCLP_SNS_STATUS1_RAW_COUNT_Msk         0xFFFFUL
@@ -460,13 +467,16 @@ typedef struct {
 #define MSCLP_SNS_STATUS2_DEBUG_CONV_COUNT_Msk  0xFFFFUL
 /* MSCLP_SNS.STATUS3 */
 #define MSCLP_SNS_STATUS3_NUM_SUB_CONVS_Pos     0UL
-#define MSCLP_SNS_STATUS3_NUM_SUB_CONVS_Msk     0xFFFFUL
+#define MSCLP_SNS_STATUS3_NUM_SUB_CONVS_Msk     0x3FFFUL
 #define MSCLP_SNS_STATUS3_SEQ_STATE_Pos         16UL
 #define MSCLP_SNS_STATUS3_SEQ_STATE_Msk         0x1F0000UL
 #define MSCLP_SNS_STATUS3_FS_CLOCK_Pos          24UL
 #define MSCLP_SNS_STATUS3_FS_CLOCK_Msk          0x1000000UL
 #define MSCLP_SNS_STATUS3_MSC_CMP_OUT_Pos       28UL
 #define MSCLP_SNS_STATUS3_MSC_CMP_OUT_Msk       0x10000000UL
+/* MSCLP_SNS.STATUS4 */
+#define MSCLP_SNS_STATUS4_NUM_CIC2_SUB_SAMPLES_Pos 0UL
+#define MSCLP_SNS_STATUS4_NUM_CIC2_SUB_SAMPLES_Msk 0x1FFUL
 /* MSCLP_SNS.RESULT_FIFO_STATUS */
 #define MSCLP_SNS_RESULT_FIFO_STATUS_USED_Pos   0UL
 #define MSCLP_SNS_RESULT_FIFO_STATUS_USED_Msk   0x7FFUL
@@ -541,7 +551,7 @@ typedef struct {
 #define MSCLP_SCAN_CTL1_RAW_COUNT_MODE_Pos      8UL
 #define MSCLP_SCAN_CTL1_RAW_COUNT_MODE_Msk      0x100UL
 #define MSCLP_SCAN_CTL1_DEBUG_CONV_PH_SEL_Pos   12UL
-#define MSCLP_SCAN_CTL1_DEBUG_CONV_PH_SEL_Msk   0x7000UL
+#define MSCLP_SCAN_CTL1_DEBUG_CONV_PH_SEL_Msk   0x1000UL
 #define MSCLP_SCAN_CTL1_FRAME_RES_START_ADDR_Pos 16UL
 #define MSCLP_SCAN_CTL1_FRAME_RES_START_ADDR_Msk 0x3FF0000UL
 #define MSCLP_SCAN_CTL1_RC_STORE_EN_Pos         28UL
@@ -555,8 +565,6 @@ typedef struct {
 #define MSCLP_SCAN_CTL2_NUM_EPI_KREF_DELAY_Msk  0xF00UL
 #define MSCLP_SCAN_CTL2_CHOP_POL_Pos            12UL
 #define MSCLP_SCAN_CTL2_CHOP_POL_Msk            0x1000UL
-#define MSCLP_SCAN_CTL2_CHOP_EVEN_HOLD_EN_Pos   14UL
-#define MSCLP_SCAN_CTL2_CHOP_EVEN_HOLD_EN_Msk   0x4000UL
 #define MSCLP_SCAN_CTL2_FRAME_CFG_START_ADDR_Pos 16UL
 #define MSCLP_SCAN_CTL2_FRAME_CFG_START_ADDR_Msk 0x3FF0000UL
 #define MSCLP_SCAN_CTL2_EXT_REF_CLK_EN_Pos      28UL
@@ -640,11 +648,11 @@ typedef struct {
 #define MSCLP_AOS_CTL_WAKEUP_TIMER_Pos          0UL
 #define MSCLP_AOS_CTL_WAKEUP_TIMER_Msk          0xFFFFUL
 #define MSCLP_AOS_CTL_FR_TIMEOUT_INTERVAL_Pos   16UL
-#define MSCLP_AOS_CTL_FR_TIMEOUT_INTERVAL_Msk   0xFF0000UL
-#define MSCLP_AOS_CTL_STOP_ON_SD_Pos            24UL
-#define MSCLP_AOS_CTL_STOP_ON_SD_Msk            0x1000000UL
-#define MSCLP_AOS_CTL_MRSS_PWR_CYCLE_EN_Pos     28UL
-#define MSCLP_AOS_CTL_MRSS_PWR_CYCLE_EN_Msk     0x10000000UL
+#define MSCLP_AOS_CTL_FR_TIMEOUT_INTERVAL_Msk   0x3FFF0000UL
+#define MSCLP_AOS_CTL_STOP_ON_SD_Pos            30UL
+#define MSCLP_AOS_CTL_STOP_ON_SD_Msk            0x40000000UL
+#define MSCLP_AOS_CTL_MRSS_PWR_CYCLE_EN_Pos     31UL
+#define MSCLP_AOS_CTL_MRSS_PWR_CYCLE_EN_Msk     0x80000000UL
 /* MSCLP.CE_CTL */
 #define MSCLP_CE_CTL_RCF_EN_Pos                 0UL
 #define MSCLP_CE_CTL_RCF_EN_Msk                 0x1UL
@@ -675,8 +683,6 @@ typedef struct {
 #define MSCLP_INTR_INIT_Msk                     0x1000UL
 #define MSCLP_INTR_FRAME_Pos                    16UL
 #define MSCLP_INTR_FRAME_Msk                    0x10000UL
-#define MSCLP_INTR_CIC2_ERROR_Pos               20UL
-#define MSCLP_INTR_CIC2_ERROR_Msk               0x100000UL
 #define MSCLP_INTR_CONFIG_REQ_Pos               24UL
 #define MSCLP_INTR_CONFIG_REQ_Msk               0x1000000UL
 #define MSCLP_INTR_FIFO_UNDERFLOW_Pos           30UL
@@ -694,8 +700,6 @@ typedef struct {
 #define MSCLP_INTR_SET_INIT_Msk                 0x1000UL
 #define MSCLP_INTR_SET_FRAME_Pos                16UL
 #define MSCLP_INTR_SET_FRAME_Msk                0x10000UL
-#define MSCLP_INTR_SET_CIC2_ERROR_Pos           20UL
-#define MSCLP_INTR_SET_CIC2_ERROR_Msk           0x100000UL
 #define MSCLP_INTR_SET_CONFIG_REQ_Pos           24UL
 #define MSCLP_INTR_SET_CONFIG_REQ_Msk           0x1000000UL
 #define MSCLP_INTR_SET_FIFO_UNDERFLOW_Pos       30UL
@@ -713,8 +717,6 @@ typedef struct {
 #define MSCLP_INTR_MASK_INIT_Msk                0x1000UL
 #define MSCLP_INTR_MASK_FRAME_Pos               16UL
 #define MSCLP_INTR_MASK_FRAME_Msk               0x10000UL
-#define MSCLP_INTR_MASK_CIC2_ERROR_Pos          20UL
-#define MSCLP_INTR_MASK_CIC2_ERROR_Msk          0x100000UL
 #define MSCLP_INTR_MASK_CONFIG_REQ_Pos          24UL
 #define MSCLP_INTR_MASK_CONFIG_REQ_Msk          0x1000000UL
 #define MSCLP_INTR_MASK_FIFO_UNDERFLOW_Pos      30UL
@@ -732,8 +734,6 @@ typedef struct {
 #define MSCLP_INTR_MASKED_INIT_Msk              0x1000UL
 #define MSCLP_INTR_MASKED_FRAME_Pos             16UL
 #define MSCLP_INTR_MASKED_FRAME_Msk             0x10000UL
-#define MSCLP_INTR_MASKED_CIC2_ERROR_Pos        20UL
-#define MSCLP_INTR_MASKED_CIC2_ERROR_Msk        0x100000UL
 #define MSCLP_INTR_MASKED_CONFIG_REQ_Pos        24UL
 #define MSCLP_INTR_MASKED_CONFIG_REQ_Msk        0x1000000UL
 #define MSCLP_INTR_MASKED_FIFO_UNDERFLOW_Pos    30UL
@@ -797,6 +797,8 @@ typedef struct {
 /* MSCLP.MRSS_STATUS */
 #define MSCLP_MRSS_STATUS_MRSS_UP_Pos           0UL
 #define MSCLP_MRSS_STATUS_MRSS_UP_Msk           0x1UL
+#define MSCLP_MRSS_STATUS_IMO_UP_Pos            24UL
+#define MSCLP_MRSS_STATUS_IMO_UP_Msk            0x1000000UL
 /* MSCLP.AOS_STATUS */
 #define MSCLP_AOS_STATUS_FRAME_TIMER_STATE_Pos  0UL
 #define MSCLP_AOS_STATUS_FRAME_TIMER_STATE_Msk  0x7UL

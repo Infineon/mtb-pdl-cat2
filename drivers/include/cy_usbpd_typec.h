@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.20
+* \version 2.30
 *
 * Provides API declarations of the USBPD Type C driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -96,6 +96,19 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">2.30</td>
+*     <td>Use WLC1 Series Code compile directive</td>
+*     <td>Defect Fix</td>
+*    </tr>
+*    <tr>
+*     <td>Changed from Cy_USBPD_Bch_Set_AfcTxData to Cy_USBPD_Bch_Afc_Set_Tx_Data</td>
+*     <td>API Name Change</td>
+*    </tr>
+*    <tr>
+*     <td>Added Cy_USBPD_Bch_AfcGetRxDataPtr and Cy_USBPD_Bch_AfcGetRxDataCount functions</td>
+*     <td>APIs added for Adaptive fast charge feature(AFC)</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="4">2.20</td>
 *     <td>Added support for PMG1B1 device.</td>
@@ -272,7 +285,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       20
+#define CY_USBPD_DRV_VERSION_MINOR                       30
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

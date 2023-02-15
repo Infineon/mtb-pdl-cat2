@@ -12,7 +12,7 @@ var group__group__usbpd__vbus__ctrl__functions =
     [ "Cy_USBPD_Adc_Calibrate", "group__group__usbpd__vbus__ctrl__functions.html#ga22609ff77e29a44d6aad36685dbe3aeb", null ],
     [ "Cy_USBPD_Adc_SelectVref", "group__group__usbpd__vbus__ctrl__functions.html#ga7608486d6aeca736b13d9dddc855c6f3", null ],
     [ "Cy_USBPD_Adc_GetVbusLevel", "group__group__usbpd__vbus__ctrl__functions.html#ga0c4d68af856ac66ea3e81e1f5a81f853", null ],
-    [ "Cy_USBPD_Adc_MeasureInternalTemp", "group__group__usbpd__vbus__ctrl__functions.html#ga095f7808a499959ef41d6e7ce2e70ad6", null ],
+    [ "Cy_USBPD_Adc_MeasureInternalTemp", "group__group__usbpd__vbus__ctrl__functions.html#ga0a592b0e8317d0370177732d37a19a95", null ],
     [ "Cy_USBPD_Adc_MeasureVbusIn", "group__group__usbpd__vbus__ctrl__functions.html#ga4c9c5b639eef8c6d2095803c4da0faad", null ],
     [ "Cy_USBPD_Adc_MeasureVbus", "group__group__usbpd__vbus__ctrl__functions.html#gac709d700086e48a35d4fbab29888335f", null ],
     [ "Cy_USBPD_Vbus_SetDetachParams", "group__group__usbpd__vbus__ctrl__functions.html#ga9b94a414f0ef54a7024cd2272576d17f", null ],
