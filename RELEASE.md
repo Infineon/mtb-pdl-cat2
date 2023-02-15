@@ -8,7 +8,7 @@ for a complete description of the Peripheral driver library.
 
 ### New Features
 
-Support for a new devices of the PSoC 4100S Plus device family:
+Support for new devices of the PSoC 4100S Plus device family:
 - CY8C4147AZQ-S453
 
 Support for new devices of the PMG1S3 device series:
