@@ -1,0 +1,25 @@
+var group__group__syslib__macros =
+[
+    [ "Status codes", "group__group__syslib__macros__status__codes.html", "group__group__syslib__macros__status__codes" ],
+    [ "Assert Classes and Levels", "group__group__syslib__macros__assert.html", "group__group__syslib__macros__assert" ],
+    [ "Reset cause", "group__group__syslib__macros__reset__cause.html", "group__group__syslib__macros__reset__cause" ],
+    [ "CY_CPU_CORTEX_M0P", "group__group__syslib__macros.html#ga7df4bf9c8ea1a114369c852889496aae", null ],
+    [ "CY_ARM_FAULT_DEBUG_DISABLED", "group__group__syslib__macros.html#gaba27f3efb20bb776796a1a625bdc31dc", null ],
+    [ "CY_ARM_FAULT_DEBUG_ENABLED", "group__group__syslib__macros.html#ga85e9d9dff858ec3d8dc503e008d73ee9", null ],
+    [ "CY_ARM_FAULT_DEBUG", "group__group__syslib__macros.html#ga1c0ebfbdb81ba7c5a3601a4b274b7666", null ],
+    [ "CY_SYSLIB_DRV_VERSION_MAJOR", "group__group__syslib__macros.html#gaaf65a7f5b872c3af67a2a4214ed06608", null ],
+    [ "CY_SYSLIB_DRV_VERSION_MINOR", "group__group__syslib__macros.html#ga12200ca1ff7e119d8fe12f70d525651a", null ],
+    [ "CY_R0_Pos", "group__group__syslib__macros.html#gae43177fc1f4a6fcb65e3893ff492ae44", null ],
+    [ "CY_R1_Pos", "group__group__syslib__macros.html#ga2c9c49ab9747ac458f2cc19cd8e8e0b8", null ],
+    [ "CY_R2_Pos", "group__group__syslib__macros.html#gaa74b12b7661cea3b360e7644000cff36", null ],
+    [ "CY_R3_Pos", "group__group__syslib__macros.html#ga965a1ac3e7ec8d3252c6fde108007c93", null ],
+    [ "CY_R12_Pos", "group__group__syslib__macros.html#ga31eef2178fe02acd8cc183f878cc8e10", null ],
+    [ "CY_LR_Pos", "group__group__syslib__macros.html#ga67889b7144b97fff4a946c1db8b427fd", null ],
+    [ "CY_PC_Pos", "group__group__syslib__macros.html#gac80e133f34a5d1ee87655ce0addbc852", null ],
+    [ "CY_PSR_Pos", "group__group__syslib__macros.html#gad891a1aaa3452efd86d0167738c2ae4a", null ],
+    [ "CY_DELAY_MS_OVERFLOW", "group__group__syslib__macros.html#gabf47d2899c376c51886427ee95b4ea2a", null ],
+    [ "char_t", "group__group__syslib__macros.html#ga40bb5262bf908c328fbcfbe5d29d0201", null ],
+    [ "float32_t", "group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715", null ],
+    [ "float64_t", "group__group__syslib__macros.html#gac55f3ae81b5bc9053760baacf57e47f4", null ],
+    [ "cy_faultFrame", "group__group__syslib__macros.html#gaa7dba06c278f198fd2322d855eaaf54a", null ]
+];

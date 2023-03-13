@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file port_intrinsic-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* Intrinsic port personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8port_intrinsic" name="Port-Intrinsic" intrinsic="true" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8ioss" />
+    <Resource name="ioss\.port" />
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters/>
+  <DRCs>
+
+    <DRC type="ERROR" text="Correct the slew rate parameter to be the same for all the pins in Port `${getInstNumber(&quot;port&quot;)}`" condition="`${
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_FAST&quot;) ? false : true) : false))
+      &amp;&amp;
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;slewRate&quot;) eq &quot;CY_GPIO_SLEW_SLOW&quot;) ? false : true) : false))
+      }`" />
+
+    <DRC type="ERROR" text="Correct the threshold parameter to be the same for all the pins in Port `${getInstNumber(&quot;port&quot;)}`" condition="`${
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_CMOS&quot;) ? false : true) : false))
+      &amp;&amp;
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        ((getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;vtrip&quot;) eq &quot;CY_GPIO_VTRIP_TTL&quot;) ? false : true) : false))
+      }`" />
+
+    <DRC type="ERROR" text="Correct the port-level configuration parameter to be the same for all the pins in Port `${getInstNumber(&quot;port&quot;)}`" condition="`${
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false))
+      &amp;&amp;
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false))
+      }`" />
+
+    <DRC type="ERROR" text="Correct the store config in flash parameter to be the same for all the pins in Port `${getInstNumber(&quot;port&quot;)}` when port-level configuration parameter enabled." condition="`${
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)) ?
+
+      (((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;inFlash&quot;) ? false : true) : false))
+      &amp;&amp;
+      ((isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;inFlash&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false)
+      ||
+      (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+        (!getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) ? false : true) : false))) : false
+      }`" />
+  </DRCs>
+
+  <ConfigFirmware>
+    <!-- Consolidate pin-level macros into port-level macros -->
+    <ConfigDefine name="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_PC_DM_MASK"
+      value="( 0U `${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN0_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN1_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN2_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN3_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN4_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN5_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN6_PC_DM_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN7_PC_DM_MASK&quot; : &quot;&quot;}`)"
+      public="false"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigDefine name="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_PC2_INP_DIS_MASK"
+      value="( 0U `${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN0_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN1_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN2_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN3_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN4_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN5_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN6_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN7_PC2_INP_DIS_MASK&quot; : &quot;&quot;}`)"
+      public="false"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigDefine name="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_DR_MASK"
+      value="( 0U `${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN0_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN1_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN2_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN3_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN4_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN5_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN6_DR_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN7_DR_MASK&quot; : &quot;&quot;}`)"
+      public="false"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigDefine name="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_INTR_CFG_MASK"
+      value="( 0U `${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN0_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN1_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN2_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN3_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN4_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN5_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN6_INTR_CFG_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN7_INTR_CFG_MASK&quot; : &quot;&quot;}`)"
+      public="false"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigDefine name="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_HSIOM_PORT_SEL_MASK"
+      value="( 0U `${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN0_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN1_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN2_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN3_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN4_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN5_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN6_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`
+`${isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? &quot;| CY_CFG_PORT&quot; . getInstNumber(&quot;port&quot;) . &quot;_PIN7_HSIOM_PORT_SEL_MASK&quot; : &quot;&quot;}`)"
+      public="false"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigStruct name="cy_cfg_port`${getInstNumber(&quot;port&quot;)}`_config" type="cy_stc_gpio_prt_config_t"
+      const="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;inFlash&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;inFlash&quot;) : false)
+         }`"
+      public="true"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`">
+      <Member name="dr"        value="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_DR_MASK" />
+      <Member name="intrCfg"   value="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_INTR_CFG_MASK" />
+      <Member name="pc"        value="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_PC_DM_MASK" />
+      <Member name="pc2"       value="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_PC2_INP_DIS_MASK" />
+      <Member name="selActive" value="CY_CFG_PORT`${getInstNumber(&quot;port&quot;)}`_HSIOM_PORT_SEL_MASK" />
+    </ConfigStruct>
+
+    <ConfigInstruction
+      value="Cy_GPIO_Port_Init(GPIO_PRT`${getInstNumber(&quot;port&quot;)}`, &amp;cy_cfg_port`${getInstNumber(&quot;port&quot;)}`_config);"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigInstruction
+      value="Cy_GPIO_SetVtrip(GPIO_PRT`${getInstNumber(&quot;port&quot;)}`, `${
+        isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;vtrip&quot;)) : (
+            isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;vtrip&quot;)) : (
+                isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;vtrip&quot;)) : (
+                    isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;vtrip&quot;)) : (
+                        isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;vtrip&quot;)) : (
+                            isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;vtrip&quot;)) : (
+                                isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;vtrip&quot;)) : (
+                                    isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;vtrip&quot;)) : (
+                                        &quot;CY_GPIO_VTRIP_CMOS&quot;
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )}`);"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+    <ConfigInstruction
+      value="Cy_GPIO_SetSlewRate(GPIO_PRT`${getInstNumber(&quot;port&quot;)}`, `${
+        isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;slewRate&quot;)) : (
+            isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;slewRate&quot;)) : (
+                isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;slewRate&quot;)) : (
+                    isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;slewRate&quot;)) : (
+                        isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;slewRate&quot;)) : (
+                            isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;slewRate&quot;)) : (
+                                isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;slewRate&quot;)) : (
+                                    isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ? (getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;slewRate&quot;)) : (
+                                        &quot;CY_GPIO_SLEW_SLOW&quot;
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )}`);"
+      include="`${
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[0]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[1]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[2]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[3]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[4]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[5]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[6]&quot;, &quot;portLevelConfig&quot;) : false) ||
+         (isBlockUsed(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;) ?
+         getExposedMember(&quot;ioss[0].port[&quot; . getInstNumber(&quot;port&quot;) . &quot;].pin[7]&quot;, &quot;portLevelConfig&quot;) : false)
+         }`"/>
+
+
+</ConfigFirmware>
+</Personality>

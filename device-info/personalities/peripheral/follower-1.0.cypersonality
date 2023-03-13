@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file follower.cypersonality
+* \version 1.0
+*
+* \brief
+* Follower personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8follower" name="Follower" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2" />
+    <Resource name="pass\.ctb\.oa" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__ctb.html" linkText="Open CTB Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- Internal Parameters -->
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamString id="version" name="version" group="Internal" default="`${getVersion()}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="verGt1" name="verGt1" desc="" group="Internal" default="`${version &gt; 1}`" visible="`${debug}`" editable="false" />
+    <ParamString id="passNum" name="passNum" group="Internal" default="`${getInstNumber(&quot;pass&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="ctbNum" name="CTB instance" group="Internal" default="`${getInstNumber(&quot;ctb&quot;)}`" visible="`${debug}`" editable="false" desc="Selected CTBM" />
+    <ParamString id="opampNum" name="Opamp instance" group="Internal" default="`${getInstNumber(&quot;oa&quot;)}`" visible="`${debug}`" editable="false" desc="Selected Opamp within CTBM" />
+    <ParamBool id="isCtbmEnabled" name="isCtbmEnabled" group="Internal" default="`${isBlockUsed(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isSysAnalogEnabled" name="isSysAnalogEnabled" group="Internal" default="`${isBlockUsed(&quot;pass[&quot; . passNum . &quot;]&quot;)}`" visible="`${debug}`"  editable="false" desc="" />
+    
+    <ParamChoice id="power" name="Power" group="General" default="CY_CTB_POWER_LOW" visible="true" editable="true" desc="The Power parameter allows you to select the power level. Higher operating current increases the Opamp bandwidth." >
+      <Entry name="Off" value="CY_CTB_POWER_OFF" visible="false" />
+      <Entry name="Low" value="CY_CTB_POWER_LOW" visible="true" />
+      <Entry name="Medium" value="CY_CTB_POWER_MEDIUM" visible="true" />
+      <Entry name="High" value="CY_CTB_POWER_HIGH" visible="true" />
+    </ParamChoice>
+
+    <!--GBW, Active mode-->
+    <ParamString id="GBw_ActiveMode_Power_Value" name="GBwActiveModePowerValue" group="General" default="`${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerHigh&quot;) ? (power eq &quot;CY_CTB_POWER_HIGH&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerHigh&quot;) : power eq &quot;CY_CTB_POWER_MEDIUM&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerMid&quot;) : power eq &quot;CY_CTB_POWER_LOW&quot; ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;GBwActiveModePowerLow&quot;) : 0) : 0}`" visible="false" editable="false" desc="" />
+    <ParamString id="GBw_ActiveMode" name="Unity-Gain Bandwidth" group="General" default="Approx: `${GBw_ActiveMode_Power_Value}` MHz" visible="`${isCtbmEnabled}`" editable="false" desc="Display the bandwidth in Active mode depending on the Power setting." />
+
+    <ParamBool id="pump" name="Charge Pump Enable" group="General" default="true" visible="true" editable="true" desc="This parameter allows you to enable the charge pump. Enabling the charge pump increases the input range. Charge pump is disabled in deepsleep mode." />
+
+    <!--Vin, Active mode, amp-->
+    <ParamString id="Vin_ActiveMode" name="Input Range" group="General" default="Approx: `${hasExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOff&quot;) ? (pump ? getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOn&quot;) : getExposedMember(&quot;pass[&quot; . passNum . &quot;].ctb[&quot; . ctbNum . &quot;]&quot;, &quot;VinActiveModeOpampPumpOff&quot;)) : 0}`" visible="`${isCtbmEnabled}`" editable="false" desc="Display range of input voltage in Active mode depending on Charge Pump setting." />
+
+    <ParamChoice id="outputCurrent" name="Output Drive" group="General" default="CY_CTB_MODE_OPAMP_INTERNAL" visible="true" editable="true" desc="This parameter selects an output drive mode. Selecting Output to pin allows for connections to device pins with 10x more drive current." >
+      <Entry name="Output to pin" value="CY_CTB_MODE_OPAMP_EXTERNAL" visible="true" />
+      <Entry name="Internal only" value="CY_CTB_MODE_OPAMP_INTERNAL" visible="true" />
+    </ParamChoice>
+
+    <!-- Signals -->
+    <ParamSignal port="vplus[0]" name="Vplus Input" group="Connections" visible="true" desc="Follower Input" canBeEmpty="false" />
+    <ParamSignal port="out_10x[0]" name="Output (to pin)" group="Connections" visible="`${outputCurrent eq &quot;CY_CTB_MODE_OPAMP_EXTERNAL&quot;}`" desc="Opamp Output to pin" canBeEmpty="true" >
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.out_1x\[.*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="out_1x[0]" name="Output (internal only)" group="Connections" visible="`${outputCurrent eq &quot;CY_CTB_MODE_OPAMP_INTERNAL&quot;}`" desc="Opamp Output to internal" canBeEmpty="true" >
+      <Constraint type="DENY" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.vminus\[.*" valid="true" />
+      <Constraint type="DENY" targetLocation="pass\[`${passNum}`\]\.ctb\[0\]\.oa\[`${opampNum}`\]\.out_10x\[.*" valid="true" />
+    </ParamSignal>
+
+    <!--Config-->
+    <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME . &quot;_config&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />    
+  </Parameters>
+
+  <!--DRCs-->
+  <DRCs>
+    <DRC type="ERROR" text="The CTBm resource must be enabled for `${INST_NAME}` to work." condition="`${!isCtbmEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="pass[`${passNum}`].ctb[`${ctbNum}`]" value="m0s8ctbm-1.0" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${pump &amp;&amp; !isSysAnalogEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passNum . &quot;]&quot;}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_ctb.h" include="true" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="CTBM`${passNum}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_OA_NUM" value="CY_CTB_OPAMP_`${opampNum}`" public="true" include="true" />
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_ctb_opamp_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="power" value="`${power}`" />
+      <Member name="outputMode" value="`${outputCurrent}`" />
+      <Member name="pump" value="`${pump}`" />
+      <Member name="compEdge" value="CY_CTB_COMP_EDGE_DISABLE" />
+      <Member name="compLevel" value="CY_CTB_COMP_TRIGGER_OUT_PULSE"/>
+      <Member name="compBypass" value="false"/>
+      <Member name="compHyst" value="false"/>
+      <Member name="compIntrEn" value="false"/>
+      <Member name="switchCtrl" value="CY_CTB_SW_OA_NEG_OUT`${outputCurrent eq CY_CTB_MODE_OPAMP_EXTERNAL ? &quot; | CY_CTB_SW_OA_OUT_SHORT_IN_EXT&quot; : &quot;&quot;}`"/>
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_OPAMP" />
+      <Member name="block_num" value="`${getInstNumber(&quot;ctb&quot;)}`U" />
+      <Member name="channel_num" value="`${getInstNumber(&quot;oa&quot;)}`U" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+</Personality>

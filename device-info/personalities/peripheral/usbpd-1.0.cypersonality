@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file usbpd-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* USB Power Delivery personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8usbpd" name="USBPD" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8usbpd_ver2,mxusbpd_s8" />
+    <Resource name="usbpd" />
+  </Dependencies>
+  <ExposedMembers />
+  <Parameters>
+
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__usbpd.html" linkText="Open USBPD Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- USBPD instance number -->
+    <ParamString id="InstNumber" name="InstNumber" group="Internal" default="`${getInstNumber(&quot;usbpd&quot;)}`" visible="false" editable="false" desc="USBPD Instance name number." />
+
+    <!-- Clock input connections -->
+    <ParamSignal port="clock_rx[0]" name="Clock Rx" group="Inputs" visible="`${hasVisibleOption(&quot;clock_rx[0]&quot;)}`" desc="PD transceiver receive clock" canBeEmpty="true" />
+    <ParamSignal port="clock_tx[0]" name="Clock Tx" group="Inputs" visible="`${hasVisibleOption(&quot;clock_tx[0]&quot;)}`" desc="PD transceiver transmit clock" canBeEmpty="true" />
+    <ParamSignal port="clock_sar[0]" name="Clock SAR" group="Inputs" visible="`${hasVisibleOption(&quot;clock_sar[0]&quot;)}`" desc="PD ADC clock" canBeEmpty="true" />
+    <ParamSignal port="clock_swap[0]" name="Clock Swap" group="Inputs" visible="`${hasVisibleOption(&quot;clock_swap[0]&quot;)}`" desc="Fast Role Swap detect clock" canBeEmpty="true" />
+    <ParamSignal port="clock_refgen[0]" name="Clock RefGen" group="Inputs" visible="`${hasVisibleOption(&quot;clock_refgen[0]&quot;)}`" desc="Reference generator clock" canBeEmpty="true" />
+    <ParamSignal port="clock_filter1[0]" name="Clock Filter 1" group="Inputs" visible="`${hasVisibleOption(&quot;clock_filter1[0]&quot;)}`" desc="Fault filter clock 1" canBeEmpty="true" />
+    <ParamSignal port="clock_filter2[0]" name="Clock Filter 2" group="Inputs" visible="`${hasVisibleOption(&quot;clock_filter2[0]&quot;)}`" desc="Fault filter clock 2" canBeEmpty="true" />
+    <ParamSignal port="clock_frs_en_seq[0]" name="Clock FRS Enable Seq" group="Inputs" visible="`${hasVisibleOption(&quot;clock_frs_en_seq[0]&quot;)}`" desc="Fast Role Swap Sequence enable clock" canBeEmpty="true" />
+    <ParamSignal port="clock_bch_det[0]" name="Clock Battery Charging Detect" group="Inputs" visible="`${hasVisibleOption(&quot;clock_bch_det[0]&quot;)}`" desc="BC 1.2 detect clock" canBeEmpty="true" />
+    <ParamSignal port="clock_isnk[0]" name="Clock Isnk" group="Inputs" visible="`${hasVisibleOption(&quot;clock_isnk[0]&quot;)}`" desc="Gate driver current sink control clock" canBeEmpty="true" />
+    <ParamSignal port="clock_vbtr[0]" name="Clock VBTR" group="Inputs" visible="`${hasVisibleOption(&quot;clock_vbtr[0]&quot;)}`" desc="VBUS voltage transition clock" canBeEmpty="true" />
+    <ParamSignal port="clock_bb[0]" name="Clock BB" group="Inputs" visible="`${hasVisibleOption(&quot;clock_bb[0]&quot;)}`" desc="Buck boost clock" canBeEmpty="true" />
+    <ParamSignal port="clock_bb_soft[0]" name="Clock BB soft" group="Inputs" visible="`${hasVisibleOption(&quot;clock_bb_soft[0]&quot;)}`" desc="Buck boost soft clock" canBeEmpty="true" />
+    <ParamSignal port="clock_ibtr[0]" name="Clock IBTR" group="Inputs" visible="`${hasVisibleOption(&quot;clock_ibtr[0]&quot;)}`" desc="VBUS current transition clock" canBeEmpty="true" />
+
+    <!-- Clock resources -->
+    <ParamString id="source_clock_rx" name="source_clock_rx" group="Internal" default="`${getBlockFromSignal(&quot;clock_rx[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_tx" name="source_clock_tx" group="Internal" default="`${getBlockFromSignal(&quot;clock_tx[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_sar" name="source_clock_sar" group="Internal" default="`${getBlockFromSignal(&quot;clock_sar[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_swap" name="source_clock_swap" group="Internal" default="`${getBlockFromSignal(&quot;clock_swap[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_refgen" name="source_clock_refgen" group="Internal" default="`${getBlockFromSignal(&quot;clock_refgen[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_filter1" name="source_clock_filter1" group="Internal" default="`${getBlockFromSignal(&quot;clock_filter1[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_filter2" name="source_clock_filter2" group="Internal" default="`${getBlockFromSignal(&quot;clock_filter2[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_frs_en_seq" name="source_clock_frs_en_seq" group="Internal" default="`${getBlockFromSignal(&quot;clock_frs_en_seq[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_bch_det" name="source_clock_bch_det" group="Internal" default="`${getBlockFromSignal(&quot;clock_bch_det[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_isnk" name="source_clock_isnk" group="Internal" default="`${getBlockFromSignal(&quot;clock_isnk[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_vbtr" name="source_clock_vbtr" group="Internal" default="`${getBlockFromSignal(&quot;clock_vbtr[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_bb" name="source_clock_bb" group="Internal" default="`${getBlockFromSignal(&quot;clock_bb[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_bb_soft" name="source_clock_bb_soft" group="Internal" default="`${getBlockFromSignal(&quot;clock_bb_soft[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamString id="source_clock_ibtr" name="source_clock_ibtr" group="Internal" default="`${getBlockFromSignal(&quot;clock_ibtr[0]&quot;)}`" visible="false" editable="false" desc="" />
+
+    <!-- Clock validators -->
+    <ParamBool id="clock_rx_ok" name="clock_rx_ok" group="Internal" default="`${hasConnection(&quot;clock_rx&quot;, 0) &amp;&amp; isBlockUsed(source_clock_rx)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_tx_ok" name="clock_tx_ok" group="Internal" default="`${hasConnection(&quot;clock_tx&quot;, 0) &amp;&amp; isBlockUsed(source_clock_tx)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_sar_ok" name="clock_sar_ok" group="Internal" default="`${hasConnection(&quot;clock_sar&quot;, 0) &amp;&amp; isBlockUsed(source_clock_sar)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_swap_ok" name="clock_swap_ok" group="Internal" default="`${hasConnection(&quot;clock_swap&quot;, 0) &amp;&amp; isBlockUsed(source_clock_swap)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_refgen_ok" name="clock_refgen_ok" group="Internal" default="`${hasConnection(&quot;clock_refgen&quot;, 0) &amp;&amp; isBlockUsed(source_clock_refgen)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_filter1_ok" name="clock_filter1_ok" group="Internal" default="`${hasConnection(&quot;clock_filter1&quot;, 0) &amp;&amp; isBlockUsed(source_clock_filter1)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_filter2_ok" name="clock_filter2_ok" group="Internal" default="`${hasConnection(&quot;clock_filter2&quot;, 0) &amp;&amp; isBlockUsed(source_clock_filter2)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_frs_en_seq_ok" name="clock_frs_en_seq_ok" group="Internal" default="`${hasConnection(&quot;clock_frs_en_seq&quot;, 0) &amp;&amp; isBlockUsed(source_clock_frs_en_seq)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_bch_det_ok" name="clock_bch_det_ok" group="Internal" default="`${hasConnection(&quot;clock_bch_det&quot;, 0) &amp;&amp; isBlockUsed(source_clock_bch_det)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_isnk_ok" name="clock_isnk_ok" group="Internal" default="`${hasConnection(&quot;clock_isnk&quot;, 0) &amp;&amp; isBlockUsed(source_clock_isnk)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_vbtr_ok" name="clock_vbtr_ok" group="Internal" default="`${hasConnection(&quot;clock_vbtr&quot;, 0) &amp;&amp; isBlockUsed(source_clock_vbtr)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_bb_ok" name="clock_bb_ok" group="Internal" default="`${hasConnection(&quot;clock_bb&quot;, 0) &amp;&amp; isBlockUsed(source_clock_bb)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_bb_soft_ok" name="clock_bb_soft_ok" group="Internal" default="`${hasConnection(&quot;clock_bb_soft&quot;, 0) &amp;&amp; isBlockUsed(source_clock_bb_soft)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="clock_ibtr_ok" name="clock_ibtr_ok" group="Internal" default="`${hasConnection(&quot;clock_ibtr&quot;, 0) &amp;&amp; isBlockUsed(source_clock_ibtr)}`" visible="false" editable="false" desc="" />
+
+    <!-- IP Block property BuckBoost capable-->
+    <ParamBool id="buckBoostCapable" name="BuckBoost capable" group="Internal" default="`${lookupExpression(&quot;CCG7S_EN&quot;, 0) == 1}`"
+            visible="false" editable="false" desc="This parameter specifies if BuckBoost is present in USBPD Ip block capable" />
+
+    <!-- Buck Boost Configuration -->
+    <ParamBool id="BuckBoost" name="Buck Boost" group="Buck Boost Configuration" default="false" visible="`${buckBoostCapable}`" editable="true" desc="Enables Buck Boost Feature." />  
+    <ParamRange id="CableResistance" name="-- Cable Resistance" group="Buck Boost Configuration" default="0" min="0" max="700" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Cable Resistance in mO" />
+    <ParamRange id="OutOffsetVolt" name="-- Buck Boost output offset voltage" group="Buck Boost Configuration" default="0" min="0" max="2000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output offset voltage (mV)" />
+    <ParamRange id="CurrSenseResistor" name="-- Current sense resistor" group="Buck Boost Configuration" default="5000" min="1000" max="10000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Current sense resistor (µO)" />
+    <ParamChoice id="NfetSrcDrvStrength" name="-- NFET Source Drive strength" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="NFET Source Drive strength" >
+      <Entry name="Slow" value="0" visible="true" />
+      <Entry name="Normal" value="1" visible="true" />
+      <Entry name="High" value="2" visible="true" />
+    </ParamChoice>
+    <ParamRange id="TransitionUp" name="-- Buck Boost transition up step width" group="Buck Boost Configuration" default="40" min="0" max="1000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost transition up step width (µs)" />
+    <ParamRange id="TransitionDown" name="-- Buck Boost transition down step width" group="Buck Boost Configuration" default="1" min="0" max="1000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost transition up step width (µs)" />
+    <ParamChoice id="BuckBoostOperatingMode" name="-- Buck-Boost Operating Mode" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="Buck-Boost Operating Mode" >
+      <Entry name="Buck-Boost (4-Switch)" value="0" visible="true" />
+      <Entry name="Forced Buck (2- switch)" value="1" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PwmMode" name="-- PWM mode" group="Buck Boost Configuration" default="4" visible="`${BuckBoost}`" editable="true" desc="Buck-Boost Operating Mode" >
+      <Entry name="FCCM" value="4" visible="true" />
+      <Entry name="DCM" value="3" visible="true" />
+    </ParamChoice>
+    <ParamRange id="PwmFixedFrequency" name="-- PWM Fixed Frequency" group="Buck Boost Configuration" default="400" min="150" max="600" resolution="1" visible="`${BuckBoost}`" editable="true" desc=" PWM Fixed Frequency (KHz)" />
+    <ParamChoice id="LS1GatePullUp" name="-- LS1 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS1 Gate Pull up drive Strength" >
+      <Entry name="1.69" value="9" visible="true" />
+      <Entry name="2.2" value="8" visible="true" />
+      <Entry name="2.9" value="7" visible="true" />
+      <Entry name="4.2" value="6" visible="true" />
+      <Entry name="5.9" value="5" visible="true" />
+      <Entry name="8.2" value="4" visible="true" />
+      <Entry name="10.8" value="3" visible="true" />
+      <Entry name="13.4" value="2" visible="true" />
+      <Entry name="17.9" value="1" visible="true" />
+      <Entry name="26.7" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS2GatePullUp" name="-- LS2 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS2 Gate Pull up drive Strength" >
+      <Entry name="1.69" value="9" visible="true" />
+      <Entry name="2.2" value="8" visible="true" />
+      <Entry name="2.9" value="7" visible="true" />
+      <Entry name="4.2" value="6" visible="true" />
+      <Entry name="5.9" value="5" visible="true" />
+      <Entry name="8.2" value="4" visible="true" />
+      <Entry name="10.8" value="3" visible="true" />
+      <Entry name="13.4" value="2" visible="true" />
+      <Entry name="17.9" value="1" visible="true" />
+      <Entry name="26.7" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS1GatePullUp" name="-- HS1 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS1 Gate Pull up drive Strength" >
+      <Entry name="1.71" value="9" visible="true" />
+      <Entry name="2.4" value="8" visible="true" />
+      <Entry name="3.3" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.9" value="5" visible="true" />
+      <Entry name="9.7" value="4" visible="true" />
+      <Entry name="12.2" value="3" visible="true" />
+      <Entry name="15.5" value="2" visible="true" />
+      <Entry name="20.1" value="1" visible="true" />
+      <Entry name="30.0" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS2GatePullUp" name="-- HS2 Gate Pull up drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull up drive Strength" >
+      <Entry name="1.71" value="9" visible="true" />
+      <Entry name="2.4" value="8" visible="true" />
+      <Entry name="3.3" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.9" value="5" visible="true" />
+      <Entry name="9.7" value="4" visible="true" />
+      <Entry name="12.2" value="3" visible="true" />
+      <Entry name="15.5" value="2" visible="true" />
+      <Entry name="20.1" value="1" visible="true" />
+      <Entry name="30.0" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS1GatePullDown" name="-- LS1 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS1 Gate Pull down drive Strength" >
+      <Entry name="1.12" value="9" visible="true" />
+      <Entry name="1.7" value="8" visible="true" />
+      <Entry name="3.1" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.6" value="5" visible="true" />
+      <Entry name="9.3" value="4" visible="true" />
+      <Entry name="11.8" value="3" visible="true" />
+      <Entry name="16.3" value="2" visible="true" />
+      <Entry name="20.3" value="1" visible="true" />
+      <Entry name="26.9" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="LS2GatePullDown" name="-- LS2 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="LS2 Gate Pull down drive Strength" >
+      <Entry name="1.12" value="9" visible="true" />
+      <Entry name="1.7" value="8" visible="true" />
+      <Entry name="3.1" value="7" visible="true" />
+      <Entry name="4.4" value="6" visible="true" />
+      <Entry name="6.6" value="5" visible="true" />
+      <Entry name="9.3" value="4" visible="true" />
+      <Entry name="11.8" value="3" visible="true" />
+      <Entry name="16.3" value="2" visible="true" />
+      <Entry name="20.3" value="1" visible="true" />
+      <Entry name="26.9" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS1GatePullDown" name="-- HS1 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS1 Gate Pull down drive Strength" >
+      <Entry name="1.34" value="9" visible="true" />
+      <Entry name="2.0" value="8" visible="true" />
+      <Entry name="3.4" value="7" visible="true" />
+      <Entry name="4.5" value="7" visible="true" />
+      <Entry name="7.1" value="5" visible="true" />
+      <Entry name="10.1" value="4" visible="true" />
+      <Entry name="12.8" value="3" visible="true" />
+      <Entry name="15.7" value="2" visible="true" />
+      <Entry name="20.4" value="1" visible="true" />
+      <Entry name="29.2" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="HS2GatePullDown" name="-- HS2 Gate Pull down drive Strength" group="Buck Boost Configuration" default="7" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull down drive Strength" >
+      <Entry name="1.34" value="9" visible="true" />
+      <Entry name="2.0" value="8" visible="true" />
+      <Entry name="3.4" value="7" visible="true" />
+      <Entry name="4.5" value="7" visible="true" />
+      <Entry name="7.1" value="5" visible="true" />
+      <Entry name="10.1" value="4" visible="true" />
+      <Entry name="12.8" value="3" visible="true" />
+      <Entry name="15.7" value="2" visible="true" />
+      <Entry name="20.4" value="1" visible="true" />
+      <Entry name="29.2" value="0" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="PwmDitheringType" name="-- PWM dithering type" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull up drive Strength" >
+      <Entry name="Disable" value="0" visible="true" />
+      <Entry name="Pseudo Random" value="1" visible="true" />
+      <Entry name="Triangular" value="2" visible="true" />
+    </ParamChoice>
+    <ParamRange id="PwmDitheringRange" name="-- PWM dithering frequency range" group="Buck Boost Configuration" default="0" min="0" max="300" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering frequency range (%)" />
+    <ParamRange id="PowerInductor" name="-- Power inductor" group="Buck Boost Configuration" default="6800" min="1000" max="20000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering Power inductor (nH)" />
+    <ParamRange id="PeakCurrentSenseResistor" name="-- Peak current sense resistor" group="Buck Boost Configuration" default="5000" min="2500" max="25000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Peak current sense resistor (µO)" />
+    <ParamRange id="PeakCurrentLimit" name="-- Peak current limit" group="Buck Boost Configuration" default="30000" min="10000" max="50000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Peak current limit (mA)" />
+    <ParamChoice id="BbClkFrequency" name="-- Buck - boost controller clock frequency" group="Buck Boost Configuration" default="24" visible="`${BuckBoost}`" editable="true" desc="Buck - boost controller clock frequency (MHz)" >
+      <Entry name="12" value="12" visible="true" />
+      <Entry name="24" value="24" visible="true" />
+      <Entry name="48" value="48" visible="true" />
+    </ParamChoice>
+
+    <ParamString id="PwmFixFreqDith" name="-- Pwm Fix Freq Dith" group="Buck Boost Configuration" default="`${((PwmFixedFrequency / 5) * (10000 - PwmDitheringRange * PwmDitheringRange)) / 10000.0}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
+    <ParamString id="PwmDithSpreadCycles" name="-- Pwm Dith Spread Cycles" group="Buck Boost Configuration" default="`${(100 * BbClkFrequency * 1000 * PwmDitheringRange)/ ((PwmFixedFrequency) * (10000 - PwmDitheringRange * PwmDitheringRange))}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
+
+    <!-- Power params that not used in USB Charging project -->
+    <ParamBool id="powerParams" name="Power Parameters Capable" group="Internal" default="0"
+            visible="false" editable="false" desc="This parameter specifies if Power params required. Will be implemented in next version" />
+    
+    <ParamString id="PhaseAngleControl" name="-- Phase Angle Control" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Phase Angle Control" />
+    <ParamString id="FbType" name="-- Fb Type" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Fb Type" />
+    <ParamString id="VbusMinVolt" name="-- VBUS Minimum Voltage" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="VBUS Minimum Voltage" />
+    <ParamString id="VbusMaxVolt" name="-- VBUS Maximum Voltage" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="VBUS Maximum Voltage" />
+    <ParamString id="PrimSecTurnsRatio" name="-- Prim Sec Turns Ratio" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Prim Sec Turns Ratio" />
+    <ParamString id="SrEnable" name="-- Sr Enable" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Enable" />
+    <ParamString id="SrRiseTime" name="-- Sr Rise Time" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Rise Time" />
+    <ParamString id="SrFallTime" name="-- Sr Fall Time" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Fall Time" />
+    <ParamString id="SrAsyncThresh" name="-- Sr Async Thresh" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Async Thresh" />
+    <ParamString id="SrSupplyDoubler" name="-- Sr Supply Doubler" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Sr Supply Doubler" />
+    <ParamString id="PwmMinFreq" name="-- Pwm Min Freq" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Min Freq" />
+    <ParamString id="PwmMaxFreq" name="-- Pwm Max Freq" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Max Freq" />
+    <ParamString id="MaxPwmDutyCycle" name="-- Max Pwm Duty Cycle" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Max Pwm Duty Cycle" />
+    <ParamString id="MinPwmDutyCycle" name="-- Min Pwm Duty Cycle" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Min Pwm Duty Cycle" />
+    <ParamString id="MaxPwmDutyCycleHighLine" name="-- Max Pwm Duty Cycle High Line" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Max Pwm Duty Cycle High Line" />
+    <ParamString id="VbtrUpStepWidthBelow5v" name="-- Vbtr Up Step Width Below 5v" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Vbtr Up Step Width Below 5v" />
+    <ParamString id="VbtrDownStepWidthBelow5v" name="-- Vbtr Down Step Width Below 5v" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Vbtr Down Step Width Below 5v" />
+    <ParamString id="PwmMaxFreqEx" name="-- Pwm Max Freq Ex" group="Buck Boost Configuration" default="0" visible="`${powerParams}`" editable="false" desc="Pwm Max Freq Ex" />
+
+    <!-- VBUS OVP Fault Protection Configuration -->
+    <ParamBool id="VbusOvp" name="VBus Over Voltage Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS OVP Feature." />  
+    <ParamChoice id="OvpMode" name="-- Mode" group="Fault Protection" default="2" visible="`${VbusOvp}`" editable="true" desc="Configures the mode of detecting VBUS OVP" >
+      <Entry name="Detect through ADC" value="0" visible="true" />
+      <Entry name="Detect through Comparator, FW controlled FET OFF" value="1" visible="true" />
+      <Entry name="Detect through Comparator, HW controlled FET OFF" value="2" visible="true" />    
+    </ParamChoice>
+    <ParamChoice id="OvpThresh" name="-- Threshold" group="Fault Protection" default="20" visible="`${VbusOvp}`" editable="true" desc="Configures the threshold in percentage of VBUS to trip" >
+      <Entry name="10 %" value="10" visible="true" />
+      <Entry name="20 %" value="20" visible="true" />
+      <Entry name="30 %" value="30" visible="true" />
+    </ParamChoice>
+    <ParamRange id="OvpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VbusOvp}`" editable="true" desc="Debounce period in ms" />
+    <ParamRange id="OvpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusOvp}`" editable="true" desc="Retry Count" />
+
+    <!-- VBUS UVP Fault Protection Configuration -->
+    <ParamBool id="VbusUvp" name="VBus Under Voltage Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS UVP Feature." />
+    <ParamChoice id="UvpMode" name="-- Mode" group="Fault Protection" default="2" visible="`${VbusUvp}`" editable="true" desc="Configures the mode of detecting VBUS UVP" >
+      <Entry name="Detect through ADC" value="0" visible="true" />
+      <Entry name="Detect through Comparator, FW controlled FET OFF" value="1" visible="true" />
+      <Entry name="Detect through Comparator, HW controlled FET OFF" value="2" visible="true" />    
+    </ParamChoice>
+    <ParamChoice id="UvpThresh" name="-- Threshold" group="Fault Protection" default="20" visible="`${VbusUvp}`" editable="true" desc="Configures the threshold in percentage of VBUS to trip" >
+      <Entry name="10 %" value="10" visible="true" />
+      <Entry name="20 %" value="20" visible="true" />
+      <Entry name="30 %" value="30" visible="true" />
+      <Entry name="70 %" value="70" visible="true" />
+    </ParamChoice>
+    <ParamRange id="UvpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VbusUvp}`" editable="true" desc="Debounce period in ms" />
+    <ParamRange id="UvpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusUvp}`" editable="true" desc="Retry Count" />
+    
+    <!-- VBUS OCP Fault Protection Configuration -->
+    <ParamBool id="VbusOcp" name="VBus Over Current Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS OCP Feature." />
+    <ParamChoice id="OcpMode" name="-- Mode" group="Fault Protection" default="2" visible="`${VbusOcp}`" editable="true" desc="Configures the mode of detecting VBUS OCP" >
+      <Entry name="Detect through ADC" value="0" visible="true" />
+      <Entry name="Detect through Comparator, FW controlled FET OFF" value="1" visible="true" />
+      <Entry name="Detect through Comparator, HW controlled FET OFF" value="2" visible="true" />
+      <Entry name="Internal OCP with software debounce" value="3" visible="true" /> 
+    </ParamChoice>
+    <ParamChoice id="OcpThresh" name="-- Threshold" group="Fault Protection" default="20" visible="`${VbusOcp}`" editable="true" desc="Configures the threshold in percentage of VBUS to trip" >
+      <Entry name="10 %" value="10" visible="true" />
+      <Entry name="20 %" value="20" visible="true" />
+      <Entry name="30 %" value="30" visible="true" />
+    </ParamChoice>
+    <ParamRange id="OcpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VbusOcp}`" editable="true" desc="Debounce period in ms" />
+    <ParamRange id="OcpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusOcp}`" editable="true" desc="Retry Count" />
+    <ParamChoice id="OcpSenseRes" name="-- Sense Resistance" group="Fault Protection" default="10" visible="`${VbusOcp}`" editable="true" desc="Configures the sense resistance in milli-ohms" >
+      <Entry name="10 milli-ohm" value="10" visible="true" />
+      <Entry name="5 milli-ohm" value="5" visible="true" />
+    </ParamChoice>    
+
+    <!-- VBUS SCP Fault Protection Configuration -->
+    <ParamBool id="VbusScp" name="VBus Short Circuit Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS SCP Feature." />
+    <ParamChoice id="ScpMode" name="-- Mode" group="Fault Protection" default="2" visible="`${VbusScp}`" editable="true" desc="Configures the mode of detecting VBUS SCP" >
+      <Entry name=" AUTO Control Mode" value="2" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="ScpThresh" name="-- Current Threshold" group="Fault Protection" default="6" visible="`${VbusScp}`" editable="true" desc="Configures the SCP threshold in amperes for VBUS to trip" >
+      <Entry name="6 A" value="6" visible="true" />
+      <Entry name="10 A" value="10" visible="true" />
+    </ParamChoice>
+    <ParamRange id="ScpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VbusScp}`" editable="true" desc="Debounce period in us" />
+    <ParamRange id="ScpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusScp}`" editable="true" desc="Retry Count" />
+    <ParamChoice id="ScpSenseRes" name="-- Sense Resistance" group="Fault Protection" default="10" visible="`${VbusScp}`" editable="true" desc="Configures the sense resistance in milli-ohms" >
+      <Entry name="10 milli-ohm" value="10" visible="true" />
+      <Entry name="5 milli-ohm" value="5" visible="true" />
+    </ParamChoice>    
+    
+    <!-- VBUS RCP Fault Protection Configuration -->
+    <ParamBool id="VbusRcp" name="VBus Reverse Current Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VBUS RCP Feature." />
+    <ParamRange id="RcpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VbusRcp}`" editable="true" desc="Retry Count" />
+
+    <!-- VCONN OCP Fault Protection Configuration -->
+    <ParamBool id="VconnOcp" name="VConn Over Current Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables VCONN OCP Feature." />
+    <ParamRange id="VconnOcpDebounce" name="-- Debounce" group="Fault Protection" default="10" min="1" max="255" resolution="1" visible="`${VconnOcp}`" editable="true" desc="Debounce period in ms" />
+    <ParamRange id="VconnOcpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${VconnOcp}`" editable="true" desc="Retry Count" />
+    
+    <!-- CC OVP Fault Protection Configuration -->
+    <ParamBool id="CcOvp" name="CC Over Voltage Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables CC OVP Feature." />
+    <ParamRange id="CcOvpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${CcOvp}`" editable="true" desc="Retry Count" />
+
+    <!-- SBU OVP Fault Protection Configuration -->
+    <ParamBool id="SbuOvp" name="SBU Over Voltage Protection" group="Fault Protection" default="false" visible="true" editable="true" desc="Enables SBU OVP Feature." />
+    <ParamRange id="SbuOvpRetry" name="-- Retry Count" group="Fault Protection" default="2" min="1" max="255" resolution="1" visible="`${SbuOvp}`" editable="true" desc="Retry Count" />
+
+    <!-- Legacy Charging Configuration -->
+    <ParamBool id="Bch" name="Legacy Charging" group="Legacy Charging Configuration" default="false" visible="true" editable="true" desc="Enables Legacy Charging Feature." />  
+    <ParamChoice id="SinkSel" name="-- Sink Mode Selection" group="Legacy Charging Configuration" default="1" visible="`${Bch}`" editable="true" desc="Configures the sink features" >
+      <Entry name="BC 1.2" value="1" visible="true" />
+      <Entry name="Apple Charger" value="2" visible="true" />
+      <Entry name="BC 1.2 + Apple Charger" value="3" visible="true" />
+    </ParamChoice>
+
+    <!-- Advanced-->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="false" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <!-- Codegen related variables -->
+    <ParamString id="instName" name="instName" group="Codegen" default="mtb_usbpd_port" visible="false" editable="false" desc="" />
+    <ParamString id="InstNumber" name="InstNumber" group="Codegen" default="`${getInstNumber(&quot;usbpd&quot;)}`" visible="false" editable="false" desc="USBPD Instance name number." />
+    <ParamString id="USBPD_INST_NAME" name ="USBPD_INST_NAME" group="Codegen" default="`${instName . InstNumber}`" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_usbpd_common.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="true" />    
+
+    <ConfigDefine name="`${USBPD_INST_NAME}`_HW" value="PDSS`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="`${USBPD_INST_NAME}`_HW_TRIM" value="PDSS_TRIMS`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="`${USBPD_INST_NAME}`_IRQ" value="usbpd_`${InstNumber}`_interrupt_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${USBPD_INST_NAME}`_DS_IRQ" value="usbpd_`${InstNumber}`_interrupt_wakeup_IRQn" public="true" include="true" />
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_ovp_config" type="cy_stc_fault_vbus_ovp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusOvp}`">
+        <Member name="enable" value="`${VbusOvp}`" />
+        <Member name="mode" value="`${OvpMode}`" />
+        <Member name="threshold" value="`${OvpThresh}`" />
+        <Member name="debounce" value="`${OvpDebounce}`" />
+        <Member name="retryCount" value="`${OvpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_uvp_config" type="cy_stc_fault_vbus_uvp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusUvp}`">
+        <Member name="enable" value="`${VbusUvp}`" />
+        <Member name="mode" value="`${UvpMode}`" />
+        <Member name="threshold" value="`${UvpThresh}`" />
+        <Member name="debounce" value="`${UvpDebounce}`" />
+        <Member name="retryCount" value="`${UvpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_ocp_config" type="cy_stc_fault_vbus_ocp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusOcp}`">
+        <Member name="enable" value="`${VbusOcp}`" />
+        <Member name="mode" value="`${OcpMode}`" />
+        <Member name="threshold" value="`${OcpThresh}`" />
+        <Member name="debounce" value="`${OcpDebounce}`" />
+        <Member name="retryCount" value="`${OcpRetry}`" />
+        <Member name="senseRes" value="`${OcpSenseRes}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_scp_config" type="cy_stc_fault_vbus_scp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusScp}`">
+        <Member name="enable" value="`${VbusScp}`" />
+         <Member name="mode" value="`${ScpMode}`" />
+        <Member name="senseRes" value="`${ScpSenseRes}`" />
+        <Member name="threshold" value="`${ScpThresh}`" />
+        <Member name="debounce" value="`${ScpDebounce}`" />
+        <Member name="retryCount" value="`${ScpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_rcp_config" type="cy_stc_fault_vbus_rcp_cfg_t" const="`${inFlash}`" public="true" include="`${VbusRcp}`">
+        <Member name="enable" value="`${VbusRcp}`" />
+        <Member name="retryCount" value="`${RcpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_vconn_ocp_config" type="cy_stc_fault_vconn_ocp_cfg_t" const="`${inFlash}`" public="true" include="`${VconnOcp}`">
+        <Member name="enable" value="`${VconnOcp}`" />
+        <Member name="debounce" value="`${VconnOcpDebounce}`" />
+        <Member name="retryCount" value="`${VconnOcpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_cc_ovp_config" type="cy_stc_fault_cc_ovp_cfg_t" const="`${inFlash}`" public="true" include="`${CcOvp}`">
+        <Member name="enable" value="`${CcOvp}`" />
+        <Member name="retryCount" value="`${CcOvpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_sbu_ovp_config" type="cy_stc_fault_sbu_ovp_cfg_t" const="`${inFlash}`" public="true" include="`${SbuOvp}`">
+        <Member name="enable" value="`${SbuOvp}`" />
+        <Member name="retryCount" value="`${SbuOvpRetry}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_legacy_charging_config" type="cy_stc_legacy_charging_cfg_t" const="`${inFlash}`" public="true" include="`${Bch}`">
+        <Member name="enable" value="`${Bch}`" />
+        <Member name="snkSel" value="`${SinkSel}`" />
+    </ConfigStruct>
+    <ConfigStruct name="`${USBPD_INST_NAME}`_buck_boost_config" type="cy_stc_buck_boost_cfg_t" const="`${inFlash}`" public="true" include="`${BuckBoost}`">
+        <Member name="cable_resistance" value="`${CableResistance}`" />
+        <Member name="vbus_offset_volt" value="`${OutOffsetVolt}`" />
+        <Member name="current_sense_res" value="`${CurrSenseResistor / 100}`" />
+        <Member name="src_gate_drv_str" value="`${NfetSrcDrvStrength}`" />
+        <Member name="vbtr_up_step_width" value="`${TransitionUp}`" />
+        <Member name="vbtr_down_step_width" value="`${TransitionDown}`" />
+        <Member name="buck_boost_operating_mode" value="`${BuckBoostOperatingMode}`" />
+        <Member name="pwm_mode" value="`${PwmMode}`" />
+        <!-- Divide frequency for CCG7S and CCG7D -->
+        <Member name="pwm_fix_freq" value="`${PwmFixedFrequency / 5}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_LS1" value="`${LS1GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_LS2" value="`${LS2GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_HS1" value="`${HS1GatePullUp}`" />
+        <Member name="pwm_gate_pull_up_drv_strnth_HS2" value="`${HS2GatePullUp}`" />
+        <Member name="pwm_dithering_type" value="`${PwmDitheringType}`" />
+        <Member name="pwm_dithering_freq_range" value="`${PwmDitheringRange}`" />
+        <Member name="power_inductor_value" value="`${PowerInductor / 100}`" />
+        <Member name="peak_current_sense_resistor" value="`${PeakCurrentSenseResistor / 100}`" />
+        <Member name="peak_current_limit" value="`${PeakCurrentLimit / 500}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_LS1" value="`${LS1GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_LS2" value="`${LS2GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_HS1" value="`${HS1GatePullDown}`" />
+        <Member name="pwm_gate_pull_down_drv_strnth_HS2" value="`${HS2GatePullDown}`" />
+        <Member name="bbclk_freq" value="`${BbClkFrequency}`" />
+        <Member name="pwm_fix_freq_dith" value="`${PwmFixFreqDith}`" />
+        <Member name="pwm_dith_spread_cycles" value="`${PwmDithSpreadCycles}`" />
+    </ConfigStruct>
+    
+    <ConfigStruct name="`${USBPD_INST_NAME}`_config" type="cy_stc_usbpd_config_t" const="`${inFlash}`" public="true" include="true">
+        <Member name="vbusOvpConfig" value="`${VbusOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="vbusUvpConfig" value="`${VbusUvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_uvp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="vbusOcpConfig" value="`${VbusOcp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_ocp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="vbusScpConfig" value="`${VbusScp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_scp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="vbusRcpConfig" value="`${VbusRcp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_rcp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="vconnOcpConfig" value="`${VconnOcp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_vconn_ocp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="ccOvpConfig" value="`${CcOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_cc_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="sbuOvpConfig" value="`${SbuOvp ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_sbu_ovp_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="legacyChargingConfig" value="`${Bch ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_legacy_charging_config&quot; : &quot;NULL&quot;}`" include="true" />
+        <Member name="buckBoostConfig" value="`${BuckBoost ? &quot;&amp;&quot; . USBPD_INST_NAME . &quot;_buck_boost_config&quot; : &quot;NULL&quot;}`" include="true" />
+    </ConfigStruct>
+    
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_RX, `${getExposedMember(getBlockFromSignal(&quot;clock_rx[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_rx_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_TX, `${getExposedMember(getBlockFromSignal(&quot;clock_tx[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_tx_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_SAR, `${getExposedMember(getBlockFromSignal(&quot;clock_sar[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_sar_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_SWAP, `${getExposedMember(getBlockFromSignal(&quot;clock_swap[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_swap_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_REFGEN, `${getExposedMember(getBlockFromSignal(&quot;clock_refgen[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_refgen_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_FILTER1, `${getExposedMember(getBlockFromSignal(&quot;clock_filter1[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_filter1_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_FILTER2, `${getExposedMember(getBlockFromSignal(&quot;clock_filter2[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_filter2_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_FRS_EN_SEQ, `${getExposedMember(getBlockFromSignal(&quot;clock_frs_en_seq[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_frs_en_seq_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_BCH_DET, `${getExposedMember(getBlockFromSignal(&quot;clock_bch_det[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_bch_det_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_ISNK, `${getExposedMember(getBlockFromSignal(&quot;clock_isnk[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_isnk_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_VBTR, `${getExposedMember(getBlockFromSignal(&quot;clock_vbtr[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_vbtr_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_BB, `${getExposedMember(getBlockFromSignal(&quot;clock_bb[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_bb_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_BB_SOFT, `${getExposedMember(getBlockFromSignal(&quot;clock_bb_soft[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_bb_soft_ok}`" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(PCLK_USBPD`${InstNumber}`_CLOCK_IBTR, `${getExposedMember(getBlockFromSignal(&quot;clock_ibtr[0]&quot;), &quot;clockSel&quot;)}`);" include="`${clock_ibtr_ok}`" />
+  </ConfigFirmware>
+</Personality>
