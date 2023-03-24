@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_reg.h
-* \version 2.10
+* \version 2.20
 *
 * Provides register access API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

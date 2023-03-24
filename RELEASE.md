@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.2.0
+# mtb-pdl-cat2 peripheral driver library v2.3.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -8,18 +8,12 @@ for a complete description of the Peripheral driver library.
 
 ### New Features
 
-Support for new devices of the PSoC 4100S Plus device family:
-- CY8C4147AZQ-S453
+Updated the pin mapping configuration for the PSoC 4100S Max and PMG1S3 family.
 
-Support for new devices of the PMG1S3 device series:
-- CYPM1321-97BZXIT
-
-Support for new devices of the CCG7S device series:
-- CYPD7171-40LQXQ
 
 ### Updated drivers
 
-- [USBPD (USB Power Delivery) 2.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [USBFS 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
 
 ## Defect fixes
 
@@ -33,7 +27,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.0.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.3.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.0.4       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.1.0       |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  | 10.3.1       |
 | IAR compiler                                                                  |  9.30.1      |

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io_dma.c
-* \version 2.10
+* \version 2.20
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -316,7 +316,7 @@ static void DmaEndpointInit1D(DMAC_Type * base, uint32_t channel, bool inDirecti
         Cy_DMAC_Descriptor_SetSrcIncrement(base, channel, descr, DMA_INCREMENT);
         Cy_DMAC_Descriptor_SetDstIncrement(base, channel, descr, DMA_NO_INCREMENT);
         
-        Cy_DMAC_Descriptor_SetDstAddress (base, channel, descr, (void const *) dataReg);
+        Cy_DMAC_Descriptor_SetDstAddress (base, channel, descr, (void *) dataReg);
     }
 
     else
@@ -327,7 +327,7 @@ static void DmaEndpointInit1D(DMAC_Type * base, uint32_t channel, bool inDirecti
         Cy_DMAC_Descriptor_SetSrcIncrement(base, channel, descr, DMA_NO_INCREMENT);
         Cy_DMAC_Descriptor_SetDstIncrement(base, channel, descr, DMA_INCREMENT);
 
-        Cy_DMAC_Descriptor_SetSrcAddress (base, channel, descr, (void const *) dataReg);
+        Cy_DMAC_Descriptor_SetSrcAddress (base, channel, descr, (void *) dataReg);
     }
 }
 

@@ -282,12 +282,21 @@ typedef enum
 #define USBDP_PORT                      GPIO_PRT8
 #define USBDP_PIN                       0u
 #define USBDP_NUM                       0u
+#define P8_0_PORT                       GPIO_PRT8
+#define P8_0_PIN                        0u
+#define P8_0_NUM                        0u
 #define USBDM_PORT                      GPIO_PRT8
 #define USBDM_PIN                       1u
 #define USBDM_NUM                       1u
+#define P8_1_PORT                       GPIO_PRT8
+#define P8_1_PIN                        1u
+#define P8_1_NUM                        1u
 #define VSSIO_5_PORT                    GPIO_PRT8
 #define VSSIO_5_PIN                     2u
 #define VSSIO_5_NUM                     2u
+#define P8_2_PORT                       GPIO_PRT8
+#define P8_2_PIN                        2u
+#define P8_2_NUM                        2u
 
 /* Analog Connections */
 #define CSD_CMODPADD_PORT               5u

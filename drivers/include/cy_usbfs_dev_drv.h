@@ -1,12 +1,12 @@
 /*******************************************************************************
 * \file cy_usbfs_dev_drv.h
-* \version 2.10
+* \version 2.20
 *
 * Provides API declarations of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -490,6 +490,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.20</td>
+*     <td>Resolved compiler warnings related to USBFS DMAC APIs.</td>
+*     <td>Defect fix.</td>
+*   </tr>
+*   <tr>
 *     <td>2.10</td>
 *     <td>Corrected variable type name.</td>
 *     <td>Defect fix.</td>
@@ -573,13 +578,13 @@ extern "C" {
 #define CY_USBFS_VERSION_MAJOR      (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_VERSION_MINOR      (10)
+#define CY_USBFS_VERSION_MINOR      (20)
 
 /** USBFS Driver major version */
 #define CY_USBFS_DRV_VERSION_MAJOR  (2)
 
 /** USBFS Driver minor version */
-#define CY_USBFS_DRV_VERSION_MINOR  (10)
+#define CY_USBFS_DRV_VERSION_MINOR  (20)
 /** USBFS Driver identifier */
 #define CY_USBFS_ID                 CY_PDL_DRV_ID(0x3BU)
 

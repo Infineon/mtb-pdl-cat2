@@ -152,13 +152,24 @@ typedef enum
 #define USBDP_PIN                       0u
 #define USBDP_NUM                       0u
 #define USBDP_AMUXSEGMENT               AMUXBUS_AMUXBUS_A
+#define P4_0_PORT                       GPIO_PRT4
+#define P4_0_PIN                        0u
+#define P4_0_NUM                        0u
+#define P4_0_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 #define USBDM_PORT                      GPIO_PRT4
 #define USBDM_PIN                       1u
 #define USBDM_NUM                       1u
 #define USBDM_AMUXSEGMENT               AMUXBUS_AMUXBUS_A
+#define P4_1_PORT                       GPIO_PRT4
+#define P4_1_PIN                        1u
+#define P4_1_NUM                        1u
+#define P4_1_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 #define VSSIO_4_PORT                    GPIO_PRT4
 #define VSSIO_4_PIN                     2u
 #define VSSIO_4_NUM                     2u
+#define P4_2_PORT                       GPIO_PRT4
+#define P4_2_PIN                        2u
+#define P4_2_NUM                        2u
 
 /* Analog Connections */
 #define USBPD0_AUXN_IO_PORT             1u

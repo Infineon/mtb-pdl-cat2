@@ -4,6 +4,8 @@
   <Wounding location="chipresourcewoundings.xml" />
   <PinResourceType value="ioss[0].port[%1$d].pin[%2$d]" />
   <TrigMuxConnectTemplate value="Cy_TrigMux_Connect(${CyMarkIn}, ${CyMarkOut});" />
+  <!--There are no TriggerGroup type="ONE_TO_ONE" in triggers.cydata so TrigMuxSelectTemplate is not used.-->
+  <TrigMuxSelectTemplate value="/* NOT USED */" />
   <Profiles>
     <Profile displayName="System" diagramType="CLOCKS" fileName="system" evalPriority="1" displayPriority="4" description="System configuration" resources="srss(\[\d+\])?\.(clock|power|eeprom)(\[\d+\])?.*|cpuss(\[\d+\])?\.dap(\[\d+\])?|wco(\[\d+\])?$|exco(\[\d+\])?.*" />
     <Profile displayName="DMA" fileName="dmas" evalPriority="3" displayPriority="6" description="DMA configuration" resources="cpuss(\[\d+\])?\.(dw|dmac).*" />
@@ -12,6 +14,11 @@
     <Profile displayName="Software" fileName="software" evalPriority="1" displayPriority="7" description="Software configuration" resources="features[\[\.].*" />
     <Profile displayName="Peripherals" fileName="peripherals" evalPriority="5" displayPriority="1" description="Peripheral Hardware Block configuration" resources=".*" />
     <!--This won't match any HW locations because it is after the catchall (.*). This is on purpose and needed to specify display order/code gen order for Analog/routing.-->
-    <Profile purpose="ROUTING" displayName="Analog-Routing" diagramType="ANALOG" fileName="routing" evalPriority="4" displayPriority="3" description="Establishes all necessary connections between hardware elements." resources="NONE" />
+    <Profile purpose="ROUTING" displayName="Analog-Routing" diagramType="ANALOG" fileName="routing" evalPriority="4" displayPriority="3" description="Establishes all necessary connections between hardware elements." resources="NONE" >
+      <Includes>
+        <Include value="cy_trigmux.h" public="false" />
+        <Include value="cy_device_headers.h" public="false" />
+      </Includes>
+    </Profile>
   </Profiles>
 </View>

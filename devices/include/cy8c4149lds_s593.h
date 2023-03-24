@@ -182,7 +182,7 @@ typedef enum {
 #define CY_IP_M0S8WCO_VERSION           1u
 
 #include "psoc4100smax_config.h"
-#include "gpio_psoc4100smax_48_qfn.h"
+#include "gpio_psoc4100smax_48_qfn_auto.h"
 
 #define CY_DEVICE_PSOC4AS4
 #define CY_DEVICE_SERIES_PSOC_4100S_MAX

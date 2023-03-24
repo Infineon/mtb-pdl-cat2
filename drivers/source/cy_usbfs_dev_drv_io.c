@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbfs_dev_drv_io.c
-* \version 2.10
+* \version 2.20
 *
 * Provides data transfer API implementation of the USBFS driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -291,7 +291,7 @@ void RestoreEndpointHwBuffer(USBFS_Type *base,
         Cy_USBFS_Dev_Drv_EnableArbEpInterrupt(base, endpoint);
 
         /* Enables the DMA channel */
-         Cy_DMA_Channel_Enable(endpointData->base, endpointData->chNum);
+         Cy_DMAC_Channel_Enable(endpointData->base, endpointData->chNum);
     }
     else
 #endif /* (defined(CY_IP_M0S8CPUSSV3_DMAC) && (CY_USBFS_DRV_DMA_ENABLE == 1)) */

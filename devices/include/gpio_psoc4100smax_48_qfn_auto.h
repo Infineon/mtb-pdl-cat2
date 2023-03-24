@@ -1,8 +1,8 @@
 /***************************************************************************//**
-* \file gpio_psoc4100smax_48_qfn.h
+* \file gpio_psoc4100smax_48_qfn_auto.h
 *
 * \brief
-* PSoC4100Smax device GPIO header for 48-QFN package
+* PSoC4100Smax device GPIO header for 48-QFN-AUTO package
 *
 ********************************************************************************
 * \copyright
@@ -24,8 +24,8 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _GPIO_PSOC4100SMAX_48_QFN_H_
-#define _GPIO_PSOC4100SMAX_48_QFN_H_
+#ifndef _GPIO_PSOC4100SMAX_48_QFN_AUTO_H_
+#define _GPIO_PSOC4100SMAX_48_QFN_AUTO_H_
 
 /* Package type */
 enum
@@ -215,6 +215,16 @@ typedef enum
 #define P4_3_PIN                        3u
 #define P4_3_NUM                        3u
 #define P4_3_AMUXSEGMENT                AMUXBUS_MSC0
+
+/* PORT 6 (GPIO) */
+#define P6_1_PORT                       GPIO_PRT6
+#define P6_1_PIN                        1u
+#define P6_1_NUM                        1u
+#define P6_1_AMUXSEGMENT                AMUXBUS_MSC0
+#define P6_2_PORT                       GPIO_PRT6
+#define P6_2_PIN                        2u
+#define P6_2_NUM                        2u
+#define P6_2_AMUXSEGMENT                AMUXBUS_MSC0
 
 /* PORT 7 (GPIO) */
 #define P7_0_PORT                       GPIO_PRT7
@@ -840,6 +850,35 @@ typedef enum
     P4_3_LPCOMP_COMP1               = 14,       /* Digital Deep Sleep - lpcomp.comp[1]:2 */
     P4_3_SCB0_SPI_SELECT0           = 15,       /* Digital Deep Sleep - scb[0].spi_select0:0 */
 
+    /* P6.1 */
+    P6_1_GPIO                       =  0,       /* SW controlled GPIO. */
+    P6_1_MSC0_SENSE                 =  4,       /* msc[0].sense:23 */
+    P6_1_MSC0_SHIELD                =  5,       /* msc[0].shield:23 */
+    P6_1_AMUXA                      =  6,       /* AMUXBUS A connection. */
+    P6_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
+    P6_1_TCPWM_LINE_COMPL4          =  8,       /* Digital Active - tcpwm.line_compl[4]:1 */
+    P6_1_SCB3_UART_TX               =  9,       /* Digital Active - scb[3].uart_tx:0 */
+    P6_1_MSC0_EXT_SYNC_CLK          = 10,       /* Digital Active - msc[0].ext_sync_clk:1 */
+    P6_1_CANFD_TTCAN_RX0            = 11,       /* Digital Active - canfd.ttcan_rx[0]:0 */
+    P6_1_LCD_COM49                  = 12,       /* Digital Deep Sleep - lcd.com[49] */
+    P6_1_LCD_SEG49                  = 13,       /* Digital Deep Sleep - lcd.seg[49] */
+    P6_1_SCB3_I2C_SDA               = 14,       /* Digital Deep Sleep - scb[3].i2c_sda:1 */
+    P6_1_SCB3_SPI_MISO              = 15,       /* Digital Deep Sleep - scb[3].spi_miso:0 */
+
+    /* P6.2 */
+    P6_2_GPIO                       =  0,       /* SW controlled GPIO. */
+    P6_2_MSC0_SENSE                 =  4,       /* msc[0].sense:24 */
+    P6_2_MSC0_SHIELD                =  5,       /* msc[0].shield:24 */
+    P6_2_AMUXA                      =  6,       /* AMUXBUS A connection. */
+    P6_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
+    P6_2_TCPWM_LINE5                =  8,       /* Digital Active - tcpwm.line[5]:0 */
+    P6_2_SCB3_UART_CTS              =  9,       /* Digital Active - scb[3].uart_cts:0 */
+    P6_2_MSC0_EXT_SYNC              = 10,       /* Digital Active - msc[0].ext_sync:1 */
+    P6_2_CANFD_TTCAN_TX0            = 11,       /* Digital Active - canfd.ttcan_tx[0]:0 */
+    P6_2_LCD_COM50                  = 12,       /* Digital Deep Sleep - lcd.com[50] */
+    P6_2_LCD_SEG50                  = 13,       /* Digital Deep Sleep - lcd.seg[50] */
+    P6_2_SCB3_SPI_CLK               = 15,       /* Digital Deep Sleep - scb[3].spi_clk:0 */
+
     /* P7.0 */
     P7_0_GPIO                       =  0,       /* SW controlled GPIO. */
     P7_0_MSC1_SENSE                 =  4,       /* msc[1].sense:6 */
@@ -867,7 +906,7 @@ typedef enum
     P7_1_SCB3_SPI_MISO              = 15        /* Digital Deep Sleep - scb[3].spi_miso:1 */
 } en_hsiom_sel_t;
 
-#endif /* _GPIO_PSOC4100SMAX_48_QFN_H_ */
+#endif /* _GPIO_PSOC4100SMAX_48_QFN_AUTO_H_ */
 
 
 /* [] END OF FILE */
