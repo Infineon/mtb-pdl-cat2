@@ -15717,7 +15717,7 @@ Firmware Rule: When HALF_WAVE_EN = ENABLED, CHOP_POL must be programmed to 1 in 
               </field>
               <field>
                 <name>SPCS1</name>
-                <description>Shield Minus Terminal to CMOD1 Sense Switch</description>
+                <description>Shield Positive Terminal to CMOD1 Sense Switch</description>
                 <bitRange>[12:12]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -15735,7 +15735,7 @@ Firmware Rule: When HALF_WAVE_EN = ENABLED, CHOP_POL must be programmed to 1 in 
               </field>
               <field>
                 <name>SPCS3</name>
-                <description>Shield Minus Terminal to CMOD3 Sense Switch</description>
+                <description>Shield Positive Terminal to CMOD3 Sense Switch</description>
                 <bitRange>[14:14]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>

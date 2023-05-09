@@ -482,7 +482,7 @@ typedef enum
 /* IP MMIO registers base address in the system address space (32-bit Byte address
    at a 64 kB multiple). The IP MMIO registers occupy a 64 kB memory region in
    the system address space. */
-#define CRYPTOLITE_ADDR_BASE            1076690944u
+#define CRYPTOLITE_ADDR_BASE            0x402D0000u
 /* ECC present or not ('0': no, '1': yes). */
 #define CRYPTOLITE_ECC_PRESENT          0u
 /* True random number generation component support ('0': no, '1': yes). */

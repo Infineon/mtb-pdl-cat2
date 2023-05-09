@@ -108,11 +108,6 @@
 
     <ParamSignal port="i2c_scl[0]" name="SCL" group="Connections" visible="true" desc="Serial clock (SCL) is the master-generated I2C clock." canBeEmpty="false" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
         </Parameter>
@@ -120,11 +115,6 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamSignal port="i2c_sda[0]" name="SDA" group="Connections" visible="true" desc="Serial data (SDA) is the I2C data signal." canBeEmpty="false" isDependency="true">
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />

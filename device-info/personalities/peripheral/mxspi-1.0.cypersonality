@@ -192,11 +192,6 @@
 
     <ParamSignal port="spi_clk[0]"  name="SCLK" group="Connections" visible="`${MasterMode ? hasConnectionSclk : true}`" desc="The Serial Clock (SCLK) from the master to slave device." canBeEmpty="`${MasterMode}`">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
         </Parameter>
@@ -205,11 +200,6 @@
     </ParamSignal>
 
     <ParamSignal port="spi_mosi[0]" name="MOSI" group="Connections" visible="`${hasConnectionMosi}`" desc="The Master Output Slave Input (MOSI) signal between the master and slave devices." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
@@ -222,11 +212,6 @@
 
     <ParamSignal port="spi_miso[0]" name="MISO" group="Connections" visible="`${hasConnectionMiso}`" desc="The Master Input Slave Output (MOSI) signal between the slave and master devices." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMISO}`" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMISO}`" />
         </Parameter>
@@ -235,11 +220,6 @@
     </ParamSignal>
 
     <ParamSignal port="spi_select0[0]" name="SS0" group="Connections" visible="`${isConnectableSel0}`" desc="The Master Output / Slave Input Slave Select (SS) signal. The master uses SS signal to enable Slave for the following communication." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
@@ -250,11 +230,6 @@
 
     <ParamSignal port="spi_select1[0]" name="SS1" group="Connections" visible="`${isConnectableSel1}`" desc="The Master Output / Slave Input Slave Select (SS) signal. The master uses SS signal to enable Slave for the following communication." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
         </Parameter>
@@ -263,11 +238,6 @@
     </ParamSignal>
 
     <ParamSignal port="spi_select2[0]" name="SS2" group="Connections" visible="`${isConnectableSel2}`" desc="The Master Output / Slave Input Slave Select (SS) signal. The master uses SS signal to enable Slave for the following communication." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
@@ -278,11 +248,6 @@
 
     <ParamSignal port="spi_select3[0]" name="SS3" group="Connections" visible="`${isConnectableSel3}`" desc="The Master Output / Slave Input Slave Select (SS) signal. The master uses SS signal to enable Slave for the following communication." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${DmMOSI}`" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
         </Parameter>
@@ -292,11 +257,6 @@
 
     <ParamSignal port="tr_rx_req[0]" name="RX Trigger Output" group="Connections" visible="`${hasVisibleOption(&quot;tr_rx_req[0]&quot;) &amp;&amp; (MasterMode ? hasConnectionMiso : hasConnectionMosi)}`" desc="Connects SCB RX trigger output to the DMA. Configure RX FIFO Level to define this output behavior." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>
@@ -304,11 +264,6 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamSignal port="tr_tx_req[0]" name="TX Trigger Output" group="Connections" visible="`${hasVisibleOption(&quot;tr_tx_req[0]&quot;) &amp;&amp; (MasterMode ? hasConnectionMosi : hasConnectionMiso)}`" desc="Connects SCB TX trigger output to the DMA. Configure RX FIFO Level to define this output behavior." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

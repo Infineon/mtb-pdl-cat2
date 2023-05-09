@@ -160,7 +160,7 @@ typedef enum {
 #define CY_IP_M0S8PERI_TR_INSTANCES     1u
 #define CY_IP_M0S8PERI_TR_VERSION       1u
 #define CY_IP_M0S8SCB                   1u
-#define CY_IP_M0S8SCB_INSTANCES         5u
+#define CY_IP_M0S8SCB_INSTANCES         4u
 #define CY_IP_M0S8SCB_VERSION           2u
 #define CY_IP_S8SRSSLT                  1u
 #define CY_IP_S8SRSSLT_INSTANCES        1u
@@ -305,12 +305,10 @@ typedef enum {
 #define SCB1_BASE                               0x40250000UL
 #define SCB2_BASE                               0x40260000UL
 #define SCB3_BASE                               0x40270000UL
-#define SCB4_BASE                               0x40280000UL
 #define SCB0                                    ((CySCB_Type*) SCB0_BASE)                                         /* 0x40240000 */
 #define SCB1                                    ((CySCB_Type*) SCB1_BASE)                                         /* 0x40250000 */
 #define SCB2                                    ((CySCB_Type*) SCB2_BASE)                                         /* 0x40260000 */
 #define SCB3                                    ((CySCB_Type*) SCB3_BASE)                                         /* 0x40270000 */
-#define SCB4                                    ((CySCB_Type*) SCB4_BASE)                                         /* 0x40280000 */
 
 /*******************************************************************************
 *                                     CSD

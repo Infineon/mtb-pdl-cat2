@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_ezi2c.c
-* \version 4.20
+* \version 4.30
 *
 * Provides EZI2C API implementation of the SCB driver.
 *
@@ -139,8 +139,8 @@ cy_en_scb_ezi2c_status_t Cy_SCB_EZI2C_Init(CySCB_Type *base, cy_stc_scb_ezi2c_co
         context->buf1rwBondary = 0UL;
         context->baseAddr1     = 0UL;
 
-        context->buf1Size      = 0UL;
-        context->buf1rwBondary = 0UL;
+        context->buf2Size      = 0UL;
+        context->buf2rwBondary = 0UL;
         context->baseAddr2     = 0UL;
 
 #ifdef CY_IP_M0S8SCB

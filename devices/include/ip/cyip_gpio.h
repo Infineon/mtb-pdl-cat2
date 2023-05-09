@@ -48,7 +48,7 @@ typedef struct {
   __IOM uint32_t SIO;                           /*!< 0x00000014 Port SIO configuration register */
   __IOM uint32_t PC2;                           /*!< 0x00000018 Port configuration register 2 */
    __IM uint32_t RESERVED[2];
-  __IOM uint32_t MSC_ANA;                       /*!< 0x00000024 Port MSCv3 AMUX enable */
+  __IOM uint32_t MSC_ANA;                       /*!< 0x00000024 Port MSCLP AMUX enable */
    __IM uint32_t RESERVED1[6];
   __IOM uint32_t DR_SET;                        /*!< 0x00000040 Port output data set register */
   __IOM uint32_t DR_CLR;                        /*!< 0x00000044 Port output data clear register */

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.30
+* \version 2.40
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -297,7 +297,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_us
 #if defined (CY_DEVICE_CCG3PA)
     context->vbusDetachAdcInp = CY_USBPD_ADC_INPUT_AMUX_B;
     context->vbusDetachAdcId = CY_USBPD_ADC_ID_1;
-#elif(defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3))
+#elif(defined(CY_DEVICE_CCG6) || defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3))
     context->vbusDetachAdcInp = CY_USBPD_ADC_INPUT_AMUX_B;
     context->vbusDetachAdcId = CY_USBPD_ADC_ID_0;
 #elif defined(CY_DEVICE_CCG3)

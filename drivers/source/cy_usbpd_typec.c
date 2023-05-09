@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.30
+* \version 2.40
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -3962,6 +3962,7 @@ void Cy_USBPD_Intr1Handler (
     uint32_t mask = 0u;
 #endif /* PDL_VBUS_RCP_ENABLE */
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 
 #if defined(CY_DEVICE_SERIES_WLC1)

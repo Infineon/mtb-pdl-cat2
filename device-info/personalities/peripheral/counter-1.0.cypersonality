@@ -83,11 +83,6 @@
     </ParamChoice>
     <ParamSignal port="capture[0]" name="Capture Signal" group="Capture" visible="`${CompareOrCapture eq CY_TCPWM_COUNTER_MODE_CAPTURE &amp;&amp; CaptureInput ne CY_TCPWM_INPUT_DISABLED}`" desc="This input triggers a capture of the current count value." canBeEmpty="`${CaptureInput eq CY_TCPWM_INPUT_DISABLED}`" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -106,11 +101,6 @@
     <!--Inputs-->
     <ParamSignal port="clock[0]" name="Clock Signal" group="Inputs" visible="true" desc="The clock input defines the operating frequency." canBeEmpty="false" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -126,11 +116,6 @@
     </ParamChoice>
     <ParamSignal port="count[0]" name="Count Signal" group="Inputs" visible="`${CountInput ne CY_TCPWM_INPUT_DISABLED}`" desc="This input causes the counter to count depending on how the input is configured. For example, if this input is configured for level sensitive, the counter will change its count on each pre-scaled clock edge." canBeEmpty="`${CountInput eq CY_TCPWM_INPUT_DISABLED}`" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -144,11 +129,6 @@
       <Entry name="Disabled" value="CY_TCPWM_INPUT_DISABLED" visible="true" />
     </ParamChoice>
     <ParamSignal port="stop[0]" name="Stop Signal" group="Inputs" visible="`${StopInput ne CY_TCPWM_INPUT_DISABLED}`" desc="This input stops the counter." canBeEmpty="`${StopInput eq CY_TCPWM_INPUT_DISABLED}`" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -164,11 +144,6 @@
     </ParamChoice>
     <ParamSignal port="reload[0]" name="Reload Signal" group="Inputs" visible="`${ReloadInput ne CY_TCPWM_INPUT_DISABLED}`" desc="This input triggers a reload of the counter, and starts the counter." canBeEmpty="`${ReloadInput eq CY_TCPWM_INPUT_DISABLED}`" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -183,11 +158,6 @@
     </ParamChoice>
     <ParamSignal port="start[0]" name="Start Signal" group="Inputs" visible="`${StartInput ne CY_TCPWM_INPUT_DISABLED}`" desc="This input starts the counter." canBeEmpty="`${StartInput eq CY_TCPWM_INPUT_DISABLED}`" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -199,11 +169,6 @@
     <ParamSignal port="tr_overflow[0]" name="Overflow" group="Outputs" visible="`${hasVisibleOption(&quot;tr_overflow[0]&quot;)}`" desc="This output goes high when the count value overflows from the period to zero.
     Reload will also generate an Overflow when up counting." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>
@@ -213,11 +178,6 @@
     <ParamSignal port="tr_underflow[0]" name="Underflow" group="Outputs" visible="`${hasVisibleOption(&quot;tr_underflow[0]&quot;)}`" desc="This output goes high when the count value rolls over from zero to the period value.
     Reload will also generate an underflow event in down and up/down counting modes." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>
@@ -225,11 +185,6 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamSignal port="tr_compare_match[0]" name="`${pCCeqCompare ? &quot;Compare (cc_match)&quot; : &quot;Capture (cc_match)&quot;}`" group="Outputs" visible="`${hasVisibleOption(&quot;tr_compare_match[0]&quot;)}`" desc="`${pCCeqCompare ? &quot;This digital output goes high when the compare value equals the counter value.&quot; : &quot;This output goes high when a capture occurs.&quot;}`" canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

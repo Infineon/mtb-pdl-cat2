@@ -1,13 +1,13 @@
 /*******************************************************************************
 * \file cy_canfd.c
-* \version 1.10
+* \version 1.10.1
 *
 * \brief
 *  Provides an API implementation of the CAN FD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2019-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2019-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -717,6 +717,7 @@ uint32_t Cy_CANFD_GetLastError(CANFD_Type const *base, uint32_t chan)
 * is invalid.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_GetRxBuffer
 *
 *******************************************************************************/
@@ -824,6 +825,7 @@ static uint32_t Cy_CANFD_CalcTxBufAdrs(CANFD_Type const *base, uint32_t chan, ui
 * Can be 0 if the index is invalid.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_GetRxBuffer
 *
 *******************************************************************************/
@@ -878,6 +880,7 @@ uint32_t Cy_CANFD_CalcRxFifoAdrs(CANFD_Type const *base, uint32_t chan,
 * in this structure.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_SidFilterSetup
 *
 *******************************************************************************/
@@ -978,6 +981,7 @@ void Cy_CANFD_SidFiltersSetup(CANFD_Type const *base, uint32_t chan,
 * in this structure.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_XidFilterSetup
 *
 *******************************************************************************/
@@ -1083,6 +1087,7 @@ void Cy_CANFD_XidFiltersSetup(CANFD_Type const *base, uint32_t chan,
 * \ref cy_en_canfd_status_t
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_GetRxBuffer
 *
 *******************************************************************************/
@@ -1263,6 +1268,7 @@ cy_en_canfd_status_t Cy_CANFD_GetFIFOTop(CANFD_Type const *base, uint32_t chan,
 * \ref cy_en_canfd_status_t
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_ExtractMsgFromRXBuffer
 *
 *******************************************************************************/
@@ -1375,6 +1381,7 @@ cy_en_canfd_status_t Cy_CANFD_ExtractMsgFromRXBuffer(CANFD_Type *base, uint32_t 
 *    The RX buffer element index.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_GetRxBuffer
 *
 *******************************************************************************/
@@ -1413,6 +1420,7 @@ void Cy_CANFD_AckRxBuf(CANFD_Type *base, uint32_t chan, uint32_t bufNum)
 *  The RX buffer element index.
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_GetRxBuffer
 *
 *******************************************************************************/
@@ -1694,6 +1702,7 @@ void Cy_CANFD_IrqHandler(CANFD_Type *base, uint32_t chan, cy_stc_canfd_context_t
 * \ref cy_en_canfd_status_t
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_TxBufferConfig
 *
 *******************************************************************************/
@@ -1856,6 +1865,7 @@ cy_en_canfd_status_t Cy_CANFD_TransmitTxBuffer(CANFD_Type *base, uint32_t chan,
 * \return \ref cy_en_canfd_status_t
 *
 * \funcusage
+* \snippet canfd_snippet.c snippet_Cy_CANFD_context
 * \snippet canfd_snippet.c snippet_Cy_CANFD_UpdateAndTransmitMsgBuffer
 *
 *******************************************************************************/

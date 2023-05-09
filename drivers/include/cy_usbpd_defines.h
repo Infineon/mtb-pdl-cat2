@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.30
+* \version 2.40
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -1071,8 +1071,8 @@ typedef union
         uint32_t rsvd1                      : 1;    /**< Reserved field. */
         uint32_t cmdType                    : 2;    /**< VDM command type. */
         uint32_t objPos                     : 3;    /**< Object position. */
-        uint32_t rsvd2                      : 2;    /**< Reserved field. */
-        uint32_t stVer                      : 2;    /**< Structured VDM version. */
+        uint32_t stMinVer                   : 2;    /**< Structured VDM version (Minor). */
+        uint32_t stVer                      : 2;    /**< Structured VDM version (Major). */
         uint32_t vdmType                    : 1;    /**< VDM type = Structured. */
         uint32_t svid                       : 16;   /**< SVID associated with VDM. */
     } std_vdm_hdr;                                  /**< DO interpreted as a Structured VDM header. */
@@ -1198,7 +1198,7 @@ typedef union
         uint32_t cblHwVer                   : 4;    /**< Cable hardware version. */
     } act_cbl_vdo;                                  /**< DO interpreted as a PD 3.0 active cable VDO. */
 
-    /** @brief Active Cable VDO 1 structure as defined by PD 3.0, Version 1.2 */
+    /** @brief Active Cable VDO 1 structure as defined by PD 3.0, Version 1.6 */
     struct ACT_CBL_VDO_1
     {
         uint32_t usbSsSup                   : 3;    /**< USB signalling supported by the cable. */
@@ -1210,7 +1210,7 @@ typedef union
         uint32_t maxVbusVolt                : 2;    /**< Max. VBus voltage supported. */
         uint32_t cblTerm                    : 2;    /**< Cable termination and VConn power requirement. */
         uint32_t cblLatency                 : 4;    /**< Cable latency. */
-        uint32_t rsvd1                      : 1;    /**< Reserved field. */
+        uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
         uint32_t typecAbc                   : 2;    /**< Cable plug type. */
         uint32_t rsvd2                      : 1;    /**< Reserved field. */
         uint32_t vdoVersion                 : 3;    /**< VDO version. */
@@ -1218,11 +1218,11 @@ typedef union
         uint32_t cblHwVer                   : 4;    /**< Cable hardware version. */
     } act_cbl_vdo1;                                 /**< DO interpreted as a PD 3.0 Active Cable VDO 1. */
 
-    /** @brief Active Cable VDO 2 structure as defined by PD 3.0, Version 1.2 */
+    /** @brief Active Cable VDO 2 structure as defined by PD 3.0, Version 1.6 */
     struct ACT_CBL_VDO_2
     {
         uint32_t usbGen                     : 1;    /**< USB Generation. */
-        uint32_t rsvd0                      : 1;    /**< Reserved field. */
+        uint32_t usb4AsymSupp               : 1;    /**< Whether cable supports USB4 asymmetric mode. */
         uint32_t optIsolated                : 1;    /**< Optically Isolated Active Cable. */
         uint32_t ssLanes                    : 1;    /**< Whether cable supports 1 or 2 USB 3.2 lanes. */
         uint32_t ssSupp                     : 1;    /**< Whether cable supports USB 3.2 signaling. */

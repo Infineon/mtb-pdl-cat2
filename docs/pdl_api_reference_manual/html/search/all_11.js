@@ -153,6 +153,7 @@ var searchData=
   ['std_5fsvid_5fres',['std_svid_res',['../unioncy__pd__pd__do__t.html#a1ceefda716dee3a5331a5b6163a0aebc',1,'cy_pd_pd_do_t']]],
   ['std_5fvdm_5fhdr',['STD_VDM_HDR',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html',1,'cy_pd_pd_do_t::STD_VDM_HDR'],['../unioncy__pd__pd__do__t.html#ac817c7733a0caebeb08860ac95164f35',1,'cy_pd_pd_do_t::std_vdm_hdr()']]],
   ['std_5fvdm_5fid_5fhdr',['STD_VDM_ID_HDR',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___i_d___h_d_r.html',1,'cy_pd_pd_do_t']]],
+  ['stminver',['stMinVer',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#ae97af895527a646110b295017bb058fe',1,'cy_pd_pd_do_t::STD_VDM_HDR']]],
   ['stopbits',['stopBits',['../structcy__stc__scb__uart__config__t.html#a621fdf75f6e9856d92bdbf1da793f2b9',1,'cy_stc_scb_uart_config_t']]],
   ['stopinput',['stopInput',['../structcy__stc__tcpwm__counter__config__t.html#ae8b6f0d0fce13fe1903ac0bd2712e1c8',1,'cy_stc_tcpwm_counter_config_t::stopInput()'],['../structcy__stc__tcpwm__quaddec__config__t.html#a9181815a912b6c5ed2949711024410d5',1,'cy_stc_tcpwm_quaddec_config_t::stopInput()']]],
   ['stopinputmode',['stopInputMode',['../structcy__stc__tcpwm__counter__config__t.html#a8fa458977f7f877924296770113256d8',1,'cy_stc_tcpwm_counter_config_t::stopInputMode()'],['../structcy__stc__tcpwm__quaddec__config__t.html#a6d8a95cce86565d2f8aa6453d038bb8d',1,'cy_stc_tcpwm_quaddec_config_t::stopInputMode()']]],

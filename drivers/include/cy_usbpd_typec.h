@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.30
+* \version 2.40
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,19 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">2.40</td>
+*     <td>Added LF Counter driver.</td>
+*     <td>New feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Updated configuration table space to support CCG8 device series.</td>
+*     <td>Feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Corrected the ADC detach detection input used in PMG1-S1 device.</td>
+*     <td>Defect Fix.</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="3">2.30</td>
 *     <td>Use WLC1 Series Code compile directive</td>
@@ -197,6 +210,7 @@
 * \defgroup group_usbpd_vbus_ctrl VBus Ctrl (USBPD)
 * \defgroup group_usbpd_idac_ctrl IDAC (USBPD)
 * \defgroup group_usbpd_buck_boost Buck Boost (USBPD)
+* \defgroup group_usbpd_lf_counter LF Counter (USBPD)
 *
 */
 
@@ -285,7 +299,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       30
+#define CY_USBPD_DRV_VERSION_MINOR                       40
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

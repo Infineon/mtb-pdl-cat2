@@ -124,15 +124,15 @@
 
     <!--Flow Control-->
     <ParamBool id="FlowControl" name="Enable Flow Control" group="Flow Control" default="false" visible="`${!SmartCard}`" editable="true" desc="This parameter enables the cts input." />
-    <ParamChoice id="CtsPolarity" name="CTS Polarity" group="Flow Control" default="CY_SCB_UART_ACTIVE_LOW" visible="`${!SmartCard}`" editable="true" desc="This parameter defines the active polarity of the CTS output signal as Active Low or Active High.">
+    <ParamChoice id="CtsPolarity" name="CTS Polarity" group="Flow Control" default="CY_SCB_UART_ACTIVE_LOW" visible="`${!SmartCard &amp;&amp; (FlowControl)}`" editable="true" desc="This parameter defines the active polarity of the CTS output signal as Active Low or Active High.">
       <Entry name="Active Low" value="CY_SCB_UART_ACTIVE_LOW" visible="true" />
       <Entry name="Active High" value="CY_SCB_UART_ACTIVE_HIGH" visible="true" />
     </ParamChoice>
-    <ParamChoice id="RtsPolarity" name="RTS Polarity" group="Flow Control" default="CY_SCB_UART_ACTIVE_LOW" visible="`${!SmartCard}`" editable="true" desc="This parameter defines the active polarity of the RTS output signal as Active Low or Active High.">
+    <ParamChoice id="RtsPolarity" name="RTS Polarity" group="Flow Control" default="CY_SCB_UART_ACTIVE_LOW" visible="`${!SmartCard &amp;&amp; (FlowControl)}`" editable="true" desc="This parameter defines the active polarity of the RTS output signal as Active Low or Active High.">
       <Entry name="Active Low" value="CY_SCB_UART_ACTIVE_LOW" visible="true" />
       <Entry name="Active High" value="CY_SCB_UART_ACTIVE_HIGH" visible="true" />
     </ParamChoice>
-    <ParamRange id="RtsTriggerLevel" name="RTS Activation Level" group="Flow Control" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="`${!SmartCard}`" editable="true" desc="This parameter determines the behavior of the RTS signal as follows: while the RX FIFO has fewer entries than the RTS Active When, the signal remains active; otherwise, the signal becomes inactive. The range: 0 – `${FifoLevelByte}` (when Data Width is less than or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
+    <ParamRange id="RtsTriggerLevel" name="RTS Activation Level" group="Flow Control" default="`${FifoLevelMax / 2}`" min="0" max="`${FifoLevelMax}`" resolution="1" visible="`${!SmartCard &amp;&amp; (FlowControl)}`" editable="true" desc="This parameter determines the behavior of the RTS signal as follows: while the RX FIFO has fewer entries than the RTS Active When, the signal remains active; otherwise, the signal becomes inactive. The range: 0 – `${FifoLevelByte}` (when Data Width is less than or equal 8), and 0 - `${FifoLevelHalfword}` otherwise." />
 
     <ParamString id="Tx_out_descr" name="tx_out description" group="Internal" default="The transmitter output drives the output serial data to another device on the serial bus." visible="false" editable="false" desc="tx_out description" />
     <ParamString id="Rx_tx_out_descr" name="rx_tx_out description" group="Internal" default="The receive and transmit output receives and transmits data from/to another device on the bus. This pin presents if the Com Mode parameter is SmartCard. Note that Drive Mode of the connected pin must be Open Drain Drives Low." visible="false" editable="false" desc="rx_tx_out description" />
@@ -178,11 +178,6 @@
 
     <ParamSignal port="uart_rx[0]" name="RX" group="Connections" visible="`${!SmartCard &amp;&amp; hasVisibleOption(&quot;uart_rx[0]&quot;)}`" desc="The receive input receives the serial data from another device on the serial bus." canBeEmpty="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard}`" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard}`" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
         </Parameter>
@@ -191,11 +186,6 @@
     </ParamSignal>
 
     <ParamSignal port="uart_cts[0]" name="`${EnableTxEn ? &quot;TX_EN&quot; : &quot;CTS&quot;}`" group="Connections" visible="`${!SmartCard &amp;&amp; (FlowControl || EnableTxEn)  &amp;&amp; hasVisibleOption(&quot;uart_cts[0]&quot;)}`" desc="The clear to send input accepts notification that another device is ready to receive data." canBeEmpty="true">
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard &amp;&amp; (FlowControl || EnableTxEn)}`" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${EnableTxEn ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard &amp;&amp; (FlowControl || EnableTxEn)}`" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${EnableTxEn ? &quot;CY_GPIO_DM_STRONG_IN_OFF&quot; : &quot;CY_GPIO_DM_HIGHZ&quot;}`" />
@@ -206,11 +196,6 @@
 
     <ParamSignal port="uart_tx[0]" name="`${SmartCard ? &quot;RX_TX&quot; : &quot;TX&quot;}`" group="Connections" visible="`${hasVisibleOption(&quot;uart_tx[0]&quot;)}`" desc="`${SmartCard ? Rx_tx_out_descr : Tx_out_descr}`" canBeEmpty="`${!SmartCard}`">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="`${SmartCard ? &quot;CY_GPIO_DM_OD_DRIVESLOW&quot; : &quot;CY_GPIO_DM_STRONG_IN_OFF&quot;}`" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${SmartCard ? &quot;CY_GPIO_DM_OD_DRIVESLOW&quot; : &quot;CY_GPIO_DM_STRONG_IN_OFF&quot;}`" />
         </Parameter>
@@ -220,11 +205,6 @@
     
     <ParamSignal port="uart_rts[0]" name="RTS" group="Connections" visible="`${!SmartCard &amp;&amp; FlowControl &amp;&amp; hasVisibleOption(&quot;uart_rts[0]&quot;)}`" desc="`${Rts_out_descr}`" canBeEmpty="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard &amp;&amp; FlowControl}`" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard &amp;&amp; FlowControl}`" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>
@@ -233,11 +213,6 @@
     </ParamSignal>
 
     <ParamSignal port="tr_rx_req[0]" name="RX Trigger Output" group="Connections" visible="`${hasVisibleOption(&quot;tr_rx_req[0]&quot;)}`" desc="Connects SCB RX trigger output to the DMA. Configure RX FIFO Level to define this output behavior." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
@@ -246,11 +221,6 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamSignal port="tr_tx_req[0]" name="TX Trigger Output" group="Connections" visible="`${hasVisibleOption(&quot;tr_tx_req[0]&quot;)}`" desc="Connects SCB TX trigger output to the DMA. Configure RX FIFO Level to define this output behavior." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

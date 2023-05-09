@@ -116,11 +116,6 @@
 
     <ParamSignal port="i2c_scl[0]" name="SCL" group="Connections" visible="true" desc="Serial clock (SCL) is the master-generated I2C clock." canBeEmpty="false">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
         </Parameter>
@@ -129,11 +124,6 @@
     </ParamSignal>
     <ParamSignal port="i2c_sda[0]" name="SDA" group="Connections" visible="true" desc="Serial data (SDA) is the I2C data signal." canBeEmpty="false">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_OD_DRIVESLOW" />
         </Parameter>
@@ -141,11 +131,6 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
     <ParamSignal port="tr_i2c_scl_filtered[0]" name="SCL Output (scl_trig)" group="Connections" visible="true" desc="This output allows monitoring of the SCL state. The connection capabilities are limited by the trigger mux. The typical connection is to TCPWM, which can be used to monitor the SCL low timeout." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />

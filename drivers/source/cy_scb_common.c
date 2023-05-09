@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.c
-* \version 4.20
+* \version 4.30
 *
 * Provides common API implementation of the SCB driver.
 *

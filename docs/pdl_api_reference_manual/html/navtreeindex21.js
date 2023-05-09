@@ -1,5 +1,14 @@
 var NAVTREEINDEX21 =
 {
+"structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15":[2,25,0,2,2,0],
+"structcy__stc__wdc__config__t.html":[2,26,2,0],
+"structcy__stc__wdc__config__t.html#a3680db8a264902f59c1dedb417fb8757":[2,26,2,0,2],
+"structcy__stc__wdc__config__t.html#a3adcfa561655a7aa9205152decd69943":[2,26,2,0,7],
+"structcy__stc__wdc__config__t.html#a3d9a4f7816720f66f0ed11712a154071":[2,26,2,0,1],
+"structcy__stc__wdc__config__t.html#a4295adb1b80215600272eda7dc4c3610":[2,26,2,0,8],
+"structcy__stc__wdc__config__t.html#a4364c39d0bfe506ad0d960b5e573835e":[2,26,2,0,4],
+"structcy__stc__wdc__config__t.html#a58932baa9bf9de2705e4b7e5f3402f3c":[2,26,2,0,9],
+"structcy__stc__wdc__config__t.html#ab600ed9f600ae5ff4e037f72d7f2770c":[2,26,2,0,0],
 "structcy__stc__wdc__config__t.html#ac341cd6c27cee5cbd6ddc5a981128c20":[2,26,2,0,3],
 "structcy__stc__wdc__config__t.html#ad640e302b812400402555c157674c263":[2,26,2,0,5],
 "structcy__stc__wdc__config__t.html#ae24b5bbe2c5993aacc2507f33319ebb2":[2,26,2,0,6],

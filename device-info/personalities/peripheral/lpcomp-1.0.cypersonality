@@ -65,11 +65,6 @@
     <ParamSignal name="Negative Input (inn)" group="Connections" port="inn[0]" visible="true" desc="This analog input is usually connected to the the reference voltage." canBeEmpty="true" />
     <ParamSignal name="Compare Output (comp)" group="Connections" port="comp[0]" visible="true" desc="This digital output can be routed to digital logic or sent to a pin." canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>

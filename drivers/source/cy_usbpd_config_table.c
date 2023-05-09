@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.c
-* \version 2.30
+* \version 2.40
 *
 * This file specifies helper functions to retrieve Configuration table data
 * present in flash for various supported devices.
@@ -50,6 +50,12 @@ const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context)
     return (const wireless_config_t *)context->cfg_table; /* PRQA S 0310, 3305 */
 }
 
+const host_config_t * get_host_config(cy_stc_usbpd_context_t *context)
+{
+    /* QAC suppression 0310, 3305: The correct pointer alignment is ensured by the placement
+     * of this table as per the linker script. */
+    return (const host_config_t *)context->cfg_table; /* PRQA S 0310, 3305 */
+}
 const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context)
 {
 #if(defined(CY_DEVICE_SERIES_WLC1))
@@ -67,6 +73,19 @@ const pd_port_config_t * get_pd_port_config(cy_stc_usbpd_context_t *context)
     {
     return ((const pd_port_config_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_auto_config(context)->port_1_config_offset));
+    }
+#elif  (defined(CY_DEVICE_PMG1S3))
+    if(context->port==0u)
+    {
+    /* QAC suppression 0310, 3305: The correct pointer alignment is ensured by the placement
+     * of this table as per the linker script. */
+    return ((const pd_port_config_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_host_config(context)->port_0_config_offset));  /* PRQA S 0310, 3305 */
+    }
+    else
+    {
+    return ((const pd_port_config_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_host_config(context)->port_1_config_offset));
     }
 #else
     CY_UNUSED_PARAMETER(context);
@@ -192,10 +211,14 @@ ovp_settings_t* pd_get_ptr_ovp_tbl(cy_stc_usbpd_context_t *context)
     /* Update the OVP settings from the configuration table. */
     return ((ovp_settings_t *)(uint32_t)((const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_ovp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the OVP settings from the configuration table. */
+    return ((ovp_settings_t *)(uint32_t)((const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_ovp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
-#endif 
+#endif
 }
 
 #if (BATTERY_CHARGING_ENABLE) || (QC_PPS_ENABLE)
@@ -214,6 +237,10 @@ cy_stc_legacy_charging_cfg_t* pd_get_ptr_chg_cfg_tbl(cy_stc_usbpd_context_t *con
     /* Update the legacy charging parameters from the configuration table */
     return ((cy_stc_legacy_charging_cfg_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
             get_pd_port_config(context)->port_n_bch_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the legacy charging parameters from the configuration table */
+    return ((cy_stc_legacy_charging_cfg_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+            get_pd_port_config(context)->port_n_bch_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
@@ -230,6 +257,10 @@ rcp_settings_t* pd_get_ptr_rcp_tbl(cy_stc_usbpd_context_t *context)
     /* Update the VBus OCP settings from the configuration table */
     return ((rcp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_rcp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the VBus OCP settings from the configuration table */
+    return ((rcp_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_rcp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
@@ -243,6 +274,10 @@ ocp_settings_t* pd_get_ptr_ocp_tbl(cy_stc_usbpd_context_t *context)
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the VBus OCP settings from the configuration table */
     return ((ocp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+                get_pd_port_config(context)->port_n_ocp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the VBus OCP settings from the configuration table */
+    return ((ocp_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
                 get_pd_port_config(context)->port_n_ocp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
@@ -259,6 +294,10 @@ scp_settings_t* pd_get_ptr_scp_tbl(cy_stc_usbpd_context_t *context)
     /* Update the VBus SCP settings from the configuration table */
     return ((scp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_scp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the VBus SCP settings from the configuration table */
+    return ((scp_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_scp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
@@ -273,6 +312,10 @@ vconn_ocp_settings_t* pd_get_ptr_vconn_ocp_tbl(cy_stc_usbpd_context_t *context)
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the Vcon OCP settings from the configuration table */
     return ((vconn_ocp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+                get_pd_port_config(context)->port_n_vconn_ocp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the Vcon OCP settings from the configuration table */
+    return ((vconn_ocp_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
                 get_pd_port_config(context)->port_n_vconn_ocp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
@@ -289,6 +332,10 @@ otp_settings_t* pd_get_ptr_otp_tbl(cy_stc_usbpd_context_t *context)
     /* Update the OTP settings from the configuration table */
     return ((otp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_otp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the OTP settings from the configuration table */
+    return ((otp_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_otp_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
@@ -301,6 +348,10 @@ uvp_settings_t* pd_get_ptr_uvp_tbl(cy_stc_usbpd_context_t *context)
     /** Cast into  uvp_settings_t as a Workaround*/
     return ((uvp_settings_t *)(((cy_stc_usbpd_context_t *)context)->usbpdConfig->vbusUvpConfig));
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
+    /* Update the VBus UVP settings from the configuration table */
+    return ((uvp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+                get_pd_port_config(context)->port_n_uvp_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
     /* Update the VBus UVP settings from the configuration table */
     return ((uvp_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_uvp_table_offset));
@@ -317,6 +368,9 @@ const cy_stc_pdstack_port_cfg_t* pd_get_ptr_pdstack_tbl(cy_stc_usbpd_context_t *
                 get_pd_port_config(context)->port_n_pd_table_offset));
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     return ((const cy_stc_pdstack_port_cfg_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
+                    get_pd_port_config(context)->port_n_pd_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    return ((const cy_stc_pdstack_port_cfg_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
                     get_pd_port_config(context)->port_n_pd_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
@@ -347,6 +401,10 @@ app_config_t* pd_get_ptr_app_tbl(cy_stc_usbpd_context_t *context)
     /* Update the power parameters from the configuration table */
     return ((app_config_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
                 get_pd_port_config(context)->port_n_app_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the power parameters from the configuration table */
+    return ((app_config_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_app_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
@@ -361,13 +419,118 @@ cy_stc_pdaltmode_cfg_settings_t* pd_get_ptr_base_alt_tbl(cy_stc_usbpd_context_t 
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA))
     /* Update the Alt from the configuration table */
     return ((cy_stc_pdaltmode_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_auto_config (context)) +
-                get_pd_port_config(context)->port_n_base_alt_mode_table_offset));
+             get_pd_port_config(context)->port_n_base_alt_mode_table_offset));
+#elif (defined(CY_DEVICE_PMG1S3))
+    /* Update the Alt from the configuration table */
+    return ((cy_stc_pdaltmode_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+             get_pd_port_config(context)->port_n_base_alt_mode_table_offset));
 #else
     CY_UNUSED_PARAMETER(context);
     return NULL;
 #endif 
 }
 
+cy_pd_pd_do_t* pd_get_ptr_disc_id(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    /* Return Disc ID pointer from base alt mode settings */
+    return ((cy_pd_pd_do_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+            pd_get_ptr_base_alt_tbl(context)->disc_id_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+cy_pd_pd_do_t* pd_get_ptr_disc_svid(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    /* Return Disc SVID pointer from base alt mode settings */
+    return ((cy_pd_pd_do_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+            pd_get_ptr_base_alt_tbl(context)->disc_svid_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+cy_pd_pd_do_t* pd_get_ptr_disc_mode(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    /* Return Disc MODE pointer from base alt mode settings */
+    return ((cy_pd_pd_do_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+            pd_get_ptr_base_alt_tbl(context)->disc_mode_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+cy_stc_pdaltmode_custom_alt_cfg_settings_t* pd_get_ptr_custom_alt_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((cy_stc_pdaltmode_custom_alt_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_custom_alt_mode_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+custom_host_cfg_settings_t* pd_get_ptr_custom_host_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((custom_host_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->custom_host_config_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+tbthost_cfg_settings_t* pd_get_ptr_tbt_host_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((tbthost_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_tbt_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_config_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((cy_stc_pdaltmode_dp_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_dp_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+intel_soc_cfg_settings_t* pd_get_ptr_intel_soc_config_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((intel_soc_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->port_n_soc_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
+
+amd_cfg_settings_t* pd_get_ptr_amd_config_tbl(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    return ((amd_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->amd_config_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context)
 {

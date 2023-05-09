@@ -81,6 +81,7 @@ var searchData=
   ['functions',['Functions',['../group__group__usbpd__hpd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__usbpd__idac__ctrl__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__usbpd__legacy__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__usbpd__lf__counter__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__usbpd__mux__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__usbpd__phy__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__usbpd__typec__functions.html',1,'']]],

@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.30
+* \version 2.40
 *
 * The source file of the USBPD IDAC Control driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2022 Cypress Semiconductor Corporation
+* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

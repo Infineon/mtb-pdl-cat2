@@ -14,5 +14,6 @@ var searchData=
   ['low_20power_20callback',['Low Power Callback',['../group__group__sysclk__pm.html',1,'']]],
   ['low_20power_20callbacks',['Low Power Callbacks',['../group__group__syspm__functions__callback.html',1,'']]],
   ['low_20power_20functions',['Low Power Functions',['../group__group__usbfs__dev__drv__functions__low__power.html',1,'']]],
-  ['legacy_20charging_20_28usbpd_29',['Legacy Charging (USBPD)',['../group__group__usbpd__legacy.html',1,'']]]
+  ['legacy_20charging_20_28usbpd_29',['Legacy Charging (USBPD)',['../group__group__usbpd__legacy.html',1,'']]],
+  ['lf_20counter_20_28usbpd_29',['LF Counter (USBPD)',['../group__group__usbpd__lf__counter.html',1,'']]]
 ];

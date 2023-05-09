@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.30
+* \version 2.40
 *
 * Provides Common Header File of the USBPD driver.
 *

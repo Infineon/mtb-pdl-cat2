@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_canfd.h
-* \version 1.10
+* \version 1.10.1
 *
 *  This file provides constants and parameter values for
 *  the CAN FD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2019-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2019-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -213,6 +213,11 @@
 * \section group_canfd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10.1</td>
+*     <td>Update code snippets.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td>Fixed functions Cy_CANFD_Init() and Cy_CANFD_DeInit() </td>

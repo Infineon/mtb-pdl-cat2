@@ -1,12 +1,11 @@
 /***************************************************************************//**
 * \file cy_pdl.h
-* \version 1.20
 *
 * Include this file in all of your source files that access PDL.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

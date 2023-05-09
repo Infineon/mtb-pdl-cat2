@@ -837,6 +837,26 @@
     #include "cy8c4148azq_s455.h"
 #elif defined (CY8C4148AXQ_S455)
     #include "cy8c4148axq_s455.h"
+#elif defined (CY8C4128LQI_S446)
+    #include "cy8c4128lqi_s446.h"
+#elif defined (CY8C4128LQQ_S456)
+    #include "cy8c4128lqq_s456.h"
+#elif defined (CY8C4148LQI_S446)
+    #include "cy8c4148lqi_s446.h"
+#elif defined (CY8C4148LQQ_S456)
+    #include "cy8c4148lqq_s456.h"
+#elif defined (CY8C4546LQI_S476)
+    #include "cy8c4546lqi_s476.h"
+#elif defined (CY8C4546LQQ_S476)
+    #include "cy8c4546lqq_s476.h"
+#elif defined (CY8C4547LQI_S476)
+    #include "cy8c4547lqi_s476.h"
+#elif defined (CY8C4547LQQ_S476)
+    #include "cy8c4547lqq_s476.h"
+#elif defined (CY8C4548LQI_S486)
+    #include "cy8c4548lqi_s486.h"
+#elif defined (CY8C4548LQQ_S486)
+    #include "cy8c4548lqq_s486.h"
 #elif defined (CY8C4148AZI_S548)
     #include "cy8c4148azi_s548.h"
 #elif defined (CY8C4148AZI_S553)
@@ -1023,14 +1043,26 @@
     #include "cypd7191_40ldxs.h"
 #elif defined (CYPD7171_40LQXQ)
     #include "cypd7171_40lqxq.h"
+#elif defined (CYPD7199_40LDXS)
+    #include "cypd7199_40ldxs.h"
 #elif defined (WLC1115_68LQXQ)
     #include "wlc1115_68lqxq.h"
 #elif defined (WLC1150_68LQXQ)
     #include "wlc1150_68lqxq.h"
+#elif defined (WLC1250_68LQXQ)
+    #include "wlc1250_68lqxq.h"
 #elif defined (CYPD8225_97BZXIT)
     #include "cypd8225_97bzxit.h"
 #elif defined (CYPD8125_48LDXI)
     #include "cypd8125_48ldxi.h"
+#elif defined (CYPAS213_24SXQ)
+    #include "cypas213_24sxq.h"
+#elif defined (CYPAS211_32LQXQ)
+    #include "cypas211_32lqxq.h"
+#elif defined (CYPAS212_32LQXQ)
+    #include "cypas212_32lqxq.h"
+#elif defined (CYPAS213_32LQXQ)
+    #include "cypas213_32lqxq.h"
 #else
     #error Undefined part number
 #endif

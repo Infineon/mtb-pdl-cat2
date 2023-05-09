@@ -1,5 +1,14 @@
 var NAVTREEINDEX20 =
 {
+"structcy__stc__smartio__config__t.html#a17fde00f0b9310d48bae10ce0dc04b26":[2,15,2,2,0],
+"structcy__stc__smartio__config__t.html#a29a89d5dd32bf090e54092377a502af4":[2,15,2,2,5],
+"structcy__stc__smartio__config__t.html#a2c76c4ec1793ed007576f483769c827a":[2,15,2,2,3],
+"structcy__stc__smartio__config__t.html#a4b9c0b1f5a84c0e4e078235901cf982d":[2,15,2,2,1],
+"structcy__stc__smartio__config__t.html#a9281b4458eb13d8e8e0f57ff028b5d6c":[2,15,2,2,2],
+"structcy__stc__smartio__config__t.html#a9805a9178678494a50dd65e5d7c31720":[2,15,2,2,10],
+"structcy__stc__smartio__config__t.html#aa0f8f1f60e5713c1af42d01ace046f04":[2,15,2,2,12],
+"structcy__stc__smartio__config__t.html#ad23b677ee415afea23824a598b5df686":[2,15,2,2,11],
+"structcy__stc__smartio__config__t.html#ade033caffbe6370cfc610449e3f81cc6":[2,15,2,2,9],
 "structcy__stc__smartio__config__t.html#aef2b7f0a6046e13c757acbcef7c729f1":[2,15,2,2,4],
 "structcy__stc__smartio__config__t.html#aff8b45c5224d6ec6e2ff2af90caf7d70":[2,15,2,2,13],
 "structcy__stc__smartio__ducfg__t.html":[2,15,2,1],
@@ -240,14 +249,5 @@ var NAVTREEINDEX20 =
 "structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543":[2,25,0,2,19,97],
 "structcy__stc__usbpd__legacy__charging__state__t.html":[2,25,0,2,2],
 "structcy__stc__usbpd__legacy__charging__state__t.html#a26a1288ad9ddd2b94eacce309c3aa878":[2,25,0,2,2,2],
-"structcy__stc__usbpd__legacy__charging__state__t.html#a47a25d569dd05b5ed4fcf359d1de1889":[2,25,0,2,2,1],
-"structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15":[2,25,0,2,2,0],
-"structcy__stc__wdc__config__t.html":[2,26,2,0],
-"structcy__stc__wdc__config__t.html#a3680db8a264902f59c1dedb417fb8757":[2,26,2,0,2],
-"structcy__stc__wdc__config__t.html#a3adcfa561655a7aa9205152decd69943":[2,26,2,0,7],
-"structcy__stc__wdc__config__t.html#a3d9a4f7816720f66f0ed11712a154071":[2,26,2,0,1],
-"structcy__stc__wdc__config__t.html#a4295adb1b80215600272eda7dc4c3610":[2,26,2,0,8],
-"structcy__stc__wdc__config__t.html#a4364c39d0bfe506ad0d960b5e573835e":[2,26,2,0,4],
-"structcy__stc__wdc__config__t.html#a58932baa9bf9de2705e4b7e5f3402f3c":[2,26,2,0,9],
-"structcy__stc__wdc__config__t.html#ab600ed9f600ae5ff4e037f72d7f2770c":[2,26,2,0,0]
+"structcy__stc__usbpd__legacy__charging__state__t.html#a47a25d569dd05b5ed4fcf359d1de1889":[2,25,0,2,2,1]
 };

@@ -99,6 +99,10 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td rowspan="2">4.30 </td><td>Changed __STATIC_INLINE functions attribute to __STATIC_FORCEINLINE for the functions: <a class="el" href="group__group__scb__common__functions.html#ga5d9d1b3b7d230f5d7f7982640984ab9d">Cy_SCB_ReadRxFifo</a>, <a class="el" href="group__group__scb__common__functions.html#ga7a44b629d39c04a731574bc59c98708b">Cy_SCB_WriteTxFifo</a> </td><td>Improve compiler compatibility  </td></tr>
+<tr>
+<td>Fixed no zeroing of the buffer size of the secondary slave in the <a class="el" href="group__group__scb__ezi2c__general__functions.html#gaafe61aa4c2931975a8698afa46717b97">Cy_SCB_EZI2C_Init()</a> function. </td><td>Bug fix.   </td></tr>
+<tr>
 <td>4.20 </td><td>The <a class="el" href="group__group__scb__ezi2c__low__power__functions.html#ga5875cdcf148b37407ee8360b79580426">Cy_SCB_EZI2C_DeepSleepCallback</a>, <a class="el" href="group__group__scb__i2c__low__power__functions.html#gaf2044790a92ba63cb11616f2e80d3d1f">Cy_SCB_I2C_DeepSleepCallback</a>, <a class="el" href="group__group__scb__spi__low__power__functions.html#gabf413c42a9ba8a20c38f2491ae2e36c0">Cy_SCB_SPI_DeepSleepCallback</a>, and <a class="el" href="group__group__scb__uart__low__power__functions.html#gaa26ee4aa1c2ac9fb98daddbfe6e151aa">Cy_SCB_UART_DeepSleepCallback</a> parameter types are changed to match the <a class="el" href="structcy__stc__syspm__callback__t.html#afc2210e66cc5a0513e42761df9a2021a">cy_stc_syspm_callback_t::callback</a> type. </td><td>Eliminate compiler warnings  </td></tr>
 <tr>
 <td>4.10 </td><td>SPI: Fixed the issue when SPI Master and Slave interrupts are not enabled by the <a class="el" href="group__group__scb__spi__general__functions.html#gabe68169c810119b93e1164127663033c">Cy_SCB_SPI_Init()</a> function. </td><td>Bug fixes.  </td></tr>

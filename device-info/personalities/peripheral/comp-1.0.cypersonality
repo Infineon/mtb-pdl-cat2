@@ -84,11 +84,6 @@
     <ParamSignal port="vminus[0]" name="Vminus Input" group="Connections" visible="true" desc="Negative Comparator Input" canBeEmpty="false" />
     <ParamSignal port="dsi_ctb_cmp[0]" name="Output" group="Connections" visible="true" desc="Comparator Output" canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>

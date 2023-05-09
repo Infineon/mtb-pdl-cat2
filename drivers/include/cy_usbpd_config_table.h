@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.30
+* \version 2.40
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -48,6 +48,10 @@
 /**< Macro to extract the default VCONN_SWAP command response from the swap_response field
      in the configuration table. */
 
+/** Maximum number of alternate modes which alt modes manager could operates in the same time.
+     Setting this to larger values will increase RAM requirement for the projects. */
+#define CY_MAX_SUPP_ALT_MODES                              (4u)
+
 /**
  * @brief Struct to hold the Alt modes settings.
  */
@@ -65,6 +69,8 @@ typedef struct
                                         * 2) Second option is to have a single discover mode response and each of the response will be programmed one after the other.
                                         * The size of each response needs to be maintained separately.*/
     uint8_t reserved[2];              /**< Reserved for future use */
+    /* Here is a data with unknown length */
+    uint16_t supported_alt_mode[CY_MAX_SUPP_ALT_MODES];
 } cy_stc_pdaltmode_cfg_settings_t;
 
 /**
@@ -76,7 +82,7 @@ typedef struct
     uint8_t dfp_alt_mode_mask;       /**< Custom DFP SVID mask */
     uint8_t ufp_alt_mode_mask;       /**< Custom UFP SVID mask.Should be set to 0 as custom alt. modes are not supported in UFP role.*/
     uint8_t reserved[4];             /**< Reserved for future */
-} custom_alt_cfg_settings_t;
+} cy_stc_pdaltmode_custom_alt_cfg_settings_t;
 
 #if CY_USE_CONFIG_TABLE
 
@@ -213,7 +219,8 @@ typedef struct
     uint8_t threshold;      /**< SCP threshold: Excess current in percentage of maximum allowed current. */
     uint8_t debounce;       /**< SCP debounce duration in micro-seconds. This should ideally be set to 0. */
     uint8_t retryCount;      /**< Number of consecutive SCP events allowed before the port operation is suspended. */
-    uint8_t reserved[3];    /** < Reserved for future use */
+    uint8_t mode;           /** < SCP mode */
+    uint8_t reserved[2];    /** < Reserved for future use */
 } scp_settings_t;
 
 /**
@@ -518,7 +525,7 @@ typedef struct
 typedef struct 
 {
     /** Qi Main Configuration - 80 Bytes */
-    
+
     /** Profile - 12 Bytes */
 
     /** PTMC Defined by WPC for Infineon its 0x0067 */
@@ -541,7 +548,7 @@ typedef struct
     uint8_t eppEnable;
     /** Enable HiPP Mode */
     uint8_t hippEnable;
-    
+
     /** Enable Samsung Ppde */
     uint8_t samsungPpdeEnable;
     /** Enable PPP Mode */
@@ -962,6 +969,42 @@ typedef struct
                                  *   byte (size - 1).
                                  */
     uint8_t     reserved_0[8];   /** < Reserved for future use */
+    uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
+    uint16_t    port_1_config_offset; /** < Offset of the Port 1 Configuration table */
+    uint16_t    port_1_config_size; /** < Size of the Port 1 Configuration table */
+    uint16_t    user_area_offset; /** < Offset of the User Configuration area. */
+    uint16_t    user_area_size; /** < Size of the User Configuration area in bytes */
+    uint8_t    reserved_1[4];                   /**< Reserved area for future expansion. */
+} host_config_t;
+
+typedef struct
+{
+    uint16_t    table_sign;     /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;     /**< The table type indicates the type of solution.
+                                 *   0 => Auto
+                                 *   1 => WICG1
+                                 *   2 => Power
+                                 *   3 => Host
+                                 *   4 => DMC
+                                 */
+    uint8_t     application;    /**<  This field specifies the type of PD application supported:
+                                 *   A => Auto
+                                 *   B => WICG1
+                                 *   C => Power
+                                 *   D => Host
+                                 *   F => DMC
+                                 */
+    uint16_t    table_version;  /**< Table version: This contains 4 bit major version, 4 bit minor
+                                 *   version and 8 bit patch number.
+                                 */
+    uint16_t    table_size;     /**< Size of the configuration table. Checksum is calculated over
+                                 *   bytes 10 to size - 1.
+                                 */
+    uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
+                                 *   byte (size - 1).
+                                 */
+    uint8_t     reserved_0[8];   /** < Reserved for future use */
     uint16_t    wireless_config_offset; /** < Offset of the Wireless Configuration table */
     uint16_t    wireless_config_size; /** < Size of the Wireless Configuration table */
     uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
@@ -1003,9 +1046,27 @@ typedef struct
                                   * b1 -> TBT3 is supported by the host's connection manager.
                                   * b2 -> DP tunneling over USB4 supported
                                   * b3 -> PCIe tunneling over USB4 supported. */
-    uint8_t reserved;              /**< Reserved byte for future use. */
+    uint8_t non_tbt_mux;     /**< 1- Non-TB Mux used . */
 } tbthost_cfg_settings_t;
 
+/**
+ * @struct custom_host_cfg_settings_t
+ * @brief Struct to hold the Custom Alt mode settings.
+ */
+typedef struct
+{
+    uint32_t pwr_threshold;             /**< Minimal power to turn the FET ON if source provides at least this. */
+    uint8_t snk_path_enable;            /**< Sink path enable/disable */
+    uint8_t req_max_pwr;                /**< Option to request max current provided by the port partner instead of the current
+                                             * mentioned in the sink capabilities */
+    uint8_t ext_powered_prs;            /**< Option to accept PR_SWAP even if there is an external powered bit is set */
+    uint8_t pdo_sel_alg;                /**< Source PDO selection algorithm (Default, max Power, Voltage or Current ) */
+} custom_host_cfg_settings_t;
+
+/**
+ * @struct cy_stc_pdaltmode_dp_cfg_settings_t
+ * @brief Struct to hold Display port related config settings.
+ */
 typedef struct
 {
      uint8_t dp_config_supported;        /**< Byte 0xA0: Supported Pin configurations for DP modes
@@ -1073,6 +1134,10 @@ typedef struct
    uint16_t port_n_power_table_len;             /**< Size of the Port n Power configuration table */
    uint16_t port_n_bch_table_offset;            /**< Offset of the Battery charging configuration table */
    uint16_t port_n_bch_table_len;               /**< Size of the Battery charging configuration table */
+   uint16_t custom_host_config_table_offset;    /**< Offset of the Custom host configuration table */
+   uint16_t custom_host_config_table_len;       /**< Size of the Custom host configuration table in bytes */
+   uint16_t amd_config_table_offset;            /**< Offset of the AMD configuration table */
+   uint16_t amd_config_table_len;               /**< Size of the AMD configuration table in bytes */
    uint8_t reserved[4];                         /**< Reserved for future use */
 
 } pd_port_config_t;
@@ -1110,6 +1175,10 @@ typedef struct
     uint8_t reserved[9];            /**< Reserved for future */
 } app_config_t;
 
+/**
+ * @struct soc_cfg_settings_t
+ * @brief Struct to hold the ICL/TGL settings.
+ */
 typedef struct
 {
     uint8_t soc_i2c_address;              /**< Configuring I2C Slave address to Intel SoC */
@@ -1118,6 +1187,49 @@ typedef struct
     uint16_t soc_mux_config_delay;        /**< SoC MUX configuration delay. Time delay to be enforced between successive updates to the SoC MUX. */
     uint16_t tame_timeout_period;         /**< tAMEtimeout period in milliseconds.*/
 } soc_cfg_t;
+
+/**
+ * @struct soc_cfg_settings_t
+ * @brief Struct to hold the ICL/TGL settings.
+ */
+typedef struct
+{
+    uint8_t soc_i2c_address;              /**< Configuring I2C Slave address to Intel SoC */
+    uint8_t platform_selection;           /**< Intel SoC Platform Selection:
+                                                 * Unknown = 0
+                                                 * Ice Lake = 1
+                                                 * Tiger Lake = 2
+                                                 * Rocket Lake / Maple Ridge = 3
+                                                 * Meteor Lake = 4 */
+    uint16_t soc_mux_init_delay;          /**<SoC MUX Init Delay configuration. Time allowed for the MUX to get initialized before Vbus power is enabled. */
+    uint16_t soc_mux_config_delay;        /**< SoC MUX configuration delay. Time delay to be enforced between successive updates to the SoC MUX. */
+    uint16_t tame_timeout_period;         /**< tAMEtimeout period in milliseconds.*/
+    uint8_t retimer_i2c_address[2];       /**< Configuring I2C Master address to Retimer. Different addresses should be specified if two retimers are associated with a single PD port. */
+    uint8_t retimer_count;                /**< Number of retimers per PD port (max=2) */
+    uint8_t hpd_irq_ack_clear_method;     /**< Clear HPD_IRQ ACK method:
+                                                * 0 - Clear implicitly.  SoC will implicitly clear its own HPD_IRQ bit after it is set to 1 by the PD Controller.
+                                                * 1 - Clear explicitly. PD Controller will explicitly clear the HPD_IRQ bit back to 0 before setting it to 1 again. */
+    uint8_t reserved[4];                  /**< Reserved for future use */
+} intel_soc_cfg_settings_t;
+
+/**
+ * @struct amd_cfg_settings_t
+ * @brief Struct to hold the AMD APU related config settings.
+ */
+typedef struct
+{
+    uint8_t amd_platform_type;          /**< Type AMD APU used in the design. */
+    uint8_t amd_apu_mode;               /**< APU Polling or Interrupt based mode */
+    uint8_t amd_apu_address;            /**< Configuring I2C slave address */
+    uint8_t amd_apu_index;              /**< Configuring APU index which corresponds to slave address */
+    uint8_t retimer_type;               /**< Retimer IC type which used in design. */
+    uint8_t i2c_retimer_address;        /**< Configuring I2C Retimer address */
+    uint8_t usb4_captive;               /**< Indicates whether design supports USB4 handling */
+    uint8_t host_support;               /**< Protocol capabilities (TBT, DP, PCIe) of the host controller. */
+    uint8_t usb4_support;               /**< USB4 roles supported by the host design. */
+    uint8_t usb3_support;               /**< USB 3.2 roles supported by the host design. */
+    uint8_t reserved[2];                /**< Reserved for future */
+} amd_cfg_settings_t;
 
 typedef struct
 {
@@ -1248,6 +1360,14 @@ const auto_config_t * get_auto_config(cy_stc_usbpd_context_t *context);
  * application.
  */
 const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context);
+
+/**
+ * @brief This function gets the Host config table data.
+ * @return Returns a pointer to the config table info structure for various MPNs
+ * @warning The information provided by this API must not be altered by the
+ * application.
+ */
+const host_config_t * get_host_config(cy_stc_usbpd_context_t *context);
 
 /**
  * @brief This function gets the configuration information for the specified port.
@@ -1428,6 +1548,24 @@ const cy_stc_vin_cfg_t  * get_wireless_vin_config(const void *cfgPtr);
 
 const cy_stc_fault_protect_cfg_t * get_wireless_fault_config(const void *cfgPtr);
 #endif /* (defined(CY_DEVICE_SERIES_WLC1))*/
+
+cy_pd_pd_do_t* pd_get_ptr_disc_id(cy_stc_usbpd_context_t *context);
+
+cy_pd_pd_do_t* pd_get_ptr_disc_svid(cy_stc_usbpd_context_t *context);
+
+cy_pd_pd_do_t* pd_get_ptr_disc_mode(cy_stc_usbpd_context_t *context);
+
+cy_stc_pdaltmode_custom_alt_cfg_settings_t* pd_get_ptr_custom_alt_tbl(cy_stc_usbpd_context_t *context);
+
+custom_host_cfg_settings_t* pd_get_ptr_custom_host_tbl(cy_stc_usbpd_context_t *context);
+
+tbthost_cfg_settings_t* pd_get_ptr_tbt_host_tbl(cy_stc_usbpd_context_t *context);
+
+cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_config_tbl(cy_stc_usbpd_context_t *context);
+
+intel_soc_cfg_settings_t* pd_get_ptr_intel_soc_config_tbl(cy_stc_usbpd_context_t *context);
+
+amd_cfg_settings_t* pd_get_ptr_amd_config_tbl(cy_stc_usbpd_context_t *context);
 
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);

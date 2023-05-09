@@ -8,5 +8,6 @@ var group__group__usbpd =
     [ "Type C (USBPD)", "group__group__usbpd__typec.html", "group__group__usbpd__typec" ],
     [ "VBus Ctrl (USBPD)", "group__group__usbpd__vbus__ctrl.html", "group__group__usbpd__vbus__ctrl" ],
     [ "IDAC (USBPD)", "group__group__usbpd__idac__ctrl.html", "group__group__usbpd__idac__ctrl" ],
-    [ "Buck Boost (USBPD)", "group__group__usbpd__buck__boost.html", "group__group__usbpd__buck__boost" ]
+    [ "Buck Boost (USBPD)", "group__group__usbpd__buck__boost.html", "group__group__usbpd__buck__boost" ],
+    [ "LF Counter (USBPD)", "group__group__usbpd__lf__counter.html", "group__group__usbpd__lf__counter" ]
 ];

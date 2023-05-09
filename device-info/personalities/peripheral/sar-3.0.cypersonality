@@ -93,11 +93,6 @@
     <ParamBool id="is_variable_clock" name="Change Clock Frequency to Meet Scan Rate" group="Connections" default="false" visible="false" editable="true" desc="Allow personality to adjust source clock frequency in order to meet target scan rate" />
     <ParamSignal name="EOS Trigger Output" port="tr_sar_out[0]" group="Connections" visible="true" desc="Connection for the SAR End of Scan (EOS) trigger output" canBeEmpty="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
         </Parameter>
@@ -108,11 +103,6 @@
 	
     <ParamBool id="soc_en" name="SOC Enable" group="Connections" default="false" visible="true" editable="true" desc="Enable a start of conversion (SOC) input trigger signal" />
     <ParamSignal name="SOC Input" port="tr_sar_in[0]" group="Connections" visible="`${soc_en}`" desc="Connection for the start of conversion (SOC) input trigger signal" canBeEmpty="`${!soc_en}`" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -478,7 +468,7 @@
 
     <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
       <Member name="type" value="CYHAL_RSC_ADC" />
-      <Member name="block_num" value="0" />
+      <Member name="block_num" value="`${passInst}`" />
       <Member name="channel_num" value="0" />
     </ConfigStruct>
 

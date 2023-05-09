@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.3.0
+# mtb-pdl-cat2 peripheral driver library v2.4.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -8,12 +8,37 @@ for a complete description of the Peripheral driver library.
 
 ### New Features
 
-Updated the pin mapping configuration for the PSoC 4100S Max and PMG1S3 family.
+Support for new devices of the PSoC 4100S Plus 256KB device family:
+- CY8C4128LQI-S446
+- CY8C4128LQQ-S456
+- CY8C4148LQI-S446
+- CY8C4148LQQ-S456
+- CY8C4546LQI-S476
+- CY8C4546LQQ-S476
+- CY8C4547LQI-S476
+- CY8C4547LQQ-S476
+- CY8C4548LQI-S486
+- CY8C4548LQQ-S486
 
+Support for new devices of the CCG7S device series:
+- CYPD7199-40LDXS
+
+Support for new devices of the WLC1 device series:
+- WLC1250-68LQXQ
+
+### Updated personalities
+
+- CANFD-1.0, COMP-1.0, COUNTER-1.0, EZI2C-1.0, I2C-1.0, I2S-1.0, LPCOMP-1.0, 
+  MXEZI2C-1.0, MXI2C-1.0, MXSPI-1.0, MXUART-1.0, PWM-1.0, QUADDEC-1.0,
+  SAR-3.0, SPI-1.0, UART-1.0 - removed obsolete code.
+
+- MXUART-1.0 - CTS Polarity and RTS Polarity depend on the parameter "Enable Flow Control".
 
 ### Updated drivers
 
-- [USBFS 2.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbfs__dev__drv.html)
+- [USBPD (USB Power Delivery) 2.40](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [SCB (Serial Communication Block) 4.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+- [CAN FD 1.10.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
 
 ## Defect fixes
 
@@ -27,7 +52,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.0.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.3.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.1.0       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.2.0       |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  | 10.3.1       |
 | IAR compiler                                                                  |  9.30.1      |

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.20
+* \version 4.30
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -58,6 +58,20 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*     <tr>
+*       <td rowspan="2">4.30</td>
+*       <td>Changed __STATIC_INLINE functions attribute to __STATIC_FORCEINLINE
+*                for the functions:
+*                \ref Cy_SCB_ReadRxFifo, 
+*                \ref Cy_SCB_WriteTxFifo</td>
+*       <td>Improve compiler compatibility</td>
+*     </tr>
+*     <tr>
+*       <td>Fixed no zeroing of the buffer size of the secondary slave in the 
+*                \ref Cy_SCB_EZI2C_Init() function.</td>
+*       <td>Bug fix.</td>
+*     </tr>
+*   </tr>
 *   <tr>
 *     <td>4.20</td>
 *     <td>The \ref Cy_SCB_EZI2C_DeepSleepCallback,
@@ -274,13 +288,13 @@ extern "C" {
 * \addtogroup group_scb_common_functions
 * \{
 */
-__STATIC_INLINE uint32_t Cy_SCB_ReadRxFifo    (CySCB_Type const *base);
+__STATIC_FORCEINLINE uint32_t Cy_SCB_ReadRxFifo    (CySCB_Type const *base);
 __STATIC_INLINE void     Cy_SCB_SetRxFifoLevel(CySCB_Type *base, uint32_t level);
 __STATIC_INLINE uint32_t Cy_SCB_GetNumInRxFifo(CySCB_Type const *base);
 __STATIC_INLINE uint32_t Cy_SCB_GetRxSrValid  (CySCB_Type const *base);
 __STATIC_INLINE void     Cy_SCB_ClearRxFifo   (CySCB_Type *base);
 
-__STATIC_INLINE void     Cy_SCB_WriteTxFifo   (CySCB_Type *base, uint32_t data);
+__STATIC_FORCEINLINE void     Cy_SCB_WriteTxFifo   (CySCB_Type *base, uint32_t data);
 __STATIC_INLINE void     Cy_SCB_SetTxFifoLevel(CySCB_Type *base, uint32_t level);
 __STATIC_INLINE uint32_t Cy_SCB_GetNumInTxFifo(CySCB_Type const *base);
 __STATIC_INLINE uint32_t Cy_SCB_GetTxSrValid  (CySCB_Type const *base);
@@ -815,7 +829,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 * Data from RX FIFO.
 *
 *******************************************************************************/
-__STATIC_INLINE uint32_t Cy_SCB_ReadRxFifo(CySCB_Type const *base)
+__STATIC_FORCEINLINE uint32_t Cy_SCB_ReadRxFifo(CySCB_Type const *base)
 {
     return (SCB_RX_FIFO_RD(base));
 }
@@ -918,7 +932,7 @@ __STATIC_INLINE void Cy_SCB_ClearRxFifo(CySCB_Type* base)
 * Data to write to the TX FIFO.
 *
 *******************************************************************************/
-__STATIC_INLINE void Cy_SCB_WriteTxFifo(CySCB_Type* base, uint32_t data)
+__STATIC_FORCEINLINE void Cy_SCB_WriteTxFifo(CySCB_Type* base, uint32_t data)
 {
     SCB_TX_FIFO_WR(base) = data;
 }

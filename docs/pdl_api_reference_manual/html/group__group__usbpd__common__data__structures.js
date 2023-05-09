@@ -559,7 +559,7 @@ var group__group__usbpd__common__data__structures =
     ] ],
     [ "ACT_CBL_VDO_2", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html", [
       [ "usbGen", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a67004114d17d2424f24050b39ec296c7", null ],
-      [ "rsvd0", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#aba385b5c907fc77b57c39b4eacbcc7fb", null ],
+      [ "usb4AsymSupp", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a00509721e34fabd5d3e5f92db0727e39", null ],
       [ "optIsolated", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a64b0c8e20a46778a34d4b233f8ca41b2", null ],
       [ "ssLanes", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a5c35aad43fd277bb32bf41cd7b287cd0", null ],
       [ "ssSupp", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a35fd2fdc5524f5b5b7b77394a11edb7c", null ],
@@ -584,7 +584,7 @@ var group__group__usbpd__common__data__structures =
       [ "maxVbusVolt", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#a1493e730fd612a740a3a0972b2f08865", null ],
       [ "cblTerm", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#a2e0a369c2b4c92cedbda865b0723b2b0", null ],
       [ "cblLatency", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#a5600b03f1381d1e9213f4b08ec24da13", null ],
-      [ "rsvd1", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#ac55f76e246ca9d0b4c52936c5b3819b8", null ],
+      [ "eprModeCapable", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#a13ba0c9b07b3ccd6fae4274f47b19328", null ],
       [ "typecAbc", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#a5dfa07d572a9375b9783c19cf75e1491", null ],
       [ "rsvd2", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#ae72c1911f0adafc710d5b465fad21cbb", null ],
       [ "vdoVersion", "structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__1.html#aff913c8d7223fda7c94afddf142e56e8", null ],
@@ -682,7 +682,7 @@ var group__group__usbpd__common__data__structures =
       [ "rsvd1", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a792e755bbef04dd3a8e4a64ce5692f3d", null ],
       [ "cmdType", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a4d91e0117bc5eaee4b11ef4a96ebce2f", null ],
       [ "objPos", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#afae109f24649aa78b7394a528bc813f4", null ],
-      [ "rsvd2", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a4cdab6c84a1a1190b77427241d1c9586", null ],
+      [ "stMinVer", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#ae97af895527a646110b295017bb058fe", null ],
       [ "stVer", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a3b6d07475ac372f71a40683e51ba8a64", null ],
       [ "vdmType", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a22d92f9ebfcadd828f99962cdf2ad37d", null ],
       [ "svid", "structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___h_d_r.html#a2c1be3a7aed8b2365658e0191245da05", null ]
