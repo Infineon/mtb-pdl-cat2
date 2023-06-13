@@ -80,7 +80,11 @@
             visible="false" editable="false" desc="This parameter specifies if CSD is CAPSENSE™ capable" />
 
     <!-- Inputs -->
-    <ParamSignal port="clock[0]" name="Clock" group="Inputs" visible="true" desc="Peripheral clock divider" canBeEmpty="false" />
+    <ParamSignal port="clock[0]" name="Clock" group="Inputs" visible="true"
+                 desc="Peripheral clock divider. CAPSENSE middleware changes its value in run-time.
+                       Consider that while sharing the same Peripheral Clock between CAPSENSE and
+                       other peripherals like TCPWM, SCB, etc."
+                 canBeEmpty="false" />
 
     <!-- VDDA Voltage query -->
     <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="System" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`"

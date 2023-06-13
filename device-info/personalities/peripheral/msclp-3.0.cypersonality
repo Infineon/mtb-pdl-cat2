@@ -26,7 +26,7 @@
 * limitations under the License.
 *****************************************************************************-->
 
-<Personality id="m0s8mscv3lp" name="MSCLP" version="2.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+<Personality id="m0s8mscv3lp" name="MSCLP" version="3.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
 
   <Dependencies>
     <IpBlock name="m0s8mscv3lp" />
@@ -78,6 +78,36 @@
     <!-- CapSense -->
     <ParamBool id="CapSenseEnable" name="Enable CapSense" group="CapSense" default="true"
                visible="false" editable="false" desc="Enables CapSense function of sensing hardware block" />
+
+    <!-- External Frame Start Signal Pin Assignment -->
+    <ParamBool id="extFrmStartEn" name="External Frame Start Sync Enable" group="System" default="false"
+               visible="`${debug}`" editable="true" desc="Enables external frame start synchronization" />
+
+    <ParamSignal port="ext_frm_start[0]" name="External Frame Start Signal" group="System" visible="`${extFrmStartEn}`"
+                 desc="Choose a signal for an external frame start" canBeEmpty="`${!extFrmStartEn}`" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${extFrmStartEn}`" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamString id="ExtFrmStartBlock" name="ExtFrmStartBlock" group="System"
+      default="`${extFrmStartEn ? getBlockFromSignal(&quot;ext_frm_start[0]&quot;) : &quot;&quot;}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamBool id="ExtFrmStartSigIsUsed" name="ExtFrmStartSigIsUsed" group="System"
+      default="`${extFrmStartEn &amp;&amp; isBlockUsed(ExtFrmStartBlock)}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="ExtFrmStartSigPortNum" name="ExtFrmStartSigPortNum" group="System"
+      default="`${ExtFrmStartSigIsUsed ? getInstFromLocation(getParamValue(&quot;ExtFrmStartBlock&quot;), &quot;port&quot;) : &quot;0&quot;}`"
+      min="0" max="15" resolution="1" visible="`${debug &amp;&amp; ExtFrmStartSigIsUsed}`" editable="false" desc="" />
+
+      <ParamRange id="ExtFrmStartSigPinNum" name="ExtFrmStartSigPinNum" group="System"
+      default="`${getInstFromLocation(getParamValue(&quot;ExtFrmStartBlock&quot;), &quot;pin&quot;)}`"
+      min="0" max="7" resolution="1" visible="`${debug &amp;&amp; ExtFrmStartSigIsUsed}`" editable="false" desc="" />
 
     <!-- Sensor Assignment -->
     <ParamString id="SensePadNr" name="SNS_PAD_NUMBER" group="CapSense"
@@ -188,6 +218,20 @@
     <ConfigInclude value="cy_msclp.h" include="true" />
 
     <!-- Defines -->
+    <!-- External Frame Start Signal Connection -->
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PORT"
+                  value="GPIO_PRT`${ExtFrmStartSigPortNum}`"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PIN"
+                  value="`${ExtFrmStartSigPinNum}`u"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PORT_NUM"
+                  value="`${ExtFrmStartSigPortNum}`u"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+
     <!-- Cmod Connections -->
     <ConfigDefine name="`${CapacitorNameInt$idx}`_PORT"
                   value="GPIO_PRT`${CmodPortNum$idx}`"

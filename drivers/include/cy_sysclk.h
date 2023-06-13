@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.0
+* \version 3.10
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -68,6 +68,15 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">3.10</td>
+*     <td>The documentation of the ILO compensation algorithm is more detailed.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td> \ref Cy_SysClk_IloCompensate() API function implementation is updated.</td>
+*     <td>Corner case bug fixing.</td>
+*   </tr>
 *   <tr>
 *     <td>3.0</td>
 *     <td>Removed the legacy deprecated interfaces.</td>
@@ -471,7 +480,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   3
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   0
+#define  CY_SYSCLK_DRV_VERSION_MINOR   10
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 

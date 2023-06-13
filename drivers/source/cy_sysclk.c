@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.0
+* \version 3.10
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -438,7 +438,8 @@ static bool preventIloMeasurment = false;
 * Function Name: Cy_SysClk_IloStartMeasurement
 ***************************************************************************//**
 *
-* \brief Starts the ILO accuracy measurement.
+* \brief 
+* Prepares the DFT hardware to perform the ILO accuracy measurement.
 *
 * This function is non-blocking and needs to be called before using the
 * \ref Cy_SysClk_IloCompensate() function.
@@ -480,7 +481,7 @@ void Cy_SysClk_IloStartMeasurement(void)
 * Function Name: Cy_SysClk_IloStopMeasurement
 ***************************************************************************//**
 * \brief
-* Stops the ILO accuracy measurement.
+* Cleans the DFT hardware registers, returning it to the default state.
 *
 * Calling this function immediately stops the the ILO frequency measurement.
 * Call this function before placing the device to deepsleep, if
@@ -519,7 +520,6 @@ void Cy_SysClk_IloStopMeasurement(void)
 * srsslite. The oversample can be obtained when ilo frequency in equal 80 KHz and
 * desired clocks are 80 000 clocks.
 **********************************************************************************/
-#define MAX_LITE_NUMBER                  (53600UL)
 
 /******************************************************************************
 * Function Name: Cy_SysClk_IloCompensate
@@ -534,6 +534,11 @@ void Cy_SysClk_IloStopMeasurement(void)
 * The compensated ILO cycles can then be used to define the WDT period value,
 * effectively compensating for the ILO inaccuracy and allowing a more
 * accurate WDT interrupt generation.
+* This function starts timers, and if they are already running, their status 
+* is checked. If the timer has reached 0, then it is considered that it has 
+* already measured and calculated, how many cycles are 
+* needed for DesiredDelay and returns "success".
+* The Cy_SysClk_IloCompensate function execution time is always ~ 1ms. 
 *
 * \ref Cy_SysClk_IloStartMeasurement() function should be called prior to calling this function.
 *
@@ -615,7 +620,7 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
                     /* Calculate required number of ILO cycles for given delay */
                     desiredDelayInCounts = CY_SYSLIB_DIV_ROUND(desiredDelay * COEF_PHUNDRED, ILO_PERIOD_PPH);
 
-                    if(MAX_LITE_NUMBER < desiredDelayInCounts)
+                    if ((SRSSLT_TST_TRIM_CNTR2 * desiredDelayInCounts) > (0xFFFFFFFFu >> SYS_CLK_DIVIDER))
                     {
                         iloCompensatedCycles = (((SRSSLT_TST_TRIM_CNTR2 * SystemCoreClock) /
                             (SystemCoreClock >> SYS_CLK_DIVIDER)) / ILO_FREQ_2MSB) * (desiredDelayInCounts / ILO_FREQ_3LSB);

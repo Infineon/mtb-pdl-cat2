@@ -62,7 +62,10 @@
       <Parameter param="portLevelConfig" value="`${value(&quot;portLevelConfig&quot;,&quot;false&quot;)}`" />
     </Destination>
   </Source>
-  <Source id="m0s8msclp-1.0">
-    <Destination id="m0s8msclp-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  <Source id="m0s8mscv3lp-1.0">
+    <Destination id="m0s8mscv3lp-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8mscv3lp-2.0">
+    <Destination id="m0s8mscv3lp-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
   </Source>
 </Migration>

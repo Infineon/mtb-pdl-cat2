@@ -2397,7 +2397,7 @@ Note: The upper value on VOH is limited to Vddio - 400mV</description>
           </register>
           <register>
             <name>MSC_ANA</name>
-            <description>Port MSCv3 AMUX enable</description>
+            <description>Port MSCLP AMUX enable</description>
             <addressOffset>0x24</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -8531,7 +8531,7 @@ Note if PLFSR_FL_PRESENT = 0, then polynomial is hardwired to 0x8E and not progr
               <name>FILT</name>
               <description>MSC comparator filter frequency select (corner frequencies - 90 percent settling).
 
-Firmware Guideline: Recommend 290MHz when clk_mod = 48MHz, 115/64 Mhz if clk_mod = 24MHz and 46MHz for any lower clk_mod frequency.</description>
+Firmware Guideline: Recommend 290MHz when clk_mod = 46MHz, 115/64 Mhz if clk_mod = 25MHz and 46MHz for any lower clk_mod frequency.</description>
               <bitRange>[9:8]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -9141,8 +9141,8 @@ Firmware Rule: If FILTER_CTL.BIT_FORMAT = SIGNED, the Channel Engine cannot be u
               <access>read-write</access>
               <enumeratedValues>
                 <enumeratedValue>
-                  <name>24_MHZ</name>
-                  <description>IMO runs at 24 MHz</description>
+                  <name>25_MHZ</name>
+                  <description>IMO runs at 25 MHz</description>
                   <value>0</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -9156,8 +9156,8 @@ Firmware Rule: If FILTER_CTL.BIT_FORMAT = SIGNED, the Channel Engine cannot be u
                   <value>2</value>
                 </enumeratedValue>
                 <enumeratedValue>
-                  <name>36_MHZ</name>
-                  <description>IMO runs at 36 MHz</description>
+                  <name>38_MHZ</name>
+                  <description>IMO runs at 38 MHz</description>
                   <value>3</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -9171,8 +9171,8 @@ Firmware Rule: If FILTER_CTL.BIT_FORMAT = SIGNED, the Channel Engine cannot be u
                   <value>5</value>
                 </enumeratedValue>
                 <enumeratedValue>
-                  <name>48_MHZ</name>
-                  <description>IMO runs at 48 MHz</description>
+                  <name>46_MHZ</name>
+                  <description>IMO runs at 46 MHz</description>
                   <value>6</value>
                 </enumeratedValue>
               </enumeratedValues>
@@ -12857,7 +12857,7 @@ Hardware Overriding: See CMOD_SEL and INIT_MODE for INIT_CMOD phase half-wave in
               </field>
               <field>
                 <name>SPCS1</name>
-                <description>Shield Minus Terminal to CMOD1 Sense Switch</description>
+                <description>Shield Positive Terminal to CMOD1 Sense Switch</description>
                 <bitRange>[12:12]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -12875,7 +12875,7 @@ Hardware Overriding: See CMOD_SEL and INIT_MODE for INIT_CMOD phase half-wave in
               </field>
               <field>
                 <name>SPCS3</name>
-                <description>Shield Minus Terminal to CMOD3 Sense Switch</description>
+                <description>Shield Positive Terminal to CMOD3 Sense Switch</description>
                 <bitRange>[14:14]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>

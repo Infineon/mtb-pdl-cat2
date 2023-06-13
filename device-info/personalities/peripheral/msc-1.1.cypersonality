@@ -60,7 +60,11 @@
                desc="Prevents pins connected to this personality to generate configuration code" />
 
     <!-- Inputs -->
-    <ParamSignal port="clock_msc[0]" name="Clock Signal" group="Inputs" visible="true" desc="Peripheral clock divider" canBeEmpty="false" />
+    <ParamSignal port="clock_msc[0]" name="Clock Signal" group="Inputs" visible="true"
+                 desc="Peripheral clock divider. CAPSENSE middleware changes its value in run-time.
+                       Consider that while sharing the same Peripheral Clock between CAPSENSE and
+                       other peripherals like TCPWM, SCB, etc."
+                 canBeEmpty="false" />
 
     <!-- VDDA Voltage query -->
     <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="System"

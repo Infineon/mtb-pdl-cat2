@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_msclp.h
-* \version 1.0
+* \version 2.0
 *
 * The header file of the MSCLP driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -349,6 +349,14 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.0</td>
+*     <td>Changed name of defines:
+*         CY_MSCLP_IMO_24_MHZ -> \ref CY_MSCLP_IMO_25_MHZ,
+*         CY_MSCLP_IMO_36_MHZ -> \ref CY_MSCLP_IMO_38_MHZ,
+*         CY_MSCLP_IMO_48_MHZ -> \ref CY_MSCLP_IMO_46_MHZ</td>
+*     <td>Names consistency with HW frequency.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>The initial version</td>
 *     <td></td>
@@ -378,7 +386,7 @@ extern "C" {
 */
 
 /** Driver major version */
-#define CY_MSCLP_DRV_VERSION_MAJOR            (1)
+#define CY_MSCLP_DRV_VERSION_MAJOR            (2)
 
 /** Driver minor version */
 #define CY_MSCLP_DRV_VERSION_MINOR            (0)
@@ -397,9 +405,9 @@ extern "C" {
 #define CY_MSCLP_CONTEXT_INIT_VALUE           {.lockKey = CY_MSCLP_NONE_KEY}
 
 /** MRSS IMO frequencies, to be used for \ref cy_stc_msclp_mrss_config_t::imoFreq */
-#define CY_MSCLP_IMO_24_MHZ                   (0u) /**< IMO frequency 24 MHz */
-#define CY_MSCLP_IMO_36_MHZ                   (3u) /**< IMO frequency 36 MHz */
-#define CY_MSCLP_IMO_48_MHZ                   (6u) /**< IMO frequency 48 MHz */
+#define CY_MSCLP_IMO_25_MHZ                   (0u) /**< IMO frequency 25 MHz */
+#define CY_MSCLP_IMO_38_MHZ                   (3u) /**< IMO frequency 38 MHz */
+#define CY_MSCLP_IMO_46_MHZ                   (6u) /**< IMO frequency 46 MHz */
 
 /** MRSS IMO_CTL.CLOCK_SYNC_DIV values, to be used for \ref cy_stc_msclp_mrss_config_t::syncDiv */
 #define CY_MSCLP_SYNC_DIV_1                   (0u) /**< Dividing by 1 */
@@ -596,7 +604,7 @@ typedef struct
 */
 typedef struct
 {
-    uint8_t imoFreq;  /**< The clk_imo_msc frequency, \ref CY_MSCLP_IMO_24_MHZ, \ref CY_MSCLP_IMO_36_MHZ or \ref CY_MSCLP_IMO_48_MHZ */
+    uint8_t imoFreq;  /**< The clk_imo_msc frequency, \ref CY_MSCLP_IMO_25_MHZ, \ref CY_MSCLP_IMO_38_MHZ or \ref CY_MSCLP_IMO_46_MHZ */
     uint8_t syncDiv;  /**< Clock division for clk_imo_msc to clk_sync, \ref CY_MSCLP_SYNC_DIV_1...\ref CY_MSCLP_SYNC_DIV_8 */
     uint16_t mscDiv;  /**< The clk_msc divider, i.e. the ratio between clk_imo_msc and clk_msc. Valid range: 1...1024 */
     uint16_t vdda;    /**< System VDDA value in millivolts */

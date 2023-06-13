@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_msclp.c
-* \version 1.0
+* \version 2.0
 *
 * The source file of the MSCLP driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -363,19 +363,19 @@ cy_en_msclp_status_t Cy_MSCLP_Configure(
 
         switch (config->imoCtl & MSCLP_IMO_CTL_FREQ_Msk)
         {
-            case CY_MSCLP_IMO_24_MHZ:
-                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_24_MHZ;
-                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_24_MHZ;
+            case CY_MSCLP_IMO_25_MHZ:
+                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_25_MHZ;
+                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_25_MHZ;
                 break;
 
-            case CY_MSCLP_IMO_36_MHZ:
-                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_36_MHZ;
-                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_36_MHZ;
+            case CY_MSCLP_IMO_38_MHZ:
+                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_38_MHZ;
+                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_38_MHZ;
                 break;
 
-            case CY_MSCLP_IMO_48_MHZ:
-                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_48_MHZ;
-                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_48_MHZ;
+            case CY_MSCLP_IMO_46_MHZ:
+                base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_46_MHZ;
+                base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_46_MHZ;
                 break;
 
             default:
@@ -445,19 +445,19 @@ cy_en_msclp_status_t Cy_MSCLP_MrssStart(MSCLP_Type * base,
         {
             switch (mrssCfg->imoFreq)
             {
-                case CY_MSCLP_IMO_24_MHZ:
-                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_24_MHZ;
-                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_24_MHZ;
+                case CY_MSCLP_IMO_25_MHZ:
+                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_25_MHZ;
+                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_25_MHZ;
                     break;
 
-                case CY_MSCLP_IMO_36_MHZ:
-                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_36_MHZ;
-                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_36_MHZ;
+                case CY_MSCLP_IMO_38_MHZ:
+                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_38_MHZ;
+                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_38_MHZ;
                     break;
 
-                case CY_MSCLP_IMO_48_MHZ:
-                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_48_MHZ;
-                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_48_MHZ;
+                case CY_MSCLP_IMO_46_MHZ:
+                    base->CLK_IMO_TRIM1 = SFLASH_MSCLP0_CLK_IMO_TRIM1_46_MHZ;
+                    base->CLK_IMO_TRIM3 = SFLASH_MSCLP0_CLK_IMO_TRIM3_46_MHZ;
                     break;
 
                 default:

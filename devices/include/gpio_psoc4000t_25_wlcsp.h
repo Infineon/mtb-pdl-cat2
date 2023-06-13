@@ -59,7 +59,7 @@ typedef enum
 } cy_en_amux_split_t;
 
 /* Port List */
-/* PORT 0 (MSCV3) */
+/* PORT 0 (GPIO) */
 #define P0_0_PORT                       GPIO_PRT0
 #define P0_0_PIN                        0u
 #define P0_0_NUM                        0u
@@ -85,13 +85,13 @@ typedef enum
 #define P0_5_NUM                        5u
 #define P0_5_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 
-/* PORT 1 (MSCV3) */
+/* PORT 1 (GPIO) */
 #define P1_0_PORT                       GPIO_PRT1
 #define P1_0_PIN                        0u
 #define P1_0_NUM                        0u
 #define P1_0_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 
-/* PORT 2 (MSCV3) */
+/* PORT 2 (GPIO) */
 #define P2_0_PORT                       GPIO_PRT2
 #define P2_0_PIN                        0u
 #define P2_0_NUM                        0u
@@ -117,7 +117,7 @@ typedef enum
 #define P2_5_NUM                        5u
 #define P2_5_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 
-/* PORT 3 (MSCV3) */
+/* PORT 3 (GPIO) */
 #define P3_0_PORT                       GPIO_PRT3
 #define P3_0_PIN                        0u
 #define P3_0_NUM                        0u
@@ -135,7 +135,7 @@ typedef enum
 #define P3_3_NUM                        3u
 #define P3_3_AMUXSEGMENT                AMUXBUS_AMUXBUS_A
 
-/* PORT 4 (MSCV3) */
+/* PORT 4 (GPIO) */
 #define P4_0_PORT                       GPIO_PRT4
 #define P4_0_PIN                        0u
 #define P4_0_NUM                        0u
