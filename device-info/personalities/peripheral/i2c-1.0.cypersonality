@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -63,11 +63,11 @@
     <ParamBool id="ManualDataRateCtrl" name="Manual Data Rate Control" group="General" default="false" visible="`${Master}`" editable="true" desc="This parameter enables the user to configure data rate related parameters for the master modes." />
     <ParamBool id="ManualDataRate" name="ManualDataRate" group="Internal" default="`${Master &amp;&amp; ManualDataRateCtrl}`" visible="false" editable="false" desc="This parameter enables the user to configure data rate related parameters for the master modes." />
 
-    <ParamBool id="ManualDigitalFilter" name="Enable Digital Filter" group="Manual DataRate Control" default="true" visible="`${ManualDataRate}`" editable="true" desc="This parameter enables digital (3-tap median) filter on I2C input lines. An analog filter is disabled when digital filter is enabled and vice versa." />
-    <ParamRange id="ManualLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Manual DataRate Control" default="16" min="1" max="16" resolution="1" visible="`${ManualDataRate}`" editable="true" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes)." />
-    <ParamRange id="ManualHighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Manual DataRate Control" default="9" min="1" max="16" resolution="1" visible="`${ManualDataRate}`" editable="true" desc="This parameter defines how many SCB clocks are used to generate the SCL high phase (only applicable for the master modes)." />
+    <ParamBool id="ManualDigitalFilter" name="Enable Digital Filter" group="Manual DataRate Control" default="true" visible="`${ManualDataRate}`" editable="true" desc="This parameter enables the digital (3-tap median) filter on the I2C input lines. An analog filter is disabled when the digital filter is enabled and vice versa." />
+    <ParamRange id="ManualLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Manual DataRate Control" default="16" min="1" max="16" resolution="1" visible="`${ManualDataRate}`" editable="true" desc="This parameter defines how many SCB clocks are used to generate an SCL low phase (applicable only for Master modes)." />
+    <ParamRange id="ManualHighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Manual DataRate Control" default="9" min="1" max="16" resolution="1" visible="`${ManualDataRate}`" editable="true" desc="This parameter defines how many SCB clocks are used to generate an SCL high phase (applicable only for Master modes)." />
 
-    <ParamRange id="DataRate" name="Data Rate (kbps)" group="General" default="100" min="1" max="1000" resolution="1" visible="`${!ManualDataRate}`" editable="true" desc="Data rate that I2C operates. Maximum data rate is 1000 kbps." />
+    <ParamRange id="DataRate" name="Data Rate (kbps)" group="General" default="100" min="1" max="1000" resolution="1" visible="`${!ManualDataRate}`" editable="true" desc="Operates I2C data rate. The maximum data rate is 1000 kbps." />
 
     <ParamBool id="EnableTxFifo" name="Use TX FIFO" group="General" default="true" visible="true" editable="true" desc="This parameter defines if the TX FIFO capabilities are used. Usage of the TX FIFO reduces the possibility of clock stretching and interrupt overhead." />
 
@@ -133,12 +133,12 @@
     <!--  I2C Master Duty Cycle constrains -->
     <ParamString id="i2c_solver" name="i2c_solver" group="Internal" default="`${runTcl(&quot;i2c_solver-1.0.tcl&quot;, Master ? &quot;Master&quot; : &quot;Slave&quot;, DataRate * 1000, scbClkHz)}`" visible="false" editable="false" desc="I2C master data rate configurator." />
     <ParamBool id="AutoDigitalFilter" name="Digital Filter" group="Internal" default="`${getTclVar(&quot;digitalFilter&quot;, i2c_solver)}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) filter. An analog filter is disabled when digital filter is enabled. It is calculated by i2c_solver." />
-    <ParamRange id="AutoLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;lowOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes). It is calculated by i2c_solver." />
-    <ParamRange id="AutoHighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;highOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL high phase (only applicable for the master modes). It is calculated by i2c_solver." />
+    <ParamRange id="AutoLowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;lowOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate an SCL low phase (applicable only for Master modes). It is calculated by i2c_solver." />
+    <ParamRange id="AutoHighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${getTclVar(&quot;highOversample&quot;, i2c_solver)}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate an SCL high phase (applicable only for Master modes). It is calculated by i2c_solver." />
 
     <ParamBool id="DigitalFilter" name="Digital Filter" group="Internal" default="`${ManualDataRate ? ManualDigitalFilter : AutoDigitalFilter}`" visible="false" editable="false" desc="This parameter specifies to enable digital (3-tap median) filter. An analog filter is disabled when digital filter is enabled." />
-    <ParamRange id="LowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualLowPhaseDutyCycle : AutoLowPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL low phase (only applicable for the master modes)." />
-    <ParamRange id="HighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualHighPhaseDutyCycle : AutoHighPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate the SCL high phase (only applicable for the master modes)." />
+    <ParamRange id="LowPhaseDutyCycle" name="SCL Low Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualLowPhaseDutyCycle : AutoLowPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate an SCL low phase (applicable only for Master modes)." />
+    <ParamRange id="HighPhaseDutyCycle" name="SCL High Phase (SCB Clocks)" group="Internal" default="`${ManualDataRate ? ManualHighPhaseDutyCycle : AutoHighPhaseDutyCycle}`" min="0" max="16" resolution="1" visible="false" editable="false" desc="This parameter defines how many SCB clocks are used to generate an SCL high phase (applicable only for Master modes)." />
 
     <!-- Actual Data Rate -->
     <ParamRange id="actualDataRate" name="Actual Data Rate (kbps)" group="Actual Data Rate" default="`${Master ? (scbClkHz / ((LowPhaseDutyCycle + HighPhaseDutyCycle) * 1000)) : (((DataRate &lt; 100) || (DataRate eq 100)) ? 100 : ((DataRate &gt; 100) &amp;&amp; (DataRate &lt; 400) || (DataRate eq 400)) ? 400 : 1000)}`" min="0" max="10000" resolution="1" visible="true" editable="false" desc="The actual data rate displays the data rate at which the I2C operates with current settings. For the master modes actual data rate does not take into account the I2C bus characteristics and may differ from the observed on the bus. If this is the case enable Manual Data Rate Control to configure/adjust data rate related parameters. Refer to the section I2C sub-section Oversampling and Bit Rate in the selected device TRM for more information." />
@@ -162,6 +162,9 @@
     <!--SlaveAddressMask DRCs-->
     <DRC type="ERROR" paramId="SlaveAddressMask" text="The I2C slave address mask must be even." condition="`${(SlaveAddressMask % 2) ne 0}`" />
     <DRC type="ERROR" paramId="clock[0]" text="The actual data rate `${actualDataRate}` kbps is greater than desired `${DataRate}` kbps. Increase clock divider to produce lower clock frequency or adjust desired Data Rate." condition="`${Master ? (!ManualDataRate &amp;&amp; (actualDataRate &gt; DataRate) ) : false}`" />
+
+    <!--High/Low phase oversampling factor DRCs-->
+    <DRC type="INFO" condition="`${ModeUser ne CY_SCB_I2C_SLAVE}`" text="Note a possible shift of the actual data rate on the I2C bus. The high phase of the SCL will be extended by: an output wire delay from SCB to I/O pin, an I2C bus tR delay, and an input wire delay (filters and synchronization). This can be avoided by: decreasing the pull-up resistor or decreasing the bus capacitance to reduce tR; reducing the 'SCL High Phase (SCB Clocks)' value." />
   </DRCs>
 
   <ConfigFirmware>

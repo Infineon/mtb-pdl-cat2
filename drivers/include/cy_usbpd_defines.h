@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.40
+* \version 2.50
 *
 * Provides Common Header File of the USBPD specification related structures.
 *

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_spi.c
-* \version 4.30
+* \version 4.40
 *
 * Provides SPI API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -165,6 +165,7 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Init(CySCB_Type *base, cy_stc_scb_spi_config_t
             context->rxBufIdx  = 0UL;
 
             context->cbEvents = NULL;
+            context->txDefaultValue = CY_SCB_SPI_DEFAULT_TX;
 
         #ifdef CY_IP_M0S8SCB
             context->cbDeepSleep = NULL;
@@ -499,7 +500,9 @@ cy_en_syspm_status_t Cy_SCB_SPI_DeepSleepCallback(cy_stc_syspm_callback_params_t
 * It configures transmit and receive buffers for an SPI transfer.
 * If the data that will be received is not important, pass NULL as rxBuffer.
 * If the data that will be transmitted is not important, pass NULL as txBuffer
-* and then the \ref CY_SCB_SPI_DEFAULT_TX is sent out as each data element.
+* and then the default TX value is sent out as each data element.
+* To define the default TX value, specify txDefVal by \ref Cy_SCB_SPI_SetTxDefaultValue
+* and verify the default TX value by \ref Cy_SCB_SPI_GetTxDefaultValue.
 * Note that passing NULL as rxBuffer and txBuffer are considered invalid cases.
 *
 * After the function configures TX and RX interrupt sources, it returns and
@@ -983,7 +986,7 @@ static void HandleTransmit(CySCB_Type *base, cy_stc_scb_spi_context_t *context)
     }
     else
     {
-        Cy_SCB_WriteDefaultArrayNoCheck(base, CY_SCB_SPI_DEFAULT_TX, numToCopy);
+        Cy_SCB_WriteDefaultArrayNoCheck(base, context->txDefaultValue, numToCopy);
     }
 
     if (0UL == context->txBufSize)

@@ -98,6 +98,7 @@
     <ParamBool id="BuckBoost" name="Buck Boost" group="Buck Boost Configuration" default="false" visible="`${buckBoostCapable}`" editable="true" desc="Enables Buck Boost Feature." />  
     <ParamRange id="CableResistance" name="-- Cable Resistance" group="Buck Boost Configuration" default="0" min="0" max="700" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Cable Resistance in mO" />
     <ParamRange id="OutOffsetVolt" name="-- Buck Boost output offset voltage" group="Buck Boost Configuration" default="0" min="0" max="2000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output offset voltage (mV)" />
+    <ParamRange id="OutVolt" name="-- Buck Boost output voltage" group="Buck Boost Configuration" default="20000" min="0" max="21000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output voltage (mV)" />    
     <ParamRange id="CurrSenseResistor" name="-- Current sense resistor" group="Buck Boost Configuration" default="5000" min="1000" max="10000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Current sense resistor (µO)" />
     <ParamChoice id="NfetSrcDrvStrength" name="-- NFET Source Drive strength" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="NFET Source Drive strength" >
       <Entry name="Slow" value="0" visible="true" />
@@ -448,6 +449,7 @@
         <Member name="bbclk_freq" value="`${BbClkFrequency}`" />
         <Member name="pwm_fix_freq_dith" value="`${PwmFixFreqDith}`" />
         <Member name="pwm_dith_spread_cycles" value="`${PwmDithSpreadCycles}`" />
+        <Member name="bb_output_volt" value="`${OutVolt}`" />
     </ConfigStruct>
     
     <ConfigStruct name="`${USBPD_INST_NAME}`_config" type="cy_stc_usbpd_config_t" const="`${inFlash}`" public="true" include="true">

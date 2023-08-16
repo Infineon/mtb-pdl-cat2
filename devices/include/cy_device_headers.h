@@ -1057,10 +1057,20 @@
     #include "wlc1150_68lqxq.h"
 #elif defined (WLC1250_68LQXQ)
     #include "wlc1250_68lqxq.h"
+#elif defined (WLC1515_68LDXS)
+    #include "wlc1515_68ldxs.h"
 #elif defined (CYPD8225_97BZXIT)
     #include "cypd8225_97bzxit.h"
 #elif defined (CYPD8125_48LDXI)
     #include "cypd8125_48ldxi.h"
+#elif defined (CYPAS213_24SXQ)
+    #include "cypas213_24sxq.h"
+#elif defined (CYPAS211_32LQXQ)
+    #include "cypas211_32lqxq.h"
+#elif defined (CYPAS212_32LQXQ)
+    #include "cypas212_32lqxq.h"
+#elif defined (CYPAS213_32LQXQ)
+    #include "cypas213_32lqxq.h"
 #else
     #error Undefined part number
 #endif

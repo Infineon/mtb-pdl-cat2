@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.40
+* \version 2.50
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -1717,7 +1717,8 @@ typedef struct
     uint8_t pwm_fix_freq_dith;                  /**< Center PWM switching frequency when dithering is enabled */
     uint8_t pwm_dith_spread_cycles;             /**< Number of BBCLK cycles of spread required to achieve
                                                  * configured range of frequency spread */
-    uint8_t reserved_3[3];                      /**< Reserved for future use */
+    uint8_t reserved_3[1];                      /**< Reserved for future use */
+    uint16_t bb_output_volt;                    /**< Default buck-boost controller output voltage in mV */
 } cy_stc_buck_boost_cfg_t;
 
 /**

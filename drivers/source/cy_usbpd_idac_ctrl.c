@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.40
+* \version 2.50
 *
 * The source file of the USBPD IDAC Control driver.
 *

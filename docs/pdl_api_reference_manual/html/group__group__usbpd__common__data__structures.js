@@ -140,7 +140,8 @@ var group__group__usbpd__common__data__structures =
       [ "bbclk_freq", "structcy__stc__buck__boost__cfg__t.html#a1ee334d1a38af3a499c769927e3cf8cd", null ],
       [ "pwm_fix_freq_dith", "structcy__stc__buck__boost__cfg__t.html#a2891214ee6fba53ab6ffab5ae12de232", null ],
       [ "pwm_dith_spread_cycles", "structcy__stc__buck__boost__cfg__t.html#a7b48af0dd87a58e2becd2f2c9bde1418", null ],
-      [ "reserved_3", "structcy__stc__buck__boost__cfg__t.html#aca96c18a42dfcfe15024c6beb2c60232", null ]
+      [ "reserved_3", "structcy__stc__buck__boost__cfg__t.html#ab0ff01e38c75cb09ac6a2ade5606bd6c", null ],
+      [ "bb_output_volt", "structcy__stc__buck__boost__cfg__t.html#af87e05a9689899b8ef03c3c5030d67d4", null ]
     ] ],
     [ "cy_stc_auto_cfg_settings_t", "structcy__stc__auto__cfg__settings__t.html", [
       [ "reserved", "structcy__stc__auto__cfg__settings__t.html#a0048ee72426d3d2e9250f19543306ccd", null ],

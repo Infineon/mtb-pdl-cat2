@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 3.0
+* \version 3.10
 *
 * Provides an API declaration of the SysLib driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -111,6 +111,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>3.10</td>
+*     <td>Added Cy_SysLib_GetUniqueId() to fetch silicon unique information.</td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
 *     <td>3.0</td>
 *     <td>Removed all the outdated legacy declarations.</td>
 *     <td>Major PDL revision.</td>
@@ -198,6 +203,15 @@ extern "C" {
     #define CY_ARM_FAULT_DEBUG         (CY_ARM_FAULT_DEBUG_ENABLED)
 #endif /* CY_ARM_FAULT_DEBUG */
 
+/* Handling devices with different die offset via Flash page size (0=64, 1=128 or 3=256 bytes) */
+#if ((CPUSS_SPCIF_FLASH_PAGE_SIZE == 0U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 1U))
+/** The macro to DIE offset address of the devices with flash page size 64 or 128 bytes */
+#define CY_PDL_DIE_OFFSET_ADDR        (0x178U)
+#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE ==3U)
+/** The macro to DIE offset address of the devices with flash page size 256 bytes */
+#define CY_PDL_DIE_OFFSET_ADDR        (0x278U)
+#endif /* CPUSS_SPCIF_FLASH_PAGE_SIZE */
+
 /**
 * \defgroup group_syslib_macros_status_codes Status codes
 * \{
@@ -264,7 +278,7 @@ typedef enum
 #define CY_SYSLIB_DRV_VERSION_MAJOR    3
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    0
+#define CY_SYSLIB_DRV_VERSION_MINOR    10
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;
@@ -419,6 +433,25 @@ uint32_t Cy_SysLib_EnterCriticalSection(void);
 *
 *******************************************************************************/
 void Cy_SysLib_ExitCriticalSection(uint32_t savedIntrStatus);
+
+/*******************************************************************************
+* Function Name: Cy_SysLib_GetUniqueId
+****************************************************************************//**
+*
+* This function returns the silicon unique ID.
+* The ID includes Die lot[3]#, Die Wafer#, Die X, Die Y, Die Sort# and Die Minor.
+*
+* \return  A combined 64-bit unique ID.
+*          [63:56] - DIE_MINOR
+*          [55:48] - DIE_SORT
+*          [47:40] - DIE_Y
+*          [39:32] - DIE_X
+*          [31:24] - DIE_WAFER
+*          [23:16] - DIE_LOT[2]
+*          [15: 8] - DIE_LOT[1]
+*          [ 7: 0] - DIE_LOT[0]
+*******************************************************************************/
+uint64_t Cy_SysLib_GetUniqueId(void);
 
 /** \} group_syslib_functions */
 

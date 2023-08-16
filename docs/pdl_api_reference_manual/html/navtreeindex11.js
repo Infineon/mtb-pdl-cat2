@@ -1,5 +1,9 @@
 var NAVTREEINDEX11 =
 {
+"group__group__tcpwm__pwm__status.html":[2,22,2,0,6],
+"group__group__tcpwm__pwm__status.html#ga30aa30ef821418b4e8f6df4bc8cead91":[2,22,2,0,6,2],
+"group__group__tcpwm__pwm__status.html#gac28b67391ec51fe3b8f4fbecd1b85508":[2,22,2,0,6,0],
+"group__group__tcpwm__pwm__status.html#gac593946986fb3fa4eefff715136be1d4":[2,22,2,0,6,1],
 "group__group__tcpwm__quaddec.html":[2,22,3],
 "group__group__tcpwm__quaddec__resolution.html":[2,22,3,0,0],
 "group__group__tcpwm__quaddec__resolution.html#ga218c2bf6b15989e182676b70b4bff85a":[2,22,3,0,0,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX11 =
 "group__group__usbpd__common__enums.html#gab5eedaa8b79973285c63aeb2111eccba":[2,25,0,1,8],
 "group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb":[2,25,0,1,31],
 "group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6":[2,25,0,1,6],
-"group__group__usbpd__common__enums.html#gad1bfc9aa0e323959ba55b681c5bd4806":[2,25,0,1,26],
-"group__group__usbpd__common__enums.html#gae21a3e8eee0088f55a06e6fad2b0b7f3":[2,25,0,1,10],
-"group__group__usbpd__common__enums.html#gae2623e0d7c0d6c58365b907995249c13":[2,25,0,1,16],
-"group__group__usbpd__common__enums.html#gae3bb038d240a3fc6e0a6b0e0a19f20b3":[2,25,0,1,29],
-"group__group__usbpd__common__enums.html#gaec76943eae8b6e393cefb0de8d21c04a":[2,25,0,1,11]
+"group__group__usbpd__common__enums.html#gad1bfc9aa0e323959ba55b681c5bd4806":[2,25,0,1,26]
 };

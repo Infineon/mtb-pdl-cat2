@@ -124,6 +124,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr class="memitem:ga8c16343c075610b2888b0693f972b555"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#ga8c16343c075610b2888b0693f972b555">Cy_SysLib_ExitCriticalSection</a> (uint32_t savedIntrStatus)</td></tr>
 <tr class="memdesc:ga8c16343c075610b2888b0693f972b555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-enables the interrupts if they were enabled before <a class="el" href="group__group__syslib__functions.html#gae679f15a1702c159c105b596a8801105" title="Cy_SysLib_EnterCriticalSection disables interrupts and returns a value indicating whether the interru...">Cy_SysLib_EnterCriticalSection()</a> was called.  <a href="#ga8c16343c075610b2888b0693f972b555">More...</a><br /></td></tr>
 <tr class="separator:ga8c16343c075610b2888b0693f972b555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa8fb5b7a16fbdfd60cf44d5d8f2c977"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#gaaa8fb5b7a16fbdfd60cf44d5d8f2c977">Cy_SysLib_GetUniqueId</a> (void)</td></tr>
+<tr class="memdesc:gaaa8fb5b7a16fbdfd60cf44d5d8f2c977"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the silicon unique ID.  <a href="#gaaa8fb5b7a16fbdfd60cf44d5d8f2c977">More...</a><br /></td></tr>
+<tr class="separator:gaaa8fb5b7a16fbdfd60cf44d5d8f2c977"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaad1c32546fdb0e3c6fa8b46fb95843b5"></a>
@@ -388,6 +391,28 @@ The CY_ARM_FAULT_DEBUG macro defines if the Fault Handler is enabled. By default
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="gaaa8fb5b7a16fbdfd60cf44d5d8f2c977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa8fb5b7a16fbdfd60cf44d5d8f2c977">&#9670;&nbsp;</a></span>Cy_SysLib_GetUniqueId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t Cy_SysLib_GetUniqueId </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the silicon unique ID. </p>
+<p>The ID includes Die lot[3]#, Die Wafer#, Die X, Die Y, Die Sort# and Die Minor.</p>
+<dl class="section return"><dt>Returns</dt><dd>A combined 64-bit unique ID. [63:56] - DIE_MINOR [55:48] - DIE_SORT [47:40] - DIE_Y [39:32] - DIE_X [31:24] - DIE_WAFER [23:16] - DIE_LOT[2] [15: 8] - DIE_LOT[1] [ 7: 0] - DIE_LOT[0] </dd></dl>
 
 </div>
 </div>

@@ -77,7 +77,7 @@ typedef enum {
 *******************************************************************************/
 
 /* Configuration of the ARM Cortex-M0 Processor and Core Peripherals */
-#define __CM0_REV                       0x0001U /*!< CM0 Core Revision */
+#define __CM0_REV                       0x0000U /*!< CM0 Core Revision */
 #define __NVIC_PRIO_BITS                2       /*!< Number of Bits used for Priority Levels */
 #define __Vendor_SysTickConfig          0       /*!< Set to 1 if different SysTick Config is used */
 #define __VTOR_PRESENT                  0       /*!< Set to 1 if CPU supports Vector Table Offset Register */

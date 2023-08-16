@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"group__group__scb__uart__macros__rx__fifo__status.html#gaa64782b6ba31e4b36c5ff9a74b42219b":[2,13,4,0,1,6],
+"group__group__scb__uart__macros__rx__fifo__status.html#gaabd8566f82db4ca907b902c33d8610b0":[2,13,4,0,1,2],
 "group__group__scb__uart__macros__rx__fifo__status.html#gae22bfd5f13fbb141ec2f139c178a6cfd":[2,13,4,0,1,1],
 "group__group__scb__uart__macros__transmit__status.html":[2,13,4,0,4],
 "group__group__scb__uart__macros__transmit__status.html#ga14da37547fdf65d5fb837791c409edeb":[2,13,4,0,4,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX8 =
 "group__group__smartio__macros.html#ga9a4716700f8923b354e1ad70746a6285":[2,15,0,3],
 "group__group__sysclk.html":[2,17],
 "group__group__sysclk__clk__hf.html":[2,17,9],
-"group__group__sysclk__clk__hf__enums.html":[2,17,9,1],
-"group__group__sysclk__clk__hf__enums.html#ga689bed3bb3081693ac5e21ba587faeec":[2,17,9,1,1],
-"group__group__sysclk__clk__hf__enums.html#ga8eb50d7b30cd3bddaad51c73e0da3125":[2,17,9,1,0]
+"group__group__sysclk__clk__hf__enums.html":[2,17,9,1]
 };

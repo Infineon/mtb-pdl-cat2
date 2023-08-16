@@ -326,7 +326,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The achieved data rate in Hz. <br />
 When zero value is returned there is an error in the input parameters: data rate or clk_scb is out of valid range.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function does not change the values of the clock divider connected to the SCB, it changes only the SCB clock oversample registers. If this function is not able to achieve the desired data rate, then the clock divider must be adjusted. Call this function only while the SCB is disabled. For the slave, this function only checks that the attached clock is fast enough to meet the desired data rate. It does not change any registers. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function does not change the values of the clock divider connected to the SCB, it changes only the SCB clock oversample registers. If this function is not able to achieve the desired data rate, then the clock divider must be adjusted. Call this function only while the SCB is disabled. For the slave, this function only checks that the attached clock is fast enough to meet the desired data rate. It does not change any registers.</dd></dl>
+<p>Please refer to the section <a class="el" href="group__group__scb__i2c.html#group_scb_i2c_mclk_sync">I2C Master Clock Synchronization</a> for more information. </p>
 
 </div>
 </div>
@@ -642,7 +643,8 @@ Only applicable for Slave mode. </dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>This function should be used at your own risk. Changing the number of clock cycles in a phase of SCL may violate the I2C specification. Make this change only while the block is disabled. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function should be used at your own risk. Changing the number of clock cycles in a phase of SCL may violate the I2C specification. Make this change only while the block is disabled.</dd></dl>
+<p>Please refer to the section <a class="el" href="group__group__scb__i2c.html#group_scb_i2c_mclk_sync">I2C Master Clock Synchronization</a> for more information. </p>
 
 </div>
 </div>

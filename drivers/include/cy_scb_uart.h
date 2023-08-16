@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 4.30
+* \version 4.40
 *
 * Provides UART API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

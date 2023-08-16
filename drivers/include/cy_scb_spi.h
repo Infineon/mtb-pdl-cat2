@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_spi.h
-* \version 4.30
+* \version 4.40
 *
 * Provides SPI API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -634,6 +634,7 @@ typedef struct cy_stc_scb_spi_context
     void    *txBuf;                 /**< The pointer to the transmit buffer */
     uint32_t txBufSize;             /**< The transmit buffer size */
     uint32_t volatile txBufIdx;     /**< The current location in the transmit buffer */
+    uint32_t txDefaultValue;        /**< Default TX value when no TX buffer is defined */
 
 #ifdef CY_IP_MXSCB
     bool     parityEnable;          /**< True if the parity is enable*/
@@ -695,6 +696,8 @@ cy_en_scb_spi_status_t Cy_SCB_SPI_Transfer(CySCB_Type *base, void *txBuffer, voi
 void     Cy_SCB_SPI_AbortTransfer    (CySCB_Type *base, cy_stc_scb_spi_context_t *context);
 uint32_t Cy_SCB_SPI_GetTransferStatus(CySCB_Type const *base, cy_stc_scb_spi_context_t const *context);
 uint32_t Cy_SCB_SPI_GetNumTransfered (CySCB_Type const *base, cy_stc_scb_spi_context_t const *context);
+__STATIC_INLINE void Cy_SCB_SPI_SetTxDefaultValue(CySCB_Type const *base, uint32_t const txDefVal, cy_stc_scb_spi_context_t *context);
+__STATIC_INLINE uint32_t Cy_SCB_SPI_GetTxDefaultValue(CySCB_Type const *base, cy_stc_scb_spi_context_t const *context);
 /** \} group_scb_spi_high_level_functions */
 
 /**
@@ -1145,6 +1148,77 @@ __STATIC_INLINE void Cy_SCB_SPI_SetActiveSlaveSelectPolarity(CySCB_Type *base,
     }
 }
 /** \} group_scb_spi_general_functions */
+
+
+/**
+* \addtogroup group_scb_spi_high_level_functions
+* \{
+*/
+/*******************************************************************************
+* Function Name: Cy_SCB_SPI_SetTxDefaultValue
+****************************************************************************//**
+*
+* Sets the user defined TX value when no TX buffer is defined.
+* The user defined TX value is sent out as each data element,
+* when the data that will be transmitted is not important and 
+* NULL is set as pointer to txBuffer in \ref Cy_SCB_SPI_Transfer.
+* If the user defined TX value is not specified,
+* the \ref CY_SCB_SPI_DEFAULT_TX value is sent out as each data element.
+*
+* \param base
+* The pointer to the SPI SCB instance.
+*
+* \param txDefVal
+* The user defined TX value when no TX buffer is defined.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_scb_spi_context_t allocated
+* by the user. The structure is used during the SPI operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SCB_SPI_SetTxDefaultValue(CySCB_Type const *base, uint32_t const txDefVal, cy_stc_scb_spi_context_t *context)
+{
+    /* Suppress a compiler warning about unused variables */
+    CY_UNUSED_PARAMETER(base);
+
+    context->txDefaultValue = txDefVal;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SCB_SPI_GetTxDefaultValue
+****************************************************************************//**
+*
+* Returns the user defined TX value when no TX buffer is defined.
+* The user defined TX value is sent out as each data element,
+* when the data that will be transmitted is not important and 
+* NULL is set as pointer to txBuffer in \ref Cy_SCB_SPI_Transfer.
+* If the user defined TX value is not specified,
+* the \ref CY_SCB_SPI_DEFAULT_TX value is sent out as each data element.
+*
+* \param base
+* The pointer to the SPI SCB instance.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_scb_spi_context_t allocated
+* by the user. The structure is used during the SPI operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \return
+* The user defined TX value when no TX buffer is defined.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SCB_SPI_GetTxDefaultValue(CySCB_Type const *base, cy_stc_scb_spi_context_t const *context)
+{
+    /* Suppress a compiler warning about unused variables */
+    CY_UNUSED_PARAMETER(base);
+
+    return (context->txDefaultValue);
+}
+/** \} group_scb_spi_high_level_functions */
 
 
 /**

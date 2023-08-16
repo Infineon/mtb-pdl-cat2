@@ -4,6 +4,7 @@ var searchData=
   ['bat_5fsnk',['bat_snk',['../unioncy__pd__pd__do__t.html#a6dc79e39155eae1865332cbec7a455f9',1,'cy_pd_pd_do_t']]],
   ['bat_5fsrc',['bat_src',['../unioncy__pd__pd__do__t.html#ab0f58b3e53c31850174f8c9c0e613917',1,'cy_pd_pd_do_t']]],
   ['batstatuschange',['batStatusChange',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#ab991bb2d366e3e718645c849f248d770',1,'cy_pd_pd_do_t::ADO_ALERT']]],
+  ['bb_5foutput_5fvolt',['bb_output_volt',['../structcy__stc__buck__boost__cfg__t.html#af87e05a9689899b8ef03c3c5030d67d4',1,'cy_stc_buck_boost_cfg_t']]],
   ['bbclk_5ffreq',['bbclk_freq',['../structcy__stc__buck__boost__cfg__t.html#a1ee334d1a38af3a499c769927e3cf8cd',1,'cy_stc_buck_boost_cfg_t']]],
   ['bbenabledonestatus',['bbEnableDoneStatus',['../structcy__stc__usbpd__context__t.html#a3791230cec8327b89cea2e6487d071e7',1,'cy_stc_usbpd_context_t']]],
   ['bbenablestatus',['bbEnableStatus',['../structcy__stc__usbpd__context__t.html#add58507ffd062af7d70998c6a99afe33',1,'cy_stc_usbpd_context_t']]],

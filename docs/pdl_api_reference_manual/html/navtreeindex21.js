@@ -1,5 +1,10 @@
 var NAVTREEINDEX21 =
 {
+"structcy__stc__usbpd__context__t.html#afd6368256442f05852d4d769e5c92c80":[2,25,0,2,19,23],
+"structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543":[2,25,0,2,19,97],
+"structcy__stc__usbpd__legacy__charging__state__t.html":[2,25,0,2,2],
+"structcy__stc__usbpd__legacy__charging__state__t.html#a26a1288ad9ddd2b94eacce309c3aa878":[2,25,0,2,2,2],
+"structcy__stc__usbpd__legacy__charging__state__t.html#a47a25d569dd05b5ed4fcf359d1de1889":[2,25,0,2,2,1],
 "structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15":[2,25,0,2,2,0],
 "structcy__stc__wdc__config__t.html":[2,26,2,0],
 "structcy__stc__wdc__config__t.html#a3680db8a264902f59c1dedb417fb8757":[2,26,2,0,2],

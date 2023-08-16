@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.40
+* \version 2.50
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -3012,7 +3012,7 @@ void Cy_USBPD_Vbus_NgdoSetDriveStrength(cy_stc_usbpd_context_t *context, uint8_t
 *******************************************************************************/
 void Cy_USBPD_Vbus_GdrvPfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq)
 {
-#if (!CY_PD_SINK_ONLY)
+#if ((!CY_PD_SINK_ONLY) || (PMG1B1_USB_CHARGER))
     PPDSS_REGS_T pd = context->base;
     uint32_t regVal = 0;
     uint32_t state = 0;
@@ -3124,7 +3124,7 @@ void Cy_USBPD_Vbus_GdrvPfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq)
 #else
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(turnOnSeq);
-#endif /* (!CY_PD_SINK_ONLY) */
+#endif /*  ((!CY_PD_SINK_ONLY) || (PMG1B1_USB_CHARGER)) */
 }
 
 
@@ -3148,7 +3148,7 @@ void Cy_USBPD_Vbus_GdrvPfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq)
 *******************************************************************************/
 void Cy_USBPD_Vbus_GdrvPfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq)
 {
-#if (!CY_PD_SINK_ONLY)
+#if ((!CY_PD_SINK_ONLY) || (PMG1B1_USB_CHARGER))
     PPDSS_REGS_T pd = context->base;
 
     CY_UNUSED_PARAMETER(pd);
@@ -3288,7 +3288,7 @@ void Cy_USBPD_Vbus_GdrvPfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq)
 #else
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(turnOffSeq);
-#endif /* (!CY_PD_SINK_ONLY) */
+#endif /*  ((!CY_PD_SINK_ONLY) || (PMG1B1_USB_CHARGER)) */
 }
 
 /*******************************************************************************

@@ -1,6 +1,6 @@
 /*******************************************************************************
 * \file cy_canfd.c
-* \version 1.10.1
+* \version 1.20
 *
 * \brief
 *  Provides an API implementation of the CAN FD driver.
@@ -330,7 +330,7 @@ cy_en_canfd_status_t Cy_CANFD_Init(CANFD_Type *base, uint32_t chan,
             }
             else
             {
-                CANFD_SIDFC(base, chan) = 0U;
+                CANFD_SIDFC(base, chan) = _VAL2FLD(CANFD_CH_M_TTCAN_SIDFC_FLSSA, config->messageRAMaddress >> CY_CANFD_MRAM_SIGNIFICANT_BYTES_SHIFT);
             }
 
             if((0U   != config->extidFilterConfig->numberOfEXTIDFilters) &&
@@ -350,7 +350,8 @@ cy_en_canfd_status_t Cy_CANFD_Init(CANFD_Type *base, uint32_t chan,
             }
             else
             {
-                CANFD_XIDFC(base, chan) = 0U;
+                CANFD_XIDFC(base, chan) = _VAL2FLD(CANFD_CH_M_TTCAN_XIDFC_FLESA, _FLD2VAL(CANFD_CH_M_TTCAN_SIDFC_FLSSA, CANFD_SIDFC(base, chan)) +
+                                                           (config->sidFilterConfig->numberOfSIDFilters));
                 CANFD_XIDAM(base, chan) = 0U;
             }
 
@@ -727,6 +728,8 @@ uint32_t  Cy_CANFD_CalcRxBufAdrs(CANFD_Type const *base, uint32_t chan,
 {
     uint32_t address;
 
+    (void)context;
+
     if (index > (CY_CANFD_MESSAGE_RX_BUFFERS_MAX_CNT - 1UL))
     {
         /* Sets 0 to the return value if the index is invalid */
@@ -735,7 +738,7 @@ uint32_t  Cy_CANFD_CalcRxBufAdrs(CANFD_Type const *base, uint32_t chan,
     else
     {
         /* Sets the message buffer address to the return value if the index is available  */
-        address = context->messageRAMaddress;
+        address = CY_CAN0MRAM_BASE;
         address += (_FLD2VAL(CANFD_CH_M_TTCAN_RXBC_RBSA, CANFD_RXBC(base, chan))
                      * sizeof(uint32_t));  /* Convert the word to the byte offset */
         address += index * (CY_CANFD_R0_R1_SIZE +
@@ -776,8 +779,10 @@ static uint32_t Cy_CANFD_CalcTxBufAdrs(CANFD_Type const *base, uint32_t chan, ui
 {
     uint32_t address = 0UL;
 
+    (void)context;
+
     /* Set the message buffer address to the return value if the index is available */
-    address = context->messageRAMaddress;
+    address = CY_CAN0MRAM_BASE;
     address += (_FLD2VAL(CANFD_CH_M_TTCAN_TXBC_TBSA, CANFD_TXBC(base, chan))  /* Tx 32-bit Start Address */
                 * sizeof(uint32_t));  /* Convert the word to the byte offset */
 
@@ -835,11 +840,14 @@ uint32_t Cy_CANFD_CalcRxFifoAdrs(CANFD_Type const *base, uint32_t chan,
                                  cy_stc_canfd_context_t const *context)
 {
     uint32_t address = 0UL;
+
+    (void)context;
+
     CY_ASSERT_L2(CY_CANFD_IS_FIFO_NUM_VALID(index));
     if(fifoNumber <= CY_CANFD_RX_FIFO1)
     {
         /* Sets the message buffer address to the return value if the index is available */
-        address = context->messageRAMaddress;
+        address = CY_CAN0MRAM_BASE;
         address += (((CY_CANFD_RX_FIFO0 == fifoNumber) ?
                      _FLD2VAL(CANFD_CH_M_TTCAN_RXF0C_F0SA, CANFD_RXF0C(base, chan)) :  /* Rx FIFO 0 32-bit Start Address */
                      _FLD2VAL(CANFD_CH_M_TTCAN_RXF1C_F1SA, CANFD_RXF1C(base, chan)))   /* Rx FIFO 1 32-bit Start Address */
@@ -891,6 +899,8 @@ void Cy_CANFD_SidFilterSetup(CANFD_Type const *base, uint32_t chan,
 {
     uint32_t *filterAddr;
 
+    (void)context;
+
     if ((NULL != filter) && (NULL != context))
     {
         CY_ASSERT_L2(CY_CANFD_IS_SFID_VALID(filter->sfid2));
@@ -900,7 +910,7 @@ void Cy_CANFD_SidFilterSetup(CANFD_Type const *base, uint32_t chan,
         CY_ASSERT_L2(CY_CANFD_IS_SID_FILTERS_VALID(index + 1U));
 
         /* The Standard Message ID Filter address */
-        filterAddr = (uint32_t *)(context->messageRAMaddress +
+        filterAddr = (uint32_t *)(CY_CAN0MRAM_BASE +
                                    (_FLD2VAL(CANFD_CH_M_TTCAN_SIDFC_FLSSA, CANFD_SIDFC(base, chan))
                                      << CY_CANFD_MRAM_SIGNIFICANT_BYTES_SHIFT));
 
@@ -992,6 +1002,8 @@ void Cy_CANFD_XidFilterSetup(CANFD_Type const *base, uint32_t chan,
 {
     uint32_t* filterAddr;
 
+    (void)context;
+
     if ((NULL != filter) && (NULL != context))
     {
         CY_ASSERT_L2(CY_CANFD_IS_EFID_VALID(filter->f1_f->efid2));
@@ -1001,7 +1013,7 @@ void Cy_CANFD_XidFilterSetup(CANFD_Type const *base, uint32_t chan,
         CY_ASSERT_L2(CY_CANFD_IS_XID_FILTERS_VALID(index + 1U));
 
         /* The Extended Message ID Filter address */
-        filterAddr = (uint32_t *)(context->messageRAMaddress +
+        filterAddr = (uint32_t *)(CY_CAN0MRAM_BASE +
                                 (_FLD2VAL(CANFD_CH_M_TTCAN_XIDFC_FLESA, CANFD_XIDFC(base, chan))
                                   << CY_CANFD_MRAM_SIGNIFICANT_BYTES_SHIFT));
 

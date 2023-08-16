@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.40
+* \version 2.50
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -2671,6 +2671,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #endif /* defined(CY_DEVICE_PMG1S3) */
 
 #if ((defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA)) && PMG1_FLIPPED_FET_CTRL)
+#if VBUS_SLOW_DISCHARGE_EN
     cy_stc_usbpd_context_t *usbpd_ctx_temp=context;
 #if (NO_OF_TYPEC_PORTS > 1)
     if(port != 0u)
@@ -2678,8 +2679,8 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         usbpd_ctx_temp=context-(NO_OF_TYPEC_PORTS-1u);
     }
 #endif /* (NO_OF_TYPEC_PORTS > 1) */
-
      PPDSS_REGS_T pd_temp = usbpd_ctx_temp->base;
+#endif /* VBUS_SLOW_DISCHARGE_EN */
 #endif /* ((defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA)) && PMG1_FLIPPED_FET_CTRL) */
     /* Validate the parameters. */
     if (

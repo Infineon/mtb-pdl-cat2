@@ -7,6 +7,7 @@ var group__group__syslib__macros =
     [ "CY_ARM_FAULT_DEBUG_DISABLED", "group__group__syslib__macros.html#gaba27f3efb20bb776796a1a625bdc31dc", null ],
     [ "CY_ARM_FAULT_DEBUG_ENABLED", "group__group__syslib__macros.html#ga85e9d9dff858ec3d8dc503e008d73ee9", null ],
     [ "CY_ARM_FAULT_DEBUG", "group__group__syslib__macros.html#ga1c0ebfbdb81ba7c5a3601a4b274b7666", null ],
+    [ "CY_PDL_DIE_OFFSET_ADDR", "group__group__syslib__macros.html#ga1b790e8c9721ede5abc2d420e740a579", null ],
     [ "CY_SYSLIB_DRV_VERSION_MAJOR", "group__group__syslib__macros.html#gaaf65a7f5b872c3af67a2a4214ed06608", null ],
     [ "CY_SYSLIB_DRV_VERSION_MINOR", "group__group__syslib__macros.html#ga12200ca1ff7e119d8fe12f70d525651a", null ],
     [ "CY_R0_Pos", "group__group__syslib__macros.html#gae43177fc1f4a6fcb65e3893ff492ae44", null ],

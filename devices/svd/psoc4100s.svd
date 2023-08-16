@@ -2976,22 +2976,22 @@ This field has a function in PWM, PWM_DT and PWM_PR modes only.</description>
                 <enumeratedValues>
                   <enumeratedValue>
                     <name>COUNT_UP</name>
-                    <description>Count up (to PERIOD). An overflow event is generated when the counter reaches PERIOD. A terminal count event is generated when the counter reaches PERIOD.</description>
+                    <description>Count up (to PERIOD). An overflow event is generated when the counter reaches PERIOD, and is changed to a different value. A terminal count event is generated when the counter reaches PERIOD, and is changed to a different value.</description>
                     <value>0</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>COUNT_DOWN</name>
-                    <description>Count down (to '0'). An underflow event is generated when the counter reaches '0'. A terminal count event is generated when the counter reaches '0'.</description>
+                    <description>Count down (to '0'). An underflow event is generated when the counter reaches '0', and is changed to a different value. A terminal count event is generated when the counter reaches '0', and is changed to a different value.</description>
                     <value>1</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>COUNT_UPDN1</name>
-                    <description>Count up (to PERIOD), then count down (to '0'). An overflow event is generated when the counter reaches PERIOD. An underflow event is generated when the counter reaches '0'. A terminal count event is generated when the counter reaches '0'.</description>
+                    <description>Count up (to PERIOD), then count down (to '0'). An overflow event is generated when the counter reaches PERIOD, and is changed to a different value. An underflow event is generated when the counter reaches '0', and is changed to a different value. A terminal count event is generated when the counter reaches '0', and is changed to a different value.</description>
                     <value>2</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>COUNT_UPDN2</name>
-                    <description>Count up (to PERIOD), then count down (to '0'). An overflow event is generated when the counter reaches PERIOD. An underflow event is generated when the counter reaches '0'. A terminal count event is generated when the counter reaches '0' AND when the counter reaches PERIOD (this counter direction can be used for PWM functionality with asymmetrical updates).</description>
+                    <description>Count up (to PERIOD), then count down (to '0'). An overflow event is generated when the counter reaches PERIOD, and is changed to a different value. An underflow event is generated when the counter reaches '0', and is changed to a different value. A terminal count event is generated when the counter reaches '0', and is changed to a different value AND when the counter reaches PERIOD, and is changed to a different value. (this counter direction can be used for PWM functionality with asymmetrical updates).</description>
                     <value>3</value>
                   </enumeratedValue>
                 </enumeratedValues>

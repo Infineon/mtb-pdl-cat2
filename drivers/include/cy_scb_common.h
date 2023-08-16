@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.30
+* \version 4.40
 *
 * Provides common API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -58,19 +58,35 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
-*     <tr>
-*       <td rowspan="2">4.30</td>
-*       <td>Changed __STATIC_INLINE functions attribute to __STATIC_FORCEINLINE
-*                for the functions:
-*                \ref Cy_SCB_ReadRxFifo, 
-*                \ref Cy_SCB_WriteTxFifo</td>
-*       <td>Improve compiler compatibility</td>
-*     </tr>
-*     <tr>
-*       <td>Fixed no zeroing of the buffer size of the secondary slave in the 
-*                \ref Cy_SCB_EZI2C_Init() function.</td>
-*       <td>Bug fix.</td>
-*     </tr>
+*   <tr>
+*     <td rowspan="3">4.40</td>
+*     <td>SPI: Provided new functions to define a custom value
+*         of the default TX value when no TX buffer is defined:
+*              \ref Cy_SCB_SPI_SetTxDefaultValue(),
+*              \ref Cy_SCB_SPI_GetTxDefaultValue().</td>
+*     <td>High-Level API improvement.</td>
+*   </tr>
+*   <tr>
+*     <td>I2C: Added a new documentation section about
+*         \ref group_scb_i2c_mclk_sync.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td>Minor documentation updates.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td rowspan="2">4.30</td>
+*     <td>Changed __STATIC_INLINE functions attribute to __STATIC_FORCEINLINE
+*              for the functions:
+*              \ref Cy_SCB_ReadRxFifo,
+*              \ref Cy_SCB_WriteTxFifo</td>
+*     <td>Improve compiler compatibility</td>
+*   </tr>
+*   <tr>
+*     <td>Fixed no zeroing of the buffer size of the secondary slave in the
+*              \ref Cy_SCB_EZI2C_Init() function.</td>
+*     <td>Bug fix.</td>
 *   </tr>
 *   <tr>
 *     <td>4.20</td>
@@ -385,7 +401,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (20)
+#define CY_SCB_DRV_VERSION_MINOR    (40)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

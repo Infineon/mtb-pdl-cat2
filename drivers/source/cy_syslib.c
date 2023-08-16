@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 3.0
+* \version 3.10
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
 *
 ********************************************************************************
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -258,6 +258,11 @@ void Cy_SysLib_SetWaitStates(uint32_t clkHfMHz)
 
     /* Enable flash prefetch buffer for the wait states greater than zero. */
     CY_REG32_CLR_SET(CPUSS_FLASH_CTL, CPUSS_FLASH_CTL_PREF_EN, (waitStates != 0UL) ? 1UL : 0UL);
+}
+
+uint64_t Cy_SysLib_GetUniqueId(void)
+{
+    return (*((uint64_t *)(SFLASH_BASE + CY_PDL_DIE_OFFSET_ADDR)));
 }
 
 /* [] END OF FILE */

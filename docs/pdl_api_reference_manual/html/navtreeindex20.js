@@ -1,5 +1,10 @@
 var NAVTREEINDEX20 =
 {
+"structcy__stc__slow__discharge__cfg__t.html#af9fbd37f46f52c45816ad77ad85e4935":[2,25,0,2,13,2],
+"structcy__stc__smartio__config__t.html":[2,15,2,2],
+"structcy__stc__smartio__config__t.html#a017bc71c2563dda0b75b71451e1d3e29":[2,15,2,2,8],
+"structcy__stc__smartio__config__t.html#a05ecf634aaaee1ac59e3ff3581e3d10f":[2,15,2,2,7],
+"structcy__stc__smartio__config__t.html#a1386142a4e417eb4695d25f2abf12fe1":[2,15,2,2,6],
 "structcy__stc__smartio__config__t.html#a17fde00f0b9310d48bae10ce0dc04b26":[2,15,2,2,0],
 "structcy__stc__smartio__config__t.html#a29a89d5dd32bf090e54092377a502af4":[2,15,2,2,5],
 "structcy__stc__smartio__config__t.html#a2c76c4ec1793ed007576f483769c827a":[2,15,2,2,3],
@@ -244,10 +249,5 @@ var NAVTREEINDEX20 =
 "structcy__stc__usbpd__context__t.html#af3655c0105e2121b94f0055acce3d19d":[2,25,0,2,19,49],
 "structcy__stc__usbpd__context__t.html#af5f3f0963036133cab8232efadf7a2bc":[2,25,0,2,19,60],
 "structcy__stc__usbpd__context__t.html#af63af9a1a4525b4e3b48cea7c7da13b7":[2,25,0,2,19,74],
-"structcy__stc__usbpd__context__t.html#af6f16c090a13f28b7ebcfadda6b7c2f6":[2,25,0,2,19,14],
-"structcy__stc__usbpd__context__t.html#afd6368256442f05852d4d769e5c92c80":[2,25,0,2,19,23],
-"structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543":[2,25,0,2,19,97],
-"structcy__stc__usbpd__legacy__charging__state__t.html":[2,25,0,2,2],
-"structcy__stc__usbpd__legacy__charging__state__t.html#a26a1288ad9ddd2b94eacce309c3aa878":[2,25,0,2,2,2],
-"structcy__stc__usbpd__legacy__charging__state__t.html#a47a25d569dd05b5ed4fcf359d1de1889":[2,25,0,2,2,1]
+"structcy__stc__usbpd__context__t.html#af6f16c090a13f28b7ebcfadda6b7c2f6":[2,25,0,2,19,14]
 };

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.c
-* \version 2.40
+* \version 2.50
 *
 * This file specifies helper functions to retrieve Configuration table data
 * present in flash for various supported devices.

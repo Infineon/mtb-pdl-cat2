@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.h
-* \version 4.30
+* \version 4.40
 *
 * Provides I2C API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -58,6 +58,7 @@
 * * \ref group_scb_i2c_pins
 * * \ref group_scb_i2c_clock
 * * \ref group_scb_i2c_data_rate
+*   * \ref group_scb_i2c_mclk_sync
 * * \ref group_scb_i2c_intr
 * * \ref group_scb_i2c_enable
 *
@@ -148,6 +149,25 @@
 * For I2C slave, the analog filter is used for all supported data rates. \n
 * For I2C master, the analog filter is used for Standard and Fast modes and the
 * digital filter for Fast Plus mode.
+*
+********************************************************************************
+* \subsubsection group_scb_i2c_mclk_sync I2C Master Clock Synchronization
+********************************************************************************
+* The highPhaseDutyCycle counter does not start counting until the SCB detects
+* that the SCL line is high. This is not the same as when the SCB sets the SCL high.
+* The differences are explained by three delays:
+* -# Output wire delay from SCB to I/O pin.
+* -# I2C bus tR delay.
+* -# Input wire delay (filters and synchronization).
+* .
+* \image html i2c_scl_turnaround_path.png
+*
+* If the above three delays combined are greater than one clk_scb cycle, then
+* the high phase of the SCL will be extended. This may cause the actual data rate
+* on the I2C bus to be slower than expected.
+* This can be avoided by:
+* * Decreasing the pull-up resistor or decreasing the bus capacitance to reduce tR.
+* * Reducing the highPhaseDutyCycle value in the \ref cy_stc_scb_i2c_config_t structure.
 *
 ********************************************************************************
 * \subsection group_scb_i2c_intr Configure Interrupt
@@ -609,6 +629,7 @@ typedef struct cy_stc_scb_i2c_config
     /**
     * The number of SCB clock cycles in the high phase of SCL. Only applicable
     * in master modes. The valid range is 5 to 16.
+    * Please refer to the section \ref group_scb_i2c_mclk_sync for more information.
     */
     uint32_t highPhaseDutyCycle;
 
@@ -1490,6 +1511,8 @@ __STATIC_INLINE void Cy_SCB_I2C_MasterSetLowPhaseDutyCycle(CySCB_Type *base, uin
 * This function should be used at your own risk. Changing the number of clock
 * cycles in a phase of SCL may violate the I2C specification. Make this
 * change only while the block is disabled.
+*
+* Please refer to the section \ref group_scb_i2c_mclk_sync for more information.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_I2C_MasterSetHighPhaseDutyCycle(CySCB_Type *base, uint32_t clockCycles)

@@ -85,7 +85,8 @@
     </ParamSignal>
 
     <!-- Message RAM -->
-    <ParamRange id="messageRAMaddress" name="Message RAM Address Offset" group="Message RAM" default="0" min="0" max="4294967295" resolution="4" visible="true" editable="true" desc="The start address offset of Message RAM for the channel (in bytes)." />
+    <ParamRange id="messageRAMaddress" name="Message RAM Address Offset" group="Message RAM" default="0" min="0" max="`${MRAM_SIZE * 1024}`" resolution="4" visible="true"
+      editable="true" desc="The start address offset of Message RAM for the channel (in bytes)." />
     <ParamRange id="noOfTxEvenFifo" name="Number of Tx Even FIFO Elements" group="Message RAM" default="10" min="0" max="32" resolution="1" visible="false" editable="false" desc="The Number Of Tx Even FIFO elements for the channel." />
     <ParamRange id="messageRAMsize" name="Message RAM Size" group="Message RAM" default="`${MRAM_SIZE * 1024}`" min="`${8 * noOfTxEvenFifo}`" max="`${MRAM_SIZE * 1024}`" resolution="4" visible="true" editable="true" desc="The size in bytes of Message RAM for the channel." />
 
@@ -329,6 +330,8 @@ treated.">
   <DRCs>
     <!--MRAM DRCs-->
     <DRC type="ERROR" text="Consumed Message RAM exceeds the Message RAM size." condition="`${(consumedMRAM &gt; messageRAMsize) ? true : false}`" />
+    <DRC type="ERROR" text="Allocated Message RAM address exceeds the Message RAM address area. Change Message RAM Address Offset to fit in."
+      condition="`${(messageRAMaddress+consumedMRAM &gt; messageRAMsize) ? true : false}`" />
 
     <!--Bit Rate DRCs-->
     <DRC type="ERROR" text="Nominal Synchronization Jump Width must be less than Nominal Time Segment 1." condition="`${(nominalSyncJumpWidth &gt; nominalTimeSegment1) ? true : false}`"/>

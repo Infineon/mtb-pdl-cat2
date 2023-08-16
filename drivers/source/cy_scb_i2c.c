@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.c
-* \version 4.30
+* \version 4.40
 *
 * Provides I2C API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -512,6 +512,8 @@ cy_en_syspm_status_t Cy_SCB_I2C_DeepSleepCallback(cy_stc_syspm_callback_params_t
 * divider must be adjusted. Call this function only while the SCB is
 * disabled. For the slave, this function only checks that the attached clock is
 * fast enough to meet the desired data rate. It does not change any registers.
+*
+* Please refer to the section \ref group_scb_i2c_mclk_sync for more information.
 *
 *******************************************************************************/
 uint32_t Cy_SCB_I2C_SetDataRate(CySCB_Type *base, uint32_t dataRateHz, uint32_t scbClockHz)

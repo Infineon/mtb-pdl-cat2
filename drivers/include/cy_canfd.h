@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_canfd.h
-* \version 1.10.1
+* \version 1.20
 *
 *  This file provides constants and parameter values for
 *  the CAN FD driver.
@@ -214,6 +214,14 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.20</td>
+*     <td>Updated APIs Cy_CANFD_Init(), Cy_CANFD_CalcRxBufAdrs(),
+*         Cy_CANFD_CalcTxBufAdrs(), Cy_CANFD_CalcRxFifoAdrs(),
+*         Cy_CANFD_SidFilterSetup(), Cy_CANFD_XidFilterSetup()
+*         to fix offset calculation issue.</td>
+*     <td>Fix incorrect work when message RAM offset value is non-zero.</td>
+*   </tr>
+*   <tr>
 *     <td>1.10.1</td>
 *     <td>Update code snippets.</td>
 *     <td>Documentation enhancement.</td>
@@ -279,7 +287,7 @@ extern "C" {
 #define CY_CANFD_DRV_VERSION_MAJOR       1U
 
 /** Driver minor version */
-#define CY_CANFD_DRV_VERSION_MINOR       10U
+#define CY_CANFD_DRV_VERSION_MINOR       20U
 
 /** CAN FD driver ID */
 #define CY_CANFD_ID CY_PDL_DRV_ID        (0x45U)
