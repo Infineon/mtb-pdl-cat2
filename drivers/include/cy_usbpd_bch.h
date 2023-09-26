@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.h
-* \version 2.50
+* \version 2.60
 *
 * Header file for legacy charging feature of USBPD PDL.
 *

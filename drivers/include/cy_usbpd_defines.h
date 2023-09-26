@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.50
+* \version 2.60
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -319,6 +319,10 @@
 #ifndef PDL_VREG_INRUSH_DET_ENABLE
 #define PDL_VREG_INRUSH_DET_ENABLE      (0u)
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
+
+#ifndef PDL_VOUTBB_RCP_ENABLE
+#define PDL_VOUTBB_RCP_ENABLE          (0u)
+#endif /* PDL_VOUTBB_RCP_ENABLE */
 
 #ifndef VBUS_CTRL_TRIM_ADJUST_ENABLE
 #define VBUS_CTRL_TRIM_ADJUST_ENABLE    (0u)

@@ -465,7 +465,7 @@ Note that this field is retained. However, the counter that is used to implement
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>LCD_COM</name>
-                    <description>LCD common connection. This mode provides DeepSleep functionality  (provided that the LCD block is enabled and properly configured).</description>
+                    <description>LCD common connection. This mode provides DeepSleep functionality (provided that the LCD block exists, is enabled, and is properly configured).</description>
                     <value>12</value>
                   </enumeratedValue>
                   <enumeratedValue>

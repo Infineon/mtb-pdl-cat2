@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.50
+* \version 2.60
 *
 * The source file of the USBPD Buck Boost Driver.
 *
@@ -264,6 +264,31 @@
 #define BB_DITHER_TRIANGLE                  (0u)
 #define BB_DITHER_PSEUDO_RANDOM             (1u)
 
+/********************************************************************
+ ************* Buck-Boost Module Configurations**********************
+ *******************************************************************/
+/* GDRVO HSRCP Output Leading Edge Blanking Configuration */
+#define BB_GDRVO_2_LEB_TIME_CONFIG_WEAK         ((uint32_t)0x7776u)
+#define BB_GDRVO_2_LEB_TIME_CONFIG_STRONG       ((uint32_t)0x7576u)
+#define BB_GDRVO_2_LEB_TIME_CONFIG_STRONG_PMG1B1    ((uint32_t)0x7574u)
+/* HS1 Fixed Duty Cycle */
+#define HS1_MAX_DUTY_CYCLE_PERC                 (80u)
+
+/* LS2 Fixed Duty Cycle */
+#define LS2_MIN_DUTY_CYCLE_PERC                 (20u)
+
+/* HS1 Fixed Duty cycle for Boost configuration
+ * ((1/freq) * D/100)sec = ((1000/freq_khz)*D/100)us = ((10000/freq_khz)*D)ns */
+#define BB_HS1_FIXED_DUTY_CYCLE_BOOST_NS(freq)  ((10000u/freq) * HS1_MAX_DUTY_CYCLE_PERC)
+
+/* LS2 Fixed Duty cycle for Buck configuration */
+#define BB_LS2_FIXED_DUTY_CYCLE_BUCK_NS(freq)   ((10000u/freq) * LS2_MIN_DUTY_CYCLE_PERC)
+
+/* Overriding RCP trim configuration value in FCCM mode */
+#define BB_GDRVO_1_TRIM_HSRCP_VAL               (0x3Fu)
+
+/* Overriding RCP trim configuration value FCCM mode for PMG1B1 */
+#define BB_GDRVO_1_TRIM_HSRCP_VAL_PMG1B1        (0x2Cu)
 
 static uint16_t Cy_USBPD_BB_GetFixFreq(cy_stc_usbpd_context_t *context)
 {
@@ -513,11 +538,15 @@ static void Cy_USBPD_BB_GdrvConfig(cy_stc_usbpd_context_t *context)
         if((pwr_cfg->pwm_gate_pull_down_drv_strnth_LS2 < 3u) &&
                 (pwr_cfg->pwm_gate_pull_up_drv_strnth_HS2 < 3u))
         {
-            CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_2_ctrl, PDSS_BB_GDRVO_2_CTRL_BB_GDRVO_HSRCP_LEB_TIME_CONFIG, (uint32_t)0x7776u);
+            CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_2_ctrl, PDSS_BB_GDRVO_2_CTRL_BB_GDRVO_HSRCP_LEB_TIME_CONFIG, BB_GDRVO_2_LEB_TIME_CONFIG_WEAK);
         }
         else
         {
-            CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_2_ctrl, PDSS_BB_GDRVO_2_CTRL_BB_GDRVO_HSRCP_LEB_TIME_CONFIG, (uint32_t)0x7576u);
+#if PDL_VOUTBB_RCP_ENABLE
+            CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_2_ctrl, PDSS_BB_GDRVO_2_CTRL_BB_GDRVO_HSRCP_LEB_TIME_CONFIG, BB_GDRVO_2_LEB_TIME_CONFIG_STRONG_PMG1B1);
+#else
+            CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_2_ctrl, PDSS_BB_GDRVO_2_CTRL_BB_GDRVO_HSRCP_LEB_TIME_CONFIG, BB_GDRVO_2_LEB_TIME_CONFIG_STRONG);
+#endif /* PDL_VOUTBB_RCP_ENABLE */
         }
     }
 
@@ -559,8 +588,13 @@ static void Cy_USBPD_BB_SetMode(cy_stc_usbpd_context_t *context, uint8_t mode)
     if(mode == BB_MODE_FCCM)
     {
         /* Enable Master FCCM mode */
+#if PDL_VOUTBB_RCP_ENABLE
         CY_USBPD_REG_FIELD_UPDATE(pd_trims->trim_bb_gdrvo_1,
-            PDSS_TRIM_BB_GDRVO_1_TRIM_HSRCP, 0x3Fu);
+            PDSS_TRIM_BB_GDRVO_1_TRIM_HSRCP, BB_GDRVO_1_TRIM_HSRCP_VAL_PMG1B1);
+#else
+        CY_USBPD_REG_FIELD_UPDATE(pd_trims->trim_bb_gdrvo_1,
+            PDSS_TRIM_BB_GDRVO_1_TRIM_HSRCP, BB_GDRVO_1_TRIM_HSRCP_VAL);
+#endif /* PDL_VOUTBB_RCP_ENABLE */
         CY_USBPD_REG_FIELD_UPDATE(pd->bb_gdrvo_1_ctrl, 
             PDSS_BB_GDRVO_1_CTRL_BB_GDRVO_T_HSRCP, (uint32_t)0x40u);
 
@@ -681,7 +715,8 @@ static void Cy_USBPD_BB_VregInrushDetEnCb( cy_en_usbpd_timer_id_t id, void *cont
     {
 
         /* Start a timer to check buck-boost enable status */
-        usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx, CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx, CY_USBPD_APP_HAL_VREG_TIMER),
+        usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx,
+            (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx, CY_USBPD_APP_HAL_VREG_TIMER),
             PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
     }
 }
@@ -732,7 +767,8 @@ static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdC
 
 #if PDL_VREG_INRUSH_DET_ENABLE
     /* Re-enable VREG Inrush fault detection as Buck-Boost is up */
-    context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER), PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
+    context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER),
+        PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 }
 
@@ -977,7 +1013,7 @@ static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context)
      * restrict Inrush current.
      */
 
-    context->timerStopcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
 
     Cy_USBPD_Fault_VregInrushDetDis(context);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
@@ -1202,6 +1238,8 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
     
     if (context->bbEnableStatus == true)
     {
+        /* For PMG1B1 stop BB quickly and later stop timers.This need to avoid BB VOUT spike when load is removed. */
+#if !defined(CY_DEVICE_SERIES_PMG1B1)
         /* Stop the regulator startup monitor timer */
         context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
     
@@ -1210,9 +1248,9 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
 
 #if PDL_VREG_INRUSH_DET_ENABLE
         /* Disable vreg fault timer */
-        context->timerStopcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
-
+#endif /* #if !defined(CY_DEVICE_SERIES_PMG1B1) */
         /* 
          * If BB disable is called before soft start not completed, 
          * then revert the soft start assisting functions. 
@@ -1283,6 +1321,19 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
 #if PDL_BB_ILIM_DET_ENABLE
         Cy_USBPD_Fault_BbIlimDetDis(context);
 #endif /* PDL_BB_ILIM_DET_ENABLE */
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+        /* Stop the regulator startup monitor timer */
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
+
+        /* Stop OVP, discharge and timers used for bb_enable. */
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER));
+
+#if PDL_VREG_INRUSH_DET_ENABLE
+        /* Disable vreg fault timer */
+        context->timerStopcbk(context,  (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+#endif /* PDL_VREG_INRUSH_DET_ENABLE */
+#endif /* #if defined(CY_DEVICE_SERIES_PMG1B1) */
 
         context->bbEnableStatus = false;
         context->bbEnableDoneStatus = false;
@@ -1392,9 +1443,9 @@ void Cy_USBPD_BB_Init(cy_stc_usbpd_context_t *context)
      * starts from bit position 0, the left shift operation is redundant. Yet this operation is 
      * retained to keep it generic and compatible for bitfields starting from other bit positions. */
     CY_USBPD_REG_FIELD_UPDATE(pd->bbctrl_bb_fixed_cycle_sw_ctrl, PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_HS1_FIXD_DUTY_CYCLE_BBOOST, /* PRQA S 2985 */
-        NS_TO_BBCLK_CYCLE_CNT(2000u));
+        NS_TO_BBCLK_CYCLE_CNT(BB_HS1_FIXED_DUTY_CYCLE_BOOST_NS(fix_freq_khz)));
     CY_USBPD_REG_FIELD_UPDATE(pd->bbctrl_bb_fixed_cycle_sw_ctrl, PDSS_BBCTRL_BB_FIXED_CYCLE_SW_CTRL_LS2_FIXD_DUTY_CYCLE_BBUCK,
-        NS_TO_BBCLK_CYCLE_CNT(500u));
+        NS_TO_BBCLK_CYCLE_CNT(BB_LS2_FIXED_DUTY_CYCLE_BUCK_NS(fix_freq_khz)));
 
     /* Transient load sample and hold configuration */
     pd->bbctrl_clk_ctrl2 = ((pd->bbctrl_clk_ctrl2 &

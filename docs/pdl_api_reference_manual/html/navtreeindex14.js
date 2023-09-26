@@ -247,7 +247,7 @@ var NAVTREEINDEX14 =
 "group__group__usbpd__vbus__ctrl__enums.html#ggaa7bbc58027c888e1c24c06967a3bd659ad0ee664929ddab9fcd323174b37730ae":[2,25,6,0,0,3],
 "group__group__usbpd__vbus__ctrl__functions.html":[2,25,6,1],
 "group__group__usbpd__vbus__ctrl__functions.html#ga00630d3d877db9b258604a8ecc5d734b":[2,25,6,1,3],
-"group__group__usbpd__vbus__ctrl__functions.html#ga0668a91bb69c1936738580e6759e9ebd":[2,25,6,1,82],
+"group__group__usbpd__vbus__ctrl__functions.html#ga0668a91bb69c1936738580e6759e9ebd":[2,25,6,1,93],
 "group__group__usbpd__vbus__ctrl__functions.html#ga0a592b0e8317d0370177732d37a19a95":[2,25,6,1,12],
 "group__group__usbpd__vbus__ctrl__functions.html#ga0a7f56915943d65c1f283bb35afa0738":[2,25,6,1,47]
 };

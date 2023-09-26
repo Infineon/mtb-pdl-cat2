@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.50
+* \version 2.60
 *
 * The source file of the USBPD IDAC Control driver.
 *
@@ -1657,8 +1657,12 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
      * Abort any ongoing IBTR operation before starting new.
      */
     Cy_USBPD_IBTR_Abort(context);
-
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+    Cy_USBPD_IBTR_Set(context, vref_sel, context->ibtrCbk);
+#else
     Cy_USBPD_IBTR_Set(context, vref_sel, NULL);
+#endif /* #if defined(CY_DEVICE_SERIES_PMG1B1) */
+
 #else /* !PDL_IBTR_ENABLE */
     regval = pd->refgen_3_ctrl;
     regval &= ~(PDSS_REFGEN_3_CTRL_SEL10_MASK);

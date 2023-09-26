@@ -111,7 +111,7 @@ typedef enum {
 #define CY_IP_M0S8CPUSSV3_VERSION       3u
 #define CY_IP_M0S8CSDV2                 1u
 #define CY_IP_M0S8CSDV2_INSTANCES       1u
-#define CY_IP_M0S8CSDV2_VERSION         2u
+#define CY_IP_M0S8CSDV2_VERSION         1u
 #define CY_IP_M0S8IOSS                  1u
 #define CY_IP_M0S8IOSS_INSTANCES        1u
 #define CY_IP_M0S8IOSS_VERSION          1u

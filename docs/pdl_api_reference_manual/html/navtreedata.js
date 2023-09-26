@@ -31,12 +31,12 @@ var NAVTREEINDEX =
 "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a95f87b02453659a63fc1811ed0710dfb",
 "group__group__usbpd__legacy__functions.html#ga3ac50f348ceb6e08f4341ba0acacdd3a",
 "group__group__usbpd__vbus__ctrl__functions.html#ga0b82553461268677f9cce35203353c4b",
-"structcy__pd__pd__do__t_1_1_b_a_t___s_n_k.html#a4a98d2b831acadb226c1e792e233f776",
-"structcy__pd__pd__do__t_1_1_s_t_d___a_m_a___v_d_o.html#aae68bb5ae3813613a509f64b44e6e746",
-"structcy__stc__canfd__r1__t.html#a41e0ca050fccf1bff821697b75f0b5a3",
-"structcy__stc__msc__base__config__t.html#ac506213ce7b07758e4e697505bcf025e",
-"structcy__stc__slow__discharge__cfg__t.html#af9fbd37f46f52c45816ad77ad85e4935",
-"structcy__stc__usbpd__context__t.html#afd6368256442f05852d4d769e5c92c80"
+"structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a78022805cfbe7216d6925bf003135b8f",
+"structcy__pd__pd__do__t_1_1_s_r_c___g_e_n.html#a7d8845b7d4d87daab8701f8dc87cfd8b",
+"structcy__stc__canfd__interrupt__handling__t.html",
+"structcy__stc__msc__base__config__t.html#a633687e77a29d70ecc3bfa77708fedb6",
+"structcy__stc__seglcd__disp__t.html#a886c5f20ab0a153ff08ebdf0f227d390",
+"structcy__stc__usbpd__context__t.html#add58507ffd062af7d70998c6a99afe33"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

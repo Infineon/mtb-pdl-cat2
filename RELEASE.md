@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.6.0
+# mtb-pdl-cat2 peripheral driver library v2.7.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,23 +7,21 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-Support for new devices of the WLC1 device family:
-- WLC1515-68LDXS
+- Support for new MPNs devices of the PSoC 4100S MAX device family.
 
 ### Updated personalities
 
-- I2C 1.0, MXI2C 1.0 - Added INFO DRC about the possible shift of the actual data rate on the I2C bus.
-- CANFD 1.0 - Fixed max limits for Message RAM Address offset value not to exceed existing RAM area.
-- USBPD 1.0 - Added Default buck-boost controller output voltage field.
+- USBPD 1.0 - Pwm Fix Freq Dith parameter for buck-boost controller is set to integer type,
+fixed enumeration order of Pwm Dithering Type parameter.
 
 ### Updated drivers
 
-- [SCB 4.40](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
-- [CANFD 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
-- [SYSLIB 3.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
-- [USBPD 2.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [USBPD 2.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [WDT 1.0.3](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdt.html)
 
 ## Known Issues
+
+When WLC1115-68LQXQ or WLC1150-68LQXQ based project is compiled by IAR compiler the following warning  issued: "/builds/repo/bsp_csp/output/libs/COMPONENT_CAT2/mtb-pdl-cat2/drivers/source/cy_usbpd_vbus_ctrl.c",4052: dynamic initialization in unreachable code. This warning do not cause any system malfunction.
 
 ## Defect fixes
 

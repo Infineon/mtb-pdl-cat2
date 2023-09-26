@@ -98,7 +98,7 @@
     <ParamBool id="BuckBoost" name="Buck Boost" group="Buck Boost Configuration" default="false" visible="`${buckBoostCapable}`" editable="true" desc="Enables Buck Boost Feature." />  
     <ParamRange id="CableResistance" name="-- Cable Resistance" group="Buck Boost Configuration" default="0" min="0" max="700" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Cable Resistance in mO" />
     <ParamRange id="OutOffsetVolt" name="-- Buck Boost output offset voltage" group="Buck Boost Configuration" default="0" min="0" max="2000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output offset voltage (mV)" />
-    <ParamRange id="OutVolt" name="-- Buck Boost output voltage" group="Buck Boost Configuration" default="20000" min="0" max="21000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output voltage (mV)" />    
+    <ParamRange id="OutVolt" name="-- Buck Boost output voltage" group="Buck Boost Configuration" default="20000" min="0" max="21000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Buck Boost output voltage (mV)" />
     <ParamRange id="CurrSenseResistor" name="-- Current sense resistor" group="Buck Boost Configuration" default="5000" min="1000" max="10000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="Current sense resistor (µO)" />
     <ParamChoice id="NfetSrcDrvStrength" name="-- NFET Source Drive strength" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="NFET Source Drive strength" >
       <Entry name="Slow" value="0" visible="true" />
@@ -212,10 +212,11 @@
       <Entry name="20.4" value="1" visible="true" />
       <Entry name="29.2" value="0" visible="true" />
     </ParamChoice>
-    <ParamChoice id="PwmDitheringType" name="-- PWM dithering type" group="Buck Boost Configuration" default="0" visible="`${BuckBoost}`" editable="true" desc="HS2 Gate Pull up drive Strength" >
-      <Entry name="Disable" value="0" visible="true" />
-      <Entry name="Pseudo Random" value="1" visible="true" />
-      <Entry name="Triangular" value="2" visible="true" />
+    <ParamChoice id="PwmDitheringType" name="-- PWM dithering type" group="Buck Boost Configuration" default="3" visible="`${BuckBoost}`" editable="true" desc="PWM dithering type" >
+      <Entry name="Triangular" value="0" visible="true" />
+      <Entry name="Pseudo Random Galois" value="1" visible="true" />
+      <Entry name="Pseudo Random Fibonacci" value="2" visible="true" />
+      <Entry name="Disable" value="3" visible="true" />
     </ParamChoice>
     <ParamRange id="PwmDitheringRange" name="-- PWM dithering frequency range" group="Buck Boost Configuration" default="0" min="0" max="300" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering frequency range (%)" />
     <ParamRange id="PowerInductor" name="-- Power inductor" group="Buck Boost Configuration" default="6800" min="1000" max="20000" resolution="1" visible="`${BuckBoost}`" editable="true" desc="PWM dithering Power inductor (nH)" />
@@ -227,7 +228,7 @@
       <Entry name="48" value="48" visible="true" />
     </ParamChoice>
 
-    <ParamString id="PwmFixFreqDith" name="-- Pwm Fix Freq Dith" group="Buck Boost Configuration" default="`${((PwmFixedFrequency / 5) * (10000 - PwmDitheringRange * PwmDitheringRange)) / 10000.0}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
+    <ParamString id="PwmFixFreqDith" name="-- Pwm Fix Freq Dith" group="Buck Boost Configuration" default="`${((PwmFixedFrequency / 5) * (10000 - PwmDitheringRange * PwmDitheringRange)) / 10000}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
     <ParamString id="PwmDithSpreadCycles" name="-- Pwm Dith Spread Cycles" group="Buck Boost Configuration" default="`${(100 * BbClkFrequency * 1000 * PwmDitheringRange)/ ((PwmFixedFrequency) * (10000 - PwmDitheringRange * PwmDitheringRange))}`" visible="`${BuckBoost}`" editable="false" desc="Pwm Fixed Frequency Dithering" />
 
     <!-- Power params that not used in USB Charging project -->

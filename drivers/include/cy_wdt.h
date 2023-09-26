@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_wdt.h
-* \version 1.0.2
+* \version 1.0.3
 *
 *  This file provides constants and parameter values for the WDT driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* Copyright 2016-2023 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -188,7 +188,9 @@
 *
 * \section group_wdt_section_use_case_2 Use case 2. Configure the WDT for the system reset generation after a configurable interval.
 *
-* In this case WDT resets the system every third WDT event (1.23s at ILO 40kHz).
+* In this case, the WDT resets every third WDT event of the system(1.2287s at ILO 40kHz).
+*
+* As part of this code, the snippet uses the formula from the <b> Functional Description </b>.
 *
 * \snippet wdt_snippet.c snippet_WDT_useCase_2_config_data
 * \snippet wdt_snippet.c snippet_WDT_useCase_2_config
@@ -201,6 +203,11 @@
 * \section group_wdt_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.0.3</td>
+*     <td>Updated code snippets.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0.2</td>
 *     <td>Update the paths to the code snippets.</td>

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.50
+* \version 2.60
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -1992,7 +1992,6 @@ typedef struct cy_stc_usbpd_context_t_
     /** Callback function for VBUS OCP fault */
     cy_cb_vbus_fault_t vbusOcpCbk;
 
-#if defined(CY_DEVICE_SERIES_PMG1B1)
     /** Callback function for VBAT OVP fault */
     cy_cb_vbus_fault_t vbatOvpCbk;
 
@@ -2001,7 +2000,6 @@ typedef struct cy_stc_usbpd_context_t_
 
     /** Callback function for VBAT OCP fault */
     cy_cb_vbus_fault_t vbatOcpCbk;
-#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
 
     /** Callback function for CC/SBU OVP fault */
     cy_cb_vbus_fault_t ccSbuOvpCbk;
@@ -2189,7 +2187,7 @@ typedef struct cy_stc_usbpd_context_t_
 
     /** Callback function for Brown Out Detection (BOD) detection */
     cy_cb_adc_events_t bodCbk;
-    
+
     /** Buck-boost regulation enable status */
     bool bbEnableStatus;
 
@@ -2231,6 +2229,10 @@ typedef struct cy_stc_usbpd_context_t_
 
     /** USBPD context pointer for all ports. */
     struct cy_stc_usbpd_context_t_ *altPortUsbPdCtx[NO_OF_TYPEC_PORTS];
+
+    /** Callback function for BB Vout RCP fault */
+    cy_cb_vbus_fault_t voutRcpCbk;
+
 } cy_stc_usbpd_context_t;
 
 

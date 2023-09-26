@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.50
+* \version 2.60
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -631,7 +631,6 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
     {
         return CY_USBPD_STAT_BAD_PARAM;
     }
-
     pd = context->base;
 
 #if defined(CY_IP_MXUSBPD)
@@ -659,8 +658,9 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
 
     /* Enable PUMP */
     Cy_USBPD_Pump_Enable (context, 0);
-
+#if !defined(CY_DEVICE_SERIES_PMG1B1)
     Cy_SysLib_DelayUs(50);
+#endif /* !defined(CY_DEVICE_SERIES_PMG1B1) */
 
     pd->cc_ctrl_0  |= (PDSS_CC_CTRL_0_CMP_EN | PDSS_CC_CTRL_0_RX_EN);
 
@@ -4601,6 +4601,21 @@ void Cy_USBPD_Intr1Handler (
         }
     }
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
+
+#if PDL_VOUTBB_RCP_ENABLE
+    if ((pd->intr17_masked & PDSS_INTR17_MASKED_PDBB_GDRVO_HSRCP_MASKED) != 0U)
+    {
+        /* Disable and Clear the interrupt. */
+        pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_GDRVO_HSRCP_MASK;
+        pd->intr17 |= PDSS_INTR17_PDBB_GDRVO_HSRCP;
+
+        if(context->voutRcpCbk != NULL)
+        {
+            context->voutRcpCbk(context, true);
+        }
+    }
+#endif /* PDL_VOUTBB_RCP_ENABLE */
+
 
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 }

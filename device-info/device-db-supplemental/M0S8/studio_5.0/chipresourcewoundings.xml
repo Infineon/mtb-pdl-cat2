@@ -79,12 +79,4 @@
       <Block name="pass[1].sarmux[0].tempsensor[0]" />
     </ResourceIndex>
   </IndexResourceWounding>
-  <IndexResourceWounding name="DAC8_REMOVED">
-    <ResourceIndex index="0">
-      <Block name="csd.idac0" />
-    </ResourceIndex>
-    <ResourceIndex index="1">
-      <Block name="csd.idac1" />
-    </ResourceIndex>
-  </IndexResourceWounding>
 </Woundings>

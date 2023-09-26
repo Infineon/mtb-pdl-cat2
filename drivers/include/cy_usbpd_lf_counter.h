@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_lf_counter.h
-* \version 2.50
+* \version 2.60
 *
 * Provides API declarations of the USBPD LF Counter driver.
 *

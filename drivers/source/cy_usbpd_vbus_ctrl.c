@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.50
+* \version 2.60
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -4845,7 +4845,9 @@ void Cy_USBPD_Fault_Vconn_OcpIntrHandler(cy_stc_usbpd_context_t *context)
         (void)context->vconnOcpCbk (context, true);
 #else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
         /* Start the debounce timer. */
-        context->timerStartcbk(context, context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER), debounce, Cy_USBPD_Fault_Vconn_OcpTimerCb);
+        context->timerStartcbk(context, context,
+                (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER),
+                debounce, Cy_USBPD_Fault_Vconn_OcpTimerCb);
 #endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
     }
     /* If negative edge interrupt: Current is back within limit. */
@@ -4856,10 +4858,12 @@ void Cy_USBPD_Fault_Vconn_OcpIntrHandler(cy_stc_usbpd_context_t *context)
         if (retval == true)
         {
 #else /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
-        if (context->timerIsRunningcbk(context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER)))
+        if (context->timerIsRunningcbk(context,
+                (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER)))
         {
             /* Stop the debounce timer. */
-            context->timerStopcbk(context, CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER));
+            context->timerStopcbk(context,
+                    (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_VCONN_OCP_DEBOUNCE_TIMER));
 #endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
             /* Look for positive edge of comparator. */
@@ -10360,8 +10364,6 @@ void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context)
      CY_UNUSED_PARAMETER(context);
 }
 
-#if defined(CY_DEVICE_SERIES_PMG1B1)
-
 /* Min OVP detection level for VBAT. */
 #define BAT_OVP_DETECT_MIN              (3000u)
 
@@ -10401,8 +10403,8 @@ void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context)
 * configuration and data retention. The user must not modify anything
 * in this structure.
 *
-* \param volt
-* Contract Voltage in mV units.
+* \param threshold
+* OVP Voltage threshold in mV units.
 *
 * \param filterSel
 * Filter value
@@ -10420,6 +10422,7 @@ void Cy_USBPD_Fault_Vbat_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t thr
 {
     CY_UNUSED_PARAMETER(pctrl);
 
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
     uint32_t regVal;
     uint16_t vref;
@@ -10493,6 +10496,12 @@ void Cy_USBPD_Fault_Vbat_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t thr
 
     /* Enable Interrupt. */
     pd->intr7_mask |= (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(threshold);
+    CY_UNUSED_PARAMETER(filterSel);
+    (void)(cy_cb_vbus_fault_t)cb;
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 
@@ -10517,6 +10526,7 @@ void Cy_USBPD_Fault_Vbat_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 {
     CY_UNUSED_PARAMETER(pctrl);
 
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
 
@@ -10539,6 +10549,9 @@ void Cy_USBPD_Fault_Vbat_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
     context->vbatOvpCbk = NULL;
 
     Cy_SysLib_ExitCriticalSection(state);
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 /*******************************************************************************
@@ -10556,6 +10569,8 @@ void Cy_USBPD_Fault_Vbat_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 {
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
+
     PPDSS_REGS_T pd = context->base;
 
     /* Disable and clear OV interrupt. */
@@ -10567,6 +10582,9 @@ void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context)
     {
         context->vbatOvpCbk(context, true);
     }
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 /*
@@ -10598,8 +10616,8 @@ void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 * configuration and data retention. The user must not modify anything
 * in this structure.
 *
-* \param volt
-* Contract Voltage in mV units.
+* \param threshold
+* UVP threshold Voltage in mV units.
 *
 * \param filterSel
 * Filter value
@@ -10615,6 +10633,7 @@ void Cy_USBPD_Fault_Vbat_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Fault_Vbat_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t threshold, uint8_t filterSel, cy_cb_vbus_fault_t cb, bool pctrl)
 {
     CY_UNUSED_PARAMETER(pctrl);
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
 
     uint16_t vref;
     uint32_t regVal = 0;
@@ -10676,6 +10695,12 @@ void Cy_USBPD_Fault_Vbat_UvpEnable(cy_stc_usbpd_context_t *context, uint16_t thr
 
     /* Enable Interrupt. */
     pd->intr7_mask |= (1U << CY_USBPD_VBUS_FILTER_ID_UV);
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(threshold);
+    CY_UNUSED_PARAMETER(filterSel);
+    (void)(cy_cb_vbus_fault_t)cb;
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 
@@ -10700,6 +10725,7 @@ void Cy_USBPD_Fault_Vbat_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 {
     CY_UNUSED_PARAMETER(pctrl);
 
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
 
@@ -10722,6 +10748,10 @@ void Cy_USBPD_Fault_Vbat_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
     context->vbatUvpCbk = NULL;
 
     Cy_SysLib_ExitCriticalSection (state);
+
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 /*******************************************************************************
@@ -10739,6 +10769,8 @@ void Cy_USBPD_Fault_Vbat_UvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbat_UvpIntrHandler(cy_stc_usbpd_context_t *context)
 {
+
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
 
     /* Disable and clear UV interrupt. */
@@ -10750,6 +10782,9 @@ void Cy_USBPD_Fault_Vbat_UvpIntrHandler(cy_stc_usbpd_context_t *context)
     {
         context->vbatUvpCbk(context, false);
     }
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 #if (!PDL_VBUS_OCP_ENABLE)
@@ -10824,6 +10859,7 @@ void Cy_USBPD_Fault_Vbat_UvpIntrHandler(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbat_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb)
 {
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
     uint32_t vsense = 0;
     uint32_t vrefSel = 0;
@@ -11008,6 +11044,11 @@ void Cy_USBPD_Fault_Vbat_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
     }
 
     Cy_SysLib_ExitCriticalSection(state);
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(current);
+    (void)(cy_cb_vbus_fault_t)cb;
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
 /*******************************************************************************
@@ -11032,6 +11073,8 @@ void Cy_USBPD_Fault_Vbat_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbat_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 {
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
+
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
 
@@ -11070,8 +11113,13 @@ void Cy_USBPD_Fault_Vbat_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
     }
 
     Cy_SysLib_ExitCriticalSection (state);
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(pctrl);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
 /*******************************************************************************
 * Function Name: Cy_USBPD_BatOcpHandlerWrapper
 ****************************************************************************//**
@@ -11090,11 +11138,16 @@ void Cy_USBPD_Fault_Vbat_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 static void Cy_USBPD_BatOcpHandlerWrapper(cy_en_usbpd_timer_id_t id, void *callbackContext)
 {
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     cy_stc_usbpd_context_t *context=callbackContext;
      /* OCP debounced. Invoke callback. */
     context->vbatOcpCbk(context, true);
+#else
+    CY_UNUSED_PARAMETER(callbackContext);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
     CY_UNUSED_PARAMETER(id);
 }
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_Vbat_OcpIntrHandler
@@ -11114,6 +11167,7 @@ static void Cy_USBPD_BatOcpHandlerWrapper(cy_en_usbpd_timer_id_t id, void *callb
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbat_OcpIntrHandler(cy_stc_usbpd_context_t *context)
 {
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
     PPDSS_REGS_T pd = context->base;
     if ((pd->intr13_masked & (PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED)) != 0u)
     {
@@ -11148,7 +11202,8 @@ void Cy_USBPD_Fault_Vbat_OcpIntrHandler(cy_stc_usbpd_context_t *context)
                 pd->intr13_cfg_csa_scp_hs = regval2;
 
                 /* Start the debounce timer. */
-                context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,CY_USBPD_PD_OCP_DEBOUNCE_TIMER), context->ocpSwDbMs, Cy_USBPD_BatOcpHandlerWrapper);
+                context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_PD_TIMER_ID(context,
+                        CY_USBPD_PD_OCP_DEBOUNCE_TIMER), context->ocpSwDbMs, Cy_USBPD_BatOcpHandlerWrapper);
             }
             else
             {
@@ -11183,9 +11238,91 @@ void Cy_USBPD_Fault_Vbat_OcpIntrHandler(cy_stc_usbpd_context_t *context)
             }
         }
     }
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 }
 
-#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Voutbb_RcpEnable
+****************************************************************************//**
+*
+* Enables the detection of Buck-boost Vout RCP Fault.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \param cb
+* Callback function to be called on fault detection.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Voutbb_RcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb)
+{
+#if (PDL_VOUTBB_RCP_ENABLE && (defined(CY_DEVICE_SERIES_PMG1B1)))
+    PPDSS_REGS_T pd;
+    uint32_t state;
+    pd = context->base;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    /* Set up RCP callback. */
+    context->voutRcpCbk = cb;
+
+    /* Clear and enable Buck-boost Vout RCP detect interrupt. */
+    pd->intr17 = PDSS_INTR17_PDBB_GDRVO_HSRCP;
+    pd->intr17_mask |= PDSS_INTR17_MASK_PDBB_GDRVO_HSRCP_MASK;
+    
+    Cy_SysLib_ExitCriticalSection(state);
+#else /* !PDL_VOUTBB_RCP_ENABLE */
+    CY_UNUSED_PARAMETER(context);
+    (void)(cy_cb_vbus_fault_t)cb;
+#endif /* (PDL_VOUTBB_RCP_ENABLE && (defined(CY_DEVICE_SERIES_PMG1B1)) */
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Voutbb_RcpDisable
+****************************************************************************//**
+*
+* Disables the detection of Buck-boost Vout RCP Fault.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Voutbb_RcpDisable(cy_stc_usbpd_context_t *context)
+{
+#if (PDL_VOUTBB_RCP_ENABLE && (defined(CY_DEVICE_SERIES_PMG1B1)))
+    PPDSS_REGS_T pd;
+    uint32_t state;
+    pd = context->base;
+
+    state = Cy_SysLib_EnterCriticalSection();
+
+    /* Disable and Clear the interrupt. */
+    pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_GDRVO_HSRCP_MASK;
+    pd->intr17 |= PDSS_INTR17_PDBB_GDRVO_HSRCP;
+
+    /* Clear the stored configuration. */
+    context->voutRcpCbk = NULL;
+
+    Cy_SysLib_ExitCriticalSection(state);
+#else /* !PDL_VOUTBB_RCP_ENABLE */
+    CY_UNUSED_PARAMETER(context);
+#endif /* (PDL_VOUTBB_RCP_ENABLE && (defined(CY_DEVICE_SERIES_PMG1B1)) */
+}
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
 

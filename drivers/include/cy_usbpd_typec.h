@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.50
+* \version 2.60
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,19 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">2.60</td>
+*     <td>Added PMG1B1 BB VOUT RCP support.</td>
+*     <td>New feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Added PMG1B1 VBBOUT/VBAT protection functions to API reference manual.</td>
+*     <td>API reference manual update</td>
+*    </tr>
+*    <tr>
+*     <td>Updates to resolve compilation warnings related to casting of variables.</td>
+*     <td>Defect Fix.</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="2">2.50</td>
 *     <td>Updates to resolve compilation warnings related to unused variables.</td>
@@ -308,7 +321,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       50
+#define CY_USBPD_DRV_VERSION_MINOR                       60
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

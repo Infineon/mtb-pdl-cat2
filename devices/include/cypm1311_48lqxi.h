@@ -152,7 +152,7 @@ typedef enum {
 #define CY_IP_M0S8PERI_TR_INSTANCES     1u
 #define CY_IP_M0S8PERI_TR_VERSION       1u
 #define CY_IP_M0S8SCB                   1u
-#define CY_IP_M0S8SCB_INSTANCES         8u
+#define CY_IP_M0S8SCB_INSTANCES         7u
 #define CY_IP_M0S8SCB_VERSION           2u
 #define CY_IP_S8SRSSLT                  1u
 #define CY_IP_S8SRSSLT_INSTANCES        1u
@@ -284,7 +284,6 @@ typedef enum {
 #define TCPWM_CNT4                              ((TCPWM_CNT_Type*) &TCPWM->CNT[4])                                /* 0x40200200 */
 #define TCPWM_CNT5                              ((TCPWM_CNT_Type*) &TCPWM->CNT[5])                                /* 0x40200240 */
 #define TCPWM_CNT6                              ((TCPWM_CNT_Type*) &TCPWM->CNT[6])                                /* 0x40200280 */
-#define TCPWM_CNT7                              ((TCPWM_CNT_Type*) &TCPWM->CNT[7])                                /* 0x402002C0 */
 
 /*******************************************************************************
 *                                     SCB
@@ -297,7 +296,6 @@ typedef enum {
 #define SCB4_BASE                               0x40260000UL
 #define SCB5_BASE                               0x40270000UL
 #define SCB6_BASE                               0x40280000UL
-#define SCB7_BASE                               0x40290000UL
 #define SCB0                                    ((CySCB_Type*) SCB0_BASE)                                         /* 0x40220000 */
 #define SCB1                                    ((CySCB_Type*) SCB1_BASE)                                         /* 0x40230000 */
 #define SCB2                                    ((CySCB_Type*) SCB2_BASE)                                         /* 0x40240000 */
@@ -305,7 +303,6 @@ typedef enum {
 #define SCB4                                    ((CySCB_Type*) SCB4_BASE)                                         /* 0x40260000 */
 #define SCB5                                    ((CySCB_Type*) SCB5_BASE)                                         /* 0x40270000 */
 #define SCB6                                    ((CySCB_Type*) SCB6_BASE)                                         /* 0x40280000 */
-#define SCB7                                    ((CySCB_Type*) SCB7_BASE)                                         /* 0x40290000 */
 
 /*******************************************************************************
 *                                     CSD

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_wdt.c
-* \version 1.0.2
+* \version 1.0.3
 *
 *  This file provides the source code to the API for the WDT driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* Copyright 2016-2023 Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");

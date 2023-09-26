@@ -232,6 +232,9 @@ var group__group__usbpd__common__data__structures =
       [ "vbusOvpCbk", "structcy__stc__usbpd__context__t.html#af3655c0105e2121b94f0055acce3d19d", null ],
       [ "vbusUvpCbk", "structcy__stc__usbpd__context__t.html#a28de92844aebab1f2d6c5b182b62f5d6", null ],
       [ "vbusOcpCbk", "structcy__stc__usbpd__context__t.html#acda555a60a7a3cc1d0585da3cf035f32", null ],
+      [ "vbatOvpCbk", "structcy__stc__usbpd__context__t.html#a4fab8043a444ada8107f1f8388afa6cb", null ],
+      [ "vbatUvpCbk", "structcy__stc__usbpd__context__t.html#abe522e79dc80d0ae635c471dfb77d095", null ],
+      [ "vbatOcpCbk", "structcy__stc__usbpd__context__t.html#a3bb0ec02762ad3e6cb58102e695a2187", null ],
       [ "ccSbuOvpCbk", "structcy__stc__usbpd__context__t.html#a0f2d1f67eef6c10a18a6de98c6e665a5", null ],
       [ "vbusRcpCbk", "structcy__stc__usbpd__context__t.html#a2bed23085443dbcd338979871ebffaa0", null ],
       [ "vbusScpCbk", "structcy__stc__usbpd__context__t.html#a7ad264422ed00d4da58c6947a6c138db", null ],
@@ -282,7 +285,8 @@ var group__group__usbpd__common__data__structures =
       [ "bbEnableDoneStatus", "structcy__stc__usbpd__context__t.html#a3791230cec8327b89cea2e6487d071e7", null ],
       [ "bbSsPwmDuty", "structcy__stc__usbpd__context__t.html#aee65cc90037bbcc5bd5d9448a2f53bb4", null ],
       [ "pollForVsys", "structcy__stc__usbpd__context__t.html#ab58d87aa74b8a7b03e546c476c02ebdf", null ],
-      [ "altPortUsbPdCtx", "structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438", null ]
+      [ "altPortUsbPdCtx", "structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438", null ],
+      [ "voutRcpCbk", "structcy__stc__usbpd__context__t.html#aeb60f72517f8c73f08ee36ed13a3eadd", null ]
     ] ],
     [ "cy_pd_pd_hdr_t", "unioncy__pd__pd__hdr__t.html", [
       [ "val", "unioncy__pd__pd__hdr__t.html#ad1109ebd4635054241eae5bf6d39a832", null ],

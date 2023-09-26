@@ -1,5 +1,16 @@
 var NAVTREEINDEX19 =
 {
+"structcy__stc__msc__base__config__t.html#a633687e77a29d70ecc3bfa77708fedb6":[2,10,2,2,8],
+"structcy__stc__msc__base__config__t.html#a6dffe0e0fb2cc6815ce190aeee4fde59":[2,10,2,2,14],
+"structcy__stc__msc__base__config__t.html#a6ef5002a80ba26084d85a805aeec658e":[2,10,2,2,12],
+"structcy__stc__msc__base__config__t.html#a799609c56d6de34f77b9685b28ff7e3f":[2,10,2,2,33],
+"structcy__stc__msc__base__config__t.html#a8b7ab44e40ef980e97261335437b096e":[2,10,2,2,27],
+"structcy__stc__msc__base__config__t.html#a8e1a9833a14285abf9e68d3f7c7577fa":[2,10,2,2,32],
+"structcy__stc__msc__base__config__t.html#a8f97e815761a16356ab593fe026f844d":[2,10,2,2,34],
+"structcy__stc__msc__base__config__t.html#a9b81716911bc692626e3da0e81663f27":[2,10,2,2,23],
+"structcy__stc__msc__base__config__t.html#aa1852dd732247aa5725107916dca1d35":[2,10,2,2,18],
+"structcy__stc__msc__base__config__t.html#aaffd8a3bf6b475ebc645b94bf879ffb2":[2,10,2,2,16],
+"structcy__stc__msc__base__config__t.html#ab3c21afc1b6ce2f695157a06da127f19":[2,10,2,2,13],
 "structcy__stc__msc__base__config__t.html#ac506213ce7b07758e4e697505bcf025e":[2,10,2,2,11],
 "structcy__stc__msc__base__config__t.html#ac5f5aac15703c08e79d3b25d1f8bcfef":[2,10,2,2,31],
 "structcy__stc__msc__base__config__t.html#ac658be21e7a48748278cce3f44cc5080":[2,10,2,2,5],
@@ -238,16 +249,5 @@ var NAVTREEINDEX19 =
 "structcy__stc__seglcd__disp__t.html":[2,14,2,2],
 "structcy__stc__seglcd__disp__t.html#a05ed7ce4a52b244a0f226a2a2a33ee1e":[2,14,2,2,2],
 "structcy__stc__seglcd__disp__t.html#a6df39e75cef81d3809897a2e23182168":[2,14,2,2,1],
-"structcy__stc__seglcd__disp__t.html#a80a819d5a9bf227fab85187391c63c1c":[2,14,2,2,4],
-"structcy__stc__seglcd__disp__t.html#a886c5f20ab0a153ff08ebdf0f227d390":[2,14,2,2,3],
-"structcy__stc__seglcd__disp__t.html#a92e348e14cdae68278381927802b48fc":[2,14,2,2,0],
-"structcy__stc__seglcd__font__t.html":[2,14,2,1],
-"structcy__stc__seglcd__font__t.html#a128a4b366ab894415a75d0635fb368f7":[2,14,2,1,2],
-"structcy__stc__seglcd__font__t.html#a3f2c5ab28c39155b7a5a8b4b0d1bb04f":[2,14,2,1,0],
-"structcy__stc__seglcd__font__t.html#ab242c227ea32e6e468c000bf83f1fc69":[2,14,2,1,3],
-"structcy__stc__seglcd__font__t.html#ae899ae5eedf0babd3416bf3fd9979eba":[2,14,2,1,1],
-"structcy__stc__slow__discharge__cfg__t.html":[2,25,0,2,13],
-"structcy__stc__slow__discharge__cfg__t.html#a3eb5e2dfca3c35cab64c0b769d4a8de6":[2,25,0,2,13,0],
-"structcy__stc__slow__discharge__cfg__t.html#a8395e5ad5c696cfbb3fce9ef015a9af4":[2,25,0,2,13,3],
-"structcy__stc__slow__discharge__cfg__t.html#a9caa0a7d63844e8faebf9fb1c1e5d5b6":[2,25,0,2,13,1]
+"structcy__stc__seglcd__disp__t.html#a80a819d5a9bf227fab85187391c63c1c":[2,14,2,2,4]
 };
