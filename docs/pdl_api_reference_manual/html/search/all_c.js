@@ -4,6 +4,7 @@ var searchData=
   ['negvref',['negVref',['../structcy__stc__sar__config__t.html#a413d545a2e73f4cde796ec9c12b59c0a',1,'cy_stc_sar_config_t']]],
   ['nextitm',['nextItm',['../structcy__stc__syspm__callback__t.html#a491e913ae8b54d0a61f2ac6959abf8ab',1,'cy_stc_syspm_callback_t']]],
   ['no_5fof_5ftypec_5fports',['NO_OF_TYPEC_PORTS',['../group__group__usbpd__common__macros.html#ga094fc3ff03903fcd881b09a6c062b10c',1,'cy_usbpd_defines.h']]],
+  ['nodpsuspend',['noDpSuspend',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#a3fb5ee48b115c133650dc57709e06fbf',1,'cy_pd_pd_do_t::DP_STATUS_VDO']]],
   ['nonmatchingframesextended',['nonMatchingFramesExtended',['../structcy__stc__canfd__global__filter__config__t.html#a7c90e10439cb1881407990c66e521fd3',1,'cy_stc_canfd_global_filter_config_t']]],
   ['nonmatchingframesstandard',['nonMatchingFramesStandard',['../structcy__stc__canfd__global__filter__config__t.html#abbd6e30ca429e9f46a03593f3a234042',1,'cy_stc_canfd_global_filter_config_t']]],
   ['noofrxbuffers',['noOfRxBuffers',['../structcy__stc__canfd__config__t.html#aa1d31fe51cdec3d61ffc472a5437669c',1,'cy_stc_canfd_config_t']]],

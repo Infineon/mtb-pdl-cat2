@@ -1,14 +1,25 @@
 var group__group__cryptolite__sha__macros =
 [
     [ "CY_CRYPTOLITE_SHA256_PAD_SIZE", "group__group__cryptolite__sha__macros.html#gaeacd19ddfbf42e33902d8084e19a801a", null ],
+    [ "CY_CRYPTOLITE_SHA384_PAD_SIZE", "group__group__cryptolite__sha__macros.html#ga2db0811667f4e83df7ca4345a237fc96", null ],
+    [ "CY_CRYPTOLITE_SHA512_PAD_SIZE", "group__group__cryptolite__sha__macros.html#ga142ecf01ad6d573b399731202275a294", null ],
     [ "CY_CRYPTOLITE_SHA256_DIGEST_SIZE", "group__group__cryptolite__sha__macros.html#ga416877ab415e7943b73a0d79963fa2fb", null ],
-    [ "CY_CRYPTOLITE_SHA_MAX_DIGEST_SIZE", "group__group__cryptolite__sha__macros.html#gaecbe94fa7345cd8a5bfac8d6cd0920c1", null ],
+    [ "CY_CRYPTOLITE_SHA384_DIGEST_SIZE", "group__group__cryptolite__sha__macros.html#ga94d7cddfca424658a804f0b7b6daf9c9", null ],
+    [ "CY_CRYPTOLITE_SHA512_DIGEST_SIZE", "group__group__cryptolite__sha__macros.html#ga51f6736a1c68412add7ec769e8f56e8d", null ],
     [ "CY_CRYPTOLITE_SHA256_BLOCK_SIZE", "group__group__cryptolite__sha__macros.html#ga3e619d10f23972bfadebe5be18137f05", null ],
-    [ "CY_CRYPTOLITE_SHA256_BLOCK_SIZE_U32", "group__group__cryptolite__sha__macros.html#gad7cd2ec37c8f67b6cc0a49f42c96cb8b", null ],
+    [ "CY_CRYPTOLITE_SHA384_BLOCK_SIZE", "group__group__cryptolite__sha__macros.html#ga015689949023ec094654a76b28b841f8", null ],
+    [ "CY_CRYPTOLITE_SHA512_BLOCK_SIZE", "group__group__cryptolite__sha__macros.html#ga8e4cc1d1c747f4c3ec3c5a32a8c5d32d", null ],
     [ "CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE", "group__group__cryptolite__sha__macros.html#gaf6d64142d93b3a92af1b4f21b96d94c7", null ],
+    [ "CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE_U32", "group__group__cryptolite__sha__macros.html#ga0a45832d1ef50079ac20da9a35d04e75", null ],
     [ "CY_CRYPTOLITE_SHA256_HASH_SIZE", "group__group__cryptolite__sha__macros.html#ga6d749f027df6aba958cdd1ec0cd4794b", null ],
-    [ "CY_CRYPTOLITE_SHA256_HASH_SIZE_U32", "group__group__cryptolite__sha__macros.html#ga2f5d1d0221a238c0dadb4321333a8846", null ],
+    [ "CY_CRYPTOLITE_SHA384_HASH_SIZE", "group__group__cryptolite__sha__macros.html#ga37e92cf6a6a35f3ab566a055a3b019b7", null ],
+    [ "CY_CRYPTOLITE_SHA512_HASH_SIZE", "group__group__cryptolite__sha__macros.html#gaa593a736cfc31ab50950de123ec90c69", null ],
     [ "CY_CRYPTOLITE_SHA_MAX_HASH_SIZE", "group__group__cryptolite__sha__macros.html#ga67f2983309e9f8173abe1984e3dd0004", null ],
+    [ "CY_CRYPTOLITE_SHA_MAX_HASH_SIZE_U32", "group__group__cryptolite__sha__macros.html#ga013b0d31071be40826565e8606a86c61", null ],
+    [ "CY_CRYPTOLITE_SHA256_SCHEDULE_SIZE", "group__group__cryptolite__sha__macros.html#gad6e0de9d7c2db29148b5c104a871785b", null ],
+    [ "CY_CRYPTOLITE_SHA384_SCHEDULE_SIZE", "group__group__cryptolite__sha__macros.html#ga9959265ce158a8cbc2d016738013f758", null ],
+    [ "CY_CRYPTOLITE_SHA512_SCHEDULE_SIZE", "group__group__cryptolite__sha__macros.html#ga56c40ed55b0c76fc9ee411cbd8c435fc", null ],
+    [ "CY_CRYPTOLITE_SHA_MAX_SCHEDULE_SIZE", "group__group__cryptolite__sha__macros.html#ga4754399f36f10b107d50d72833cb61b5", null ],
     [ "CY_CRYPTOLITE_MSG_SCH_CTLWD", "group__group__cryptolite__sha__macros.html#ga0a5680a204fa4fd3cc16285b0bdf4115", null ],
     [ "CY_CRYPTOLITE_PROCESS_CTLWD", "group__group__cryptolite__sha__macros.html#gaf4752e5720f668a27011a222a917a012", null ]
 ];

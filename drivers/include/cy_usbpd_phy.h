@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.h
-* \version 2.60
+* \version 2.70
 *
 * Provides API declarations of the USBPD transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -67,6 +67,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop);
 
+void Cy_USBPD_Intr0_RxTx_Handler(cy_stc_usbpd_context_t *context);
 cy_stc_pd_packet_extd_t *Cy_USBPD_Phy_GetRxPacket(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context);

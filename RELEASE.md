@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.7.0
+# mtb-pdl-cat2 peripheral driver library v2.8.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,17 +7,31 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Support for new MPNs devices of the PSoC 4100S MAX device family.
+
+- New MPNs of CCG7S Device Family were added.
+
+- Updated Cryptolite driver to add support for:
+    - SHA-384 and SHA-512
+    - RSA signature verification using the provided public key
+    
+- USBPD Driver:
+    - Corrected REFGEN control settings for PMG1S3
+    - Updated configuration table space for Dock solutions
+    - Updates related to HPD handling for PMG1S3
+
+- SCB Driver:
+    - I2C: Interrupt logic updated to handle the slave not ready condition
+    - Provided new function Cy_SCB_I2C_SlaveSendAckNack() that the user application can send ACK/NACK and configure buffer
 
 ### Updated personalities
 
-- USBPD 1.0 - Pwm Fix Freq Dith parameter for buck-boost controller is set to integer type,
-fixed enumeration order of Pwm Dithering Type parameter.
+- MXEZI2C, MXI2C, MXSPI, MXUART, SPI, UART - Resolved issue with empty scb connections
 
 ### Updated drivers
 
-- [USBPD 2.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
-- [WDT 1.0.3](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdt.html)
+- [USBPD 2.70](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [Cryptolite 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- [SCB 4.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
 
 ## Known Issues
 
@@ -34,8 +48,8 @@ This version of PDL was validated for compatibility with the following software 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.1.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.3.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.6.0       |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.4.1       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.11.0      |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  | 11.3.1       |
 | IAR compiler                                                                  |  9.30.1      |
@@ -60,4 +74,4 @@ This version of PDL was validated for compatibility with the following software 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
 
 ---
-© 2020-2023, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© 2020-2024, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

@@ -10727,6 +10727,1116 @@ Note that in DeepSleep mode this bit needs to be set to observe the DSI output o
       </registers>
     </peripheral>
     <peripheral>
+      <name>CRYPTO</name>
+      <description>Cryptography component</description>
+      <baseAddress>0x402C0000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>65536</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>CTL</name>
+          <description>Control</description>
+          <addressOffset>0x0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x1F</resetValue>
+          <resetMask>0x8000001F</resetMask>
+          <fields>
+            <field>
+              <name>OPCODE</name>
+              <description>Specifies the operation:
+'0': AES forward block cipher.
+'1': AES inverse block cipher.
+'16': SHA operation.
+'24': CRC operation.
+otherwise: undefined.</description>
+              <bitRange>[4:0]</bitRange>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>AES_FORWARD</name>
+                  <description>SRC_CTL0.OFFSET specifies the offset of the key (as used in the first  cipher round) in the memory buffer.
+SRC_CTL1.OFFSET specifies the offset of the plaintext in the memory buffer.
+DST_CTL0.OFFSET specifies the offset of the key (as used by the last  cipher round) in the memory buffer.
+DST_CTL1.OFFSET specifies the offset of the cipher in the memory buffer.</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>AES_INVERSE</name>
+                  <description>SRC_CTL0.OFFSET specifies the offset of the round key (as used in the first inverse cipher round) in the memory buffer.
+SRC_CTL1.OFFSET specifies the offset of the ciphertext in the memory buffer.
+DST_CTL0.OFFSET specifies the offset of the key (as used by the last inverse cipher round) in the memory buffer.
+DST_CTL1.OFFSET specifies the offset of the plaintext in the memory buffer.</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>SHA</name>
+                  <description>SRC_CTL0.OFFSET specifies the offset of the message in the memory buffer.
+SRC_CTL1.OFFSET specifies the offset of the input hash in the memory buffer.
+DST_CTL0.OFFSET specifies the offset of a temporary buffer (to hold message schedule round constants) in the memory buffer.
+DST_CTL1.OFFSET specifies the offset of the output hash in the memory buffer.</description>
+                  <value>16</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>CRC</name>
+                  <description>SRC_CTL0.OFFSET specifies the offset of the data in the memory buffer.
+
+When the operation has completed, the resulting CRC can be read from CRC_REM.</description>
+                  <value>24</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>ENABLED</name>
+              <description>IP enable:
+'0': Disabled. All non-retention registers (command and status registers) are reset to their default value when the IP is disabled. All retention registers retain their value when the IP is disabled.
+'1': Enabled.</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>STATUS</name>
+          <description>Status</description>
+          <addressOffset>0x4</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>BUSY</name>
+              <description>Reflects the state of the component:
+'0': IP (AES, SHA, CRC component) is not busy.
+'1': IP (AES, SHA, CRC component) is busy performing a operation. An operation is started through the CMD register or through the 'tr_in' input trigger. When the IP is busy, it is NOT possible to start another operation. When the IP is busy, it is possible to access the memory buffer (to prepare for another operation).</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CMD</name>
+          <description>Command</description>
+          <addressOffset>0x8</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>START</name>
+              <description>FW sets this field to '1' to start an operation as specified by CTL.OPCODE. HW sets this field to '0' to indicate that the operation has completed.
+
+HW can start an operation through the 'tr_in' input trigger. A rising edge ('0' to '1' transition) on this trigger starts an operation (as specified by CTL.OPCODE). When an operation completes, a two cycle '1' pulse (on 'clk_sys') is generated on the 'tr_out' output trigger.
+
+SW and HW control over the start of an operation should not be mixed.
+
+When an operation is busy (STATUS.BUSY is '1'), no new operation can be started. A SW write to START is ignored and a HW input trigger 'tr_in' rising edge is ignored.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SRC_CTL0</name>
+          <description>Source control 0</description>
+          <addressOffset>0x10</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FC</resetMask>
+          <fields>
+            <field>
+              <name>OFFSET</name>
+              <description>Word (32-bit) offset of source 0 in the data buffer.</description>
+              <bitRange>[10:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SRC_CTL1</name>
+          <description>Source control 1</description>
+          <addressOffset>0x14</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FC</resetMask>
+          <fields>
+            <field>
+              <name>OFFSET</name>
+              <description>Word (32-bit) offset of source 1 in the data buffer.</description>
+              <bitRange>[10:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>DST_CTL0</name>
+          <description>Destination control 0</description>
+          <addressOffset>0x20</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FC</resetMask>
+          <fields>
+            <field>
+              <name>OFFSET</name>
+              <description>Word (32-bit) offset of destination 0 in the data buffer.</description>
+              <bitRange>[10:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>DST_CTL1</name>
+          <description>Destination control 1</description>
+          <addressOffset>0x24</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FC</resetMask>
+          <fields>
+            <field>
+              <name>OFFSET</name>
+              <description>Word (32-bit) offset of destination 1 in the data buffer.</description>
+              <bitRange>[10:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>AES_CTL</name>
+          <description>AES control</description>
+          <addressOffset>0x100</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3</resetMask>
+          <fields>
+            <field>
+              <name>KEY_SIZE</name>
+              <description>AES key size:
+'0': 128-bit key, 10 rounds AES (inverse) cipher operation. SRC_CTL0 and DST_CTL0 specify the offset of a 16 Byte key in the memory buffer.
+'1': 192-bit key, 12 rounds AES (inverse) cipher operation. SRC_CTL0 and DST_CTL0 specify the offset of a 24 Byte key in the memory buffer.
+'2': 256-bit key, 14 rounds AES (inverse) cipher operation. SRC_CTL0 and DST_CTL0 specify the offset of a 32 Byte key in the memory buffer.
+'3': undefined</description>
+              <bitRange>[1:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_CTL</name>
+          <description>Pseudo random control</description>
+          <addressOffset>0x200</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>MAX</name>
+              <description>Specifies the maximum random value of the pseudo random number generator:
+'0': produces a random number in the range {0}
+'1': produces a random number in the range [0, 1]
+'2': produces a random number in the range [0, 1, 2]
+'3': produces a random number in the range [0, 3]
+...
+'(2^32)-1': produces a random number in the range [0, (2^32)-1].</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_CMD</name>
+          <description>Pseudo random command</description>
+          <addressOffset>0x208</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>START</name>
+              <description>SW sets this field to '1' to start the pseudo ransom number generator. HW clears this field to '0' when the operation has completed and the resulting pseudo random number (in the range [0, PR_CTL.MAX]) can be read from PR_RESULT.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_LFSR_CTL0</name>
+          <description>Pseudo random LFSR control 0</description>
+          <addressOffset>0x210</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>LFSR32</name>
+              <description>State of a 32-bit Linear Feedback Shift Registers (LFSR) that is used to generate a pseudo random bit sequence. This register needs to be initialized by SW. The initialization value should be different from '0'.
+
+The three PR_LFSR_CTL registers represents the state of a 32-bit, 31-bit and 29-bit LFSR. Individually, these LFSRs generate a pseudo random bit sequence that repeats itself after (2^32)-1, (2^31)-1 and (2^29)-1 bits. The numbers (2^32)-1, (2^31)-1 and (2^29)-1 are relatively prime (their greatest common denominator is '1'). The three bit sequence are combined (XOR'd) into a single bitstream to create a pseudo random bit sequence that repeats itself after ((2^32)-1) * ((2^31)-1) * ((2*29)-1) bits.
+
+The following polynomials are used:
+- 32-bit irreducible polynomial: x^32+x^30+x^26+x^25+1.
+- 31-bit irreducible polynomial: x^31+x^28+1.
+- 29-bit irreducible polynomial: x^29+x^27+1.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_LFSR_CTL1</name>
+          <description>Pseudo random LFSR control 1</description>
+          <addressOffset>0x214</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>LFSR31</name>
+              <description>State of a 31-bit Linear Feedback Shift Registers (LFSR) that is used to generate a pseudo random bit sequence. See PR_LFSR_CTL0.</description>
+              <bitRange>[30:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_LFSR_CTL2</name>
+          <description>Pseudo random LFSR control 2</description>
+          <addressOffset>0x218</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1FFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>LFSR29</name>
+              <description>State of a 29-bit Linear Feedback Shift Registers (LFSR) that is used to generate a pseudo random bit sequence. See PR_LFSR_CTL0.</description>
+              <bitRange>[28:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PR_RESULT</name>
+          <description>Pseudo random status</description>
+          <addressOffset>0x220</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>DATA32</name>
+              <description>Result of a pseudo random number generation operation. The resulting value DATA is in the range [0, PR_CTL.MAX]. HW generates the number in this field.
+Note that SW can write this field. This functionality can be used prevent information leakage from the privileged domain to the user domain.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_CTL0</name>
+          <description>True random control 0</description>
+          <addressOffset>0x280</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x30000</resetValue>
+          <resetMask>0x31FFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>SAMPLE_CLOCK_DIV</name>
+              <description>Specifies the clock divider that is used to sample oscillator data. This clock divider is wrt. 'clk_sys'.
+'0': sample clock is 'clk_sys'.
+'1': sample clock is 'clk_sys'/2.
+...
+'255': sample clock is 'clk_sys'/256.</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>RED_CLOCK_DIV</name>
+              <description>Specifies the clock divider that is used to produce reduced bits. 
+'0': 1 reduced bit is produced for each sample.
+'1': 1 reduced bit is produced for each 2 samples.
+...
+'255': 1 reduced bit is produced for each 256 samples.
+
+The reduced bits are considered random bits and shifted into TR_RESULT0.DATA32.</description>
+              <bitRange>[15:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>INIT_DELAY</name>
+              <description>Specifies an initialization delay: number of removed/dropped samples before reduced bits are generated. This field should be programmed in the range [1, 255]. After starting the oscillators, at least the first 2 samples should be removed/dropped to clear the state of internal synchronizers. In addition, it is advised to drop the second 2 samples from the oscillators (to circumvent the semi-predictable oscillator startup behavior). This result in the default field value of '3'. Field encoding is as follows:
+'0': 1 sample is dropped.
+'1': 2 samples are dropped.
+...
+'255': 256 samples are dropped.
+
+The TR_INITIALIZED interrupt cause is set to '1', when the initialization delay is passed.</description>
+              <bitRange>[23:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>VON_NEUMANN_CORR</name>
+              <description>Specifies if the 'von Neumann corrector' is disabled or enabled:
+'0': disabled.
+'1': enabled.
+The 'von Neumann corrector' post-processes the reduced bits to remove a '0' or '1' bias. The corrector operates on reduced bit pairs ('oldest bit, newest bit'):
+'00': no bit is produced.
+'01': '0' bit is produced (oldest bit).
+'10': '1' bit is produced (oldest bit).
+'11': no bit is produced.
+Note that the corrector produces bits at a random pace and at a frequency that is 1/4 of the reduced bit frequency (reduced bits are processed in pairs, and half of the pairs do NOT produce a bit).</description>
+              <bitRange>[24:24]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>STOP_ON_AP_DETECT</name>
+              <description>Specifies if TRNG functionality is stopped on an adaptive proportion test detection (when HW sets INTR.TR_AP_DETECT to '1'):
+'0': Functionality is NOT stopped.
+'1': Functionality is stopped (TR_CMD fields are set to '0' by HW).</description>
+              <bitRange>[28:28]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>STOP_ON_RC_DETECT</name>
+              <description>Specifies if TRNG functionality is stopped on a repetition count test detection (when HW sets INTR.TR_RC_DETECT to '1'):
+'0': Functionality is NOT stopped.
+'1': Functionality is stopped (TR_CMD fields are set to '0' by HW).</description>
+              <bitRange>[29:29]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_CTL1</name>
+          <description>True random control 1</description>
+          <addressOffset>0x284</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x20</resetValue>
+          <resetMask>0x3F</resetMask>
+          <fields>
+            <field>
+              <name>DATA_BIT_SIZE</name>
+              <description>Specifies the number of desired of bits in the generated random number (legal range: [1, 32]). The TR_DATA_AVAILABLE interrupt cause is set to '1' when TR_RESULT1.DATA_BIT_SIZE &gt;= DATA_BIT_SIZE.</description>
+              <bitRange>[5:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_RESULT0</name>
+          <description>True random result 0</description>
+          <addressOffset>0x288</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>DATA32</name>
+              <description>Generated true random number. HW generates the number in this field. When a new random bit is generated, it is shifted into the lowest bit position (DATA32[0]) and the highest bit position (DATA32[31]) is shifted out.
+
+Note that SW can write this field. This functionality can be used prevent information leakage.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_RESULT1</name>
+          <description>True random result 1</description>
+          <addressOffset>0x28C</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3F</resetMask>
+          <fields>
+            <field>
+              <name>DATA_BIT_SIZE</name>
+              <description>Specifies the number of bits in the generated true random number (TR_RESULT0.DATA32). When a new random bit is generated, this field is incremented by '1'. The value is in the range [0, 32] (a saturating counter is used).
+
+Note that SW can write this field. This functionality can be used prevent information leakage. 
+
+Typically, this field is updated/decremented in the interrupt handler. The interrupt handler decrements the field by the number of consumed bits. If the interrupt handler does NOT update this field (and TR_RESULT.DATA_BIT_SIZE is unchanged), the TR_DATA_AVAILABLE interrupt cause will remain activated. Therefore, proper interrupt based usage is as follows:
+- Consume bits from TR_RESULT0.
+- Write consumed bits in TR_RESULT0 to '0's (if information leakage needs to prevented).
+- Decrement TR_RESULT1 by the number of consumed bits.
+- Deactivate INTR.TR_DATA_AVAILABLE.</description>
+              <bitRange>[5:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_CMD</name>
+          <description>True random command</description>
+          <addressOffset>0x290</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3F</resetMask>
+          <fields>
+            <field>
+              <name>START_RO11</name>
+              <description>SW sets this field to '1' to start the ring oscillator with 11 inverters.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_RO15</name>
+              <description>SW sets this field to '1' to start the ring oscillator with 15 inverters.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_GARO15</name>
+              <description>SW sets this field to '1' to start the fixed Galois ring oscillator with 15 inverters.</description>
+              <bitRange>[2:2]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_GARO31</name>
+              <description>SW sets this field to '1' to start the programmable Galois ring oscillator with up to 31 inverters. The TR_GARO_CTL register specifies the programmable polynomial.</description>
+              <bitRange>[3:3]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_FIRO15</name>
+              <description>SW sets this field to '1' to start the fixed Fibonacci ring oscillator with 15 inverters.</description>
+              <bitRange>[4:4]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_FIRO31</name>
+              <description>SW sets this field to '1' to start the programmable Fibonacci ring oscillator with up to 31 inverters. The TR_FIRO_CTL register specifies the programmable polynomial.</description>
+              <bitRange>[5:5]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_GARO_CTL</name>
+          <description>True random GARO control</description>
+          <addressOffset>0x2A0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>POLYNOMIAL31</name>
+              <description>Polynomial for programmable Galois ring oscillator. The polynomial is represented WITHOUT the high order bit (this bit is always assumed '1'). The polynomial should be aligned such that the more significant bits (bit 30 and down) contain the polynomial and the less significant bits (bit 0 and up) contain padding '0's.</description>
+              <bitRange>[30:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_FIRO_CTL</name>
+          <description>True random FIRO control</description>
+          <addressOffset>0x2A4</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>POLYNOMIAL31</name>
+              <description>Polynomial for programmable Fibonacci ring oscillator. The polynomial is represented WITHOUT the high order bit (this bit is always assumed '1'). The polynomial should be aligned such that the more significant bits (bit 30 and down) contain the polynomial and the less significant bits (bit 0 and up) contain padding '0's.</description>
+              <bitRange>[30:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_CTL</name>
+          <description>True random monitor control</description>
+          <addressOffset>0x2C0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x2</resetValue>
+          <resetMask>0x3</resetMask>
+          <fields>
+            <field>
+              <name>BITSTREAM_SEL</name>
+              <description>Selection of the bitstream:
+'0': DAS bitstream.
+'1': RED bitstream.
+'2': TR bitstream.
+'3': Undefined.</description>
+              <bitRange>[1:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_CMD</name>
+          <description>True random monitor command</description>
+          <addressOffset>0x2C8</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3</resetMask>
+          <fields>
+            <field>
+              <name>START_AP</name>
+              <description>Adaptive proportion (AP) test enable:
+'0': Stopped.
+'1': Started.
+
+On a AP detection, HW sets this field to '0' and sets INTR.TR_AP_DETECT to '1.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>START_RC</name>
+              <description>Repetition count (RC) test enable:
+'0': Disabled.
+'1': Enabled.
+
+On a RC detection, HW sets this field to '0' and sets INTR.TR_RC_DETECT to '1.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_RC_CTL</name>
+          <description>True random monitor RC control</description>
+          <addressOffset>0x2D0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0xFF</resetValue>
+          <resetMask>0xFF</resetMask>
+          <fields>
+            <field>
+              <name>CUTOFF_COUNT8</name>
+              <description>Cutoff count (legal range is [1, 255]):
+'0': Illegal.
+'1': 1 repetition.
+...
+'255': 255 repetitions.</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_RC_STATUS0</name>
+          <description>True random monitor RC status 0</description>
+          <addressOffset>0x2D8</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>BIT</name>
+              <description>Current active bit value:
+'0': '0'.
+'1': '1'.
+
+This field is only valid when TR_MON_RC_STATUS1.REP_COUNT is NOT equal to '0'.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_RC_STATUS1</name>
+          <description>True random monitor RC status 1</description>
+          <addressOffset>0x2DC</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFF</resetMask>
+          <fields>
+            <field>
+              <name>REP_COUNT</name>
+              <description>Number of repetitions of the current active bit counter:
+'0': 0 repetitions.
+...
+'255': 255 repetitions.</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_AP_CTL</name>
+          <description>True random monitor AP control</description>
+          <addressOffset>0x2E0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0xFFFFFFFF</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>CUTOFF_COUNT16</name>
+              <description>Cutoff count (legal range is [1, 65535]).
+'0': Illegal.
+'1': 1 occurance.
+...
+'65535': 65535 occurances.</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>WINDOW_SIZE</name>
+              <description>Window size (minus 1) :
+'0': 1 bit.
+...
+'65535': 65536 bits.</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_AP_STATUS0</name>
+          <description>True random monitor AP status 0</description>
+          <addressOffset>0x2E8</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>BIT</name>
+              <description>Current active bit value:
+'0': '0'.
+'1': '1'.
+
+This field is only valid when TR_MON_AP_STATUS1.OCC_COUNT is NOT equal to '0'.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>TR_MON_AP_STATUS1</name>
+          <description>True random monitor AP status 1</description>
+          <addressOffset>0x2EC</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>OCC_COUNT</name>
+              <description>Number of occurances of the current active bit counter:
+'0': 0 occurances
+...
+'65535': 65535 occurances</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>WINDOW_INDEX</name>
+              <description>Counter to keep track of the current index in the window (counts down from TR_MON_AP_CTL.WINDOW_SIZE to '0').</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SHA_CTL</name>
+          <description>SHA control</description>
+          <addressOffset>0x300</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7</resetMask>
+          <fields>
+            <field>
+              <name>MODE</name>
+              <description>SHA mode:
+'0': SHA1. The message is 16 32 bits words: 64 Bytes. The hash is 5 32-bit words: 20 Bytes. There are 80 32-bit message schedule round constants: 320 Bytes.
+'1': SHA2_224, SHA2_256. The message is 16 32-bit words: 64 Bytes. The hash is 8 32-bit words: 32 Bytes. There are 64 32-bit message schedule round constants: 256 Bytes. The difference between SHA2-224 and SHA2-256 is entirely in software.
+'2': undefined
+'3': SHA2-384 (NOT supported)
+'4': SHA2-512 (NOT supported)
+'5': SHA2-512/224 (NOT supported)
+'6': SHA2-512/256 (NOT supported)
+'7': undefined</description>
+              <bitRange>[2:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_DATA_CTL0</name>
+          <description>CRC data control 0</description>
+          <addressOffset>0x400</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7FF0001</resetMask>
+          <fields>
+            <field>
+              <name>DATA_REVERSE</name>
+              <description>Specifies the bit order in which a data byte is processed (reversal is performed after XORing):
+'0': Most significant bit (bit 1) first.
+'1': Least significant bit (bit 0) first.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>DATA_SIZE</name>
+              <description>Size of the data in bytes (the size is limited by the memory buffer size), the number bytes processed is DATA_SIZE+1:
+'0': 1 byte.
+'1': 2 bytes.
+...
+'2047': 2048 bytes.</description>
+              <bitRange>[26:16]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_DATA_CTL1</name>
+          <description>CRC data control 1</description>
+          <addressOffset>0x404</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFF</resetMask>
+          <fields>
+            <field>
+              <name>DATA_XOR</name>
+              <description>Specifies a byte mask with which each data byte is XOR'd. The XOR is performed before data reversal.</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_POL_CTL</name>
+          <description>CRC polynomial control</description>
+          <addressOffset>0x410</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>POLYNOMIAL</name>
+              <description>CRC polynomial. The polynomial is represented without the high order bit (this bit is always assumed '1'). The polynomial should be aligned such that the more significant bits (bit 31 and down) contain the polynomial and the less significant bits (bit 0 and up) contain padding '0's. Some frequently used polynomials:
+- CRC32: POLYNOMIAL is 0x04c11db7.
+- CRC16: POLYNOMIAL is 0x80050000.
+- CRC16 CCITT: POLYNOMIAL is 0x10210000.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_LFSR_CTL</name>
+          <description>CRC LFSR control</description>
+          <addressOffset>0x414</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>LFSR32</name>
+              <description>State of a 32-bit Linear Feedback Shift Registers (LFSR) that is used to implement CRC. This register needs to be initialized by SW to provide the CRC seed value.
+
+The seed value should be aligned such that the more significant bits (bit 31 and down) contain the seed value and the less significant bits (bit 0 and up) contain padding '0's.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_REM_CTL0</name>
+          <description>CRC remainder control 0</description>
+          <addressOffset>0x420</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x1</resetMask>
+          <fields>
+            <field>
+              <name>REM_REVERSE</name>
+              <description>Specifies whether the remainder is bit reversed (reversal is performed after XORing):
+'0': No.
+'1': Yes.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_REM_CTL1</name>
+          <description>CRC remainder control 1</description>
+          <addressOffset>0x424</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0xFFFFFFFF</resetMask>
+          <fields>
+            <field>
+              <name>REM_XOR</name>
+              <description>Specifies a mask with which the LFSR register is XOR'd to produce a remainder. The XOR is performed before remainder reversal.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>CRC_REM</name>
+          <description>CRC remainder status</description>
+          <addressOffset>0x428</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x0</resetMask>
+          <fields>
+            <field>
+              <name>REM</name>
+              <description>Remainder value. The alignment of the remainder depends on CRC_REM_CTL0.REM_REVERSE: 
+'0': the more significant bits (bit 31 and down) contain the remainder.
+'1': the less significant bits (bit 0 and up) contain the remainder.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>INTR</name>
+          <description>Interrupt request</description>
+          <addressOffset>0x7C0</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3C3</resetMask>
+          <fields>
+            <field>
+              <name>DONE</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when a command/operation completes. SW writes a '1' to this field to clear the interrupt cause.
+
+As an alternative to interrupt driven operation, SW can poll the STATUS.BUSY field to determine completion of an operation.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>ACCESS_ERROR</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when a command/operation is aborted due to a user/privileged mode violation of the buffer accesses.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_INITIALIZED</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when the true random number generator is initialized.</description>
+              <bitRange>[6:6]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_DATA_AVAILABLE</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when the true random number generator has generated a data value of the specified bit size: (TR_RESULT.DATA_BIT_SIZE &gt;= TR_CTL.DATA_BIT_SIZE).
+See TR_RESULT1.DATA_BIT_SIZE for proper deactivation of this interrupt cause.</description>
+              <bitRange>[7:7]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_AP_DETECT</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when the true random number generator monitor repetition count test detects a repetition of a specific bit value.</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_RC_DETECT</name>
+              <description>This interrupt cause is activated (HW sets the field to '1') when the true random number generator monitor adaptive proportion test detects a disproportionate occurrence of a specific bit value.</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>INTR_SET</name>
+          <description>Interrupt set request</description>
+          <addressOffset>0x7C4</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3C3</resetMask>
+          <fields>
+            <field>
+              <name>DONE</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>ACCESS_ERROR</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_INITIALIZED</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[6:6]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_DATA_AVAILABLE</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[7:7]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_AP_DETECT</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_RC_DETECT</name>
+              <description>SW writes a '1' to this field to set the corresponding field in interrupt request register.</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>INTR_MASK</name>
+          <description>Interrupt mask</description>
+          <addressOffset>0x7C8</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3C3</resetMask>
+          <fields>
+            <field>
+              <name>DONE</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>ACCESS_ERROR</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_INITIALIZED</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[6:6]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_DATA_AVAILABLE</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[7:7]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_AP_DETECT</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>TR_RC_DETECT</name>
+              <description>Mask bit for corresponding field in interrupt request register.</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>INTR_MASKED</name>
+          <description>Interrupt masked</description>
+          <addressOffset>0x7CC</addressOffset>
+          <size>32</size>
+          <access>read-only</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x3C3</resetMask>
+          <fields>
+            <field>
+              <name>DONE</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>ACCESS_ERROR</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TR_INITIALIZED</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[6:6]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TR_DATA_AVAILABLE</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[7:7]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TR_AP_DETECT</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TR_RC_DETECT</name>
+              <description>Logical and of corresponding request and mask bits.</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>PRIV_BUF</name>
+          <description>Buffer Privilege register</description>
+          <addressOffset>0xFF00</addressOffset>
+          <size>32</size>
+          <access>read-write</access>
+          <resetValue>0x0</resetValue>
+          <resetMask>0x7</resetMask>
+          <fields>
+            <field>
+              <name>BUF_PRIV_LIMIT</name>
+              <description>Indicates how big the privileged area of the Buffer is in power of 2 bytes, i.e. first 2^(BUF_PRIV_LIMIT+4) Bytes are Privileged, with the exception of the 0 value. 
+'0':  Entire Buffer is user mode accessible
+'1':  First 32 Bytes are Privileged.
+'2':  First 64 Bytes are Privileged.
+...
+'6':  First 1024 Bytes are Privileged.
+'7':  First 2048 Bytes are Privileged.
+2^(BUF_PRIV_LIMIT+5) &gt;= 'Buffer capacity':  Entire buffer is Privileged (note this disables the CRC operation which requires user memory to operate).</description>
+              <bitRange>[2:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
       <name>CAN</name>
       <description>CAN Controller</description>
       <baseAddress>0x402E0000</baseAddress>

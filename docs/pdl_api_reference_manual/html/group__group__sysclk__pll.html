@@ -81,17 +81,17 @@ $(document).ready(function(){initNavTree('group__group__sysclk__pll.html','');})
 
 <div class="header">
   <div class="summary">
-<a href="#groups">API Reference</a>  </div>
+<a href="#groups">Modules</a>  </div>
   <div class="headertitle">
 <div class="title">Phase Locked Loop (PLL)<div class="ingroups"><a class="el" href="group__group__sysclk.html">SysClk       (System Clock)</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p>The PLL is a clock generation circuit that can be used to produce a higher frequency clock from a reference clock. </p>
-<p>The output clock exhibits characteristics of the reference clock such as the accuracy of the source and its phase. The SysClk driver supports two models for configuring the PLL. The first model is to call the <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4" title="Configures a given PLL. ">Cy_SysClk_PllConfigure()</a> function, which calculates the necessary parameters for the PLL at run-time. This may be necessary for dynamic run-time changes to the PLL. However this method is slow as it needs to perform the calculation before configuring the PLL. The other model is to call <a class="el" href="group__group__sysclk__pll__funcs.html#ga597b2d546965bb5c7e27e04b4346e9c3" title="Manually configures a PLL based on user inputs. ">Cy_SysClk_PllManualConfigure()</a> function with pre-calculated parameter values. This method is faster but requires prior knowledge of the necessary parameters. Consult the device TRM for the PLL calculation equations. </p>
+
+<p>The PLL is a clock generation circuit that can be used to produce a higher frequency clock from a reference clock.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
-API Reference</h2></td></tr>
+Modules</h2></td></tr>
 <tr class="memitem:group__group__sysclk__pll__funcs"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll__funcs.html">Functions</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__sysclk__pll__structs"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll__structs.html">Data Structures</a></td></tr>
@@ -99,6 +99,9 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__sysclk__pll__enums"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll__enums.html">Enumerated Types</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<p>The PLL is a clock generation circuit that can be used to produce a higher frequency clock from a reference clock. </p>
+<p>The output clock exhibits characteristics of the reference clock such as the accuracy of the source and its phase. The SysClk driver supports two models for configuring the PLL. The first model is to call the <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4" title="Configures a given PLL. ">Cy_SysClk_PllConfigure()</a> function, which calculates the necessary parameters for the PLL at run-time. This may be necessary for dynamic run-time changes to the PLL. However this method is slow as it needs to perform the calculation before configuring the PLL. The other model is to call <a class="el" href="group__group__sysclk__pll__funcs.html#ga597b2d546965bb5c7e27e04b4346e9c3" title="Manually configures a PLL based on user inputs. ">Cy_SysClk_PllManualConfigure()</a> function with pre-calculated parameter values. This method is faster but requires prior knowledge of the necessary parameters. Consult the device TRM for the PLL calculation equations. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

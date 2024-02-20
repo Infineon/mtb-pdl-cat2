@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -199,7 +199,7 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
 
-    <ParamSignal port="spi_mosi[0]" name="MOSI" group="Connections" visible="`${hasConnectionMosi}`" desc="The Master Output Slave Input (MOSI) signal between the master and slave devices." canBeEmpty="true" >
+    <ParamSignal port="spi_mosi[0]" name="MOSI" group="Connections" visible="`${hasConnectionMosi}`" desc="The Master Output Slave Input (MOSI) signal between the master and slave devices." canBeEmpty="true"  isDependency="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />
@@ -210,7 +210,7 @@
 
     <ParamBool id="MosiIdleHighLevel" name="MOSI Idle HIGH" group="Connections" default="false" visible="`${(SubModeUser eq CY_SCB_SPI_MOTOROLA) &amp;&amp; (ModeUser eq CY_SCB_SPI_MASTER)}`" editable="true" desc="Sets the the MOSI line stays high when not in use." />
 
-    <ParamSignal port="spi_miso[0]" name="MISO" group="Connections" visible="`${hasConnectionMiso}`" desc="The Master Input Slave Output (MOSI) signal between the slave and master devices." canBeEmpty="true" >
+    <ParamSignal port="spi_miso[0]" name="MISO" group="Connections" visible="`${hasConnectionMiso}`" desc="The Master Input Slave Output (MOSI) signal between the slave and master devices." canBeEmpty="true" isDependency="true" >
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMISO}`" />

@@ -33,6 +33,7 @@ var searchData=
   ['dp_5fconfig_5fvdo',['DP_CONFIG_VDO',['../structcy__pd__pd__do__t_1_1_d_p___c_o_n_f_i_g___v_d_o.html',1,'cy_pd_pd_do_t']]],
   ['dp_5fstat_5fvdo',['dp_stat_vdo',['../unioncy__pd__pd__do__t.html#a9d72710a9599e52d71c3ce4e54d95425',1,'cy_pd_pd_do_t']]],
   ['dp_5fstatus_5fvdo',['DP_STATUS_VDO',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html',1,'cy_pd_pd_do_t']]],
+  ['dpamversion',['dpAmVersion',['../structcy__pd__pd__do__t_1_1_s_t_d___d_p___v_d_o.html#a0891f4d887ef93e165469efad306f09e',1,'cy_pd_pd_do_t::STD_DP_VDO::dpAmVersion()'],['../structcy__pd__pd__do__t_1_1_d_p___c_b_l___v_d_o.html#a30449060fd91c5f142b94108f770f78a',1,'cy_pd_pd_do_t::DP_CBL_VDO::dpAmVersion()'],['../structcy__pd__pd__do__t_1_1_d_p___c_o_n_f_i_g___v_d_o.html#a8c047c8556ac21d35e788d1999ff86de',1,'cy_pd_pd_do_t::DP_CONFIG_VDO::dpAmVersion()']]],
   ['dpmenabled',['dpmEnabled',['../structcy__stc__pd__dpm__config__t.html#ab5d798d554e8b6a6037cffa7708385df',1,'cy_stc_pd_dpm_config_t']]],
   ['dpmgetconfig',['dpmGetConfig',['../structcy__stc__usbpd__context__t.html#ac0125f001a4a3bd9baf415512d6f12fb',1,'cy_stc_usbpd_context_t']]],
   ['dr',['dr',['../structcy__stc__gpio__prt__config__t.html#a8555963d8508963e1a3ff32aa1ff1d5c',1,'cy_stc_gpio_prt_config_t']]],

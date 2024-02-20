@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.h
-* \version 2.60
+* \version 2.70
 *
 * Provides API declarations of the USBPD IDAC Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

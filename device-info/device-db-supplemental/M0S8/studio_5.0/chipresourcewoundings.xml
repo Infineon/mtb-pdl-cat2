@@ -78,5 +78,15 @@
       <Block name="pass[1].sar[0]" />
       <Block name="pass[1].sarmux[0].tempsensor[0]" />
     </ResourceIndex>
+  </IndexResourceWounding> 
+  <IndexResourceWounding name="ADC_REMOVED">
+    <ResourceIndex index="0">
+      <Block name="usbpd[0].pass[0].sar[0]" />
+      <Block name="usbpd[0].pass[0].sarmux[0].tempsensor[0]" />
+    </ResourceIndex>
+    <ResourceIndex index="1">
+      <Block name="usbpd[1].pass[0].sar[0]" />
+      <Block name="usbpd[1].pass[0].sarmux[0].tempsensor[0]" />
+    </ResourceIndex>
   </IndexResourceWounding>
 </Woundings>

@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__cryptolite__vu__macros.h
 <div class="title">Macros<div class="ingroups"><a class="el" href="group__group__cryptolite.html">CryptoLite   (Cryptography)</a> &raquo; <a class="el" href="group__group__cryptolite__vu.html">VU</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -133,22 +132,23 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga917ebb9c44be248f70c2fb0b8672b740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector unit arithmetic/logic operation second operand bit position.  <a href="#ga917ebb9c44be248f70c2fb0b8672b740">More...</a><br /></td></tr>
 <tr class="separator:ga917ebb9c44be248f70c2fb0b8672b740"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac74eb53e097adc8fef41223918c91a55"><td class="memItemLeft" align="right" valign="top"><a id="gac74eb53e097adc8fef41223918c91a55"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#gac74eb53e097adc8fef41223918c91a55">VU_BITS_TO_WORDS</a>(bits)&#160;&#160;&#160;((bits + 31) &gt;&gt; 5)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#gac74eb53e097adc8fef41223918c91a55">VU_BITS_TO_WORDS</a>(bits)&#160;&#160;&#160;(((bits) + 31UL) &gt;&gt; 5UL)</td></tr>
 <tr class="memdesc:gac74eb53e097adc8fef41223918c91a55"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro converts bit count to word size. <br /></td></tr>
 <tr class="separator:gac74eb53e097adc8fef41223918c91a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga252f3ccbb921c0bed0423f3b6dc4d129"><td class="memItemLeft" align="right" valign="top"><a id="ga252f3ccbb921c0bed0423f3b6dc4d129"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#ga252f3ccbb921c0bed0423f3b6dc4d129">VU_BITS_TO_BYTES</a>(bits)&#160;&#160;&#160;((bits + 7) &gt;&gt; 3)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#ga252f3ccbb921c0bed0423f3b6dc4d129">VU_BITS_TO_BYTES</a>(bits)&#160;&#160;&#160;(((bits) + 7UL) &gt;&gt; 3UL)</td></tr>
 <tr class="memdesc:ga252f3ccbb921c0bed0423f3b6dc4d129"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro converts bit count to byte size. <br /></td></tr>
 <tr class="separator:ga252f3ccbb921c0bed0423f3b6dc4d129"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab2f643c778e1a6bf7d79afe5a0f158c9"><td class="memItemLeft" align="right" valign="top"><a id="gab2f643c778e1a6bf7d79afe5a0f158c9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#gab2f643c778e1a6bf7d79afe5a0f158c9">VU_BITS_TO_BYTES_WORD_ALIGN</a>(bits)&#160;&#160;&#160;(4*((bits + 31) &gt;&gt; 5))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#gab2f643c778e1a6bf7d79afe5a0f158c9">VU_BITS_TO_BYTES_WORD_ALIGN</a>(bits)&#160;&#160;&#160;(4UL*(((bits) + 31UL) &gt;&gt; 5UL))</td></tr>
 <tr class="memdesc:gab2f643c778e1a6bf7d79afe5a0f158c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro converts bit count to byte size in word aligned. <br /></td></tr>
 <tr class="separator:gab2f643c778e1a6bf7d79afe5a0f158c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8e5f3fec349f5e19ed1777e51568be66"><td class="memItemLeft" align="right" valign="top"><a id="ga8e5f3fec349f5e19ed1777e51568be66"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#ga8e5f3fec349f5e19ed1777e51568be66">VU_BYTES_TO_WORDS</a>(bytes)&#160;&#160;&#160;((bytes + 3) &gt;&gt; 2)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__cryptolite__vu__macros.html#ga8e5f3fec349f5e19ed1777e51568be66">VU_BYTES_TO_WORDS</a>(bytes)&#160;&#160;&#160;(((bytes) + 3UL) &gt;&gt; 2UL)</td></tr>
 <tr class="memdesc:ga8e5f3fec349f5e19ed1777e51568be66"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro converts bytes count to word size. <br /></td></tr>
 <tr class="separator:ga8e5f3fec349f5e19ed1777e51568be66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga23b071d23b0436870acb133aff66395e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga23b071d23b0436870acb133aff66395e">&#9670;&nbsp;</a></span>CY_CRYPTOLITE_VU_OPCODE_MUL</h2>

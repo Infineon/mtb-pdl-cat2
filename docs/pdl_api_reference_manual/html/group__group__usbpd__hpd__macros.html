@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__usbpd__hpd__macros.html'
 <div class="title">Macros<div class="ingroups"><a class="el" href="group__group__usbpd.html">USBPD        (USB Power Delivery)</a> &raquo; <a class="el" href="group__group__usbpd__hpd.html">HPD (USBPD)</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -129,7 +128,11 @@ Macros</h2></td></tr>
 <tr class="memitem:gab3e374d390da73d34182ce9735600b0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd__macros.html#gab3e374d390da73d34182ce9735600b0d">PDSS_HPD_CTRL3_DEFAULT_VALUE</a>&#160;&#160;&#160;(0x0005304BUL)</td></tr>
 <tr class="memdesc:gab3e374d390da73d34182ce9735600b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the default value to be used for HPD_CTRL3 register.  <a href="#gab3e374d390da73d34182ce9735600b0d">More...</a><br /></td></tr>
 <tr class="separator:gab3e374d390da73d34182ce9735600b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad765e63388e6b950301d493240a4599"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__hpd__macros.html#gaad765e63388e6b950301d493240a4599">PDSS_HPDT_CTRL2_DEFAULT_VALUE</a>&#160;&#160;&#160;(0x017BC530UL)</td></tr>
+<tr class="memdesc:gaad765e63388e6b950301d493240a4599"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the default value to be used for HPDT_CTRL2 register.  <a href="#gaad765e63388e6b950301d493240a4599">More...</a><br /></td></tr>
+<tr class="separator:gaad765e63388e6b950301d493240a4599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga519b9fee18c5ef5a80b13effc71d3c71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga519b9fee18c5ef5a80b13effc71d3c71">&#9670;&nbsp;</a></span>HPD_IP_DIRECTION</h2>
@@ -356,6 +359,23 @@ Macros</h2></td></tr>
 
 <p>This is the default value to be used for HPD_CTRL3 register. </p>
 <p>This value translates to: STABLE_HIGH = 0x4B (2 ms) STABLE_LOW = 0x53 (2.213 ms) </p>
+
+</div>
+</div>
+<a id="gaad765e63388e6b950301d493240a4599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaad765e63388e6b950301d493240a4599">&#9670;&nbsp;</a></span>PDSS_HPDT_CTRL2_DEFAULT_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDSS_HPDT_CTRL2_DEFAULT_VALUE&#160;&#160;&#160;(0x017BC530UL)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This is the default value to be used for HPDT_CTRL2 register. </p>
+<p>This value translates to: SET_LOW_DELAY = 0x530 (2.21 ms) SET_HIGH_DELAY = 0x7bc (3.3 ms) DEFAULT_OE = 1 </p>
 
 </div>
 </div>

@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__scb__i2c__enums.html',''
 <div class="title">Enumerated Types<div class="ingroups"><a class="el" href="group__group__scb.html">SCB          (Serial Communication Block)</a> &raquo; <a class="el" href="group__group__scb__i2c.html">I2C (SCB)</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -133,12 +132,15 @@ Enumerations</h2></td></tr>
 <tr class="memitem:ga4600410051f7febf79d167ffbf85d7ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__i2c__enums.html#ga4600410051f7febf79d167ffbf85d7ef">cy_en_scb_i2c_command_t</a> { <br />
 &#160;&#160;<a class="el" href="group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efadd6046656aba93adef7c4823a25081fd">CY_SCB_I2C_ACK</a>, 
 <br />
-&#160;&#160;<a class="el" href="group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa46363791a98697b7b015b3b64441bfc6">CY_SCB_I2C_NAK</a>
+&#160;&#160;<a class="el" href="group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa46363791a98697b7b015b3b64441bfc6">CY_SCB_I2C_NAK</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa36f97b382a8bec5cf95c86d0bfcccf39">CY_SCB_I2C_WAIT</a>
 <br />
  }<tr class="memdesc:ga4600410051f7febf79d167ffbf85d7ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2C Command ACK / NAK.  <a href="group__group__scb__i2c__enums.html#ga4600410051f7febf79d167ffbf85d7ef">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ga4600410051f7febf79d167ffbf85d7ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="gaf621eb0719ad9ad7178d02268575b247"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf621eb0719ad9ad7178d02268575b247">&#9670;&nbsp;</a></span>cy_en_scb_i2c_status_t</h2>
@@ -246,6 +248,8 @@ Enumerations</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga4600410051f7febf79d167ffbf85d7efadd6046656aba93adef7c4823a25081fd"></a>CY_SCB_I2C_ACK&#160;</td><td class="fielddoc"><p>Send ACK to current byte. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga4600410051f7febf79d167ffbf85d7efa46363791a98697b7b015b3b64441bfc6"></a>CY_SCB_I2C_NAK&#160;</td><td class="fielddoc"><p>Send NAK to current byte. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga4600410051f7febf79d167ffbf85d7efa36f97b382a8bec5cf95c86d0bfcccf39"></a>CY_SCB_I2C_WAIT&#160;</td><td class="fielddoc"><p>Wait for application to send ACK/NAK. </p>
 </td></tr>
 </table>
 

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 2.60
+* \version 2.70
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -159,6 +159,15 @@
  * STABLE_LOW  = 0x53 (2.213 ms)
  */
 #define PDSS_HPD_CTRL3_DEFAULT_VALUE            (0x0005304BUL)
+
+/** This is the default value to be used for HPDT_CTRL2 register.
+ * This value translates to:
+ * SET_LOW_DELAY = 0x530 (2.21 ms)
+ * SET_HIGH_DELAY  = 0x7bc (3.3 ms)
+ * DEFAULT_OE = 1
+ */
+#define PDSS_HPDT_CTRL2_DEFAULT_VALUE           (0x017BC530UL)
+
 
 /** \} group_usbpd_hpd_macros */
 

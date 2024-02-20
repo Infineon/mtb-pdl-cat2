@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -47,9 +47,9 @@
       <Entry name="SmartCard" value="CY_SCB_UART_SMARTCARD" visible="true" />
       <Entry name="IrDA"      value="CY_SCB_UART_IRDA"      visible="true" />
     </ParamChoice>
-    <ParamBool id="Standard" name="Standard" group="Internal" default="`${ComMode eq CY_SCB_UART_STANDARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
+    <ParamBool id="Standard" name="Standard" group="Internal" default="`${ComMode eq CY_SCB_UART_STANDARD}`" visible="false" editable="false" desc="This parameter defines Standard." />
     <ParamBool id="SmartCard" name="SmartCard" group="Internal" default="`${ComMode eq CY_SCB_UART_SMARTCARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
-    <ParamBool id="IrDA" name="IrDA" group="Internal" default="`${ComMode eq CY_SCB_UART_IRDA}`" visible="false" editable="false" desc="This parameter defines SmartCard." /> 
+    <ParamBool id="IrDA" name="IrDA" group="Internal" default="`${ComMode eq CY_SCB_UART_IRDA}`" visible="false" editable="false" desc="This parameter defines IrDA." />
 
     <!-- Lin Mode -->
     <ParamBool id="EnableLinMode" name="Enable LIN Mode" group="General" default="`${false}`" visible="`${Standard}`" editable="true" desc="This parameter enables the LIN mode. Only applicable when Com Mode is Standard." />
@@ -146,7 +146,7 @@
     <ParamRange  id="uartDiv" name="uartDiv" group="Internal" default="`${ClkHfHz / cast(float, uartClkHz)}`" min="1" max="16777216" resolution="1" visible="false" editable="false" desc="UART pclk divider value." />
     <ParamBool id="useUartDiv8" name="useUartDiv8" group="Internal" default="`${(uartDiv &lt;= pow(2, 8))}`" visible="false" editable="false" desc="Checks whether 8-bit divider can be used for UART operation." />
 
-    <ParamSignal port="clock[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false" >
+    <ParamSignal port="clock[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false" isDependency="true" >
       <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_8.*" valid="`${useUartDiv8}`" >
         <Parameter id="intDivider" severity="ERROR" reason="Clock frequency does not match desired `${uartClkHz / 1000.0}` kHz.">
           <Fixed 
@@ -176,7 +176,7 @@
     <ParamRange  id="scbClkHz" name="scbClkHz" group="Internal" default="`${getExposedMember(sourceClock, &quot;frequency&quot;)}`" min="0" max="200000000" resolution="1" visible="false" editable="false" desc="SCB clock frequency in kHz" />
     <ParamBool id="pClkDiv8" name="pClkDiv8" group="Internal" default="`${getExposedMember(sourceClock, &quot;type&quot;) eq &quot;CY_SYSCLK_DIV_8_BIT&quot;}`" visible="false" editable="false" desc="Source clock uses 8-bit divider." />
 
-    <ParamSignal port="uart_rx[0]" name="RX" group="Connections" visible="`${!SmartCard &amp;&amp; hasVisibleOption(&quot;uart_rx[0]&quot;)}`" desc="The receive input receives the serial data from another device on the serial bus." canBeEmpty="true">
+    <ParamSignal port="uart_rx[0]" name="RX" group="Connections" visible="`${!SmartCard &amp;&amp; hasVisibleOption(&quot;uart_rx[0]&quot;)}`" desc="The receive input receives the serial data from another device on the serial bus." canBeEmpty="true" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${!SmartCard}`" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="CY_GPIO_DM_HIGHZ" />
@@ -194,7 +194,7 @@
       <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
 
-    <ParamSignal port="uart_tx[0]" name="`${SmartCard ? &quot;RX_TX&quot; : &quot;TX&quot;}`" group="Connections" visible="`${hasVisibleOption(&quot;uart_tx[0]&quot;)}`" desc="`${SmartCard ? Rx_tx_out_descr : Tx_out_descr}`" canBeEmpty="`${!SmartCard}`">
+    <ParamSignal port="uart_tx[0]" name="`${SmartCard ? &quot;RX_TX&quot; : &quot;TX&quot;}`" group="Connections" visible="`${hasVisibleOption(&quot;uart_tx[0]&quot;)}`" desc="`${SmartCard ? Rx_tx_out_descr : Tx_out_descr}`" canBeEmpty="`${!SmartCard}`" isDependency="true">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${SmartCard ? &quot;CY_GPIO_DM_OD_DRIVESLOW&quot; : &quot;CY_GPIO_DM_STRONG_IN_OFF&quot;}`" />

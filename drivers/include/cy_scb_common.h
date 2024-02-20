@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.40
+* \version 4.50
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -58,6 +58,13 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>4.50</td>
+*     <td>I2C: Interrupt logic updated to handle the slave not ready condition.
+*         Provided new function \ref Cy_SCB_I2C_SlaveSendAckNack() that the
+*         user application can send ACK/NACK and configure buffer.</td>
+*     <td>Functionality improvement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">4.40</td>
 *     <td>SPI: Provided new functions to define a custom value
@@ -401,7 +408,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (40)
+#define CY_SCB_DRV_VERSION_MINOR    (50)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

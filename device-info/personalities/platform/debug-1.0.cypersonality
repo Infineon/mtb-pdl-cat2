@@ -35,6 +35,8 @@
   <ExposedMembers />
 
   <Parameters>
+    <ParamString id="Warning" name="Warning:" group="General" default="Programming/debugging is always possible through the factory-default pins. To use the alternative pins, the application must configure the part at run-time so you must first program the application through the default port." visible="true" editable="false" desc="" /> 
+
     <ParamChoice id="dbgMode" name="Debug Mode" group="General" default="SWD" visible="true" editable="true" desc="Controls what pins need to be reserved for debugging.">
       <Entry name="None" value="NONE" visible="true" />
       <Entry name="SWD" value="SWD" visible="true" />

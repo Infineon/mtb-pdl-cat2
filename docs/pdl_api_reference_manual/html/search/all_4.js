@@ -52,6 +52,7 @@ var searchData=
   ['error_20interrupt_20masks',['Error Interrupt masks',['../group__group__canfd__error__interrupt__masks.html',1,'']]],
   ['enums',['Enums',['../group__group__crypto__enums.html',1,'']]],
   ['enums',['Enums',['../group__group__cryptolite__common__enums.html',1,'']]],
+  ['enums',['Enums',['../group__group__cryptolite__sha__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__csd__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__ctb__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__dmac__enums.html',1,'']]],

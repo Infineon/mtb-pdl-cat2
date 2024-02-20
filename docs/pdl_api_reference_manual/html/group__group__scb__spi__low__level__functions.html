@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__scb__spi__low__level__fu
 <div class="title">Low-Level<div class="ingroups"><a class="el" href="group__group__scb.html">SCB          (Serial Communication Block)</a> &raquo; <a class="el" href="group__group__scb__spi.html">SPI (SCB)</a> &raquo; <a class="el" href="group__group__scb__spi__functions.html">Functions</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -139,6 +138,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga6eea4d58a1455170f4ec41dc6333b0a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all data out of the SPI TX FIFO.  <a href="#ga6eea4d58a1455170f4ec41dc6333b0a7">More...</a><br /></td></tr>
 <tr class="separator:ga6eea4d58a1455170f4ec41dc6333b0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga169c313a3508261fa76e6b6600cce726"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga169c313a3508261fa76e6b6600cce726">&#9670;&nbsp;</a></span>Cy_SCB_SPI_Read()</h2>
@@ -166,8 +166,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Data from the RX FIFO. The data element size is defined by the configured RX data width.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd><ul>
-<li>This function only reads data available in the RX FIFO. It does not initiate an SPI transfer.</li>
-<li>When in the master mode, this function writes data into the TX FIFO and waits until the transfer is completed before reading data from the RX FIFO. </li>
+<li>This function only reads data available in the RX FIFO. It does not initiate an SPI transfer. </li>
 </ul>
 </dd></dl>
 
@@ -217,8 +216,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of data elements read from the RX FIFO.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd><ul>
-<li>This function only reads data available in the RX FIFO. It does not initiate an SPI transfer.</li>
-<li>When in the master mode, this function writes data into the TX FIFO and waits until the transfer is completed before reading data from the RX FIFO. </li>
+<li>This function only reads data available in the RX FIFO. It does not initiate an SPI transfer. </li>
 </ul>
 </dd></dl>
 

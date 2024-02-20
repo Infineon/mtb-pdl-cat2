@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.60
+* \version 2.70
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -116,9 +116,7 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
                                                      cy_en_usbpd_sbu_switch_state_t sbu1State, 
                                                      cy_en_usbpd_sbu_switch_state_t sbu2State) 
 {
-    /* Used CCG6 macro instead CY_DEVICE_CCG6 here since SBU MUX
-     * is not advertised for PMG1S1 device */
-#if defined(CCG6)
+#if defined(CY_DEVICE_CCG6)
     PPDSS_REGS_T pd = context->base; 
     uint32_t sbu1val;
     uint32_t sbu2val;
@@ -282,6 +280,15 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     uint32_t regIndexLs;
     uint32_t regIndexAux;
     uint32_t intstate;
+
+    /* Workaround for CCG8S/PMG1S3 to use registers for port 1 to control SBU */
+    if (
+           ((SFLASH_SILICON_ID & 0xFFFFUL) == 0x3581UL) ||
+           ((SFLASH_SILICON_ID & 0xFFFFUL) == 0x3501UL)
+       )
+    {
+        pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
+    }
 
     /* Check that state values are within allowed range. */
     if ((sbu1State >= CY_USBPD_SBU_MAX_STATE) || (sbu2State >= CY_USBPD_SBU_MAX_STATE))

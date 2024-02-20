@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.h
-* \version 2.60
+* \version 2.70
 *
 * Provides API declarations of the USBPD MUX Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

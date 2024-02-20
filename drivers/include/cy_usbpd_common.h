@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.60
+* \version 2.70
 *
 * Provides Common Header File of the USBPD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1397,9 +1397,6 @@ typedef struct
      *  0 - Disable */
     uint8_t enable;
 
-    /** SCP mode. */
-    uint8_t mode;
-
     /** Sense Resistor impedance in milli-Ohm units */
     uint8_t senseRes;
 
@@ -1412,6 +1409,9 @@ typedef struct
 
     /** Number of times to retry recovery from fault(0-255) */
     uint8_t retryCount;
+
+    /** SCP mode. */
+    uint8_t mode;
 
 } cy_stc_fault_vbus_scp_cfg_t;
 

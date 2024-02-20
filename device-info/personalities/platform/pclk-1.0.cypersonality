@@ -72,7 +72,7 @@
     <ParamRange  id="number" name="Divider number" group="Internal" default="`${getInstNumber(getBlockType(1))}`" min="0" max="63" resolution="1" visible="false" editable="false" desc="" />
     
     <!-- The frequency input -->
-    <ParamChoice id="calc" name="Divider Calculation" group="General" default="man" visible="true" editable="true" desc="">
+    <ParamChoice id="calc" name="Divider Calculation" group="General" default="man" visible="true" editable="true" desc="In Manual mode, the user sets the Divider value. In Automatic mode, the Divider value is calculated by the Desired Frequency value.">
       <Entry name="Manual"    value="man"    visible="true" />
       <Entry name="Automatic"   value="auto"   visible="true" />
     </ParamChoice>

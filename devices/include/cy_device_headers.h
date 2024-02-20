@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1343,6 +1343,10 @@
     #include "cypd7171_40lqxq.h"
 #elif defined (CYPD7199_40LDXS)
     #include "cypd7199_40ldxs.h"
+#elif defined (CYPD7192_39BFXS)
+    #include "cypd7192_39bfxs.h"
+#elif defined (CYPD7172_39BFXQ)
+    #include "cypd7172_39bfxq.h"
 #elif defined (WLC1115_68LQXQ)
     #include "wlc1115_68lqxq.h"
 #elif defined (WLC1150_68LQXQ)
@@ -1355,18 +1359,6 @@
     #include "cypd8225_97bzxit.h"
 #elif defined (CYPD8125_48LDXI)
     #include "cypd8125_48ldxi.h"
-#elif defined (CYPD6129_52LQXI)
-    #include "cypd6129_52lqxi.h"
-#elif defined (CYPD6129_52LQXIT)
-    #include "cypd6129_52lqxit.h"
-#elif defined (CYPD6229_52LQXI)
-    #include "cypd6229_52lqxi.h"
-#elif defined (CYPD6229_52LQXIT)
-    #include "cypd6229_52lqxit.h"
-#elif defined (CYPD8129_52LQXIT)
-    #include "cypd8129_52lqxit.h"
-#elif defined (CYPD8229_52LQXIT)
-    #include "cypd8229_52lqxit.h"
 #elif defined (CYPAS213_24SXQ)
     #include "cypas213_24sxq.h"
 #elif defined (CYPAS211_32LQXQ)
@@ -1375,6 +1367,8 @@
     #include "cypas212_32lqxq.h"
 #elif defined (CYPAS213_32LQXQ)
     #include "cypas213_32lqxq.h"
+#elif defined (CYPAS274_32LQXQ)
+    #include "cypas274_32lqxq.h"
 #else
     #error Undefined part number
 #endif

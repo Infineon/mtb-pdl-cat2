@@ -1,14 +1,14 @@
 var group__group__cryptolite__vu__functions =
 [
-    [ "Cy_Cryptolite_Vu_WaitForComplete", "group__group__cryptolite__vu__functions.html#ga100c9a8cb6e345c3c1fd47439d3e67f6", null ],
-    [ "Cy_Cryptolite_Vu_XMul_Hw", "group__group__cryptolite__vu__functions.html#ga5ade83aaa62d23e287f75bd71df4b1b6", null ],
-    [ "Cy_Cryptolite_Vu_Mul_Hw", "group__group__cryptolite__vu__functions.html#ga7e841ce24e362920b5ce0bb3bda53a87", null ],
-    [ "Cy_Cryptolite_Vu_Add_Hw", "group__group__cryptolite__vu__functions.html#ga28520e6c4cfb38e3e241c13514ce59b6", null ],
-    [ "Cy_Cryptolite_Vu_Sub_Hw", "group__group__cryptolite__vu__functions.html#ga9f1ce107a3418f445af986bec5376568", null ],
-    [ "Cy_Cryptolite_Vu_Cond_Sub_Hw", "group__group__cryptolite__vu__functions.html#gaccb2a96a0a1a5335f1b677c88d959668", null ],
-    [ "Cy_Cryptolite_Vu_Xor_Hw", "group__group__cryptolite__vu__functions.html#ga06189c7b98cb1ee4747961d8ca10b72a", null ],
-    [ "Cy_Cryptolite_Vu_Mov_Hw", "group__group__cryptolite__vu__functions.html#ga2978e0405b62158de01f8c48af320e1c", null ],
-    [ "Cy_Cryptolite_Vu_Lsl1_Hw", "group__group__cryptolite__vu__functions.html#ga48a694e624babd9eb4f9bd1b342d1999", null ],
-    [ "Cy_Cryptolite_Vu_Lsr1_Hw", "group__group__cryptolite__vu__functions.html#ga96a6c6fbf3ca3df8d42117230ebcc7d6", null ],
-    [ "Cy_Cryptolite_Vu_Lsr_Hw", "group__group__cryptolite__vu__functions.html#ga1c8ae1608c62e5b236678e517e51775d", null ]
+    [ "Cy_Cryptolite_Vu_WaitForComplete", "group__group__cryptolite__vu__functions.html#ga7c47b7ef06863360ca83ef823573eb84", null ],
+    [ "Cy_Cryptolite_Vu_XMul_Hw", "group__group__cryptolite__vu__functions.html#ga8f827b6a864a51ba4d7d676654cae6f5", null ],
+    [ "Cy_Cryptolite_Vu_Mul_Hw", "group__group__cryptolite__vu__functions.html#ga8352a03b224b124df34f50d96d47d18d", null ],
+    [ "Cy_Cryptolite_Vu_Add_Hw", "group__group__cryptolite__vu__functions.html#gaab5d7d24fe02394e814f06eed5054fb3", null ],
+    [ "Cy_Cryptolite_Vu_Sub_Hw", "group__group__cryptolite__vu__functions.html#gaca4920b26c03982df58627a36e53b85f", null ],
+    [ "Cy_Cryptolite_Vu_Cond_Sub_Hw", "group__group__cryptolite__vu__functions.html#ga016fd2a7ed6046c282ce2be39a370f67", null ],
+    [ "Cy_Cryptolite_Vu_Xor_Hw", "group__group__cryptolite__vu__functions.html#ga015ac3e66b590fad2f1a1d84cb1ac2b1", null ],
+    [ "Cy_Cryptolite_Vu_Mov_Hw", "group__group__cryptolite__vu__functions.html#ga872e4f72e34c747373aa8155a38a368b", null ],
+    [ "Cy_Cryptolite_Vu_Lsl1_Hw", "group__group__cryptolite__vu__functions.html#gaa412b98d451dedcb5ad223dfe01036a8", null ],
+    [ "Cy_Cryptolite_Vu_Lsr1_Hw", "group__group__cryptolite__vu__functions.html#ga134479b9f1f7aef12cc0ed1240a65268", null ],
+    [ "Cy_Cryptolite_Vu_Lsr_Hw", "group__group__cryptolite__vu__functions.html#gad682d2f219938ded193cb6c3997cb8c9", null ]
 ];

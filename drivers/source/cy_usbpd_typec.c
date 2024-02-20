@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.60
+* \version 2.70
 *
 * The source file of the USBPD TypeC driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1486,8 +1486,10 @@ void Cy_USBPD_TypeC_EnableRd (
 
     pd = context->base;
 
+#if !CY_PD_EPR_36V_SUPP_EN
     /* Disable PUMP */
     Cy_USBPD_Pump_Disable (context, 0);
+#endif /* CY_PD_EPR_36V_SUPP_EN */
 
     temp = pd->cc_ctrl_0;
 
@@ -2780,14 +2782,19 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         pd->ngdo_ctrl_c |= PDSS_NGDO_CTRL_C_BYPASS_2DFF;
 #endif /* defined(CY_DEVICE_CCG3) */
 
+#if defined(CY_DEVICE_PMG1S3)
+        /* Disable the keep off control circuit. */
+        pd->v2_ngdo_0_ctrl |= PDSS_V2_NGDO_0_CTRL_KEEP_OFF_DISABLE;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
         /*
          * The Deep Sleep voltage reference is used as input to the refgen block at all times.
          */
         pd->refgen_0_ctrl &= ~PDSS_REFGEN_0_CTRL_REFGEN_PD;
-        pd->refgen_1_ctrl  = 0x1C143616; /* SEL0=0x16(420 mV), SEL1=0x36(740 mV), SEL2=0x14(400 mV), SEL3=0x1C(480 mV) */
-        pd->refgen_2_ctrl  = 0x003D6B5F; /* SEL4=0x5F(1.15 V), SEL5=0x6B(1.27 V), SEL6=0x3D(810 mV), SEL7=0x00(200 mV) */
-        pd->refgen_3_ctrl  = 0x00003D14; /* SEL8=0x14(400 mV), SEL9=0x3D(810 mV), SEL10=0x00(200 mV) */
+        pd->refgen_1_ctrl  = 0x1C143636; /* SEL0=0x36(740 mV), SEL1=0x36(740 mV), SEL2=0x14(400 mV), SEL3=0x1C(480 mV) */
+        pd->refgen_2_ctrl  = 0x003D6B5F; /* SEL4=0x5F(1.08 V), SEL5=0x6B(1.20 V), SEL6=0x3D(740 mV), SEL7=0x00(130 mV) */
+        pd->refgen_3_ctrl  = 0x00003D14; /* SEL8=0x14(330 mV), SEL9=0x3D(740 mV), SEL10=0x00(130 mV) */
         pd->refgen_4_ctrl  = 0x00000900; /* SEL11=0x00(450 mV), SEL12=0x00(650 mV), SEL13=0x04(2.0 V), SEL14=0x04(1.12 V) */
 
 #if defined(CY_DEVICE_PMG1S3)
@@ -3871,6 +3878,9 @@ bool Cy_USBPD_Resume(
                     {
                         Cy_USBPD_TypeC_EnableRd(context, CY_PD_CC_CHANNEL_1);
                         Cy_USBPD_TypeC_EnableRd(context, CY_PD_CC_CHANNEL_2);
+                        
+                        /* Disable the deep sleep Rp. */
+                        pd->cc_ctrl_1 &= ~PDSS_CC_CTRL_1_DS_ATTACH_DET_EN;
 
                         dpmConfig->curPortRole = CY_PD_PRT_ROLE_SINK;
                         dpmConfig->curPortType = CY_PD_PRT_TYPE_UFP;

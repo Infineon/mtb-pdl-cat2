@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.c
-* \version 4.40
+* \version 4.50
 *
 * Provides I2C API implementation of the SCB driver.
 *
@@ -41,6 +41,7 @@ static void SlaveHandleDataReceive (CySCB_Type *base, cy_stc_scb_i2c_context_t *
 static void SlaveHandleDataTransmit(CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 static void SlaveHandleStop        (CySCB_Type *base, bool slaveAddrInFifo,
                                     cy_stc_scb_i2c_context_t *context);
+static void SlaveHandleAck(CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 #ifdef CY_IP_MXSCB
 static void SlaveHandleHsMode      (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
 #endif /* CY_IP_MXSCB */
@@ -1180,6 +1181,74 @@ uint32_t Cy_SCB_I2C_SlaveClearWriteStatus(CySCB_Type const *base, cy_stc_scb_i2c
     return (retStatus);
 }
 
+
+/*******************************************************************************
+* Function Name: Cy_SCB_I2C_SlaveSendAckNack
+****************************************************************************//**
+*
+* Function sends Ack/Nack and configures the interrupt source and read/write buffer
+* based on the R/W direction.
+* If the CY_SCB_I2C_WAIT is returned by the address match callback function then
+* the user should call this function to send Ack/Nack to master after the address
+* match event.
+*
+* \param base
+* The pointer to the I2C SCB instance.
+*
+* \param ack
+* The true correspond to ACK and false correspond to NACK.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_scb_i2c_context_t allocated
+* by the user. The structure is used during the I2C operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \note
+* * This function is not applicable in High-speed mode.
+*
+*******************************************************************************/
+void Cy_SCB_I2C_SlaveSendAckNack(CySCB_Type *base, bool ack, cy_stc_scb_i2c_context_t *context)
+{
+    uint32_t intrState;
+    
+    intrState = Cy_SysLib_EnterCriticalSection();
+    
+    if (ack)
+    {
+        /* Clear the stall stop status and enable the stop interrupt source */
+        Cy_SCB_ClearSlaveInterrupt(base, CY_SCB_SLAVE_INTR_I2C_STOP);
+#ifdef CY_IP_M0S8SCB
+        Cy_SCB_SetSlaveInterruptMask(base, CY_SCB_I2C_SLAVE_INTR);
+#else /* CY_IP_MXSCB */
+/* coverity[copy_paste_error : SUPPRESS] Checked manually. Coverity false positive. */
+        Cy_SCB_SetSlaveInterruptMask(base, context->hsEnable ?
+                                    (CY_SCB_I2C_SLAVE_INTR | CY_SCB_I2C_SLAVE_INTR_HS) : CY_SCB_I2C_SLAVE_INTR);
+#endif /* CY_IP_M0S8SCB */
+
+        /* Set the command to ACK address */
+        SCB_I2C_S_CMD(base) |= SCB_I2C_S_CMD_S_ACK_Msk;
+
+        /* Configure the FIFO and read/write buffer. */
+        SlaveHandleAck(base, context);
+    }
+    else
+    {
+        /* Disable the stop interrupt source */
+        Cy_SCB_SetSlaveInterruptMask(base, CY_SCB_I2C_SLAVE_INTR_NO_STOP);
+#ifdef CY_IP_M0S8SCB
+        Cy_SCB_SetSlaveInterruptMask(base, CY_SCB_I2C_SLAVE_INTR);
+#else /* CY_IP_MXSCB */
+        Cy_SCB_SetSlaveInterruptMask(base, context->hsEnable ?
+                                    (CY_SCB_I2C_SLAVE_INTR_NO_STOP | CY_SCB_I2C_SLAVE_INTR_HS) : CY_SCB_I2C_SLAVE_INTR_NO_STOP);
+#endif /* CY_IP_M0S8SCB */
+
+        /* Set the command to NACK address */
+        SCB_I2C_S_CMD(base) |= SCB_I2C_S_CMD_S_NACK_Msk;
+    }
+    
+    Cy_SysLib_ExitCriticalSection(intrState);
+}
 
 /*******************************************************************************
 *                         I2C Master API: High level
@@ -2550,7 +2619,7 @@ static void SlaveHandleAddress(CySCB_Type *base, cy_stc_scb_i2c_context_t *conte
                                                 (CY_SCB_I2C_SLAVE_INTR | CY_SCB_I2C_SLAVE_INTR_HS) : CY_SCB_I2C_SLAVE_INTR);
 #endif /* CY_IP_M0S8SCB */
                 }
-                else
+                else if (cmd == CY_SCB_I2C_NAK)
                 {
                     /* Disable the stop interrupt source */
                     Cy_SCB_SetSlaveInterruptMask(base, CY_SCB_I2C_SLAVE_INTR_NO_STOP);
@@ -2561,75 +2630,26 @@ static void SlaveHandleAddress(CySCB_Type *base, cy_stc_scb_i2c_context_t *conte
                                                 (CY_SCB_I2C_SLAVE_INTR_NO_STOP | CY_SCB_I2C_SLAVE_INTR_HS) : CY_SCB_I2C_SLAVE_INTR_NO_STOP);
 #endif /* CY_IP_M0S8SCB */
                 }
+                else
+                {
+                    /* For wait command no need to configure the interrupts here. */
+                }
             }
         }
 
         /* Clear the TX FIFO before continue the transaction */
         Cy_SCB_ClearTxFifo(base);
 
-        /* Set the command to an ACK or NACK address */
-        SCB_I2C_S_CMD(base) |= (cmd == CY_SCB_I2C_ACK) ? SCB_I2C_S_CMD_S_ACK_Msk : SCB_I2C_S_CMD_S_NACK_Msk;
+        /* Checking for callback return status before sending ACK/NACK */
+        if(cmd != CY_SCB_I2C_WAIT)
+        {
+            /* Set the command to an ACK or NACK address */
+            SCB_I2C_S_CMD(base) |= (cmd == CY_SCB_I2C_ACK) ? SCB_I2C_S_CMD_S_ACK_Msk : SCB_I2C_S_CMD_S_NACK_Msk;
+        }
 
         if (cmd == CY_SCB_I2C_ACK)
         {
-            bool readDirection = _FLD2BOOL(SCB_I2C_STATUS_S_READ,SCB_I2C_STATUS(base));
-
-            /* Notify the user about start of transfer */
-            if (NULL != context->cbEvents)
-            {
-                context->cbEvents(readDirection ? CY_SCB_I2C_SLAVE_READ_EVENT : CY_SCB_I2C_SLAVE_WRITE_EVENT);
-            }
-
-            /* Prepare for a transfer */
-            if (readDirection)
-            {
-                context->state        = CY_SCB_I2C_SLAVE_TX;
-                context->slaveStatus |= CY_SCB_I2C_SLAVE_RD_BUSY;
-
-                /* Prepare to transmit data */
-                context->slaveTxBufferIdx = context->slaveTxBufferCnt;
-                context->slaveRdBufEmpty  = false;
-                Cy_SCB_SetTxInterruptMask(base, CY_SCB_TX_INTR_LEVEL);
-            }
-            else
-            {
-                uint32_t level = 0UL;
-
-                context->state        = CY_SCB_I2C_SLAVE_RX;
-                context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_BUSY;
-
-                /* Prepare to receive data */
-                Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL);
-
-                if (context->useRxFifo)
-                {
-                    if (context->slaveRxBufferSize > 0UL)
-                    {
-                        /* ACK data automatically until RX FIFO is full */
-                        SCB_I2C_CTRL(base) |= SCB_I2C_CTRL_S_READY_DATA_ACK_Msk;
-
-                        if (context->slaveRxBufferSize > CY_SCB_I2C_FIFO_SIZE)
-                        {
-                            /* Set a level in RX FIFO to trigger the receive interrupt source */
-                            level = (context->slaveRxBufferSize - CY_SCB_I2C_FIFO_SIZE);
-                            level = ((level > CY_SCB_I2C_FIFO_SIZE) ? (CY_SCB_I2C_FIFO_SIZE / 2UL) : level) - 1UL;
-                        }
-                        else
-                        {
-                            /* Set a level in RX FIFO to read the number of bytes */
-                            level = (context->slaveRxBufferSize - 1UL);
-
-                            /* NACK when RX FIFO becomes full */
-                            SCB_I2C_CTRL(base) |= SCB_I2C_CTRL_S_NOT_READY_DATA_NACK_Msk;
-
-                            /* Disable the RX level interrupt and wait until RX FIFO is full or stops */
-                            Cy_SCB_SetRxInterruptMask(base, CY_SCB_CLEAR_ALL_INTR_SRC);
-                        }
-                    }
-                }
-
-                Cy_SCB_SetRxFifoLevel(base, level);
-            }
+            SlaveHandleAck(base, context);
         }
 #ifdef CY_IP_MXSCB
     }
@@ -2949,7 +2969,84 @@ static void SlaveHandleStop(CySCB_Type *base, bool slaveAddrInFifo, cy_stc_scb_i
     }
 }
 
+/*******************************************************************************
+* Function Name: SlaveHandleAck
+****************************************************************************//**
+*
+* Prepares the buffers and FIFO for the Read or Write transfer after the
+* matched address was received and ACK sent by the slave.
+*
+* \param base
+* The pointer to the I2C SCB instance.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_scb_i2c_context_t allocated
+* by the user. The structure is used during the I2C operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+static void SlaveHandleAck(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
+{
+    bool readDirection = _FLD2BOOL(SCB_I2C_STATUS_S_READ,SCB_I2C_STATUS(base));
 
+    /* Notify the user about start of transfer */
+    if (NULL != context->cbEvents)
+    {
+        context->cbEvents(readDirection ? CY_SCB_I2C_SLAVE_READ_EVENT : CY_SCB_I2C_SLAVE_WRITE_EVENT);
+    }
+
+    /* Prepare for a transfer */
+    if (readDirection)
+    {
+        context->state        = CY_SCB_I2C_SLAVE_TX;
+        context->slaveStatus |= CY_SCB_I2C_SLAVE_RD_BUSY;
+
+        /* Prepare to transmit data */
+        context->slaveTxBufferIdx = context->slaveTxBufferCnt;
+        context->slaveRdBufEmpty  = false;
+        Cy_SCB_SetTxInterruptMask(base, CY_SCB_TX_INTR_LEVEL);
+    }
+    else
+    {
+        uint32_t level = 0UL;
+
+        context->state        = CY_SCB_I2C_SLAVE_RX;
+        context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_BUSY;
+
+        /* Prepare to receive data */
+        Cy_SCB_SetRxInterruptMask(base, CY_SCB_RX_INTR_LEVEL);
+
+        if (context->useRxFifo)
+        {
+            if (context->slaveRxBufferSize > 0UL)
+            {
+                /* ACK data automatically until RX FIFO is full */
+                SCB_I2C_CTRL(base) |= SCB_I2C_CTRL_S_READY_DATA_ACK_Msk;
+
+                if (context->slaveRxBufferSize > CY_SCB_I2C_FIFO_SIZE)
+                {
+                    /* Set a level in RX FIFO to trigger the receive interrupt source */
+                    level = (context->slaveRxBufferSize - CY_SCB_I2C_FIFO_SIZE);
+                    level = ((level > CY_SCB_I2C_FIFO_SIZE) ? (CY_SCB_I2C_FIFO_SIZE / 2UL) : level) - 1UL;
+                }
+                else
+                {
+                    /* Set a level in RX FIFO to read the number of bytes */
+                    level = (context->slaveRxBufferSize - 1UL);
+
+                    /* NACK when RX FIFO becomes full */
+                    SCB_I2C_CTRL(base) |= SCB_I2C_CTRL_S_NOT_READY_DATA_NACK_Msk;
+
+                    /* Disable the RX level interrupt and wait until RX FIFO is full or stops */
+                    Cy_SCB_SetRxInterruptMask(base, CY_SCB_CLEAR_ALL_INTR_SRC);
+                }
+            }
+        }
+
+        Cy_SCB_SetRxFifoLevel(base, level);
+    }
+}
 /*******************************************************************************
 * Function Name: Cy_SCB_I2C_MasterInterrupt
 ****************************************************************************//**

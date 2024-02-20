@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -47,9 +47,9 @@
       <Entry name="SmartCard" value="CY_SCB_UART_SMARTCARD" visible="true" />
       <Entry name="IrDA"      value="CY_SCB_UART_IRDA"      visible="true" />
     </ParamChoice>
-    <ParamBool id="Standard" name="Standard" group="Internal" default="`${ComMode eq CY_SCB_UART_STANDARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
+    <ParamBool id="Standard" name="Standard" group="Internal" default="`${ComMode eq CY_SCB_UART_STANDARD}`" visible="false" editable="false" desc="This parameter defines Standard." />
     <ParamBool id="SmartCard" name="SmartCard" group="Internal" default="`${ComMode eq CY_SCB_UART_SMARTCARD}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
-    <ParamBool id="IrDA" name="IrDA" group="Internal" default="`${ComMode eq CY_SCB_UART_IRDA}`" visible="false" editable="false" desc="This parameter defines SmartCard." />
+    <ParamBool id="IrDA" name="IrDA" group="Internal" default="`${ComMode eq CY_SCB_UART_IRDA}`" visible="false" editable="false" desc="This parameter defines IrDA." />
 
     <!-- Lin Mode -->
     <ParamBool id="EnableLinMode" name="Enable LIN Mode" group="General" default="`${false}`" visible="`${Standard}`" editable="true" desc="This parameter enables the LIN mode. Only applicable when Com Mode is Standard." />

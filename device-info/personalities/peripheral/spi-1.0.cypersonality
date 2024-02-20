@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2023), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -170,7 +170,7 @@
     <ParamBool id="hasConnectionMosi" name="hasConnectionMosi" group="Internal" default="`${hasVisibleOption(&quot;spi_miso[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if MOSI has valid connections." />
     <ParamBool id="hasConnectionMiso" name="hasConnectionMiso" group="Internal" default="`${hasVisibleOption(&quot;spi_mosi[0]&quot;)}`" visible="false" editable="false" desc="This parameter determines if MISO has valid connections." />
 
-    <ParamSignal port="spi_clk[0]"  name="SCLK" group="Connections" visible="`${MasterMode ? hasConnectionSclk : true}`" desc="The Serial Clock (SCLK) from the master to slave device." canBeEmpty="`${MasterMode}`"  isDependency="true" >
+    <ParamSignal port="spi_clk[0]"  name="SCLK" group="Connections" visible="`${MasterMode ? hasConnectionSclk : true}`" desc="The Serial Clock (SCLK) from the master to slave device." canBeEmpty="`${MasterMode}`">
       <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
         <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
           <Fixed value="`${DmMOSI}`" />

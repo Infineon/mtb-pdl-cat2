@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.60
+* \version 2.70
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

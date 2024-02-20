@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.60
+* \version 2.70
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -344,6 +344,28 @@
 #define FG_PART                         (0u)
 #endif /* FG_PART */
 
+#ifndef CCG_SROM_CODE_ENABLE
+#define CCG_SROM_CODE_ENABLE            (0u)
+#endif /* CCG_SROM_CODE_ENABLE */
+
+#ifndef GENERATE_SROM_CODE
+#define GENERATE_SROM_CODE              (0u)
+#endif /* GENERATE_SROM_CODE */
+
+#if !CCG_SROM_CODE_ENABLE
+#ifndef PDL_ATTRIBUTES
+#define PDL_ATTRIBUTES
+#endif /* PDL_ATTRIBUTES */
+
+#ifndef ROM_CONSTANT
+#define ROM_CONSTANT
+#endif /* ROM_CONSTANT */
+
+#ifndef CALL_MAP
+#define CALL_MAP(func)                (func)
+#endif /* CALL_MAP */
+#endif /* !CCG_SROM_CODE_ENABLE */
+
 /*
  * Enable / disable VBUS Slow Discharge Feature. When this feature is enabled,
  * the discharge drive strength shall be increased by steps every ms until the
@@ -505,6 +527,11 @@
 #ifndef CY_PD_USE_ADC_IN_DS
 #define CY_PD_USE_ADC_IN_DS                         (0u)
 #endif /* CY_PD_USE_ADC_IN_DS */
+
+#ifndef CY_PD_EPR_36V_SUPP_EN
+#define CY_PD_EPR_36V_SUPP_EN           (0u)
+#endif /* CY_PD_EPR_36V_SUPP_EN */
+
 
 /*******************************************************************************
  * MACRO Definitions
@@ -1287,8 +1314,9 @@ typedef union
         uint32_t usb20                      : 1;    /**< USB 2.0 signalling required. */
         uint32_t dfpDPin                    : 8;    /**< DFP_D pin assignments supported. */
         uint32_t ufpDPin                    : 8;    /**< UFP_D pin assignments supported. */
-        uint32_t rsvd                       : 8;    /**< Reserved field. */
-    } std_dp_vdo;                                   /**< DO interpreted as a DisplayPort Mode response. */
+        uint32_t rsvd                       : 6;    /**< Reserved field. */
+        uint32_t dpAmVersion                : 2;    /**< DP alt mode version. */
+    } std_dp_vdo;                                 /**< DO interpreted as a DisplayPort Mode response. */
 
     /** @brief DisplayPort Mode Cable VDO as defined by VESA spec. */
     struct DP_CBL_VDO
@@ -1300,10 +1328,10 @@ typedef union
         uint32_t ufpDPin                    : 8;    /**< UFP_D pin assignments supported. */
         uint32_t rsvd3                      : 2;    /**< Reserved field. */
         uint32_t uhbr13CblSupp              : 1;    /**< Cable UHBR13 Support. */
-        uint32_t actCompNumb                : 1;    /**< Cable number of active components. */
+        uint32_t rsvd4                      : 1;    /**< Reserved field. */
         uint32_t actComp                    : 2;    /**< Cable active component. */
-        uint32_t vdoVersion                 : 2;    /**< VDO version. */
-    } dp_cbl_vdo;                                   /**< DO interpreted as a DisplayPort Mode response. */
+        uint32_t dpAmVersion                : 2;    /**< DP alt mode version. */
+    } dp_cbl_vdo;                                  /**< DO interpreted as a DisplayPort Mode response. */
 
     /** @brief DisplayPort status update VDO as defined by VESA spec. */
     struct DP_STATUS_VDO
@@ -1316,7 +1344,8 @@ typedef union
         uint32_t exit                       : 1;    /**< Exit DP mode request. */
         uint32_t hpdState                   : 1;    /**< Current HPD state. */
         uint32_t hpdIrq                     : 1;    /**< HPD IRQ status. */
-        uint32_t rsvd                       : 23;   /**< Reserved field. */
+        uint32_t noDpSuspend                : 1;    /**< Device has/not preference for entry into low power state. */
+        uint32_t rsvd                       : 22;   /**< Reserved field. */
     } dp_stat_vdo;                                  /**< DO interpreted as a DisplayPort status update. */
 
     /** @brief DisplayPort configure VDO as defined by VESA spec. */
@@ -1325,13 +1354,14 @@ typedef union
         uint32_t selConf                    : 2;    /**< Select configuration. */
         uint32_t sign                       : 4;    /**< Signalling for DP protocol. */
         uint32_t rsvd1                      : 2;    /**< Reserved. */
-        uint32_t dfpAsgmnt                  : 8;    /**< DFP_D pin assignment. */
-        uint32_t rsvd2                      : 10;   /**< Reserved field. */
+        uint32_t dfpAsgmnt                  : 8;    /**< DFP_D pin assignment or DP2.1 assignment. */
+        uint32_t ufpAsgmnt                  : 8;    /**< UFP_D pin assignment. */
+        uint32_t rsvd2                      : 2;    /**< Reserved. */
         uint32_t uhbr13CblSupp              : 1;    /**< Cable UHBR13 Support. */
-        uint32_t actCompNumb                : 1;    /**< Cable number of active components. */
+        uint32_t rsvd3                      : 1;    /**< Reserved. */
         uint32_t actComp                    : 2;    /**< Cable active component. */
-        uint32_t vdoVersion                 : 2;    /**< VDO version. */
-    } dp_cfg_vdo;                                   /**< DO interpreted as a DisplayPort Configure command. */
+        uint32_t dpAmVersion                : 2;    /**< DP alt mode version. */
+    } dp_cfg_vdo;                               /**< DO interpreted as a DisplayPort Configure command. */
 
     /** @brief Programmable Power Supply Source PDO. */
     struct PPS_SRC
@@ -1450,23 +1480,6 @@ typedef union
         uint32_t rsvd1                      : 5;    /**< Reserved field. */
     } tbt_ufp_vdo;                                  /**< Data Object interpreted as a Thunderbolt3 mode VDO. */
 
-#if (!CY_PD_USB4_SUPPORT_ENABLE)
-    /** @brief Thunderbolt Discover Modes Response Data Object. */
-    struct TBT_VDO
-    {
-        uint32_t intelMode                  : 16;   /**< Thunderbolt (Intel) modes identifier. */
-        uint32_t cblSpeed                   : 3;    /**< Data bandwidth supported by the Type-C cable. */
-        uint32_t cblGen                     : 2;    /**< Thunderbolt cable generation. */
-        uint32_t cblType                    : 1;    /**< Whether cable is non-optical or optical. */
-        uint32_t cbl                        : 1;    /**< Type of Type-C cable: Passive or Active. */
-        uint32_t linkTraining               : 1;    /**< Type of link training supported by active cable. */
-        uint32_t legAdpt                    : 1;    /**< Whether this is a legacy Thunderbolt adapter. */
-        uint32_t rsvd0                      : 1;    /**< Reserved field. */
-        uint32_t vproDockHost               : 1;    /**< Whether the device supports VPRO feature. */
-        uint32_t rsvd1                      : 5;    /**< Reserved field. */
-    } tbt_vdo;                                      /**< DO interpreted as a Thunderbolt Discovery response. */
-#else
-
     /** @brief Thunderbolt Discover Modes Response Data Object. */
     struct TBT_VDO
     {
@@ -1494,7 +1507,7 @@ typedef union
         uint32_t linkTraining               : 1;    /**< Type of link training supported by active cable. */
         uint32_t rsvd1                      : 8;    /**< Reserved field. */
     } tbt_cbl_vdo;                                  /**< DO interpreted as a Thunderbolt Discovery response. */
-#endif /* CY_PD_USB4_SUPPORT_ENABLE */
+
     /** @brief UFP VDO #1 */
     struct UFP_VDO_1
     {

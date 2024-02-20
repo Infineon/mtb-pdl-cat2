@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.60
+* \version 2.70
 *
 * The source file of the USBPD Transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -179,7 +179,7 @@
 
 
 /* Ordered sets for transmission. */
-static const uint32_t sopTable[CY_PD_SOP_INVALID] =
+ROM_CONSTANT static const uint32_t sopTable[CY_PD_SOP_INVALID] =
 {
     0x8E318u,      /**< SOP Default. */
     0x31B18u,      /**< SOP Prime. */
@@ -212,7 +212,7 @@ static const uint32_t sopTable[CY_PD_SOP_INVALID] =
 * CY_USBPD_STAT_BAD_PARAM if the context pointer or phyCbk is invalid.
 *
 *******************************************************************************/
-cy_en_usbpd_status_t Cy_USBPD_Phy_Init(cy_stc_usbpd_context_t *context, cy_cb_usbpd_phy_handle_events_t phyCbk)
+PDL_ATTRIBUTES cy_en_usbpd_status_t Cy_USBPD_Phy_Init(cy_stc_usbpd_context_t *context, cy_cb_usbpd_phy_handle_events_t phyCbk)
 {
     PPDSS_REGS_T pd = NULL;
 
@@ -325,7 +325,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_Init(cy_stc_usbpd_context_t *context, cy_cb_us
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
     cy_stc_pd_dpm_config_t* dpmConfig = context->dpmGetConfig();
@@ -503,7 +503,7 @@ void Cy_USBPD_Phy_RefreshRoles(cy_stc_usbpd_context_t *context)
 * Returns true if successful, false otherwise.
 *
 *******************************************************************************/
-bool Cy_USBPD_Phy_LoadMsg(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop, uint8_t retries,
+PDL_ATTRIBUTES bool Cy_USBPD_Phy_LoadMsg(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop, uint8_t retries,
         uint8_t dobjCount, uint32_t header, bool unchunked, uint32_t* buf)
 {
     PPDSS_REGS_T pd = NULL;
@@ -562,13 +562,13 @@ bool Cy_USBPD_Phy_LoadMsg(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop, u
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Phy_Reset_RxTx_SM(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Phy_Reset_RxTx_SM(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
 
     /* Stop any ongoing transmission */
     pd->debug_ctrl |= (PDSS_DEBUG_CTRL_RESET_TX | PDSS_DEBUG_CTRL_RESET_RX);
-    Cy_SysLib_DelayUs(5);
+    CALL_MAP(Cy_SysLib_DelayUs)(5);
     pd->debug_ctrl &= ~(PDSS_DEBUG_CTRL_RESET_TX | PDSS_DEBUG_CTRL_RESET_RX);
 }
 
@@ -589,12 +589,12 @@ void Cy_USBPD_Phy_Reset_RxTx_SM(cy_stc_usbpd_context_t *context)
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Phy_DisRxTx(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Phy_DisRxTx(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
 
-    Cy_USBPD_Phy_DisRx(context, 0u);
-    Cy_USBPD_Phy_Reset_RxTx_SM (context);
+    CALL_MAP(Cy_USBPD_Phy_DisRx)(context, 0u);
+    CALL_MAP(Cy_USBPD_Phy_Reset_RxTx_SM) (context);
 
     pd->intr0_mask &= ~(TX_INTERRUPTS | RST_TX_INTERRUPTS |
             PDSS_INTR0_TX_RETRY_ENABLE_CLRD |
@@ -607,7 +607,7 @@ void Cy_USBPD_Phy_DisRxTx(cy_stc_usbpd_context_t *context)
 }
 
 
-static bool Cy_USBPD_Phy_LoadDataInMem(cy_stc_usbpd_context_t *context, bool start)
+PDL_ATTRIBUTES static bool Cy_USBPD_Phy_LoadDataInMem(cy_stc_usbpd_context_t *context, bool start)
 {
     PPDSS_REGS_T pd = context->base;
     uint8_t i;
@@ -648,7 +648,7 @@ static bool Cy_USBPD_Phy_LoadDataInMem(cy_stc_usbpd_context_t *context, bool sta
 }
 
 #if CY_PD_REV3_ENABLE
-static void pd_phy_read_data_from_mem(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES static void pd_phy_read_data_from_mem(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
     uint8_t i;
@@ -689,7 +689,7 @@ static void pd_phy_read_data_from_mem(cy_stc_usbpd_context_t *context)
 * Returns true if successful, false otherwise.
 *
 *******************************************************************************/
-bool Cy_USBPD_Phy_SendMsg(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES bool Cy_USBPD_Phy_SendMsg(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = NULL;
     uint32_t regVal;
@@ -787,7 +787,7 @@ bool Cy_USBPD_Phy_SendMsg(cy_stc_usbpd_context_t *context)
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Phy_EnRx(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Phy_EnRx(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
 #if CY_PD_REV3_ENABLE
@@ -831,7 +831,7 @@ void Cy_USBPD_Phy_EnRx(cy_stc_usbpd_context_t *context)
 * Receiver completely disabled if 0, Hard Reset can be received if set to 1.
 *
 *******************************************************************************/
-void Cy_USBPD_Phy_DisRx (cy_stc_usbpd_context_t *context, uint8_t hardResetEn)
+PDL_ATTRIBUTES void Cy_USBPD_Phy_DisRx (cy_stc_usbpd_context_t *context, uint8_t hardResetEn)
 {
     uint32_t temp;
     PPDSS_REGS_T pd = context->base;
@@ -936,7 +936,7 @@ void Cy_USBPD_Phy_DisUnchunkedTx (cy_stc_usbpd_context_t *context)
 * CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
-cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = NULL;
 
@@ -951,7 +951,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
     pd->tx_ctrl |= PDSS_TX_CTRL_TX_REG_EN;
 
     /* Delay to let the Tx regulator turn on. */
-    Cy_SysLib_DelayUs(50);
+    CALL_MAP(Cy_SysLib_DelayUs)(50);
 
     /* Start BIST CM2. */
     pd->tx_ctrl |= PDSS_TX_CTRL_EN_TX_BIST_CM2;
@@ -977,7 +977,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendBIST_Cm2(cy_stc_usbpd_context_t *context)
 * CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
-cy_en_usbpd_status_t Cy_USBPD_Phy_AbortBIST_Cm2(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES cy_en_usbpd_status_t Cy_USBPD_Phy_AbortBIST_Cm2(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = NULL;
 
@@ -1015,7 +1015,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_AbortBIST_Cm2(cy_stc_usbpd_context_t *context)
 * CY_USBPD_STAT_BAD_PARAM if the context pointer is invalid.
 *
 *******************************************************************************/
-cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = NULL;
 
@@ -1059,7 +1059,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_AbortTxMsg(cy_stc_usbpd_context_t *context)
 * CY_USBPD_STAT_BUSY if the USBPD operation is still in progress
 *
 *******************************************************************************/
-cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop)
+PDL_ATTRIBUTES cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_en_pd_sop_t sop)
 {
     PPDSS_REGS_T pd = NULL;
     uint8_t loopCount = 10;
@@ -1074,7 +1074,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_
     /* If this is a hard reset, we should reset the TX and RX state machine for this port. */
     if (sop == CY_PD_HARD_RESET)
     {
-        Cy_USBPD_Phy_Reset_RxTx_SM(context);
+        CALL_MAP(Cy_USBPD_Phy_Reset_RxTx_SM)(context);
     }
 
     /* Send a Hard Reset or Cable Reset. */
@@ -1098,7 +1098,7 @@ cy_en_usbpd_status_t Cy_USBPD_Phy_SendReset(cy_stc_usbpd_context_t *context, cy_
               )
         {
             loopCount--;
-            Cy_SysLib_DelayUs (10);
+            CALL_MAP(Cy_SysLib_DelayUs) (10);
         }
 
         if (
@@ -1160,7 +1160,7 @@ cy_stc_pd_packet_extd_t *Cy_USBPD_Phy_GetRxPacket(cy_stc_usbpd_context_t *contex
 * Returns true if busy, otherwise false.
 *
 *******************************************************************************/
-bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
 
@@ -1194,17 +1194,12 @@ bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
 * None
 *
 *******************************************************************************/
-void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Intr0_RxTx_Handler(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
-    uint32_t rval;
+    uint32_t rval, intr_msk = 0;
     uint32_t i = 0;
     bool phy_busy_flag;
-
-#if VBTR_MULTI_SLOPE_ENABLE
-    pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context->port);
-    uint32_t hfclk_mhz = (Cy_SysClk_ClkHfGetFrequency() / 1000000);
-#endif /* VBTR_MULTI_SLOPE_ENABLE */
 
     CY_UNUSED_PARAMETER(i);
 
@@ -1213,23 +1208,22 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
     cy_pd_pd_hdr_t msgHdr;
 #endif /* CY_PD_REV3_ENABLE */
 
-    if (pd->intr0_masked != 0u)
+    intr_msk = pd->intr0_masked;
+    /*
+     * Receive interrupt handling.
+     */
+    if ((intr_msk & PDSS_INTR0_RCV_RST) != 0u)
     {
-        /*
-         * Receive interrupt handling.
-         */
-        if ((pd->intr0_masked & PDSS_INTR0_RCV_RST) != 0u)
-        {
-            context->txDone = 0;
-            context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_RX_RST);
-            pd->intr0 = (PDSS_INTR0_RCV_RST | PDSS_INTR0_EOP_ERROR);
-        }
+        context->txDone = 0;
+        context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_RX_RST);
+        pd->intr0 = (PDSS_INTR0_RCV_RST | PDSS_INTR0_EOP_ERROR);
+    }
 
-        if ((pd->intr0_masked & PDSS_INTR0_TX_PACKET_DONE) != 0u)
-        {
-            pd->intr0 = PDSS_INTR0_TX_PACKET_DONE;
-            context->txDone = 1;
-        }
+    if ((intr_msk & PDSS_INTR0_TX_PACKET_DONE) != 0u)
+    {
+        pd->intr0 = PDSS_INTR0_TX_PACKET_DONE;
+        context->txDone = 1;
+    }
 
 #if CY_PD_REV3_ENABLE
         if ((pd->intr2_masked & PDSS_INTR2_EXTENDED_MSG_DET) != 0u)
@@ -1259,8 +1253,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr2 = PDSS_INTR2_CHUNK_DET | PDSS_INTR2_EXTENDED_MSG_DET;
         }
 #endif /* CY_PD_REV3_ENABLE */
-
-        if ((pd->intr0_masked & PDSS_INTR0_RX_SRAM_HALF_END) != 0u)
+        if ((intr_msk & PDSS_INTR0_RX_SRAM_HALF_END) != 0u)
         {
 #if CY_PD_REV3_ENABLE
             /* Store data in extended buf and update count*/
@@ -1269,7 +1262,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr0 = PDSS_INTR0_RX_SRAM_HALF_END;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_RX_STATE_IDLE) != 0u)
+        if ((intr_msk & PDSS_INTR0_RX_STATE_IDLE) != 0u)
         {
             rval =  pd->intr0;
 
@@ -1363,7 +1356,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* CY_PD_REV3_ENABLE */
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_TX_GOODCRC_MSG_DONE) != 0u)
+        if ((intr_msk & PDSS_INTR0_TX_GOODCRC_MSG_DONE) != 0u)
         {
             /* Create a packet received event. */
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_RX_MSG_CMPLT);
@@ -1372,14 +1365,14 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr0 = PDSS_INTR0_TX_GOODCRC_MSG_DONE;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_COLLISION_TYPE3) != 0u)
+        if ((intr_msk & PDSS_INTR0_COLLISION_TYPE3) != 0u)
         {
             /* Create a packet received event. */
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_RX_MSG_CMPLT);
             pd->intr0 = PDSS_INTR0_COLLISION_TYPE3;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_CC_NO_VALID_DATA_DETECTED) != 0u)
+        if ((intr_msk & PDSS_INTR0_CC_NO_VALID_DATA_DETECTED) != 0u)
         {
             /* Disable the interrupt. */
             pd->intr0_mask &= ~PDSS_INTR0_CC_NO_VALID_DATA_DETECTED;
@@ -1388,9 +1381,8 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             /* Notify the protocol layer to stop the phy busy max limit timer. */
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_TX_MSG_PHY_IDLE);
         }
- 
-#if CY_PD_CRC_ERR_HANDLING_ENABLE        
-        if ((pd->intr0_masked & PDSS_INTR0_RCV_BAD_PACKET_COMPLETE) != 0u)
+#if CY_PD_CRC_ERR_HANDLING_ENABLE
+        if ((intr_msk & PDSS_INTR0_RCV_BAD_PACKET_COMPLETE) != 0u)
         {
             /* Create a bad packet received event. */
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_CRC_ERROR);
@@ -1403,7 +1395,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
          * Tx interrupt handling.
          */
 
-        if ((pd->intr0_masked & PDSS_INTR0_TX_SRAM_HALF_END) != 0u)
+        if ((intr_msk & PDSS_INTR0_TX_SRAM_HALF_END) != 0u)
         {
 #if CY_PD_REV3_ENABLE
             if (Cy_USBPD_Phy_LoadDataInMem(context, false) == false)
@@ -1415,11 +1407,11 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr0 = PDSS_INTR0_TX_SRAM_HALF_END;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_CRC_RX_TIMER_EXP) != 0u)
+        if ((intr_msk & PDSS_INTR0_CRC_RX_TIMER_EXP) != 0u)
         {
             context->txDone = 0;
 
-            phy_busy_flag = Cy_USBPD_Phy_IsBusy(context);
+            phy_busy_flag = CALL_MAP(Cy_USBPD_Phy_IsBusy)(context);
             if ((context->retryCnt < 0) ||
                     ((phy_busy_flag == false) && ((pd->tx_ctrl & PDSS_TX_CTRL_TX_RETRY_ENABLE) == 0u)))
 
@@ -1435,7 +1427,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
                     /* Clear and enable the TX retry enable cleared interrupt if required */
                     pd->intr0 = PDSS_INTR0_TX_RETRY_ENABLE_CLRD;
                     /* Delay to remove any race */
-                    Cy_SysLib_DelayUs(5);
+                    CALL_MAP(Cy_SysLib_DelayUs)(5);
 
                     if ((pd->tx_ctrl & PDSS_TX_CTRL_TX_RETRY_ENABLE) != 0U)
                     {
@@ -1445,7 +1437,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
                     {
                         /* Delay so that IP works otherwise if clear and set is too fast
                          * retry can fail */
-                        Cy_SysLib_DelayUs(5);
+                        CALL_MAP(Cy_SysLib_DelayUs)(5);
                         pd->tx_ctrl |= PDSS_TX_CTRL_TX_RETRY_ENABLE;
                     }
                 }
@@ -1454,9 +1446,9 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr0 = PDSS_INTR0_CRC_RX_TIMER_EXP;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_TX_RETRY_ENABLE_CLRD) != 0u)
+        if ((intr_msk & PDSS_INTR0_TX_RETRY_ENABLE_CLRD) != 0u)
         {
-            if (Cy_USBPD_Phy_IsBusy(context) == false)
+            if (CALL_MAP(Cy_USBPD_Phy_IsBusy)(context) == false)
             {
                 /*
                  * In cases where there is a delayed response to PD CRC timer expiry interrupt, force the
@@ -1468,7 +1460,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             }
             else
             {
-                Cy_SysLib_DelayUs(5);
+                CALL_MAP(Cy_SysLib_DelayUs)(5);
                 /* Enable retry. */
                 pd->tx_ctrl |= PDSS_TX_CTRL_TX_RETRY_ENABLE;
 
@@ -1478,14 +1470,14 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             }
         }
 
-        if ((pd->intr0_masked & (PDSS_INTR0_COLLISION_TYPE1 | PDSS_INTR0_COLLISION_TYPE2)) != 0u)
+        if ((intr_msk& (PDSS_INTR0_COLLISION_TYPE1 | PDSS_INTR0_COLLISION_TYPE2)) != 0u)
         {
             /* Clear interrupts and enable the channel idle interrupt. */
             pd->intr0 = (PDSS_INTR0_COLLISION_TYPE1 | PDSS_INTR0_COLLISION_TYPE2 |
                          PDSS_INTR0_CC_NO_VALID_DATA_DETECTED);
             pd->intr0_mask |= PDSS_INTR0_CC_NO_VALID_DATA_DETECTED;
 
-            Cy_SysLib_DelayUs (10);
+            CALL_MAP(Cy_SysLib_DelayUs) (10);
 
             /*
              * If the interrupt handler is delayed, the bus may already be idle.
@@ -1517,7 +1509,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
         /*
          * Reset interrupt handling.
          */
-        if ((pd->intr0_masked & PDSS_INTR0_TX_HARD_RST_DONE) != 0u)
+        if ((intr_msk & PDSS_INTR0_TX_HARD_RST_DONE) != 0u)
         {
             context->txDone = 0;
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_TX_RST_SUCCESS);
@@ -1525,15 +1517,53 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->intr0 = RST_TX_INTERRUPTS;
         }
 
-        if ((pd->intr0_masked & PDSS_INTR0_COLLISION_TYPE4) != 0u)
+        if ((intr_msk & PDSS_INTR0_COLLISION_TYPE4) != 0u)
         {
             context->txDone = 0;
             pd->intr0_mask &= ~RST_TX_INTERRUPTS;
             pd->intr0 = RST_TX_INTERRUPTS;
             context->pdPhyCbk((void *)(context->pdStackContext), CY_USBPD_PHY_EVT_TX_RST_COLLISION);
         }
-    }
+}
 
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Intr0Handler
+****************************************************************************//**
+*
+* Interrupt Handler function for USBPD Transceiver and HPD interrupts.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
+{
+    PPDSS_REGS_T pd = context->base;
+    uint32_t i = 0;
+
+#if VBTR_MULTI_SLOPE_ENABLE
+    pwr_params_t *pwr_cfg = pd_get_ptr_pwr_tbl(context->port);
+    uint32_t hfclk_mhz = (Cy_SysClk_ClkHfGetFrequency() / 1000000);
+#endif /* VBTR_MULTI_SLOPE_ENABLE */
+
+#if (!(CY_PD_SOURCE_ONLY))
+#if (CY_PD_REV3_ENABLE && (CY_PD_FRS_RX_ENABLE || CY_PD_FRS_TX_ENABLE))
+    cy_stc_pd_dpm_config_t* dpmConfig = context->dpmGetConfig();
+#endif /* (CY_PD_REV3_ENABLE && (CY_PD_FRS_RX_ENABLE || CY_PD_FRS_TX_ENABLE)) */
+#endif /* (!(CY_PD_SOURCE_ONLY)) */
+    CY_UNUSED_PARAMETER(i);
+
+    if (pd->intr0_masked != 0u)
+    {
+        CALL_MAP(Cy_USBPD_Intr0_RxTx_Handler)(context);
+    }
     if (pd->intr2_masked != 0u)
     {
 #if (CY_HPD_ENABLE)
@@ -1556,7 +1586,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             pd->swap_ctrl1 |= PDSS_SWAP_CTRL1_RESET_SWAP_STATE;
 
             /* Stop any ongoing transmission */
-            Cy_USBPD_Phy_Reset_RxTx_SM(context);
+            CALL_MAP(Cy_USBPD_Phy_Reset_RxTx_SM)(context);
 
             /* Clear pending rx interrupts */
             pd->intr0 = RCV_INTR_MASK | PDSS_INTR0_COLLISION_TYPE3 | PDSS_INTR0_TX_GOODCRC_MSG_DONE;
@@ -1590,7 +1620,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             Cy_USBPD_Vbus_FrsTxDisable(context);
             dpmConfig->frTxEnLive = false;
 
-            Cy_USBPD_Phy_Reset_RxTx_SM(context);
+            CALL_MAP(Cy_USBPD_Phy_Reset_RxTx_SM)(context);
 
             /* Change Rp to allow sink to initiate AMS */
             Cy_USBPD_TypeC_ChangeRp(context, CY_PD_RP_TERM_RP_CUR_3A);

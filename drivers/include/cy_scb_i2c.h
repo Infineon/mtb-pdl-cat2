@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.h
-* \version 4.40
+* \version 4.50
 *
 * Provides I2C API declarations of the SCB driver.
 *
@@ -277,6 +277,13 @@
 * <b>Polling Slave Completion Events</b>
 * \snippet scb_i2c_snippet.c I2C_SLAVE_POLLING
 *
+* <b>Slave Address Match Clock Stretching</b>
+* \snippet scb_i2c_snippet.c I2C_SLAVE_REG_ADDR_CALLBACK
+* \snippet scb_i2c_snippet.c I2C_SLAVE_ADDRESS_MATCH
+* Function \ref Cy_SCB_I2C_SlaveSendAckNack() should be called by the user 
+* application if \ref CY_SCB_I2C_WAIT is returned by the address match callback.
+* \snippet scb_i2c_snippet.c I2C_SLAVE_SEND_ACK
+*
 * \note
 * All slave API (except \ref Cy_SCB_I2C_SlaveAbortRead and
 * \ref Cy_SCB_I2C_SlaveAbortWrite) <b>are not interrupt-protected</b> and to
@@ -460,6 +467,7 @@ typedef enum
 {
     CY_SCB_I2C_ACK,     /**< Send ACK to current byte */
     CY_SCB_I2C_NAK,     /**< Send NAK to current byte */
+    CY_SCB_I2C_WAIT,    /**< Wait for application to send ACK/NAK */
 } cy_en_scb_i2c_command_t;
 /** \} group_scb_i2c_enums */
 
@@ -799,6 +807,7 @@ void Cy_SCB_I2C_SlaveAbortRead     (CySCB_Type *base, cy_stc_scb_i2c_context_t *
 void Cy_SCB_I2C_SlaveConfigWriteBuf(CySCB_Type const *base, uint8_t *buffer, uint32_t size,
                                     cy_stc_scb_i2c_context_t *context);
 void Cy_SCB_I2C_SlaveAbortWrite    (CySCB_Type *base, cy_stc_scb_i2c_context_t *context);
+void Cy_SCB_I2C_SlaveSendAckNack   (CySCB_Type *base, bool ack, cy_stc_scb_i2c_context_t *context);
 
 uint32_t Cy_SCB_I2C_SlaveGetStatus       (CySCB_Type const *base, cy_stc_scb_i2c_context_t const *context);
 uint32_t Cy_SCB_I2C_SlaveClearReadStatus (CySCB_Type const *base, cy_stc_scb_i2c_context_t *context);

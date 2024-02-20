@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.60
+* \version 2.70
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -35,6 +35,17 @@
 #include "cy_usbpd_defines.h"
 #include "cy_usbpd_common.h"
 
+#define CY_CONFIG_TABLE_AUTO                (0)
+/**< Auto configuration table type. */
+#define CY_CONFIG_TABLE_WIRELESS            (1)
+/**< Wireless configuration table type. */
+#define CY_CONFIG_TABLE_POWER               (2)
+/**< Power configuration table type. */
+#define CY_CONFIG_TABLE_HOST                (3)
+/**< Host configuration table type. */
+#define CY_CONFIG_TABLE_DOCK                (4)
+/**< Dock configuration table type. */
+
 /** \cond DOXYGEN_HIDE */
 
 #define GET_DR_SWAP_RESP(resp)              ((resp) & 0x3u)
@@ -48,9 +59,14 @@
 /**< Macro to extract the default VCONN_SWAP command response from the swap_response field
      in the configuration table. */
 
-/** Maximum number of alternate modes which alt modes manager could operates in the same time.
-     Setting this to larger values will increase RAM requirement for the projects. */
-#define CY_MAX_SUPP_ALT_MODES                              (4u)
+#define CY_MAX_DEV_COUNT_CDTT                (8u)
+/**< Maximum device count. Indicates the maximum number of device connection supported by the DMC */
+
+#define CY_CONFIG_GET_PPS_SNK_ENABLED(resp)  ((resp) & 0x01u)
+/**< Macro to extract the PPS Sink Enable/Disable field from the config field.*/
+
+#define CY_CONFIG_GET_PPS_SRC_ENABLED(resp)  (((resp) >> 0x01u) & 0x01u)
+/**< Macro to extract the PPS Source Enable/Disable field from the config field.*/
 
 /**
  * @brief Struct to hold the Alt modes settings.
@@ -69,8 +85,8 @@ typedef struct
                                         * 2) Second option is to have a single discover mode response and each of the response will be programmed one after the other.
                                         * The size of each response needs to be maintained separately.*/
     uint8_t reserved[2];              /**< Reserved for future use */
-    /* Here is a data with unknown length */
-    uint16_t supported_alt_mode[CY_MAX_SUPP_ALT_MODES];
+    uint16_t base_am_info;            /**< This is a data with unknown length which contains all base alternate mode related configurations like
+                                        *  supported SVIDs and information which of SVIDs could be run simultaneously */
 } cy_stc_pdaltmode_cfg_settings_t;
 
 /**
@@ -349,7 +365,7 @@ typedef struct
     /** Whether USB-PD operation is supported on the port.
      *  1 - Enable PD Operation
      *  0 - Disable PD Operation */
-    bool pdOpEn;
+    uint8_t pdOpEn;
 
     /** Whether Try.Src or Try.Sink is enabled for the port:
      *  0 - No Try.Src or Try.Sink supported
@@ -444,6 +460,9 @@ typedef struct
 
     /** EPR Sink PDO List */
     uint32_t eprSnkPdo[6];
+
+    /** EPR Sink PDO Min/Max Current list */
+    uint16_t eprSnkPdoMinMaxCur[6];
 } cy_stc_pdstack_port_cfg_t;
 
 #endif /* CY_USE_CONFIG_TABLE */
@@ -469,13 +488,12 @@ typedef struct
                                      *    Bit 0    => 0 = No HID interface, 1 = Enable HID interface.
                                      *    Bits 1:7 => Reserved.
                                      */
+    uint8_t    bb_cur_draw;          /**< Max current draw in multiple of 2mA units. */
     uint16_t    bb_timeout;         /**< This field is valid only if bb_enable is non-zero. The field
                                      *   determines how long the billboard interface stays on, in seconds.
                                      *   FFFFh    => Stays on until disconnect.
                                      *   000Ah to FFFEh => Timeout in seconds.
                                      */
-
-    uint8_t    reserved;          /**< Reserved area for future expansion. */
 
     uint8_t volatile bb_bus_power;  /**< This field is valid only for devices that have internal USB
                                      *   support. The field indicates whether the device is bus powered or not.
@@ -488,9 +506,7 @@ typedef struct
     uint16_t    bb_vid;                         /**<  VID for the Billboard device. Used only when bb_enable is set to 3. */
     uint16_t    bb_pid;                         /**<  PID for the Billboard device.Used only when bb_enable is set to 3. */
 
-    uint8_t    cdtt_dev_index;                 /** < Index of device within CDTT config space */
-
-    uint8_t    reserved_0;                     /**< Reserved area for future expansion. */
+    uint8_t    reserved_0[2];                   /**< Reserved area for future expansion. */
     uint16_t volatile bb_bos_dscr_offset;       /**<  This field is valid only for devices that have
                                                      internal USB support. The field provides the offset inside
                                                      the table where the BOS descriptor for the device is located.
@@ -904,113 +920,149 @@ typedef struct {
 
 typedef struct
 {
-    uint16_t    table_sign;     /**< Two byte signature to indicate validity of the configuration. */
-    uint8_t     table_type;     /**< The table type indicates the type of solution.
-                                 *   0 => Auto
-                                 *   1 => WICG1
-                                 *   2 => Power
-                                 *   3 => Host
-                                 *   4 => DMC
-                                 */
-    uint8_t     application;    /**<  This field specifies the type of PD application supported:
-                                 *   A => Auto
-                                 *   B => WICG1
-                                 *   C => Power
-                                 *   D => Host
-                                 *   F => DMC
-                                 */
-    uint16_t    table_version;  /**< Table version: This contains 4 bit major version, 4 bit minor
-                                 *   version and 8 bit patch number.
-                                 */
-    uint16_t    table_size;     /**< Size of the configuration table. Checksum is calculated over
-                                 *   bytes 10 to size - 1.
-                                 */
-    uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
-                                 *   byte (size - 1).
-                                 */
-    uint8_t     app_table_size;  /* Size of auto application table */                     
-    uint8_t     reserved_0[7];   /** < Reserved for future use */
-    uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
-    uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
-    uint16_t    port_1_config_offset; /** < Offset of the Port 1 Configuration table */
-    uint16_t    port_1_config_size; /** < Size of the Port 1 Configuration table */
-    uint16_t    auto_config_offset; /** < Offset of the Auto Configuration table */
-    uint16_t    auto_config_size; /** < Size of the Auto Configuration table */
-    uint16_t    bb_offset; /** < Offset of the Port 1 Configuration table */
-    uint16_t    bb_size; /** < Size of the Port 1 Configuration table */
-    uint16_t    user_area_offset; /** < Offset of the User Parameter Configuration */
-    uint16_t    user_area_size; /** < Size of the User Parameter Configuration */
+    uint16_t table_sign;             /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;          /**< The table type indicates the type of solution.
+                                      *   0 => Auto
+                                      *   1 => WICG1
+                                      *   2 => Power
+                                      *   3 => Host
+                                      *   4 => Dock
+                                      */
+    uint8_t     application;          /**< This field specifies the type of PD application supported:
+                                       *   A => Auto
+                                       *   B => WICG1
+                                       *   C => Power
+                                       *   D => Host
+                                       *   F => DMC
+                                       */
+    uint16_t    table_version;        /**< Table version: This contains 4 bit major version, 4 bit minor
+                                       *   version and 8 bit patch number.
+                                       */
+    uint16_t    table_size;           /**< Size of the configuration table in bytes. */
+    uint32_t    table_checksum;       /**< 4-byte CRC. CRC32 is calculated over bytes 12 to bytes (table_size - 1).*/
+    uint8_t     app_table_size;       /**< Size of auto application table in bytes. */
+    uint8_t     reserved_0[7];        /**< Reserved for future use */
+    uint16_t    port_0_config_offset; /**< Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size;   /**< Size of the Port 0 Configuration table in bytes. */
+    uint16_t    port_1_config_offset; /**< Offset of the Port 1 Configuration table */
+    uint16_t    port_1_config_size;   /**< Size of the Port 1 Configuration table in bytes. */
+    uint16_t    auto_config_offset;   /**< Offset of the Auto Configuration table */
+    uint16_t    auto_config_size;     /**< Size of the Auto Configuration table in bytes*/
+    uint16_t    bb_offset;            /**< Offset of the Port 1 Configuration table */
+    uint16_t    bb_size;              /**< Size of the Port 1 Configuration table in bytes*/
+    uint16_t    user_area_offset;     /**< Offset of the User Parameter Configuration */
+    uint16_t    user_area_size;       /**< Size of the User Parameter Configuration in bytes*/
 } auto_config_t;
 
 typedef struct
 {
-    uint16_t    table_sign;     /**< Two byte signature to indicate validity of the configuration. */
-    uint8_t     table_type;     /**< The table type indicates the type of solution.
-                                 *   0 => Auto
-                                 *   1 => WICG1
-                                 *   2 => Power
-                                 *   3 => Host
-                                 *   4 => DMC
-                                 */
-    uint8_t     application;    /**<  This field specifies the type of PD application supported:
-                                 *   A => Auto
-                                 *   B => WICG1
-                                 *   C => Power
-                                 *   D => Host
-                                 *   F => DMC
-                                 */
-    uint16_t    table_version;  /**< Table version: This contains 4 bit major version, 4 bit minor
-                                 *   version and 8 bit patch number.
-                                 */
-    uint16_t    table_size;     /**< Size of the configuration table. Checksum is calculated over
-                                 *   bytes 10 to size - 1.
-                                 */
-    uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
-                                 *   byte (size - 1).
-                                 */
-    uint8_t     reserved_0[8];   /** < Reserved for future use */
-    uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
-    uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
-    uint16_t    port_1_config_offset; /** < Offset of the Port 1 Configuration table */
-    uint16_t    port_1_config_size; /** < Size of the Port 1 Configuration table */
-    uint16_t    user_area_offset; /** < Offset of the User Configuration area. */
-    uint16_t    user_area_size; /** < Size of the User Configuration area in bytes */
-    uint8_t    reserved_1[4];                   /**< Reserved area for future expansion. */
+    uint16_t    table_sign;           /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;           /**< The table type indicates the type of solution.
+                                       *   0 => Auto
+                                       *   1 => WICG1
+                                       *   2 => Power
+                                       *   3 => Host
+                                       *   4 => Dock
+                                       */
+    uint8_t     application;          /**< This field specifies the type of PD application supported:
+                                       *   A => Auto
+                                       *   B => WICG1
+                                       *   C => Power
+                                       *   D => Host
+                                       *   F => DMC
+                                       */
+    uint16_t    table_version;        /**< Table version: This contains 4 bit major version, 4 bit minor
+                                       *   version and 8 bit patch number.
+                                       */
+    uint16_t    table_size;           /**< Size of the configuration table in bytes. */
+    uint32_t    table_checksum;       /**< 4-byte CRC. CRC32 is calculated over bytes 12 to bytes (table_size - 1).*/
+    uint8_t     reserved_0[8];        /**< Reserved for future use */
+    uint16_t    port_0_config_offset; /**< Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size;   /**< Size of the Port 0 Configuration table in bytes*/
+    uint16_t    port_1_config_offset; /**< Offset of the Port 1 Configuration table */
+    uint16_t    port_1_config_size;   /**< Size of the Port 1 Configuration table in bytes*/
+    uint16_t    user_area_offset;     /**< Offset of the User Configuration area. */
+    uint16_t    user_area_size;       /**< Size of the User Configuration area in bytes */
+    uint8_t     reserved_1[4];        /**< Reserved area for future expansion. */
 } host_config_t;
 
 typedef struct
 {
-    uint16_t    table_sign;     /**< Two byte signature to indicate validity of the configuration. */
-    uint8_t     table_type;     /**< The table type indicates the type of solution.
-                                 *   0 => Auto
-                                 *   1 => WICG1
-                                 *   2 => Power
-                                 *   3 => Host
-                                 *   4 => DMC
-                                 */
-    uint8_t     application;    /**<  This field specifies the type of PD application supported:
-                                 *   A => Auto
-                                 *   B => WICG1
-                                 *   C => Power
-                                 *   D => Host
-                                 *   F => DMC
-                                 */
-    uint16_t    table_version;  /**< Table version: This contains 4 bit major version, 4 bit minor
-                                 *   version and 8 bit patch number.
-                                 */
-    uint16_t    table_size;     /**< Size of the configuration table. Checksum is calculated over
-                                 *   bytes 10 to size - 1.
-                                 */
-    uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
-                                 *   byte (size - 1).
-                                 */
-    uint8_t     reserved_0[8];   /** < Reserved for future use */
-    uint16_t    wireless_config_offset; /** < Offset of the Wireless Configuration table */
-    uint16_t    wireless_config_size; /** < Size of the Wireless Configuration table */
-    uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
-    uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
-    uint8_t    reserved_1[8];                   /**< Reserved area for future expansion. */
+    uint16_t    table_sign;           /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;           /**< The table type indicates the type of solution.
+                                       *   0 => Auto
+                                       *   1 => WICG1
+                                       *   2 => Power
+                                       *   3 => Host
+                                       *   4 => DMC
+                                       */
+    uint8_t     application;          /**<  This field specifies the type of PD application supported:
+                                       *   A => Auto
+                                       *   B => WICG1
+                                       *   C => Power
+                                       *   D => Host
+                                       *   F => DMC
+                                       */
+    uint16_t    table_version;        /**< Table version: This contains 4 bit major version, 4 bit minor
+                                       *   version and 8 bit patch number.
+                                       */
+    uint16_t    table_size;           /**< Size of the configuration table in bytes. */
+    uint32_t    table_checksum;       /**< 4-byte CRC. CRC32 is calculated over bytes 12 to bytes (table_size - 1).*/
+    uint8_t     reserved_0[8];        /**< Reserved for future use */
+    uint16_t    wireless_config_offset; /**< Offset of the Wireless Configuration table */
+    uint16_t    wireless_config_size;   /**< Size of the Wireless Configuration table in bytes*/
+    uint16_t    port_0_config_offset;   /**< Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size;     /**< Size of the Port 0 Configuration table in bytes*/
+    uint8_t     reserved_1[8];          /**< Reserved area for future expansion. */
 } wireless_config_t;
+
+
+/**
+ *  @typedef dock_config_t
+ *  @brief Dock configuration data from the configuration table.
+ */
+typedef struct
+{
+    uint16_t    table_sign;             /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;             /**< The table type indicates the type of solution.
+                                         *  0 => Auto
+                                         *  1 => WICG1
+                                         *  2 => Power
+                                         *  3 => Host
+                                         *  4 => Dock
+                                         */
+    uint8_t     application;            /**< This field specifies the type of application supported:
+                                         */
+    uint16_t    table_version;          /**< Table version: This contains 4 bit major version, 4 bit minor
+                                         * version and 8 bit patch number.
+                                         */
+    uint16_t    table_size;             /**< Size of the configuration table in bytes. */
+    uint32_t    table_checksum;         /**< 4-byte CRC. CRC32 is calculated over bytes 12 to bytes (table_size - 1).
+                                         */
+    uint8_t     app_table_size;         /**< The size of DMC application table in bytes. */
+    uint8_t     reserved_0[7];          /**< Reserved bytes for future expansion. */
+
+    uint16_t    port_0_config_offset;   /** < Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size;     /** < Size of the Port 0 Configuration table in bytes*/
+
+    uint16_t    port_1_config_offset;   /** < Offset of the Port 1 Configuration table */
+    uint16_t    port_1_config_size;     /** < Size of the Port 1 Configuration table in bytes*/
+
+    uint16_t    cdtt_offset;            /**< Offset of the Composite Dock Topology table. */
+    uint16_t    cdtt_size;              /**< Size of the Composite Dock Topology table in bytes. */
+
+    uint16_t    smart_power_offset;     /**< Offset of the Smart Power table. */
+    uint16_t    smart_power_size;       /**< Size of the Smart Power table in bytes. */
+
+    uint16_t    bb_offset;              /**< Offset of the Billboard table. */
+    uint16_t    bb_size;                /**< Size of the Billboard table in bytes. */
+
+    uint16_t    sec_config_offset;      /**< Offset of the Security Configuration table. */
+    uint16_t    sec_config_size;        /**< Size of the Security Configuration table in bytes. */
+
+    uint16_t    user_area_offset;       /**< Offset of the User Configuration area. */
+    uint16_t    user_area_size;         /**< Size of the User Configuration area in bytes */
+}dock_config_t;
 
 /**
  * @brief Struct to hold Thunderbolt Host related config settings.
@@ -1031,22 +1083,22 @@ typedef struct
                                   * 0 -> Full SBU MUX Configuration
                                   * 1 -> SBU MUX without polarity change
                                   * 2 -> SBU MUX pass-through */
-    uint8_t usb4_supp;       /**< USB4 data roles supported by the design:
+    uint8_t usb4_supp;         /**< USB4 data roles supported by the design:
                                   * 0 -> None
                                   * 1 -> Host
                                   * 2 -> Dual-Role
                                   * 3 -> Device */
-    uint8_t usb3_supp;       /**< USB3 data roles supported by the design:
+    uint8_t usb3_supp;         /**< USB3 data roles supported by the design:
                                   * 0 -> None
                                   * 1 -> Host
                                   * 2 -> Dual-role
                                   * 3 -> Device */
-    uint8_t host_supp;       /**< USB4 host features supported bit map (this field is copied into b16:b13 of the EUDO sent by the host):
+    uint8_t host_supp;         /**< USB4 host features supported bit map (this field is copied into b16:b13 of the EUDO sent by the host):
                                   * b0 -> Host present
                                   * b1 -> TBT3 is supported by the host's connection manager.
                                   * b2 -> DP tunneling over USB4 supported
                                   * b3 -> PCIe tunneling over USB4 supported. */
-    uint8_t non_tbt_mux;     /**< 1- Non-TB Mux used . */
+    uint8_t non_tbt_mux;       /**< 1- Non-TB Mux used . */
 } tbthost_cfg_settings_t;
 
 /**
@@ -1061,6 +1113,11 @@ typedef struct
                                              * mentioned in the sink capabilities */
     uint8_t ext_powered_prs;            /**< Option to accept PR_SWAP even if there is an external powered bit is set */
     uint8_t pdo_sel_alg;                /**< Source PDO selection algorithm (Default, max Power, Voltage or Current ) */
+    uint8_t pps_enable;                 /**< PPS Enable/Disable:
+                                          * b0 - PPS Sink Enable/Disable.
+                                          * b1 - PPS Source Enable/Disable.
+                                          * b2-7 - Reserved. */
+    uint8_t reserved[3];                /**< Reserved.*/
 } custom_host_cfg_settings_t;
 
 /**
@@ -1086,9 +1143,10 @@ typedef struct
                                                  *  0 => CCG initiates DP after contract.
                                                  *  1 => CCG waits for a trigger from EC.
                                                  */
-     uint8_t dp_oper;                    /**< Byte 0xA3: Type of DP operation supported.
-                                                 *  Bit 0: DP Sink supported
+     uint8_t dp_operation;               /**< Byte 0xA3: Type of DP operation supported.
+                                                 *  Bit 0: DP Sink supported.
                                                  *  Bit 1: DP Source supported.
+                                                 *  Bit 7: DP 2.1 supported.
                                                  */
      uint8_t dp_pref_mode;               /**< Byte 0xA4: DP preferred mode.
                                                  *  Bit 0:
@@ -1146,33 +1204,33 @@ typedef struct
 
 typedef struct
 {
-    uint8_t pref_data_role;              /**< Indicates the preferred data role for the device:
-                                            * 0 -> UFP
-                                            * 1 -> DFP
-                                            * 2 -> No preference */
-    uint8_t pref_power_role;             /**< 0 - source
-                                            * 1 - sink
-                                            * 2- No preference */
+    uint8_t pref_data_role;             /**< Indicates the preferred data role for the device:
+                                         *   0 -> UFP
+                                         *   1 -> DFP
+                                         *   2 -> No preference */
+    uint8_t pref_power_role;            /**< 0 - source
+                                         *   1 - sink
+                                         *   2- No preference */
     uint16_t port_func;                 /**< Bit 0 => USB3(Will be enabled if this bit is 1)
-                                            * Bit 1 => MFDP
-                                            * Bit 2 => TBT3
-                                            * Bit 3 => USB4
-                                            * Bit 4 => Prefer DP 4 Lane(Prefer to be in a 4 lane configuration) otherwise prefer DP 2 Lane
-                                            * Bit 5 => Rsvd
-                                            * Bit 6 => Rsvd
-                                            * Bit 7 => Rsvd */
-    uint16_t flashing_vid;             /**< USB-PD VID used for the CC based flashing mode support. */
-    uint16_t flashing_mode;            /**< USB-PD mode index used for the CC based flashing support.*/
-    uint8_t snk_usb_susp_enable;       /**< Whether the device supports USB suspend as sink. */
-    uint8_t snk_usb_comm_enable;       /**< Whether the device supports USB communication as sink. */
-    uint8_t swap_response;             /**< Default response to be sent for various SWAP requests.
-                                            * Bits 1:0 => DR_SWAP
-                                            * Bits 3:2 => PR_SWAP
-                                            * Bits 5:4 => VCONN_SWAP
-                                            * 0 -> Accept, 1 -> Reject, 2 -> Wait, 3 -> NOT_SUPPORTED.
-                                            * When using value '3', the device responds with NOT_SUPPORTED in PD 3.0 connection and
-                                            * responds with REJECT in PD 2.0 connection. */
-    uint8_t reserved[9];            /**< Reserved for future */
+                                         *   Bit 1 => MFDP
+                                         *   Bit 2 => TBT3
+                                         *   Bit 3 => USB4
+                                         *   Bit 4 => Prefer DP 4 Lane(Prefer to be in a 4 lane configuration) otherwise prefer DP 2 Lane
+                                         *   Bit 5 => Rsvd
+                                         *   Bit 6 => Rsvd
+                                         *   Bit 7 => Rsvd */
+    uint16_t flashing_vid;              /**< USB-PD VID used for the CC based flashing mode support. */
+    uint16_t flashing_mode;             /**< USB-PD mode index used for the CC based flashing support.*/
+    uint8_t snk_usb_susp_enable;        /**< Whether the device supports USB suspend as sink. */
+    uint8_t snk_usb_comm_enable;        /**< Whether the device supports USB communication as sink. */
+    uint8_t swap_response;              /**< Default response to be sent for various SWAP requests.
+                                         *   Bits 1:0 => DR_SWAP
+                                         *   Bits 3:2 => PR_SWAP
+                                         *   Bits 5:4 => VCONN_SWAP
+                                         *   0 -> Accept, 1 -> Reject, 2 -> Wait, 3 -> NOT_SUPPORTED.
+                                         *   When using value '3', the device responds with NOT_SUPPORTED in PD 3.0 connection and
+                                         *   responds with REJECT in PD 2.0 connection. */
+    uint8_t reserved[9];                /**< Reserved for future */
 } app_config_t;
 
 /**
@@ -1183,7 +1241,7 @@ typedef struct
 {
     uint8_t soc_i2c_address;              /**< Configuring I2C Slave address to Intel SoC */
     uint8_t reserved;                     /**< Reserved for future use*/
-    uint16_t soc_mux_init_delay;          /**<SoC MUX Init Delay configuration. Time allowed for the MUX to get initialized before Vbus power is enabled. */
+    uint16_t soc_mux_init_delay;          /**< SoC MUX Init Delay configuration. Time allowed for the MUX to get initialized before Vbus power is enabled. */
     uint16_t soc_mux_config_delay;        /**< SoC MUX configuration delay. Time delay to be enforced between successive updates to the SoC MUX. */
     uint16_t tame_timeout_period;         /**< tAMEtimeout period in milliseconds.*/
 } soc_cfg_t;
@@ -1196,19 +1254,19 @@ typedef struct
 {
     uint8_t soc_i2c_address;              /**< Configuring I2C Slave address to Intel SoC */
     uint8_t platform_selection;           /**< Intel SoC Platform Selection:
-                                                 * Unknown = 0
-                                                 * Ice Lake = 1
-                                                 * Tiger Lake = 2
-                                                 * Rocket Lake / Maple Ridge = 3
-                                                 * Meteor Lake = 4 */
-    uint16_t soc_mux_init_delay;          /**<SoC MUX Init Delay configuration. Time allowed for the MUX to get initialized before Vbus power is enabled. */
+                                           *   Unknown = 0
+                                           *   Ice Lake = 1
+                                           *   Tiger Lake = 2
+                                           *   Rocket Lake / Maple Ridge = 3
+                                           *   Meteor Lake = 4 */
+    uint16_t soc_mux_init_delay;          /**< SoC MUX Init Delay configuration. Time allowed for the MUX to get initialized before Vbus power is enabled. */
     uint16_t soc_mux_config_delay;        /**< SoC MUX configuration delay. Time delay to be enforced between successive updates to the SoC MUX. */
     uint16_t tame_timeout_period;         /**< tAMEtimeout period in milliseconds.*/
     uint8_t retimer_i2c_address[2];       /**< Configuring I2C Master address to Retimer. Different addresses should be specified if two retimers are associated with a single PD port. */
     uint8_t retimer_count;                /**< Number of retimers per PD port (max=2) */
     uint8_t hpd_irq_ack_clear_method;     /**< Clear HPD_IRQ ACK method:
-                                                * 0 - Clear implicitly.  SoC will implicitly clear its own HPD_IRQ bit after it is set to 1 by the PD Controller.
-                                                * 1 - Clear explicitly. PD Controller will explicitly clear the HPD_IRQ bit back to 0 before setting it to 1 again. */
+                                           *   0 - Clear implicitly.  SoC will implicitly clear its own HPD_IRQ bit after it is set to 1 by the PD Controller.
+                                           *   1 - Clear explicitly. PD Controller will explicitly clear the HPD_IRQ bit back to 0 before setting it to 1 again. */
     uint8_t reserved[4];                  /**< Reserved for future use */
 } intel_soc_cfg_settings_t;
 
@@ -1233,37 +1291,143 @@ typedef struct
 
 typedef struct
 {
-    uint16_t    table_sign;     /**< Two byte signature to indicate validity of the configuration. */
-    uint8_t     table_type;     /**< The table type indicates the type of solution.
-                                 *   0 => Auto
-                                 *   1 => WICG1
-                                 *   2 => Power
-                                 *   3 => Host
-                                 *   4 => DMC
-                                 */
-    uint8_t     application;    /**<  This field specifies the type of PD application supported:
-                                 *   A => Auto
-                                 *   B => WICG1
-                                 *   C => Power
-                                 *   D => Host
-                                 *   F => DMC
-                                 */
-    uint16_t    table_version;  /**< Table version: This contains 4 bit major version, 4 bit minor
-                                 *   version and 8 bit patch number.
-                                 */
-    uint16_t    table_size;     /**< Size of the configuration table. Checksum is calculated over
-                                 *   bytes 10 to size - 1.
-                                 */
-    uint32_t     table_checksum; /**< One byte configuration checksum. Calculated over bytes 10 to
-                                 *   byte (size - 1).
-                                 */
-    uint8_t     reserved_0[8];   /** < Reserved for future use */
-    uint16_t    port_0_config_offset; /** < Offset of the Port 0 Configuration table */
-    uint16_t    port_0_config_size; /** < Size of the Port 0 Configuration table */
-    uint16_t    port_1_config_offset; /** < Offset of the Port 1 Configuration table */
-    uint16_t    port_1_config_size; /** < Size of the Port 1 Configuration table */
-    uint8_t    reserved_1[8];                   /**< Reserved area for future expansion. */
+    uint16_t    table_sign;             /**< Two byte signature to indicate validity of the configuration. */
+    uint8_t     table_type;             /**< The table type indicates the type of solution.
+                                         *   0 => Auto
+                                         *   1 => WICG1
+                                         *   2 => Power
+                                         *   3 => Host
+                                         *   4 => Dock
+                                         */
+    uint8_t     application;            /**<  This field specifies the type of PD application supported:
+                                         *   A => Auto
+                                         *   B => WICG1
+                                         *   C => Power
+                                         *   D => Host
+                                         *   F => DMC
+                                         */
+    uint16_t    table_version;          /**< Table version: This contains 4 bit major version, 4 bit minor
+                                         *   version and 8 bit patch number.
+                                         */
+    uint16_t    table_size;             /**< Size of the configuration table in bytes.
+                                         */
+    uint32_t    table_checksum;         /**< 4-byte CRC. CRC32 is calculated over bytes 12 to bytes (table_size - 1).
+                                         */
+    uint8_t     reserved_0[8];          /** < Reserved for future use */
+    uint16_t    port_0_config_offset;   /** < Offset of the Port 0 Configuration table */
+    uint16_t    port_0_config_size;     /** < Size of the Port 0 Configuration table in bytes*/
+    uint16_t    port_1_config_offset;   /** < Offset of the Port 1 Configuration table */
+    uint16_t    port_1_config_size;     /** < Size of the Port 1 Configuration table bytes*/
+    uint8_t    reserved_1[8];           /**< Reserved area for future expansion. */
 } power_config_t;
+
+/**
+ *  @typedef dev_topology_t
+ *  @brief Composite Dock Topology Table(CDTT) data structure for specific devices.
+ *  Size of this structure is 16 bytes.
+ */
+typedef struct
+{
+    uint8_t     device_type;            /**< Device type indicates the type of device.
+                                         * Refer dmc_dev_type_t for device type values.
+                                         */
+    uint8_t     comp_id;                /**< Component ID indicates instance of same device type. */
+    uint8_t     image_mode;             /**< Image mode
+                                         * B7:B4 => 0 = Single Image
+                                         *          1 = Dual images, Symmetric Images
+                                         *          2 = Dual images, Asymmetric Images
+                                         *          3-0xF = Reserved/ Invalid
+                                         * B3:B0 => Reserved
+                                         */
+    uint8_t     row_size_ind;           /**< Row size indicator.
+                                         * Actual row size = row size indicator * 64
+                                         */
+    uint8_t     reserved_0[4];          /**< Padding for 4 byte alignment. */
+    uint8_t     access_param[8];        /**< Access parameters. */
+}dev_topology_t;
+
+/**
+ *  @typedef cdtt_config_t
+ *  @brief CDTT (Composite Dock Topology Table) configuration data.
+ */
+typedef struct
+{
+    uint8_t     signature;              /**< 1-byte signature "C" for the CDTT configuration table. */
+    uint8_t     cdtt_version;           /**< CDTT version. Version number for this table. */
+    uint16_t    vendor_id;              /**< Vendor ID. 2-byte ID NUMBER to identify the customer/vendor corresponding to the dock.
+                                         *   This is only used for dock identification. It is not the same as the DMC VID with which it enumerates.*/
+    uint16_t    product_id;             /**< Product ID. 2-byte ID NUMBER to identify the product corresponding to the dock.
+                                         *   This is only used for dock identification. It is not the same as the DMC PID with which it enumerates.*/
+    uint16_t    device_id;              /**< Device ID. This is only used for dock identification. */
+    uint8_t     vendor_str[32];         /**< Vendor string. This is only used for dock identification. */
+    uint8_t     product_str[32];        /**< Product string. This is only used for dock identification. */
+    uint8_t     dev_count;              /**< Device count. Indicates the number of devices used for firmware download (connected to DMC). */
+    uint8_t     dig_sign_alg;           /**< Digital signature algorithm used for signing.
+                                         *   0 - Unsigned
+                                         *   1 - ECDSA
+                                         *   2 - RSA 1024
+                                         *   3 - RSA 2048
+                                         */
+    uint8_t     dock_type;              /**< This is for the tool to identify the TBT ref design and display related details for the user. */
+    uint8_t     reserved_1[5];          /**< Reserved for alignment. */
+    dev_topology_t dev_info[CY_MAX_DEV_COUNT_CDTT]; /**< Device topology info. */
+}cdtt_config_t;
+
+/**
+ *  @typedef smart_power_config_t
+ *  @brief Smart Power (power throttling) configuration data which is part of DMC configuration table.
+ */
+typedef struct
+{
+    uint8_t smart_pwr_enable;           /**< Enable/disable smart power feature. */
+    uint8_t adp_det_enable;             /**< Adapter detect mechanism to be followed.
+                                         *   0 - Adapter power will be used from the configuration table.
+                                         *   1 - On-board jumper settings will be used for determining the adapter power.
+                                         */
+    uint16_t adp_pwr_watts;             /**< Adapter power in watts. Applicable only when adapter detect is disabled. */
+    uint8_t buffer_pwr_watts;           /**< Buffer power in watts to be detected from adapter power for dock board. */
+    uint8_t pwr_step_size_watts;        /**< Step size in watts at which power should be increased. */
+    uint16_t pwr_monitor_period;        /**< Interval in ms at which power should be monitored. */
+    uint8_t debounce_count;             /**< Debounce count for throttling. */
+    uint8_t max_us_power;               /**< Max US power in watts. */
+    uint8_t reserved_0[6];              /**< Reserved for future use. */
+}smart_power_config_t;
+
+
+/**
+ *  @typedef sec_config_t
+ *  @brief Signed fw update specific configuration data which is part of DMC configuration table.
+ *   This configuration area is 400 bytes, the definition of this depends on the security algorithm used.
+ */
+typedef union
+{
+    uint8_t data[400];                  /**< security config area. */
+
+    struct RSA_2048
+    {
+        uint8_t public_key[260];        /**< Public key for RSA-2048 along with 4-bytes of exponent.
+                                         *   It should be 4-byte aligned. */
+        uint8_t reserved[140];          /**< Reserved. */
+    }rsa_2048;                          /**< RSA-2048 specific configuration area. */
+
+    struct RSA_3072
+    {
+        uint8_t public_key[388];        /**< Public key for RSA-3072 along with 4-bytes of exponent.
+                                         *   It should be 4-byte aligned. */
+        uint8_t reserved[12];           /**< Reserved. */
+    }rsa_3072;                          /**< RSA-3072 specific configuration area. */
+
+}sec_config_t;
+
+/**
+ * @struct host_config_param_t
+ * @brief Struct to hold the sub-host configuration table for Host SDK.
+ */
+typedef struct
+{
+    uint32_t db_event_mask;                     /**< Default value of HPI event mask that will be applied to all PD ports on the device */
+    uint32_t io_port_level;                     /**< IO level on the GPIO ports */
+}host_config_param_t;
 
 #if CY_USE_CONFIG_TABLE
 typedef struct
@@ -1368,6 +1532,14 @@ const wireless_config_t * get_wireless_config(cy_stc_usbpd_context_t *context);
  * application.
  */
 const host_config_t * get_host_config(cy_stc_usbpd_context_t *context);
+
+/**
+ * @brief This function gets the Dock config table data.
+ * @return Returns a pointer to the config table info structure
+ * @warning The information provided by this API must not be altered by the
+ * application.
+ */
+const dock_config_t * get_dock_config(cy_stc_usbpd_context_t *context);
 
 /**
  * @brief This function gets the configuration information for the specified port.
@@ -1567,9 +1739,9 @@ intel_soc_cfg_settings_t* pd_get_ptr_intel_soc_config_tbl(cy_stc_usbpd_context_t
 
 amd_cfg_settings_t* pd_get_ptr_amd_config_tbl(cy_stc_usbpd_context_t *context);
 
-#if defined(CY_DEVICE_CCG7D)
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);
 
+#if defined(CY_DEVICE_CCG7D)
 cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *context);
 #endif /* defined(CY_DEVICE_CCG7D) */
 

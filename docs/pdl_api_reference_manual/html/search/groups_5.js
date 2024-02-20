@@ -3,6 +3,7 @@ var searchData=
   ['functions',['Functions',['../group__group__canfd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__crypto__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__cryptolite__aes__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__cryptolite__rsa__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__cryptolite__sha__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__cryptolite__trng__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__cryptolite__vu__functions.html',1,'']]],

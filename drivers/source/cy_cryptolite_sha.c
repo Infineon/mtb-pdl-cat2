@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_sha.c
-* \version 1.20
+* \version 1.30
 *
 * \brief
 * Provides API implementation of the Cryptolite PDL driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -24,26 +24,55 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-
 #include "cy_device.h"
 
-#if (defined (CY_IP_M0S8CRYPTOLITE) && defined (CRYPTOLITE_SHA_PRESENT))
-
+#if (defined(CY_IP_M0S8CRYPTOLITE) && (defined (CRYPTOLITE_SHA_PRESENT) || \
+     defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT)))
 #include "cy_cryptolite_sha.h"
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
+#include <string.h>
+
 #include "cy_sysint.h"
 #include "cy_syslib.h"
 
-/*Initial Hash*/
-static const uint32_t sha256InitHash[] =
+/* Initial Hash as per SHA standard. */
+#if defined (CRYPTOLITE_SHA_PRESENT)
+#if (CRYPTOLITE_SHA_PRESENT)
+CRYPTOLITE_SHA_CONST static const uint32_t sha256InitHash[] =
 {
     0x6A09E667UL, 0xBB67AE85UL, 0x3C6EF372UL, 0xA54FF53AUL,
     0x510E527FUL, 0x9B05688CUL, 0x1F83D9ABUL, 0x5BE0CD19UL
 };
+#endif /* (CRYPTOLITE_SHA_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA_PRESENT) */
+
+#if defined (CRYPTOLITE_SHA384_PRESENT)
+#if (CRYPTOLITE_SHA384_PRESENT)
+CRYPTOLITE_SHA_CONST static const uint32_t sha384InitHash[] =
+{
+    0xC1059ED8UL, 0xCBBB9D5DUL, 0x367CD507UL, 0x629A292AUL,
+    0x3070DD17UL, 0x9159015AUL, 0xF70E5939UL, 0x152FECD8UL,
+    0xFFC00B31UL, 0x67332667UL, 0x68581511UL, 0x8EB44A87UL,
+    0x64F98FA7UL, 0xDB0C2E0DUL, 0xBEFA4FA4UL, 0x47B5481DUL
+};
+#endif /* (CRYPTOLITE_SHA384_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA384_PRESENT) */
+
+#if defined (CRYPTOLITE_SHA512_PRESENT)
+#if (CRYPTOLITE_SHA512_PRESENT)
+CRYPTOLITE_SHA_CONST static const uint32_t sha512InitHash[] =
+{
+    0XF3BCC908UL, 0X6A09E667UL, 0X84CAA73BUL, 0XBB67AE85UL,
+    0XFE94F82BUL, 0X3C6EF372UL, 0X5F1D36F1UL, 0XA54FF53AUL,
+    0XADE682D1UL, 0X510E527FUL, 0X2B3E6C1FUL, 0X9B05688CUL,
+    0XFB41BD6BUL, 0X1F83D9ABUL, 0X137E2179UL, 0X5BE0CD19UL
+};
+#endif /* (CRYPTOLITE_SHA512_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA512_PRESENT) */
 
 /*****************************************************************************
 * Cy_Cryptolite_Sha_Process (for internal use)
@@ -54,7 +83,7 @@ static const uint32_t sha256InitHash[] =
 *  base
 * The pointer to the Cryptolite instance.
 *
-*  cfContext
+*  shaContext
 * The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -62,9 +91,10 @@ static const uint32_t sha256InitHash[] =
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base,
-                                        cy_stc_cryptolite_sha_context_t *cfContext)
+ATTRIBUTES_CRYPTOLITE_SHA static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base,
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
 {
+    /* Check if IP is busy. */
     if((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL)
     {
         return CY_CRYPTOLITE_HW_BUSY;
@@ -73,10 +103,10 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base
     /*write to SHA DESCR REG starts process
       IP will block another write to SHA DESCR REG until its busy
       We poll for busy state and check for error before posting next
-      descriptor */
+      descriptor. */
 
-    /*start message schedule*/
-    REG_CRYPTOLITE_SHA_DESCR(base) = (uint32_t)&(cfContext->message_schedule_struct);
+    /* Start message schedule. */
+    REG_CRYPTOLITE_SHA_DESCR(base) = (uint32_t)&(shaContext->message_schedule_struct);
     while((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL){}
     if((REG_CRYPTOLITE_INTR_ERROR(base) & CRYPTOLITE_INTR_ERROR_BUS_ERROR_Msk) != 0UL)
     {
@@ -84,8 +114,8 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base
         return CY_CRYPTOLITE_BUS_ERROR;
     }
 
-    /*start process*/
-    REG_CRYPTOLITE_SHA_DESCR(base) = (uint32_t)&(cfContext->message_process_struct);
+    /* Start process. */
+    REG_CRYPTOLITE_SHA_DESCR(base) = (uint32_t)&(shaContext->message_process_struct);
     while((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL){}
     if((REG_CRYPTOLITE_INTR_ERROR(base) & CRYPTOLITE_INTR_ERROR_BUS_ERROR_Msk) != 0UL)
     {
@@ -106,7 +136,7 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base
 *  base
 * The pointer to the Cryptolite instance.
 *
-*  cfContext
+*  shaContext
 * The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -121,30 +151,67 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process(CRYPTOLITE_Type *base
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process_aligned(CRYPTOLITE_Type *base,
-                                        cy_stc_cryptolite_sha_context_t *cfContext,
+ATTRIBUTES_CRYPTOLITE_SHA static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process_aligned(CRYPTOLITE_Type *base,
+                                        cy_stc_cryptolite_sha_context_t *shaContext,
                                         uint8_t const *message,
                                         uint32_t  *messageSize)
 {
     cy_en_cryptolite_status_t err;
 
-    /*point descriptor to message buffer*/
-    cfContext->message_schedule_struct.data1 = (uint32_t)message;
+    /* Point descriptor to message buffer. */
+    shaContext->message_schedule_struct.data1 = (uint32_t)message;
 
-    while(*messageSize >= CY_CRYPTOLITE_SHA256_BLOCK_SIZE)
+    /* Process the input message till the message size is greater than block size. */
+    while(*messageSize >= shaContext->blockSize)
     {
-        err = Cy_Cryptolite_Sha_Process(base, cfContext);
+        /* Perform SHA calculation. */
+        err = Cy_Cryptolite_Sha_Process(base, shaContext);
+        /* If SHA calculation process is failed, reset the descriptor to context buffer.  */
         if(CY_CRYPTOLITE_SUCCESS != err)
         {
-            cfContext->message_schedule_struct.data1 = (uint32_t)cfContext->message;
+            shaContext->message_schedule_struct.data1 = (uint32_t)shaContext->message;
             return err;
         }
-        *messageSize-=CY_CRYPTOLITE_SHA256_BLOCK_SIZE;
-        cfContext->messageSize+= CY_CRYPTOLITE_SHA256_BLOCK_SIZE;
-        cfContext->message_schedule_struct.data1+= CY_CRYPTOLITE_SHA256_BLOCK_SIZE;
+
+        /* Update the parameters. */
+        *messageSize-=shaContext->blockSize;
+        shaContext->messageSize+= shaContext->blockSize;
+        shaContext->message_schedule_struct.data1+= shaContext->blockSize;
     }
-    /*restore descriptor to context buffer*/
-    cfContext->message_schedule_struct.data1 = (uint32_t)cfContext->message;
+    /* Restore descriptor to context buffer. */
+    shaContext->message_schedule_struct.data1 = (uint32_t)shaContext->message;
+
+    return CY_CRYPTOLITE_SUCCESS;
+}
+
+/*****************************************************************************
+* Cy_Cryptolite_Sha_SetMode
+******************************************************************************
+*
+* The function sets the SHA mode of operation.
+*
+* mode
+* SHA selection mode(SHA256, SHA384, SHA512).
+*
+* shaContext
+* The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
+* internal variables for Cryptolite driver.
+*
+* return
+* cy_en_cryptolite_status_t
+*
+*******************************************************************************/
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_SetMode( cy_en_cryptolite_sha_mode_t mode,
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
+{
+    /* Input parameters verification. */
+    if (NULL == shaContext)
+    {
+        return CY_CRYPTOLITE_BAD_PARAMS;
+    }
+
+    /* Set the received SHA mode in SHA context. */
+    shaContext->shaMode = mode;
 
     return CY_CRYPTOLITE_SUCCESS;
 }
@@ -158,7 +225,7 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process_aligned(CRYPTOLITE_Ty
 *  base
 * The pointer to the Cryptolite instance.
 *
-*  cfContext
+*  shaContext
 * The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -166,18 +233,86 @@ static cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Process_aligned(CRYPTOLITE_Ty
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Init(CRYPTOLITE_Type *base,
-                                        cy_stc_cryptolite_sha_context_t *cfContext)
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Init(CRYPTOLITE_Type *base,
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
 {
-    /* Input parameters verification */
-    if ((NULL == base) || (NULL == cfContext))
+    cy_en_cryptolite_status_t retStatus = CY_CRYPTOLITE_SUCCESS;
+#if (defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT))
+#if ((CRYPTOLITE_SHA384_PRESENT) || (CRYPTOLITE_SHA512_PRESENT))
+    uint32_t regData = 0x00UL;
+#endif /* ((CRYPTOLITE_SHA384_PRESENT) || (CRYPTOLITE_SHA512_PRESENT)) */
+#endif /* (defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT)) */
+
+    /* Input parameters verification. */
+    if ((NULL == base) || (NULL == shaContext))
     {
         return CY_CRYPTOLITE_BAD_PARAMS;
     }
+    
+#if defined(CY_DEVICE_PMG1S3)
+    /* PMG1S3 devices supports only SHA256. */
+    shaContext->shaMode = CY_CRYPTOLITE_SHA_MODE_SHA256;
+#endif /* defined(CY_DEVICE_PMG1S3) */
+    
+    /* Initialize SHA parameters based on SHA mode set. */
+    switch(shaContext->shaMode)
+    {
+#if defined (CRYPTOLITE_SHA_PRESENT)
+#if (CRYPTOLITE_SHA_PRESENT)
+        case CY_CRYPTOLITE_SHA_MODE_SHA256:
+            shaContext->blockSize = CY_CRYPTOLITE_SHA256_BLOCK_SIZE;
+            shaContext->hashSize = CY_CRYPTOLITE_SHA256_HASH_SIZE;
+            shaContext->paddSize = CY_CRYPTOLITE_SHA256_PAD_SIZE;
+            shaContext->digestSize = CY_CRYPTOLITE_SHA256_DIGEST_SIZE;
+            shaContext->initialHash = (uint8_t *)sha256InitHash;
+            break;
+#endif /* (CRYPTOLITE_SHA_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA_PRESENT) */
+#if defined (CRYPTOLITE_SHA384_PRESENT)
+#if (CRYPTOLITE_SHA384_PRESENT)
+        case CY_CRYPTOLITE_SHA_MODE_SHA384:
+            shaContext->blockSize = CY_CRYPTOLITE_SHA384_BLOCK_SIZE;
+            shaContext->hashSize = CY_CRYPTOLITE_SHA384_HASH_SIZE;
+            shaContext->paddSize = CY_CRYPTOLITE_SHA384_PAD_SIZE;
+            shaContext->digestSize = CY_CRYPTOLITE_SHA384_DIGEST_SIZE;
+            shaContext->initialHash = (uint8_t *)sha384InitHash;
+            break;
+#endif /* (CRYPTOLITE_SHA384_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA384_PRESENT) */
+#if defined (CRYPTOLITE_SHA512_PRESENT)
+#if (CRYPTOLITE_SHA512_PRESENT)
+        case CY_CRYPTOLITE_SHA_MODE_SHA512:
+            shaContext->blockSize = CY_CRYPTOLITE_SHA512_BLOCK_SIZE;
+            shaContext->hashSize = CY_CRYPTOLITE_SHA512_HASH_SIZE;
+            shaContext->paddSize = CY_CRYPTOLITE_SHA512_PAD_SIZE;
+            shaContext->digestSize = CY_CRYPTOLITE_SHA512_DIGEST_SIZE;
+            shaContext->initialHash = (uint8_t *)sha512InitHash;
+            break;
+#endif /* (CRYPTOLITE_SHA512_PRESENT) */
+#endif /* defined (CRYPTOLITE_SHA512_PRESENT) */
+        default:
+            retStatus = CY_CRYPTOLITE_BAD_PARAMS;
+            break;
+    }
 
-    cfContext->message = (uint8_t*)cfContext->msgBlock;
+    if(retStatus == CY_CRYPTOLITE_SUCCESS)
+    {
+        /* Initialize internal block buffer to SHA context message pointer. */
+        shaContext->message = (uint8_t*)shaContext->block;
 
-    return (CY_CRYPTOLITE_SUCCESS);
+#if (defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT))
+#if ((CRYPTOLITE_SHA384_PRESENT) || (CRYPTOLITE_SHA512_PRESENT))
+        /* Select SHA mode using SHA_SEL register. */
+        regData = REG_CRYPTOLITE_CTL(base) & (~(CRYPTOLITE_CTL_SHA_SEL_Msk));
+        REG_CRYPTOLITE_CTL(base) = (regData | _VAL2FLD(CRYPTOLITE_CTL_SHA_SEL, shaContext->shaMode));
+#endif /* ((CRYPTOLITE_SHA384_PRESENT) || (CRYPTOLITE_SHA512_PRESENT)) */
+#endif /* (defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT)) */
+
+        /* Set SHA driver internal processing state. */
+        shaContext->processState = CY_CRYPTOLITE_SHA_PROCESS_INITIALIZED;
+    }
+
+    return (retStatus);
 }
 
 /*******************************************************************************
@@ -189,7 +324,7 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Init(CRYPTOLITE_Type *base,
 *  base
 * The pointer to the CRYPTOLITE instance.
 *
-*  cfContext
+*  shaContext
 * The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -197,38 +332,46 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Init(CRYPTOLITE_Type *base,
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Start(CRYPTOLITE_Type *base,
-                                        cy_stc_cryptolite_sha_context_t *cfContext)
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Start(CRYPTOLITE_Type *base,
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
 {
-    uint32_t i;
-    /* Input parameters verification */
-    if ((NULL == base) || (NULL == cfContext))
+    /* Input parameters verification. */
+    if ((NULL == base) || (NULL == shaContext))
     {
         return CY_CRYPTOLITE_BAD_PARAMS;
     }
 
-    /*check if IP is busy*/
+    /* SHA Process state verification. */
+    if(shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_INITIALIZED)
+    {
+        return CY_CRYPTOLITE_INVALID_OPERATION;
+    }
+
+    /* Check if IP is busy. */
     if ((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL)
     {
         return CY_CRYPTOLITE_HW_BUSY;
     }
 
-    cfContext->msgIdx = 0U;
-    cfContext->messageSize = 0U;
-    cfContext->message_schedule_struct.data0 = (uint32_t)CY_CRYPTOLITE_MSG_SCH_CTLWD;
-    cfContext->message_schedule_struct.data1 = (uint32_t)cfContext->message;
-    cfContext->message_schedule_struct.data2 = (uint32_t)cfContext->message_schedule;
+    /* Initialize SHA Context members to start with SHA calculation. */
+    shaContext->msgIdx = 0U;
+    shaContext->messageSize = 0U;
 
+    /* Initialize SHA schedule descriptor with message input. */
+    shaContext->message_schedule_struct.data0 = (uint32_t)CY_CRYPTOLITE_MSG_SCH_CTLWD;
+    shaContext->message_schedule_struct.data1 = (uint32_t)shaContext->message;
+    shaContext->message_schedule_struct.data2 = (uint32_t)shaContext->schedule;
 
-    cfContext->message_process_struct.data0 = (uint32_t)CY_CRYPTOLITE_PROCESS_CTLWD;
-    cfContext->message_process_struct.data1 = (uint32_t)cfContext->hash;
-    cfContext->message_process_struct.data2 = (uint32_t)cfContext->message_schedule;
+    /* Initialize SHA process descriptor with hash input. */
+    shaContext->message_process_struct.data0 = (uint32_t)CY_CRYPTOLITE_PROCESS_CTLWD;
+    shaContext->message_process_struct.data1 = (uint32_t)shaContext->hash;
+    shaContext->message_process_struct.data2 = (uint32_t)shaContext->schedule;
 
     /*copy initial hash*/
-    for (i=0U; i < CY_CRYPTOLITE_SHA256_HASH_SIZE_U32; i++)
-    {
-        cfContext->hash[i] = sha256InitHash[i];
-    }
+    (void)memcpy((char *)shaContext->hash, (const char *)shaContext->initialHash, (uint16_t)shaContext->hashSize);
+
+    /* Set SHA driver internal processing state. */
+    shaContext->processState = CY_CRYPTOLITE_SHA_PROCESS_STARTED;
 
     return CY_CRYPTOLITE_SUCCESS;
 }
@@ -237,12 +380,12 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Start(CRYPTOLITE_Type *base,
 * Cy_Cryptolite_Sha_Update
 ********************************************************************************
 *
-* Performs the SHA256 calculation on one message.
+* Performs the SHA calculation on one message.
 *
 *  base
 * The pointer to the CRYPTOLITE instance.
 *
-*  cfContext
+*  shaContext
 * The pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -256,10 +399,10 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Start(CRYPTOLITE_Type *base,
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
                                         uint8_t const *message,
                                         uint32_t  messageSize,
-                                        cy_stc_cryptolite_sha_context_t *cfContext)
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
 {
     cy_en_cryptolite_status_t err = CY_CRYPTOLITE_BAD_PARAMS;
     uint32_t readIdx = 0U;
@@ -267,18 +410,26 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
     uint32_t msg_add = (uint32_t)message;
     uint32_t lmessageSize;
 
+    /* Input parameters verification. */
     if (0UL == messageSize)
     {
         return CY_CRYPTOLITE_SUCCESS;
     }
 
-    /* Input parameters verification */
-    if ((NULL == base) || (NULL == cfContext) || (NULL == message))
+    /* Input parameters verification. */
+    if ((NULL == base) || (NULL == shaContext) || (NULL == message))
     {
         return err;
     }
 
-    /*check if IP is busy*/
+    /* SHA Process state verification. */
+    if((shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_STARTED) &&
+       (shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_PARTIALLY))
+    {
+        return CY_CRYPTOLITE_INVALID_OPERATION;
+    }
+
+    /* Check if IP is busy. */
     if ((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL)
     {
         return CY_CRYPTOLITE_HW_BUSY;
@@ -286,13 +437,14 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
 
     lmessageSize = messageSize;
 
-    /*Check for 4 byte aligned buffer and process*/
+    /* Check for 4 byte aligned buffer and process. */
     if((msg_add & 0x3UL) == 0UL)
     {
-        /*Check for fragmented message and size*/
-        if (cfContext->msgIdx == 0UL && messageSize >= CY_CRYPTOLITE_SHA256_BLOCK_SIZE)
+        /* Check for fragmented message and size. */
+        if (shaContext->msgIdx == 0UL && messageSize >= shaContext->blockSize)
         {
-            err = Cy_Cryptolite_Sha_Process_aligned(base, cfContext, message, &lmessageSize);
+            /* SHA Processing for 4B aligned message. */
+            err = Cy_Cryptolite_Sha_Process_aligned(base, shaContext, message, &lmessageSize);
             if(CY_CRYPTOLITE_SUCCESS != err)
             {
                 return err;
@@ -301,45 +453,53 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
         }
     }
 
-    while((cfContext->msgIdx + lmessageSize) >= CY_CRYPTOLITE_SHA256_BLOCK_SIZE)
+    /* Unaligned input message SHA calculation by copying the input message to
+     * aligned buffer i.e., SHA context buffer.
+     */
+    while((shaContext->msgIdx + lmessageSize) >= shaContext->blockSize)
     {
-        uint32_t toCopy = CY_CRYPTOLITE_SHA256_BLOCK_SIZE - cfContext->msgIdx;
-        /* Create a message block */
+        uint32_t toCopy = shaContext->blockSize - shaContext->msgIdx;
+        /* Create a message block. */
         for ( idx = 0; idx < toCopy; idx++ )
         {
-            cfContext->message[cfContext->msgIdx] = message[readIdx++];
-            cfContext->msgIdx++;
+            shaContext->message[shaContext->msgIdx] = message[readIdx++];
+            shaContext->msgIdx++;
         }
-        /* calculate message schedule and process */
-        err = Cy_Cryptolite_Sha_Process(base, cfContext);
+        /* SHA Processing for unaligned message. */
+        err = Cy_Cryptolite_Sha_Process(base, shaContext);
         if(CY_CRYPTOLITE_SUCCESS != err)
         {
             return err;
         }
+        /* Update parameters. */
         lmessageSize-= toCopy;
-        cfContext->messageSize+= CY_CRYPTOLITE_SHA256_BLOCK_SIZE;
-        cfContext->msgIdx = 0U;
+        shaContext->messageSize+= shaContext->blockSize;
+        shaContext->msgIdx = 0U;
     }
-    /* Copy message fragment*/
+
+    /* Copy message fragment. */
     for ( idx = 0; idx < lmessageSize; idx++ )
     {
-        cfContext->message[cfContext->msgIdx] = message[readIdx++];
-        cfContext->msgIdx++;
+        shaContext->message[shaContext->msgIdx] = message[readIdx++];
+        shaContext->msgIdx++;
     }
+
+    /* Set SHA driver internal processing state. */
+    shaContext->processState = CY_CRYPTOLITE_SHA_PROCESS_PARTIALLY;
 
     return CY_CRYPTOLITE_SUCCESS;
 }
 
 /*******************************************************************************
 * Cy_Cryptolite_Sha_Finish
-******************************************************************************
+********************************************************************************
 *
-* Completes the SHA256 calculation.
+* Completes the SHA calculation.
 *
 *  base
 * The pointer to the CRYPTOLITE instance.
 *
-*  cfContext
+*  shaContext
 * the pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -350,85 +510,94 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Update(CRYPTOLITE_Type *base,
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRYPTOLITE_Type *base,
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRYPTOLITE_Type *base,
                                     uint8_t *digest,
-                                    cy_stc_cryptolite_sha_context_t *cfContext)
+                                    cy_stc_cryptolite_sha_context_t *shaContext)
 {
     cy_en_cryptolite_status_t err = CY_CRYPTOLITE_SUCCESS;
     uint8_t *hashPtr;
     uint32_t idx;
+    uint32_t byteIdx;
+    uint32_t wordSize;
     uint64_t totalMessageSizeInBits;
 
-    /* Input parameters verification */
-    if ((NULL == base) || (NULL == cfContext) || (NULL == digest))
+    /* Input parameters verification. */
+    if ((NULL == base) || (NULL == shaContext) || (NULL == digest))
     {
         return err;
     }
 
-    /*check if IP is busy*/
+    /* SHA Process state verification. */
+    if((shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_STARTED) &&
+       (shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_PARTIALLY))
+    {
+        return CY_CRYPTOLITE_INVALID_OPERATION;
+    }
+
+    /* Check if IP is busy. */
     if ((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL)
     {
         return CY_CRYPTOLITE_HW_BUSY;
     }
 
-    totalMessageSizeInBits = ((uint64_t)(cfContext->messageSize) + (uint64_t)(cfContext->msgIdx)) * 8U;
-    /*Append one bit to end and clear rest of block*/
-    cfContext->message[cfContext->msgIdx] = 0x80U;
-    idx = cfContext->msgIdx + 1U;
+    totalMessageSizeInBits = ((uint64_t)(shaContext->messageSize) + (uint64_t)(shaContext->msgIdx)) * 8U;
+    /* Append one bit to end and clear rest of block. */
+    shaContext->message[shaContext->msgIdx] = 0x80U;
+    idx = shaContext->msgIdx + 1U;
 
-    for ( ; idx < CY_CRYPTOLITE_SHA256_BLOCK_SIZE; idx++ )
+    /* Padding with zeros for remaining SHA block size. */
+    for ( ; idx < shaContext->blockSize; idx++ )
     {
-        cfContext->message[idx] = 0U;
+        shaContext->message[idx] = 0U;
     }
 
-    /*if message size is more than pad size process the block*/
-    if (cfContext->msgIdx >= CY_CRYPTOLITE_SHA256_PAD_SIZE)
+    /* If message size is more than pad size process the block. */
+    if (shaContext->msgIdx >= shaContext->paddSize)
     {
-        err = Cy_Cryptolite_Sha_Process(base, cfContext);
+        err = Cy_Cryptolite_Sha_Process(base, shaContext);
         if(CY_CRYPTOLITE_SUCCESS != err)
         {
             return err;
         }
-        /*clear the message block to finish*/
-        for ( idx = 0; idx < CY_CRYPTOLITE_SHA256_PAD_SIZE; idx++ )
+        /* Clear the message block to finish. */
+        for ( idx = 0; idx < shaContext->paddSize; idx++ )
         {
-            cfContext->message[idx] = 0U;
+            shaContext->message[idx] = 0U;
         }
     }
 
-    /*append total message size in bits from 57 to 64 bytes */
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 1UL] = (uint8_t)totalMessageSizeInBits;
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 2UL] = (uint8_t)(totalMessageSizeInBits >> 8);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 3UL] = (uint8_t)(totalMessageSizeInBits >> 16);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 4UL] = (uint8_t)(totalMessageSizeInBits >> 24);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 5UL] = (uint8_t)(totalMessageSizeInBits >> 32);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 6UL] = (uint8_t)(totalMessageSizeInBits >> 40);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 7UL] = (uint8_t)(totalMessageSizeInBits >> 48);
-    cfContext->message[CY_CRYPTOLITE_SHA256_BLOCK_SIZE - 8UL] = (uint8_t)(totalMessageSizeInBits >> 56);
+    /* Append total message size in bits from 57 to 64 bytes for SHA256 and from 113 to 128 bytes. */
+    for(idx=0; idx < (shaContext->blockSize - shaContext->paddSize); idx++)
+    {
+        shaContext->message[(shaContext->blockSize - (idx + 1UL))] = (uint8_t)(totalMessageSizeInBits >> (idx*8UL));
+    }
 
-    /*Process the last block*/
-    err = Cy_Cryptolite_Sha_Process(base, cfContext);
+    /* Process the last block. */
+    err = Cy_Cryptolite_Sha_Process(base, shaContext);
     if(CY_CRYPTOLITE_SUCCESS != err)
     {
         return err;
     }
 
     /* This implementation uses little endian ordering and SHA uses big endian,
-       reverse all the bytes in 32bit word when copying the final output hash.*/
-    idx = (uint32_t)(CY_CRYPTOLITE_SHA256_HASH_SIZE_U32);
-    hashPtr = (uint8_t*)cfContext->hash;
+       reverse all the bytes in 32bit word for SHA256 and 64bit word for
+       SHA384/SHA512 when copying the final output hash. */
+    idx = (uint32_t)(shaContext->digestSize / 4UL);
+    hashPtr = (uint8_t*)shaContext->hash;
+    wordSize = (uint32_t)(shaContext->hashSize / 8UL);
 
     for( ; idx != 0U; idx--)
     {
-        *(digest)   = *(hashPtr+3);
-        *(digest+1) = *(hashPtr+2);
-        *(digest+2) = *(hashPtr+1);
-        *(digest+3) = *(hashPtr);
+        for(byteIdx=0; byteIdx < wordSize; byteIdx++)
+        {
+            *(digest + byteIdx) = *(hashPtr + (wordSize - (byteIdx + 1UL)));
+        }
 
-        digest  += 4U;
-        hashPtr += 4U;
+        digest  += wordSize;
+        hashPtr += wordSize;
     }
 
+    shaContext->processState = CY_CRYPTOLITE_SHA_PROCESS_FINISHED;
     return CY_CRYPTOLITE_SUCCESS;
 }
 
@@ -441,7 +610,7 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRYPTOLITE_Type *base,
 *  base
 * The pointer to the CRYPTOLITE instance.
 *
-*  cfContext
+*  shaContext
 * the pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
 * internal variables for Cryptolite driver.
 *
@@ -449,35 +618,37 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRYPTOLITE_Type *base,
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPTOLITE_Type *base,
-                                    cy_stc_cryptolite_sha_context_t *cfContext)
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPTOLITE_Type *base,
+                                    cy_stc_cryptolite_sha_context_t *shaContext)
 {
-    uint32_t idx;
-    (void)base;
+    CY_UNUSED_PARAMETER(base);
 
-    /* Input parameters verification */
-    if (NULL == cfContext)
+    /* Input parameters verification. */
+    if (NULL == shaContext)
     {
         return CY_CRYPTOLITE_BAD_PARAMS;
     }
 
-    /* Clear the context memory */
-    for ( idx = 0; idx < CY_CRYPTOLITE_SHA256_BLOCK_SIZE; idx++ )
+    /* SHA Process state verification. */
+    if((shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_INITIALIZED) &&
+        (shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_STARTED) &&
+        (shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_PARTIALLY)&&
+        (shaContext->processState != CY_CRYPTOLITE_SHA_PROCESS_FINISHED))
     {
-        cfContext->message[idx] = 0U;
-        cfContext->message_schedule[idx] = 0U;
+        return CY_CRYPTOLITE_INVALID_OPERATION;
     }
-    for ( idx = 0; idx < CY_CRYPTOLITE_SHA256_HASH_SIZE_U32 ; idx++ )
-    {
-        cfContext->hash[idx] = 0U;
-    }
+
+    /* Clear the context memory. */
+    (void)memset(shaContext->message, 0x00, CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE);
+    (void)memset(shaContext->schedule, 0x00, (CY_CRYPTOLITE_SHA_MAX_SCHEDULE_SIZE*4UL));
+    (void)memset(shaContext->hash, 0x00, CY_CRYPTOLITE_SHA_MAX_HASH_SIZE);
 
     return CY_CRYPTOLITE_SUCCESS;
 }
 
 /*******************************************************************************
 * Cy_Cryptolite_Sha
-******************************************************************************
+********************************************************************************
 *
 * This function performs the SHA256 Hash function.
 * Provide the required parameters and the pointer
@@ -488,10 +659,6 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPTOLITE_Type *base,
 *  base
 * The pointer to the CRYPTOLITE instance.
 *
-*  cfContext
-* the pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
-* internal variables for Cryptolite driver.
-*
 *  message
 * The pointer to a message whose hash value is being computed.
 *
@@ -501,40 +668,50 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPTOLITE_Type *base,
 *  digest
 * The pointer to the hash digest.
 *
+*  shaContext
+* the pointer to the cy_stc_cryptolite_sha_context_t structure that stores all
+* internal variables for Cryptolite driver.
+*
 * return
 * cy_en_cryptolite_status_t
 *
 *******************************************************************************/
-cy_en_cryptolite_status_t Cy_Cryptolite_Sha(CRYPTOLITE_Type *base,
+ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha(CRYPTOLITE_Type *base,
                                         uint8_t const *message,
                                         uint32_t  messageSize,
                                         uint8_t *digest,
-                                        cy_stc_cryptolite_sha_context_t *cfContext)
+                                        cy_stc_cryptolite_sha_context_t *shaContext)
 {
     cy_en_cryptolite_status_t err = CY_CRYPTOLITE_BAD_PARAMS;
-    /* Input parameters verification */
-    if ((NULL == base) || (NULL == cfContext) || (NULL == digest) || ((NULL == message) && (0UL == messageSize)))
+    /* Input parameters verification. */
+    if ((NULL == base) || (NULL == shaContext) || (NULL == digest) ||
+         ((NULL == message) && (0UL == messageSize)))
     {
         return err;
     }
 
-    err = Cy_Cryptolite_Sha_Init (base, cfContext);
+    /* SHA block initialization. */
+    err = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Init) (base, shaContext);
 
     if (CY_CRYPTOLITE_SUCCESS == err)
     {
-        err = Cy_Cryptolite_Sha_Start (base, cfContext);
+        /* Start SHA calculation process. */
+        err = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Start) (base, shaContext);
     }
     if (CY_CRYPTOLITE_SUCCESS == err)
     {
-        err = Cy_Cryptolite_Sha_Update (base, message, messageSize, cfContext);
+        /* Calculate the SHA for given input message. */
+        err = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base, message, messageSize, shaContext);
     }
     if (CY_CRYPTOLITE_SUCCESS == err)
     {
-        err = Cy_Cryptolite_Sha_Finish (base, digest, cfContext);
+        /* Finish the SHA calculation process. */
+        err = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Finish) (base, digest, shaContext);
     }
     if (CY_CRYPTOLITE_SUCCESS == err)
     {
-        err = Cy_Cryptolite_Sha_Free (base, cfContext);
+        /* Reset internal buffers in SHA context.  */
+        err = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Free) (base, shaContext);
     }
 
     return (err);
@@ -545,7 +722,8 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha(CRYPTOLITE_Type *base,
 #endif
 
 
-#endif /* (defined (CY_IP_M0S8CRYPTOLITE) && defined (CRYPTOLITE_SHA_PRESENT)) */
+#endif /* (defined(CY_IP_M0S8CRYPTOLITE) && (defined (CRYPTOLITE_SHA_PRESENT) || \
+     defined (CRYPTOLITE_SHA384_PRESENT) || defined (CRYPTOLITE_SHA512_PRESENT))) */
 
 
 /* [] END OF FILE */

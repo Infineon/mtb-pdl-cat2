@@ -22,6 +22,7 @@ var group__group__scb__i2c__enums =
     ] ],
     [ "cy_en_scb_i2c_command_t", "group__group__scb__i2c__enums.html#ga4600410051f7febf79d167ffbf85d7ef", [
       [ "CY_SCB_I2C_ACK", "group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efadd6046656aba93adef7c4823a25081fd", null ],
-      [ "CY_SCB_I2C_NAK", "group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa46363791a98697b7b015b3b64441bfc6", null ]
+      [ "CY_SCB_I2C_NAK", "group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa46363791a98697b7b015b3b64441bfc6", null ],
+      [ "CY_SCB_I2C_WAIT", "group__group__scb__i2c__enums.html#gga4600410051f7febf79d167ffbf85d7efa36f97b382a8bec5cf95c86d0bfcccf39", null ]
     ] ]
 ];

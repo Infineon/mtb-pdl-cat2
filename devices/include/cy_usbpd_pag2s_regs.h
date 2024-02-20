@@ -23,7 +23,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-
 #ifndef _CY_USBPD_PAG2S_REGS_H_
 #define _CY_USBPD_PAG2S_REGS_H_
 
@@ -85,8 +84,8 @@ typedef struct {
     volatile uint32_t rsrvd10[3];
     volatile uint32_t afc_hs_filter_cfg;                  /* 0x400a01b0UL */
     volatile uint32_t rsrvd11[3];
-    volatile uint32_t adc_sar_ctrl[2];                    /* 0x400a01c0UL */
-    volatile uint32_t rsrvd12[6];
+    volatile uint32_t adc_sar_ctrl;                       /* 0x400a01c0UL */
+    volatile uint32_t rsrvd12[7];
     volatile uint32_t refgen_sel6_sel8_ctrl;              /* 0x400a01e0UL */
     volatile uint32_t rsrvd13[19];
     volatile uint32_t vconn20_cc1_switch_1_ctrl;          /* 0x400a0230UL */
@@ -99,15 +98,16 @@ typedef struct {
     volatile uint32_t intr1_cfg;                          /* 0x400a02a0UL */
     volatile uint32_t intr1_cfg_cc1_cc2_ls;               /* 0x400a02a4UL */
     volatile uint32_t intr1_cfg_vcmp_up_down_ls;          /* 0x400a02a8UL */
-    volatile uint32_t rsrvd15[2];
+    volatile uint32_t rsrvd15;
+    volatile uint32_t intr1_cfg_cc12_ovp_hs;              /* 0x400a02b0UL */
     volatile uint32_t intr1_status;                       /* 0x400a02b4UL */
     volatile uint32_t intr1;                              /* 0x400a02b8UL */
     volatile uint32_t intr1_set;                          /* 0x400a02bcUL */
     volatile uint32_t intr1_mask;                         /* 0x400a02c0UL */
     volatile uint32_t intr1_masked;                       /* 0x400a02c4UL */
     volatile uint32_t rsrvd16[15];
-    volatile uint32_t intr3_cfg_adc_hs[2];                /* 0x400a0304UL */
-    volatile uint32_t rsrvd17[13];
+    volatile uint32_t intr3_cfg_adc_hs;                   /* 0x400a0304UL */
+    volatile uint32_t rsrvd17[14];
     volatile uint32_t intr3_status_0;                     /* 0x400a0340UL */
     volatile uint32_t rsrvd18;
     volatile uint32_t intr3;                              /* 0x400a0348UL */
@@ -175,7 +175,8 @@ typedef struct {
     volatile uint32_t intr8_set;                          /* 0x400a0544UL */
     volatile uint32_t intr8_mask;                         /* 0x400a0548UL */
     volatile uint32_t intr8_masked;                       /* 0x400a054cUL */
-    volatile uint32_t rsrvd29[12];
+    volatile uint32_t intr13_cfg_ltrandet;                /* 0x400a0550UL */
+    volatile uint32_t rsrvd29[11];
     volatile uint32_t ddft_mux;                           /* 0x400a0580UL */
     volatile uint32_t intr_ddft_mux;                      /* 0x400a0584UL */
     volatile uint32_t ncell_ddft_mux;                     /* 0x400a0588UL */
@@ -192,8 +193,8 @@ typedef struct {
     volatile uint32_t rsrvd33[2];
     volatile uint32_t amux_ctrl;                          /* 0x400a0628UL */
     volatile uint32_t rsrvd34[21];
-    volatile uint32_t adc_ctrl[2];                        /* 0x400a0680UL */
-    volatile uint32_t rsrvd35[2];
+    volatile uint32_t adc_ctrl;                           /* 0x400a0680UL */
+    volatile uint32_t rsrvd35[3];
     volatile uint32_t refgen_0_ctrl;                      /* 0x400a0690UL */
     volatile uint32_t rsrvd36[3];
     volatile uint32_t refgen_1_ctrl;                      /* 0x400a06a0UL */
@@ -215,44 +216,53 @@ typedef struct {
     volatile uint32_t pump5v_ctrl;                        /* 0x400a086cUL */
     volatile uint32_t rsrvd45[11];
     volatile uint32_t dischg_shv_1_ctrl[2];               /* 0x400a089cUL */
-    volatile uint32_t rsrvd46[6];
-    volatile uint32_t csa_scp_0_ctrl;                     /* 0x400a08bcUL */
-    volatile uint32_t rsrvd47[3];
+    volatile uint32_t rsrvd46[10];
     volatile uint32_t amux_nhvn_ctrl;                     /* 0x400a08ccUL */
-    volatile uint32_t rsrvd48;
+    volatile uint32_t rsrvd47;
     volatile uint32_t pwm_0_ctrl;                         /* 0x400a08d4UL */
     volatile uint32_t pwm_1_ctrl;                         /* 0x400a08d8UL */
     volatile uint32_t srsns_0_ctrl;                       /* 0x400a08dcUL */
-    volatile uint32_t rsrvd49[3];
+    volatile uint32_t rsrvd48[3];
     volatile uint32_t gdrv_0_ctrl;                        /* 0x400a08ecUL */
     volatile uint32_t gdrv_1_ctrl;                        /* 0x400a08f0UL */
     volatile uint32_t ea_ctrl;                            /* 0x400a08f4UL */
     volatile uint32_t pds_ea_1_ctrl;                      /* 0x400a08f8UL */
     volatile uint32_t pds_ea_2_ctrl;                      /* 0x400a08fcUL */
-    volatile uint32_t rsrvd50[2];
+    volatile uint32_t rsrvd49[2];
     volatile uint32_t gdrv_2_ctrl;                        /* 0x400a0908UL */
     volatile uint32_t vconn40_ctrl;                       /* 0x400a090cUL */
-    volatile uint32_t rsrvd51[4];
+    volatile uint32_t rsrvd50[4];
     volatile uint32_t ngdo30_1_ctrl;                      /* 0x400a0920UL */
     volatile uint32_t ngdo30_2_ctrl;                      /* 0x400a0924UL */
     volatile uint32_t srsns_4_ctrl;                       /* 0x400a0928UL */
     volatile uint32_t srsns_5_ctrl;                       /* 0x400a092cUL */
     volatile uint32_t srsns_6_ctrl;                       /* 0x400a0930UL */
     volatile uint32_t pds_ea_3_ctrl;                      /* 0x400a0934UL */
-    volatile uint32_t rsrvd52[2];
+    volatile uint32_t rsrvd51[2];
     volatile uint32_t bch_det_2_ctrl;                     /* 0x400a0940UL */
-    volatile uint32_t rsrvd53[1457];
+    volatile uint32_t rsrvd52[3];
+    volatile uint32_t r_amux_ctrl;                        /* 0x400a0950UL */
+    volatile uint32_t r_adc_sar_ctrl;                     /* 0x400a0954UL */
+    volatile uint32_t r_adc_ctrl;                         /* 0x400a0958UL */
+    volatile uint32_t rndrbn_cfg;                         /* 0x400a095cUL */
+    volatile uint32_t rndrbn_status;                      /* 0x400a0960UL */
+    volatile uint32_t rsrvd53[3];
+    volatile uint32_t rndrbn_chan_cfg[4];                 /* 0x400a0970UL */
+    volatile uint32_t rsrvd54[4];
+    volatile uint32_t rndrbn_chan_status[4];              /* 0x400a0990UL */
+    volatile uint32_t rsrvd55[1432];
+    volatile uint32_t ngdo_1_cfg;                         /* 0x400a2000UL */
+    volatile uint32_t ngdo_2_cfg;                         /* 0x400a2004UL */
     volatile uint32_t srsns_1_cfg;                        /* 0x400a2008UL */
     volatile uint32_t srsns_2_cfg;                        /* 0x400a200cUL */
-    volatile uint32_t rsrvd54[2];
+    volatile uint32_t rsrvd56[2];
     volatile uint32_t intr15_cfg_1_srsense;               /* 0x400a2018UL */
-    volatile uint32_t intr15_cfg_2_srsense;               /* 0x400a201cUL */
-    volatile uint32_t intr15_cfg_3_srsense;               /* 0x400a2020UL */
+    volatile uint32_t rsrvd57[2];
     volatile uint32_t intr15_cfg_4_srsense;               /* 0x400a2024UL */
     volatile uint32_t intr15_cfg_0_pwm;                   /* 0x400a2028UL */
     volatile uint32_t intr15_cfg_1_pwm;                   /* 0x400a202cUL */
     volatile uint32_t intr15_cfg_cc_flag;                 /* 0x400a2030UL */
-    volatile uint32_t rsrvd55;
+    volatile uint32_t rsrvd58;
     volatile uint32_t intr15_status;                      /* 0x400a2038UL */
     volatile uint32_t intr15;                             /* 0x400a203cUL */
     volatile uint32_t intr15_set;                         /* 0x400a2040UL */
@@ -285,35 +295,86 @@ typedef struct {
     volatile uint32_t pasc_status_0;                      /* 0x400a20acUL */
     volatile uint32_t pasc_status_1;                      /* 0x400a20b0UL */
     volatile uint32_t pasc_status_2;                      /* 0x400a20b4UL */
-    volatile uint32_t pasc_status_3;                      /* 0x400a20b8UL */
+    volatile uint32_t rsrvd59;
     volatile uint32_t pasc_status_4;                      /* 0x400a20bcUL */
     volatile uint32_t pasc_ddft_mux;                      /* 0x400a20c0UL */
     volatile uint32_t pasc_gpio_ddft_mux;                 /* 0x400a20c4UL */
-    volatile uint32_t rsrvd56[40];
-    volatile uint32_t bb_bat2gnd_prot_cnfg;               /* 0x400a2168UL */
-    volatile uint32_t rsrvd57[57];
+    volatile uint32_t rsrvd60[98];
     volatile uint32_t ibtr_cfg;                           /* 0x400a2250UL */
     volatile uint32_t ibtr_ctrl;                          /* 0x400a2254UL */
     volatile uint32_t ibtr_opr_value;                     /* 0x400a2258UL */
     volatile uint32_t ibtr_init_fin_value;                /* 0x400a225cUL */
-    volatile uint32_t rsrvd58;
+    volatile uint32_t rsrvd61;
     volatile uint32_t ibtr_status;                        /* 0x400a2264UL */
-    volatile uint32_t rsrvd59[198];
-    volatile uint32_t ptdrv_ctrl_0;                       /* 0x400a2580UL */
-    volatile uint32_t ptdrv_ctrl_1;                       /* 0x400a2584UL */
-    volatile uint32_t rsrvd60[2];
-    volatile uint32_t lscsav2_ctrl_0;                     /* 0x400a2590UL */
-    volatile uint32_t lscsav2_ctrl_1;                     /* 0x400a2594UL */
-    volatile uint32_t v2_40vreg_ctrl;                     /* 0x400a2598UL */
-    volatile uint32_t feedfwd_1_ctrl;                     /* 0x400a259cUL */
-    volatile uint32_t feedfwd_2_ctrl;                     /* 0x400a25a0UL */
-    volatile uint32_t bg_ref_ctrl;                        /* 0x400a25a4UL */
-    volatile uint32_t rsrvd61[666];
-    volatile uint32_t peak_mem_data[8];                   /* 0x400a3010UL */
+    volatile uint32_t rsrvd62[6];
+    volatile uint32_t intr17_cfg_0;                       /* 0x400a2280UL */
+    volatile uint32_t rsrvd63[9];
+    volatile uint32_t intr17_cfg_10;                      /* 0x400a22a8UL */
+    volatile uint32_t rsrvd64[14];
+    volatile uint32_t intr17_status_0;                    /* 0x400a22e4UL */
+    volatile uint32_t intr17_status_1;                    /* 0x400a22e8UL */
+    volatile uint32_t intr17;                             /* 0x400a22ecUL */
+    volatile uint32_t intr17_set;                         /* 0x400a22f0UL */
+    volatile uint32_t intr17_mask;                        /* 0x400a22f4UL */
+    volatile uint32_t intr17_masked;                      /* 0x400a22f8UL */
+    volatile uint32_t rsrvd65[17];
+    volatile uint32_t intr10;                             /* 0x400a2340UL */
+    volatile uint32_t intr10_set;                         /* 0x400a2344UL */
+    volatile uint32_t intr10_mask;                        /* 0x400a2348UL */
+    volatile uint32_t intr10_masked;                      /* 0x400a234cUL */
+    volatile uint32_t rsrvd66[128];
+    volatile uint32_t ptdrv_ctrl_0;                       /* 0x400a2550UL */
+    volatile uint32_t ptdrv_ctrl_1;                       /* 0x400a2554UL */
+    volatile uint32_t hip_seq_gen_3_ctrl;                 /* 0x400a2558UL */
+    volatile uint32_t hip_seq_gen_4_ctrl;                 /* 0x400a255cUL */
+    volatile uint32_t hip_seq_gen_5_ctrl;                 /* 0x400a2560UL */
+    volatile uint32_t hip_seq_gen_6_ctrl;                 /* 0x400a2564UL */
+    volatile uint32_t rsrvd67;
+    volatile uint32_t pasc_ctrl_1;                        /* 0x400a256cUL */
+    volatile uint32_t lscsav2_ctrl_0;                     /* 0x400a2570UL */
+    volatile uint32_t lscsav2_ctrl_1;                     /* 0x400a2574UL */
+    volatile uint32_t v2_40vreg_ctrl;                     /* 0x400a2578UL */
+    volatile uint32_t feedfwd_1_ctrl;                     /* 0x400a257cUL */
+    volatile uint32_t feedfwd_2_ctrl;                     /* 0x400a2580UL */
+    volatile uint32_t bg_ref_ctrl;                        /* 0x400a2584UL */
+    volatile uint32_t pasc_pwm_3_ctrl;                    /* 0x400a2588UL */
+    volatile uint32_t pasc_pwm_4_ctrl;                    /* 0x400a258cUL */
+    volatile uint32_t pasc_pwm_5_ctrl;                    /* 0x400a2590UL */
+    volatile uint32_t pasc_pwm_6_ctrl;                    /* 0x400a2594UL */
+    volatile uint32_t pasc_status_5;                      /* 0x400a2598UL */
+    volatile uint32_t pasc_status_6;                      /* 0x400a259cUL */
+    volatile uint32_t pasc_status_7;                      /* 0x400a25a0UL */
+    volatile uint32_t srgdrv_2_ctrl;                      /* 0x400a25a4UL */
+    volatile uint32_t srgdrv_3_ctrl;                      /* 0x400a25a8UL */
+    volatile uint32_t peakgen_3_ctrl;                     /* 0x400a25acUL */
+    volatile uint32_t intr19_cfg_0;                       /* 0x400a25b0UL */
+    volatile uint32_t intr19_cfg_1;                       /* 0x400a25b4UL */
+    volatile uint32_t intr19_cfg_2;                       /* 0x400a25b8UL */
+    volatile uint32_t intr19_cfg_3;                       /* 0x400a25bcUL */
+    volatile uint32_t intr19_cfg_4;                       /* 0x400a25c0UL */
+    volatile uint32_t intr19_cfg_5;                       /* 0x400a25c4UL */
+    volatile uint32_t intr19_cfg_6;                       /* 0x400a25c8UL */
+    volatile uint32_t intr19_status;                      /* 0x400a25ccUL */
+    volatile uint32_t intr19;                             /* 0x400a25d0UL */
+    volatile uint32_t intr19_set;                         /* 0x400a25d4UL */
+    volatile uint32_t intr19_mask;                        /* 0x400a25d8UL */
+    volatile uint32_t intr19_masked;                      /* 0x400a25dcUL */
+    volatile uint32_t pag2s_ncell_ddft_mux;               /* 0x400a25e0UL */
+    volatile uint32_t sr_sen_pulldn_en_cfg;               /* 0x400a25e4UL */
+    volatile uint32_t rsrvd68[6];
+    volatile uint32_t valley_load[12];                    /* 0x400a2600UL */
+    volatile uint32_t valley_config;                      /* 0x400a2630UL */
+    volatile uint32_t valley_ctrl;                        /* 0x400a2634UL */
+    volatile uint32_t valley_status;                      /* 0x400a2638UL */
+    volatile uint32_t valley_line_in;                     /* 0x400a263cUL */
+    volatile uint32_t valley_load_trans;                  /* 0x400a2640UL */
+    volatile uint32_t rsrvd69;
+    volatile uint32_t rsns_shrt;                          /* 0x400a2648UL */
+    volatile uint32_t otp_ctrl;                           /* 0x400a264cUL */
 } PDSS_REGS_T, *PPDSS_REGS_T;
 
 #define PDSS        ((PPDSS_REGS_T) PDSS_BASE_ADDR)
-
+#define PDSS0       PDSS
 
 #define PDSS_TRIMS_BASE_ADDR                             (0x400aff00UL)
 
@@ -326,12 +387,12 @@ typedef struct {
     volatile uint32_t trim_cc_5;                          /* 0x400aff14UL */
     volatile uint32_t trim_cc_6;                          /* 0x400aff18UL */
     volatile uint32_t trim_cc_7;                          /* 0x400aff1cUL */
-    volatile uint32_t trim_pds_vreg20;                    /* 0x400aff20UL */
-    volatile uint32_t trim_bch_det1_0;                    /* 0x400aff24UL */
-    volatile uint32_t trim_bch_det1_1;                    /* 0x400aff28UL */
-    volatile uint32_t trim_bch_det1_2;                    /* 0x400aff2cUL */
-    volatile uint32_t trim_bch_det1_3;                    /* 0x400aff30UL */
-    volatile uint32_t trim_bch_det1_4;                    /* 0x400aff34UL */
+    volatile uint32_t trim_bch_det1_0;                    /* 0x400aff20UL */
+    volatile uint32_t trim_bch_det1_1;                    /* 0x400aff24UL */
+    volatile uint32_t trim_bch_det1_2;                    /* 0x400aff28UL */
+    volatile uint32_t trim_bch_det1_3;                    /* 0x400aff2cUL */
+    volatile uint32_t trim_bch_det1_4;                    /* 0x400aff30UL */
+    volatile uint32_t trim_bch_det1_5;                    /* 0x400aff34UL */
     volatile uint32_t trim_refgen1_0;                     /* 0x400aff38UL */
     volatile uint32_t trim_refgen1_1;                     /* 0x400aff3cUL */
     volatile uint32_t trim_pds_ea;                        /* 0x400aff40UL */
@@ -341,34 +402,35 @@ typedef struct {
     volatile uint32_t trim_dpslp_1;                       /* 0x400aff50UL */
     volatile uint32_t trim_sr_sense_0;                    /* 0x400aff54UL */
     volatile uint32_t trim_sr_sense_2;                    /* 0x400aff58UL */
-    volatile uint32_t trim_sr_sense_4;                    /* 0x400aff5cUL */
-    volatile uint32_t trim_sr_sense_5;                    /* 0x400aff60UL */
-    volatile uint32_t trim_sr_sense_6;                    /* 0x400aff64UL */
-    volatile uint32_t trim_sr_sense_7;                    /* 0x400aff68UL */
-    volatile uint32_t trim_sr_sense_8;                    /* 0x400aff6cUL */
-    volatile uint32_t trim_sr_sense_9;                    /* 0x400aff70UL */
-    volatile uint32_t trim_sr_sense_10;                   /* 0x400aff74UL */
-    volatile uint32_t trim_sr_sense_11;                   /* 0x400aff78UL */
-    volatile uint32_t trim_sr_sense_12;                   /* 0x400aff7cUL */
-    volatile uint32_t trim_sr_sense_13;                   /* 0x400aff80UL */
-    volatile uint32_t trim_sr_sense_14;                   /* 0x400aff84UL */
-    volatile uint32_t trim_sr_sense_15;                   /* 0x400aff88UL */
-    volatile uint32_t trim_pwm_0;                         /* 0x400aff8cUL */
-    volatile uint32_t trim_pwm_1;                         /* 0x400aff90UL */
-    volatile uint32_t trim_pwm_2;                         /* 0x400aff94UL */
-    volatile uint32_t trim_vconn40;                       /* 0x400aff98UL */
-    volatile uint32_t trim_40vreg_0;                      /* 0x400aff9cUL */
-    volatile uint32_t trim_40vreg_1;                      /* 0x400affa0UL */
-    volatile uint32_t trim_ptdrv_0;                       /* 0x400affa4UL */
-    volatile uint32_t trim_lscsa_0;                       /* 0x400affa8UL */
-    volatile uint32_t trim_lscsa_1;                       /* 0x400affacUL */
-    volatile uint32_t trim_lscsa_2;                       /* 0x400affb0UL */
-    volatile uint32_t trim_5vpump1_0;                     /* 0x400affb4UL */
-    volatile uint32_t trim_5vpump1_1;                     /* 0x400affb8UL */
-    volatile uint32_t trim_bg_ref;                        /* 0x400affbcUL */
+    volatile uint32_t trim_sr_sense_5;                    /* 0x400aff5cUL */
+    volatile uint32_t trim_sr_sense_6;                    /* 0x400aff60UL */
+    volatile uint32_t trim_sr_sense_7;                    /* 0x400aff64UL */
+    volatile uint32_t trim_sr_sense_8;                    /* 0x400aff68UL */
+    volatile uint32_t trim_sr_sense_9;                    /* 0x400aff6cUL */
+    volatile uint32_t trim_sr_sense_10;                   /* 0x400aff70UL */
+    volatile uint32_t trim_sr_sense_11;                   /* 0x400aff74UL */
+    volatile uint32_t trim_sr_sense_12;                   /* 0x400aff78UL */
+    volatile uint32_t trim_sr_sense_13;                   /* 0x400aff7cUL */
+    volatile uint32_t trim_sr_sense_14;                   /* 0x400aff80UL */
+    volatile uint32_t trim_sr_sense_15;                   /* 0x400aff84UL */
+    volatile uint32_t trim_pwm_0;                         /* 0x400aff88UL */
+    volatile uint32_t trim_pwm_1;                         /* 0x400aff8cUL */
+    volatile uint32_t trim_pwm_2;                         /* 0x400aff90UL */
+    volatile uint32_t trim_vconn40;                       /* 0x400aff94UL */
+    volatile uint32_t trim_40vreg_0;                      /* 0x400aff98UL */
+    volatile uint32_t trim_40vreg_1;                      /* 0x400aff9cUL */
+    volatile uint32_t trim_lscsa_0;                       /* 0x400affa0UL */
+    volatile uint32_t trim_lscsa_1;                       /* 0x400affa4UL */
+    volatile uint32_t trim_lscsa_2;                       /* 0x400affa8UL */
+    volatile uint32_t trim_5vpump1_0;                     /* 0x400affacUL */
+    volatile uint32_t trim_5vpump1_1;                     /* 0x400affb0UL */
+    volatile uint32_t trim_bg_ref;                        /* 0x400affb4UL */
+    volatile uint32_t trim_otp_0;                         /* 0x400affb8UL */
+    volatile uint32_t trim_otp_1;                         /* 0x400affbcUL */
 } PDSS_TRIMS_REGS_T, *PPDSS_TRIMS_REGS_T;
 
 #define PDSS_TRIMS        ((PPDSS_TRIMS_REGS_T) PDSS_TRIMS_BASE_ADDR)
+#define PDSS_TRIMS0        (PDSS_TRIMS)
 
 
 #define ROMTABLE_BASE_ADDR                               (0xf0000000UL)
@@ -2153,8 +2215,8 @@ typedef struct {
  * ADC#1-4 SAR Control Register
  * General Purpose voltgae measurement, Temperature Sceining
  */
-#define PDSS_ADC_SAR_CTRL_ADDRESS(n)                        (0x400a01c0UL + ((n) * (0x0004UL)))
-#define PDSS_ADC_SAR_CTRL(n)                                (*(volatile uint32_t *)(0x400a01c0UL + ((n) * 0x0004UL)))
+#define PDSS_ADC_SAR_CTRL_ADDRESS                           (0x400a01c0UL)
+#define PDSS_ADC_SAR_CTRL                                   (*(volatile uint32_t *)(0x400a01c0UL))
 #define PDSS_ADC_SAR_CTRL_DEFAULT                           (0x00008000UL)
 
 /*
@@ -2366,7 +2428,7 @@ typedef struct {
  * 0: SCP detection is not selected for turning off the en_switch_cc1
  * 1: SCP detection is       selected for turning off the en_switch_cc1
  */
-#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_SCP          (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_SCP          (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2374,7 +2436,7 @@ typedef struct {
  * 1: CSA OUT detection is       selected for turning off the en_switch_cc1
  * CCG7D: Unused
  */
-#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_OUT          (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_OUT          (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2384,7 +2446,7 @@ typedef struct {
  *     0: CC1_SCP detection is not selected for turning off the en_switch_cc1
  *     1: CC1_SCP detection is       selected for turning off the en_switch_cc1
  */
-#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_COMP_OUT     (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_COMP_OUT     (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2394,7 +2456,7 @@ typedef struct {
  *     0: CC2_SCP detection is not selected for turning off the en_switch_cc1
  *     1: CC2_SCP detection is       selected for turning off the en_switch_cc1
  */
-#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_VBUS_OVP     (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC1_SWITCH_1_CTRL_SEL_CSA_VBUS_OVP     (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2582,7 +2644,7 @@ typedef struct {
  * 0: SCP detection is not selected for turning off the en_switch_cc2
  * 1: SCP detection is       selected for turning off the en_switch_cc2
  */
-#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_SCP          (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_SCP          (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2590,7 +2652,7 @@ typedef struct {
  * 1: CSA OUT detection is       selected for turning off the en_switch_cc2
  * CCG7D: Unused
  */
-#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_OUT          (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_OUT          (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2600,7 +2662,7 @@ typedef struct {
  *     0: CC1_SCP detection is not selected for turning off the en_switch_cc2
  *     1: CC1_SCP detection is       selected for turning off the en_switch_cc2
  */
-#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_COMP_OUT     (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_COMP_OUT     (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2610,7 +2672,7 @@ typedef struct {
  *     0: CC2_SCP detection is not selected for turning off the en_switch_cc2
  *     1: CC2_SCP detection is       selected for turning off the en_switch_cc2
  */
-#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_VBUS_OVP     (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_CC2_SWITCH_1_CTRL_SEL_CSA_VBUS_OVP     (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2793,7 +2855,7 @@ typedef struct {
  * 0: SCP detection is not selected for turning off the vconn20 en_pump
  * 1: SCP detection is       selected for turning off the vconn20 en_pump
  */
-#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_SCP             (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_SCP             (1UL << 28) /* <28:28> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2801,7 +2863,7 @@ typedef struct {
  * 1: CSA OUT detection is       selected for turning off the vconn20 en_pump
  * CCG7D: Unused
  */
-#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_OUT             (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_OUT             (1UL << 29) /* <29:29> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2814,7 +2876,7 @@ typedef struct {
  *     1: CC1_SCP detection is       selected for turning off the vconn20
  * en_pump
  */
-#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_COMP_OUT        (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_COMP_OUT        (1UL << 30) /* <30:30> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -2827,7 +2889,7 @@ typedef struct {
  *     1: CC2_SCP detection is       selected for turning off the vconn20
  * en_pump
  */
-#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_VBUS_OVP        (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_RCP_EN */
+#define PDSS_VCONN20_PUMP_EN_1_CTRL_SEL_CSA_VBUS_OVP        (1UL << 31) /* <31:31> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
@@ -3057,6 +3119,125 @@ typedef struct {
 
 
 /*
+ * CC1/CC2 OVP Wakeup Interrupts edge and filter configuration
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_ADDRESS                  (0x400a02b0UL)
+#define PDSS_INTR1_CFG_CC12_OVP_HS                          (*(volatile uint32_t *)(0x400a02b0UL))
+#define PDSS_INTR1_CFG_CC12_OVP_HS_DEFAULT                  (0x00000000UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_EN          (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_CFG_MASK    (0x00000006UL) /* <1:2> R:RW:0: */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_CFG_POS     (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_RESET       (1UL << 3) /* <3:3> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_BYPASS      (1UL << 4) /* <4:4> R:RW:0: */
+
+
+/*
+ * #of clock CLK_FILTER filtering. Should be programmed before FILTER is
+ * enabled.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_SEL_MASK    (0x000003e0UL) /* <5:9> R:RW:0: */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_FILT_SEL_POS     (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC1_OVP_DPSLP_MODE       (1UL << 10) /* <10:10> R:RW:0: */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_EN          (1UL << 11) /* <11:11> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_CFG_MASK    (0x00003000UL) /* <12:13> R:RW:0: */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_CFG_POS     (12UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_RESET       (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_BYPASS      (1UL << 15) /* <15:15> R:RW:0: */
+
+
+/*
+ * #of clock CLK_FILTER filtering. Should be programmed before FILTER is
+ * enabled.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_SEL_MASK    (0x001f0000UL) /* <16:20> R:RW:0: */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_FILT_SEL_POS     (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR1_CFG_CC12_OVP_HS_CC2_OVP_DPSLP_MODE       (1UL << 21) /* <21:21> R:RW:0: */
+
+
+/*
  * INTR1 Status
  */
 #define PDSS_INTR1_STATUS_ADDRESS                           (0x400a02b4UL)
@@ -3145,6 +3326,30 @@ typedef struct {
 
 
 /*
+ * This reads the CC1 over-voltage signal from s8usbpd2_20Vconn_sw_top
+ */
+#define PDSS_INTR1_STATUS_CC1_OVP_STATUS                    (1UL << 22) /* <22:22> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * CC1_OVP Detect Filtered output
+ */
+#define PDSS_INTR1_STATUS_CC1_OVP_FILT                      (1UL << 23) /* <23:23> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * This reads the CC2 over-voltage signal from s8usbpd2_20Vconn_sw_top
+ */
+#define PDSS_INTR1_STATUS_CC2_OVP_STATUS                    (1UL << 24) /* <24:24> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * CC2_OVP Detect Filtered output
+ */
+#define PDSS_INTR1_STATUS_CC2_OVP_FILT                      (1UL << 25) /* <25:25> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
  * INTR1 Cause.  These are the wakeup interrupts get reflected on interrupt_wakeup
  * pin.
  * The configurations for using the comparators:
@@ -3208,6 +3413,18 @@ typedef struct {
 
 
 /*
+ * Over-Voltage is detected on CC1 line
+ */
+#define PDSS_INTR1_CC1_OVP_CHANGED                          (1UL << 11) /* <11:11> RW1S:RW1C:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Over-Voltage is detected on CC2 line
+ */
+#define PDSS_INTR1_CC2_OVP_CHANGED                          (1UL << 12) /* <12:12> RW1S:RW1C:0:VCONN20_VCONN40_EN */
+
+
+/*
  * VSWAP and VBUS_C less that 5V is detected
  */
 #define PDSS_INTR1_DRP_ATTACHED_DETECTED                    (1UL << 18) /* <18:18> RW1S:RW1C:0:RPRD_EN */
@@ -3256,6 +3473,18 @@ typedef struct {
  * Write with '1' to set corresponding bit in interrupt request register.
  */
 #define PDSS_INTR1_SET_VCMP_DN_CHANGED                      (1UL << 6) /* <6:6> A:RW1S:0:VCMP_DN_INTR_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR1_SET_CC1_OVP_CHANGED                      (1UL << 11) /* <11:11> A:RW1S:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR1_SET_CC2_OVP_CHANGED                      (1UL << 12) /* <12:12> A:RW1S:0:VCONN20_VCONN40_EN */
 
 
 /*
@@ -3310,6 +3539,18 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
+#define PDSS_INTR1_MASK_CC1_OVP_CHANGED_MASK                (1UL << 11) /* <11:11> R:RW:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR1_MASK_CC2_OVP_CHANGED_MASK                (1UL << 12) /* <12:12> R:RW:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
 #define PDSS_INTR1_MASK_DRP_ATTACHED_DETECTED_MASK          (1UL << 18) /* <18:18> R:RW:0:RPRD_EN */
 
 
@@ -3359,6 +3600,18 @@ typedef struct {
 /*
  * Logical and of corresponding request and mask bits.
  */
+#define PDSS_INTR1_MASKED_CC1_OVP_CHANGED_MASKED            (1UL << 11) /* <11:11> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR1_MASKED_CC2_OVP_CHANGED_MASKED            (1UL << 12) /* <12:12> RW:R:0:VCONN20_VCONN40_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
 #define PDSS_INTR1_MASKED_DRP_ATTACHED_DETECTED_MASKED      (1UL << 18) /* <18:18> RW:R:0:RPRD_EN */
 
 
@@ -3371,8 +3624,8 @@ typedef struct {
 /*
  * ADC1-4 High/Low Speed Filter and Edge detector configuration
  */
-#define PDSS_INTR3_CFG_ADC_HS_ADDRESS(n)                    (0x400a0304UL + ((n) * (0x0004UL)))
-#define PDSS_INTR3_CFG_ADC_HS(n)                            (*(volatile uint32_t *)(0x400a0304UL + ((n) * 0x0004UL)))
+#define PDSS_INTR3_CFG_ADC_HS_ADDRESS                       (0x400a0304UL)
+#define PDSS_INTR3_CFG_ADC_HS                               (*(volatile uint32_t *)(0x400a0304UL))
 #define PDSS_INTR3_CFG_ADC_HS_DEFAULT                       (0x00000400UL)
 
 /*
@@ -3441,15 +3694,13 @@ typedef struct {
 /*
  * The status of cmp_out from the ADC#1-4
  */
-#define PDSS_INTR3_STATUS_0_CMP_OUT_STATUS_MASK             (0x0000000cUL) /* <2:3> RW:R:0:ADC_NUM */
-#define PDSS_INTR3_STATUS_0_CMP_OUT_STATUS_POS              (2UL)
+#define PDSS_INTR3_STATUS_0_CMP_OUT_STATUS                  (1UL << 2) /* <2:2> RW:R:0:ADC_NUM */
 
 
 /*
  * ADC1-4 COMP_OUT Filtered output
  */
-#define PDSS_INTR3_STATUS_0_CMP_OUT_FILT_MASK               (0x000000c0UL) /* <6:7> RW:R:0:ADC_NUM */
-#define PDSS_INTR3_STATUS_0_CMP_OUT_FILT_POS                (6UL)
+#define PDSS_INTR3_STATUS_0_CMP_OUT_FILT                    (1UL << 6) /* <6:6> RW:R:0:ADC_NUM */
 
 
 /*
@@ -3464,8 +3715,7 @@ typedef struct {
  * CMP_OUT1-4 changed (wakeup interrupt from deepsleep)
  * Check the INTR3_STATUS.ADC_CMP_OUT_STATUS value
  */
-#define PDSS_INTR3_CMP_OUT_CHANGED_MASK                     (0x00000006UL) /* <1:2> RW1S:RW1C:0:ADC_NUM */
-#define PDSS_INTR3_CMP_OUT_CHANGED_POS                      (1UL)
+#define PDSS_INTR3_CMP_OUT_CHANGED                          (1UL << 1) /* <1:1> RW1S:RW1C:0:ADC_NUM */
 
 
 /*
@@ -3478,8 +3728,7 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR3_SET_CMP_OUT_CHANGED_MASK                 (0x00000006UL) /* <1:2> A:RW1S:0:ADC_NUM */
-#define PDSS_INTR3_SET_CMP_OUT_CHANGED_POS                  (1UL)
+#define PDSS_INTR3_SET_CMP_OUT_CHANGED                      (1UL << 1) /* <1:1> A:RW1S:0:ADC_NUM */
 
 
 /*
@@ -3492,8 +3741,7 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR3_MASK_CMP_OUT_CHANGED_MASK_MASK           (0x00000006UL) /* <1:2> R:RW:0:ADC_NUM */
-#define PDSS_INTR3_MASK_CMP_OUT_CHANGED_MASK_POS            (1UL)
+#define PDSS_INTR3_MASK_CMP_OUT_CHANGED_MASK                (1UL << 1) /* <1:1> R:RW:0:ADC_NUM */
 
 
 /*
@@ -3506,8 +3754,7 @@ typedef struct {
 /*
  * Logical and of corresponding request and mask bits.
  */
-#define PDSS_INTR3_MASKED_CMP_OUT_CHANGED_MASKED_MASK       (0x00000006UL) /* <1:2> RW:R:0:ADC_NUM */
-#define PDSS_INTR3_MASKED_CMP_OUT_CHANGED_MASKED_POS        (1UL)
+#define PDSS_INTR3_MASKED_CMP_OUT_CHANGED_MASKED            (1UL << 1) /* <1:1> RW:R:0:ADC_NUM */
 
 
 /*
@@ -4300,25 +4547,37 @@ typedef struct {
 /*
  * The status of out_d_ocp from the s8usbpdv2_csa_scp_top
  */
-#define PDSS_INTR13_STATUS_CSA_OCP_STATUS                   (1UL << 8) /* <8:8> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_STATUS_CSA_OCP_STATUS                   (1UL << 8) /* <8:8> RW:R:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * out_d_ocp Filtered output
  */
-#define PDSS_INTR13_STATUS_CSA_OCP_FILT                     (1UL << 9) /* <9:9> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_STATUS_CSA_OCP_FILT                     (1UL << 9) /* <9:9> RW:R:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * The status of s8usbpdv2_csa_scp_top.out_d_scp
  */
-#define PDSS_INTR13_STATUS_CSA_SCP_STATUS                   (1UL << 10) /* <10:10> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_STATUS_CSA_SCP_STATUS                   (1UL << 10) /* <10:10> RW:R:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * s8usbpdv2_csa_scp_top.out_d_scp Filtered output
  */
-#define PDSS_INTR13_STATUS_CSA_SCP_FILT                     (1UL << 11) /* <11:11> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_STATUS_CSA_SCP_FILT                     (1UL << 11) /* <11:11> RW:R:0:CSA_SCP_V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_STATUS_LSCSA_LTRANDET_H2L_STATUS        (1UL << 20) /* <20:20> RW:R:0:V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_STATUS_LSCSA_LTRANDET_H2L_FILT          (1UL << 21) /* <21:21> RW:R:0:V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_STATUS_LSCSA_LTRANDET_L2H_STATUS        (1UL << 22) /* <22:22> RW:R:0:V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_STATUS_LSCSA_LTRANDET_L2H_FILT          (1UL << 23) /* <23:23> RW:R:0:V2_LSCSA_EN */
 
 
 /*
@@ -4332,14 +4591,20 @@ typedef struct {
  * out_d_ocp changed (wakeup interrupt from deepsleep)
  * Check the  INTR13_STATUS.CSA_OCP_STATUS value
  */
-#define PDSS_INTR13_CSA_OCP_CHANGED                         (1UL << 4) /* <4:4> RW1S:RW1C:0:CSA_SCP_EN */
+#define PDSS_INTR13_CSA_OCP_CHANGED                         (1UL << 4) /* <4:4> RW1S:RW1C:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * s8usbpdv2_csa_scp_top.out_d_scp changed (wakeup interrupt from deepsleep)
  * Check the INTR13_STATUS.CSA_SCP_STATUS value
  */
-#define PDSS_INTR13_CSA_SCP_CHANGED                         (1UL << 5) /* <5:5> RW1S:RW1C:0:CSA_SCP_EN */
+#define PDSS_INTR13_CSA_SCP_CHANGED                         (1UL << 5) /* <5:5> RW1S:RW1C:0:CSA_SCP_V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_LSCSA_LTRANDET_H2L_CHANGED              (1UL << 10) /* <10:10> RW1S:RW1C:0:V2_LSCSA_EN */
+
+
+#define PDSS_INTR13_LSCSA_LTRANDET_L2H_CHANGED              (1UL << 11) /* <11:11> RW1S:RW1C:0:V2_LSCSA_EN */
 
 
 /*
@@ -4352,13 +4617,25 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR13_SET_CSA_OCP_CHANGED                     (1UL << 4) /* <4:4> A:RW1S:0:CSA_SCP_EN */
+#define PDSS_INTR13_SET_CSA_OCP_CHANGED                     (1UL << 4) /* <4:4> A:RW1S:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR13_SET_CSA_SCP_CHANGED                     (1UL << 5) /* <5:5> A:RW1S:0:CSA_SCP_EN */
+#define PDSS_INTR13_SET_CSA_SCP_CHANGED                     (1UL << 5) /* <5:5> A:RW1S:0:CSA_SCP_V2_LSCSA_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR13_SET_LSCSA_LTRANDET_H2L_CHANGED          (1UL << 10) /* <10:10> A:RW1S:0:V2_LSCSA_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR13_SET_LSCSA_LTRANDET_L2H_CHANGED          (1UL << 11) /* <11:11> A:RW1S:0:V2_LSCSA_EN */
 
 
 /*
@@ -4371,13 +4648,25 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR13_MASK_CSA_OCP_CHANGED_MASK               (1UL << 4) /* <4:4> R:RW:0:CSA_SCP_EN */
+#define PDSS_INTR13_MASK_CSA_OCP_CHANGED_MASK               (1UL << 4) /* <4:4> R:RW:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR13_MASK_CSA_SCP_CHANGED_MASK               (1UL << 5) /* <5:5> R:RW:0:CSA_SCP_EN */
+#define PDSS_INTR13_MASK_CSA_SCP_CHANGED_MASK               (1UL << 5) /* <5:5> R:RW:0:CSA_SCP_V2_LSCSA_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR13_MASK_LSCSA_LTRANDET_H2L_CHANGED_MASK    (1UL << 10) /* <10:10> R:RW:0:V2_LSCSA_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR13_MASK_LSCSA_LTRANDET_L2H_CHANGED_MASK    (1UL << 11) /* <11:11> R:RW:0:V2_LSCSA_EN */
 
 
 /*
@@ -4390,13 +4679,25 @@ typedef struct {
 /*
  * Logical and of corresponding request and mask bits.
  */
-#define PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED           (1UL << 4) /* <4:4> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_MASKED_CSA_OCP_CHANGED_MASKED           (1UL << 4) /* <4:4> RW:R:0:CSA_SCP_V2_LSCSA_EN */
 
 
 /*
  * Logical and of corresponding request and mask bits.
  */
-#define PDSS_INTR13_MASKED_CSA_SCP_CHANGED_MASKED           (1UL << 5) /* <5:5> RW:R:0:CSA_SCP_EN */
+#define PDSS_INTR13_MASKED_CSA_SCP_CHANGED_MASKED           (1UL << 5) /* <5:5> RW:R:0:CSA_SCP_V2_LSCSA_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR13_MASKED_LSCSA_LTRANDET_H2L_CHANGED_MASKED    (1UL << 10) /* <10:10> RW:R:0:V2_LSCSA_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR13_MASKED_LSCSA_LTRANDET_L2H_CHANGED_MASKED    (1UL << 11) /* <11:11> RW:R:0:V2_LSCSA_EN */
 
 
 /*
@@ -4722,8 +5023,7 @@ typedef struct {
  * Marks Completion of the ADC SAR1-4 conversion at the end of 8 cycles of
  * clk_sar when SAR_EN is "1"
  */
-#define PDSS_INTR0_SAR_DONE_MASK                            (0x18000000UL) /* <27:28> RW1S:RW1C:0:ADC_NUM */
-#define PDSS_INTR0_SAR_DONE_POS                             (27UL)
+#define PDSS_INTR0_SAR_DONE                                 (1UL << 27) /* <27:27> RW1S:RW1C:0:ADC_NUM */
 
 
 /*
@@ -4898,8 +5198,7 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR0_SET_SAR_DONE_MASK                        (0x18000000UL) /* <27:28> A:RW1S:0:ADC_NUM */
-#define PDSS_INTR0_SET_SAR_DONE_POS                         (27UL)
+#define PDSS_INTR0_SET_SAR_DONE                             (1UL << 27) /* <27:27> A:RW1S:0:ADC_NUM */
 
 
 /*
@@ -5074,8 +5373,7 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR0_MASK_SAR_DONE_MASK_MASK                  (0x18000000UL) /* <27:28> R:RW:0:ADC_NUM */
-#define PDSS_INTR0_MASK_SAR_DONE_MASK_POS                   (27UL)
+#define PDSS_INTR0_MASK_SAR_DONE_MASK                       (1UL << 27) /* <27:27> R:RW:0:ADC_NUM */
 
 
 /*
@@ -5250,8 +5548,7 @@ typedef struct {
 /*
  * Logical and of corresponding request and mask bits.
  */
-#define PDSS_INTR0_MASKED_SAR_DONE_MASKED_MASK              (0x18000000UL) /* <27:28> RW:R:0:ADC_NUM */
-#define PDSS_INTR0_MASKED_SAR_DONE_MASKED_POS               (27UL)
+#define PDSS_INTR0_MASKED_SAR_DONE_MASKED                   (1UL << 27) /* <27:27> RW:R:0:ADC_NUM */
 
 
 /*
@@ -5882,9 +6179,27 @@ typedef struct {
 
 
 /*
- * FF OV timeout occurred
+ * FF INTEG OUT timeout occurred
  */
-#define PDSS_INTR8_PASC_FF_OV_IDLE_TIMEOUT                  (1UL << 18) /* <18:18> RW1S:RW1C:0:PASC_PASC2_EN */
+#define PDSS_INTR8_PASC_FF_INTEG_OUT_IDLE_TIMEOUT           (1UL << 19) /* <19:19> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Valley Algorithm Safe Valley Reached
+ */
+#define PDSS_INTR8_VALLEY_ALGO_SAFE_VAL_RCHD                (1UL << 20) /* <20:20> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Valley Algorithm Line in crossed LINE_IN_THRESH_0
+ */
+#define PDSS_INTR8_VALLEY_ALGO_LINE_IN_LOW_CROSS            (1UL << 21) /* <21:21> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Valley Algorithm Line in crossed LINE_IN_THRESH_1
+ */
+#define PDSS_INTR8_VALLEY_ALGO_LINE_IN_HIGH_CROSS           (1UL << 22) /* <22:22> RW1S:RW1C:0:PASC2_EN */
 
 
 /*
@@ -6037,7 +6352,25 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR8_SET_PASC_FF_OV_IDLE_TIMEOUT              (1UL << 18) /* <18:18> A:RW1S:0:PASC_PASC2_EN */
+#define PDSS_INTR8_SET_PASC_FF_INTEG_OUT_IDLE_TIMEOUT       (1UL << 19) /* <19:19> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_SET_VALLEY_ALGO_SAFE_VAL_RCHD            (1UL << 20) /* <20:20> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_SET_VALLEY_ALGO_LINE_IN_LOW_CROSS        (1UL << 21) /* <21:21> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_SET_VALLEY_ALGO_LINE_IN_HIGH_CROSS       (1UL << 22) /* <22:22> A:RW1S:0:PASC2_EN */
 
 
 /*
@@ -6182,7 +6515,25 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR8_MASK_PASC_FF_OV_IDLE_TIMEOUT_MASK        (1UL << 18) /* <18:18> R:RW:0:PASC_PASC2_EN */
+#define PDSS_INTR8_MASK_PASC_FF_INTEG_OUT_IDLE_TIMEOUT_MASK    (1UL << 19) /* <19:19> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASK_VALLEY_ALGO_SAFE_VAL_RCHD_MASK      (1UL << 20) /* <20:20> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASK_VALLEY_ALGO_LINE_IN_LOW_CROSS_MASK    (1UL << 21) /* <21:21> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASK_VALLEY_ALGO_LINE_IN_HIGH_CROSS_MASK    (1UL << 22) /* <22:22> R:RW:0:PASC2_EN */
 
 
 /*
@@ -6327,7 +6678,25 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR8_MASKED_PASC_FF_OV_IDLE_TIMEOUT_MASKED    (1UL << 18) /* <18:18> RW:R:0:PASC_PASC2_EN */
+#define PDSS_INTR8_MASKED_PASC_FF_INTEG_OUT_IDLE_TIMEOUT_MASKED    (1UL << 19) /* <19:19> RW:R:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASKED_VALLEY_ALGO_SAFE_VAL_RCHD_MASKED    (1UL << 20) /* <20:20> RW:R:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASKED_VALLEY_ALGO_LINE_IN_LOW_CROSS_MASKED    (1UL << 21) /* <21:21> RW:R:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR8_MASKED_VALLEY_ALGO_LINE_IN_HIGH_CROSS_MASKED    (1UL << 22) /* <22:22> RW:R:0:PASC2_EN */
 
 
 /*
@@ -6352,6 +6721,121 @@ typedef struct {
  * Logical and of corresponding request and mask bits.
  */
 #define PDSS_INTR8_MASKED_VBTR_EXIT_DONE_MASKED             (1UL << 31) /* <31:31> RW:R:0:VBTR_EN */
+
+
+/*
+ * S8PDSV2 HardIP Filter and Edge detector config for LTRAN_DET L2H & H2L
+ */
+#define PDSS_INTR13_CFG_LTRANDET_ADDRESS                    (0x400a0550UL)
+#define PDSS_INTR13_CFG_LTRANDET                            (*(volatile uint32_t *)(0x400a0550UL))
+#define PDSS_INTR13_CFG_LTRANDET_DEFAULT                    (0x00510144UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_EN    (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_CFG_MASK    (0x00000006UL) /* <1:2> R:RW:2: */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_CFG_POS    (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_RESET    (1UL << 5) /* <5:5> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_BYPASS    (1UL << 6) /* <6:6> R:RW:1: */
+
+
+/*
+ * #of clock CLK_BB filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_FILT_SEL    (1UL << 7) /* <7:7> R:RW:0: */
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_L2H_DPSLP_MODE    (1UL << 8) /* <8:8> R:RW:1: */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_EN    (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_CFG_MASK    (0x00018000UL) /* <15:16> R:RW:2: */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_CFG_POS    (15UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_RESET    (1UL << 19) /* <19:19> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_BYPASS    (1UL << 20) /* <20:20> R:RW:1: */
+
+
+/*
+ * #of clock CLK_BB filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_FILT_SEL    (1UL << 21) /* <21:21> R:RW:0: */
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR13_CFG_LTRANDET_CSA_LTRANDET_H2L_DPSLP_MODE    (1UL << 22) /* <22:22> R:RW:1: */
 
 
 /*
@@ -6545,6 +7029,9 @@ typedef struct {
 #define PDSS_INTR_DDFT_MUX_DEFAULT                          (0x00000000UL)
 
 /*
+ * 253 MXUSBPD_REGS_INST.intr8_valley_algo_line_in_high_cross
+ * 252 MXUSBPD_REGS_INST.intr8_valley_algo_line_in_low_cross
+ * 251 MXUSBPD_REGS_INST.intr8_valley_algo_safe_val_rchd
  * 250 CCG7D_INTR_DDFT1 -- specific source selectable using CCG7D_INTR_DDFT_MUX
  * register
  * 249 CCG7D_INTR_DDFT0 -- specific source selectable using CCG7D_INTR_DDFT_MUX
@@ -6703,6 +7190,9 @@ typedef struct {
 
 
 /*
+ * 253 MXUSBPD_REGS_INST.intr8_valley_algo_line_in_high_cross
+ * 252 MXUSBPD_REGS_INST.intr8_valley_algo_line_in_low_cross
+ * 251 MXUSBPD_REGS_INST.intr8_valley_algo_safe_val_rchd
  * 250 CCG7D_INTR_DDFT1 -- specific source selectable using CCG7D_INTR_DDFT_MUX
  * register
  * 249 CCG7D_INTR_DDFT0 -- specific source selectable using CCG7D_INTR_DDFT_MUX
@@ -8046,10 +8536,17 @@ typedef struct {
 #define PDSS_CC_CTRL_1_CMP_FS_VSEL_POS                      (18UL)
 
 
+/*
+ * not used inside
+ */
 #define PDSS_CC_CTRL_1_T_CC_40SHVT_MASK                     (0x7f000000UL) /* <24:30> R:RW:0:CC_40SHVT_EN */
 #define PDSS_CC_CTRL_1_T_CC_40SHVT_POS                      (24UL)
 
 
+/*
+ * rx_alt_dis = 0 -> Newly added receiver is enabled.
+ * rx_alt_dis = 1 -> Newly added receiver is disabled.
+ */
 #define PDSS_CC_CTRL_1_RX_ALT_DIS                           (1UL << 31) /* <31:31> R:RW:0:CC_40SHVT_EN */
 
 
@@ -8135,15 +8632,15 @@ typedef struct {
 /*
  * AMUX select control
  */
-#define PDSS_AMUX_CTRL_SEL_MASK                             (0x003fffffUL) /* <0:21> R:RW:0:USB_AMUX_NUM */
+#define PDSS_AMUX_CTRL_SEL_MASK                             (0x001fffffUL) /* <0:20> R:RW:0:USB_AMUX_NUM */
 #define PDSS_AMUX_CTRL_SEL_POS                              (0UL)
 
 
 /*
  * USBPD Hard IP DAC #1-4 Register
  */
-#define PDSS_ADC_CTRL_ADDRESS(n)                            (0x400a0680UL + ((n) * (0x0004UL)))
-#define PDSS_ADC_CTRL(n)                                    (*(volatile uint32_t *)(0x400a0680UL + ((n) * 0x0004UL)))
+#define PDSS_ADC_CTRL_ADDRESS                               (0x400a0680UL)
+#define PDSS_ADC_CTRL                                       (*(volatile uint32_t *)(0x400a0680UL))
 #define PDSS_ADC_CTRL_DEFAULT                               (0x80000200UL)
 
 /*
@@ -8349,6 +8846,7 @@ typedef struct {
  *   Selection bits for 20CSA SCP comparator reference. This selection ranges
  * from 130mV to 2120mV for 0 to 199 respectively.
  *     With the extra bits meaning a floating (unconnected) output
+ * PAG2S : Vref_integ [FW]
  */
 #define PDSS_REFGEN_2_CTRL_SEL4_MASK                        (0x000000ffUL) /* <0:7> R:RW:0: */
 #define PDSS_REFGEN_2_CTRL_SEL4_POS                         (0UL)
@@ -8420,7 +8918,7 @@ typedef struct {
  *     Selection bits for RCP CSA comparator reference. This selection ranges
  * from 130mV to 2120mV for 0 to 199 respectively.
  *     With the extra bits meaning a floating (unconnected) output
- * CCG7D:
+ * CCG7D/PAG2S:
  *   Selection bits for CBL_0 (SR) Comparator reference. This selection ranges
  * from 130mV to 2120mV for 0 to 199 respectively.
  *     With the extra bits meaning a floating (unconnected) output
@@ -8443,6 +8941,7 @@ typedef struct {
  *   Selection bits for PWM SKIP Comparator reference. This selection ranges
  * from 130mV to 2120mV for 0 to 199 respectively.
  *     With the extra bits meaning a floating (unconnected) output
+ * PAG2S: : Selection of vref_0p74 from refgen
  */
 #define PDSS_REFGEN_3_CTRL_SEL9_MASK                        (0x0000ff00UL) /* <8:15> R:RW:0: */
 #define PDSS_REFGEN_3_CTRL_SEL9_POS                         (8UL)
@@ -8483,7 +8982,7 @@ typedef struct {
 
 
 /*
- * Not Used in ACG1F.
+ * Not Used in ACG1F and PAG2S.
  * Selection for vbus_c_mon. This selection ranges from 650mV to 1000mV for
  * 0 to 7 respectively in steps of 50mV.
  * With the extra bits meaning a floating (unconnected) output
@@ -8822,6 +9321,14 @@ typedef struct {
 
 
 /*
+ * Apple 2.5V DP termination with 5K,10K,20K,100K resistance in series path
+ * to enable simultaneous apple and BC detection
+ */
+#define PDSS_BCH_DET_1_CTRL_APPLE_TERM_MASK                 (0x3c000000UL) /* <26:29> R:RW:0:PASC_PASC2_CCG7D_EN */
+#define PDSS_BCH_DET_1_CTRL_APPLE_TERM_POS                  (26UL)
+
+
+/*
  * USBPD Hard IP VBUS Discharge SHV #1-8 Register0
  */
 #define PDSS_DISCHG_SHV_CTRL_ADDRESS(n)                     (0x400a0790UL + ((n) * (0x0004UL)))
@@ -8865,9 +9372,36 @@ typedef struct {
  * 00100: 125 Ohms - 500Ohms
  * 01000: 62.5 Ohms - 250Ohms
  * 10000: 31.25 Ohms - 125Ohms
+ *
+ * PAG2S - please use following discharge control settings
+ * Discharge Drive Strenght control
+ * VBUS_IN discharge :(look at s8pdsv2 BROS XLS for VBUS_C discharge which
+ * is using dischg_low_r)
+ * 00000:HIZ
+ * 00001: 500 Ohms - 2400Ohms
+ * 00010: 250 Ohms - 1600Ohms
+ * 00100: 125 Ohms - 600Ohms
+ * 01000: 62.5 Ohms - 300Ohms
+ * 10000: 31.25 Ohms - 150Ohms
  */
 #define PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK                 (0x0000007cUL) /* <2:6> R:RW:0: */
 #define PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS                  (2UL)
+
+
+/*
+ * VBUS_IN discharge : LSB bit --> 1: 1000 Ohms - 4000Ohms
+ * :(look at s8pdsv2 BROS XLS for VBUS_C discharge which is using dischg_low_r)
+ */
+#define PDSS_DISCHG_SHV_CTRL_DISCHG_DS_EXT_MASK             (0x00000180UL) /* <7:8> R:RW:0:DISCHG40_EN */
+#define PDSS_DISCHG_SHV_CTRL_DISCHG_DS_EXT_POS              (7UL)
+
+
+/*
+ * Used to select the source of dischg enable
+ *    0: Use the default sync dischg module
+ *    1: Use the async gate contoller module
+ */
+#define PDSS_DISCHG_SHV_CTRL_SEL_DISCHG_EN_SRC              (1UL << 9) /* <9:9> R:RW:0:DISCHG40_EN */
 
 
 /*
@@ -9157,7 +9691,7 @@ typedef struct {
 
 
 /*
- * USBPD Hard IP VBUS Discharge SHV #1-8 Register1 (NA in PMG1S3)
+ * USBPD Hard IP VBUS Discharge SHV #1-8 Register1
  */
 #define PDSS_DISCHG_SHV_1_CTRL_ADDRESS(n)                   (0x400a089cUL + ((n) * (0x0004UL)))
 #define PDSS_DISCHG_SHV_1_CTRL(n)                           (*(volatile uint32_t *)(0x400a089cUL + ((n) * 0x0004UL)))
@@ -9248,118 +9782,6 @@ typedef struct {
 
 
 /*
- * USBPD Hard IP CSA SCP Register0
- */
-#define PDSS_CSA_SCP_0_CTRL_ADDRESS                         (0x400a08bcUL)
-#define PDSS_CSA_SCP_0_CTRL                                 (*(volatile uint32_t *)(0x400a08bcUL))
-#define PDSS_CSA_SCP_0_CTRL_DEFAULT                         (0xc0000045UL)
-
-/*
- * Selects the nominal voltage gain.
- * For R_sense of 5mohm, default value of Av1=5.
- * For R_sense of 10mohm default value of Av1=2.
- * CCG7D:
- * Selects the voltage gain for vout_cc output.
- * 0 - Av_cc=40
- * 1 - Av_cc=50
- * 2 - Av_cc=60
- * 3 - Av_cc=70
- * 4 - Av_cc=80
- * 5 - Av_cc=90
- * 6 - Av_cc=100
- * 7 - Av_cc=110
- * The Default functional value for CCG7D is 3. FW has to set this filed
- * value to 3 before enabling Buck Boost operation.
- */
-#define PDSS_CSA_SCP_0_CTRL_AV1_MASK                        (0x00000007UL) /* <0:2> R:RW:5: */
-#define PDSS_CSA_SCP_0_CTRL_AV1_POS                         (0UL)
-
-
-/*
- * Configuration: 1 - Out_d_ocp and out_d_scp used,
- *                            0 - Out_d_ocp=LOW and out_d_scp=LOW
- */
-#define PDSS_CSA_SCP_0_CTRL_SEL_OUT_D                       (1UL << 6) /* <6:6> R:RW:1: */
-
-
-/*
- * Output isolation control.  Active Low
- * 0: All digital outputs are forced to known value
- */
-#define PDSS_CSA_SCP_0_CTRL_CSA_ISO_N                       (1UL << 7) /* <7:7> R:RW:0: */
-
-
-/*
- * adft control inputs used to connect various analog internal signals to
- * atstio.
- * See BROS doc for more info.
- * CCG7D :
- * adft control inputs used to connect various analog internal signals to
- * atstio.
- * See BROS doc for more info
- *        adft<1>                                     adft<0>
- * adft=0  hiZ                                             hiZ
- * adft=1  observe stg2_in_ocp                 observe vout_cbl from livemon
- * UGB
- * adft=2   force adft<1> stg2_in_ocp         observe afdt<0> comp_out_ocp
- * adft=3  force stg2_in_ocp                     observe out2_ocp_hv
- * adft=4  observe vref_scp                      observe vref_ocp
- * adft=5  force vref_ocp                           force stg2_in_ocp
- * adft=6   force Livemon UGB INP             observe Livemon UGB INN from
- * adft<0>
- * adft=7  observe stg2_in_scp                 observe vout_mon from livemon
- * UGB
- * adft=8   force adft<1> stg2_in_scp         observe afdt<0> comp_out_scp
- * adft=9  force stg2_in_scp                      observe out2_scp_hv
- * adft=10 observe inp_div_10                   observe  stg2_in_scp from
- * livemon UGB
- * adft=11 force vref_scp                            force  stg2_in_scp
- * adft=12 hiZ                                             observe inp_div_10
- * adft=13 hiZ                                             observe vout_cc
- * from livemon UGB
- * adft=14 hiZ                                             observe stg2_in_ocp
- * from livemon UGB
- * adft=15 observe(sh_itrandet=1)/              observe stg2_in_ocp from
- * ocp comp UGB
- *                   force(sh_itrandet=0) itrandet_UGB output
- */
-#define PDSS_CSA_SCP_0_CTRL_CSA_ADFT_CTRL_MASK              (0x00000f00UL) /* <8:11> R:RW:0: */
-#define PDSS_CSA_SCP_0_CTRL_CSA_ADFT_CTRL_POS               (8UL)
-
-
-/*
- * Hysteresis enable for Stage 2
- * CCG7D:  Hysteresis enable signal for stage-2 OCP and SCP comparators
- */
-#define PDSS_CSA_SCP_0_CTRL_HYST_EN                         (1UL << 28) /* <28:28> R:RW:0: */
-
-
-/*
- * Trim control for analog bandwidth.
- * If Av1=5, then bw=2
- * if Av1=2, then bw=1
- * For ACG1F , recommended setting BW= 3 for fastest SCP response
- * CCG7D:
- * Control bits to alter stage-1 vout_ocp bandwidth
- * Vout_ocp 3dB BW:
- * 2'b00 = 100KHz
- * 2'b01 = 150KHz
- * 2'b10 = 270KHz
- * 2'b11 = 1600KHz
- */
-#define PDSS_CSA_SCP_0_CTRL_BW_MASK                         (0x60000000UL) /* <29:30> R:RW:2: */
-#define PDSS_CSA_SCP_0_CTRL_BW_POS                          (29UL)
-
-
-/*
- * Block power down input
- * 1 - All analog and DC paths cut off, outputs forced to known value
- * 0 - Normal functionality
- */
-#define PDSS_CSA_SCP_0_CTRL_PD_CSA                          (1UL << 31) /* <31:31> R:RW:1: */
-
-
-/*
  * USBPD Hard IP AMUX_NHVN #1-32 Register
  */
 #define PDSS_AMUX_NHVN_CTRL_ADDRESS                         (0x400a08ccUL)
@@ -9374,7 +9796,7 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP PWM Register 0 (NA in PMG1S3)
+ * S8PDS Hard IP PWM Register 0
  */
 #define PDSS_PWM_0_CTRL_ADDRESS                             (0x400a08d4UL)
 #define PDSS_PWM_0_CTRL                                     (*(volatile uint32_t *)(0x400a08d4UL))
@@ -9470,6 +9892,8 @@ typedef struct {
 /*
  * test-mode pins for PWM block: <increase EA low level by 100mV,increase
  * EA low level by 100mV,spare,enabling diode in skip_comparator>
+ * PAG2S: test-mode pins for PWM block: <increase EA low level by 100mV,increase
+ * EA low level by 100mV,enable PWM cap test,enabling diode in skip_comparator>
  */
 #define PDSS_PWM_0_CTRL_T_PWM_MASK                          (0x003c0000UL) /* <18:21> R:RW:1: */
 #define PDSS_PWM_0_CTRL_T_PWM_POS                           (18UL)
@@ -9483,11 +9907,11 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP PWM Register 1 (NA in PMG1S3)
+ * S8PDS Hard IP PWM Register 1
  */
 #define PDSS_PWM_1_CTRL_ADDRESS                             (0x400a08d8UL)
 #define PDSS_PWM_1_CTRL                                     (*(volatile uint32_t *)(0x400a08d8UL))
-#define PDSS_PWM_1_CTRL_DEFAULT                             (0x66610294UL)
+#define PDSS_PWM_1_CTRL_DEFAULT                             (0x00610294UL)
 
 /*
  * Fixed DAC input
@@ -9517,16 +9941,8 @@ typedef struct {
 #define PDSS_PWM_1_CTRL_PWM_LCLAMP_SEL_POS                  (20UL)
 
 
-#define PDSS_PWM_1_CTRL_PWM_DITH_RANGE_MASK                 (0x0f000000UL) /* <24:27> R:RW:6:V2_PWM */
-#define PDSS_PWM_1_CTRL_PWM_DITH_RANGE_POS                  (24UL)
-
-
-#define PDSS_PWM_1_CTRL_PWM_DITH_RANGE_FF_MASK              (0xf0000000UL) /* <28:31> R:RW:6:V2_PWM */
-#define PDSS_PWM_1_CTRL_PWM_DITH_RANGE_FF_POS               (28UL)
-
-
 /*
- * S8PDS Hard IP SRSENSE Register 0 (NA in PMG1S3)
+ * S8PDS Hard IP SRSENSE Register 0
  */
 #define PDSS_SRSNS_0_CTRL_ADDRESS                           (0x400a08dcUL)
 #define PDSS_SRSNS_0_CTRL                                   (*(volatile uint32_t *)(0x400a08dcUL))
@@ -9593,7 +10009,7 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP GDRV Register 0 (NA in PMG1S3)
+ * S8PDS Hard IP GDRV Register 0
  */
 #define PDSS_GDRV_0_CTRL_ADDRESS                            (0x400a08ecUL)
 #define PDSS_GDRV_0_CTRL                                    (*(volatile uint32_t *)(0x400a08ecUL))
@@ -9613,13 +10029,14 @@ typedef struct {
 
 /*
  * Enable signal for doubler, 1: doubler will be bypassed to vddd. Firmware
- * should make it 0 if doubler needs to be used.
+ * should make it 0 if doubler needs to be used. [FW]
  */
 #define PDSS_GDRV_0_CTRL_DOUBLER_BYPASS                     (1UL << 7) /* <7:7> R:RW:1: */
 
 
 /*
- * Skew options for nfet of gate driver
+ * Skew options for nfet of gate driver;
+ * For PAG2S : Change it to 0xf [FW]
  */
 #define PDSS_GDRV_0_CTRL_GDRV_NCONF_MASK                    (0x00000f00UL) /* <8:11> R:RW:11: */
 #define PDSS_GDRV_0_CTRL_GDRV_NCONF_POS                     (8UL)
@@ -9640,14 +10057,54 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP GDRV Register 1 (NA in PMG1S3)
+ * S8PDS Hard IP GDRV Register 1
  */
 #define PDSS_GDRV_1_CTRL_ADDRESS                            (0x400a08f0UL)
 #define PDSS_GDRV_1_CTRL                                    (*(volatile uint32_t *)(0x400a08f0UL))
 #define PDSS_GDRV_1_CTRL_DEFAULT                            (0x00000124UL)
 
 /*
- * Testmodes for Gate-driver:
+ * Testmodes for Gate-driver (PAG2S): 0x00016D [FW]
+ * <21:20>  : Slew option for pre-drivers --> Default 00
+ * <19>       : Power up nreset pullup to vddd --> Default 0
+ * <18>       : ext_clk_sel for charge pump --> Default 0
+ * <17>       : make all pads tristate --> Default 0
+ * <16>       : to disable the pull down path of pwrup_nreset  --> Default
+ * 0
+ * <15>       : to bypass the vddd comparator which will turn on doubler.-->
+ * Default 0
+ * <14>       : MSB of config that controls the delay of bypass signal of
+ * vddd comparator.--> Default 0
+ * <13:12>  : LSB 2 bits of config that controls the delay of bypass signal
+ * of vddd comparator.--> Default 00
+ * <11>       : bypass option for delay control between pad_sr_cpn pull down
+ * and pad_sr_gdrv_pull down.
+ *                 (higher delay will reduce current consumption but increases
+ * fall delay). when set to 0 no delay.--> Default 0
+ * <10:9>    : option to change the delay in delay control block which is
+ * used to control the delay between between pad_sr_cpn pull down and pad_sr_gdrv_pull
+ * down. --> Default 00
+ * <8>         : bypass option for slew control of pad_sr_cpn pull up.  -->
+ * Default 1
+ *                 1 : slew will be present
+ *                 0 : no slew will be present.
+ * <7:6>      : option to control the delay for pad_sr_cpn pull up slew-->
+ * Default 01
+ * <5>         : bypass option for slew control of pad_sr_cpn pull down.-->
+ * Default 1
+ *                 1 : slew will be present
+ *                 0 : no slew will be present.
+ * <4:3>      : option to control the delay for pad_sr_cpn pull down slew.
+ * --> Default 01
+ * <2>         : bypass option for slew control of pad_sr_gdrv pull down.
+ * --> Default 1
+ *                 1 : slew will be present
+ *                 0 : no slew will be present.
+ * <1:0>      : option to control the delay for pad_sr_gdrv pull down slew.
+ *  --> Default 01
+ *
+ *
+ * Testmodes for Gate-driver(PAG1S):
  * <21:19>  : spare
  * <18>       : ext_lk_sel for charge pump
  * <17>       : make all pads tristate
@@ -9703,7 +10160,7 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP Error Amplifier Register 0 (NA in PMG1S3)
+ * S8PDS Hard IP Error Amplifier Register 0
  */
 #define PDSS_EA_CTRL_ADDRESS                                (0x400a08f4UL)
 #define PDSS_EA_CTRL                                        (*(volatile uint32_t *)(0x400a08f4UL))
@@ -9791,13 +10248,19 @@ typedef struct {
 
 
 /*
+ * 11th-bit DAC control for current sink in EPR mode
+ */
+#define PDSS_EA_CTRL_ISNK_DAC_CTRL_EPR                      (1UL << 29) /* <29:29> R:RW:0:PASC2_EN */
+
+
+/*
  * Powers down the block, active high
  */
 #define PDSS_EA_CTRL_EA_PD                                  (1UL << 31) /* <31:31> R:RW:0: */
 
 
 /*
- * S8PDS Hard IP Error Amplifier Register 1 (NA in PMG1S3)
+ * S8PDS Hard IP Error Amplifier Register 1
  */
 #define PDSS_PDS_EA_1_CTRL_ADDRESS                          (0x400a08f8UL)
 #define PDSS_PDS_EA_1_CTRL                                  (*(volatile uint32_t *)(0x400a08f8UL))
@@ -9880,7 +10343,19 @@ typedef struct {
 
 /*
  * test mode options:
- * t_ea<14:4>: not used.
+ * t_ea<14:7>: not used.
+ *
+ * t_ea<6>: [FW] (PAG2S)
+ *  0 -> Disable clamp on cv/cc_shnt_gate
+ *  1-> Enable clamp on cv/cc_shnt_gate (to be used only in PWM part)
+ *
+ * t_ea<5>: [FW](PAG2S)
+ *  0 -> SRSS_IREF used for CC/CV amp
+ *  1-> dpslp_IREF used for CC/CV amp
+ *
+ * t_ea<4>: (PAG2S)
+ *  0 -> ea_out_pwm_bypass pull-down disabled
+ *  1-> ea_out_pwm_bypass pull-down enabled
  *
  * t_ea<3>: 0 -> pad_cc_compn is isolated from EA.
  *   1 -> enables path from the inp terminal of CC AMP to pad_cc_compn.
@@ -9904,7 +10379,7 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP Error Amplifier Register 2 (NA in PMG1S3)
+ * S8PDS Hard IP Error Amplifier Register 2
  */
 #define PDSS_PDS_EA_2_CTRL_ADDRESS                          (0x400a08fcUL)
 #define PDSS_PDS_EA_2_CTRL                                  (*(volatile uint32_t *)(0x400a08fcUL))
@@ -9919,6 +10394,7 @@ typedef struct {
 
 /*
  * trims to vary Bandwidth of CC input filter
+ * PAG2S : [FW] Change to 0xC ; To be matched with TR_VREF_CC_RCFILTER_BW
  */
 #define PDSS_PDS_EA_2_CTRL_TR_CCIN_RCFILTER_BW_MASK         (0x00000f00UL) /* <8:11> R:RW:4: */
 #define PDSS_PDS_EA_2_CTRL_TR_CCIN_RCFILTER_BW_POS          (8UL)
@@ -9956,44 +10432,109 @@ typedef struct {
 
 
 /*
- * S8PDSV2 Hard IP SRGDRV Register 2 (NA in PMG1S3)
+ * S8PDSV2 Hard IP SRGDRV Register 2
  */
 #define PDSS_GDRV_2_CTRL_ADDRESS                            (0x400a0908UL)
 #define PDSS_GDRV_2_CTRL                                    (*(volatile uint32_t *)(0x400a0908UL))
-#define PDSS_GDRV_2_CTRL_DEFAULT                            (0x00000000UL)
+#define PDSS_GDRV_2_CTRL_DEFAULT                            (0x23bc782bUL)
 
-#define PDSS_GDRV_2_CTRL_T_SRGDRV_RESERVED_MASK             (0x00000007UL) /* <0:2> R:RW:0: */
+/*
+ * t_srgdrv_reserved<1>: zvs_bypass_mode
+ * t_srgdrv_reserved<0>: bypass option for slew control of vddd pull up
+ */
+#define PDSS_GDRV_2_CTRL_T_SRGDRV_RESERVED_MASK             (0x00000003UL) /* <0:1> R:RW:3: */
 #define PDSS_GDRV_2_CTRL_T_SRGDRV_RESERVED_POS              (0UL)
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_OSC_FREQ_CONF_MASK            (0x00000018UL) /* <3:4> R:RW:0: */
+/*
+ * enable bit for ptdrv_in_lv
+ */
+#define PDSS_GDRV_2_CTRL_PTDRV_IN_EN                        (1UL << 2) /* <2:2> R:RW:0: */
+
+
+/*
+ * Configuration options to change the internal oscillator frequency
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_OSC_FREQ_CONF_MASK            (0x00000018UL) /* <3:4> R:RW:1: */
 #define PDSS_GDRV_2_CTRL_GDRV_OSC_FREQ_CONF_POS             (3UL)
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_VCP_RDIV_CONF_MASK            (0x00000060UL) /* <5:6> R:RW:0: */
+/*
+ * Resistive divider for Pump to change pump voltage
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_VCP_RDIV_CONF_MASK            (0x00000060UL) /* <5:6> R:RW:1: */
 #define PDSS_GDRV_2_CTRL_GDRV_VCP_RDIV_CONF_POS             (5UL)
 
 
+/*
+ * <3>:unused; <2> : MSB Configuration options to change the internal oscillator
+ * frequency; <1:0> :unused
+ */
 #define PDSS_GDRV_2_CTRL_GDRV_CONF_RESERVED_MASK            (0x00000780UL) /* <7:10> R:RW:0: */
 #define PDSS_GDRV_2_CTRL_GDRV_CONF_RESERVED_POS             (7UL)
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_PCONF_MASK                    (0x00007800UL) /* <11:14> R:RW:0: */
+/*
+ * Configuration options to change the drive strength of pad_sr_gdrv vddd
+ * pull up
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_PCONF_MASK                    (0x00007800UL) /* <11:14> R:RW:15: */
 #define PDSS_GDRV_2_CTRL_GDRV_PCONF_POS                     (11UL)
 
 
-#define PDSS_GDRV_2_CTRL_DUAL_GDRV_MODE                     (1UL << 15) /* <15:15> R:RW:0: */
+/*
+ * Gpio pull down input
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_GPIO_PULLDN                   (1UL << 15) /* <15:15> R:RW:0: */
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_GPIO_PULLDN                   (1UL << 16) /* <16:16> R:RW:0: */
+/*
+ * Gpio pull down enable
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_GPIO_PULLDN_EN                (1UL << 16) /* <16:16> R:RW:0: */
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_GPIO_PULLDN_EN                (1UL << 17) /* <17:17> R:RW:0: */
+/*
+ * Path select RTl/HardIP
+ * 0: RTL path SET/RESET- gdrv_in & gdrv_in_zvs
+ * 1: HardIP Path SET/RETSET- nsn_lv, zcd_lv, zcdf_lv, ptdrv_in_lv & gpio_pulldn
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_PATH_SEL                      (1UL << 17) /* <17:17> R:RW:0: */
 
 
-#define PDSS_GDRV_2_CTRL_GDRV_PATH_SEL                      (1UL << 18) /* <18:18> R:RW:0: */
+/*
+ * Configuration control option to enable dual gate driver mode ; 0 - dual
+ * drive mode disabled; 1-dual drive mode enabled
+ */
+#define PDSS_GDRV_2_CTRL_DUAL_MODE_CTRL                     (1UL << 18) /* <18:18> R:RW:1: */
 
 
+/*
+ * skew options for boot-strap pfet of doubler during gdrv_in_zvs assertion
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_PCONF_BOT_ZVS_MASK            (0x00780000UL) /* <19:22> R:RW:7: */
+#define PDSS_GDRV_2_CTRL_GDRV_PCONF_BOT_ZVS_POS             (19UL)
+
+
+/*
+ * skew options for boot-strap pfet during gdrv_in_zvs assertion
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_PCONF_ZVS_MASK                (0x07800000UL) /* <23:26> R:RW:7: */
+#define PDSS_GDRV_2_CTRL_GDRV_PCONF_ZVS_POS                 (23UL)
+
+
+/*
+ * Delay for which skew option will remain while switching from gdrv to gdrv_in_zvs
+ * skew for pos-edge of srgdrv
+ */
+#define PDSS_GDRV_2_CTRL_GDRV_MUX_DLY_MASK                  (0x78000000UL) /* <27:30> R:RW:4: */
+#define PDSS_GDRV_2_CTRL_GDRV_MUX_DLY_POS                   (27UL)
+
+
+/*
+ * Output isolation control.  Active Low
+ * 0: srgdrv_ddft_out and gdrv_sense_out_lv is low
+ */
 #define PDSS_GDRV_2_CTRL_GDRV_ISO_N                         (1UL << 31) /* <31:31> R:RW:0: */
 
 
@@ -10002,352 +10543,884 @@ typedef struct {
  */
 #define PDSS_VCONN40_CTRL_ADDRESS                           (0x400a090cUL)
 #define PDSS_VCONN40_CTRL                                   (*(volatile uint32_t *)(0x400a090cUL))
-#define PDSS_VCONN40_CTRL_DEFAULT                           (0x80000000UL)
+#define PDSS_VCONN40_CTRL_DEFAULT                           (0x80005000UL)
 
+/*
+ *  Change the SCP detection threshold to 60m(typ)
+ * 0 : SCP detection threshold is 75mA (typ)
+ * 1 : SCP detection threshold is 60mA (typ)
+ */
 #define PDSS_VCONN40_CTRL_EN_SCP_60M                        (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ *  Enable SCP fault detection on CC1
+ * 0 : Disable the SCP detection
+ * 1 : Enable the SCP detection
+ */
 #define PDSS_VCONN40_CTRL_EN_SCP_CC1                        (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ *  Enable SCP fault detection on CC2
+ * 0 : Disable the SCP detection
+ * 1 : Enable the SCP detection
+ */
 #define PDSS_VCONN40_CTRL_EN_SCP_CC2                        (1UL << 2) /* <2:2> R:RW:0: */
 
 
+/*
+ *  Enable the SCP fault based shut down of CC1/CC2 switches
+ * 0 : SCP based shut down is Disabled
+ * 1 : SCP based shut down is Enabled
+ */
 #define PDSS_VCONN40_CTRL_EN_SCP_PD_SW                      (1UL << 3) /* <3:3> R:RW:0: */
 
 
+/*
+ *  Enable OVP fault detection on CC1/CC2
+ * 0 :  Disable OVP detection
+ * 1 : Enable OVP detection
+ */
 #define PDSS_VCONN40_CTRL_EN_OVP                            (1UL << 4) /* <4:4> R:RW:0: */
 
 
+/*
+ *  Reduce the OVP_6V threshold to ~5.2V for testability
+ * 0 : Default OVP_6V threshold
+ * 1 : OVP_6V threshold is reduced to ~5.2V
+ */
 #define PDSS_VCONN40_CTRL_EN_OVP6V_TEST                     (1UL << 5) /* <5:5> R:RW:0: */
 
 
+/*
+ *  Use external clock for charge pump, instead of internal oscillator
+ * 0 : Use internal oscillator
+ * 1 : Use external clock
+ */
 #define PDSS_VCONN40_CTRL_EXT_CLK_SEL                       (1UL << 6) /* <6:6> R:RW:0: */
 
 
+/*
+ *  Increase the OVP_6V tri point
+ * 0 : Default trip point ~6V
+ * 1 : Increased trip point ~6.3V
+ */
 #define PDSS_VCONN40_CTRL_INC_OVP6V_COMP                    (1UL << 7) /* <7:7> R:RW:0: */
 
 
+/*
+ * Disable OVP_6V comparator
+ * 0 : OVP_6V comp is enabled
+ * 1 : OVP_6V comp is disabled
+ */
 #define PDSS_VCONN40_CTRL_DIS_OVP6V_COMP                    (1UL << 8) /* <8:8> R:RW:0: */
 
 
+/*
+ * DIS_OVP_AUTOSHUTDN<0> - Disable auto shut down of vconn when ovp is detected
+ * 0 : OVP based auto shutdown is Enabled
+ * 1 : OVP based auto shutdown is Disabled
+ *
+ * DIS_OVP_AUTOSHUTDN<1> - Disable auto shut down of vconn when ovp_6v is
+ * detected
+ * 0 : OVP_6V based auto shutdown is Enabled
+ * 1 : OVP_6V based auto shutdown is Disabled
+ */
 #define PDSS_VCONN40_CTRL_DIS_OVP_AUTOSHUTDN_MASK           (0x00000600UL) /* <9:10> R:RW:0: */
 #define PDSS_VCONN40_CTRL_DIS_OVP_AUTOSHUTDN_POS            (9UL)
 
 
+/*
+ *  Enable the gate charging of 42V native switch for CC1/CC2 [FW]
+ * 0 : 42V native switch is off; gate is pulled down
+ * 1 : 42V native switch gate is charged through inrush control circuit
+ */
 #define PDSS_VCONN40_CTRL_EN_INRUSH_CTRL                    (1UL << 11) /* <11:11> R:RW:0: */
 
 
-#define PDSS_VCONN40_CTRL_INRUSH_CTRL_MASK                  (0x0000f000UL) /* <12:15> R:RW:0: */
+/*
+ * Control the charging current of 42V native switch for inrush control
+ * (LSB is inverted)
+ * 0000 : 25nA
+ * 0001 : 0nA (INVALID; SHOULD NOT BE USED)
+ * 0010 : 75nA -- inrush = 120mA
+ * 0100 : 125nA -- inrush = 150mA
+ * 0101 : 100nA (Default)
+ * 1000 : 225nA -- inrush = 200mA
+ * 1110 : 375nA (Max)
+ * 1111 : 350nA --inrush = 225mA
+ */
+#define PDSS_VCONN40_CTRL_INRUSH_CTRL_MASK                  (0x0000f000UL) /* <12:15> R:RW:5: */
 #define PDSS_VCONN40_CTRL_INRUSH_CTRL_POS                   (12UL)
 
 
+/*
+ *  Enable HV to LV level shifters
+ * 0 : Disable the LS
+ * 1 : Enable the LS
+ */
 #define PDSS_VCONN40_CTRL_VCONN40_ISO_N                     (1UL << 16) /* <16:16> R:RW:0: */
 
 
+/*
+ * Increase the charging current for gate of 42VNative to 5x after SW turn-on
+ * [FW]
+ */
+#define PDSS_VCONN40_CTRL_EN_5X_G2_CHRG                     (1UL << 17) /* <17:17> R:RW:0: */
+
+
+/*
+ * The master enbale of adft
+ * 0-disable adft
+ * 1-enable adft configuration
+ */
 #define PDSS_VCONN40_CTRL_VCONN40_ADFT_EN                   (1UL << 24) /* <24:24> R:RW:0: */
 
 
+/*
+ *  ADFT control signals
+ * 0000 : adft[1] - HiZ  ; adft[0] = HiZ
+ * 0001 : adft[1] - Vpump10v  ; adft[0] = isink_pump
+ * 0010 : adft[1] - IREF_OCP  ; adft[0] = SCP_VCC_COMB
+ * 0011 : adft[1] - SCP_VTRIP  ; adft[0] = ISINK_SCP
+ * 0100 : adft[1] - CC1  ; adft[0] = VDDD_SW
+ * 0101 : adft[1] - CC2  ; adft[0] = VDDD_SW
+ * 0110 : adft[1] - VGATE_CC1  ; adft[0] = HiZ
+ * 0111 : adft[1] - VGATE_CC2  ; adft[0] = HiZ
+ */
 #define PDSS_VCONN40_CTRL_VCONN40_ADFT_CTRL_MASK            (0x78000000UL) /* <27:30> R:RW:0: */
 #define PDSS_VCONN40_CTRL_VCONN40_ADFT_CTRL_POS             (27UL)
 
 
+/*
+ *  Enable bias currents
+ * 0 : Disable bias currents
+ * 1 : Enable bias currents
+ */
 #define PDSS_VCONN40_CTRL_EN_IBIAS                          (1UL << 31) /* <31:31> R:RW:1: */
 
 
 /*
- * S8PDSV2 Hard IP NGDO30 Register (Only for PAG2S ) (NA in PMG1S3)
+ * S8PDSV2 Hard IP NGDO30 Register (Only for PAG2S )
  */
 #define PDSS_NGDO30_1_CTRL_ADDRESS                          (0x400a0920UL)
 #define PDSS_NGDO30_1_CTRL                                  (*(volatile uint32_t *)(0x400a0920UL))
-#define PDSS_NGDO30_1_CTRL_DEFAULT                          (0x00008000UL)
+#define PDSS_NGDO30_1_CTRL_DEFAULT                          (0x44409080UL)
 
+/*
+ * Output isolation control.  Active Low
+ * 0: All digital outputs are forced to known value
+ */
 #define PDSS_NGDO30_1_CTRL_NGDO30_ISO_N                     (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * Enable signal for NGDO
+ * ngdo_en = 0 ; disabled
+ * ngdo_en = 1 ; enabled
+ */
 #define PDSS_NGDO30_1_CTRL_NGDO30_EN_LV                     (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * Charge-pump ouptut control;
+ * cp_en = 0 ; cp output = vbus
+ * cp_en = 1 ; cp output = driven by cp action
+ */
 #define PDSS_NGDO30_1_CTRL_NGDO30_CP_EN                     (1UL << 2) /* <2:2> R:RW:0: */
 
 
+/*
+ * Enable signal for adft.
+ * adft_en = 0 ; ADFT disabled, normal functionality
+ * adft_en = 1 ; ADFT network enabled
+ */
 #define PDSS_NGDO30_1_CTRL_NGDO30_ADFT_EN                   (1UL << 3) /* <3:3> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_GATE_SINK_EN                     (1UL << 4) /* <4:4> R:RW:0: */
+/*
+ * NGDO Keepoff disable
+ * 0 : Keepoff enabled
+ * 1: Keepoff disabled
+ */
+#define PDSS_NGDO30_1_CTRL_NGDO30_KEEP_OFF_DISABLE          (1UL << 4) /* <4:4> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_NGDO30_KEEP_OFF_DISABLE          (1UL << 5) /* <5:5> R:RW:0: */
+/*
+ * Disable signal for vbus_c comparator
+ * vbusc_comp_disable = 1, resistor based gate pull-down disabled
+ * vbusc_comp_disable = 0, resistor based gate pull-down enabled
+ */
+#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_DISABLE               (1UL << 5) /* <5:5> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_DISABLE               (1UL << 6) /* <6:6> R:RW:0: */
+/*
+ * Enable signal for vbus_c comparator
+ * 1: Hysteresis is enabled
+ * 0: Hysteresis is disabled
+ */
+#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_HYS_EN                (1UL << 6) /* <6:6> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_HYS_EN                (1UL << 7) /* <7:7> R:RW:0: */
+/*
+ * Enable signal for 0.3uA offset current in slew ctrl
+ * en_0p3u_slewctrl_current = 1, 0.3uA offset slew control current enabled
+ * en_0p3u_slewctrl_current = 0, 0.3uA offset slew control current disabled
+ */
+#define PDSS_NGDO30_1_CTRL_SLEWCTRL_0P3U_CURR_EN            (1UL << 7) /* <7:7> R:RW:1: */
 
 
-#define PDSS_NGDO30_1_CTRL_SLEWCTRL_0P3U_CURR_EN            (1UL << 8) /* <8:8> R:RW:0: */
+/*
+ * Enable signal to bring oscillator clock on DDFT output
+ * clk_dft_en = 1, clk on ddft output
+ * clk_dft_en = 0, 0 on ddft output
+ */
+#define PDSS_NGDO30_1_CTRL_CLK_DFT_EN                       (1UL << 8) /* <8:8> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_NGDO30_DFT_MASK                  (0x00007000UL) /* <12:14> R:RW:0: */
-#define PDSS_NGDO30_1_CTRL_NGDO30_DFT_POS                   (12UL)
+/*
+ * Enable signal to bring comparator output on DDFT
+ * comp_dft_en = 1, comp on ddft output
+ * comp_dft_en = 0, 0 on ddft output
+ */
+#define PDSS_NGDO30_1_CTRL_COMP_DFT_EN                      (1UL << 9) /* <9:9> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_NGDO30_SLEW_CTRL_MASK            (0x001f8000UL) /* <15:20> R:RW:1: */
-#define PDSS_NGDO30_1_CTRL_NGDO30_SLEW_CTRL_POS             (15UL)
+/*
+ * Enable signal for resistive pull down on pad_vbus_ctrl
+ * res_pd_en = 0, resistive pull-down disable
+ * res_pd_en = 1, resistive pull-down enable
+ */
+#define PDSS_NGDO30_1_CTRL_RES_PD_EN                        (1UL << 10) /* <10:10> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_GATE_PD_BIAS_CTRL_MASK           (0x00e00000UL) /* <21:23> R:RW:0: */
-#define PDSS_NGDO30_1_CTRL_GATE_PD_BIAS_CTRL_POS            (21UL)
+/*
+ * Enable signal to scale slew_ctrl current by 2x
+ * en_2x_slewctrl_current = 1, slew_ctrl current 2x
+ * en_2x_slewctrl_current = 0, slew_ctrl current 1x
+ */
+#define PDSS_NGDO30_1_CTRL_SLEWCTRL_2X_CURR_EN              (1UL << 11) /* <11:11> R:RW:0: */
 
 
-#define PDSS_NGDO30_1_CTRL_GATE_PD_RES_CTRL_MASK            (0x07000000UL) /* <24:26> R:RW:0: */
+/*
+ * Enable signal for VGS clamp
+ * clamp_en = 0; VGS clamp disabled
+ * clamp_en = 1: VGS clamp enabled
+ */
+#define PDSS_NGDO30_1_CTRL_CLAMP_EN                         (1UL << 12) /* <12:12> R:RW:1: */
+
+
+/*
+ * To config the ngdo output charging current (with 0.3uA offset current
+ * enabled)
+ * = 2 for 1nF Cgs for 125C max
+ * = 9 for 1nF Cgs for 150C max
+ * = 13 for 3nF Cgs for 150C max
+ * measured for Vbus_in=5V and pad_vbus_ctrl from 1V to Vbus_in+1V
+ */
+#define PDSS_NGDO30_1_CTRL_NGDO30_SLEW_CTRL_MASK            (0x000fc000UL) /* <14:19> R:RW:2: */
+#define PDSS_NGDO30_1_CTRL_NGDO30_SLEW_CTRL_POS             (14UL)
+
+
+/*
+ * To config sink current which creates Vgs for equalization PFET
+ */
+#define PDSS_NGDO30_1_CTRL_GATE_PD_BIAS_CTRL_MASK           (0x00f00000UL) /* <20:23> R:RW:4: */
+#define PDSS_NGDO30_1_CTRL_GATE_PD_BIAS_CTRL_POS            (20UL)
+
+
+/*
+ * To config pull-down resistor for comaparator based turn OFF
+ */
+#define PDSS_NGDO30_1_CTRL_GATE_PD_RES_CTRL_MASK            (0x07000000UL) /* <24:26> R:RW:4: */
 #define PDSS_NGDO30_1_CTRL_GATE_PD_RES_CTRL_POS             (24UL)
 
 
+/*
+ * Programmibility for gate sink idac
+ */
 #define PDSS_NGDO30_1_CTRL_GATE_SINK_CTRL_MASK              (0x38000000UL) /* <27:29> R:RW:0: */
 #define PDSS_NGDO30_1_CTRL_GATE_SINK_CTRL_POS               (27UL)
 
 
-#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_BIAS_CTRL_MASK        (0xc0000000UL) /* <30:31> R:RW:0: */
+/*
+ * Programmibility for vbus_c comparator trip point in gate pd
+ */
+#define PDSS_NGDO30_1_CTRL_VBUSC_COMP_BIAS_CTRL_MASK        (0xc0000000UL) /* <30:31> R:RW:1: */
 #define PDSS_NGDO30_1_CTRL_VBUSC_COMP_BIAS_CTRL_POS         (30UL)
 
 
 /*
- * S8PDSV2 Hard IP NGDO30 Register (Only for PAG2S ) (NA in PMG1S3)
+ * S8PDSV2 Hard IP NGDO30 Register (Only for PAG2S )
  */
 #define PDSS_NGDO30_2_CTRL_ADDRESS                          (0x400a0924UL)
 #define PDSS_NGDO30_2_CTRL                                  (*(volatile uint32_t *)(0x400a0924UL))
-#define PDSS_NGDO30_2_CTRL_DEFAULT                          (0x00000000UL)
+#define PDSS_NGDO30_2_CTRL_DEFAULT                          (0x0000010cUL)
 
-#define PDSS_NGDO30_2_CTRL_TRIM_OSC_MASK                    (0x00000007UL) /* <0:2> R:RW:0: */
+/*
+ * To program the oscillator frequency
+ */
+#define PDSS_NGDO30_2_CTRL_TRIM_OSC_MASK                    (0x00000007UL) /* <0:2> R:RW:4: */
 #define PDSS_NGDO30_2_CTRL_TRIM_OSC_POS                     (0UL)
 
 
-#define PDSS_NGDO30_2_CTRL_TRIM_REG_MASK                    (0x00000018UL) /* <3:4> R:RW:0: */
+/*
+ * To program the regulated voltage
+ */
+#define PDSS_NGDO30_2_CTRL_TRIM_REG_MASK                    (0x00000018UL) /* <3:4> R:RW:1: */
 #define PDSS_NGDO30_2_CTRL_TRIM_REG_POS                     (3UL)
 
 
 /*
- * S8PDSV2 Hard IP SRSENSE Register 4 (NA in PMG1S3)
+ * ADFT selection pins.
+ */
+#define PDSS_NGDO30_2_CTRL_NGDO30_DFT_MASK                  (0x000000e0UL) /* <5:7> R:RW:0: */
+#define PDSS_NGDO30_2_CTRL_NGDO30_DFT_POS                   (5UL)
+
+
+/*
+ * Programmibility for external nfet vgs clamp
+ */
+#define PDSS_NGDO30_2_CTRL_CLAMP_CTRL_MASK                  (0x00000300UL) /* <8:9> R:RW:1: */
+#define PDSS_NGDO30_2_CTRL_CLAMP_CTRL_POS                   (8UL)
+
+
+/*
+ * tm_ngdo<4:2> : unused
+ * tm_ngdo<1>: connects external clock (clk_lv) to the charge pump input
+ * tm_ngdo<0>: enables 9.6uA current sink on vbus_ctrl when gdrv_en is LOW
+ */
+#define PDSS_NGDO30_2_CTRL_TM_NGDO_MASK                     (0x00007c00UL) /* <10:14> R:RW:0: */
+#define PDSS_NGDO30_2_CTRL_TM_NGDO_POS                      (10UL)
+
+
+/*
+ * S8PDSV2 Hard IP SRSENSE Register 4
  */
 #define PDSS_SRSNS_4_CTRL_ADDRESS                           (0x400a0928UL)
 #define PDSS_SRSNS_4_CTRL                                   (*(volatile uint32_t *)(0x400a0928UL))
-#define PDSS_SRSNS_4_CTRL_DEFAULT                           (0x00000000UL)
+#define PDSS_SRSNS_4_CTRL_DEFAULT                           (0xc0000064UL)
 
+/*
+ * 1 : disabling the opamp clamp on peakdetect
+ */
 #define PDSS_SRSNS_4_CTRL_DIS_CLAMP_PKD                     (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * To double the capacitive current for peak detection
+ * 1- current inside peakdetect block is equal to capacitor current (>1MHz)
+ * 0 - current inside peakdetect block is double that of capacitor current
+ * (<1MHz)
+ */
 #define PDSS_SRSNS_4_CTRL_DOUB_IACT_GEN_PKD                 (1UL << 1) /* <1:1> R:RW:0: */
 
 
-#define PDSS_SRSNS_4_CTRL_DOUB_IACT_GEN_VALD                (1UL << 2) /* <2:2> R:RW:0: */
+/*
+ * To double the capacitive current for valley detection
+ * 0- current inside valleydetect block is equal to capacitor current (>1Mhz)
+ * 1 - current inside valleydetect block is double that of capacitor current
+ * (<1Mhz)
+ */
+#define PDSS_SRSNS_4_CTRL_DOUB_IACT_GEN_VALD                (1UL << 2) /* <2:2> R:RW:1: */
 
 
+/*
+ * enable the vbus compensation current for peakdetect
+ * 0 - disable vbus compensation current
+ * 1 - enable the vbus compensation current [FW]
+ */
 #define PDSS_SRSNS_4_CTRL_EN_VBUS_COMP                      (1UL << 3) /* <3:3> R:RW:0: */
 
 
+/*
+ * 1-> increase leakage on diode mid node
+ */
 #define PDSS_SRSNS_4_CTRL_INC_P_SR_SEN_MID_LKG              (1UL << 4) /* <4:4> R:RW:0: */
 
 
-#define PDSS_SRSNS_4_CTRL_PKD_CLAMP_REF_SEL                 (1UL << 5) /* <5:5> R:RW:0: */
+/*
+ * reference selection bit for opamp clamp on peakdetect
+ * 0 - reference based on vbgbyr
+ * 1- reference based on reference current
+ */
+#define PDSS_SRSNS_4_CTRL_PKD_CLAMP_REF_SEL                 (1UL << 5) /* <5:5> R:RW:1: */
 
 
-#define PDSS_SRSNS_4_CTRL_PKD_TOP_PD                        (1UL << 6) /* <6:6> R:RW:0: */
+/*
+ * Power-down signal for complete peak-detect and valleydetect block (master
+ * PD)
+ * 1 - Power down of entire block
+ * 0 - enable bit
+ */
+#define PDSS_SRSNS_4_CTRL_PKD_TOP_PD                        (1UL << 6) /* <6:6> R:RW:1: */
 
 
+/*
+ * reference selection bit for opamp on diode based backup scheme
+ * 0 - reference based on vbgbyr current
+ * 1 - reference based on vbgbyr voltage from srsense
+ */
 #define PDSS_SRSNS_4_CTRL_RST_REF_SEL                       (1UL << 7) /* <7:7> R:RW:0: */
 
 
+/*
+ * Selection pin for increasing the trip margin for clamp (used for comparator
+ * speed up)
+ * 0 - default margin
+ * 1 - increased margin
+ */
 #define PDSS_SRSNS_4_CTRL_ZCDF_CLAMP_RES_BYPASS             (1UL << 8) /* <8:8> R:RW:0: */
 
 
-#define PDSS_SRSNS_4_CTRL_VALLEYDET_PD                      (1UL << 30) /* <30:30> R:RW:0: */
-
-
-#define PDSS_SRSNS_4_CTRL_RSTCOMP_PD                        (1UL << 31) /* <31:31> R:RW:0: */
+/*
+ * srsense DDFT master enable
+ */
+#define PDSS_SRSNS_4_CTRL_DDFT_EN_SRSENSE                   (1UL << 9) /* <9:9> R:RW:0: */
 
 
 /*
- * S8PDSV2 Hard IP SRSENSE Register 5 (NA in PMG1S3)
+ * Increase the blanking time srgdrv disable control in ZVS
+ */
+#define PDSS_SRSNS_4_CTRL_INC_GDRV_ZVS_BLNK_TIME            (1UL << 10) /* <10:10> R:RW:0: */
+
+
+/*
+ * Select HardIP NSN raw output to turn-off the pulldown resistor of 250Ohm
+ * on pad_sr_sen
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_CTRLN_HARDIP_NSN_PATH         (1UL << 11) /* <11:11> R:RW:0: */
+
+
+/*
+ * Select HardIP control path to turn-on and off the pulldown resistor of
+ * 250Ohm on pad_sr_sen
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_CTRLN_HARDIP_PATH             (1UL << 12) /* <12:12> R:RW:0: */
+
+
+/*
+ * Bypass srcomp latch output used to turn-off the pad_sr_sen pull-down resistor
+ * of 250Ohm
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_CTRLN_SRCOMP_LATCH_BYPASS     (1UL << 13) /* <13:13> R:RW:0: */
+
+
+/*
+ * Select HardIP control path to turn-on and off the pulldown resistor of
+ * 4K on pad_sr_sen during Peakdet
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_CTRLP_HARDIP_PATH             (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * Select HardIP control path to disable the srgdrv in ZVS
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_GDRV_ZVS_HARDIP_PATH          (1UL << 15) /* <15:15> R:RW:0: */
+
+
+/*
+ * Select NSN output to srgdrv HardIP Path
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_NSN_HARDIP_PATH               (1UL << 16) /* <16:16> R:RW:0: */
+
+
+/*
+ * Select ZCD output to srgdrv HardIP Path
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_ZCD_HARDIP_PATH               (1UL << 17) /* <17:17> R:RW:0: */
+
+
+/*
+ * Select ZCDF output to srgdrv HardIP Path
+ */
+#define PDSS_SRSNS_4_CTRL_SEL_ZCDF_HARDIP_PATH              (1UL << 18) /* <18:18> R:RW:0: */
+
+
+/*
+ * srsense DDFT config control
+ */
+#define PDSS_SRSNS_4_CTRL_DDFT_CTRL_SRSENSE_MASK            (0x00e00000UL) /* <21:23> R:RW:0: */
+#define PDSS_SRSNS_4_CTRL_DDFT_CTRL_SRSENSE_POS             (21UL)
+
+
+/*
+ * Power-down signal for Valley-detect block
+ * 1- valleydetect PD
+ * 0 - valleydetect enable
+ */
+#define PDSS_SRSNS_4_CTRL_VALLEYDET_PD                      (1UL << 30) /* <30:30> R:RW:1: */
+
+
+/*
+ * Power-down signal for diode based peak-detect scheme
+ * 1- backup scheme comparator PD
+ * 0 - backup scheme enable
+ */
+#define PDSS_SRSNS_4_CTRL_RSTCOMP_PD                        (1UL << 31) /* <31:31> R:RW:1: */
+
+
+/*
+ * S8PDSV2 Hard IP SRSENSE Register 5
  */
 #define PDSS_SRSNS_5_CTRL_ADDRESS                           (0x400a092cUL)
 #define PDSS_SRSNS_5_CTRL                                   (*(volatile uint32_t *)(0x400a092cUL))
-#define PDSS_SRSNS_5_CTRL_DEFAULT                           (0x00000000UL)
+#define PDSS_SRSNS_5_CTRL_DEFAULT                           (0x00221008UL)
 
+/*
+ * Option for low power mode
+ * 1-> low power mode
+ * 0 -> normal mode
+ */
 #define PDSS_SRSNS_5_CTRL_NSN_LP_EN                         (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * Option to enable -100mV trip threshold
+ * 1-> -100mV sense enable
+ * 0 -> positive sense enable
+ */
 #define PDSS_SRSNS_5_CTRL_NSN_M100_SENSE_EN                 (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * To enable srcomp in negative sense mode
+ * 1-> enable srcomp
+ * 0-> disable srcomp
+ */
 #define PDSS_SRSNS_5_CTRL_NSN_M100_SRCOMP_EN                (1UL << 2) /* <2:2> R:RW:0: */
 
 
-#define PDSS_SRSNS_5_CTRL_OVP_COMP_DIS                      (1UL << 3) /* <3:3> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_OVP_EN                            (1UL << 4) /* <4:4> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_OVP_FF_EN                         (1UL << 5) /* <5:5> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_OVP_RTL_EN                        (1UL << 6) /* <6:6> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_PG_NFET42_DIS                     (1UL << 7) /* <7:7> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_PG_NFET42_VCCDMODE                (1UL << 8) /* <8:8> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_RCEFFECT_DIS                      (1UL << 9) /* <9:9> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_RSTCOMP_EN                        (1UL << 10) /* <10:10> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_SR_DRAIN_LPM_EN                   (1UL << 11) /* <11:11> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_SR_SEN_CTRLN_EN                   (1UL << 12) /* <12:12> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_SR_SEN_CTRLP_EN                   (1UL << 13) /* <13:13> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_SR_SEN_VSS_DIS                    (1UL << 14) /* <14:14> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_EN_EXT_CAP_PKD                    (1UL << 15) /* <15:15> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_EN_WK_PD_PKD_DRAIN                (1UL << 16) /* <16:16> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_DOUB_BIAS_PEAK                    (1UL << 17) /* <17:17> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_DOUB_BIAS_VALLEY                  (1UL << 18) /* <18:18> R:RW:0: */
-
-
-#define PDSS_SRSNS_5_CTRL_NSN_POS_REF_MASK                  (0x00f80000UL) /* <19:23> R:RW:0: */
-#define PDSS_SRSNS_5_CTRL_NSN_POS_REF_POS                   (19UL)
-
-
-#define PDSS_SRSNS_5_CTRL_PEAKDET_BIAS_MASK                 (0x07000000UL) /* <24:26> R:RW:0: */
-#define PDSS_SRSNS_5_CTRL_PEAKDET_BIAS_POS                  (24UL)
-
-
-#define PDSS_SRSNS_5_CTRL_SRSENSE_CONFIG_MASK               (0xf8000000UL) /* <27:31> R:RW:0: */
-#define PDSS_SRSNS_5_CTRL_SRSENSE_CONFIG_POS                (27UL)
+/*
+ * Power Down signal for Inverter based fast NSN detection
+ */
+#define PDSS_SRSNS_5_CTRL_NSN_FAST_COMP_PD                  (1UL << 3) /* <3:3> R:RW:1: */
 
 
 /*
- * S8PDSV2 Hard IP SRSENSE Register 6 (NA in PMG1S3)
+ * Enable FF based PAD_SR_SEN pull down during OVP
+ */
+#define PDSS_SRSNS_5_CTRL_OVP_FF_EN                         (1UL << 4) /* <4:4> R:RW:0: */
+
+
+/*
+ * Disconnect 42V NFET GATE from VCCD,VDDD_CRUDE and pull it down to 0V
+ */
+#define PDSS_SRSNS_5_CTRL_PG_NFET42_DIS                     (1UL << 5) /* <5:5> R:RW:0: */
+
+
+/*
+ * Connect GATE of 42V NFETdevice to VCCD if  high and to VDDD_CRUDE if 
+ * LOW
+ */
+#define PDSS_SRSNS_5_CTRL_PG_NFET42_VCCDMODE                (1UL << 6) /* <6:6> R:RW:0: */
+
+
+/*
+ * Disable RC network on PAD_SR_VSS
+ */
+#define PDSS_SRSNS_5_CTRL_RCEFFECT_DIS                      (1UL << 7) /* <7:7> R:RW:0: */
+
+
+/*
+ * backup diode scheme comparator output gating
+ */
+#define PDSS_SRSNS_5_CTRL_RSTCOMP_EN                        (1UL << 8) /* <8:8> R:RW:0: */
+
+
+/*
+ * Enable Low power mode for SR comparator and OVP comparator
+ */
+#define PDSS_SRSNS_5_CTRL_SR_DRAIN_LPM_EN                   (1UL << 9) /* <9:9> R:RW:0: */
+
+
+/*
+ * Connect SR_SEN_INT , SR_VSS_INT to 0V
+ */
+#define PDSS_SRSNS_5_CTRL_SR_SEN_VSS_DIS                    (1UL << 10) /* <10:10> R:RW:0: */
+
+
+/*
+ * external capacitor is used instead of internal one for peak detectwhen
+ * set to 1
+ */
+#define PDSS_SRSNS_5_CTRL_EN_EXT_CAP_PKD                    (1UL << 11) /* <11:11> R:RW:0: */
+
+
+/*
+ * weak pull down enable on peakdetect sr drain cap path for backup scheme
+ */
+#define PDSS_SRSNS_5_CTRL_EN_WK_PD_PKD_DRAIN                (1UL << 12) /* <12:12> R:RW:1: */
+
+
+/*
+ * double the bias current for comparator in extcap mode for valley detect
+ */
+#define PDSS_SRSNS_5_CTRL_DOUB_BIAS_PEAK                    (1UL << 13) /* <13:13> R:RW:0: */
+
+
+/*
+ * double the bias current for the entire peakdetect block
+ */
+#define PDSS_SRSNS_5_CTRL_DOUB_BIAS_VALLEY                  (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * To configure positive trip threshold (50mV resolution)
+ * (2 for +100mV reference)
+ */
+#define PDSS_SRSNS_5_CTRL_NSN_POS_REF_MASK                  (0x001f0000UL) /* <16:20> R:RW:2: */
+#define PDSS_SRSNS_5_CTRL_NSN_POS_REF_POS                   (16UL)
+
+
+/*
+ * bits to change the bias current for peak detect
+ * 0 - 0 nA
+ * 1- 200 nA
+ * 2 - 400 nA
+ * 4 - 800 nA
+ * 7 - 1400 nA
+ */
+#define PDSS_SRSNS_5_CTRL_PEAKDET_BIAS_MASK                 (0x00e00000UL) /* <21:23> R:RW:1: */
+#define PDSS_SRSNS_5_CTRL_PEAKDET_BIAS_POS                  (21UL)
+
+
+/*
+ * <31:27> : unused
+ * <26>= 1 :  ZCD 2nd stage tail current pulldown nbti fix disable.
+ * <25:24>: SR-cap mode pulldown res options for ZCDF (00:2K default; 01:
+ * 1K; 10: 4K; 11: 3K)
+ */
+#define PDSS_SRSNS_5_CTRL_SRSENSE_CONFIG_MASK               (0xff000000UL) /* <24:31> R:RW:0: */
+#define PDSS_SRSNS_5_CTRL_SRSENSE_CONFIG_POS                (24UL)
+
+
+/*
+ * S8PDSV2 Hard IP SRSENSE Register 6
  */
 #define PDSS_SRSNS_6_CTRL_ADDRESS                           (0x400a0930UL)
 #define PDSS_SRSNS_6_CTRL                                   (*(volatile uint32_t *)(0x400a0930UL))
-#define PDSS_SRSNS_6_CTRL_DEFAULT                           (0x00000000UL)
+#define PDSS_SRSNS_6_CTRL_DEFAULT                           (0x00806000UL)
 
+/*
+ * Valley detector output enable signal
+ */
 #define PDSS_SRSNS_6_CTRL_VALLEYDET_EN                      (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * Bypass crude regulator
+ * 0: crude regulator is enabled
+ * 1: crude regulator is disabled
+ */
 #define PDSS_SRSNS_6_CTRL_VDDD_CRUDE_BYPASS_EN              (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * SR Drain VSS is connected to  VGND pin
+ */
 #define PDSS_SRSNS_6_CTRL_VGND_AS_SR_VSS_EN                 (1UL << 2) /* <2:2> R:RW:0: */
 
 
+/*
+ * Enable signal to increase hysteresis to 8mV
+ */
 #define PDSS_SRSNS_6_CTRL_ZCD_HYST_8M                       (1UL << 3) /* <3:3> R:RW:0: */
 
 
+/*
+ * Hysteresis enable signal
+ * 1: enable (Default: 4mV)
+ * 0: disable
+ */
 #define PDSS_SRSNS_6_CTRL_ZCD_HYST_DEF                      (1UL << 4) /* <4:4> R:RW:0: */
 
 
+/*
+ * Low Power Mode enable signal
+ * 0: disable (Default)
+ * 1: enable
+ */
 #define PDSS_SRSNS_6_CTRL_ZCD_LP_EN                         (1UL << 5) /* <5:5> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_ZCD_WIDE_TRIP_RANGE               (1UL << 6) /* <6:6> R:RW:0: */
+/*
+ * Offset Control signals
+ * 00: +16mV to -16mV (Default)
+ * 01: +32mV to -32mV
+ * 10: Invalid
+ * 11: +48mV to -48mV
+ */
+#define PDSS_SRSNS_6_CTRL_ZCD_WIDE_TRIP_RANGE_MASK          (0x000000c0UL) /* <6:7> R:RW:0: */
+#define PDSS_SRSNS_6_CTRL_ZCD_WIDE_TRIP_RANGE_POS           (6UL)
 
 
-#define PDSS_SRSNS_6_CTRL_ZCDF_BYPASS_VDDD_CR               (1UL << 7) /* <7:7> R:RW:0: */
+/*
+ * Selection pin for defining supply(vddd or crude regulator output) to the
+ * comparator
+ * 0 - crude regulator output
+ * 1 - vddd
+ */
+#define PDSS_SRSNS_6_CTRL_ZCDF_BYPASS_VDDD_CR               (1UL << 8) /* <8:8> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_ZCDF_COMP_INP_SEL                 (1UL << 8) /* <8:8> R:RW:0: */
+/*
+ * Selection pin for input to the zcdf comparator input through Res path
+ * or Cap path
+ * 0 - input through pad_sr_sen(Res path)
+ * 1 - input through pad_sr_cap(Cap path)
+ */
+#define PDSS_SRSNS_6_CTRL_ZCDF_COMP_INP_SEL                 (1UL << 9) /* <9:9> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_ZCDF_HALF_MODE_EN                 (1UL << 9) /* <9:9> R:RW:0: */
+/*
+ * Selection pin for comparator low power mode(half current in comparator)
+ * enable/disable
+ * 0 - low power mode disable
+ * 1 - low power mode enable
+ */
+#define PDSS_SRSNS_6_CTRL_ZCDF_HALF_MODE_EN                 (1UL << 10) /* <10:10> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_ZCDF_HYS_EN                       (1UL << 10) /* <10:10> R:RW:0: */
+/*
+ * Selection pin for comparator hysteresis enable/disable
+ * 0 - hysteresis disabled
+ * 1 - hysteresis enabled
+ */
+#define PDSS_SRSNS_6_CTRL_ZCDF_HYS_EN                       (1UL << 11) /* <11:11> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_ZCDF_HYS_SEL                      (1UL << 11) /* <11:11> R:RW:0: */
+/*
+ * Selection pin for comparator hysteresis width
+ * 0 - default width
+ * 1 - double width
+ */
+#define PDSS_SRSNS_6_CTRL_ZCDF_HYS_SEL                      (1UL << 12) /* <12:12> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_NSN_HYST_20M                      (1UL << 12) /* <12:12> R:RW:0: */
+/*
+ * Option to change hysteresis
+ * 1-> 0 hysteresis
+ * 0-> 20m hysteresis
+ */
+#define PDSS_SRSNS_6_CTRL_NSN_HYST_20M                      (1UL << 13) /* <13:13> R:RW:1: */
 
 
-#define PDSS_SRSNS_6_CTRL_NSN_HYST_40M                      (1UL << 13) /* <13:13> R:RW:0: */
+/*
+ * Option to change hysteresis
+ * 1-> 0 hysteresis
+ * 0-> 40m hysteresis
+ */
+#define PDSS_SRSNS_6_CTRL_NSN_HYST_40M                      (1UL << 14) /* <14:14> R:RW:1: */
 
 
-#define PDSS_SRSNS_6_CTRL_RES_4K_PULLDN                     (1UL << 14) /* <14:14> R:RW:0: */
+/*
+ * Enable Internal 4K pulldown
+ */
+#define PDSS_SRSNS_6_CTRL_RES_4K_PULLDN                     (1UL << 15) /* <15:15> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_VBGBYR_IBIAS_0P5X                 (1UL << 15) /* <15:15> R:RW:0: */
+/*
+ * low power mode in VBGBYR- half current
+ */
+#define PDSS_SRSNS_6_CTRL_VBGBYR_IBIAS_0P5X                 (1UL << 16) /* <16:16> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_VBGBYR_IBIAS_2X                   (1UL << 16) /* <16:16> R:RW:0: */
+/*
+ * Double current in VBGBYR
+ */
+#define PDSS_SRSNS_6_CTRL_VBGBYR_IBIAS_2X                   (1UL << 17) /* <17:17> R:RW:0: */
 
 
-#define PDSS_SRSNS_6_CTRL_VREF_125M_PEAKDET                 (1UL << 17) /* <17:17> R:RW:0: */
-
-
-#define PDSS_SRSNS_6_CTRL_VALLEYDET_BIAS_MASK               (0x03800000UL) /* <23:25> R:RW:0: */
+/*
+ * bits to change the bias current for valley detect
+ * 0 - 0 nA
+ * 1- 200 nA
+ * 2 - 400 nA
+ * 4 - 800 nA
+ * 7 - 1400 nA
+ */
+#define PDSS_SRSNS_6_CTRL_VALLEYDET_BIAS_MASK               (0x03800000UL) /* <23:25> R:RW:1: */
 #define PDSS_SRSNS_6_CTRL_VALLEYDET_BIAS_POS                (23UL)
 
 
+/*
+ * trim vref for peakdet backup scheme comparator reference
+ * 0 - 0
+ * 1 - 0.124
+ * 2 - 0.205
+ * 3 - 0.244
+ * 4 - 0.284
+ * 5 - 0.325
+ * 6 - 0.364
+ * 7 - 0.405
+ */
 #define PDSS_SRSNS_6_CTRL_VBGBYR_TRIM_VREF_PEAKDET_MASK     (0x1c000000UL) /* <26:28> R:RW:0: */
 #define PDSS_SRSNS_6_CTRL_VBGBYR_TRIM_VREF_PEAKDET_POS      (26UL)
 
 
 /*
- * S8PDSV2 Hard IP Error Amplifier Register 3 (NA in PMG1S3)
+ * S8PDSV2 Hard IP Error Amplifier Register 3
  */
 #define PDSS_PDS_EA_3_CTRL_ADDRESS                          (0x400a0934UL)
 #define PDSS_PDS_EA_3_CTRL                                  (*(volatile uint32_t *)(0x400a0934UL))
-#define PDSS_PDS_EA_3_CTRL_DEFAULT                          (0x00000000UL)
+#define PDSS_PDS_EA_3_CTRL_DEFAULT                          (0x000181c0UL)
 
-#define PDSS_PDS_EA_3_CTRL_EN_28V_EPR                       (1UL << 0) /* <0:0> R:RW:0: */
-
-
+/*
+ * Enable bit for buffering in vref_cc path for 2.5mV trimming as well matching
+ * cc_ctrl_in path [FW]
+ * 0: Same as legacy
+ * Internally gated with EN_CC
+ */
 #define PDSS_PDS_EA_3_CTRL_EN_CC_VREF_BUFFER                (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * Resolution for EPR range (beyond 1023 DAC code):
+ * 1 : 100mV step
+ * 0 : 50mV step
+ */
 #define PDSS_PDS_EA_3_CTRL_EN_LOWRES_EPR                    (1UL << 2) /* <2:2> R:RW:0: */
 
 
+/*
+ * Enabling bit for high side clamp for EA [FW]
+ */
 #define PDSS_PDS_EA_3_CTRL_EN_MAX_VCLAMP                    (1UL << 3) /* <3:3> R:RW:0: */
 
 
+/*
+ * Enabling bit for low side clamp for EA [FW]
+ */
 #define PDSS_PDS_EA_3_CTRL_EN_MIN_VCLAMP                    (1UL << 4) /* <4:4> R:RW:0: */
 
 
-#define PDSS_PDS_EA_3_CTRL_SEL_MAX_VCLAMP_MASK              (0x00000060UL) /* <5:6> R:RW:0: */
+/*
+ * Max clamp setting ; Each step is 100mV; Setting of 2 = 2.3V
+ */
+#define PDSS_PDS_EA_3_CTRL_SEL_MAX_VCLAMP_MASK              (0x00000060UL) /* <5:6> R:RW:2: */
 #define PDSS_PDS_EA_3_CTRL_SEL_MAX_VCLAMP_POS               (5UL)
 
 
-#define PDSS_PDS_EA_3_CTRL_SEL_MIN_VCLAMP_MASK              (0x00000780UL) /* <7:10> R:RW:0: */
+/*
+ * Min Clamp setting ; Each step is 50mV ; Setting of 3 = 250mV
+ */
+#define PDSS_PDS_EA_3_CTRL_SEL_MIN_VCLAMP_MASK              (0x00000780UL) /* <7:10> R:RW:3: */
 #define PDSS_PDS_EA_3_CTRL_SEL_MIN_VCLAMP_POS               (7UL)
 
 
+/*
+ * Additional trim to get 2.5mV resolution for vref_cc
+ */
 #define PDSS_PDS_EA_3_CTRL_TR_VREF_CC_MASK                  (0x00001800UL) /* <11:12> R:RW:0: */
 #define PDSS_PDS_EA_3_CTRL_TR_VREF_CC_POS                   (11UL)
 
 
-#define PDSS_PDS_EA_3_CTRL_TR_VREF_CC_RCFILTER_BW_MASK      (0x0001e000UL) /* <13:16> R:RW:0: */
+/*
+ * RC filter on vref_cc [FW] ; To be matched with TR_CCIN_RCFILTER_BW
+ */
+#define PDSS_PDS_EA_3_CTRL_TR_VREF_CC_RCFILTER_BW_MASK      (0x0001e000UL) /* <13:16> R:RW:12: */
 #define PDSS_PDS_EA_3_CTRL_TR_VREF_CC_RCFILTER_BW_POS       (13UL)
 
 
@@ -10356,47 +11429,462 @@ typedef struct {
  */
 #define PDSS_BCH_DET_2_CTRL_ADDRESS                         (0x400a0940UL)
 #define PDSS_BCH_DET_2_CTRL                                 (*(volatile uint32_t *)(0x400a0940UL))
-#define PDSS_BCH_DET_2_CTRL_DEFAULT                         (0x00000000UL)
+#define PDSS_BCH_DET_2_CTRL_DEFAULT                         (0x00014000UL)
 
+/*
+ * DP/DM Impedance Detection enable signal
+ * 1 - Enable
+ * 0 - Disable
+ */
 #define PDSS_BCH_DET_2_CTRL_EN_IMP_DET                      (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * DP/DM OVP Detection enable signal
+ * 1 - Enable
+ * 0 - Disable
+ */
 #define PDSS_BCH_DET_2_CTRL_EN_OVP_DET                      (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * Select bit for Impedance Detection on DP or DM pin
+ * 0: DP pin
+ * 1: DM pin
+ */
 #define PDSS_BCH_DET_2_CTRL_SEL_IMP_DPDM                    (1UL << 2) /* <2:2> R:RW:0: */
 
 
+/*
+ * Select bit for Impedance Detection Reference Voltage
+ * 0: 400mV
+ * 1: 296mV
+ */
 #define PDSS_BCH_DET_2_CTRL_SEL_IMP_VREF                    (1UL << 3) /* <3:3> R:RW:0: */
 
 
+/*
+ * Enable DPDM_IMP_OVP Block ADFT Mode
+ */
 #define PDSS_BCH_DET_2_CTRL_ADFT_IMP_OVP_EN                 (1UL << 4) /* <4:4> R:RW:0: */
 
 
+/*
+ * Current Sink Enable for DM
+ * 1 - Enable
+ * 0 - Disable
+ */
 #define PDSS_BCH_DET_2_CTRL_ISINK_TRIM_DN_EN                (1UL << 5) /* <5:5> R:RW:0: */
 
 
+/*
+ * Current Sink Enable for DP
+ * 1 - Enable
+ * 0 - Disable
+ */
 #define PDSS_BCH_DET_2_CTRL_ISINK_TRIM_DP_EN                (1UL << 6) /* <6:6> R:RW:0: */
 
 
+/*
+ * DPDM_IMP_OVP Block ADFT Select Control.
+ * See the s8pdsv2 BROS for more details
+ */
 #define PDSS_BCH_DET_2_CTRL_ADFT_IMP_OVP_SEL_MASK           (0x00001800UL) /* <11:12> R:RW:0: */
 #define PDSS_BCH_DET_2_CTRL_ADFT_IMP_OVP_SEL_POS            (11UL)
 
 
-#define PDSS_BCH_DET_2_CTRL_HYST_IMP_COMP_MASK              (0x00006000UL) /* <13:14> R:RW:0: */
+/*
+ * Control bits to alter hysteresis of impedance detection comparator
+ * 2'b00 = 0mV
+ * 2'b01 = 13.94mV - 26.4mV
+ * 2'b10 = 28.25mV - 54.2mV
+ * 2'b11 = 43.66mV - 85.84mV
+ */
+#define PDSS_BCH_DET_2_CTRL_HYST_IMP_COMP_MASK              (0x00006000UL) /* <13:14> R:RW:2: */
 #define PDSS_BCH_DET_2_CTRL_HYST_IMP_COMP_POS               (13UL)
 
 
-#define PDSS_BCH_DET_2_CTRL_HYST_OVP_COMP_MASK              (0x00018000UL) /* <15:16> R:RW:0: */
+/*
+ * Control bits to alter hysteresis of OVP detection comparator wrt DP/DM
+ * 2'b00 = 0mV
+ * 2'b01 = 60.73mV - 119.35mV
+ * 2'b10 = 123.15mV - 245.77mV
+ * 2'b11 = 190.56mV - 390.35mV
+ */
+#define PDSS_BCH_DET_2_CTRL_HYST_OVP_COMP_MASK              (0x00018000UL) /* <15:16> R:RW:2: */
 #define PDSS_BCH_DET_2_CTRL_HYST_OVP_COMP_POS               (15UL)
 
 
-#define PDSS_BCH_DET_2_CTRL_SEL_IMP_VREF_TH_MASK            (0x001e0000UL) /* <17:20> R:RW:0: */
-#define PDSS_BCH_DET_2_CTRL_SEL_IMP_VREF_TH_POS             (17UL)
+/*
+ * USBPD Hard IP R AMUX #1-6 Register
+ */
+#define PDSS_R_AMUX_CTRL_ADDRESS                            (0x400a0950UL)
+#define PDSS_R_AMUX_CTRL                                    (*(volatile uint32_t *)(0x400a0950UL))
+#define PDSS_R_AMUX_CTRL_DEFAULT                            (0x00000000UL)
+
+/*
+ * R_AMUX select control. Used when adc_meas_en is not set.
+ */
+#define PDSS_R_AMUX_CTRL_SELECT_MASK                        (0x00000006UL) /* <1:2> R:RW:0:USB_R_AMUX_NUM */
+#define PDSS_R_AMUX_CTRL_SELECT_POS                         (1UL)
 
 
 /*
- * SRSENSE gate driver config1 (NA in PMG1S3)
+ * Round Robin ADC SAR Control Register
+ */
+#define PDSS_R_ADC_SAR_CTRL_ADDRESS                         (0x400a0954UL)
+#define PDSS_R_ADC_SAR_CTRL                                 (*(volatile uint32_t *)(0x400a0954UL))
+#define PDSS_R_ADC_SAR_CTRL_DEFAULT                         (0x00008000UL)
+
+/*
+ * Setting this bit will enable the HW SAR logic.
+ * Once the SAR_EN is one, Hardware will update the  SAR_OUT register after
+ * 8 cycles of clk_sar and clear this register.
+ */
+#define PDSS_R_ADC_SAR_CTRL_SAR_EN                          (1UL << 0) /* <0:0> RW1C:RW1S:0: */
+
+
+/*
+ * ADC starting mid value
+ */
+#define PDSS_R_ADC_SAR_CTRL_MID_VAL_MASK                    (0x0000ff00UL) /* <8:15> R:RW:128: */
+#define PDSS_R_ADC_SAR_CTRL_MID_VAL_POS                     (8UL)
+
+
+/*
+ * ADC output resistance value
+ * Stored 8-bit ADC value after the ID Pin voltage is sampled.
+ */
+#define PDSS_R_ADC_SAR_CTRL_SAR_OUT_MASK                    (0x00ff0000UL) /* <16:23> RW:R:0: */
+#define PDSS_R_ADC_SAR_CTRL_SAR_OUT_POS                     (16UL)
+
+
+/*
+ * Round Robin ADC DAC Register
+ */
+#define PDSS_R_ADC_CTRL_ADDRESS                             (0x400a0958UL)
+#define PDSS_R_ADC_CTRL                                     (*(volatile uint32_t *)(0x400a0958UL))
+#define PDSS_R_ADC_CTRL_DEFAULT                             (0x80000200UL)
+
+/*
+ * Control bits for 8-bit DAC.
+ * DAC_CNTRL register is used only if CPU wants to implement the SAR algorithm
+ * in FW.
+ */
+#define PDSS_R_ADC_CTRL_DAC_CNTRL_MASK                      (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_R_ADC_CTRL_DAC_CNTRL_POS                       (0UL)
+
+
+/*
+ * ADC DFT Control:
+ * 0: Normal operation
+ * 1: DAC output voltage
+ * p
+ */
+#define PDSS_R_ADC_CTRL_DFT_MUXSEL                          (1UL << 8) /* <8:8> R:RW:0: */
+
+
+/*
+ * This is for when high voltage supply for a port is not present. This bit
+ * should be set when the high voltage is present,
+ * in order to ensure that the outputs are set to know values.
+ * 0: All outputs are isolated to a known value
+ * 1: Normal operation
+ */
+#define PDSS_R_ADC_CTRL_ADC_ISO_N                           (1UL << 9) /* <9:9> R:RW:1: */
+
+
+/*
+ * Comparator Output.  If voltage on ID pin is less than DAC voltage, then
+ * cmp_out is HIGH.
+ */
+#define PDSS_R_ADC_CTRL_CMP_OUT                             (1UL << 15) /* <15:15> RW:R:0: */
+
+
+/*
+ * Input Voltage select
+ * p
+ */
+#define PDSS_R_ADC_CTRL_VSEL_MASK                           (0x00060000UL) /* <17:18> R:RW:0: */
+#define PDSS_R_ADC_CTRL_VSEL_POS                            (17UL)
+
+
+/*
+ * Bit to select between VDDD reference and vref_dac
+ * 0 : vref_dac
+ * 1 : vddd
+ */
+#define PDSS_R_ADC_CTRL_VREF_DAC_SEL                        (1UL << 19) /* <19:19> R:RW:0: */
+
+
+/*
+ * 0 : Works like legacy ADC function
+ * 1. Works like RoundRobin ADC enable
+ */
+#define PDSS_R_ADC_CTRL_ADC_MEAS_EN                         (1UL << 30) /* <30:30> R:RW:0: */
+
+
+/*
+ * ADC Power down control, active high.
+ */
+#define PDSS_R_ADC_CTRL_PD_LV                               (1UL << 31) /* <31:31> R:RW:1: */
+
+
+/*
+ * Round Robin CONFIG Register
+ */
+#define PDSS_RNDRBN_CFG_ADDRESS                             (0x400a095cUL)
+#define PDSS_RNDRBN_CFG                                     (*(volatile uint32_t *)(0x400a095cUL))
+#define PDSS_RNDRBN_CFG_DEFAULT                             (0x00c0001fUL)
+
+/*
+ * Time after which entire one round of round-robin measurement is repeated.
+ * Running on ADC clk (1Mhz)
+ */
+#define PDSS_RNDRBN_CFG_IDLE_TIME_MASK                      (0x0001ffffUL) /* <0:16> R:RW:31: */
+#define PDSS_RNDRBN_CFG_IDLE_TIME_POS                       (0UL)
+
+
+/*
+ * Settling time before measruement of any new channel (if a particular channel
+ * is measured 4 times, settling time is only for the first measurement);
+ * Running on ADC clk (1Mhz)
+ */
+#define PDSS_RNDRBN_CFG_SETTLING_TIME_MASK                  (0x01f00000UL) /* <20:24> R:RW:12: */
+#define PDSS_RNDRBN_CFG_SETTLING_TIME_POS                   (20UL)
+
+
+/*
+ * To Powerdown ADC during Idle time
+ */
+#define PDSS_RNDRBN_CFG_ADC_PD_IN_IDLE                      (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * Round Robin STATUS Register
+ */
+#define PDSS_RNDRBN_STATUS_ADDRESS                          (0x400a0960UL)
+#define PDSS_RNDRBN_STATUS                                  (*(volatile uint32_t *)(0x400a0960UL))
+#define PDSS_RNDRBN_STATUS_DEFAULT                          (0x00000000UL)
+
+#define PDSS_RNDRBN_STATUS_CURR_CHAN_NUM_MASK               (0x00007000UL) /* <12:14> RW:R:0: */
+#define PDSS_RNDRBN_STATUS_CURR_CHAN_NUM_POS                (12UL)
+
+
+#define PDSS_RNDRBN_STATUS_CURR_SAMPLE_CNT_MASK             (0x00070000UL) /* <16:18> RW:R:0: */
+#define PDSS_RNDRBN_STATUS_CURR_SAMPLE_CNT_POS              (16UL)
+
+
+#define PDSS_RNDRBN_STATUS_CURR_ACCUM_VAL_MASK              (0xffe00000UL) /* <21:31> RW:R:0: */
+#define PDSS_RNDRBN_STATUS_CURR_ACCUM_VAL_POS               (21UL)
+
+
+/*
+ * Round Robin Channel CONFIG Register
+ */
+#define PDSS_RNDRBN_CHAN_CFG_ADDRESS(n)                     (0x400a0970UL + ((n) * (0x0004UL)))
+#define PDSS_RNDRBN_CHAN_CFG(n)                             (*(volatile uint32_t *)(0x400a0970UL + ((n) * 0x0004UL)))
+#define PDSS_RNDRBN_CHAN_CFG_DEFAULT                        (0x00000000UL)
+
+#define PDSS_RNDRBN_CHAN_CFG_SAMPLE_CNT_MASK                (0x00000007UL) /* <0:2> R:RW:0: */
+#define PDSS_RNDRBN_CHAN_CFG_SAMPLE_CNT_POS                 (0UL)
+
+
+#define PDSS_RNDRBN_CHAN_CFG_EN_SAMPLING                    (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * Round Robin Channel STATUS Register
+ */
+#define PDSS_RNDRBN_CHAN_STATUS_ADDRESS(n)                  (0x400a0990UL + ((n) * (0x0004UL)))
+#define PDSS_RNDRBN_CHAN_STATUS(n)                          (*(volatile uint32_t *)(0x400a0990UL + ((n) * 0x0004UL)))
+#define PDSS_RNDRBN_CHAN_STATUS_DEFAULT                     (0x00000000UL)
+
+#define PDSS_RNDRBN_CHAN_STATUS_AVG_MEAS_VAL_MASK           (0x000000ffUL) /* <0:7> RW:RW:0: */
+#define PDSS_RNDRBN_CHAN_STATUS_AVG_MEAS_VAL_POS            (0UL)
+
+
+#define PDSS_RNDRBN_CHAN_STATUS_MEAS_DONE_MASK              (0x0000f000UL) /* <12:15> RW1SC:RW:0: */
+#define PDSS_RNDRBN_CHAN_STATUS_MEAS_DONE_POS               (12UL)
+
+
+/*
+ * S8PDS NGDO Gate driver config1 (Only for PAG1S)
+ */
+#define PDSS_NGDO_1_CFG_ADDRESS                             (0x400a2000UL)
+#define PDSS_NGDO_1_CFG                                     (*(volatile uint32_t *)(0x400a2000UL))
+#define PDSS_NGDO_1_CFG_DEFAULT                             (0x00000000UL)
+
+/*
+ * The gate driver control option.
+ * 0: FW controlls the gdrv_en  pin
+ * 1: HW controlls the  gdrv_en  pin
+ */
+#define PDSS_NGDO_1_CFG_AUTO_MODE                           (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * The gate driver control option.
+ * Any write-one to this register will reset the edge detector in the controller.
+ * FW should cleared this register after the fault conditions are removed
+ * by writing a "1" to this register.
+ */
+#define PDSS_NGDO_1_CFG_RST_EDGE_DET                        (1UL << 1) /* <1:1> R:RW:0: */
+
+
+/*
+ * CPU can used this register to inform the hardware to drive the ON value
+ * or OFF value when a fault is detected.
+ * 0: Select OFF
+ * 1: Select ON
+ */
+#define PDSS_NGDO_1_CFG_SEL_ON_OFF                          (1UL << 5) /* <5:5> R:RW:0: */
+
+
+/*
+ * Bit[18]:
+ * 0: FILT20 detection is not selected for turning off the gdrv_en
+ * 1: FILT20 detection is       selected for turning off the gdrv_en
+ * Bit[19]:
+ * 0: FILT21 detection is not selected for turning off the gdrv_en
+ * 1: FILT21 detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_FILT2_MASK                      (0x000000c0UL) /* <6:7> R:RW:0: */
+#define PDSS_NGDO_1_CFG_SEL_FILT2_POS                       (6UL)
+
+
+/*
+ * The Off value used by Hardware in Automode to turn off the gdrv_en bit
+ */
+#define PDSS_NGDO_1_CFG_GDRV_EN_OFF_VALUE                   (1UL << 17) /* <17:17> R:RW:0: */
+
+
+/*
+ * The ON value used by Hardware to turn on the gdrv_en bit
+ */
+#define PDSS_NGDO_1_CFG_GDRV_EN_ON_VALUE                    (1UL << 18) /* <18:18> R:RW:0: */
+
+
+/*
+ * 0: zcd_out detection is not selected for turning off the gdrv_en
+ * 1: zcd_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_ZCD_OUT                         (1UL << 19) /* <19:19> R:RW:0: */
+
+
+/*
+ * 0: nsn_out detection is not selected for turning off the gdrv_en
+ * 1: nsn_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_NSN_OUT                         (1UL << 20) /* <20:20> R:RW:0: */
+
+
+/*
+ * 0: pwm_out detection is not selected for turning off the gdrv_en
+ * 1: pwm_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_PWM_OUT                         (1UL << 21) /* <21:21> R:RW:0: */
+
+
+/*
+ * 0: burst_exit_out detection is not selected for turning off the gdrv_en
+ * 1: burst_exit_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_BURST_EXIT_OUT                  (1UL << 22) /* <22:22> R:RW:0: */
+
+
+/*
+ * 0: sr_sen_ovp_out detection is not selected for turning off the gdrv_en
+ * 1: sr_sen_ovp_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_SR_SEN_OVP_OUT                  (1UL << 23) /* <23:23> R:RW:0: */
+
+
+/*
+ * 0: skip_out detection is not selected for turning off the gdrv_en
+ * 1: skip_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_SKIP_OUT                        (1UL << 24) /* <24:24> R:RW:0: */
+
+
+/*
+ * 0: peakdet_out detection is not selected for turning off the gdrv_en
+ * 1: peakdet_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_PEAKDET_OUT                     (1UL << 25) /* <25:25> R:RW:0: */
+
+
+/*
+ * 0: peakdet_rst_out detection is not selected for turning off the gdrv_en
+ * 1: peakdet_rst_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_PEAKDET_RST_OUT                 (1UL << 26) /* <26:26> R:RW:0: */
+
+
+/*
+ * 0: peakdet_clcmp_raw_out detection is not selected for turning off the
+ * gdrv_en
+ * 1: peakdet_clcmp_raw_out detection is       selected for turning off the
+ * gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_PEAKDET_CLCMP_RAW_OUT           (1UL << 27) /* <27:27> R:RW:0: */
+
+
+/*
+ * 0: zcdf_out detection is not selected for turning off the gdrv_en
+ * 1: zcdf_out detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_ZCDF_OUT                        (1UL << 28) /* <28:28> R:RW:0: */
+
+
+/*
+ * 0: SCP detection is not selected for turning off the gdrv_en
+ * 1: SCP detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_PDS_SCP                         (1UL << 29) /* <29:29> R:RW:0: */
+
+
+/*
+ * 0: FF_UV detection is not selected for turning off the gdrv_en
+ * 1:FF_UV detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_FF_UV                           (1UL << 30) /* <30:30> R:RW:0: */
+
+
+/*
+ * 0: FF_OV detection is not selected for turning off the gdrv_en
+ * 1: FF_OV detection is       selected for turning off the gdrv_en
+ */
+#define PDSS_NGDO_1_CFG_SEL_FF_OV                           (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * S8PDS NGDO Gate driver config2 (Only for PAG1S)
+ */
+#define PDSS_NGDO_2_CFG_ADDRESS                             (0x400a2004UL)
+#define PDSS_NGDO_2_CFG                                     (*(volatile uint32_t *)(0x400a2004UL))
+#define PDSS_NGDO_2_CFG_DEFAULT                             (0x00000000UL)
+
+/*
+ * There can be a maximum of 24 HS filter.
+ * This register can be use to select any of the comparators output for turning
+ * on/off the function
+ */
+#define PDSS_NGDO_2_CFG_HS_SOURCE_SEL_MASK                  (0x0000001fUL) /* <0:4> R:RW:0:CLK_FILTER_FILT_NUM */
+#define PDSS_NGDO_2_CFG_HS_SOURCE_SEL_POS                   (0UL)
+
+
+/*
+ * There can be a maximum of 8 LS filter.
+ * This register can be use to select any of the comparators output for turning
+ * on/off the function.
+ */
+#define PDSS_NGDO_2_CFG_LS_SOURCE_SEL_MASK                  (0x03000000UL) /* <24:25> R:RW:0:CLK_LF_FILT_NUM */
+#define PDSS_NGDO_2_CFG_LS_SOURCE_SEL_POS                   (24UL)
+
+
+/*
+ * SRSENSE gate driver config1
  */
 #define PDSS_SRSNS_1_CFG_ADDRESS                            (0x400a2008UL)
 #define PDSS_SRSNS_1_CFG                                    (*(volatile uint32_t *)(0x400a2008UL))
@@ -10547,7 +12035,7 @@ typedef struct {
 
 
 /*
- * SRSENSE gate driver config2 (NA in PMG1S3)
+ * SRSENSE gate driver config2
  */
 #define PDSS_SRSNS_2_CFG_ADDRESS                            (0x400a200cUL)
 #define PDSS_SRSNS_2_CFG                                    (*(volatile uint32_t *)(0x400a200cUL))
@@ -10573,7 +12061,7 @@ typedef struct {
 
 /*
  * SRSENSE HardIP CLK_PASC Filter and Edge detector configuration for PEAKDET_OUT
- * and ZCDF_OUT detection (NA in PMG1S3)
+ * and ZCDF_OUT detection
  */
 #define PDSS_INTR15_CFG_1_SRSENSE_ADDRESS                   (0x400a2018UL)
 #define PDSS_INTR15_CFG_1_SRSENSE                           (*(volatile uint32_t *)(0x400a2018UL))
@@ -10690,189 +12178,8 @@ typedef struct {
 
 
 /*
- * SRSENSE HardIP CLK_PASC Filter and Edge detector configuration for PEAKDET_RST_OUT
- * and PEAKDET_CLCMP_RAW_OUT detection (NA in PMG1S3)
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_ADDRESS                   (0x400a201cUL)
-#define PDSS_INTR15_CFG_2_SRSENSE                           (*(volatile uint32_t *)(0x400a201cUL))
-#define PDSS_INTR15_CFG_2_SRSENSE_DEFAULT                   (0x00208410UL)
-
-/*
- * 0: Filter is disabled
- * 1: Filter is enabled
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_EN    (1UL << 0) /* <0:0> R:RW:0: */
-
-
-/*
- * Edge detect positive/negative enable/disable
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_CFG_MASK    (0x00000006UL) /* <1:2> R:RW:0: */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_CFG_POS    (1UL)
-
-
-/*
- * This field specifies the reset value of the Filter.
- * To reset the Filter, set this bit to the appropriate value and Toggle
- * FILTER_EN.
- *   Firmware can set the values (Reset Values, Config values etc when the
- * filter_en is 0 and next cycle it can take the filter out of reset by writing
- * 1 to filter_en).
- * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
- * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
- * So firmware should at-least wait 5 cycles for dynamically changing filter
- * values and applying reset again.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_RESET    (1UL << 3) /* <3:3> R:RW:0: */
-
-
-/*
- * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
- * to 1'b0 with this to save power.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_BYPASS    (1UL << 4) /* <4:4> R:RW:1: */
-
-
-/*
- * #of clock CLK_PASC filtering. Should be programmed before FILTER is enabled.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_SEL_MASK    (0x000003e0UL) /* <5:9> R:RW:0: */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_FILT_SEL_POS    (5UL)
-
-
-/*
- * This bit enables CPU to bypass the Filter when the part is in deep-sleep
- * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
- * ONLY.
- * The bit should be set by CPU only when its using the filter with high
- * frequency active clock and wants to wakeup from deep sleep on the transition
- * of the incoming signal.
- * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_RST_OUT_DPSLP_MODE    (1UL << 10) /* <10:10> R:RW:1: */
-
-
-/*
- * 0: Filter is disabled
- * 1: Filter is enabled
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_EN    (1UL << 11) /* <11:11> R:RW:0: */
-
-
-/*
- * Edge detect positive/negative enable/disable
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_CFG_MASK    (0x00003000UL) /* <12:13> R:RW:0: */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_CFG_POS    (12UL)
-
-
-/*
- * This field specifies the reset value of the Filter.
- * To reset the Filter, set this bit to the appropriate value and Toggle
- * FILTER_EN.
- *   Firmware can set the values (Reset Values, Config values etc when the
- * filter_en is 0 and next cycle it can take the filter out of reset by writing
- * 1 to filter_en).
- * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
- * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
- * So firmware should at-least wait 5 cycles for dynamically changing filter
- * values and applying reset again.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_RESET    (1UL << 14) /* <14:14> R:RW:0: */
-
-
-/*
- * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
- * to 1'b0 with this to save power.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_BYPASS    (1UL << 15) /* <15:15> R:RW:1: */
-
-
-/*
- * #of clock CLK_PASC filtering. Should be programmed before FILTER is enabled.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_SEL_MASK    (0x00070000UL) /* <16:18> R:RW:0: */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_FILT_SEL_POS    (16UL)
-
-
-/*
- * This bit enables CPU to bypass the Filter when the part is in deep-sleep
- * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
- * ONLY.
- * The bit should be set by CPU only when its using the filter with high
- * frequency active clock and wants to wakeup from deep sleep on the transition
- * of the incoming signal.
- * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
- */
-#define PDSS_INTR15_CFG_2_SRSENSE_PEAKDET_CLCMP_RAW_OUT_DPSLP_MODE    (1UL << 21) /* <21:21> R:RW:1: */
-
-
-/*
  * SRSENSE HardIP High/Low Speed Filter and Edge detector configuration for
- * SR_SEN_OVP_OUT detection (NA in PMG1S3)
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_ADDRESS                   (0x400a2020UL)
-#define PDSS_INTR15_CFG_3_SRSENSE                           (*(volatile uint32_t *)(0x400a2020UL))
-#define PDSS_INTR15_CFG_3_SRSENSE_DEFAULT                   (0x00000400UL)
-
-/*
- * 0: Filter is disabled
- * 1: Filter is enabled
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_EN    (1UL << 0) /* <0:0> R:RW:0: */
-
-
-/*
- * Edge detect positive/negative enable/disable
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_CFG_MASK    (0x00000006UL) /* <1:2> R:RW:0: */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_CFG_POS    (1UL)
-
-
-/*
- * This field specifies the reset value of the Filter.
- * To reset the Filter, set this bit to the appropriate value and Toggle
- * FILTER_EN.
- *   Firmware can set the values (Reset Values, Config values etc when the
- * filter_en is 0 and next cycle it can take the filter out of reset by writing
- * 1 to filter_en).
- * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
- * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
- * So firmware should at-least wait 5 cycles for dynamically changing filter
- * values and applying reset again.
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_RESET    (1UL << 3) /* <3:3> R:RW:0: */
-
-
-/*
- * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
- * to 1'b0 with this to save power.
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_BYPASS    (1UL << 4) /* <4:4> R:RW:0: */
-
-
-/*
- * #of clock CLK_PASC filtering. Should be programmed before FILTER is enabled.
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_SEL_MASK    (0x000003e0UL) /* <5:9> R:RW:0: */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_FILT_SEL_POS    (5UL)
-
-
-/*
- * This bit enables CPU to bypass the Filter when the part is in deep-sleep
- * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
- * ONLY.
- * The bit should be set by CPU only when its using the filter with high
- * frequency active clock and wants to wakeup from deep sleep on the transition
- * of the incoming signal.
- * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
- */
-#define PDSS_INTR15_CFG_3_SRSENSE_SR_SEN_OVP_OUT_DPSLP_MODE    (1UL << 10) /* <10:10> R:RW:1: */
-
-
-/*
- * SRSENSE HardIP High/Low Speed Filter and Edge detector configuration for
- * NSN_OUT and ZCD_OUT detection (NA in PMG1S3)
+ * NSN_OUT and ZCD_OUT detection
  */
 #define PDSS_INTR15_CFG_4_SRSENSE_ADDRESS                   (0x400a2024UL)
 #define PDSS_INTR15_CFG_4_SRSENSE                           (*(volatile uint32_t *)(0x400a2024UL))
@@ -10990,7 +12297,7 @@ typedef struct {
 
 /*
  * PWM Hard IP CLK_PASC Filter and Edge detector configuration for PWM_OUT
- * and SKIP_OUT (NA in PMG1S3)
+ * and SKIP_OUT
  */
 #define PDSS_INTR15_CFG_0_PWM_ADDRESS                       (0x400a2028UL)
 #define PDSS_INTR15_CFG_0_PWM                               (*(volatile uint32_t *)(0x400a2028UL))
@@ -11114,7 +12421,6 @@ typedef struct {
 
 /*
  * PWM Hard IP CLK_PASC Filter and Edge detector configuration for BURST_EXIT_OUT
- * (NA in PMG1S3)
  */
 #define PDSS_INTR15_CFG_1_PWM_ADDRESS                       (0x400a202cUL)
 #define PDSS_INTR15_CFG_1_PWM                               (*(volatile uint32_t *)(0x400a202cUL))
@@ -11177,7 +12483,6 @@ typedef struct {
 
 /*
  * S8PDS EA Hard IP CLK_LF Filter and Edge detector configuration for CC_FLAG
- * (NA in PMG1S3)
  */
 #define PDSS_INTR15_CFG_CC_FLAG_ADDRESS                     (0x400a2030UL)
 #define PDSS_INTR15_CFG_CC_FLAG                             (*(volatile uint32_t *)(0x400a2030UL))
@@ -11227,7 +12532,7 @@ typedef struct {
 
 
 /*
- * INTR15 Status (NA in PMG1S3)
+ * INTR15 Status
  */
 #define PDSS_INTR15_STATUS_ADDRESS                          (0x400a2038UL)
 #define PDSS_INTR15_STATUS                                  (*(volatile uint32_t *)(0x400a2038UL))
@@ -11258,30 +12563,6 @@ typedef struct {
 
 
 /*
- * The status of vs8pds_srsense_top.peakdet_rst_out
- */
-#define PDSS_INTR15_STATUS_PEAKDET_RST_OUT_STATUS           (1UL << 12) /* <12:12> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * s8pds_srsense_top.peakdet_rst_out Filtered output
- */
-#define PDSS_INTR15_STATUS_PEAKDET_RST_OUT_FILT             (1UL << 13) /* <13:13> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * The status of vs8pds_srsense_top.peakdet_clcmp_raw_out
- */
-#define PDSS_INTR15_STATUS_PEAKDET_CLCMP_RAW_OUT_STATUS     (1UL << 14) /* <14:14> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * s8pds_srsense_top.peakdet_clcmp_raw_out Filtered output
- */
-#define PDSS_INTR15_STATUS_PEAKDET_CLCMP_RAW_OUT_FILT       (1UL << 15) /* <15:15> RW:R:0:PASC_PASC2_EN */
-
-
-/*
  * The status of vs8pds_srsense_top.zcdf_out
  */
 #define PDSS_INTR15_STATUS_ZCDF_OUT_STATUS                  (1UL << 16) /* <16:16> RW:R:0:PASC_PASC2_EN */
@@ -11291,18 +12572,6 @@ typedef struct {
  * s8pds_srsense_top.zcdf_out Filtered output
  */
 #define PDSS_INTR15_STATUS_ZCDF_OUT_FILT                    (1UL << 17) /* <17:17> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * The status of vs8pds_srsense_top.sr_sen_ovp_out
- */
-#define PDSS_INTR15_STATUS_SR_SEN_OVP_OUT_STATUS            (1UL << 18) /* <18:18> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * s8pds_srsense_top.sr_sen_ovp_out Filtered output
- */
-#define PDSS_INTR15_STATUS_SR_SEN_OVP_OUT_FILT              (1UL << 19) /* <19:19> RW:R:0:PASC_PASC2_EN */
 
 
 /*
@@ -11366,7 +12635,7 @@ typedef struct {
 
 
 /*
- * INTR15 interrupt Cause.(NA in PMG1S3)
+ * INTR15 interrupt Cause.
  */
 #define PDSS_INTR15_ADDRESS                                 (0x400a203cUL)
 #define PDSS_INTR15                                         (*(volatile uint32_t *)(0x400a203cUL))
@@ -11387,32 +12656,10 @@ typedef struct {
 
 
 /*
- * s8pds_srsense_top.peakdet_rst_out changed (wakeup interrupt from deepsleep)
- * Check the  INTR15_STATUS.PEACKDET_OUT_STATUS value
- */
-#define PDSS_INTR15_PEAKDET_RST_OUT_CHANGED                 (1UL << 6) /* <6:6> RW1S:RW1C:0:PASC_PASC2_EN */
-
-
-/*
- * s8pds_srsense_top.peakdet_clcmp_raw_out changed (wakeup interrupt from
- * deepsleep)
- * Check the  INTR15_STATUS.PEAKDET_CLCMP_RAW_OUT_STATUS value
- */
-#define PDSS_INTR15_PEAKDET_CLCMP_RAW_OUT_CHANGED           (1UL << 7) /* <7:7> RW1S:RW1C:0:PASC_PASC2_EN */
-
-
-/*
  * s8pds_srsense_top.zcdf_out changed (wakeup interrupt from deepsleep)
  * Check the  INTR15_STATUS.ZCDF_OUT_STATUS value
  */
 #define PDSS_INTR15_ZCDF_OUT_CHANGED                        (1UL << 8) /* <8:8> RW1S:RW1C:0:PASC_PASC2_EN */
-
-
-/*
- * s8pds_srsense_top.zcdf_out changed (wakeup interrupt from deepsleep)
- * Check the  INTR15_STATUS.SR_SEN_OVP_OUT_STATUS value
- */
-#define PDSS_INTR15_SR_SEN_OVP_OUT_CHANGED                  (1UL << 9) /* <9:9> RW1S:RW1C:0:PASC_PASC2_EN */
 
 
 /*
@@ -11451,7 +12698,7 @@ typedef struct {
 
 
 /*
- * INTR15 Interrupt Set (NA in PMG1S3)
+ * INTR15 Interrupt Set
  */
 #define PDSS_INTR15_SET_ADDRESS                             (0x400a2040UL)
 #define PDSS_INTR15_SET                                     (*(volatile uint32_t *)(0x400a2040UL))
@@ -11472,25 +12719,7 @@ typedef struct {
 /*
  * Write with '1' to set corresponding bit in interrupt request register.
  */
-#define PDSS_INTR15_SET_PEAKDET_RST_OUT_CHANGED             (1UL << 6) /* <6:6> A:RW1S:0:PASC_PASC2_EN */
-
-
-/*
- * Write with '1' to set corresponding bit in interrupt request register.
- */
-#define PDSS_INTR15_SET_PEAKDET_CLCMP_RAW_OUT_CHANGED       (1UL << 7) /* <7:7> A:RW1S:0:PASC_PASC2_EN */
-
-
-/*
- * Write with '1' to set corresponding bit in interrupt request register.
- */
 #define PDSS_INTR15_SET_ZCDF_OUT_CHANGED                    (1UL << 8) /* <8:8> A:RW1S:0:PASC_PASC2_EN */
-
-
-/*
- * Write with '1' to set corresponding bit in interrupt request register.
- */
-#define PDSS_INTR15_SET_SR_SEN_OVP_OUT_CHANGED              (1UL << 9) /* <9:9> A:RW1S:0:PASC_PASC2_EN */
 
 
 /*
@@ -11524,7 +12753,7 @@ typedef struct {
 
 
 /*
- * INTR15 interrupt Mask (NA in PMG1S3)
+ * INTR15 interrupt Mask
  */
 #define PDSS_INTR15_MASK_ADDRESS                            (0x400a2044UL)
 #define PDSS_INTR15_MASK                                    (*(volatile uint32_t *)(0x400a2044UL))
@@ -11545,25 +12774,7 @@ typedef struct {
 /*
  * Mask bit for corresponding bit in interrupt request register.
  */
-#define PDSS_INTR15_MASK_PEAKDET_RST_OUT_CHANGED_MASK       (1UL << 6) /* <6:6> R:RW:0:PASC_PASC2_EN */
-
-
-/*
- * Mask bit for corresponding bit in interrupt request register.
- */
-#define PDSS_INTR15_MASK_PEAKDET_CLCMP_RAW_OUT_CHANGED_MASK    (1UL << 7) /* <7:7> R:RW:0:PASC_PASC2_EN */
-
-
-/*
- * Mask bit for corresponding bit in interrupt request register.
- */
 #define PDSS_INTR15_MASK_ZCDF_OUT_CHANGED_MASK              (1UL << 8) /* <8:8> R:RW:0:PASC_PASC2_EN */
-
-
-/*
- * Mask bit for corresponding bit in interrupt request register.
- */
-#define PDSS_INTR15_MASK_SR_SEN_OVP_OUT_CHANGED_MASK        (1UL << 9) /* <9:9> R:RW:0:PASC_PASC2_EN */
 
 
 /*
@@ -11597,7 +12808,7 @@ typedef struct {
 
 
 /*
- * INTR15 interrupt Masked (NA in PMG1S3)
+ * INTR15 interrupt Masked
  */
 #define PDSS_INTR15_MASKED_ADDRESS                          (0x400a2048UL)
 #define PDSS_INTR15_MASKED                                  (*(volatile uint32_t *)(0x400a2048UL))
@@ -11618,25 +12829,7 @@ typedef struct {
 /*
  * Logical and of corresponding request and mask bits.
  */
-#define PDSS_INTR15_MASKED_PEAKDET_RST_OUT_CHANGED_MASKED    (1UL << 6) /* <6:6> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * Logical and of corresponding request and mask bits.
- */
-#define PDSS_INTR15_MASKED_PEAKDET_CLCMP_RAW_OUT_CHANGED_MASKED    (1UL << 7) /* <7:7> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * Logical and of corresponding request and mask bits.
- */
 #define PDSS_INTR15_MASKED_ZCDF_OUT_CHANGED_MASKED          (1UL << 8) /* <8:8> RW:R:0:PASC_PASC2_EN */
-
-
-/*
- * Logical and of corresponding request and mask bits.
- */
-#define PDSS_INTR15_MASKED_SR_SEN_OVP_OUT_CHANGED_MASKED    (1UL << 9) /* <9:9> RW:R:0:PASC_PASC2_EN */
 
 
 /*
@@ -11670,7 +12863,7 @@ typedef struct {
 
 
 /*
- * VBUS Transition config (NA in PMG1S3)
+ * VBUS Transition config
  */
 #define PDSS_VBTR_CFG_ADDRESS                               (0x400a204cUL)
 #define PDSS_VBTR_CFG                                       (*(volatile uint32_t *)(0x400a204cUL))
@@ -11717,7 +12910,13 @@ typedef struct {
 
 
 /*
- * VBUS Transition control (NA in PMG1S3)
+ * To Enable EPR mode
+ */
+#define PDSS_VBTR_CFG_EPR_MODE_EN                           (1UL << 31) /* <31:31> R:RW:0:EPR_EN */
+
+
+/*
+ * VBUS Transition control
  */
 #define PDSS_VBTR_CTRL_ADDRESS                              (0x400a2050UL)
 #define PDSS_VBTR_CTRL                                      (*(volatile uint32_t *)(0x400a2050UL))
@@ -11747,7 +12946,7 @@ typedef struct {
 
 
 /*
- * VBUS Transition Source/Sink shadow registers (NA in PMG1S3)
+ * VBUS Transition Source/Sink shadow registers
  */
 #define PDSS_VBTR_SRC_SNK_OPR_VALUE_ADDRESS                 (0x400a2054UL)
 #define PDSS_VBTR_SRC_SNK_OPR_VALUE                         (*(volatile uint32_t *)(0x400a2054UL))
@@ -11767,8 +12966,11 @@ typedef struct {
 #define PDSS_VBTR_SRC_SNK_OPR_VALUE_SNK_DAC_POS             (16UL)
 
 
+#define PDSS_VBTR_SRC_SNK_OPR_VALUE_SNK_DAC_EPR             (1UL << 26) /* <26:26> RW:R:0:EPR_EN */
+
+
 /*
- * VBUS Transition Source Initial/Final value registers (NA in PMG1S3)
+ * VBUS Transition Source Initial/Final value registers
  */
 #define PDSS_VBTR_SRC_INIT_FIN_VALUE_ADDRESS                (0x400a2058UL)
 #define PDSS_VBTR_SRC_INIT_FIN_VALUE                        (*(volatile uint32_t *)(0x400a2058UL))
@@ -11790,7 +12992,7 @@ typedef struct {
 
 
 /*
- * VBUS Transition Sink Initial/Final value registers (NA in PMG1S3)
+ * VBUS Transition Sink Initial/Final value registers
  */
 #define PDSS_VBTR_SNK_INIT_FIN_VALUE_ADDRESS                (0x400a205cUL)
 #define PDSS_VBTR_SNK_INIT_FIN_VALUE                        (*(volatile uint32_t *)(0x400a205cUL))
@@ -11805,6 +13007,13 @@ typedef struct {
 
 
 /*
+ * Indicates the MSB of Initial SNK Register value to be loaded into VBTR_SRC_SNK_OPR_VALUE
+ * Register. This is applicable only in EPR
+ */
+#define PDSS_VBTR_SNK_INIT_FIN_VALUE_SNK_INIT_EPR           (1UL << 10) /* <10:10> R:RW:0:EPR_EN */
+
+
+/*
  * Indicates the Final SNK Register value to be reached after operation completion.
  */
 #define PDSS_VBTR_SNK_INIT_FIN_VALUE_SNK_FIN_MASK           (0x03ff0000UL) /* <16:25> R:RW:0: */
@@ -11812,7 +13021,14 @@ typedef struct {
 
 
 /*
- * VBUS Transition Status registers (NA in PMG1S3)
+ * Indicates the MSB of Final SNK Register value to be reached after operation
+ * completion. This is applicable only in EPR.
+ */
+#define PDSS_VBTR_SNK_INIT_FIN_VALUE_SNK_FIN_EPR            (1UL << 26) /* <26:26> R:RW:0:EPR_EN */
+
+
+/*
+ * VBUS Transition Status registers
  */
 #define PDSS_VBTR_STATUS_ADDRESS                            (0x400a2060UL)
 #define PDSS_VBTR_STATUS                                    (*(volatile uint32_t *)(0x400a2060UL))
@@ -11831,8 +13047,7 @@ typedef struct {
 
 
 /*
- * Power Adapter Secondary Controller (PASC) Configuration Registers (NA
- * in PMG1S3)
+ * Power Adapter Secondary Controller (PASC) Configuration Registers
  */
 #define PDSS_PASC_CTRL_ADDRESS                              (0x400a2064UL)
 #define PDSS_PASC_CTRL                                      (*(volatile uint32_t *)(0x400a2064UL))
@@ -11917,7 +13132,8 @@ typedef struct {
 
 /*
  * Bit22: Disable nsn idle timeout check.
- * Bit30:23: Un-used
+ * Bit23:
+ * Bit30:24: Un-used
  */
 #define PDSS_PASC_CTRL_PASC_SPARE_MASK                      (0x7fc00000UL) /* <22:30> R:RW:0: */
 #define PDSS_PASC_CTRL_PASC_SPARE_POS                       (22UL)
@@ -11926,12 +13142,14 @@ typedef struct {
 /*
  * FW should set this bit to turn on the secondary controller power state
  * machine.
+ * On deasserting this bit, the PASC block must be reset by toggling DEBUG_CTRL.RESET_PASC
+ * to reset the FSM.
  */
 #define PDSS_PASC_CTRL_PA_EN                                (1UL << 31) /* <31:31> R:RW:0: */
 
 
 /*
- * SR GDRV Control Register 0 (NA in PMG1S3)
+ * SR GDRV Control Register 0
  */
 #define PDSS_SRGDRV_0_CTRL_ADDRESS                          (0x400a2068UL)
 #define PDSS_SRGDRV_0_CTRL                                  (*(volatile uint32_t *)(0x400a2068UL))
@@ -12004,7 +13222,7 @@ typedef struct {
 
 
 /*
- * SR GDRV Control Register 1 (NA in PMG1S3)
+ * SR GDRV Control Register 1
  */
 #define PDSS_SRGDRV_1_CTRL_ADDRESS                          (0x400a206cUL)
 #define PDSS_SRGDRV_1_CTRL                                  (*(volatile uint32_t *)(0x400a206cUL))
@@ -12033,7 +13251,20 @@ typedef struct {
 
 
 /*
- * PASC-PWM Control Register 0  (NA in PMG1S3)
+ * MSB of Width of "gdrv_in" signal in the latest power cycle along with
+ * GDRV_IN_STATUS_UPD
+ */
+#define PDSS_SRGDRV_1_CTRL_GDRV_IN_STATUS_UPD_MSB           (1UL << 28) /* <28:28> RW:R:0:PASC2_EN */
+
+
+/*
+ * MSB of Maximum Pulse Width of "gdrv_in" along with GDRV_IN_MAX_WIDTH
+ */
+#define PDSS_SRGDRV_1_CTRL_GDRV_IN_MAX_WIDTH_MSB            (1UL << 29) /* <29:29> R:RW:0:PASC2_EN */
+
+
+/*
+ * PASC-PWM Control Register 0
  */
 #define PDSS_PASC_PWM_0_CTRL_ADDRESS                        (0x400a2070UL)
 #define PDSS_PASC_PWM_0_CTRL                                (*(volatile uint32_t *)(0x400a2070UL))
@@ -12079,7 +13310,7 @@ typedef struct {
 
 
 /*
- * PASC-PWM Control Register 1 (NA in PMG1S3)
+ * PASC-PWM Control Register 1
  */
 #define PDSS_PASC_PWM_1_CTRL_ADDRESS                        (0x400a2074UL)
 #define PDSS_PASC_PWM_1_CTRL                                (*(volatile uint32_t *)(0x400a2074UL))
@@ -12101,11 +13332,11 @@ typedef struct {
 
 
 /*
- * PASC-PWM Control Register 2 (NA in PMG1S3)
+ * PASC-PWM Control Register 2
  */
 #define PDSS_PASC_PWM_2_CTRL_ADDRESS                        (0x400a2078UL)
 #define PDSS_PASC_PWM_2_CTRL                                (*(volatile uint32_t *)(0x400a2078UL))
-#define PDSS_PASC_PWM_2_CTRL_DEFAULT                        (0x000bc218UL)
+#define PDSS_PASC_PWM_2_CTRL_DEFAULT                        (0x08080018UL)
 
 /*
  * If this bit is set, srgdrv is gated when primary is doing the burst pulses.
@@ -12118,13 +13349,6 @@ typedef struct {
  */
 #define PDSS_PASC_PWM_2_CTRL_BURST_MIN_WIDTH_MASK           (0x000000feUL) /* <1:7> R:RW:12: */
 #define PDSS_PASC_PWM_2_CTRL_BURST_MIN_WIDTH_POS            (1UL)
-
-
-/*
- * Burst frequency
- */
-#define PDSS_PASC_PWM_2_CTRL_BURST_FREQ_MASK                (0x0007ff00UL) /* <8:18> R:RW:962: */
-#define PDSS_PASC_PWM_2_CTRL_BURST_FREQ_POS                 (8UL)
 
 
 /*
@@ -12161,7 +13385,13 @@ typedef struct {
 
 
 /*
- * PASC-MODE Control Register 0 (NA in PMG1S3)
+ * 1 - if Skip exit happens when in audio range, move to Burst mode
+ */
+#define PDSS_PASC_PWM_2_CTRL_ALLOW_SKIP_EXIT_IN_AUDIO       (1UL << 27) /* <27:27> R:RW:1:PASC2_EN */
+
+
+/*
+ * PASC-MODE Control Register 0
  */
 #define PDSS_MODE_0_CTRL_ADDRESS                            (0x400a207cUL)
 #define PDSS_MODE_0_CTRL                                    (*(volatile uint32_t *)(0x400a207cUL))
@@ -12182,6 +13412,18 @@ typedef struct {
 
 
 /*
+ * Clear the PWM Cap Dithering offset
+ */
+#define PDSS_MODE_0_CTRL_PWM_CAP_DITH_OFFSET_CLR            (1UL << 18) /* <18:18> RW1C:RW1S:0:PASC2_EN */
+
+
+/*
+ * Clear the FF Dithering offset
+ */
+#define PDSS_MODE_0_CTRL_FF_DITH_OFFSET_CLR                 (1UL << 19) /* <19:19> RW1C:RW1S:0:PASC2_EN */
+
+
+/*
  * Enables PWM CAP Modulation, dithering
  */
 #define PDSS_MODE_0_CTRL_PWM_CAP_UPD_EN                     (1UL << 20) /* <20:20> R:RW:0: */
@@ -12193,13 +13435,6 @@ typedef struct {
  * for the next cycle.
  */
 #define PDSS_MODE_0_CTRL_PWM_CAP_FW_UPD                     (1UL << 21) /* <21:21> RW1C:RW1S:0: */
-
-
-/*
- * FW update value for "pwm_cap"
- */
-#define PDSS_MODE_0_CTRL_PWM_CAP_FW_UPD_VAL_MASK            (0x03c00000UL) /* <22:25> R:RW:0: */
-#define PDSS_MODE_0_CTRL_PWM_CAP_FW_UPD_VAL_POS             (22UL)
 
 
 /*
@@ -12223,11 +13458,11 @@ typedef struct {
 
 
 /*
- * PASC-MODE Control Register 1 (NA in PMG1S3)
+ * PASC-MODE Control Register 1
  */
 #define PDSS_MODE_1_CTRL_ADDRESS                            (0x400a2080UL)
 #define PDSS_MODE_1_CTRL                                    (*(volatile uint32_t *)(0x400a2080UL))
-#define PDSS_MODE_1_CTRL_DEFAULT                            (0x000060f0UL)
+#define PDSS_MODE_1_CTRL_DEFAULT                            (0x803060f0UL)
 
 /*
  * Fixed Frequency Value. This register has a shadow in logic
@@ -12244,11 +13479,25 @@ typedef struct {
 
 
 /*
- * PASC-MODE Control Register 2 (NA in PMG1S3)
+ * QR mode dithering range using CAP (~0.4% per bit)
+ */
+#define PDSS_MODE_1_CTRL_PWM_DITH_CAP_RANGE_MASK            (0x00fe0000UL) /* <17:23> R:RW:24:PASC2_EN */
+#define PDSS_MODE_1_CTRL_PWM_DITH_CAP_RANGE_POS             (17UL)
+
+
+/*
+ * Sets the mid-value of dithering cap
+ */
+#define PDSS_MODE_1_CTRL_PWM_DITH_CAP_VAL_MASK              (0xff000000UL) /* <24:31> R:RW:128:PASC2_EN */
+#define PDSS_MODE_1_CTRL_PWM_DITH_CAP_VAL_POS               (24UL)
+
+
+/*
+ * PASC-MODE Control Register 2
  */
 #define PDSS_MODE_2_CTRL_ADDRESS                            (0x400a2084UL)
 #define PDSS_MODE_2_CTRL                                    (*(volatile uint32_t *)(0x400a2084UL))
-#define PDSS_MODE_2_CTRL_DEFAULT                            (0x001e10a0UL)
+#define PDSS_MODE_2_CTRL_DEFAULT                            (0x401e10a0UL)
 
 /*
  * This field set the max frequency possible in QR mode of operation. This
@@ -12267,11 +13516,18 @@ typedef struct {
 
 
 /*
- * PASC-MODE Control Register 3 (NA in PMG1S3)
+ * QR mode dithering step using CAP (~0.4% per bit)
+ */
+#define PDSS_MODE_2_CTRL_PWM_DITH_CAP_STEP_MASK             (0xe0000000UL) /* <29:31> R:RW:2:PASC2_EN */
+#define PDSS_MODE_2_CTRL_PWM_DITH_CAP_STEP_POS              (29UL)
+
+
+/*
+ * PASC-MODE Control Register 3
  */
 #define PDSS_MODE_3_CTRL_ADDRESS                            (0x400a2088UL)
 #define PDSS_MODE_3_CTRL                                    (*(volatile uint32_t *)(0x400a2088UL))
-#define PDSS_MODE_3_CTRL_DEFAULT                            (0x00005dc0UL)
+#define PDSS_MODE_3_CTRL_DEFAULT                            (0x19005dc0UL)
 
 /*
  * This register defines the min frequency of audio range.
@@ -12281,11 +13537,18 @@ typedef struct {
 
 
 /*
- * PASC-MODE Control Register 4 (NA in PMG1S3)
+ * FF mode dithering range
+ */
+#define PDSS_MODE_3_CTRL_PWM_DITH_FF_RANGE_MASK             (0xff000000UL) /* <24:31> R:RW:25:PASC2_EN */
+#define PDSS_MODE_3_CTRL_PWM_DITH_FF_RANGE_POS              (24UL)
+
+
+/*
+ * PASC-MODE Control Register 4
  */
 #define PDSS_MODE_4_CTRL_ADDRESS                            (0x400a208cUL)
 #define PDSS_MODE_4_CTRL                                    (*(volatile uint32_t *)(0x400a208cUL))
-#define PDSS_MODE_4_CTRL_DEFAULT                            (0x000004c3UL)
+#define PDSS_MODE_4_CTRL_DEFAULT                            (0x001904c3UL)
 
 /*
  * This register defines the max frequency of audio range (default 20kHZ)
@@ -12295,47 +13558,24 @@ typedef struct {
 
 
 /*
- * PEAK Generator Control Register 0 (NA in PMG1S3)
+ * Time for which dithering remains at same step ; Uses 1MHz clk cycle
+ */
+#define PDSS_MODE_4_CTRL_PWM_DITH_RPT_MASK                  (0x00ffc000UL) /* <14:23> R:RW:100:PASC2_EN */
+#define PDSS_MODE_4_CTRL_PWM_DITH_RPT_POS                   (14UL)
+
+
+/*
+ * PEAK Generator Control Register 0
  */
 #define PDSS_PEAKGEN_0_CTRL_ADDRESS                         (0x400a2090UL)
 #define PDSS_PEAKGEN_0_CTRL                                 (*(volatile uint32_t *)(0x400a2090UL))
-#define PDSS_PEAKGEN_0_CTRL_DEFAULT                         (0x00009024UL)
-
-/*
- * Controls the assertion delay of "peak_reset" signal.
- */
-#define PDSS_PEAKGEN_0_CTRL_PEAK_RESET_ON_DLY_MASK          (0x000001ffUL) /* <0:8> R:RW:36: */
-#define PDSS_PEAKGEN_0_CTRL_PEAK_RESET_ON_DLY_POS           (0UL)
-
+#define PDSS_PEAKGEN_0_CTRL_DEFAULT                         (0x00009000UL)
 
 /*
  * Controls the "peak to peak" delay. This register has a shadow in logic.
  */
 #define PDSS_PEAKGEN_0_CTRL_PEAK2PEAK_DLY_MASK              (0x0003fe00UL) /* <9:17> R:RW:72: */
 #define PDSS_PEAKGEN_0_CTRL_PEAK2PEAK_DLY_POS               (9UL)
-
-
-/*
- * Controls the Enabling of Valley based Peak Algorithm.
- * 1 - Valley based algorithm is used.
- * Note that this bit has to be disabled during the Peak memory update
- */
-#define PDSS_PEAKGEN_0_CTRL_EN_PEAK_ALGO                    (1UL << 18) /* <18:18> R:RW:0: */
-
-
-/*
- * Enable bit for Firmware to update the peak.
- * 1 - Firmware Update Enabed
- */
-#define PDSS_PEAKGEN_0_CTRL_FW_PEAK_UPD                     (1UL << 19) /* <19:19> RW1C:RW1S:0: */
-
-
-/*
- * Firmware specified peak. The peak used is programmed value + 1, i.e. 0
- * means 1st peak
- */
-#define PDSS_PEAKGEN_0_CTRL_FW_PEAK_NUM_MASK                (0x03f00000UL) /* <20:25> R:RW:0: */
-#define PDSS_PEAKGEN_0_CTRL_FW_PEAK_NUM_POS                 (20UL)
 
 
 /*
@@ -12353,27 +13593,11 @@ typedef struct {
 
 
 /*
- * This field specifies the pulse width of the peak reset signal in number
- * of clk_pasc clock cycles.
- */
-#define PDSS_PEAKGEN_0_CTRL_PEAK_RESET_PULSE_MASK           (0xf0000000UL) /* <28:31> R:RW:0: */
-#define PDSS_PEAKGEN_0_CTRL_PEAK_RESET_PULSE_POS            (28UL)
-
-
-/*
- * PEAK Generator Control Register 1 (NA in PMG1S3)
+ * PEAK Generator Control Register 1
  */
 #define PDSS_PEAKGEN_1_CTRL_ADDRESS                         (0x400a2094UL)
 #define PDSS_PEAKGEN_1_CTRL                                 (*(volatile uint32_t *)(0x400a2094UL))
-#define PDSS_PEAKGEN_1_CTRL_DEFAULT                         (0x0541209bUL)
-
-/*
- * If this bit is cleared, the peak_kill signal from Hard-IP is ignored.
- * The peaks to be used will be dynamically determined by either PEAK_EXPECT_DLY
- * timeout or STOP_HIP_ON_NTH_PEAK
- */
-#define PDSS_PEAKGEN_1_CTRL_PEAK_KILL_EN                    (1UL << 0) /* <0:0> R:RW:1: */
-
+#define PDSS_PEAKGEN_1_CTRL_DEFAULT                         (0x0541209aUL)
 
 /*
  * Enables the use of updating the trim values for SKIP.
@@ -12415,11 +13639,11 @@ typedef struct {
 
 
 /*
- * PEAK Generator Control Register 2 (NA in PMG1S3)
+ * PEAK Generator Control Register 2
  */
 #define PDSS_PEAKGEN_2_CTRL_ADDRESS                         (0x400a2098UL)
 #define PDSS_PEAKGEN_2_CTRL                                 (*(volatile uint32_t *)(0x400a2098UL))
-#define PDSS_PEAKGEN_2_CTRL_DEFAULT                         (0x0000001fUL)
+#define PDSS_PEAKGEN_2_CTRL_DEFAULT                         (0x0011e01fUL)
 
 /*
  * Setting this bit will ignore Hard IP generated peaks after the programmed
@@ -12436,19 +13660,35 @@ typedef struct {
 
 
 /*
- * Feed Forward Control Register  (NA in PMG1S3)
+ * MSB 2 bits of Peak at which Hard IP output is ignored. Programmed peak
+ * + 1 is used.
+ */
+#define PDSS_PEAKGEN_2_CTRL_STOP_PEAK_EXT_MASK              (0x00000180UL) /* <7:8> R:RW:0:PASC2_EN */
+#define PDSS_PEAKGEN_2_CTRL_STOP_PEAK_EXT_POS               (7UL)
+
+
+/*
+ * Indicates the time between "zcdf_out" encountered to the first Valley.
+ * This is used if full digital scheme of valley generation is used. This
+ * register has a shadow in logic
+ */
+#define PDSS_PEAKGEN_2_CTRL_ZCD_TO_VALLEY_TIME_MASK         (0x000ff800UL) /* <11:19> R:RW:60:PASC2_EN */
+#define PDSS_PEAKGEN_2_CTRL_ZCD_TO_VALLEY_TIME_POS          (11UL)
+
+
+/*
+ * When set, the Calibration cycle will measure 4 consecutive peak-to-peak
+ * delay from 2nd peak and get the average value to peak-topeak delay (Tpkpk)
+ */
+#define PDSS_PEAKGEN_2_CTRL_CAL_SKIP_FIRST_PEAK             (1UL << 20) /* <20:20> R:RW:1:PASC2_EN */
+
+
+/*
+ * Feed Forward Control Register
  */
 #define PDSS_FEEDFWD_CTRL_ADDRESS                           (0x400a209cUL)
 #define PDSS_FEEDFWD_CTRL                                   (*(volatile uint32_t *)(0x400a209cUL))
-#define PDSS_FEEDFWD_CTRL_DEFAULT                           (0x040c8700UL)
-
-/*
- * Control bit for signal "feedfwd_pre_sw_en" signal
- * 0 - Logic output is propagated as "feedfwd_pre_sw_en".
- * 1 - External GPIO input is propagated as "feedfwd_pre_sw_en"
- */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_OUT_CTRL        (1UL << 0) /* <0:0> R:RW:0: */
-
+#define PDSS_FEEDFWD_CTRL_DEFAULT                           (0x040c0000UL)
 
 /*
  * Control bit for signal "feedfwd_sw_en" signal
@@ -12471,32 +13711,6 @@ typedef struct {
 
 
 /*
- * FW Override bit for "feedfwd_pre_sw_en"
- */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_OVR             (1UL << 4) /* <4:4> R:RW:0: */
-
-
-/*
- * FW Override value for "feedfwd_pre_sw_en"
- */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_OVR_VAL         (1UL << 5) /* <5:5> R:RW:0: */
-
-
-/*
- * Controls the assertion delay of "feedfwd_pre_sw_en" signal
- */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_ON_DLY_MASK     (0x00003f00UL) /* <8:13> R:RW:7: */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_ON_DLY_POS      (8UL)
-
-
-/*
- * Controls the de-assertion delay of "feedfwd_pre_sw_en" signal
- */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_OFF_DLY_MASK    (0x0003c000UL) /* <14:17> R:RW:2: */
-#define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_OFF_DLY_POS     (14UL)
-
-
-/*
  * Controls the width of "feedfwd_sw_en" signal.
  */
 #define PDSS_FEEDFWD_CTRL_FEEDFWD_PRE_SW_EN_WIDTH_MASK      (0x01fc0000UL) /* <18:24> R:RW:3: */
@@ -12504,8 +13718,9 @@ typedef struct {
 
 
 /*
- * Controls the assertion delay of "feedfwd_sw_en" signal after the assertion
- * of "feedfwd_pre_sw_en" signal.
+ * PAG1S: Controls the assertion delay of "feedfwd_sw_en" signal after the
+ * assertion of "feedfwd_pre_sw_en" signal.
+ * PAG2S: Controls the assertion delay of "feedfwd_sw_en" signal
  */
 #define PDSS_FEEDFWD_CTRL_FEEDFWD_SW_EN_ON_DLY_MASK         (0x7e000000UL) /* <25:30> R:RW:2: */
 #define PDSS_FEEDFWD_CTRL_FEEDFWD_SW_EN_ON_DLY_POS          (25UL)
@@ -12519,7 +13734,7 @@ typedef struct {
 
 
 /*
- * PASC Hard-Ip Sequence Generator Control Register 0 (NA in PMG1S3)
+ * PASC Hard-Ip Sequence Generator Control Register 0
  */
 #define PDSS_HIP_SEQ_GEN_0_CTRL_ADDRESS                     (0x400a20a0UL)
 #define PDSS_HIP_SEQ_GEN_0_CTRL                             (*(volatile uint32_t *)(0x400a20a0UL))
@@ -12533,24 +13748,10 @@ typedef struct {
 
 
 /*
- * Controls de-assertion delay of "nsn_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_0_CTRL_NSN_EN_OFF_DLY_MASK         (0x00003f00UL) /* <8:13> R:RW:0: */
-#define PDSS_HIP_SEQ_GEN_0_CTRL_NSN_EN_OFF_DLY_POS          (8UL)
-
-
-/*
  * Controls assertion delay of "zcd_en" signal
  */
 #define PDSS_HIP_SEQ_GEN_0_CTRL_ZCD_EN_ON_DLY_MASK          (0x003fc000UL) /* <14:21> R:RW:24: */
 #define PDSS_HIP_SEQ_GEN_0_CTRL_ZCD_EN_ON_DLY_POS           (14UL)
-
-
-/*
- * Controls de-assertion delay of "zcd_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_0_CTRL_ZCD_EN_OFF_DLY_MASK         (0x0fc00000UL) /* <22:27> R:RW:0: */
-#define PDSS_HIP_SEQ_GEN_0_CTRL_ZCD_EN_OFF_DLY_POS          (22UL)
 
 
 /*
@@ -12578,38 +13779,17 @@ typedef struct {
 
 
 /*
- * PASC Hard-Ip Sequence Generator Control Register 1 (NA in PMG1S3)
+ * PASC Hard-Ip Sequence Generator Control Register 1
  */
 #define PDSS_HIP_SEQ_GEN_1_CTRL_ADDRESS                     (0x400a20a4UL)
 #define PDSS_HIP_SEQ_GEN_1_CTRL                             (*(volatile uint32_t *)(0x400a20a4UL))
-#define PDSS_HIP_SEQ_GEN_1_CTRL_DEFAULT                     (0x0000c005UL)
+#define PDSS_HIP_SEQ_GEN_1_CTRL_DEFAULT                     (0x00000005UL)
 
 /*
  * Controls assertion delay of "zcdf_en" signal
  */
 #define PDSS_HIP_SEQ_GEN_1_CTRL_ZCDF_EN_ON_DLY_MASK         (0x000000ffUL) /* <0:7> R:RW:5: */
 #define PDSS_HIP_SEQ_GEN_1_CTRL_ZCDF_EN_ON_DLY_POS          (0UL)
-
-
-/*
- * Controls de-assertion delay of "zcdf_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_ZCDF_EN_OFF_DLY_MASK        (0x00003f00UL) /* <8:13> R:RW:0: */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_ZCDF_EN_OFF_DLY_POS         (8UL)
-
-
-/*
- * Controls assertion delay of "peakdet_sw_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_ON_DLY_MASK    (0x000fc000UL) /* <14:19> R:RW:3: */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_ON_DLY_POS    (14UL)
-
-
-/*
- * Controls de-assertion delay of "peakdet_sw_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_OFF_DLY_MASK    (0x03f00000UL) /* <20:25> R:RW:0: */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_OFF_DLY_POS    (20UL)
 
 
 /*
@@ -12625,18 +13805,6 @@ typedef struct {
 
 
 /*
- * Override Register for "peakdet_sw_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_OVR           (1UL << 28) /* <28:28> R:RW:0: */
-
-
-/*
- * Override value for "peakdet_sw_en" signal
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_PEAKDET_SW_EN_OVR_VAL       (1UL << 29) /* <29:29> R:RW:0: */
-
-
-/*
  * Controls the use of either "zcd_out" or "zcdf" for the assertion of "peakdet_sw_en".
  * 0 - use zcdf
  * 1 - use zcd_out or zcdf_out
@@ -12645,13 +13813,7 @@ typedef struct {
 
 
 /*
- * In SR-Only Mode wait for FF OV to enable NSN
- */
-#define PDSS_HIP_SEQ_GEN_1_CTRL_FF_OV_FOR_NSN_EN            (1UL << 31) /* <31:31> R:RW:0: */
-
-
-/*
- * PASC Hard-Ip Sequence Generator Control Register 2 (NA in PMG1S3)
+ * PASC Hard-Ip Sequence Generator Control Register 2
  */
 #define PDSS_HIP_SEQ_GEN_2_CTRL_ADDRESS                     (0x400a20a8UL)
 #define PDSS_HIP_SEQ_GEN_2_CTRL                             (*(volatile uint32_t *)(0x400a20a8UL))
@@ -12698,6 +13860,14 @@ typedef struct {
 
 
 /*
+ * Controls the MSB 3 bits of the time duration, along with NSN_IDLE_TIME
+ * for which state machine waits for "nsn_out" to arrive.
+ */
+#define PDSS_HIP_SEQ_GEN_2_CTRL_NSN_IDLE_TIME_EXT_MASK      (0x00e00000UL) /* <21:23> R:RW:0:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_2_CTRL_NSN_IDLE_TIME_EXT_POS       (21UL)
+
+
+/*
  * When set ZCD is used as ZCDF
  */
 #define PDSS_HIP_SEQ_GEN_2_CTRL_USE_ZCDF_AS_ZCD             (1UL << 30) /* <30:30> R:RW:0: */
@@ -12710,7 +13880,7 @@ typedef struct {
 
 
 /*
- * PASC Status registers 0 (NA in PMG1S3)
+ * PASC Status registers 0
  */
 #define PDSS_PASC_STATUS_0_ADDRESS                          (0x400a20acUL)
 #define PDSS_PASC_STATUS_0                                  (*(volatile uint32_t *)(0x400a20acUL))
@@ -12739,7 +13909,7 @@ typedef struct {
 
 
 /*
- * PASC Status registers 1 (NA in PMG1S3)
+ * PASC Status registers 1
  */
 #define PDSS_PASC_STATUS_1_ADDRESS                          (0x400a20b0UL)
 #define PDSS_PASC_STATUS_1                                  (*(volatile uint32_t *)(0x400a20b0UL))
@@ -12767,7 +13937,7 @@ typedef struct {
 
 
 /*
- * PASC Status registers 2 (NA in PMG1S3)
+ * PASC Status registers 2
  */
 #define PDSS_PASC_STATUS_2_ADDRESS                          (0x400a20b4UL)
 #define PDSS_PASC_STATUS_2                                  (*(volatile uint32_t *)(0x400a20b4UL))
@@ -12798,38 +13968,7 @@ typedef struct {
 
 
 /*
- * PASC Status registers 3 (NA in PMG1S3)
- */
-#define PDSS_PASC_STATUS_3_ADDRESS                          (0x400a20b8UL)
-#define PDSS_PASC_STATUS_3                                  (*(volatile uint32_t *)(0x400a20b8UL))
-#define PDSS_PASC_STATUS_3_DEFAULT                          (0x00000000UL)
-
-/*
- * Indicates the Peak to Reset (peak_reset) Calibration Value 0. Used by
- * Firmware for average calculation.
- */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL0_MASK           (0x000001ffUL) /* <0:8> RW:R:0: */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL0_POS            (0UL)
-
-
-/*
- * Indicates the Peak to Reset (peak_reset) Calibration Value 1. Used by
- * Firmware for average calculation.
- */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL1_MASK           (0x0003fe00UL) /* <9:17> RW:R:0: */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL1_POS            (9UL)
-
-
-/*
- * Indicates the Peak to Reset (peak_reset) Calibration Value 2. Used by
- * Firmware for average calculation.
- */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL2_MASK           (0x07fc0000UL) /* <18:26> RW:R:0: */
-#define PDSS_PASC_STATUS_3_PEAK_RST_CAL_VAL2_POS            (18UL)
-
-
-/*
- * PASC Status registers 4 (NA in PMG1S3)
+ * PASC Status registers 4
  */
 #define PDSS_PASC_STATUS_4_ADDRESS                          (0x400a20bcUL)
 #define PDSS_PASC_STATUS_4                                  (*(volatile uint32_t *)(0x400a20bcUL))
@@ -12852,7 +13991,7 @@ typedef struct {
 
 
 /*
- * PASC DDFT MUX (NA in PMG1S3)
+ * PASC DDFT MUX
  */
 #define PDSS_PASC_DDFT_MUX_ADDRESS                          (0x400a20c0UL)
 #define PDSS_PASC_DDFT_MUX                                  (*(volatile uint32_t *)(0x400a20c0UL))
@@ -12920,8 +14059,14 @@ typedef struct {
 #define PDSS_PASC_DDFT_MUX_DDFT1_SEL_POS                    (6UL)
 
 
+#define PDSS_PASC_DDFT_MUX_DDFT0_SEL_MSB                    (1UL << 12) /* <12:12> R:RW:0: */
+
+
+#define PDSS_PASC_DDFT_MUX_DDFT1_SEL_MSB                    (1UL << 13) /* <13:13> R:RW:0: */
+
+
 /*
- * PASC GPIO DDFT Selections (NA in PMG1S3)
+ * PASC GPIO DDFT Selections
  */
 #define PDSS_PASC_GPIO_DDFT_MUX_ADDRESS                     (0x400a20c4UL)
 #define PDSS_PASC_GPIO_DDFT_MUX                             (*(volatile uint32_t *)(0x400a20c4UL))
@@ -12970,40 +14115,7 @@ typedef struct {
 
 
 /*
- * S8PDBB battery to grount control Register (NA in PMG1S3)
- */
-#define PDSS_BB_BAT2GND_PROT_CNFG_ADDRESS                   (0x400a2168UL)
-#define PDSS_BB_BAT2GND_PROT_CNFG                           (*(volatile uint32_t *)(0x400a2168UL))
-#define PDSS_BB_BAT2GND_PROT_CNFG_DEFAULT                   (0x08000000UL)
-
-/*
- * Battery to ground protection select
- * <2> : 1 floats GPIO (pulldn pin); 0 shorts pulldn pin to ground with 10K
- * resistor.
- * <1> : 1 shorts CSNIN to internal CSN; 0 shorts internal CSN to ground
- * with 10K resistor
- * <0> : 1 shorts CSPIN to internal CSP; 0 shorts internal CSP to ground
- * with 10K resistor
- */
-#define PDSS_BB_BAT2GND_PROT_CNFG_BAT2GND_PROT_SEL_MASK     (0x00000007UL) /* <0:2> R:RW:0: */
-#define PDSS_BB_BAT2GND_PROT_CNFG_BAT2GND_PROT_SEL_POS      (0UL)
-
-
-/*
- * Spare bits
- */
-#define PDSS_BB_BAT2GND_PROT_CNFG_SPARE_0_MASK              (0x01c00000UL) /* <22:24> R:RW:0: */
-#define PDSS_BB_BAT2GND_PROT_CNFG_SPARE_0_POS               (22UL)
-
-
-/*
- * Spare bits
- */
-#define PDSS_BB_BAT2GND_PROT_CNFG_SPARE_1                   (1UL << 27) /* <27:27> R:RW:1: */
-
-
-/*
- * IBUS Transition config (NA in PMG1S3)
+ * IBUS Transition config
  */
 #define PDSS_IBTR_CFG_ADDRESS                               (0x400a2250UL)
 #define PDSS_IBTR_CFG                                       (*(volatile uint32_t *)(0x400a2250UL))
@@ -13026,7 +14138,7 @@ typedef struct {
 
 
 /*
- * IBUS Transition control (NA in PMG1S3)
+ * IBUS Transition control
  */
 #define PDSS_IBTR_CTRL_ADDRESS                              (0x400a2254UL)
 #define PDSS_IBTR_CTRL                                      (*(volatile uint32_t *)(0x400a2254UL))
@@ -13056,7 +14168,7 @@ typedef struct {
 
 
 /*
- * IBUS Transition shadow registers (NA in PMG1S3)
+ * IBUS Transition shadow registers
  */
 #define PDSS_IBTR_OPR_VALUE_ADDRESS                         (0x400a2258UL)
 #define PDSS_IBTR_OPR_VALUE                                 (*(volatile uint32_t *)(0x400a2258UL))
@@ -13070,7 +14182,7 @@ typedef struct {
 
 
 /*
- * IBUS Transition Initial/Final value registers (NA in PMG1S3)
+ * IBUS Transition Initial/Final value registers
  */
 #define PDSS_IBTR_INIT_FIN_VALUE_ADDRESS                    (0x400a225cUL)
 #define PDSS_IBTR_INIT_FIN_VALUE                            (*(volatile uint32_t *)(0x400a225cUL))
@@ -13092,7 +14204,7 @@ typedef struct {
 
 
 /*
- * IBUS Transition Status registers (NA in PMG1S3)
+ * IBUS Transition Status registers
  */
 #define PDSS_IBTR_STATUS_ADDRESS                            (0x400a2264UL)
 #define PDSS_IBTR_STATUS                                    (*(volatile uint32_t *)(0x400a2264UL))
@@ -13105,199 +14217,1334 @@ typedef struct {
 
 
 /*
- * S8PDS Hard IP PTDRV Register
+ * S8PDBB HardIP Filter and Edge detector config for VREG VIN_DET & INRUSH_DET
  */
-#define PDSS_PTDRV_CTRL_0_ADDRESS                           (0x400a2580UL)
-#define PDSS_PTDRV_CTRL_0                                   (*(volatile uint32_t *)(0x400a2580UL))
-#define PDSS_PTDRV_CTRL_0_DEFAULT                           (0x00000000UL)
+#define PDSS_INTR17_CFG_0_ADDRESS                           (0x400a2280UL)
+#define PDSS_INTR17_CFG_0                                   (*(volatile uint32_t *)(0x400a2280UL))
+#define PDSS_INTR17_CFG_0_DEFAULT                           (0x00213827UL)
 
-#define PDSS_PTDRV_CTRL_0_PTDRV_ADFT_EN                     (1UL << 0) /* <0:0> R:RW:0: */
-
-
-#define PDSS_PTDRV_CTRL_0_ADFT_CTRL_PTDRV_MASK              (0x0000007eUL) /* <1:6> R:RW:0: */
-#define PDSS_PTDRV_CTRL_0_ADFT_CTRL_PTDRV_POS               (1UL)
-
-
-#define PDSS_PTDRV_CTRL_0_PTDRV_EN                          (1UL << 8) /* <8:8> R:RW:0: */
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_FILT_EN         (1UL << 0) /* <0:0> R:RW:1: */
 
 
-#define PDSS_PTDRV_CTRL_0_PTDRV_HVDRV_EN                    (1UL << 9) /* <9:9> R:RW:0: */
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_CFG_MASK        (0x00000006UL) /* <1:2> R:RW:3: */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_CFG_POS         (1UL)
 
 
-#define PDSS_PTDRV_CTRL_0_PTDRV_LVDRV_EN                    (1UL << 10) /* <10:10> R:RW:0: */
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_FILT_RESET      (1UL << 3) /* <3:3> R:RW:0: */
 
 
-#define PDSS_PTDRV_CTRL_0_PTDRV_TRISTATE                    (1UL << 11) /* <11:11> R:RW:0: */
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_FILT_BYPASS     (1UL << 4) /* <4:4> R:RW:0: */
 
 
-#define PDSS_PTDRV_CTRL_0_EN_CLAMP_MID_VOLTAGE              (1UL << 12) /* <12:12> R:RW:0: */
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_FILT_SEL_MASK    (0x000003e0UL) /* <5:9> R:RW:1: */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_VIN_DET_FILT_SEL_POS    (5UL)
 
 
-#define PDSS_PTDRV_CTRL_0_T_MID_SUPPLY                      (1UL << 13) /* <13:13> R:RW:0: */
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_EN     (1UL << 11) /* <11:11> R:RW:1: */
 
 
-#define PDSS_PTDRV_CTRL_0_DELAY_HV_LV_MASK                  (0x007fc000UL) /* <14:22> R:RW:0: */
-#define PDSS_PTDRV_CTRL_0_DELAY_HV_LV_POS                   (14UL)
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_CFG_MASK    (0x00003000UL) /* <12:13> R:RW:3: */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_CFG_POS     (12UL)
 
 
-#define PDSS_PTDRV_CTRL_0_DELAY_LV_HV_MASK                  (0xff800000UL) /* <23:31> R:RW:0: */
-#define PDSS_PTDRV_CTRL_0_DELAY_LV_HV_POS                   (23UL)
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_RESET    (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_BYPASS    (1UL << 15) /* <15:15> R:RW:0: */
+
+
+/*
+ * #of clock CLK_BB_SOFT filtering. Should be programmed before FILTER is
+ * enabled.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_SEL_MASK    (0x001f0000UL) /* <16:20> R:RW:1: */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_FILT_SEL_POS    (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR17_CFG_0_PDBB_VREG_IN_RUSH_DET_DPSLP_MODE    (1UL << 21) /* <21:21> R:RW:1:PASC2_EN */
+
+
+/*
+ * S8PDBB HardIP Filter and Edge detector config for CC1_SCP & CC2_SCP
+ */
+#define PDSS_INTR17_CFG_10_ADDRESS                          (0x400a22a8UL)
+#define PDSS_INTR17_CFG_10                                  (*(volatile uint32_t *)(0x400a22a8UL))
+#define PDSS_INTR17_CFG_10_DEFAULT                          (0x00814814UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_EN               (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_CFG_MASK         (0x00000006UL) /* <1:2> R:RW:2: */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_CFG_POS          (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_RESET            (1UL << 3) /* <3:3> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_BYPASS           (1UL << 4) /* <4:4> R:RW:1: */
+
+
+/*
+ * #of clock CLK_BB filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_SEL_MASK         (0x000007e0UL) /* <5:10> R:RW:0: */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_FILT_SEL_POS          (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC1_SCP_DPSLP_MODE            (1UL << 11) /* <11:11> R:RW:1:PASC2_EN */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_EN               (1UL << 12) /* <12:12> R:RW:0: */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_CFG_MASK         (0x00006000UL) /* <13:14> R:RW:2: */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_CFG_POS          (13UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_RESET            (1UL << 15) /* <15:15> R:RW:0: */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_BYPASS           (1UL << 16) /* <16:16> R:RW:1: */
+
+
+/*
+ * #of clock CLK_BB filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_SEL_MASK         (0x007e0000UL) /* <17:22> R:RW:0: */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_FILT_SEL_POS          (17UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR17_CFG_10_BB_CC2_SCP_DPSLP_MODE            (1UL << 23) /* <23:23> R:RW:1:PASC2_EN */
+
+
+/*
+ * INTR17 Status
+ */
+#define PDSS_INTR17_STATUS_0_ADDRESS                        (0x400a22e4UL)
+#define PDSS_INTR17_STATUS_0                                (*(volatile uint32_t *)(0x400a22e4UL))
+#define PDSS_INTR17_STATUS_0_DEFAULT                        (0x00000000UL)
+
+/*
+ * The status of s8pdbb_40vreg_top.vin_det
+ */
+#define PDSS_INTR17_STATUS_0_PDBB_40VREG_VIN_DET_STATUS     (1UL << 0) /* <0:0> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * The filtered output of s8pdbb_40vreg_top.vin_det
+ */
+#define PDSS_INTR17_STATUS_0_PDBB_40VREG_VIN_DET_FILT       (1UL << 1) /* <1:1> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * The status of s8pdbb_40vreg_top.in_rush_det_lv
+ */
+#define PDSS_INTR17_STATUS_0_PDBB_40VREG_IN_RUSH_DET_STATUS    (1UL << 2) /* <2:2> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * The filtered output of s8pdbb_40vreg_top.in_rush_det_lv
+ */
+#define PDSS_INTR17_STATUS_0_PDBB_40VREG_IN_RUSH_DET_FILT    (1UL << 3) /* <3:3> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * INTR17 Status
+ */
+#define PDSS_INTR17_STATUS_1_ADDRESS                        (0x400a22e8UL)
+#define PDSS_INTR17_STATUS_1                                (*(volatile uint32_t *)(0x400a22e8UL))
+#define PDSS_INTR17_STATUS_1_DEFAULT                        (0x00000000UL)
+
+/*
+ * The status of s8pdbb_20vconn_top.scp_cc1
+ */
+#define PDSS_INTR17_STATUS_1_PDBB_CC1_SCP_STATUS            (1UL << 18) /* <18:18> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * The filtered output of s8pdbb_ea_top.scp_cc1
+ */
+#define PDSS_INTR17_STATUS_1_PDBB_CC1_SCP_FILT              (1UL << 19) /* <19:19> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * The status of s8pdbb_20vconn_top.scp_cc2
+ */
+#define PDSS_INTR17_STATUS_1_PDBB_CC2_SCP_STATUS            (1UL << 20) /* <20:20> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * The filtered output of s8pdbb_ea_top.scp_cc2
+ */
+#define PDSS_INTR17_STATUS_1_PDBB_CC2_SCP_FILT              (1UL << 21) /* <21:21> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * INTR17 interrupt Cause.
+ */
+#define PDSS_INTR17_ADDRESS                                 (0x400a22ecUL)
+#define PDSS_INTR17                                         (*(volatile uint32_t *)(0x400a22ecUL))
+#define PDSS_INTR17_DEFAULT                                 (0x00000000UL)
+
+/*
+ * s8pdbb_40vreg_top.vin_det changed. Check the INTR17_STATUS_0.PDBB_40VREG_VIN_DET_STATUS
+ */
+#define PDSS_INTR17_PDBB_40VREG_VIN_DET                     (1UL << 0) /* <0:0> RW1S:RW1C:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * s8pdbb_40vreg_top.in_rush_det_lv changed. Check the INTR17_STATUS_0.PDBB_40VREG_IN_RUSH_DET_STATUS
+ */
+#define PDSS_INTR17_PDBB_40VREG_IN_RUSH_DET                 (1UL << 1) /* <1:1> RW1S:RW1C:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * changed. Check the INTR17_STATUS_1.PDBB_CC1_SCP_STATUS
+ */
+#define PDSS_INTR17_PDBB_CC1_SCP                            (1UL << 21) /* <21:21> RW1S:RW1C:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * changed. Check the INTR17_STATUS_1.PDBB_CC2_SCP_STATUS
+ */
+#define PDSS_INTR17_PDBB_CC2_SCP                            (1UL << 22) /* <22:22> RW1S:RW1C:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * INTR17 Interrupt Set
+ */
+#define PDSS_INTR17_SET_ADDRESS                             (0x400a22f0UL)
+#define PDSS_INTR17_SET                                     (*(volatile uint32_t *)(0x400a22f0UL))
+#define PDSS_INTR17_SET_DEFAULT                             (0x00000000UL)
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_SET_PDBB_40VREG_VIN_DET                 (1UL << 0) /* <0:0> A:RW1S:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_SET_PDBB_40VREG_IN_RUSH_DET             (1UL << 1) /* <1:1> A:RW1S:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_SET_PDBB_CC1_SCP                        (1UL << 21) /* <21:21> A:RW1S:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_SET_PDBB_CC2_SCP                        (1UL << 22) /* <22:22> A:RW1S:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * INTR17 interrupt Mask
+ */
+#define PDSS_INTR17_MASK_ADDRESS                            (0x400a22f4UL)
+#define PDSS_INTR17_MASK                                    (*(volatile uint32_t *)(0x400a22f4UL))
+#define PDSS_INTR17_MASK_DEFAULT                            (0x00000000UL)
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_MASK_PDBB_40VREG_VIN_DET_MASK           (1UL << 0) /* <0:0> R:RW:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_MASK_PDBB_40VREG_IN_RUSH_DET_MASK       (1UL << 1) /* <1:1> R:RW:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_MASK_PDBB_CC1_SCP_MASK                  (1UL << 21) /* <21:21> R:RW:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR17_MASK_PDBB_CC2_SCP_MASK                  (1UL << 22) /* <22:22> R:RW:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * INTR17 interrupt Masked
+ */
+#define PDSS_INTR17_MASKED_ADDRESS                          (0x400a22f8UL)
+#define PDSS_INTR17_MASKED                                  (*(volatile uint32_t *)(0x400a22f8UL))
+#define PDSS_INTR17_MASKED_DEFAULT                          (0x00000000UL)
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR17_MASKED_PDBB_40VREG_VIN_DET_MASKED       (1UL << 0) /* <0:0> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR17_MASKED_PDBB_40VREG_IN_RUSH_DET_MASKED    (1UL << 1) /* <1:1> RW:R:0:CCG7D_EN_INST_ZERO_PASC2 */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR17_MASKED_PDBB_CC1_SCP_MASKED              (1UL << 21) /* <21:21> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR17_MASKED_PDBB_CC2_SCP_MASKED              (1UL << 22) /* <22:22> RW:R:0:CCG7D_CCG7S_PASC2_EN */
+
+
+/*
+ * INTR10 Cause. These are the active interrupts get reflected on interrupt_usbpd
+ * pin.
+ */
+#define PDSS_INTR10_ADDRESS                                 (0x400a2340UL)
+#define PDSS_INTR10                                         (*(volatile uint32_t *)(0x400a2340UL))
+#define PDSS_INTR10_DEFAULT                                 (0x00000000UL)
+
+/*
+ * This interrupt indicates Die temparature has crossed above Over Temparature
+ * Protection Threshold
+ */
+#define PDSS_INTR10_OTP_DET                                 (1UL << 7) /* <7:7> RW1S:RW1C:0:EN_OTP */
+
+
+/*
+ * This interrupt indicates a possible Rsense Short condition
+ */
+#define PDSS_INTR10_RSNS_SHRT_DET                           (1UL << 8) /* <8:8> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * INTR10 Set
+ */
+#define PDSS_INTR10_SET_ADDRESS                             (0x400a2344UL)
+#define PDSS_INTR10_SET                                     (*(volatile uint32_t *)(0x400a2344UL))
+#define PDSS_INTR10_SET_DEFAULT                             (0x00000000UL)
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR10_SET_OTP_DET                             (1UL << 7) /* <7:7> A:RW1S:0:EN_OTP */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR10_SET_RSNS_SHRT_DET                       (1UL << 8) /* <8:8> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * INTR10 Mask
+ */
+#define PDSS_INTR10_MASK_ADDRESS                            (0x400a2348UL)
+#define PDSS_INTR10_MASK                                    (*(volatile uint32_t *)(0x400a2348UL))
+#define PDSS_INTR10_MASK_DEFAULT                            (0x00000000UL)
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR10_MASK_OTP_DET_MASK                       (1UL << 7) /* <7:7> R:RW:0:EN_OTP */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR10_MASK_RSNS_SHRT_DET_MASK                 (1UL << 8) /* <8:8> R:RW:0:PASC2_EN */
+
+
+/*
+ * INTR10 Masked
+ */
+#define PDSS_INTR10_MASKED_ADDRESS                          (0x400a234cUL)
+#define PDSS_INTR10_MASKED                                  (*(volatile uint32_t *)(0x400a234cUL))
+#define PDSS_INTR10_MASKED_DEFAULT                          (0x00000000UL)
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR10_MASKED_OTP_DET_MASKED                   (1UL << 7) /* <7:7> RW:R:0:EN_OTP */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR10_MASKED_RSNS_SHRT_DET_MASKED             (1UL << 8) /* <8:8> RW:R:0:PASC2_EN */
 
 
 /*
  * S8PDS Hard IP PTDRV Register
  */
-#define PDSS_PTDRV_CTRL_1_ADDRESS                           (0x400a2584UL)
-#define PDSS_PTDRV_CTRL_1                                   (*(volatile uint32_t *)(0x400a2584UL))
-#define PDSS_PTDRV_CTRL_1_DEFAULT                           (0x00000000UL)
+#define PDSS_PTDRV_CTRL_0_ADDRESS                           (0x400a2550UL)
+#define PDSS_PTDRV_CTRL_0                                   (*(volatile uint32_t *)(0x400a2550UL))
+#define PDSS_PTDRV_CTRL_0_DEFAULT                           (0x80fc0000UL)
 
-#define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PCONF_MASK            (0x0000000fUL) /* <0:3> R:RW:0: */
+/*
+ * isolation signal for LV supply
+ */
+#define PDSS_PTDRV_CTRL_0_PTDRV_ISO_N                       (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * adft control signal for pulse-transformer-driver block
+ * <1:0>        adft0
+ * 00                 Z
+ * 01                 Driver output (star connection)
+ * <3:2>        adft1
+ * 00                 Z
+ * 01                 vddd supply
+ */
+#define PDSS_PTDRV_CTRL_0_ADFT_CTRL_PTDRV_MASK              (0x0000003cUL) /* <2:5> R:RW:0: */
+#define PDSS_PTDRV_CTRL_0_ADFT_CTRL_PTDRV_POS               (2UL)
+
+
+/*
+ * To alter delay of HV to LV and LV to HV delay
+ */
+#define PDSS_PTDRV_CTRL_0_T_PTDRV_MASK                      (0x000000c0UL) /* <6:7> R:RW:0: */
+#define PDSS_PTDRV_CTRL_0_T_PTDRV_POS                       (6UL)
+
+
+/*
+ * pulse-transformer-driver enable signal
+ */
+#define PDSS_PTDRV_CTRL_0_PTDRV_EN                          (1UL << 8) /* <8:8> R:RW:0: */
+
+
+/*
+ * 1: tristate ptdriver output
+ */
+#define PDSS_PTDRV_CTRL_0_PTDRV_TRISTATE                    (1UL << 9) /* <9:9> R:RW:0: */
+
+
+/*
+ * enable internal delay path for ptdrv_in going low to acf_weakp going high
+ */
+#define PDSS_PTDRV_CTRL_0_EN_INT_DEL_ACF_WEAKP              (1UL << 10) /* <10:10> R:RW:0: */
+
+
+/*
+ * internal delay block to generate hardware delay between ptdrv_in going
+ * low to acf_weakp going high
+ * <24>= 1 : bypass delay
+ * <23:18> :
+ * 0 -5ns
+ * 63 - 220 ns
+ */
+#define PDSS_PTDRV_CTRL_0_DELAY_HV_LV_MASK                  (0x01fc0000UL) /* <18:24> R:RW:63: */
+#define PDSS_PTDRV_CTRL_0_DELAY_HV_LV_POS                   (18UL)
+
+
+/*
+ * internal delay block to delay pwm pos-edge
+ * <31>= 1 : bypass delay
+ * <30:25> :
+ * 0 -5ns
+ * 63 - 220 ns
+ */
+#define PDSS_PTDRV_CTRL_0_DELAY_LV_HV_MASK                  (0xfe000000UL) /* <25:31> R:RW:64: */
+#define PDSS_PTDRV_CTRL_0_DELAY_LV_HV_POS                   (25UL)
+
+
+/*
+ * S8PDS Hard IP PTDRV Register
+ */
+#define PDSS_PTDRV_CTRL_1_ADDRESS                           (0x400a2554UL)
+#define PDSS_PTDRV_CTRL_1                                   (*(volatile uint32_t *)(0x400a2554UL))
+#define PDSS_PTDRV_CTRL_1_DEFAULT                           (0x097f007fUL)
+
+/*
+ * Drive strength options for HV driver pull up
+ * 0x0 - 25k ohm
+ * 0x1 - 100 ohm
+ * 0x8 - 12 ohm
+ * 0xF - 6 ohm
+ */
+#define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PCONF_MASK            (0x0000000fUL) /* <0:3> R:RW:15: */
 #define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PCONF_POS             (0UL)
 
 
-#define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PSLEW_MASK            (0x000000f0UL) /* <4:7> R:RW:0: */
+/*
+ * HV drive slew options pull up
+ * <1:0>  :00 lowest drive; 11 highest drive strength of predrivers
+ * <2> enables the delay between predrivers
+ * <3> Option to reduce the delay between predrivers
+ */
+#define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PSLEW_MASK            (0x000000f0UL) /* <4:7> R:RW:7: */
 #define PDSS_PTDRV_CTRL_1_PTDRV_HVDRV_PSLEW_POS             (4UL)
 
 
-#define PDSS_PTDRV_CTRL_1_PTDRV_LVDRV_PCONF_MASK            (0x00000f00UL) /* <8:11> R:RW:0: */
-#define PDSS_PTDRV_CTRL_1_PTDRV_LVDRV_PCONF_POS             (8UL)
-
-
-#define PDSS_PTDRV_CTRL_1_PTDRV_LVDRV_PSLEW_MASK            (0x0000f000UL) /* <12:15> R:RW:0: */
-#define PDSS_PTDRV_CTRL_1_PTDRV_LVDRV_PSLEW_POS             (12UL)
-
-
-#define PDSS_PTDRV_CTRL_1_PTDRV_NCONF_MASK                  (0x000f0000UL) /* <16:19> R:RW:0: */
+/*
+ * HV Pull down drive strength
+ * 0x0 - 25k ohm
+ * 0x1 - 75 ohm
+ * 0x8 - 10 ohm
+ * 0xF - 5 ohm
+ */
+#define PDSS_PTDRV_CTRL_1_PTDRV_NCONF_MASK                  (0x000f0000UL) /* <16:19> R:RW:15: */
 #define PDSS_PTDRV_CTRL_1_PTDRV_NCONF_POS                   (16UL)
 
 
-#define PDSS_PTDRV_CTRL_1_PTDRV_NSLEW_MASK                  (0x00f00000UL) /* <20:23> R:RW:0: */
+/*
+ * HV Pull down slew options
+ * <1:0>  :00 lowest drive; 11 highest drive strength of predrivers
+ * <2> enables the delay between predrivers
+ * <3> Option to reduce the delay between predrivers
+ */
+#define PDSS_PTDRV_CTRL_1_PTDRV_NSLEW_MASK                  (0x00f00000UL) /* <20:23> R:RW:7: */
 #define PDSS_PTDRV_CTRL_1_PTDRV_NSLEW_POS                   (20UL)
 
 
-#define PDSS_PTDRV_CTRL_1_PTDRV_RES_CONF_MASK               (0x0f000000UL) /* <24:27> R:RW:0: */
+/*
+ * Change the source current during weak pull up
+ * 0x1 - 0.5 mA
+ * 0x8 - 4 mA
+ * 0x15 - 8 mA
+ */
+#define PDSS_PTDRV_CTRL_1_PTDRV_RES_CONF_MASK               (0x0f000000UL) /* <24:27> R:RW:9: */
 #define PDSS_PTDRV_CTRL_1_PTDRV_RES_CONF_POS                (24UL)
 
 
 /*
- * S8PDS Hard IP LSCSA V2 Register
+ * PASC Hard-Ip Sequence Generator Control Register 3
  */
-#define PDSS_LSCSAV2_CTRL_0_ADDRESS                         (0x400a2590UL)
-#define PDSS_LSCSAV2_CTRL_0                                 (*(volatile uint32_t *)(0x400a2590UL))
-#define PDSS_LSCSAV2_CTRL_0_DEFAULT                         (0x00000000UL)
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ADDRESS                     (0x400a2558UL)
+#define PDSS_HIP_SEQ_GEN_3_CTRL                             (*(volatile uint32_t *)(0x400a2558UL))
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DEFAULT                     (0x10604070UL)
 
-#define PDSS_LSCSAV2_CTRL_0_LSCSAV2_ADFT_EN                 (1UL << 0) /* <0:0> R:RW:0: */
-
-
-#define PDSS_LSCSAV2_CTRL_0_ADFT_CTRL_LSCSAV2_MASK          (0x0000007eUL) /* <1:6> R:RW:0: */
-#define PDSS_LSCSAV2_CTRL_0_ADFT_CTRL_LSCSAV2_POS           (1UL)
-
-
-#define PDSS_LSCSAV2_CTRL_0_EN_LSCSA                        (1UL << 8) /* <8:8> R:RW:0: */
+/*
+ * ZVS enable (ZVS and ACF cannot be enabled together)
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ZVS_ON_ANY_VALLEY           (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_LTRAN                        (1UL << 9) /* <9:9> R:RW:0: */
+/*
+ * ACF enable (ACF and ZVS cannot be enabled together)
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ACF_EN                      (1UL << 1) /* <1:1> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_LTRANCOMP_H2L                (1UL << 10) /* <10:10> R:RW:0: */
+/*
+ * 1:  NSN_EN does not depend on feedfwd_integ_resetb_out going high for
+ * legacy mode (non-False-NSN)
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_FF_INTEG_RESETB_DIS_FOR_NSN_EN    (1UL << 2) /* <2:2> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_LTRANCOMP_L2H                (1UL << 11) /* <11:11> R:RW:0: */
+/*
+ * 1: ZCDF_OUT not used for NSN_EN in SR-mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ZCDF_DIS_FOR_NSN_EN         (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_OCP                          (1UL << 12) /* <12:12> R:RW:0: */
+/*
+ * 1: ZCD_OUT not used for NSN_EN in SR-mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ZCD_DIS_FOR_NSN_EN          (1UL << 4) /* <4:4> R:RW:1:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_OCP_HYST                     (1UL << 13) /* <13:13> R:RW:0: */
+/*
+ * In SR-Only Mode wait for FF Integ out to enable NSN (False-NSN mode)
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_FALSE_NSN_FOR_NSN_EN        (1UL << 5) /* <5:5> R:RW:1:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_OCP_OUT_D                    (1UL << 14) /* <14:14> R:RW:0: */
+/*
+ * 1: NSN IDLE Timer expiry not used for NSN_EN while waiting for FF_integ_out
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_NSN_IDL_TMR_DIS_FOR_NSN_EN    (1UL << 6) /* <6:6> R:RW:1:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_SCP                          (1UL << 15) /* <15:15> R:RW:0: */
+/*
+ * 1: PTDRV_IN Neg-edge not used for NSN_EN async assertion for PWM mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_PTDRV_NEG_DIS_FOR_NSN_EN    (1UL << 7) /* <7:7> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_SCP_HYST                     (1UL << 16) /* <16:16> R:RW:0: */
+/*
+ * 1: Dual_gdrv_mode override
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_DUAL_GDRV_MODE          (1UL << 8) /* <8:8> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_SCP_OUT_D                    (1UL << 17) /* <17:17> R:RW:0: */
+/*
+ * Dual_gdrv_mode value in override mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_DUAL_GDRV_MODE_VAL      (1UL << 9) /* <9:9> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_EN_VBGBYR                       (1UL << 18) /* <18:18> R:RW:0: */
+/*
+ * 1: sr_sen_ctrln_en override
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_SR_SEN_CTRLN_EN_MODE    (1UL << 10) /* <10:10> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_LTRAN_BUFFER_IBIAS_INC          (1UL << 19) /* <19:19> R:RW:0: */
+/*
+ * sr_sen_ctrln_en value in override mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_SR_SEN_CTRLN_EN_MODE_VAL    (1UL << 11) /* <11:11> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_SCP_LATCH_BYPASS                (1UL << 20) /* <20:20> R:RW:0: */
+/*
+ * 1: sr_sen_ctrlp_en override
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_SR_SEN_CTRLP_EN_MODE    (1UL << 12) /* <12:12> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_V2I_AMP_DIFFPAIR_CASCODE_DIS    (1UL << 21) /* <21:21> R:RW:0: */
+/*
+ * sr_sen_ctrlp_en value in override mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_OVR_SR_SEN_CTRLP_EN_MODE_VAL    (1UL << 13) /* <13:13> R:RW:0:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_LSCSA_V2_ISO_N                  (1UL << 30) /* <30:30> R:RW:0: */
+/*
+ * 1: ACF_IN pos-edge not used for deassertion of ZCD_EN, ZCDF_EN, GDRV_IN
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ACF_IN_DIS_FOR_SIG_DSRT     (1UL << 14) /* <14:14> R:RW:1:PASC2_EN */
 
 
-#define PDSS_LSCSAV2_CTRL_0_LSCSA_V2_PD                     (1UL << 31) /* <31:31> R:RW:0: */
+/*
+ * Mask L2H event based transition from SKIP to EA mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_MASK_L2H_IN_SKIP            (1UL << 15) /* <15:15> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit makes burst_entry signal as burst exit signal. This also
+ * block burst entry from SKIP and moves to EA mode on Burst entry detection.
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_BLOCK_BURST_MODE            (1UL << 16) /* <16:16> R:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit to enable ACF Calibration. To enable ACF cal, this bit must
+ * be set before setting ACF_EN. This bit is acuto cleared once the ACF calibration
+ * is either completed successfully or fails.
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_ACF_CAL_EN                  (1UL << 17) /* <17:17> RW1C:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit to enable DT Mask Calibration. To enable ACF cal, this bit
+ * must be set before setting ACF_EN. This bit is acuto cleared once the
+ * ACF calibration is either completed successfully or fails.
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DT_CAL_EN                   (1UL << 18) /* <18:18> RW1C:RW:0:PASC2_EN */
+
+
+/*
+ * SR Mode: For GDRV pulse-width higher than this threshold, will enable
+ * dual_gdrv_mode
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DOUBLER_EN_THRESHOLD_MASK    (0x03f80000UL) /* <19:25> R:RW:12:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DOUBLER_EN_THRESHOLD_POS    (19UL)
+
+
+/*
+ * SR Mode:  Dual_gdrv_mode deassertion after (previous switching cycle GDRV
+ * pulse-width - this delay) from assertion of  GDRV_IN
+ */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DOUBLER_DIS_PRE_DLY_MASK    (0xfc000000UL) /* <26:31> R:RW:4:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_3_CTRL_DOUBLER_DIS_PRE_DLY_POS     (26UL)
+
+
+/*
+ * PASC Hard-Ip Sequence Generator Control Register 4
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_ADDRESS                     (0x400a255cUL)
+#define PDSS_HIP_SEQ_GEN_4_CTRL                             (*(volatile uint32_t *)(0x400a255cUL))
+#define PDSS_HIP_SEQ_GEN_4_CTRL_DEFAULT                     (0x0006060dUL)
+
+/*
+ * SR mode : Feedfwd_integ_resetb pulse-width above this threshold will result
+ * in enabling of nsn_en
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_FF_INTEG_RSTB_PW_THRESH_MASK    (0x000001ffUL) /* <0:8> R:RW:13:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_FF_INTEG_RSTB_PW_THRESH_POS    (0UL)
+
+
+/*
+ * Enable generation of dual_gdrv_mode signal.
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_DUAL_GDRV_PULSE_EN          (1UL << 9) /* <9:9> R:RW:1:PASC2_EN */
+
+
+/*
+ * Pulse width of dual_gdrv_pulse after deassertion of dual_gdrv_mode signal.
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_DUAL_GDRV_PW_MASK           (0x00001c00UL) /* <10:12> R:RW:1:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_DUAL_GDRV_PW_POS            (10UL)
+
+
+/*
+ * Enables SR_SEN_CTRLN_EN controlled assertion during ACF cal mode.
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_EN_SR_SEN_CTRLN_EN_IN_ACF_CAL    (1UL << 13) /* <13:13> R:RW:0:PASC2_EN */
+
+
+/*
+ * SR_SEN_CTRLN timeout from assertion of SR_SEN_CTRLN. Should be programmed
+ * 1 more than the calculated value.
+ * For SR mode : Programme it to high value (100us).
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_SR_SEN_CTRLN_DSRT_DLY_MASK    (0x03ffc000UL) /* <14:25> R:RW:24:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_SR_SEN_CTRLN_DSRT_DLY_POS    (14UL)
+
+
+/*
+ * PWM mode: SR_SEN_CTRLN on delay;
+ * SR-mode : NSN_EN pos-edge + [(NSN_WAIT_TIME - ctrln_en_buffer_delay)]
+ */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_SR_SEN_CTRLN_BUF_DLY_MASK    (0xfc000000UL) /* <26:31> R:RW:0:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_4_CTRL_SR_SEN_CTRLN_BUF_DLY_POS    (26UL)
+
+
+/*
+ * PASC Hard-Ip Sequence Generator Control Register 5
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ADDRESS                     (0x400a2560UL)
+#define PDSS_HIP_SEQ_GEN_5_CTRL                             (*(volatile uint32_t *)(0x400a2560UL))
+#define PDSS_HIP_SEQ_GEN_5_CTRL_DEFAULT                     (0x00800703UL)
+
+/*
+ * Controls assertion delay of "zcd_en" signal. Used in Low Frequency Mode.
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ZCD_EN_ON_DLY_LFM_MASK      (0x000000ffUL) /* <0:7> R:RW:3:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ZCD_EN_ON_DLY_LFM_POS       (0UL)
+
+
+/*
+ * Pulse-width of ACF_WeakP
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_WEAKP_PW_MASK           (0x00003f00UL) /* <8:13> R:RW:7:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_WEAKP_PW_POS            (8UL)
+
+
+/*
+ * Controls assertion delay of ACF_IN signal. The delay is appicable after
+ * VAR_TMIN_TIMEOUT.
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_IN_ON_DLY_MASK          (0x000fc000UL) /* <14:19> R:RW:0:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_IN_ON_DLY_POS           (14UL)
+
+
+/*
+ * FW override control of PTDRV_IN. To be used when PASC is in IDLE mode
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_OVR_PTDRV_IN                (1UL << 20) /* <20:20> R:RW:0:PASC2_EN */
+
+
+/*
+ * FW override value of PTDRV_IN.
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_OVR_PTDRV_IN_VAL            (1UL << 21) /* <21:21> R:RW:0:PASC2_EN */
+
+
+/*
+ * SR_SEN_CTRLN_EN off delay from NSN_EN deassertion. This should be atleast
+ * 2 lesser than the ZCDF_EN/ZCD_EN ON delays.
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_SR_SEN_CTRLN_OFF_DLY_MASK    (0x03c00000UL) /* <22:25> R:RW:2:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_SR_SEN_CTRLN_OFF_DLY_POS    (22UL)
+
+
+/*
+ * ACF mode : PTDRV_IN neg-edge to ACF_weakP on delay; [FW]
+ * ZVS mode : GDRV_IN_ZVS on delay from Valid Peak
+ */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_WEAKP_ZVS_ON_VALLEY_DLY_MASK    (0xfc000000UL) /* <26:31> R:RW:0:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_5_CTRL_ACF_WEAKP_ZVS_ON_VALLEY_DLY_POS    (26UL)
+
+
+/*
+ * PASC Hard-Ip Sequence Generator Control Register 6
+ */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ADDRESS                     (0x400a2564UL)
+#define PDSS_HIP_SEQ_GEN_6_CTRL                             (*(volatile uint32_t *)(0x400a2564UL))
+#define PDSS_HIP_SEQ_GEN_6_CTRL_DEFAULT                     (0x0a140a0cUL)
+
+/*
+ * ACF DCM mode : ACF_IN pulse width;
+ * ZVS mode : ZVS pulse width
+ */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_DCM_ZVS_PW_MASK         (0x000001ffUL) /* <0:8> R:RW:12:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_DCM_ZVS_PW_POS          (0UL)
+
+
+/*
+ * ACF CCM mode : ACF_IN pulse width
+ */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_CCM_PW_MASK             (0x0003fe00UL) /* <9:17> R:RW:5:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_CCM_PW_POS              (9UL)
+
+
+/*
+ * ACF DCM mode: ACF_IN neg-edge to PTDRV pos-edge delay;
+ * ZVS mode : GDRV_IN_ZVS neg-edge to PTDRV pos-edge delay
+ */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_ZVS_PTDRV_DCM_DLY_MASK    (0x01fc0000UL) /* <18:24> R:RW:5:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_ZVS_PTDRV_DCM_DLY_POS    (18UL)
+
+
+/*
+ * ACF CCM mode: ACF_IN neg-edge to PTDRV pos-edge delay;
+ */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_PTDRV_CCM_DLY_MASK      (0xfe000000UL) /* <25:31> R:RW:5:PASC2_EN */
+#define PDSS_HIP_SEQ_GEN_6_CTRL_ACF_PTDRV_CCM_DLY_POS       (25UL)
+
+
+/*
+ * Power Adapter Secondary Controller (PASC) Configuration Register 1
+ */
+#define PDSS_PASC_CTRL_1_ADDRESS                            (0x400a256cUL)
+#define PDSS_PASC_CTRL_1                                    (*(volatile uint32_t *)(0x400a256cUL))
+#define PDSS_PASC_CTRL_1_DEFAULT                            (0x00000070UL)
+
+/*
+ * Indicates Frequency mode of operation. When enabled, the delay registers
+ * pertaining to the Low Frequency Mode of operation are used in timers.
+ * 0 - High Frequency Mode
+ * 1 - Low Frequency Mode (LFM)
+ */
+#define PDSS_PASC_CTRL_1_LFM_MODE                           (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit for feedfwd_integ_resetb_in signal.
+ * 0 - Logic uses FEEDFWD_2_CTRL::feedfwd_integ_resetb_in register value
+ * 1 - Logic uses external GPIO signal.
+ */
+#define PDSS_PASC_CTRL_1_SEL_EXT_FF_INTEG_RESETB_IN         (1UL << 1) /* <1:1> R:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit for ACF_IN signal.
+ * 0 - Logic uses Hard-Ip generated signal
+ * 1 - Logic uses external GPIO signal.
+ */
+#define PDSS_PASC_CTRL_1_SEL_EXT_ACF_IN                     (1UL << 2) /* <2:2> R:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit for ACF_WEAKP signal.
+ * 0 - Logic uses Hard-Ip generated signal
+ * 1 - Logic uses external GPIO signal.
+ */
+#define PDSS_PASC_CTRL_1_SEL_EXT_ACF_WEAKP                  (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Control bit for Fix Freq timeout mask in FF-QR dynamic switching mode
+ * 0 - Fix Freq timeout is not masked.
+ * 1 - Fix Freq timeout detection is masked if Valley is not 0, forcing the
+ * system to be in QR mode.
+ */
+#define PDSS_PASC_CTRL_1_EN_FF_MASK_QR_FF_DS                (1UL << 4) /* <4:4> R:RW:1:PASC2_EN */
+
+
+/*
+ * Control bit for Fix Freq timeout mask in during SKIP
+ * 0 - Fix Freq timeout is not masked.
+ * 1 - Fix Freq timeout detection is masked if skip entry is asserted allowing
+ * SKIP state entry
+ */
+#define PDSS_PASC_CTRL_1_EN_FF_MASK_SKIP                    (1UL << 5) /* <5:5> R:RW:1:PASC2_EN */
+
+
+/*
+ * Control bit for Var TMAX timeout mask during SKIP and IDLE entry
+ * 0 - Var TMAX timeout is not masked.
+ * 1 - Var TMAX timeout detection is masked if skip entry is asserted allowing
+ * SKIP state entry or IDLE when Idle entry is asserted
+ */
+#define PDSS_PASC_CTRL_1_EN_VAR_TMAX_MASK                   (1UL << 6) /* <6:6> R:RW:1:PASC2_EN */
 
 
 /*
  * S8PDS Hard IP LSCSA V2 Register
  */
-#define PDSS_LSCSAV2_CTRL_1_ADDRESS                         (0x400a2594UL)
-#define PDSS_LSCSAV2_CTRL_1                                 (*(volatile uint32_t *)(0x400a2594UL))
-#define PDSS_LSCSAV2_CTRL_1_DEFAULT                         (0x00000000UL)
+#define PDSS_LSCSAV2_CTRL_0_ADDRESS                         (0x400a2570UL)
+#define PDSS_LSCSAV2_CTRL_0                                 (*(volatile uint32_t *)(0x400a2570UL))
+#define PDSS_LSCSAV2_CTRL_0_DEFAULT                         (0x80000000UL)
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_AV_LTRAN_MASK               (0x00000003UL) /* <0:1> R:RW:0: */
+/*
+ * ADFT master enable
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_LSCSAV2_ADFT_EN                 (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * ADFT control bits
+ * adft_ctrl<3:0>=adft<0>
+ * 0=Hi-Z
+ * 1=pad_inp
+ * 2=Reserved
+ * 3=Reserved
+ * 4=Measure SCP current COMP's stack current
+ * 5=Measure vrefin_ocp coming to lscsa from refgen
+ * 6=Force OCP vrefin_ocp through adft
+ * 7=Force LTRAN S/H voltage (vmid_sf) through adft
+ * 8=adft UGB input offset voltage calibration, Force UGB input voltage through
+ * adft<1> and measure UGB output through adft<0>
+ * 9=Measure VOUT_CC and adft_ctrl<7:4>=0 should be kept at zero
+ * 10=Measure VOUT_CBL and adft_ctrl<7:4>=0 should be kept at zero
+ * 11=Measure VOUT_MON and adft_ctrl<7:4>=0 should be kept at zero
+ * 12=Measure VOUT_OCP and adft_ctrl<7:4>=0 should be kept at zero
+ * [15:13]=Reserved for UGB output type signal only
+ *
+ * adft_ctrl<7:4>=adft<1>
+ * 0=Hi-Z
+ * 1=pad_inn
+ * 2=Reserved
+ * 3=Measure LTRAN vmid_sf
+ * 4=Measure LTRAN deltavn_sf
+ * 5=Measure LTRAN deltavp_sf
+ * 6=Force OCP vin_ocp through adft
+ * 7=Force LTRAN deltav (both vmid_deltavn_sf, vmid_deltavp_sf) through adft
+ * 8=adft UGB input offset voltage calibration, Force UGB input voltage through
+ * adft<1> and measure UGB output through adft<0>
+ * [15;9]=Reserved for UGB input type signal only
+ */
+#define PDSS_LSCSAV2_CTRL_0_ADFT_CTRL_LSCSAV2_MASK          (0x000001feUL) /* <1:8> R:RW:0: */
+#define PDSS_LSCSAV2_CTRL_0_ADFT_CTRL_LSCSAV2_POS           (1UL)
+
+
+/*
+ * Enable of lscsa block (VOUT_CC,VOUT_CBL,VOUT_MON, VOUT_CC_RCFILTER)
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_LSCSA                        (1UL << 9) /* <9:9> R:RW:0: */
+
+
+/*
+ * Enable of load transient detect block (LTRAN)
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_LTRAN                        (1UL << 10) /* <10:10> R:RW:0: */
+
+
+/*
+ * Enable signal of LTRAN high to low comparator
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_LTRANCOMP_H2L                (1UL << 11) /* <11:11> R:RW:0: */
+
+
+/*
+ * Enable signal of LTRAN low to high comparator
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_LTRANCOMP_L2H                (1UL << 12) /* <12:12> R:RW:0: */
+
+
+/*
+ * Enable of OCP block
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_OCP                          (1UL << 13) /* <13:13> R:RW:0: */
+
+
+/*
+ * Enable of OCP hysteresis
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_OCP_HYST                     (1UL << 14) /* <14:14> R:RW:0: */
+
+
+/*
+ * Enable of OCP Comparator output
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_OCP_OUT_D                    (1UL << 15) /* <15:15> R:RW:0: */
+
+
+/*
+ * Enable of SCP block
+ * 0- OFF
+ * 1- ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_SCP                          (1UL << 16) /* <16:16> R:RW:0: */
+
+
+/*
+ * Enable of SCP hysteresis
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_SCP_HYST                     (1UL << 17) /* <17:17> R:RW:0: */
+
+
+/*
+ * Enable of SCP Comparator output
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_SCP_OUT_D                    (1UL << 18) /* <18:18> R:RW:0: */
+
+
+/*
+ * Enable of vbg/r current reference
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_EN_VBGBYR                       (1UL << 19) /* <19:19> R:RW:0: */
+
+
+/*
+ * Engineering Option: Increase bias current of LTRAN Source follower Buffer
+ */
+#define PDSS_LSCSAV2_CTRL_0_LTRAN_BUFFER_IBIAS_INC          (1UL << 20) /* <20:20> R:RW:0: */
+
+
+/*
+ * Engineering Option: Set pin leakage compensation current for pad_inp to
+ * match pad_inp leakage with pad_vgnd
+ */
+#define PDSS_LSCSAV2_CTRL_0_SEL_ICOMP_PAD_INP               (1UL << 21) /* <21:21> R:RW:0: */
+
+
+/*
+ * Engineering Option: Disable cascode bias of V2I converter amplifier input
+ * stage PMOS differential pair
+ */
+#define PDSS_LSCSAV2_CTRL_0_V2I_AMP_DIFFPAIR_CASCODE_DIS    (1UL << 22) /* <22:22> R:RW:0: */
+
+
+/*
+ * Engineering Option: Configure extra pin current on pad_vgnd to measure
+ * contact resistance during production test
+ */
+#define PDSS_LSCSAV2_CTRL_0_SEL_ISINK_PAD_VGND              (1UL << 23) /* <23:23> R:RW:0: */
+
+
+/*
+ * select SCP output latch path inside this IP
+ */
+#define PDSS_LSCSAV2_CTRL_0_SEL_SCP_LATCH_PATH              (1UL << 24) /* <24:24> R:RW:0: */
+
+
+/*
+ * isolation signal for LV supply
+ * 0 - OFF
+ * 1 - ON
+ */
+#define PDSS_LSCSAV2_CTRL_0_LSCSA_V2_ISO_N                  (1UL << 30) /* <30:30> R:RW:0: */
+
+
+/*
+ * Block power down input (Master PD)
+ * 1 - All analog and DC paths cut off, outputs forced to known value
+ * 0 - Normal functionality
+ */
+#define PDSS_LSCSAV2_CTRL_0_LSCSA_V2_PD                     (1UL << 31) /* <31:31> R:RW:1: */
+
+
+/*
+ * S8PDS Hard IP LSCSA V2 Register
+ */
+#define PDSS_LSCSAV2_CTRL_1_ADDRESS                         (0x400a2574UL)
+#define PDSS_LSCSAV2_CTRL_1                                 (*(volatile uint32_t *)(0x400a2574UL))
+#define PDSS_LSCSAV2_CTRL_1_DEFAULT                         (0x002002d9UL)
+
+/*
+ * Selects the voltage gain for LTRAN
+ * 2'b00-AV=20
+ * 2'b01-AV=30(Default)
+ * 2'b10-AV=40
+ * 2'b11-AV=50
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_AV_LTRAN_MASK               (0x00000003UL) /* <0:1> R:RW:1: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_AV_LTRAN_POS                (0UL)
 
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_AV_OCP_MASK                 (0x0000000cUL) /* <2:3> R:RW:0: */
+/*
+ * Selects the voltage gain for OCP
+ * 2'b00-AV=30
+ * 2'b01-AV=40
+ * 2'b10-AV=50(Default)
+ * 2'b11-AV=60
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_AV_OCP_MASK                 (0x0000000cUL) /* <2:3> R:RW:2: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_AV_OCP_POS                  (2UL)
 
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CBL_MASK            (0x00000030UL) /* <4:5> R:RW:0: */
+/*
+ * Selects the voltage gain for VOUT_CBL
+ * 2'b00->AV=30
+ * 2'b01->AV=60(Default)
+ * 2'b10->AV=150
+ * 2'b11->AV=200
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CBL_MASK            (0x00000030UL) /* <4:5> R:RW:1: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CBL_POS             (4UL)
 
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CC_MASK             (0x000001c0UL) /* <6:8> R:RW:0: */
+/*
+ * Selects the voltage gain for VOUT_CC
+ * 3'b000->AV=30
+ * 3'b001->AV=40
+ * 3'b010->AV=50
+ * 3'b011->AV=60(Default)
+ * 3'b100->AV=70
+ * 3'b101->AV=80
+ * 3'b110->AV=90
+ * 3'b111->AV=100
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CC_MASK             (0x000001c0UL) /* <6:8> R:RW:3: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_CC_POS              (6UL)
 
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_MON_MASK            (0x00000600UL) /* <9:10> R:RW:0: */
+/*
+ * Selects the voltage gain for VOUT_MON
+ * 2'b00->AV=30
+ * 2'b01->AV=60(Default)
+ * 2'b10->AV=150
+ * 2'b11->AV=200
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_MON_MASK            (0x00000600UL) /* <9:10> R:RW:1: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_AV_VOUT_MON_POS             (9UL)
 
 
+/*
+ * Selects the OCP analog bandwidth
+ * 2'b00->BW=44KHz(default)
+ * 2'b01->BW=62KHz
+ * 2'b10->BW=98KHZ
+ * 2'b11->BW=206KHz
+ */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_OCP_MASK                 (0x00007800UL) /* <11:14> R:RW:0: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_OCP_POS                  (11UL)
 
 
+/*
+ * Selects the SCP analog bandwidth
+ * 2'b00->BW=4.1MHz(default)
+ * 2'b01->BW=3.2MHz
+ * 2'b10->BW=2.7MHZ
+ * 2'b11->BW=2.4MHz
+ */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_SCP_MASK                 (0x00018000UL) /* <15:16> R:RW:0: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_SCP_POS                  (15UL)
 
 
+/*
+ * Selects the VOUT_CC_RCFILTER analog bandwidth, VOUT_CC analog bandwidth
+ * option available in EA
+ * 4'b0000->BW=10KHz(default)
+ * 4'b0001->BW=14KHz
+ * 4'b0010->BW=25KHz
+ * 4'b0011->BW=91KHz
+ *
+ * 4'b0100->BW=14KHz
+ * 4'b0101->BW=19KHz
+ * 4'b0110->BW=33KHz
+ * 4'b0111->BW=107KHz
+ *
+ * 4'b1000->BW=20KHz
+ * 4'b1001->BW=28KHz
+ * 4'b1010->BW=45KHz
+ * 4'b1011->BW=106KHz
+ *
+ * 4'b1100->BW=46KHz
+ * 4'b1101->BW=59KHz
+ * 4'b0110->BW=80KHz
+ * 4'b1111->BW=116KHz
+ */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_VOUT_CC_MASK             (0x001e0000UL) /* <17:20> R:RW:0: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_BW_VOUT_CC_POS              (17UL)
 
 
-#define PDSS_LSCSAV2_CTRL_1_SEL_LTRAN_DELTAV_MASK           (0x00e00000UL) /* <21:23> R:RW:0: */
+/*
+ * Selects the delta voltage for LTRAN detection
+ * 3'b000->deltaV=50mV
+ * 3'b001->deltaV=75mV(default)
+ * 3'b010->deltaV=100mV
+ * 3'b011->deltaV=125mV
+ * 3'b100->deltaV=150mV
+ * 3'b101->deltaV=200mV
+ * 3'b110->deltaV=250mV
+ * 3'b111->deltaV=300mV
+ */
+#define PDSS_LSCSAV2_CTRL_1_SEL_LTRAN_DELTAV_MASK           (0x00e00000UL) /* <21:23> R:RW:1: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_LTRAN_DELTAV_POS            (21UL)
 
 
+/*
+ * Selects SCP detection threshold
+ * 3'b000->SCP=6A(default)
+ * 3'b001->SCP=8A
+ * 3'b010->SCP=10A
+ * 3'b011->SCP=12A
+ * 3'b100->SCP=14A
+ * 3'b101->SCP=16A
+ * 3'b110->SCP=18A
+ * 3'b111->SCP=20A
+ */
 #define PDSS_LSCSAV2_CTRL_1_SEL_SCP_MASK                    (0x07000000UL) /* <24:26> R:RW:0: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_SCP_POS                     (24UL)
 
 
+/*
+ * Selects SCP output blanking time(analog filter), rising edge
+ * 3'b000->DELAY=0uS(Default)
+ * 3'b001->DELAY=0.42uS
+ * 3'b010->DELAY=0.68uS
+ * 3'b011->DELAY=0.93uS
+ * 3'b100->DELAY=1.17uS
+ * 3'b101->DELAY=1.40uS
+ * 3'b110->DELAY=1.64uS
+ * 3'b111->DELAY=1.87S
+ */
 #define PDSS_LSCSAV2_CTRL_1_SEL_SCP_BLNK_TIME_MASK          (0x38000000UL) /* <27:29> R:RW:0: */
 #define PDSS_LSCSAV2_CTRL_1_SEL_SCP_BLNK_TIME_POS           (27UL)
 
 
 /*
- * S8PDSV2 40V Regulator Control Register (NA in PMG1S3)
+ * S8PDSV2 40V Regulator Control Register
  */
-#define PDSS_V2_40VREG_CTRL_ADDRESS                         (0x400a2598UL)
-#define PDSS_V2_40VREG_CTRL                                 (*(volatile uint32_t *)(0x400a2598UL))
-#define PDSS_V2_40VREG_CTRL_DEFAULT                         (0x008ecf02UL)
+#define PDSS_V2_40VREG_CTRL_ADDRESS                         (0x400a2578UL)
+#define PDSS_V2_40VREG_CTRL                                 (*(volatile uint32_t *)(0x400a2578UL))
+#define PDSS_V2_40VREG_CTRL_DEFAULT                         (0x008acf82UL)
 
 /*
  * LV output isolation (active low)
@@ -13325,13 +15572,13 @@ typedef struct {
  * , adft<1>=Vfb for Vin reg                                            
  *                                                                      
  *                                                              010 - adft<0>=
- * vin_good_vcrude , adft<1>=Not used                                   
+ * vin_good_vcrude , adft<1>=vbus_clip_adft                             
  *                                                                      
  *                                                                      
- * 011 - adft<0>= clamp_ctrl_cr for inrush , adft<1>=Not used           
+ *      011 - adft<0>= clamp_ctrl_cr for inrush , adft<1>=Not used      
  *                                                                      
  *                                                                      
- *                         100 - adft<0>= ib 0.64uA , adft<1>=inrush_det_out_cr
+ *                              100 - adft<0>= ib 0.64uA , adft<1>=inrush_det_out_cr
  *                                                                      
  *                                                                      
  *                                    101 - adft<0>= vreg_en_vcr , adft<1>=vreg_out
@@ -13362,7 +15609,7 @@ typedef struct {
  * 10 : vreg_out = 3.0v
  * 11 : vreg_out = 3.3v
  */
-#define PDSS_V2_40VREG_CTRL_V2_40VREG_T_VREG_3P3_MASK       (0x00000180UL) /* <7:8> R:RW:2: */
+#define PDSS_V2_40VREG_CTRL_V2_40VREG_T_VREG_3P3_MASK       (0x00000180UL) /* <7:8> R:RW:3: */
 #define PDSS_V2_40VREG_CTRL_V2_40VREG_T_VREG_3P3_POS        (7UL)
 
 
@@ -13379,9 +15626,9 @@ typedef struct {
 
 
 /*
- * Disables 1uA leaker on vreg_out
- * 0 : Keep leaker on
- * 1 : Disable the leaker
+ * Disable the additional bias current added in first stage
+ * 0 : Keep bias on
+ * 1 : Disable the bias
  */
 #define PDSS_V2_40VREG_CTRL_V2_40VREG_T_DIS_LUA_LEAKER      (1UL << 13) /* <13:13> R:RW:0: */
 
@@ -13415,21 +15662,13 @@ typedef struct {
 
 
 /*
- * FOR CCG7D:
- * Selection bits to vary the inrush detection threshold for active mode
- * 00 : inrush detection threshold = 250mA
- * 01 : inrush detection threshold = 300mA
- * 10 : inrush detection threshold = 400mA
- * 11 : inrush detection threshold = 500mA
- *
- * FOR CCG7S/PAG2S:
  * Selection bits to vary the inrush detection threshold for active mode
  * 00 : inrush detection threshold = 100mA
  * 01 : inrush detection threshold = 170mA
  * 10 : inrush detection threshold = 240mA
  * 11 : inrush detection threshold = 310mA
  */
-#define PDSS_V2_40VREG_CTRL_V2_40VREG_INRSH_DET_SEL_MASK    (0x000c0000UL) /* <18:19> R:RW:3: */
+#define PDSS_V2_40VREG_CTRL_V2_40VREG_INRSH_DET_SEL_MASK    (0x000c0000UL) /* <18:19> R:RW:2: */
 #define PDSS_V2_40VREG_CTRL_V2_40VREG_INRSH_DET_SEL_POS     (18UL)
 
 
@@ -13475,127 +15714,1988 @@ typedef struct {
 
 
 /*
- * unused
+ * <5:1> Unused , <0> Reduce the opamp bias current in active mode [FW]
  */
 #define PDSS_V2_40VREG_CTRL_V2_40VREG_T_VIN_REG_MASK        (0xfc000000UL) /* <26:31> R:RW:0: */
 #define PDSS_V2_40VREG_CTRL_V2_40VREG_T_VIN_REG_POS         (26UL)
 
 
 /*
- * Feed Forward 1 Control Register  (NA in PMG1S3)
+ * Feed Forward 1 Control Register
  */
-#define PDSS_FEEDFWD_1_CTRL_ADDRESS                         (0x400a259cUL)
-#define PDSS_FEEDFWD_1_CTRL                                 (*(volatile uint32_t *)(0x400a259cUL))
-#define PDSS_FEEDFWD_1_CTRL_DEFAULT                         (0x00000000UL)
+#define PDSS_FEEDFWD_1_CTRL_ADDRESS                         (0x400a257cUL)
+#define PDSS_FEEDFWD_1_CTRL                                 (*(volatile uint32_t *)(0x400a257cUL))
+#define PDSS_FEEDFWD_1_CTRL_DEFAULT                         (0x004e1000UL)
 
+/*
+ * Integrator output masking and latch reset
+ * 0-> disable output & reset latch
+ * 1-> enable output & release latch
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_COMP_EN                 (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * 1-> Disable I_FF linearity
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_ICOMP_PD                (1UL << 1) /* <1:1> R:RW:0: */
 
 
+/*
+ * Enable bit for false-NSN block. 0 in PWM mode; 1 in SR mode
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_EN                (1UL << 4) /* <4:4> R:RW:0: */
 
 
+/*
+ * 1-> Disable minimum I_FF
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_MIN_IFF_PD              (1UL << 5) /* <5:5> R:RW:0: */
 
 
+/*
+ * 1->Disable internal sampling switch logic
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_SW_LOGIC_PD             (1UL << 6) /* <6:6> R:RW:0: */
 
 
+/*
+ * 1-> Disable  VIN comparator 1
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_VINCOMP1_PD             (1UL << 7) /* <7:7> R:RW:0: */
 
 
+/*
+ * 1-> Disable  VIN comparator 2
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_VINCOMP2_PD             (1UL << 8) /* <8:8> R:RW:0: */
 
 
+/*
+ * 1-> Disable  VIN comparator 3
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_VINCOMP3_PD             (1UL << 9) /* <9:9> R:RW:0: */
 
 
+/*
+ * 1-> Disable  VIN comparator 4
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_VINCOMP4_PD             (1UL << 10) /* <10:10> R:RW:0: */
 
 
+/*
+ * 1-> Disable  VIN comparator 5
+ */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_VINCOMP5_PD             (1UL << 11) /* <11:11> R:RW:0: */
 
 
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_IFF_CONFIG_MASK         (0x0003f000UL) /* <12:17> R:RW:0: */
+/*
+ * config to cancel turn ratio (33 FOR N:7)
+ * Turn ratio : CONFIG
+ * 3  : 53
+ * 4 : 36
+ * 5 : 25
+ * 6 : 41
+ * 7 : 33 (in funtional/operational mode)
+ * 8 : 27
+ * 9 : 22
+ * 10 : 18
+ * 11 : 15
+ * 12 : 12
+ * 13 : 10
+ * 14 : 8
+ * 15 : 6
+ */
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_IFF_CONFIG_MASK         (0x0003f000UL) /* <12:17> R:RW:33: */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_IFF_CONFIG_POS          (12UL)
 
 
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_CONFIG_MASK       (0x00fc0000UL) /* <18:23> R:RW:0: */
+/*
+ * To configure integration current for different frequency
+ */
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_CONFIG_MASK       (0x03fc0000UL) /* <18:25> R:RW:19: */
 #define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_CONFIG_POS        (18UL)
 
 
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_RESET_CONFIG_MASK    (0x07000000UL) /* <24:26> R:RW:0: */
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_RESET_CONFIG_POS    (24UL)
-
-
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_MIN_IFF_CONFIG_MASK     (0x38000000UL) /* <27:29> R:RW:0: */
-#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_MIN_IFF_CONFIG_POS      (27UL)
+/*
+ * Option to increase reset comparator trip point
+ */
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_RESET_CONFIG_MASK    (0x1c000000UL) /* <26:28> R:RW:0: */
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_INTEG_RESET_CONFIG_POS    (26UL)
 
 
 /*
- * Feed Forward 2 Control Register  (NA in PMG1S3)
+ * Option to change minimum feedfwd current
+ * 0  -> 1.4uA (in funtional/operational mode)
+ * 1 ->  1.6uA
+ * 2 -> 1uA
+ * 3 -> 1.2uA
+ * 4 -> 2.2uA
+ * 5 -> 2.4uA
+ * 6 -> 1.8uA
+ * 7 -> 2uA
  */
-#define PDSS_FEEDFWD_2_CTRL_ADDRESS                         (0x400a25a0UL)
-#define PDSS_FEEDFWD_2_CTRL                                 (*(volatile uint32_t *)(0x400a25a0UL))
-#define PDSS_FEEDFWD_2_CTRL_DEFAULT                         (0x00000000UL)
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_MIN_IFF_CONFIG_MASK     (0xe0000000UL) /* <29:31> R:RW:0: */
+#define PDSS_FEEDFWD_1_CTRL_FEEDFWD_MIN_IFF_CONFIG_POS      (29UL)
 
+
+/*
+ * Feed Forward 2 Control Register
+ */
+#define PDSS_FEEDFWD_2_CTRL_ADDRESS                         (0x400a2580UL)
+#define PDSS_FEEDFWD_2_CTRL                                 (*(volatile uint32_t *)(0x400a2580UL))
+#define PDSS_FEEDFWD_2_CTRL_DEFAULT                         (0x0200c200UL)
+
+/*
+ * External reset input
+ * 1-> release cap
+ * 0-> short cap
+ */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INTEG_RESETB_IN         (1UL << 0) /* <0:0> R:RW:0: */
 
 
+/*
+ * Integrator - Select external reset during trim
+ * 1 -> reset cap with external input (in Trim mode)
+ * 0-> reset with internal comparator (in funtional/operational mode)
+ */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INTEG_SEL_EXT_RESET     (1UL << 1) /* <1:1> R:RW:0: */
 
 
-#define PDSS_FEEDFWD_2_CTRL_DIS_FEEDFWD_NBIAS_LKG           (1UL << 2) /* <2:2> R:RW:0: */
+/*
+ * Enable integration cap trim
+ * 0-> in functional
+ * 1-> in trim mode
+ */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INTEG_CAP_TRIM_EN       (1UL << 2) /* <2:2> R:RW:0: */
 
 
-#define PDSS_FEEDFWD_2_CTRL_DIS_FFWD_SAMPLEHOLD_CLAMP       (1UL << 3) /* <3:3> R:RW:0: */
+/*
+ * 1-> disable leakge on nbias of V2I diode
+ */
+#define PDSS_FEEDFWD_2_CTRL_DIS_FEEDFWD_NBIAS_LKG           (1UL << 3) /* <3:3> R:RW:0: */
 
 
-#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_ICOMP_CONFIG_MASK       (0x0003f000UL) /* <12:17> R:RW:0: */
+/*
+ * 1-> disable sample hold voltage clamp
+ */
+#define PDSS_FEEDFWD_2_CTRL_DIS_FFWD_SAMPLEHOLD_CLAMP       (1UL << 4) /* <4:4> R:RW:0: */
+
+
+/*
+ * Enable/disable option for internal vref plan
+ * 1-> disable internal vbus dependent vref
+ * 0-> enable internal vbus dependent vref
+ */
+#define PDSS_FEEDFWD_2_CTRL_DIS_FFWD_INT_VREF               (1UL << 5) /* <5:5> R:RW:0: */
+
+
+/*
+ * 1-> integ_out will be latched; by default integ_out is not latched (0)
+ */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INTEG_SEL_LATCH_PATH    (1UL << 6) /* <6:6> R:RW:0: */
+
+
+/*
+ * Option to change minimum vref
+ */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INT_MIN_VREF_CONFIG_MASK    (0x00000300UL) /* <8:9> R:RW:2: */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INT_MIN_VREF_CONFIG_POS    (8UL)
+
+
+/*
+ * Option to change vref slope with respect to VBUS
+ */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INT_VREF_SLP_CONFIG_MASK    (0x00000c00UL) /* <10:11> R:RW:0: */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_INT_VREF_SLP_CONFIG_POS    (10UL)
+
+
+/*
+ * I_FF linearity config (12 for N:7)
+ * Turn ratio : CONFIG
+ * 3  : 6
+ * 4 : 7
+ * 5 : 8
+ * 6 : 11
+ * 7 : 12 (in funtional/operational mode)
+ * 8 : 14
+ * 9 : 15
+ * 10 : 16
+ * 11 : 17
+ * 12 : 18
+ * 13 : 21
+ * 14 : 22
+ * 15 : 23
+ */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_ICOMP_CONFIG_MASK       (0x0003f000UL) /* <12:17> R:RW:12: */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_ICOMP_CONFIG_POS        (12UL)
 
 
+/*
+ * I_FF multiply range from 1.5X to 4.5X
+ * 0 : 1X (in funtional/operational mode)
+ * 1 : 1.5X
+ * 2 : 2X
+ * 3 : 2.5X
+ * 4 : 3X
+ * 5 : 3.5X
+ * 6 : 4X (in trim mode)
+ * 7 :4.5X
+ */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_IFF_SEL_IMULT_MASK      (0x001c0000UL) /* <18:20> R:RW:0: */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_IFF_SEL_IMULT_POS       (18UL)
 
 
+/*
+ * unused
+ */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_SPARE_MASK              (0x01e00000UL) /* <21:24> R:RW:0: */
 #define PDSS_FEEDFWD_2_CTRL_FEEDFWD_SPARE_POS               (21UL)
 
 
 /*
- * Bandgap reference Control Register  (NA in PMG1S3)
+ * Controls the assertion delay of "feedfwd_sw_en" signal from ptdrv_in pos-edge.
+ * Used in Low Frequency Mode.
  */
-#define PDSS_BG_REF_CTRL_ADDRESS                            (0x400a25a4UL)
-#define PDSS_BG_REF_CTRL                                    (*(volatile uint32_t *)(0x400a25a4UL))
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_SW_EN_ON_DLY_LFM_MASK    (0x7e000000UL) /* <25:30> R:RW:1: */
+#define PDSS_FEEDFWD_2_CTRL_FEEDFWD_SW_EN_ON_DLY_LFM_POS    (25UL)
+
+
+/*
+ * Bandgap reference Control Register
+ */
+#define PDSS_BG_REF_CTRL_ADDRESS                            (0x400a2584UL)
+#define PDSS_BG_REF_CTRL                                    (*(volatile uint32_t *)(0x400a2584UL))
 #define PDSS_BG_REF_CTRL_DEFAULT                            (0x00000000UL)
 
-#define PDSS_BG_REF_CTRL_BG_ADFT_CTRL_MASK                  (0x00000003UL) /* <0:1> R:RW:0: */
+/*
+ * ADFT control signals
+ * 000 : adft[0] = Hi-Z                      ; adft[1] = Hi-Z
+ * 001 : adft[0] = vbg_1p25            ; adft[1] = Hi-Z
+ * 010 : adft[0] = vref_1p2              ; adft[1] = Hi-Z
+ * 011 : adft[0] = UGB_vref_out     ; adft[1] = adft_vref_in
+ * 100 : adft[0] = UGB_vref_in       ; adft[1] = adft_vref_in
+ * 101 : adft[0] = UGB_vref_out     ; adft[1] = Hi-Z
+ * 110 : adft[0] = Hi-Z                      ; adft[1] = Hi-Z
+ * 111 : adft[0] = Hi-Z                      ; adft[1] = Hi-Z
+ */
+#define PDSS_BG_REF_CTRL_BG_ADFT_CTRL_MASK                  (0x00000007UL) /* <0:2> R:RW:0: */
 #define PDSS_BG_REF_CTRL_BG_ADFT_CTRL_POS                   (0UL)
 
 
-#define PDSS_BG_REF_CTRL_BG_REF_EN                          (1UL << 2) /* <2:2> R:RW:0: */
+/*
+ * Enable signal for BG core
+ * 0 : BG core is disabled
+ * 1 : BG core is enabled
+ */
+#define PDSS_BG_REF_CTRL_EN_BG                              (1UL << 3) /* <3:3> R:RW:0: */
 
 
 /*
- * PEAK SRAM Data
+ * Selection bit to bypass 2.1V UGB
+ * 0 : 2.1V output is driven through UGB
+ * 1 : 2.1V UGB is bypassed
  */
-#define PDSS_PEAK_MEM_DATA_ADDRESS(n)                       (0x400a3010UL + ((n) * (0x0004UL)))
-#define PDSS_PEAK_MEM_DATA(n)                               (*(volatile uint32_t *)(0x400a3010UL + ((n) * 0x0004UL)))
-#define PDSS_PEAK_MEM_DATA_DEFAULT                          (0x00000000UL)
+#define PDSS_BG_REF_CTRL_SEL_VREF_OUT                       (1UL << 4) /* <4:4> R:RW:0: */
+
 
 /*
- * Indicates the data from memory (SRAM) used for Valley-Based peak selection
- * algortihm.
- * The memory is organised as 16-rows of 2 bytes each, the rows indicate
- * the peak used.
- * The MSByte is the increment value used at that peak and LSByte is the
- * decrement value used at that peak.
+ *  Spare config bits (UNUSED)
  */
-#define PDSS_PEAK_MEM_DATA_DATA_MASK                        (0xffffffffUL) /* <0:31> R:RW:0: */
-#define PDSS_PEAK_MEM_DATA_DATA_POS                         (0UL)
+#define PDSS_BG_REF_CTRL_BG_CONFIG_MASK                     (0x000000e0UL) /* <5:7> R:RW:0: */
+#define PDSS_BG_REF_CTRL_BG_CONFIG_POS                      (5UL)
+
+
+/*
+ * Enabled signal for 2.1V UGB
+ * 0 : UGB is disabled
+ * 1 : UGB is enabled (Required in Bypass mode also)
+ */
+#define PDSS_BG_REF_CTRL_EN_BG_UGB                          (1UL << 8) /* <8:8> R:RW:0: */
+
+
+/*
+ * Test mode bit to select vref_0p74 as input reference for UGB
+ * 0 : UGB input reference is vref_2p1
+ * 1 : UGB input reference is vref_0p74 (Used to measure vref_0p74 through
+ * ADFT)
+ */
+#define PDSS_BG_REF_CTRL_SEL_VREFIN_0P74                    (1UL << 9) /* <9:9> R:RW:0: */
+
+
+/*
+ * PASC-PWM Control Register 3
+ */
+#define PDSS_PASC_PWM_3_CTRL_ADDRESS                        (0x400a2588UL)
+#define PDSS_PASC_PWM_3_CTRL                                (*(volatile uint32_t *)(0x400a2588UL))
+#define PDSS_PASC_PWM_3_CTRL_DEFAULT                        (0x20000780UL)
+
+/*
+ * Minimum pulse width of burst pulse. Used in Low Frequency mode only. Used
+ * in Low Frequency Mode.
+ */
+#define PDSS_PASC_PWM_3_CTRL_BURST_MIN_WIDTH_LFM_MASK       (0x0000007fUL) /* <0:6> R:RW:0: */
+#define PDSS_PASC_PWM_3_CTRL_BURST_MIN_WIDTH_LFM_POS        (0UL)
+
+
+/*
+ * Burst frequency. Used in Low frequency mode only. Used in Low Frequency
+ * Mode.
+ */
+#define PDSS_PASC_PWM_3_CTRL_BURST_FREQ_LFM_MASK            (0x000fff80UL) /* <7:19> R:RW:15: */
+#define PDSS_PASC_PWM_3_CTRL_BURST_FREQ_LFM_POS             (7UL)
+
+
+/*
+ * Burst pulse width incremental delta value. Used in Low Frequency Mode.
+ */
+#define PDSS_PASC_PWM_3_CTRL_BURST_INCR_VAL_LFM_MASK        (0x01f00000UL) /* <20:24> R:RW:0: */
+#define PDSS_PASC_PWM_3_CTRL_BURST_INCR_VAL_LFM_POS         (20UL)
+
+
+/*
+ * Enable Fixed-Freq mode in Constant-current (CC) mode, if Dynamic-switching
+ * is enabled (FF-QR)
+ */
+#define PDSS_PASC_PWM_3_CTRL_EN_FF_MODE_IN_CC               (1UL << 29) /* <29:29> R:RW:1: */
+
+
+/*
+ * 1: With VINCOMP5 pos-edge; PASC will be moved to IDLE mode
+ */
+#define PDSS_PASC_PWM_3_CTRL_EN_SRSEN_PULLDN_PASC_HW_DIS    (1UL << 30) /* <30:30> R:RW:0: */
+
+
+/*
+ * 1: With Vreg inrush detect; PASC will be moved to IDLE mode
+ */
+#define PDSS_PASC_PWM_3_CTRL_EN_VREG_INRUSH_PASC_HW_DIS     (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * PASC-PWM Control Register 4
+ */
+#define PDSS_PASC_PWM_4_CTRL_ADDRESS                        (0x400a258cUL)
+#define PDSS_PASC_PWM_4_CTRL                                (*(volatile uint32_t *)(0x400a258cUL))
+#define PDSS_PASC_PWM_4_CTRL_DEFAULT                        (0x00002a01UL)
+
+/*
+ * Minimum Pulse width of "ptdrv_in" signal. This register has a shadow register
+ * in logic. Used in Low Frequency Mode.
+ */
+#define PDSS_PASC_PWM_4_CTRL_PTDRV_IN_MIN_WIDTH_LFM_MASK    (0x0000007fUL) /* <0:6> R:RW:1: */
+#define PDSS_PASC_PWM_4_CTRL_PTDRV_IN_MIN_WIDTH_LFM_POS     (0UL)
+
+
+/*
+ * Maximum Pulse width of "ptdrv_in" signal. This register has a shadow register
+ * in logic. Used in Low Frequency Mode.
+ */
+#define PDSS_PASC_PWM_4_CTRL_PTDRV_IN_MAX_WIDTH_LFM_MASK    (0x0003ff80UL) /* <7:17> R:RW:84: */
+#define PDSS_PASC_PWM_4_CTRL_PTDRV_IN_MAX_WIDTH_LFM_POS     (7UL)
+
+
+/*
+ * Enables Dithering of PTDRV_IN_MAX_WIDTH based on FF dithering
+ */
+#define PDSS_PASC_PWM_4_CTRL_PTDRV_IN_MAX_WIDTH_DITH_EN     (1UL << 18) /* <18:18> R:RW:0: */
+
+
+/*
+ * PASC-PWM Control Register 5
+ */
+#define PDSS_PASC_PWM_5_CTRL_ADDRESS                        (0x400a2590UL)
+#define PDSS_PASC_PWM_5_CTRL                                (*(volatile uint32_t *)(0x400a2590UL))
+#define PDSS_PASC_PWM_5_CTRL_DEFAULT                        (0x09600050UL)
+
+/*
+ * Burst frequency.
+ */
+#define PDSS_PASC_PWM_5_CTRL_BURST_PULSE_FREQ_MASK          (0x00001fffUL) /* <0:12> R:RW:80: */
+#define PDSS_PASC_PWM_5_CTRL_BURST_PULSE_FREQ_POS           (0UL)
+
+
+/*
+ * Burst repeat deay including the last burst pulse in the repeat cycle.
+ */
+#define PDSS_PASC_PWM_5_CTRL_BURST_REPEAT_DELAY_MASK        (0xffff0000UL) /* <16:31> R:RW:2400: */
+#define PDSS_PASC_PWM_5_CTRL_BURST_REPEAT_DELAY_POS         (16UL)
+
+
+/*
+ * PASC-PWM Control Register 6
+ */
+#define PDSS_PASC_PWM_6_CTRL_ADDRESS                        (0x400a2594UL)
+#define PDSS_PASC_PWM_6_CTRL                                (*(volatile uint32_t *)(0x400a2594UL))
+#define PDSS_PASC_PWM_6_CTRL_DEFAULT                        (0x012c0003UL)
+
+/*
+ * Number of Burst pulses in a repeat cycle.
+ */
+#define PDSS_PASC_PWM_6_CTRL_BURST_PULSE_NUM_MASK           (0x0000000fUL) /* <0:3> R:RW:3: */
+#define PDSS_PASC_PWM_6_CTRL_BURST_PULSE_NUM_POS            (0UL)
+
+
+/*
+ * Burst repeat deay including the last burst pulse in the repeat cycle.
+ * Used in Low Frequency Mode.
+ */
+#define PDSS_PASC_PWM_6_CTRL_BURST_REPEAT_DELAY_LFM_MASK    (0xffff0000UL) /* <16:31> R:RW:300: */
+#define PDSS_PASC_PWM_6_CTRL_BURST_REPEAT_DELAY_LFM_POS     (16UL)
+
+
+/*
+ * PASC Status registers 5
+ */
+#define PDSS_PASC_STATUS_5_ADDRESS                          (0x400a2598UL)
+#define PDSS_PASC_STATUS_5                                  (*(volatile uint32_t *)(0x400a2598UL))
+#define PDSS_PASC_STATUS_5_DEFAULT                          (0x00000000UL)
+
+/*
+ * NSN_EN to (nsn_out or nsn_out_timeout) delay
+ */
+#define PDSS_PASC_STATUS_5_NSN_WAIT_TIME_MASK               (0x00000fffUL) /* <0:11> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_5_NSN_WAIT_TIME_POS                (0UL)
+
+
+/*
+ * Stores the last measured HIP "peak to peak" delay.
+ */
+#define PDSS_PASC_STATUS_5_HIP_PEAK2PEAK_MASK               (0x001ff000UL) /* <12:20> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_5_HIP_PEAK2PEAK_POS                (12UL)
+
+
+/*
+ * PASC Status registers 6
+ */
+#define PDSS_PASC_STATUS_6_ADDRESS                          (0x400a259cUL)
+#define PDSS_PASC_STATUS_6                                  (*(volatile uint32_t *)(0x400a259cUL))
+#define PDSS_PASC_STATUS_6_DEFAULT                          (0x00000000UL)
+
+/*
+ * Stores the Frequency Dithering offset
+ */
+#define PDSS_PASC_STATUS_6_DITH_FF_OFFSET_MASK              (0x0000007fUL) /* <0:6> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_6_DITH_FF_OFFSET_POS               (0UL)
+
+
+/*
+ * Stores the Frequency Dithering offset addition/subtraction polarity
+ */
+#define PDSS_PASC_STATUS_6_DITH_FF_OFFSET_DIR               (1UL << 7) /* <7:7> RW:R:0:PASC2_EN */
+
+
+/*
+ * Stores the PWM Cap Dithering offset
+ */
+#define PDSS_PASC_STATUS_6_DITH_CAP_OFFSET_MASK             (0x00007f00UL) /* <8:14> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_6_DITH_CAP_OFFSET_POS              (8UL)
+
+
+/*
+ * Stores the PWM Cap Dithering offset addition/subtraction polarity
+ */
+#define PDSS_PASC_STATUS_6_DITH_CAP_OFFSET_DIR              (1UL << 15) /* <15:15> RW:R:0:PASC2_EN */
+
+
+/*
+ * PASC Status registers 7
+ */
+#define PDSS_PASC_STATUS_7_ADDRESS                          (0x400a25a0UL)
+#define PDSS_PASC_STATUS_7                                  (*(volatile uint32_t *)(0x400a25a0UL))
+#define PDSS_PASC_STATUS_7_DEFAULT                          (0x00000000UL)
+
+/*
+ * Stores the TLOOP ACF ON calibration data.
+ */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_ON_MASK                (0x0000001fUL) /* <0:4> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_ON_POS                 (0UL)
+
+
+/*
+ * Stores the TLOOP ACF OFF calibration data.
+ */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_OFF_MASK               (0x000003e0UL) /* <5:9> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_OFF_POS                (5UL)
+
+
+/*
+ * Stores the TLOOP ACF calibration success status. This should be read after
+ * the ACF_CAL_EN is cleared by the HW indicating ACF calibration completion.
+ */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_CAL_NSN_OUT_FAIL       (1UL << 10) /* <10:10> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Stores the TLOOP ACF calibration success status. This should be read after
+ * the ACF_CAL_EN is cleared by the HW indicating ACF calibration completion.
+ */
+#define PDSS_PASC_STATUS_7_TLOOP_ACF_CAL_ZCDF_OUT_FAIL      (1UL << 11) /* <11:11> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Stores theDT MASK calibration success status. This should be read after
+ * the DT_CAL_EN is cleared by the HW indicating DT Mask calibration completion.
+ */
+#define PDSS_PASC_STATUS_7_DT_MASK_CAL_FAIL                 (1UL << 13) /* <13:13> RW1S:RW1C:0:PASC2_EN */
+
+
+/*
+ * Stores the DT Mask calibration data (ACF_IN Negedge tp FF_integ_resetb
+ * delay).
+ */
+#define PDSS_PASC_STATUS_7_DT_MASK_MEAS1_MASK               (0x00ff0000UL) /* <16:23> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_7_DT_MASK_MEAS1_POS                (16UL)
+
+
+/*
+ * Stores the DT Mask calibration data (ACF_IN Negedge tp FF_integ_resetb
+ * delay).
+ */
+#define PDSS_PASC_STATUS_7_DT_MASK_MEAS2_MASK               (0xff000000UL) /* <24:31> RW:R:0:PASC2_EN */
+#define PDSS_PASC_STATUS_7_DT_MASK_MEAS2_POS                (24UL)
+
+
+/*
+ * SR GDRV Control Register 2
+ */
+#define PDSS_SRGDRV_2_CTRL_ADDRESS                          (0x400a25a4UL)
+#define PDSS_SRGDRV_2_CTRL                                  (*(volatile uint32_t *)(0x400a25a4UL))
+#define PDSS_SRGDRV_2_CTRL_DEFAULT                          (0x000c1503UL)
+
+/*
+ * Minimum Pulse Width of "gdrv_in". This register has a shadow register
+ * in Logic. Used in Low Frequency Mode.
+ */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_MIN_WIDTH_LFM_MASK       (0x0000003fUL) /* <0:5> R:RW:3: */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_MIN_WIDTH_LFM_POS        (0UL)
+
+
+/*
+ * Maximum Pulse Width of "gdrv_in". Used in Low Frequency Mode.
+ */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_MAX_WIDTH_LFM_MASK       (0x0003ffc0UL) /* <6:17> R:RW:84: */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_MAX_WIDTH_LFM_POS        (6UL)
+
+
+/*
+ * Secondary SR gate turn-on pulse-Width below which GDRV will be turned-off
+ * in next cycle. The secondary width is measured as the time from NSN triggering
+ * to ZCD or ZCDF  (whichever comes earlier) triggering. This register has
+ * a shadow register in Logic. Used in Low Frequency Mode.
+ */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_TURN_OFF_WIDTH_LFM_MASK    (0x01fc0000UL) /* <18:24> R:RW:3: */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_TURN_OFF_WIDTH_LFM_POS    (18UL)
+
+
+/*
+ * Override Register.
+ * 1 - FW Override Enabled. GDRV_IN_ZVS_OVR_VAL is driven on gdrv_in_zvs
+ */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_ZVS_OVR                  (1UL << 25) /* <25:25> R:RW:0: */
+
+
+/*
+ * Override Value for "gdrv_in_zvs" Signal
+ */
+#define PDSS_SRGDRV_2_CTRL_GDRV_IN_ZVS_OVR_VAL              (1UL << 26) /* <26:26> R:RW:0: */
+
+
+/*
+ * SR GDRV Control Register 3
+ */
+#define PDSS_SRGDRV_3_CTRL_ADDRESS                          (0x400a25a8UL)
+#define PDSS_SRGDRV_3_CTRL                                  (*(volatile uint32_t *)(0x400a25a8UL))
+#define PDSS_SRGDRV_3_CTRL_DEFAULT                          (0x0000814eUL)
+
+/*
+ * Minimum is 2.;Timer for which is SRGDRV is not turned on, it would not
+ * get turned on for next GDRV_IN_MASK_NUM switching cycles. Working on LF
+ * clock. The programmed minimum value should not be less than 6.
+ */
+#define PDSS_SRGDRV_3_CTRL_GDRV_IN_LONG_TIM_MASK            (0x000003ffUL) /* <0:9> R:RW:334: */
+#define PDSS_SRGDRV_3_CTRL_GDRV_IN_LONG_TIM_POS             (0UL)
+
+
+/*
+ * No of switching cycles for which SRGDRV will remain off post GDRV_IN_LONG_TIM
+ * timer expiry
+ */
+#define PDSS_SRGDRV_3_CTRL_GDRV_IN_MASK_NUM_MASK            (0x0000e000UL) /* <13:15> R:RW:4: */
+#define PDSS_SRGDRV_3_CTRL_GDRV_IN_MASK_NUM_POS             (13UL)
+
+
+/*
+ * To enable GDRVIN long masking
+ */
+#define PDSS_SRGDRV_3_CTRL_EN_GDRV_IN_MASK                  (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * PEAK Generator Control Register 4
+ */
+#define PDSS_PEAKGEN_3_CTRL_ADDRESS                         (0x400a25acUL)
+#define PDSS_PEAKGEN_3_CTRL                                 (*(volatile uint32_t *)(0x400a25acUL))
+#define PDSS_PEAKGEN_3_CTRL_DEFAULT                         (0x00001806UL)
+
+/*
+ * Controls the "peak to peak" delay. This register has a shadow in logic.
+ * Used in Low Frequency Mode.
+ */
+#define PDSS_PEAKGEN_3_CTRL_PEAK2PEAK_DLY_LFM_MASK          (0x000001ffUL) /* <0:8> R:RW:6: */
+#define PDSS_PEAKGEN_3_CTRL_PEAK2PEAK_DLY_LFM_POS           (0UL)
+
+
+/*
+ * Indicates the time between "zcd_out" encountered to the first peak. This
+ * is used if full digital scheme of peak generation is used. This register
+ * has a shadow in logic. Used in Low Frequency Mode.
+ */
+#define PDSS_PEAKGEN_3_CTRL_ZCD_TO_PEAK_TIME_LFM_MASK       (0x000ff800UL) /* <11:19> R:RW:3: */
+#define PDSS_PEAKGEN_3_CTRL_ZCD_TO_PEAK_TIME_LFM_POS        (11UL)
+
+
+/*
+ * SRSENSE HardIP CLK_LF Filter and Edge detector configuration for Feedfwd_vincomp1
+ * and Feedfwd_vincomp2
+ */
+#define PDSS_INTR19_CFG_0_ADDRESS                           (0x400a25b0UL)
+#define PDSS_INTR19_CFG_0                                   (*(volatile uint32_t *)(0x400a25b0UL))
+#define PDSS_INTR19_CFG_0_DEFAULT                           (0x00200400UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_EN                (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_CFG_MASK          (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_CFG_POS           (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_RESET             (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_BYPASS            (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_SEL_MASK          (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_FILT_SEL_POS           (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP1_DPSLP_MODE             (1UL << 10) /* <10:10> R:RW:1:PASC2_EN */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_EN                (1UL << 11) /* <11:11> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_CFG_MASK          (0x00003000UL) /* <12:13> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_CFG_POS           (12UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_RESET             (1UL << 14) /* <14:14> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_BYPASS            (1UL << 15) /* <15:15> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_SEL_MASK          (0x001f0000UL) /* <16:20> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_FILT_SEL_POS           (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_0_FF_VINCMP2_DPSLP_MODE             (1UL << 21) /* <21:21> R:RW:1:PASC2_EN */
+
+
+/*
+ * SRSENSE HardIP CLK_LF Filter and Edge detector configuration for Feedfwd_vincomp3
+ * and Feedfwd_vincomp4
+ */
+#define PDSS_INTR19_CFG_1_ADDRESS                           (0x400a25b4UL)
+#define PDSS_INTR19_CFG_1                                   (*(volatile uint32_t *)(0x400a25b4UL))
+#define PDSS_INTR19_CFG_1_DEFAULT                           (0x00200400UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_EN                (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_CFG_MASK          (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_CFG_POS           (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_RESET             (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_BYPASS            (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_SEL_MASK          (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_FILT_SEL_POS           (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP3_DPSLP_MODE             (1UL << 10) /* <10:10> R:RW:1:PASC2_EN */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_EN                (1UL << 11) /* <11:11> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_CFG_MASK          (0x00003000UL) /* <12:13> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_CFG_POS           (12UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_RESET             (1UL << 14) /* <14:14> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_BYPASS            (1UL << 15) /* <15:15> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_SEL_MASK          (0x001f0000UL) /* <16:20> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_FILT_SEL_POS           (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_1_FF_VINCMP4_DPSLP_MODE             (1UL << 21) /* <21:21> R:RW:1:PASC2_EN */
+
+
+/*
+ * SRSENSE HardIP CLK_LF Filter and Edge detector configuration for Feedfwd_vincomp5
+ */
+#define PDSS_INTR19_CFG_2_ADDRESS                           (0x400a25b8UL)
+#define PDSS_INTR19_CFG_2                                   (*(volatile uint32_t *)(0x400a25b8UL))
+#define PDSS_INTR19_CFG_2_DEFAULT                           (0x00000400UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_EN                (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_CFG_MASK          (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_CFG_POS           (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_RESET             (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_BYPASS            (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_SEL_MASK          (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_FILT_SEL_POS           (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_2_FF_VINCMP5_DPSLP_MODE             (1UL << 10) /* <10:10> R:RW:1:PASC2_EN */
+
+
+/*
+ * CHGDET HardIP CLK_LF Filter and Edge detector configuration for dm_ovp_comp_out
+ * and dp_ovp_comp_out
+ */
+#define PDSS_INTR19_CFG_3_ADDRESS                           (0x400a25bcUL)
+#define PDSS_INTR19_CFG_3                                   (*(volatile uint32_t *)(0x400a25bcUL))
+#define PDSS_INTR19_CFG_3_DEFAULT                           (0x00200400UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_EN           (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_CFG_MASK     (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_CFG_POS      (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_RESET        (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_BYPASS       (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_SEL_MASK     (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_FILT_SEL_POS      (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_3_DP_OVP_COMP_OUT_DPSLP_MODE        (1UL << 10) /* <10:10> R:RW:1:PASC2_EN */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_EN           (1UL << 11) /* <11:11> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_CFG_MASK     (0x00003000UL) /* <12:13> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_CFG_POS      (12UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_RESET        (1UL << 14) /* <14:14> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_BYPASS       (1UL << 15) /* <15:15> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_SEL_MASK     (0x001f0000UL) /* <16:20> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_FILT_SEL_POS      (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_3_DM_OVP_COMP_OUT_DPSLP_MODE        (1UL << 21) /* <21:21> R:RW:1:PASC2_EN */
+
+
+/*
+ * CHGDET HardIP CLK_LF Filter and Edge detector configuration for dmdp_imp_comp_out
+ */
+#define PDSS_INTR19_CFG_4_ADDRESS                           (0x400a25c0UL)
+#define PDSS_INTR19_CFG_4                                   (*(volatile uint32_t *)(0x400a25c0UL))
+#define PDSS_INTR19_CFG_4_DEFAULT                           (0x00000000UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_EN         (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_CFG_MASK    (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_CFG_POS    (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_RESET      (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_BYPASS     (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_SEL_MASK    (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_4_DPDM_IMP_COMP_OUT_FILT_SEL_POS    (5UL)
+
+
+/*
+ * SRSENSE HardIP CLK_PASC Filter and Edge detector configuration for FEEDFWD_INTEG_OUT
+ * and FEEDFWD_INTEG_RESETB detection
+ */
+#define PDSS_INTR19_CFG_5_ADDRESS                           (0x400a25c4UL)
+#define PDSS_INTR19_CFG_5                                   (*(volatile uint32_t *)(0x400a25c4UL))
+#define PDSS_INTR19_CFG_5_DEFAULT                           (0x00208410UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_EN              (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_CFG_MASK        (0x00000006UL) /* <1:2> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_CFG_POS         (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_RESET           (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_BYPASS          (1UL << 4) /* <4:4> R:RW:1:PASC2_EN */
+
+
+/*
+ * #of clock CLK_LF filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_SEL_MASK        (0x000003e0UL) /* <5:9> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_FILT_SEL_POS         (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_OUT_DPSLP_MODE           (1UL << 10) /* <10:10> R:RW:1:PASC2_EN */
+
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_EN       (1UL << 11) /* <11:11> R:RW:0:PASC2_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_CFG_MASK    (0x00003000UL) /* <12:13> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_CFG_POS    (12UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_RESET    (1UL << 14) /* <14:14> R:RW:0:PASC2_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_BYPASS    (1UL << 15) /* <15:15> R:RW:1:PASC2_EN */
+
+
+/*
+ * #of clock CLK_PASC filtering. Should be programmed before FILTER is enabled.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_SEL_MASK    (0x001f0000UL) /* <16:20> R:RW:0:PASC2_EN */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_FILT_SEL_POS    (16UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_5_FF_INTEG_RESETB_OUT_DPSLP_MODE    (1UL << 21) /* <21:21> R:RW:1:PASC2_EN */
+
+
+/*
+ * Round Robin ADC CLK_FILT[0] Filter and Edge Detector configuration
+ */
+#define PDSS_INTR19_CFG_6_ADDRESS                           (0x400a25c8UL)
+#define PDSS_INTR19_CFG_6                                   (*(volatile uint32_t *)(0x400a25c8UL))
+#define PDSS_INTR19_CFG_6_DEFAULT                           (0x00000400UL)
+
+/*
+ * 0: Filter is disabled
+ * 1: Filter is enabled
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_EN             (1UL << 0) /* <0:0> R:RW:0:RNDRBN_ADC_EN */
+
+
+/*
+ * Edge detect positive/negative enable/disable
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_CFG_MASK       (0x00000006UL) /* <1:2> R:RW:0:RNDRBN_ADC_EN */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_CFG_POS        (1UL)
+
+
+/*
+ * This field specifies the reset value of the Filter.
+ * To reset the Filter, set this bit to the appropriate value and Toggle
+ * FILTER_EN.
+ *   Firmware can set the values (Reset Values, Config values etc when the
+ * filter_en is 0 and next cycle it can take the filter out of reset by writing
+ * 1 to filter_en).
+ * FILTER_EN =0 acts as an asynchronous reset. Internally when filter is
+ * enabled, the deassertion of reset is synchronized and it takes 3-4 cycles.
+ * So firmware should at-least wait 5 cycles for dynamically changing filter
+ * values and applying reset again.
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_RESET          (1UL << 3) /* <3:3> R:RW:0:RNDRBN_ADC_EN */
+
+
+/*
+ * Setting this bit bypasses the Filter. It is recommended to set FILTER_EN
+ * to 1'b0 with this to save power.
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_BYPASS         (1UL << 4) /* <4:4> R:RW:0:RNDRBN_ADC_EN */
+
+
+/*
+ * #of clock CLK_FILTER filtering. Should be programmed before FILTER is
+ * enabled.
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_SEL_MASK       (0x000003e0UL) /* <5:9> R:RW:0:RNDRBN_ADC_EN */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_FILT_SEL_POS        (5UL)
+
+
+/*
+ * This bit enables CPU to bypass the Filter when the part is in deep-sleep
+ * state.  This over-rides the FILTER_EN settings during DEEP SLEEP state
+ * ONLY.
+ * The bit should be set by CPU only when its using the filter with high
+ * frequency active clock and wants to wakeup from deep sleep on the transition
+ * of the incoming signal.
+ * This bit if set also disables the AUTO shutoff logic in DEEP SLEEP state.
+ */
+#define PDSS_INTR19_CFG_6_R_ADC_CMP_OUT_DPSLP_MODE          (1UL << 10) /* <10:10> R:RW:1:RNDRBN_ADC_EN */
+
+
+/*
+ * INTR19 Status
+ */
+#define PDSS_INTR19_STATUS_ADDRESS                          (0x400a25ccUL)
+#define PDSS_INTR19_STATUS                                  (*(volatile uint32_t *)(0x400a25ccUL))
+#define PDSS_INTR19_STATUS_DEFAULT                          (0x00000000UL)
+
+#define PDSS_INTR19_STATUS_FF_VINCMP1_STATUS                (1UL << 0) /* <0:0> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP1_FILT                  (1UL << 1) /* <1:1> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP2_STATUS                (1UL << 2) /* <2:2> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP2_FILT                  (1UL << 3) /* <3:3> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP3_STATUS                (1UL << 4) /* <4:4> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP3_FILT                  (1UL << 5) /* <5:5> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP4_STATUS                (1UL << 6) /* <6:6> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP4_FILT                  (1UL << 7) /* <7:7> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP5_STATUS                (1UL << 8) /* <8:8> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_VINCMP5_FILT                  (1UL << 9) /* <9:9> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DM_OVP_COMP_OUT_STATUS           (1UL << 10) /* <10:10> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DM_OVP_COMP_OUT_FILT             (1UL << 11) /* <11:11> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DP_OVP_COMP_OUT_STATUS           (1UL << 12) /* <12:12> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DP_OVP_COMP_OUT_FILT             (1UL << 13) /* <13:13> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DPDM_IMP_COMP_OUT_STATUS         (1UL << 14) /* <14:14> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_DPDM_IMP_COMP_OUT_FILT           (1UL << 15) /* <15:15> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_INTEG_OUT_STATUS              (1UL << 16) /* <16:16> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_INTEG_OUT_FILT                (1UL << 17) /* <17:17> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_INTEG_RESETB_OUT_STATUS       (1UL << 18) /* <18:18> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_FF_INTEG_RESETB_OUT_FILT         (1UL << 19) /* <19:19> RW:R:0:PASC2_EN */
+
+
+#define PDSS_INTR19_STATUS_R_ADC_CMP_OUT_STATUS             (1UL << 20) /* <20:20> RW:R:0:RNDRBN_ADC_EN */
+
+
+#define PDSS_INTR19_STATUS_R_ADC_CMP_OUT_FILT               (1UL << 21) /* <21:21> RW:R:0:RNDRBN_ADC_EN */
+
+
+/*
+ * INTR19 interrupt Cause.
+ */
+#define PDSS_INTR19_ADDRESS                                 (0x400a25d0UL)
+#define PDSS_INTR19                                         (*(volatile uint32_t *)(0x400a25d0UL))
+#define PDSS_INTR19_DEFAULT                                 (0x00000000UL)
+
+#define PDSS_INTR19_FF_VINCMP1_CHANGED                      (1UL << 0) /* <0:0> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_VINCMP2_CHANGED                      (1UL << 1) /* <1:1> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_VINCMP3_CHANGED                      (1UL << 2) /* <2:2> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_VINCMP4_CHANGED                      (1UL << 3) /* <3:3> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_VINCMP5_CHANGED                      (1UL << 4) /* <4:4> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_DM_OVP_COMP_OUT_CHANGED                 (1UL << 5) /* <5:5> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_DP_OVP_COMP_OUT_CHANGED                 (1UL << 6) /* <6:6> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_DPDM_IMP_COMP_OUT_CHANGED               (1UL << 7) /* <7:7> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_INTEG_OUT_CHANGED                    (1UL << 8) /* <8:8> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_FF_INTEG_RESETB_OUT_CHANGED             (1UL << 9) /* <9:9> RW1S:RW1C:0:PASC2_EN */
+
+
+#define PDSS_INTR19_R_ADC_CMP_OUT_CHANGED                   (1UL << 10) /* <10:10> RW1S:RW1C:0:RNDRBN_ADC_EN */
+
+
+/*
+ * INTR19 Interrupt Set
+ */
+#define PDSS_INTR19_SET_ADDRESS                             (0x400a25d4UL)
+#define PDSS_INTR19_SET                                     (*(volatile uint32_t *)(0x400a25d4UL))
+#define PDSS_INTR19_SET_DEFAULT                             (0x00000000UL)
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_VINCMP1_CHANGED                  (1UL << 0) /* <0:0> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_VINCMP2_CHANGED                  (1UL << 1) /* <1:1> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_VINCMP3_CHANGED                  (1UL << 2) /* <2:2> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_VINCMP4_CHANGED                  (1UL << 3) /* <3:3> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_VINCMP5_CHANGED                  (1UL << 4) /* <4:4> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_DM_OVP_COMP_OUT_CHANGED             (1UL << 5) /* <5:5> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_DP_OVP_COMP_OUT_CHANGED             (1UL << 6) /* <6:6> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_DPDM_IMP_COMP_OUT_CHANGED           (1UL << 7) /* <7:7> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_INTEG_OUT_CHANGED                (1UL << 8) /* <8:8> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_FF_INTEG_RESETB_OUT_CHANGED         (1UL << 9) /* <9:9> A:RW1S:0:PASC2_EN */
+
+
+/*
+ * Write with '1' to set corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_SET_R_ADC_CMP_OUT_CHANGED               (1UL << 10) /* <10:10> A:RW1S:0:RNDRBN_ADC_EN */
+
+
+/*
+ * INTR19 interrupt Mask
+ */
+#define PDSS_INTR19_MASK_ADDRESS                            (0x400a25d8UL)
+#define PDSS_INTR19_MASK                                    (*(volatile uint32_t *)(0x400a25d8UL))
+#define PDSS_INTR19_MASK_DEFAULT                            (0x00000000UL)
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_VINCMP1_CHANGED_MASK            (1UL << 0) /* <0:0> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_VINCMP2_CHANGED_MASK            (1UL << 1) /* <1:1> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_VINCMP3_CHANGED_MASK            (1UL << 2) /* <2:2> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_VINCMP4_CHANGED_MASK            (1UL << 3) /* <3:3> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_VINCMP5_CHANGED_MASK            (1UL << 4) /* <4:4> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_DM_OVP_COMP_OUT_CHANGED_MASK       (1UL << 5) /* <5:5> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_DP_OVP_COMP_OUT_CHANGED_MASK       (1UL << 6) /* <6:6> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_DPDM_IMP_COMP_OUT_CHANGED_MASK     (1UL << 7) /* <7:7> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_INTEG_OUT_CHANGED_MASK          (1UL << 8) /* <8:8> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_FF_INTEG_RESETB_OUT_CHANGED_MASK    (1UL << 9) /* <9:9> R:RW:0:PASC2_EN */
+
+
+/*
+ * Mask bit for corresponding bit in interrupt request register.
+ */
+#define PDSS_INTR19_MASK_R_ADC_CMP_OUT_CHANGED_MASK         (1UL << 10) /* <10:10> R:RW:0:RNDRBN_ADC_EN */
+
+
+/*
+ * INTR19 interrupt Masked
+ */
+#define PDSS_INTR19_MASKED_ADDRESS                          (0x400a25dcUL)
+#define PDSS_INTR19_MASKED                                  (*(volatile uint32_t *)(0x400a25dcUL))
+#define PDSS_INTR19_MASKED_DEFAULT                          (0x00000000UL)
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_VINCMP1_CHANGED_MASKED        (1UL << 0) /* <0:0> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_VINCMP2_CHANGED_MASKED        (1UL << 1) /* <1:1> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_VINCMP3_CHANGED_MASKED        (1UL << 2) /* <2:2> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_VINCMP4_CHANGED_MASKED        (1UL << 3) /* <3:3> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_VINCMP5_CHANGED_MASKED        (1UL << 4) /* <4:4> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_DM_OVP_COMP_OUT_CHANGED_MASKED    (1UL << 5) /* <5:5> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_DP_OVP_COMP_OUT_CHANGED_MASKED    (1UL << 6) /* <6:6> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_DPDM_IMP_COMP_OUT_CHANGED_MASKED    (1UL << 7) /* <7:7> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_INTEG_OUT_CHANGED_MASKED      (1UL << 8) /* <8:8> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_FF_INTEG_RESETB_OUT_CHANGED_MASKED    (1UL << 9) /* <9:9> RW:R:0:PASC2_EN */
+
+
+/*
+ * Logical and of corresponding request and mask bits.
+ */
+#define PDSS_INTR19_MASKED_R_ADC_CMP_OUT_CHANGED_MASKED     (1UL << 10) /* <10:10> RW:R:0:RNDRBN_ADC_EN */
+
+
+/*
+ * DDFT Mux for PAG2S Hard-Ip Signals
+ */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_ADDRESS                   (0x400a25e0UL)
+#define PDSS_PAG2S_NCELL_DDFT_MUX                           (*(volatile uint32_t *)(0x400a25e0UL))
+#define PDSS_PAG2S_NCELL_DDFT_MUX_DEFAULT                   (0x00000000UL)
+
+/*
+ * 11 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srgdrv_top.srgdrv_ddft_out
+ * 10 : MXUSBPD_HIP_TOP_INST.y_vconn40_u_s8usbpd_40vconn_top.scp_cc2
+ * 09 : MXUSBPD_HIP_TOP_INST.y_vconn40_u_s8usbpd_40vconn_top.scp_cc1
+ * 08 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp1_out
+ * 07 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp2_out
+ * 06 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp3_out
+ * 05 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp4_out
+ * 04 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp5_out
+ * 03 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.ddft_out
+ * 02 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_out
+ * 01 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_resetb_out
+ * 00 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_resetb_in
+ */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT0_SEL_MASK    (0x0000003fUL) /* <0:5> R:RW:0: */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT0_SEL_POS    (0UL)
+
+
+/*
+ * 0: The selected output is not inverted
+ * 1: The selected out is inverted
+ */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT0_POLARITY    (1UL << 6) /* <6:6> R:RW:0: */
+
+
+/*
+ * 11 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srgdrv_top.srgdrv_ddft_out
+ * 10 : MXUSBPD_HIP_TOP_INST.y_vconn40_u_s8usbpd_40vconn_top.scp_cc2
+ * 09 : MXUSBPD_HIP_TOP_INST.y_vconn40_u_s8usbpd_40vconn_top.scp_cc1
+ * 08 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp1_out
+ * 07 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp2_out
+ * 06 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp3_out
+ * 05 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp4_out
+ * 04 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_vincomp5_out
+ * 03 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.ddft_out
+ * 02 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_out
+ * 01 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_resetb_out
+ * 00 : MXUSBPD_HIP_TOP_INST.y_pag2s_u_s8usbpd_srsense_top.feedfwd_integ_resetb_in
+ */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT1_SEL_MASK    (0x00001f80UL) /* <7:12> R:RW:0: */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT1_SEL_POS    (7UL)
+
+
+/*
+ * 0: The selected output is not inverted
+ * 1: The selected out is inverted
+ */
+#define PDSS_PAG2S_NCELL_DDFT_MUX_PAG2S_NCELL_DDFT1_POLARITY    (1UL << 13) /* <13:13> R:RW:0: */
+
+
+/*
+ * SR_SEN_PULLDN_EN config register
+ */
+#define PDSS_SR_SEN_PULLDN_EN_CFG_ADDRESS                   (0x400a25e4UL)
+#define PDSS_SR_SEN_PULLDN_EN_CFG                           (*(volatile uint32_t *)(0x400a25e4UL))
+#define PDSS_SR_SEN_PULLDN_EN_CFG_DEFAULT                   (0x00000000UL)
+
+/*
+ * Firmware override for SR_SENSE pulldown enable signal
+ */
+#define PDSS_SR_SEN_PULLDN_EN_CFG_SR_SEN_PULLDN_EN_OVR      (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * Value for SR_SENSE pulldown enable signal
+ */
+#define PDSS_SR_SEN_PULLDN_EN_CFG_SR_SEN_PULLDN_EN_OVR_VAL    (1UL << 1) /* <1:1> R:RW:0: */
+
+
+/*
+ * 1: SR_SENSE pulldown enable is always 0
+ */
+#define PDSS_SR_SEN_PULLDN_EN_CFG_DIS_SR_SEN_PULLDN_EN      (1UL << 2) /* <2:2> R:RW:0: */
+
+
+/*
+ * Valley vs LSCSA I Load Look Up Table
+ */
+#define PDSS_VALLEY_LOAD_ADDRESS(n)                         (0x400a2600UL + ((n) * (0x0004UL)))
+#define PDSS_VALLEY_LOAD(n)                                 (*(volatile uint32_t *)(0x400a2600UL + ((n) * 0x0004UL)))
+#define PDSS_VALLEY_LOAD_DEFAULT                            (0x00000000UL)
+
+/*
+ * Valley number
+ */
+#define PDSS_VALLEY_LOAD_VALLEY_NUM_MASK                    (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_VALLEY_LOAD_VALLEY_NUM_POS                     (0UL)
+
+
+/*
+ * ILoad Threshold corresponding to the valley number
+ */
+#define PDSS_VALLEY_LOAD_ILOAD_THRESH_MASK                  (0x0000ff00UL) /* <8:15> R:RW:0: */
+#define PDSS_VALLEY_LOAD_ILOAD_THRESH_POS                   (8UL)
+
+
+/*
+ * Valley Algorithm Config register
+ */
+#define PDSS_VALLEY_CONFIG_ADDRESS                          (0x400a2630UL)
+#define PDSS_VALLEY_CONFIG                                  (*(volatile uint32_t *)(0x400a2630UL))
+#define PDSS_VALLEY_CONFIG_DEFAULT                          (0x07f3ff01UL)
+
+/*
+ * Programmable Valley increment/decrement value for each valley update cycle
+ */
+#define PDSS_VALLEY_CONFIG_VALLEY_JUMP_MASK                 (0x0000000fUL) /* <0:3> R:RW:1: */
+#define PDSS_VALLEY_CONFIG_VALLEY_JUMP_POS                  (0UL)
+
+
+/*
+ * Valley Increment cycle delay. Valley update will be done on the first
+ * PTDRV_IN negede following the expiry of this delay. The update will be
+ * based on the live value of the VALLEY_TGT and hene can be increment or
+ * decrement. The delay timer is on ADC_CLK.
+ */
+#define PDSS_VALLEY_CONFIG_VALLEY_INC_DLY_MASK              (0x000fff00UL) /* <8:19> R:RW:1023: */
+#define PDSS_VALLEY_CONFIG_VALLEY_INC_DLY_POS               (8UL)
+
+
+/*
+ * Valley Decrement cycle delay. Valley update will be done on the first
+ * PTDRV_IN negede following the expiry of this delay. The update will be
+ * based on the live value of the VALLEY_TGT and hene can be increment or
+ * decrement.  The delay timer is on ADC_CLK.
+ */
+#define PDSS_VALLEY_CONFIG_VALLEY_DEC_DLY_MASK              (0xfff00000UL) /* <20:31> R:RW:127: */
+#define PDSS_VALLEY_CONFIG_VALLEY_DEC_DLY_POS               (20UL)
+
+
+/*
+ * Valley Algorithm Control register
+ */
+#define PDSS_VALLEY_CTRL_ADDRESS                            (0x400a2634UL)
+#define PDSS_VALLEY_CTRL                                    (*(volatile uint32_t *)(0x400a2634UL))
+#define PDSS_VALLEY_CTRL_DEFAULT                            (0x00000030UL)
+
+/*
+ * Enables the Valley Algorithm.
+ */
+#define PDSS_VALLEY_CTRL_VALLEY_ALGO_EN                     (1UL << 0) /* <0:0> R:RW:0: */
+
+
+/*
+ * The VALLEY_TGT will be loaded directly at the subsequent PTDRV negedge
+ * without jumps or delays.
+ */
+#define PDSS_VALLEY_CTRL_ABRUPT_VALLEY_CHANGE               (1UL << 1) /* <1:1> RW:RW:0: */
+
+
+/*
+ * FW sets this bit while updating the VALLEY_LOAD LUT.
+ */
+#define PDSS_VALLEY_CTRL_LUT_UPDT                           (1UL << 2) /* <2:2> R:RW:0: */
+
+
+/*
+ * When set, VALLEY_NUM_UPDT uses SAFE_VALLEY value. Else, uses value calculated
+ * by the Valley Algorithm.
+ */
+#define PDSS_VALLEY_CTRL_SEL_SAFE_VALLEY                    (1UL << 3) /* <3:3> RW:RW:0: */
+
+
+/*
+ * ILoad Hysterisis depth
+ */
+#define PDSS_VALLEY_CTRL_ILOAD_HYST_MASK                    (0x000000f0UL) /* <4:7> R:RW:3: */
+#define PDSS_VALLEY_CTRL_ILOAD_HYST_POS                     (4UL)
+
+
+/*
+ * FW programmable Valley Number (0 means 1st Valley)
+ */
+#define PDSS_VALLEY_CTRL_SAFE_VALLEY_MASK                   (0x0000ff00UL) /* <8:15> R:RW:0: */
+#define PDSS_VALLEY_CTRL_SAFE_VALLEY_POS                    (8UL)
+
+
+/*
+ * Valley number Target loaded from either Safe valley or from the Valley
+ * Algorithm
+ */
+#define PDSS_VALLEY_CTRL_VALLEY_TGT_MASK                    (0x00ff0000UL) /* <16:23> RW:RW:0: */
+#define PDSS_VALLEY_CTRL_VALLEY_TGT_POS                     (16UL)
+
+
+/*
+ * Valley Algorithm Status register
+ */
+#define PDSS_VALLEY_STATUS_ADDRESS                          (0x400a2638UL)
+#define PDSS_VALLEY_STATUS                                  (*(volatile uint32_t *)(0x400a2638UL))
+#define PDSS_VALLEY_STATUS_DEFAULT                          (0x00000000UL)
+
+/*
+ * Index of the LUT from which the ILOAD is loaded
+ */
+#define PDSS_VALLEY_STATUS_INDEX_S0_MASK                    (0x0000000fUL) /* <0:3> RW:R:0: */
+#define PDSS_VALLEY_STATUS_INDEX_S0_POS                     (0UL)
+
+
+/*
+ * ILOAD corresponding to the selected index.
+ */
+#define PDSS_VALLEY_STATUS_ILOAD_S0_MASK                    (0x00000ff0UL) /* <4:11> RW:R:0: */
+#define PDSS_VALLEY_STATUS_ILOAD_S0_POS                     (4UL)
+
+
+/*
+ * Index of the LUT from which the ILOAD is loaded
+ */
+#define PDSS_VALLEY_STATUS_INDEX_S1_MASK                    (0x0000f000UL) /* <12:15> RW:R:0: */
+#define PDSS_VALLEY_STATUS_INDEX_S1_POS                     (12UL)
+
+
+/*
+ * ILOAD corresponding to the selected index.
+ */
+#define PDSS_VALLEY_STATUS_ILOAD_S1_MASK                    (0x00ff0000UL) /* <16:23> RW:R:0: */
+#define PDSS_VALLEY_STATUS_ILOAD_S1_POS                     (16UL)
+
+
+/*
+ * Final Valley number generated from the Valley Algorithm
+ */
+#define PDSS_VALLEY_STATUS_VALLEY_MASK                      (0xff000000UL) /* <24:31> RW:R:0: */
+#define PDSS_VALLEY_STATUS_VALLEY_POS                       (24UL)
+
+
+/*
+ * Valley Algorithm Config register for LINE IN based Valley Algorithm control
+ */
+#define PDSS_VALLEY_LINE_IN_ADDRESS                         (0x400a263cUL)
+#define PDSS_VALLEY_LINE_IN                                 (*(volatile uint32_t *)(0x400a263cUL))
+#define PDSS_VALLEY_LINE_IN_DEFAULT                         (0x00000000UL)
+
+/*
+ * Line in Lower threshold to be compared by Valley Algorithm to move to
+ * safe valley mode and indicate to FW
+ */
+#define PDSS_VALLEY_LINE_IN_LINE_IN_THRESH_LOW_MASK         (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_VALLEY_LINE_IN_LINE_IN_THRESH_LOW_POS          (0UL)
+
+
+/*
+ * Line in Higher threshold to be compared by Valley Algorithm to indicate
+ * to FW
+ */
+#define PDSS_VALLEY_LINE_IN_LINE_IN_THRESH_HIGH_MASK        (0x0000ff00UL) /* <8:15> R:RW:0: */
+#define PDSS_VALLEY_LINE_IN_LINE_IN_THRESH_HIGH_POS         (8UL)
+
+
+/*
+ * Override HW based move to Safe Valley Mode based on Line in threshold
+ * crossing
+ */
+#define PDSS_VALLEY_LINE_IN_LINE_IN_SAFE_DIS                (1UL << 29) /* <29:29> R:RW:0: */
+
+
+/*
+ * 0 - Enable Line in threshold cross detection
+ * 1 - Temporarily Disable Line in threshold cross detection while updating
+ * Threshold values
+ */
+#define PDSS_VALLEY_LINE_IN_S_UPD_LINE                      (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * Valley Algorithm Config register for Load Transient detection based Valley
+ * Algorithm control
+ */
+#define PDSS_VALLEY_LOAD_TRANS_ADDRESS                      (0x400a2640UL)
+#define PDSS_VALLEY_LOAD_TRANS                              (*(volatile uint32_t *)(0x400a2640UL))
+#define PDSS_VALLEY_LOAD_TRANS_DEFAULT                      (0x00005109UL)
+
+/*
+ * Transient load detect sample-and-hold Pulse width in terms of PASC clock
+ * cycles
+ */
+#define PDSS_VALLEY_LOAD_TRANS_SH_LTRANDET_PW_MASK          (0x0000001fUL) /* <0:4> R:RW:9: */
+#define PDSS_VALLEY_LOAD_TRANS_SH_LTRANDET_PW_POS           (0UL)
+
+
+/*
+ * Transient load detect sample-and-hold Period in terms of PASC clock cycles
+ */
+#define PDSS_VALLEY_LOAD_TRANS_SH_LTRANDET_PER_MASK         (0x0007ff00UL) /* <8:18> R:RW:81: */
+#define PDSS_VALLEY_LOAD_TRANS_SH_LTRANDET_PER_POS          (8UL)
+
+
+/*
+ * Override HW based move to Safe Valley Mode based on LTRAN detection
+ */
+#define PDSS_VALLEY_LOAD_TRANS_LTRANDET_SAFE_DIS            (1UL << 29) /* <29:29> R:RW:0: */
+
+
+/*
+ * Rsense short detection control register
+ */
+#define PDSS_RSNS_SHRT_ADDRESS                              (0x400a2648UL)
+#define PDSS_RSNS_SHRT                                      (*(volatile uint32_t *)(0x400a2648UL))
+#define PDSS_RSNS_SHRT_DEFAULT                              (0x00000000UL)
+
+/*
+ * Rsense Short - Threshold value of output load current used for  Resene
+ * short detection (ADC based value)
+ */
+#define PDSS_RSNS_SHRT_LSCSA_THRESH_VAL_MASK                (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_RSNS_SHRT_LSCSA_THRESH_VAL_POS                 (0UL)
+
+
+/*
+ * Rsense Short - Threshold value of ptdrv Pulse-width used for  Resene short
+ * detection (PASC_CLK based counter)
+ */
+#define PDSS_RSNS_SHRT_PTDRV_IN_PW_THRESH_MASK              (0x0007ff00UL) /* <8:18> R:RW:0: */
+#define PDSS_RSNS_SHRT_PTDRV_IN_PW_THRESH_POS               (8UL)
+
+
+/*
+ * Enable bit for Rsense short detection
+ */
+#define PDSS_RSNS_SHRT_RSNS_SHRT_DET_EN                     (1UL << 31) /* <31:31> R:RW:0: */
+
+
+/*
+ * Over Temparature Protection control register
+ */
+#define PDSS_OTP_CTRL_ADDRESS                               (0x400a264cUL)
+#define PDSS_OTP_CTRL                                       (*(volatile uint32_t *)(0x400a264cUL))
+#define PDSS_OTP_CTRL_DEFAULT                               (0x00000000UL)
+
+/*
+ * Over-Temp threshold where OTP det will get triggered (ADC based value)
+ * (higher or lower is decided by OTP_COMP_SEL)
+ */
+#define PDSS_OTP_CTRL_OTP_THRESH_MASK                       (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_OTP_CTRL_OTP_THRESH_POS                        (0UL)
+
+
+/*
+ * 1: ADC value checked for higher than OTP threshold
+ * 0: ADC value checked for lower than OTP threshold
+ */
+#define PDSS_OTP_CTRL_OTP_COMP_SEL                          (1UL << 29) /* <29:29> R:RW:0: */
+
+
+/*
+ * 1: PASC will go into IDLE with OTP detect
+ */
+#define PDSS_OTP_CTRL_EN_OTP_PASC_HW_DIS                    (1UL << 30) /* <30:30> R:RW:0: */
+
+
+/*
+ * Enable bit for HW based OTP detection
+ */
+#define PDSS_OTP_CTRL_EN_OTP_DET                            (1UL << 31) /* <31:31> R:RW:0: */
 
 
 /*
@@ -13667,7 +17767,7 @@ typedef struct {
  */
 #define PDSS_TRIM_CC_3_ADDRESS                              (0x400aff0cUL)
 #define PDSS_TRIM_CC_3                                      (*(volatile uint32_t *)(0x400aff0cUL))
-#define PDSS_TRIM_CC_3_DEFAULT                              (0x00000000UL)
+#define PDSS_TRIM_CC_3_DEFAULT                              (0x00000024UL)
 
 /*
  * Trim bits for 0.5V comparator reference. Default is 0.53. Check BROS for
@@ -13676,14 +17776,14 @@ typedef struct {
  * ** silicon.
  * Notes: This filed should be 0x2 for all application (DFP,UFP,AMA ,cable)
  */
-#define PDSS_TRIM_CC_3_V0P5_TRIM_MASK                       (0x00000007UL) /* <0:2> R:RW:0: */
+#define PDSS_TRIM_CC_3_V0P5_TRIM_MASK                       (0x00000007UL) /* <0:2> R:RW:4: */
 #define PDSS_TRIM_CC_3_V0P5_TRIM_POS                        (0UL)
 
 
 /*
  * Trim bits for 0.655V comparator reference. Default value is 0.6475V
  */
-#define PDSS_TRIM_CC_3_V0P655_TRIM_MASK                     (0x00000038UL) /* <3:5> R:RW:0: */
+#define PDSS_TRIM_CC_3_V0P655_TRIM_MASK                     (0x00000038UL) /* <3:5> R:RW:4: */
 #define PDSS_TRIM_CC_3_V0P655_TRIM_POS                      (3UL)
 
 
@@ -13762,36 +17862,22 @@ typedef struct {
  */
 #define PDSS_TRIM_CC_7_ADDRESS                              (0x400aff1cUL)
 #define PDSS_TRIM_CC_7                                      (*(volatile uint32_t *)(0x400aff1cUL))
-#define PDSS_TRIM_CC_7_DEFAULT                              (0x00000000UL)
+#define PDSS_TRIM_CC_7_DEFAULT                              (0x00000001UL)
 
 /*
  * Trim bits for 1.97V comparator reference. Default value being 2.09V. Check
  * BROS for complete description for the trim.
  */
-#define PDSS_TRIM_CC_7_V1P97_TRIM_MASK                      (0x00000007UL) /* <0:2> R:RW:0: */
+#define PDSS_TRIM_CC_7_V1P97_TRIM_MASK                      (0x00000007UL) /* <0:2> R:RW:1: */
 #define PDSS_TRIM_CC_7_V1P97_TRIM_POS                       (0UL)
-
-
-/*
- * USBPD Hard IP 20V regulator Trim Register
- */
-#define PDSS_TRIM_PDS_VREG20_ADDRESS                        (0x400aff20UL)
-#define PDSS_TRIM_PDS_VREG20                                (*(volatile uint32_t *)(0x400aff20UL))
-#define PDSS_TRIM_PDS_VREG20_DEFAULT                        (0x00000000UL)
-
-/*
- * 20V regulator output voltage trim.  Refer to s8pds BROS for settings.
- */
-#define PDSS_TRIM_PDS_VREG20_VREG_TRIM_MASK                 (0x00000007UL) /* <0:2> R:RW:0: */
-#define PDSS_TRIM_PDS_VREG20_VREG_TRIM_POS                  (0UL)
 
 
 /*
  * USBPD Hard IP battery charger Detect#1 Trim Register 0. Production trims
  * stored in flash
  */
-#define PDSS_TRIM_BCH_DET1_0_ADDRESS                        (0x400aff24UL)
-#define PDSS_TRIM_BCH_DET1_0                                (*(volatile uint32_t *)(0x400aff24UL))
+#define PDSS_TRIM_BCH_DET1_0_ADDRESS                        (0x400aff20UL)
+#define PDSS_TRIM_BCH_DET1_0                                (*(volatile uint32_t *)(0x400aff20UL))
 #define PDSS_TRIM_BCH_DET1_0_DEFAULT                        (0x00000000UL)
 
 /*
@@ -13814,8 +17900,8 @@ typedef struct {
  * USBPD Hard IP battery charger Detect#1 Trim Register 1. Production trims
  * stored in flash
  */
-#define PDSS_TRIM_BCH_DET1_1_ADDRESS                        (0x400aff28UL)
-#define PDSS_TRIM_BCH_DET1_1                                (*(volatile uint32_t *)(0x400aff28UL))
+#define PDSS_TRIM_BCH_DET1_1_ADDRESS                        (0x400aff24UL)
+#define PDSS_TRIM_BCH_DET1_1                                (*(volatile uint32_t *)(0x400aff24UL))
 #define PDSS_TRIM_BCH_DET1_1_DEFAULT                        (0x00000000UL)
 
 /*
@@ -13846,8 +17932,8 @@ typedef struct {
  * USBPD Hard IP battery charger Detect#1 Trim Register 2. Production trims
  * stored in flash
  */
-#define PDSS_TRIM_BCH_DET1_2_ADDRESS                        (0x400aff2cUL)
-#define PDSS_TRIM_BCH_DET1_2                                (*(volatile uint32_t *)(0x400aff2cUL))
+#define PDSS_TRIM_BCH_DET1_2_ADDRESS                        (0x400aff28UL)
+#define PDSS_TRIM_BCH_DET1_2                                (*(volatile uint32_t *)(0x400aff28UL))
 #define PDSS_TRIM_BCH_DET1_2_DEFAULT                        (0x00000000UL)
 
 /*
@@ -13886,8 +17972,8 @@ typedef struct {
  * USBPD Hard IP battery charger Detect#1 Trim Register 3. Production trims
  * stored in flash
  */
-#define PDSS_TRIM_BCH_DET1_3_ADDRESS                        (0x400aff30UL)
-#define PDSS_TRIM_BCH_DET1_3                                (*(volatile uint32_t *)(0x400aff30UL))
+#define PDSS_TRIM_BCH_DET1_3_ADDRESS                        (0x400aff2cUL)
+#define PDSS_TRIM_BCH_DET1_3                                (*(volatile uint32_t *)(0x400aff2cUL))
 #define PDSS_TRIM_BCH_DET1_3_DEFAULT                        (0x00000000UL)
 
 /*
@@ -13918,16 +18004,67 @@ typedef struct {
  * USBPD Hard IP battery charger Detect#1 Trim Register 4. Production trims
  * stored in flash
  */
-#define PDSS_TRIM_BCH_DET1_4_ADDRESS                        (0x400aff34UL)
-#define PDSS_TRIM_BCH_DET1_4                                (*(volatile uint32_t *)(0x400aff34UL))
+#define PDSS_TRIM_BCH_DET1_4_ADDRESS                        (0x400aff30UL)
+#define PDSS_TRIM_BCH_DET1_4                                (*(volatile uint32_t *)(0x400aff30UL))
 #define PDSS_TRIM_BCH_DET1_4_DEFAULT                        (0x00000000UL)
 
+/*
+ * DP/DM Sink Current Trim
+ * 0000: 21.6uA
+ * 0001: 24.0uA
+ * 0010: 26.4uA
+ * 0011: 28.8uA
+ * 0100: 31.2uA
+ * 0101: 33.6uA
+ * 0110: 36.0uA
+ * 0111: 38.4uA
+ * 1000: 40.8uA
+ * 1001: 43.2uA
+ * 1010: 45.6uA
+ * 1011: 48.0uA
+ * 1100: 50.4uA
+ * 1101: 52.8uA
+ * 1110: 55.2uA
+ * 1111: 57.6uA
+ */
 #define PDSS_TRIM_BCH_DET1_4_ISINK_TRIM_MASK                (0x0000000fUL) /* <0:3> R:RW:0: */
 #define PDSS_TRIM_BCH_DET1_4_ISINK_TRIM_POS                 (0UL)
 
 
+/*
+ * DP OVP Detection Voltage Trim
+ * xx00: 4.50V(Default)
+ * xx01: 4.25V
+ * xx10: 4.80V
+ * xx11: 5.00V
+ * DM OVP Detection Voltage Trim
+ * 00xx: 4.50V(Default)
+ * 01xx: 4.25V
+ * 10xx: 4.80V
+ * 11xx: 5.00V
+ */
 #define PDSS_TRIM_BCH_DET1_4_OVP_VREF_TRIM_MASK             (0x000000f0UL) /* <4:7> R:RW:0: */
 #define PDSS_TRIM_BCH_DET1_4_OVP_VREF_TRIM_POS              (4UL)
+
+
+/*
+ * USBPD Hard IP battery charger Detect#1 Trim Register 5. Production trims
+ * stored in flash
+ */
+#define PDSS_TRIM_BCH_DET1_5_ADDRESS                        (0x400aff34UL)
+#define PDSS_TRIM_BCH_DET1_5                                (*(volatile uint32_t *)(0x400aff34UL))
+#define PDSS_TRIM_BCH_DET1_5_DEFAULT                        (0x00000000UL)
+
+/*
+ * 400mV Reference Voltage Trim for Impedance Detection on DP/DM
+ * Only these are valid combinations -
+ * 0000: 400mV(Default)
+ * 0101: 310mV
+ * 0110: 340mV
+ * 1100: 460mV
+ */
+#define PDSS_TRIM_BCH_DET1_5_IMP_VREF_TRIM_MASK             (0x0000000fUL) /* <0:3> R:RW:0: */
+#define PDSS_TRIM_BCH_DET1_5_IMP_VREF_TRIM_POS              (0UL)
 
 
 /*
@@ -14059,12 +18196,12 @@ typedef struct {
  */
 #define PDSS_TRIM_SR_SENSE_0_ADDRESS                        (0x400aff54UL)
 #define PDSS_TRIM_SR_SENSE_0                                (*(volatile uint32_t *)(0x400aff54UL))
-#define PDSS_TRIM_SR_SENSE_0_DEFAULT                        (0x00000006UL)
+#define PDSS_TRIM_SR_SENSE_0_DEFAULT                        (0x00000000UL)
 
 /*
- * trim bits for trimming resistive divider on SR_SENSE, SR_VSS and for OVP
+ * trim bits for trimming resistive RC filter on sr_vss_int node.
  */
-#define PDSS_TRIM_SR_SENSE_0_DRAIN_TRIM_MASK                (0x000000ffUL) /* <0:7> R:RW:6: */
+#define PDSS_TRIM_SR_SENSE_0_DRAIN_TRIM_MASK                (0x000000ffUL) /* <0:7> R:RW:0: */
 #define PDSS_TRIM_SR_SENSE_0_DRAIN_TRIM_POS                 (0UL)
 
 
@@ -14076,73 +18213,67 @@ typedef struct {
 #define PDSS_TRIM_SR_SENSE_2_DEFAULT                        (0x00000020UL)
 
 /*
- * trim bits for feed-forward i_feedfwd
+ * Unused
  */
 #define PDSS_TRIM_SR_SENSE_2_FEEDFWD_IFF_TRIM_MASK          (0x0000003fUL) /* <0:5> R:RW:32: */
 #define PDSS_TRIM_SR_SENSE_2_FEEDFWD_IFF_TRIM_POS           (0UL)
 
 
 /*
- * USBPD Hard IP SR Sense Trim Register4. Production trims stored in flash
- */
-#define PDSS_TRIM_SR_SENSE_4_ADDRESS                        (0x400aff5cUL)
-#define PDSS_TRIM_SR_SENSE_4                                (*(volatile uint32_t *)(0x400aff5cUL))
-#define PDSS_TRIM_SR_SENSE_4_DEFAULT                        (0x00000088UL)
-
-/*
- * trim bits for feed-forward V2I
- */
-#define PDSS_TRIM_SR_SENSE_4_FEEDFWD_V2I_TRIM_MASK          (0x000000ffUL) /* <0:7> R:RW:136: */
-#define PDSS_TRIM_SR_SENSE_4_FEEDFWD_V2I_TRIM_POS           (0UL)
-
-
-/*
  * USBPD Hard IP SR Sense Trim Register5. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_5_ADDRESS                        (0x400aff60UL)
-#define PDSS_TRIM_SR_SENSE_5                                (*(volatile uint32_t *)(0x400aff60UL))
-#define PDSS_TRIM_SR_SENSE_5_DEFAULT                        (0x00000008UL)
+#define PDSS_TRIM_SR_SENSE_5_ADDRESS                        (0x400aff5cUL)
+#define PDSS_TRIM_SR_SENSE_5                                (*(volatile uint32_t *)(0x400aff5cUL))
+#define PDSS_TRIM_SR_SENSE_5_DEFAULT                        (0x00000010UL)
 
 /*
  * trim bits for feed-forward V_feedfwd
  */
-#define PDSS_TRIM_SR_SENSE_5_FEEDFWD_VFF_TRIM_MASK          (0x0000003fUL) /* <0:5> R:RW:8: */
+#define PDSS_TRIM_SR_SENSE_5_FEEDFWD_VFF_TRIM_MASK          (0x0000003fUL) /* <0:5> R:RW:16: */
 #define PDSS_TRIM_SR_SENSE_5_FEEDFWD_VFF_TRIM_POS           (0UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register6. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_6_ADDRESS                        (0x400aff64UL)
-#define PDSS_TRIM_SR_SENSE_6                                (*(volatile uint32_t *)(0x400aff64UL))
-#define PDSS_TRIM_SR_SENSE_6_DEFAULT                        (0x00000034UL)
+#define PDSS_TRIM_SR_SENSE_6_ADDRESS                        (0x400aff60UL)
+#define PDSS_TRIM_SR_SENSE_6                                (*(volatile uint32_t *)(0x400aff60UL))
+#define PDSS_TRIM_SR_SENSE_6_DEFAULT                        (0x00000003UL)
 
 /*
- * trim bits for NSN comparator (Default of -100mV)
+ * To trim/config -100mV sensing threshold
+ * For +ve NSN threshold; keep this as 0x3
  */
-#define PDSS_TRIM_SR_SENSE_6_NSN_TRIM_MASK                  (0x0000003fUL) /* <0:5> R:RW:52: */
+#define PDSS_TRIM_SR_SENSE_6_NSN_TRIM_MASK                  (0x0000003fUL) /* <0:5> R:RW:3: */
 #define PDSS_TRIM_SR_SENSE_6_NSN_TRIM_POS                   (0UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register7. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_7_ADDRESS                        (0x400aff68UL)
-#define PDSS_TRIM_SR_SENSE_7                                (*(volatile uint32_t *)(0x400aff68UL))
-#define PDSS_TRIM_SR_SENSE_7_DEFAULT                        (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_7_ADDRESS                        (0x400aff64UL)
+#define PDSS_TRIM_SR_SENSE_7                                (*(volatile uint32_t *)(0x400aff64UL))
+#define PDSS_TRIM_SR_SENSE_7_DEFAULT                        (0x0000000aUL)
 
 /*
- * Trim bits for peakdet comparator
+ * Trim bits for peakdet comparator for trimming peak detect trip current
+ * 0 - 0 nA
+ * 1 - 200 nA
+ * 2 - 400 nA
+ * 4 - 800 nA
+ * 8 - 1600 nA
+ * 16 - 3200 nA
+ * 32 - 6400 nA
  */
-#define PDSS_TRIM_SR_SENSE_7_PEAKDET_TRIM_MASK              (0x0000003fUL) /* <0:5> R:RW:0: */
+#define PDSS_TRIM_SR_SENSE_7_PEAKDET_TRIM_MASK              (0x0000003fUL) /* <0:5> R:RW:10: */
 #define PDSS_TRIM_SR_SENSE_7_PEAKDET_TRIM_POS               (0UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register8. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_8_ADDRESS                        (0x400aff6cUL)
-#define PDSS_TRIM_SR_SENSE_8                                (*(volatile uint32_t *)(0x400aff6cUL))
+#define PDSS_TRIM_SR_SENSE_8_ADDRESS                        (0x400aff68UL)
+#define PDSS_TRIM_SR_SENSE_8                                (*(volatile uint32_t *)(0x400aff68UL))
 #define PDSS_TRIM_SR_SENSE_8_DEFAULT                        (0x00000017UL)
 
 /*
@@ -14155,104 +18286,158 @@ typedef struct {
 /*
  * USBPD Hard IP SR Sense Trim Register9. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_9_ADDRESS                        (0x400aff70UL)
-#define PDSS_TRIM_SR_SENSE_9                                (*(volatile uint32_t *)(0x400aff70UL))
-#define PDSS_TRIM_SR_SENSE_9_DEFAULT                        (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_9_ADDRESS                        (0x400aff6cUL)
+#define PDSS_TRIM_SR_SENSE_9                                (*(volatile uint32_t *)(0x400aff6cUL))
+#define PDSS_TRIM_SR_SENSE_9_DEFAULT                        (0x0000002aUL)
 
 /*
  * Trim bits for ZCDF
+ * 42 - 5mV vtrip(Internal Rpath)
+ * 79 - 50mV vtrip( External Cpath)
  */
-#define PDSS_TRIM_SR_SENSE_9_ZCDF_TRIM_MASK                 (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_TRIM_SR_SENSE_9_ZCDF_TRIM_MASK                 (0x000000ffUL) /* <0:7> R:RW:42: */
 #define PDSS_TRIM_SR_SENSE_9_ZCDF_TRIM_POS                  (0UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register10. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_10_ADDRESS                       (0x400aff74UL)
-#define PDSS_TRIM_SR_SENSE_10                               (*(volatile uint32_t *)(0x400aff74UL))
-#define PDSS_TRIM_SR_SENSE_10_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_10_ADDRESS                       (0x400aff70UL)
+#define PDSS_TRIM_SR_SENSE_10                               (*(volatile uint32_t *)(0x400aff70UL))
+#define PDSS_TRIM_SR_SENSE_10_DEFAULT                       (0x00000078UL)
 
+/*
+ * CLAMP_PKD_REF_TRIM<0>:
+ * 0 : nsn_en is used to turn on the peakdet_switch
+ * 1 ; sr_sen_ctrlp is used to turn on the peakder_switch
+ * CLAMP_PKD_REF_TRIM<1>:
+ * 0 : lower cap section is added to couple sr_sense to peakdetect
+ * 1 : Disables the lower cap section from sr_sense to peakdetect
+ * CLAMP_PKD_REF_TRIM<2>:
+ * 0 : higher cap section is added to couple sr_sense to peakdetect
+ * 1 : Disables the higher cap section from sr_sense to peakdetect
+ */
 #define PDSS_TRIM_SR_SENSE_10_CLAMP_PKD_REF_TRIM_MASK       (0x00000007UL) /* <0:2> R:RW:0: */
 #define PDSS_TRIM_SR_SENSE_10_CLAMP_PKD_REF_TRIM_POS        (0UL)
 
 
-#define PDSS_TRIM_SR_SENSE_10_FEEDFWD_INTEG_TRIM_MASK       (0x000000f8UL) /* <3:7> R:RW:0: */
+/*
+ * To trim Integration current for capacitor variation
+ */
+#define PDSS_TRIM_SR_SENSE_10_FEEDFWD_INTEG_TRIM_MASK       (0x000000f8UL) /* <3:7> R:RW:15: */
 #define PDSS_TRIM_SR_SENSE_10_FEEDFWD_INTEG_TRIM_POS        (3UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register11. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_11_ADDRESS                       (0x400aff78UL)
-#define PDSS_TRIM_SR_SENSE_11                               (*(volatile uint32_t *)(0x400aff78UL))
-#define PDSS_TRIM_SR_SENSE_11_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_11_ADDRESS                       (0x400aff74UL)
+#define PDSS_TRIM_SR_SENSE_11                               (*(volatile uint32_t *)(0x400aff74UL))
+#define PDSS_TRIM_SR_SENSE_11_DEFAULT                       (0x0000000fUL)
 
-#define PDSS_TRIM_SR_SENSE_11_FEEDFWD_ICOMP_TRIM_MASK       (0x0000003fUL) /* <0:5> R:RW:0: */
+/*
+ * I_FF linearity trim
+ */
+#define PDSS_TRIM_SR_SENSE_11_FEEDFWD_ICOMP_TRIM_MASK       (0x0000003fUL) /* <0:5> R:RW:15: */
 #define PDSS_TRIM_SR_SENSE_11_FEEDFWD_ICOMP_TRIM_POS        (0UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register12. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_12_ADDRESS                       (0x400aff7cUL)
-#define PDSS_TRIM_SR_SENSE_12                               (*(volatile uint32_t *)(0x400aff7cUL))
-#define PDSS_TRIM_SR_SENSE_12_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_12_ADDRESS                       (0x400aff78UL)
+#define PDSS_TRIM_SR_SENSE_12                               (*(volatile uint32_t *)(0x400aff78UL))
+#define PDSS_TRIM_SR_SENSE_12_DEFAULT                       (0x00000077UL)
 
-#define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP1_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:0: */
+/*
+ * VINCOMP1 trim
+ */
+#define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP1_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:7: */
 #define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP1_TRIM_POS     (0UL)
 
 
-#define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP2_TRIM_MASK    (0x000000f0UL) /* <4:7> R:RW:0: */
+/*
+ * VINCOMP2 trim
+ */
+#define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP2_TRIM_MASK    (0x000000f0UL) /* <4:7> R:RW:7: */
 #define PDSS_TRIM_SR_SENSE_12_FEEDFWD_VINCOMP2_TRIM_POS     (4UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register13. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_13_ADDRESS                       (0x400aff80UL)
-#define PDSS_TRIM_SR_SENSE_13                               (*(volatile uint32_t *)(0x400aff80UL))
-#define PDSS_TRIM_SR_SENSE_13_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_13_ADDRESS                       (0x400aff7cUL)
+#define PDSS_TRIM_SR_SENSE_13                               (*(volatile uint32_t *)(0x400aff7cUL))
+#define PDSS_TRIM_SR_SENSE_13_DEFAULT                       (0x00000087UL)
 
-#define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP3_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:0: */
+/*
+ * VINCOMP3 trim
+ */
+#define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP3_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:7: */
 #define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP3_TRIM_POS     (0UL)
 
 
-#define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP4_TRIM_MASK    (0x000000f0UL) /* <4:7> R:RW:0: */
+/*
+ * VINCOMP4 trim
+ */
+#define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP4_TRIM_MASK    (0x000000f0UL) /* <4:7> R:RW:8: */
 #define PDSS_TRIM_SR_SENSE_13_FEEDFWD_VINCOMP4_TRIM_POS     (4UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register14. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_14_ADDRESS                       (0x400aff84UL)
-#define PDSS_TRIM_SR_SENSE_14                               (*(volatile uint32_t *)(0x400aff84UL))
-#define PDSS_TRIM_SR_SENSE_14_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_14_ADDRESS                       (0x400aff80UL)
+#define PDSS_TRIM_SR_SENSE_14                               (*(volatile uint32_t *)(0x400aff80UL))
+#define PDSS_TRIM_SR_SENSE_14_DEFAULT                       (0x00000097UL)
 
-#define PDSS_TRIM_SR_SENSE_14_FEEDFWD_VINCOMP5_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:0: */
+/*
+ * VINCOMP5 trim
+ */
+#define PDSS_TRIM_SR_SENSE_14_FEEDFWD_VINCOMP5_TRIM_MASK    (0x0000000fUL) /* <0:3> R:RW:7: */
 #define PDSS_TRIM_SR_SENSE_14_FEEDFWD_VINCOMP5_TRIM_POS     (0UL)
 
 
-#define PDSS_TRIM_SR_SENSE_14_RSTCMP_PKD_REF_TRIM_MASK      (0x000000f0UL) /* <4:7> R:RW:0: */
+/*
+ * trim bits for peak-detector block for trimming reference voltage for backup
+ * scheme comparator and output clamp voltages for comparator
+ * <3:2> -  backup scheme comparator
+ * 00 - 346m
+ * 11 - 370m
+ * <1:0> - output comparator clamp
+ * 00 - 1.78
+ * 11 - 1.44
+ */
+#define PDSS_TRIM_SR_SENSE_14_RSTCMP_PKD_REF_TRIM_MASK      (0x000000f0UL) /* <4:7> R:RW:9: */
 #define PDSS_TRIM_SR_SENSE_14_RSTCMP_PKD_REF_TRIM_POS       (4UL)
 
 
 /*
  * USBPD Hard IP SR Sense Trim Register15. Production trims stored in flash
  */
-#define PDSS_TRIM_SR_SENSE_15_ADDRESS                       (0x400aff88UL)
-#define PDSS_TRIM_SR_SENSE_15                               (*(volatile uint32_t *)(0x400aff88UL))
-#define PDSS_TRIM_SR_SENSE_15_DEFAULT                       (0x00000000UL)
+#define PDSS_TRIM_SR_SENSE_15_ADDRESS                       (0x400aff84UL)
+#define PDSS_TRIM_SR_SENSE_15                               (*(volatile uint32_t *)(0x400aff84UL))
+#define PDSS_TRIM_SR_SENSE_15_DEFAULT                       (0x0000000aUL)
 
-#define PDSS_TRIM_SR_SENSE_15_VALLEYDET_TRIM_MASK           (0x0000003fUL) /* <0:5> R:RW:0: */
+/*
+ * trim bits for peak-detector block for trimming valleydetect trip current
+ * 0 - 0 nA
+ * 1 - 200 nA
+ * 2 - 400 nA
+ * 4 - 800 nA
+ * 8 - 1600 nA
+ * 16 - 3200 nA
+ * 32 - 6400 nA
+ */
+#define PDSS_TRIM_SR_SENSE_15_VALLEYDET_TRIM_MASK           (0x0000003fUL) /* <0:5> R:RW:10: */
 #define PDSS_TRIM_SR_SENSE_15_VALLEYDET_TRIM_POS            (0UL)
 
 
 /*
  * USBPD Hard IP PWM Trim Register0. Production trims stored in flash
  */
-#define PDSS_TRIM_PWM_0_ADDRESS                             (0x400aff8cUL)
-#define PDSS_TRIM_PWM_0                                     (*(volatile uint32_t *)(0x400aff8cUL))
+#define PDSS_TRIM_PWM_0_ADDRESS                             (0x400aff88UL)
+#define PDSS_TRIM_PWM_0                                     (*(volatile uint32_t *)(0x400aff88UL))
 #define PDSS_TRIM_PWM_0_DEFAULT                             (0x00000010UL)
 
 /*
@@ -14265,8 +18450,8 @@ typedef struct {
 /*
  * USBPD Hard IP PWM Trim Register1. Production trims stored in flash
  */
-#define PDSS_TRIM_PWM_1_ADDRESS                             (0x400aff90UL)
-#define PDSS_TRIM_PWM_1                                     (*(volatile uint32_t *)(0x400aff90UL))
+#define PDSS_TRIM_PWM_1_ADDRESS                             (0x400aff8cUL)
+#define PDSS_TRIM_PWM_1                                     (*(volatile uint32_t *)(0x400aff8cUL))
 #define PDSS_TRIM_PWM_1_DEFAULT                             (0x00000010UL)
 
 /*
@@ -14279,8 +18464,8 @@ typedef struct {
 /*
  * USBPD Hard IP PWM Trim Register2. Production trims stored in flash
  */
-#define PDSS_TRIM_PWM_2_ADDRESS                             (0x400aff94UL)
-#define PDSS_TRIM_PWM_2                                     (*(volatile uint32_t *)(0x400aff94UL))
+#define PDSS_TRIM_PWM_2_ADDRESS                             (0x400aff90UL)
+#define PDSS_TRIM_PWM_2                                     (*(volatile uint32_t *)(0x400aff90UL))
 #define PDSS_TRIM_PWM_2_DEFAULT                             (0x0000002aUL)
 
 /*
@@ -14307,14 +18492,36 @@ typedef struct {
 /*
  * USBPD Hard IP VCONN40 trim Register. Production trims stored in flash
  */
-#define PDSS_TRIM_VCONN40_ADDRESS                           (0x400aff98UL)
-#define PDSS_TRIM_VCONN40                                   (*(volatile uint32_t *)(0x400aff98UL))
+#define PDSS_TRIM_VCONN40_ADDRESS                           (0x400aff94UL)
+#define PDSS_TRIM_VCONN40                                   (*(volatile uint32_t *)(0x400aff94UL))
 #define PDSS_TRIM_VCONN40_DEFAULT                           (0x00000000UL)
 
+/*
+ *  Trim bits for SCP detection
+ * (MSB is inverted)
+ * 0000 :  86.34mA (Default)
+ * 0001 : 92.94mA
+ * 0010 : 99.5mA
+ * 0100 : 112.63mA
+ * 0111 : 132.31mA (Max)
+ * 1000 : 33.51mA
+ * 1111 : 79.77mA
+ */
 #define PDSS_TRIM_VCONN40_SCP_TRIM_MASK                     (0x0000000fUL) /* <0:3> R:RW:0: */
 #define PDSS_TRIM_VCONN40_SCP_TRIM_POS                      (0UL)
 
 
+/*
+ *  Trim bits for oscillator clk frequency
+ * 0000 : 3.15MHz
+ * 0001 : 2.55MHz
+ * 0010 : 1.88MHz
+ * 0011 : 1.1MHz
+ * 0100 : 5.12MHz
+ * 0101 : 4.66MHz
+ * 0110 : 4.2MHz
+ * 0111 : 3.68MHz
+ */
 #define PDSS_TRIM_VCONN40_OSC_TRIM_MASK                     (0x000000f0UL) /* <4:7> R:RW:0: */
 #define PDSS_TRIM_VCONN40_OSC_TRIM_POS                      (4UL)
 
@@ -14322,8 +18529,8 @@ typedef struct {
 /*
  * USBPD Hard IP 40VREG Trim Register 0. Production trims stored in flash
  */
-#define PDSS_TRIM_40VREG_0_ADDRESS                          (0x400aff9cUL)
-#define PDSS_TRIM_40VREG_0                                  (*(volatile uint32_t *)(0x400aff9cUL))
+#define PDSS_TRIM_40VREG_0_ADDRESS                          (0x400aff98UL)
+#define PDSS_TRIM_40VREG_0                                  (*(volatile uint32_t *)(0x400aff98UL))
 #define PDSS_TRIM_40VREG_0_DEFAULT                          (0x00000005UL)
 
 /*
@@ -14352,8 +18559,8 @@ typedef struct {
 /*
  * USBPD Hard IP 40VREG Trim Register 1. Production trims stored in flash
  */
-#define PDSS_TRIM_40VREG_1_ADDRESS                          (0x400affa0UL)
-#define PDSS_TRIM_40VREG_1                                  (*(volatile uint32_t *)(0x400affa0UL))
+#define PDSS_TRIM_40VREG_1_ADDRESS                          (0x400aff9cUL)
+#define PDSS_TRIM_40VREG_1                                  (*(volatile uint32_t *)(0x400aff9cUL))
 #define PDSS_TRIM_40VREG_1_DEFAULT                          (0x0000000bUL)
 
 /*
@@ -14365,49 +18572,81 @@ typedef struct {
 
 
 /*
- * USBPD Hard IP PTDRV Trim Register 0. Production trims stored in flash
- */
-#define PDSS_TRIM_PTDRV_0_ADDRESS                           (0x400affa4UL)
-#define PDSS_TRIM_PTDRV_0                                   (*(volatile uint32_t *)(0x400affa4UL))
-#define PDSS_TRIM_PTDRV_0_DEFAULT                           (0x00000000UL)
-
-/*
- * 0
- */
-#define PDSS_TRIM_PTDRV_0_LV_SUPPLY_TRIM_MASK               (0x0000000fUL) /* <0:3> R:RW:0: */
-#define PDSS_TRIM_PTDRV_0_LV_SUPPLY_TRIM_POS                (0UL)
-
-
-/*
  * USBPD Hard IP LSCSA#1 Trim Register 3. Production trims stored in flash
  */
-#define PDSS_TRIM_LSCSA_0_ADDRESS                           (0x400affa8UL)
-#define PDSS_TRIM_LSCSA_0                                   (*(volatile uint32_t *)(0x400affa8UL))
-#define PDSS_TRIM_LSCSA_0_DEFAULT                           (0x00000000UL)
+#define PDSS_TRIM_LSCSA_0_ADDRESS                           (0x400affa0UL)
+#define PDSS_TRIM_LSCSA_0                                   (*(volatile uint32_t *)(0x400affa0UL))
+#define PDSS_TRIM_LSCSA_0_DEFAULT                           (0x0000001fUL)
 
 /*
- * Trim control for stage2 input referred offset
+ * trim bits for 1st stage V2I Converter input offset correction
+ * TRIM CODE from 0 to 63 with a setp of 150uV and from 64 to
+ * 0=9.65mV
+ * 1=9.5mV
+ * ....................
+ * 30=5.15mV
+ * 31=5mV
+ * 32=4.85mV
+ * ...........................
+ * 62=0.35mV
+ * 63=0.2mV
+ *
+ * trim_v2i_amp_vios<5:0>, set Positive offset asper above table
+ * trim_v2i_amp_vios<6>=1, set negative offset of above table
+ * trim_v2i_amp_vios<7>=1, double trim step and range of above table
  */
-#define PDSS_TRIM_LSCSA_0_V2I_AMP_VIOS_TRIM_MASK            (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_TRIM_LSCSA_0_V2I_AMP_VIOS_TRIM_MASK            (0x000000ffUL) /* <0:7> R:RW:31: */
 #define PDSS_TRIM_LSCSA_0_V2I_AMP_VIOS_TRIM_POS             (0UL)
 
 
 /*
  * USBPD Hard IP LSCSA#1 Trim Register 4. Production trims stored in flash
  */
-#define PDSS_TRIM_LSCSA_1_ADDRESS                           (0x400affacUL)
-#define PDSS_TRIM_LSCSA_1                                   (*(volatile uint32_t *)(0x400affacUL))
+#define PDSS_TRIM_LSCSA_1_ADDRESS                           (0x400affa4UL)
+#define PDSS_TRIM_LSCSA_1                                   (*(volatile uint32_t *)(0x400affa4UL))
 #define PDSS_TRIM_LSCSA_1_DEFAULT                           (0x00000000UL)
 
 /*
- * Trim control for stage2 input referred offset
+ * trim bits for input offset correction of LTRAN High to Low comparator
+ * 0=0.5mV
+ * 1=3.5mV
+ * 2=6.5mV
+ * 3=9.5mV
+ * 4=12.5mV
+ * 5=15.5mV
+ * 6=18.5mV
+ * 7=21.5mV
+ * 8=0.5mV
+ * 9=-2.5mV
+ * 10=-5.6mV
+ * 11=-8.6mV
+ * 12=-11.6mV
+ * 13=-14.7mV
+ * 14=-17.7mV
+ * 15=-20.8mV
  */
 #define PDSS_TRIM_LSCSA_1_LTRANCOMP_H2L_VIOS_TRIM_MASK      (0x0000000fUL) /* <0:3> R:RW:0: */
 #define PDSS_TRIM_LSCSA_1_LTRANCOMP_H2L_VIOS_TRIM_POS       (0UL)
 
 
 /*
- * Trim control for stage2 input referred offset
+ * trim bits for input offset correction of LTRAN Low to High comparator
+ * 0=0.5mV
+ * 1=3.5mV
+ * 2=6.5mV
+ * 3=9.5mV
+ * 4=12.5mV
+ * 5=15.5mV
+ * 6=18.5mV
+ * 7=21.5mV
+ * 8=0.5mV
+ * 9=-2.5mV
+ * 10=-5.6mV
+ * 11=-8.6mV
+ * 12=-11.6mV
+ * 13=-14.7mV
+ * 14=-17.7mV
+ * 15=-20.8mV
  */
 #define PDSS_TRIM_LSCSA_1_LTRANCOMP_L2H_VIOS_TRIM_MASK      (0x000000f0UL) /* <4:7> R:RW:0: */
 #define PDSS_TRIM_LSCSA_1_LTRANCOMP_L2H_VIOS_TRIM_POS       (4UL)
@@ -14416,22 +18655,38 @@ typedef struct {
 /*
  * USBPD Hard IP LSCSA#1 Trim Register 5. Production trims stored in flash
  */
-#define PDSS_TRIM_LSCSA_2_ADDRESS                           (0x400affb0UL)
-#define PDSS_TRIM_LSCSA_2                                   (*(volatile uint32_t *)(0x400affb0UL))
-#define PDSS_TRIM_LSCSA_2_DEFAULT                           (0x00000000UL)
+#define PDSS_TRIM_LSCSA_2_ADDRESS                           (0x400affa8UL)
+#define PDSS_TRIM_LSCSA_2                                   (*(volatile uint32_t *)(0x400affa8UL))
+#define PDSS_TRIM_LSCSA_2_DEFAULT                           (0x00000007UL)
 
 /*
- * 0
+ * trim bits for SCP Comparator to correct vbg_1p2 variation of
+ * 0=4.3%
+ * 1=3.7%
+ * 2=3.1%
+ * 3=2.4%
+ * 4=1.6%
+ * 5=1.1%
+ * 6=0.5%
+ * 7=0.0%
+ * 8=-0.7%
+ * 9=-1.176
+ * 10=-1.7%
+ * 11=-2.1%
+ * 12=-2.7%
+ * 13=-3.2%
+ * 14=-3.6%
+ * 15=-4.1%
  */
-#define PDSS_TRIM_LSCSA_2_SCP_TRIM_MASK                     (0x0000000fUL) /* <0:3> R:RW:0: */
+#define PDSS_TRIM_LSCSA_2_SCP_TRIM_MASK                     (0x0000000fUL) /* <0:3> R:RW:7: */
 #define PDSS_TRIM_LSCSA_2_SCP_TRIM_POS                      (0UL)
 
 
 /*
  * USBPD Hard IP 5V PUMP#1 trim Register 0. Production trims stored in flash
  */
-#define PDSS_TRIM_5VPUMP1_0_ADDRESS                         (0x400affb4UL)
-#define PDSS_TRIM_5VPUMP1_0                                 (*(volatile uint32_t *)(0x400affb4UL))
+#define PDSS_TRIM_5VPUMP1_0_ADDRESS                         (0x400affacUL)
+#define PDSS_TRIM_5VPUMP1_0                                 (*(volatile uint32_t *)(0x400affacUL))
 #define PDSS_TRIM_5VPUMP1_0_DEFAULT                         (0x00000041UL)
 
 /*
@@ -14459,8 +18714,8 @@ typedef struct {
 /*
  * USBPD Hard IP 5V PUMP#1 trim Register 1. Production trims stored in flash
  */
-#define PDSS_TRIM_5VPUMP1_1_ADDRESS                         (0x400affb8UL)
-#define PDSS_TRIM_5VPUMP1_1                                 (*(volatile uint32_t *)(0x400affb8UL))
+#define PDSS_TRIM_5VPUMP1_1_ADDRESS                         (0x400affb0UL)
+#define PDSS_TRIM_5VPUMP1_1                                 (*(volatile uint32_t *)(0x400affb0UL))
 #define PDSS_TRIM_5VPUMP1_1_DEFAULT                         (0x00000005UL)
 
 /*
@@ -14474,16 +18729,50 @@ typedef struct {
 /*
  * USBPD Hard IP BG ref trim Register 1. Production trims stored in flash
  */
-#define PDSS_TRIM_BG_REF_ADDRESS                            (0x400affbcUL)
-#define PDSS_TRIM_BG_REF                                    (*(volatile uint32_t *)(0x400affbcUL))
-#define PDSS_TRIM_BG_REF_DEFAULT                            (0x00000000UL)
+#define PDSS_TRIM_BG_REF_ADDRESS                            (0x400affb4UL)
+#define PDSS_TRIM_BG_REF                                    (*(volatile uint32_t *)(0x400affb4UL))
+#define PDSS_TRIM_BG_REF_DEFAULT                            (0x00000016UL)
 
-#define PDSS_TRIM_BG_REF_REF_VTRIM_MASK                     (0x0000003fUL) /* <0:5> R:RW:0: */
+/*
+ *  Signal for trimming vref_1p2 output
+ */
+#define PDSS_TRIM_BG_REF_REF_VTRIM_MASK                     (0x0000003fUL) /* <0:5> R:RW:22: */
 #define PDSS_TRIM_BG_REF_REF_VTRIM_POS                      (0UL)
 
 
+/*
+ *  Signal for trimming temperature coefficient of BG
+ */
 #define PDSS_TRIM_BG_REF_REF_TCTRIM_MASK                    (0x000000c0UL) /* <6:7> R:RW:0: */
 #define PDSS_TRIM_BG_REF_REF_TCTRIM_POS                     (6UL)
+
+
+/*
+ * USBPD 150C ADC Data. Production trims stored in flash
+ */
+#define PDSS_TRIM_OTP_0_ADDRESS                             (0x400affb8UL)
+#define PDSS_TRIM_OTP_0                                     (*(volatile uint32_t *)(0x400affb8UL))
+#define PDSS_TRIM_OTP_0_DEFAULT                             (0x00000000UL)
+
+/*
+ * ADC value for 150C
+ */
+#define PDSS_TRIM_OTP_0_ADC_150C_TRIM_MASK                  (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_TRIM_OTP_0_ADC_150C_TRIM_POS                   (0UL)
+
+
+/*
+ * USBPD -45C ADC Data. Production trims stored in flash
+ */
+#define PDSS_TRIM_OTP_1_ADDRESS                             (0x400affbcUL)
+#define PDSS_TRIM_OTP_1                                     (*(volatile uint32_t *)(0x400affbcUL))
+#define PDSS_TRIM_OTP_1_DEFAULT                             (0x00000000UL)
+
+/*
+ * ADC value for -45C
+ */
+#define PDSS_TRIM_OTP_1_ADC_N45C_TRIM_MASK                  (0x000000ffUL) /* <0:7> R:RW:0: */
+#define PDSS_TRIM_OTP_1_ADC_N45C_TRIM_POS                   (0UL)
 
 
 /*
@@ -14666,7 +18955,7 @@ typedef struct {
 
 /*
  * Customer modified field. This field is used to track modifications to
- * the original component design as a result of componenet IP reuse.
+ * the original component design as a result of component IP reuse.
  */
 #define ROMTABLE_PID3_CM_MASK                               (0x0000000fUL) /* <0:3> R:R:0: */
 #define ROMTABLE_PID3_CM_POS                                (0UL)
@@ -14741,5 +19030,5 @@ typedef struct {
 
 /** \endcond */
 
-#endif /* _CY_USBPD_PAG2S_REGS_H_ */
+#endif /* _REG_TOP_H_ */
 

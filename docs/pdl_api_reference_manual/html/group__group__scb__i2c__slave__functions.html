@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__scb__i2c__slave__functio
 <div class="title">Slave<div class="ingroups"><a class="el" href="group__group__scb.html">SCB          (Serial Communication Block)</a> &raquo; <a class="el" href="group__group__scb__i2c.html">I2C (SCB)</a> &raquo; <a class="el" href="group__group__scb__i2c__functions.html">Functions</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -102,6 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga50157a71ba992433bd4fde948d25d44e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__i2c__slave__functions.html#ga50157a71ba992433bd4fde948d25d44e">Cy_SCB_I2C_SlaveAbortWrite</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base, <a class="el" href="structcy__stc__scb__i2c__context__t.html">cy_stc_scb_i2c_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga50157a71ba992433bd4fde948d25d44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aborts the configured slave write buffer to be written by the master.  <a href="#ga50157a71ba992433bd4fde948d25d44e">More...</a><br /></td></tr>
 <tr class="separator:ga50157a71ba992433bd4fde948d25d44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7e88573e17c2c1a939e0f560e239b5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__i2c__slave__functions.html#gab7e88573e17c2c1a939e0f560e239b5d">Cy_SCB_I2C_SlaveSendAckNack</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *base, bool ack, <a class="el" href="structcy__stc__scb__i2c__context__t.html">cy_stc_scb_i2c_context_t</a> *context)</td></tr>
+<tr class="memdesc:gab7e88573e17c2c1a939e0f560e239b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function sends Ack/Nack and configures the interrupt source and read/write buffer based on the R/W direction.  <a href="#gab7e88573e17c2c1a939e0f560e239b5d">More...</a><br /></td></tr>
+<tr class="separator:gab7e88573e17c2c1a939e0f560e239b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3e1c474d6a5c7c5547ea08aa5d59e22"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__scb__i2c__slave__functions.html#gab3e1c474d6a5c7c5547ea08aa5d59e22">Cy_SCB_I2C_SlaveGetStatus</a> (<a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> const *base, <a class="el" href="structcy__stc__scb__i2c__context__t.html">cy_stc_scb_i2c_context_t</a> const *context)</td></tr>
 <tr class="memdesc:gab3e1c474d6a5c7c5547ea08aa5d59e22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current I2C slave status.  <a href="#gab3e1c474d6a5c7c5547ea08aa5d59e22">More...</a><br /></td></tr>
 <tr class="separator:gab3e1c474d6a5c7c5547ea08aa5d59e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +120,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga3cf4dc1cc3f14c3ba9aa4679ca25c186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of bytes written by the master since the last time <a class="el" href="group__group__scb__i2c__slave__functions.html#gaaf2d216e9cb246dd2256521cb7f50170">Cy_SCB_I2C_SlaveConfigWriteBuf</a> was called.  <a href="#ga3cf4dc1cc3f14c3ba9aa4679ca25c186">More...</a><br /></td></tr>
 <tr class="separator:ga3cf4dc1cc3f14c3ba9aa4679ca25c186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga179b4495d7255567bb8b166e16e5a073"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga179b4495d7255567bb8b166e16e5a073">&#9670;&nbsp;</a></span>Cy_SCB_I2C_SlaveConfigReadBuf()</h2>
@@ -313,6 +316,55 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>If the RX FIFO is used, the NAK will not be sent until RX FIFO becomes full, however bytes accepted after an abort request are ignored. </dd></dl>
+
+</div>
+</div>
+<a id="gab7e88573e17c2c1a939e0f560e239b5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab7e88573e17c2c1a939e0f560e239b5d">&#9670;&nbsp;</a></span>Cy_SCB_I2C_SlaveSendAckNack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_SCB_I2C_SlaveSendAckNack </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_cy_s_c_b___type.html">CySCB_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>ack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcy__stc__scb__i2c__context__t.html">cy_stc_scb_i2c_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function sends Ack/Nack and configures the interrupt source and read/write buffer based on the R/W direction. </p>
+<p>If the CY_SCB_I2C_WAIT is returned by the address match callback function then the user should call this function to send Ack/Nack to master after the address match event.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the I2C SCB instance.</td></tr>
+    <tr><td class="paramname">ack</td><td>The true correspond to ACK and false correspond to NACK.</td></tr>
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__scb__i2c__context__t.html">cy_stc_scb_i2c_context_t</a> allocated by the user. The structure is used during the I2C operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd><ul>
+<li>This function is not applicable in High-speed mode. </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>

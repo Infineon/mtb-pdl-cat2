@@ -7,6 +7,7 @@ var group__group__cryptolite__common__enums =
       [ "CY_CRYPTOLITE_INVALID_OPERATION", "group__group__cryptolite__common__enums.html#ggafaeb3f2fb88784222220aee907e36710abcd48a99e5c3dbf6f164375d9c4bcb26", null ],
       [ "CY_CRYPTOLITE_HW_BUSY", "group__group__cryptolite__common__enums.html#ggafaeb3f2fb88784222220aee907e36710a8ba1686ca6d3802448ca6254f662b3c0", null ],
       [ "CY_CRYPTOLITE_TRNG_AP_RC_DETECTED", "group__group__cryptolite__common__enums.html#ggafaeb3f2fb88784222220aee907e36710a17b122f89ddd6b90088e185d5f501b2c", null ],
+      [ "CY_CRYPTOLITE_RSA_VERIFY_FAILURE", "group__group__cryptolite__common__enums.html#ggafaeb3f2fb88784222220aee907e36710a5826ac8c2d03240b4212282dec116995", null ],
       [ "CY_CRYPTOLITE_UNKNOWN", "group__group__cryptolite__common__enums.html#ggafaeb3f2fb88784222220aee907e36710ab71dab32f1e0de8d8da1c8f19c16f28f", null ]
     ] ]
 ];

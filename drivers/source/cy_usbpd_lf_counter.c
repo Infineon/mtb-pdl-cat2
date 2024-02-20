@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_lf_counter.c
-* \version 2.60
+* \version 2.70
 *
 * The source file of the USBPD LF Counter Driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2023-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

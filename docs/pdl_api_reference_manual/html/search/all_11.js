@@ -4,6 +4,7 @@ var searchData=
   ['symmetric_20key_20algorithms_20_28aes_29',['Symmetric key algorithms (AES)',['../group__group__crypto__lld__symmetric__functions.html',1,'']]],
   ['structures',['Structures',['../group__group__crypto__structures.html',1,'']]],
   ['structures',['Structures',['../group__group__cryptolite__aes__data__structures.html',1,'']]],
+  ['structures',['Structures',['../group__group__cryptolite__rsa__data__structures.html',1,'']]],
   ['sha',['SHA',['../group__group__cryptolite__sha.html',1,'']]],
   ['structures',['Structures',['../group__group__cryptolite__sha__data__structures.html',1,'']]],
   ['structures',['Structures',['../group__group__cryptolite__trng__data__structures.html',1,'']]],

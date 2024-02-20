@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_aes.h
-* \version 1.20
+* \version 1.30
 *
 * \brief
 * This file provides AES API declaration of the Cryptolite driver
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -258,6 +258,52 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Aes_Cbc(CRYPTOLITE_Type *base,
 cy_en_cryptolite_status_t Cy_Cryptolite_Aes_Cfb(CRYPTOLITE_Type *base,
                                         uint32_t srcSize,
                                         uint8_t *ivOffset,
+                                        uint8_t *ivPtr,
+                                        uint8_t *dst,
+                                        uint8_t const *src,
+                                        cy_stc_cryptolite_aes_context_t *aesContext);
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Aes_Ofb
+****************************************************************************//**
+*
+* This function performs the AES-OFB (Output FeedBack) encrypt operation
+* on the input data.
+*
+* The key must be set before by invoking \ref Cy_Cryptolite_Aes_Init().
+*
+* \note  The AES-OFB crypto operation is stream-based, so the input data size
+*        doesn't need to be a multiple of \ref CY_CRYPTOLITE_AES_BLOCK_SIZE.
+*
+* \param base
+* Base address of the Cryptolite block registers.
+*
+* \param srcSize
+* Size of the input data in bytes.
+*
+* \param ivPtr
+* Pointer to the initial vector of length \ref CY_CRYPTOLITE_AES_BLOCK_SIZE bytes.
+*
+* \param dst
+* Pointer to a destination buffer to store the output data of the AES operation.
+* This buffer must be at least as big as the source buffer.
+*
+* \param src
+* Pointer to the source buffer holding the data to be encrypted.
+*
+* \param aesContext
+* Pointer to the context structure \ref cy_stc_cryptolite_aes_context_t allocated
+* by the user. The structure is used by the Crypto driver for the AES operation.
+* Do not modify the values of this structure.
+*
+* \return
+* \ref cy_en_cryptolite_status_t
+*
+* \funcusage
+* \snippet cryptolite_sut.c snippet_myCryptoliteAesOfbUse
+*******************************************************************************/
+cy_en_cryptolite_status_t Cy_Cryptolite_Aes_Ofb(CRYPTOLITE_Type *base,
+                                        uint32_t srcSize,
                                         uint8_t *ivPtr,
                                         uint8_t *dst,
                                         uint8_t const *src,

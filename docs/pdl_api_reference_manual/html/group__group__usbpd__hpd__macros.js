@@ -12,5 +12,6 @@ var group__group__usbpd__hpd__macros =
     [ "HPD_GET_EVENT_2", "group__group__usbpd__hpd__macros.html#ga556f7b5839dc9c5c7e2e789c604e4b8c", null ],
     [ "HPD_GET_EVENT_3", "group__group__usbpd__hpd__macros.html#ga73e61a02be9bfa1c358e5ceca6847e42", null ],
     [ "PDSS_HPD_CTRL1_DEFAULT_VALUE", "group__group__usbpd__hpd__macros.html#ga087512272df829cb80bc9398d9fa7ee9", null ],
-    [ "PDSS_HPD_CTRL3_DEFAULT_VALUE", "group__group__usbpd__hpd__macros.html#gab3e374d390da73d34182ce9735600b0d", null ]
+    [ "PDSS_HPD_CTRL3_DEFAULT_VALUE", "group__group__usbpd__hpd__macros.html#gab3e374d390da73d34182ce9735600b0d", null ],
+    [ "PDSS_HPDT_CTRL2_DEFAULT_VALUE", "group__group__usbpd__hpd__macros.html#gaad765e63388e6b950301d493240a4599", null ]
 ];

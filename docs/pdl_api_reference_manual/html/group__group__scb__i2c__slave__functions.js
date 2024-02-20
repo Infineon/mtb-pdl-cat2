@@ -4,6 +4,7 @@ var group__group__scb__i2c__slave__functions =
     [ "Cy_SCB_I2C_SlaveAbortRead", "group__group__scb__i2c__slave__functions.html#ga1c9f6c807f4758016bf90cc8f69f96b3", null ],
     [ "Cy_SCB_I2C_SlaveConfigWriteBuf", "group__group__scb__i2c__slave__functions.html#gaaf2d216e9cb246dd2256521cb7f50170", null ],
     [ "Cy_SCB_I2C_SlaveAbortWrite", "group__group__scb__i2c__slave__functions.html#ga50157a71ba992433bd4fde948d25d44e", null ],
+    [ "Cy_SCB_I2C_SlaveSendAckNack", "group__group__scb__i2c__slave__functions.html#gab7e88573e17c2c1a939e0f560e239b5d", null ],
     [ "Cy_SCB_I2C_SlaveGetStatus", "group__group__scb__i2c__slave__functions.html#gab3e1c474d6a5c7c5547ea08aa5d59e22", null ],
     [ "Cy_SCB_I2C_SlaveClearReadStatus", "group__group__scb__i2c__slave__functions.html#ga9499272c3ec7013ec130291239793199", null ],
     [ "Cy_SCB_I2C_SlaveClearWriteStatus", "group__group__scb__i2c__slave__functions.html#ga73636c22f0db8c09d790f387aa35e6be", null ],

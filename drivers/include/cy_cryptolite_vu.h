@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_vu.h
-* \version 1.20
+* \version 1.30
 *
 * \brief
 * This file provides common constants and parameters for the Cryptolite Vector 
@@ -8,7 +8,7 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -41,6 +41,7 @@ extern "C" {
 #include <stddef.h>
 #include <stdbool.h>
 #include "cy_sysint.h"
+#include "cy_cryptolite_common.h"
 
 /**
 * \addtogroup group_cryptolite_vu
@@ -61,16 +62,16 @@ extern "C" {
 * \{
 */
 /** This macro converts bit count to word size*/
-#define VU_BITS_TO_WORDS(bits)             ((bits + 31) >> 5)
+#define VU_BITS_TO_WORDS(bits)             (((bits) + 31UL) >> 5UL)
 
 /** This macro converts bit count to byte size*/
-#define VU_BITS_TO_BYTES(bits)             ((bits + 7) >> 3)
+#define VU_BITS_TO_BYTES(bits)             (((bits) + 7UL) >> 3UL)
 
 /** This macro converts bit count to byte size in word aligned*/
-#define VU_BITS_TO_BYTES_WORD_ALIGN(bits)  (4*((bits + 31) >> 5))
+#define VU_BITS_TO_BYTES_WORD_ALIGN(bits)  (4UL*(((bits) + 31UL) >> 5UL))
 
 /** This macro converts bytes count to word size*/
-#define VU_BYTES_TO_WORDS(bytes)           ((bytes + 3) >> 2)
+#define VU_BYTES_TO_WORDS(bytes)           (((bytes) + 3UL) >> 2UL)
 
 /** \} group_cryptolite_vu_macros */
 
@@ -91,10 +92,8 @@ extern "C" {
 * \return
 * None
 *
-* \funcusage
-* \snippet cryptolite_sut.c snippet_myCryptoliteVuXmulUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_WaitForComplete ( CRYPTOLITE_Type *base )
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_WaitForComplete ( CRYPTOLITE_Type *base )
 {
     while((REG_CRYPTOLITE_STATUS(base) & CRYPTOLITE_STATUS_BUSY_Msk) != 0UL) {}
 }
@@ -133,7 +132,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_WaitForComplete ( CRYPTOLITE_Type *base )
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuXmulUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_XMul_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_XMul_Hw (
                                 CRYPTOLITE_Type *base,
                                 uint8_t *val1Ptr,
                                 uint32_t val1Size,
@@ -189,7 +188,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_XMul_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuMulUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Mul_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Mul_Hw (
                             CRYPTOLITE_Type *base,
                             uint8_t *val1Ptr,
                             uint32_t val1Size,
@@ -246,7 +245,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Mul_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuAddUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Add_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Add_Hw (
                             CRYPTOLITE_Type *base,
                             uint8_t *val1Ptr,
                             uint32_t val1Size,
@@ -302,7 +301,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Add_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuSubUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Sub_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Sub_Hw (
                             CRYPTOLITE_Type *base,
                             uint8_t *val1Ptr,
                             uint32_t val1Size,
@@ -358,7 +357,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Sub_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuCondSubUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Cond_Sub_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Cond_Sub_Hw (
                             CRYPTOLITE_Type *base,
                             uint8_t *val1Ptr,
                             uint32_t val1Size,
@@ -414,7 +413,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Cond_Sub_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuXorUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Xor_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Xor_Hw (
                         CRYPTOLITE_Type *base,
                         uint8_t *val1Ptr,
                         uint32_t val1Size,
@@ -463,7 +462,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Xor_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuMovUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Mov_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Mov_Hw (
                         CRYPTOLITE_Type *base,
                         uint8_t *srcPtr,
                         uint32_t srcSize,
@@ -508,7 +507,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Mov_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuLsl1Use
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Lsl1_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Lsl1_Hw (
                         CRYPTOLITE_Type *base,
                         uint8_t *dataPtr,
                         uint32_t dataSize,
@@ -553,7 +552,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Lsl1_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuLsr1Use
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Lsr1_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Lsr1_Hw (
                         CRYPTOLITE_Type *base,
                         uint8_t *dataPtr,
                         uint32_t dataSize,
@@ -601,7 +600,7 @@ __STATIC_INLINE void Cy_Cryptolite_Vu_Lsr1_Hw (
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteVuLsrUse
 *******************************************************************************/
-__STATIC_INLINE void Cy_Cryptolite_Vu_Lsr_Hw (
+ATTRIBUTES_CRYPTOLITE_RSA __STATIC_INLINE void Cy_Cryptolite_Vu_Lsr_Hw (
                         CRYPTOLITE_Type *base,
                         uint8_t *dataPtr,
                         uint32_t dataSize,

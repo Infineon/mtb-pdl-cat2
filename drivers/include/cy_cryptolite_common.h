@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_common.h
-* \version 1.20
+* \version 1.30
 *
 * \brief
 *  This file provides common constants and parameters for the Cryptolite driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -52,6 +52,29 @@ extern "C" {
 
 /** \} group_cryptolite_common */
 
+/** @cond DOXYGEN_HIDE */
+/* SROM Code specific macros. */
+#ifndef ATTRIBUTES_CRYPTOLITE_SHA
+#define ATTRIBUTES_CRYPTOLITE_SHA
+#endif /* ATTRIBUTES_CRYPTOLITE_SHA */
+
+#ifndef CRYPTOLITE_SHA_CONST
+#define CRYPTOLITE_SHA_CONST
+#endif /* CRYPTOLITE_SHA_CONST */
+
+#ifndef CRYPTOLITE_SHA_CALL_MAP
+#define CRYPTOLITE_SHA_CALL_MAP(func_name)  func_name
+#endif /* CRYPTOLITE_SHA_CALL_MAP */
+
+#ifndef ATTRIBUTES_CRYPTOLITE_RSA
+#define ATTRIBUTES_CRYPTOLITE_RSA
+#endif /* ATTRIBUTES_CRYPTOLITE_RSA */
+
+#ifndef CRYPTOLITE_RSA_CALL_MAP
+#define CRYPTOLITE_RSA_CALL_MAP(func_name)  func_name
+#endif /* CRYPTOLITE_RSA_CALL_MAP */
+/** @endcond */
+
 /**
 * \addtogroup group_cryptolite_common_macros
 * \{
@@ -61,7 +84,7 @@ extern "C" {
 #define CY_CRYPTOLITE_DRV_VERSION_MAJOR         1
 
 /** Driver minor version */
-#define CY_CRYPTOLITE_DRV_VERSION_MINOR         20
+#define CY_CRYPTOLITE_DRV_VERSION_MINOR         30
 
 /** \} group_cryptolite_common_macros */
 
@@ -96,32 +119,73 @@ extern "C" {
 * \{
 */
 /* Defines for the SHA algorithm */
-
 /** PAD size for the SHA256(in bytes)    */
 #define CY_CRYPTOLITE_SHA256_PAD_SIZE           (56UL)
+/** PAD size for the SHA384(in bytes)    */
+#define CY_CRYPTOLITE_SHA384_PAD_SIZE           (112UL)
+/** PAD size for the SHA512(in bytes)    */
+#define CY_CRYPTOLITE_SHA512_PAD_SIZE           (112UL)
 
 /** Hash size for SHA256 mode (in bytes) */
 #define CY_CRYPTOLITE_SHA256_DIGEST_SIZE        (32UL)
-/** Maximal hash size for SHA modes (in bytes) */
-#define CY_CRYPTOLITE_SHA_MAX_DIGEST_SIZE       (CY_CRYPTOLITE_SHA256_DIGEST_SIZE)
+/** Hash size for SHA384 mode (in bytes) */
+#define CY_CRYPTOLITE_SHA384_DIGEST_SIZE        (48UL)
+/** Hash size for SHA512 mode (in bytes) */
+#define CY_CRYPTOLITE_SHA512_DIGEST_SIZE        (64UL)
 
 /** Block size for SHA256 mode (in bytes)   */
 #define CY_CRYPTOLITE_SHA256_BLOCK_SIZE         (64UL)
-
-/** Block size for SHA256 mode (in 4-bytes word)   */
-#define CY_CRYPTOLITE_SHA256_BLOCK_SIZE_U32     (CY_CRYPTOLITE_SHA256_BLOCK_SIZE / 4UL)
+/** Block size for SHA384 mode (in bytes)   */
+#define CY_CRYPTOLITE_SHA384_BLOCK_SIZE         (128UL)
+/** Block size for SHA512 mode (in bytes)   */
+#define CY_CRYPTOLITE_SHA512_BLOCK_SIZE         (128UL)
 
 /** Maximal block size for SHA modes (in bytes)   */
-#define CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE        (CY_CRYPTOLITE_SHA256_BLOCK_SIZE)
+#if ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+     (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT)))
+#define CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE       (CY_CRYPTOLITE_SHA512_BLOCK_SIZE)
+#else
+#define CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE       (CY_CRYPTOLITE_SHA256_BLOCK_SIZE)
+#endif /* ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+           (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT))) */
+
+/** Block size for SHA modes (in 4-bytes word)   */
+#define CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE_U32    (CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE / 4UL)
 
 /** Hash size for SHA256 mode (in bytes)  */
 #define CY_CRYPTOLITE_SHA256_HASH_SIZE          (32UL)
-
-/** Hash size for SHA256 mode (in 4-bytes word)  */
-#define CY_CRYPTOLITE_SHA256_HASH_SIZE_U32      (CY_CRYPTOLITE_SHA256_HASH_SIZE / 4UL)
+/** Hash size for SHA384 mode (in bytes)  */
+#define CY_CRYPTOLITE_SHA384_HASH_SIZE          (64UL)
+/** Hash size for SHA512 mode (in bytes)  */
+#define CY_CRYPTOLITE_SHA512_HASH_SIZE          (64UL)
 
 /** Maximal hash size for SHA modes (in bytes)   */
-#define CY_CRYPTOLITE_SHA_MAX_HASH_SIZE         (CY_CRYPTO_SHA256_HASH_SIZE)
+#if ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+     (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT)))
+#define CY_CRYPTOLITE_SHA_MAX_HASH_SIZE         (CY_CRYPTOLITE_SHA512_HASH_SIZE)
+#else
+#define CY_CRYPTOLITE_SHA_MAX_HASH_SIZE         (CY_CRYPTOLITE_SHA256_HASH_SIZE)
+#endif /* ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+           (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT))) */
+
+/** Maximal hash size for SHA modes (in 4-bytes word)  */
+#define CY_CRYPTOLITE_SHA_MAX_HASH_SIZE_U32     (CY_CRYPTOLITE_SHA_MAX_HASH_SIZE / 4UL)
+
+/** Schedule buffer size for the SHA256(in 32-bit word)    */
+#define CY_CRYPTOLITE_SHA256_SCHEDULE_SIZE  (64UL)
+/** Schedule buffer size for the SHA384(in 32-bit word)    */
+#define CY_CRYPTOLITE_SHA384_SCHEDULE_SIZE  (160UL)
+/** Schedule buffer size for the SHA512(in 32-bit word)    */
+#define CY_CRYPTOLITE_SHA512_SCHEDULE_SIZE  (160UL)
+
+/** Max schedule buffer size for SHA (in 32-bit word)      */
+#if ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+     (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT)))
+#define CY_CRYPTOLITE_SHA_MAX_SCHEDULE_SIZE  (CY_CRYPTOLITE_SHA512_SCHEDULE_SIZE)
+#else
+#define CY_CRYPTOLITE_SHA_MAX_SCHEDULE_SIZE  (CY_CRYPTOLITE_SHA256_SCHEDULE_SIZE)
+#endif /* ((defined (CRYPTOLITE_SHA512_PRESENT) && (CRYPTOLITE_SHA512_PRESENT)) || \
+           (defined (CRYPTOLITE_SHA384_PRESENT) && (CRYPTOLITE_SHA384_PRESENT))) */
 
 /** SHA message schedule function bit value. */
 #define CY_CRYPTOLITE_MSG_SCH_CTLWD             (0UL << 28U)
@@ -240,12 +304,41 @@ typedef enum
 
     /** Cryptolite TRNG HW block AP or RC detected **/
     CY_CRYPTOLITE_TRNG_AP_RC_DETECTED = CY_CRYPTOLITE_ID | CY_PDL_STATUS_ERROR | 0x05U,
+    
+    /** Cryptolite RSA FW Signature verification failure **/
+    CY_CRYPTOLITE_RSA_VERIFY_FAILURE  = CY_CRYPTOLITE_ID | CY_PDL_STATUS_ERROR | 0x06U,
 
     /** Unknown error */
     CY_CRYPTOLITE_UNKNOWN             = CY_CRYPTOLITE_ID | CY_PDL_STATUS_ERROR | 0xFFU
 } cy_en_cryptolite_status_t;
 
 /** \} group_cryptolite_common_enums */
+
+#if defined (CRYPTOLITE_SHA_PRESENT) || defined (CY_DOXYGEN)
+/**
+* \addtogroup group_cryptolite_sha_enums
+* \{
+*/
+/** SHA method modes */
+typedef enum
+{
+    CY_CRYPTOLITE_SHA_MODE_SHA256           = 0x01U,   /**< Sets SHA256 mode */
+    CY_CRYPTOLITE_SHA_MODE_SHA384           = 0x02U,   /**< Sets SHA384 mode */
+    CY_CRYPTOLITE_SHA_MODE_SHA512           = 0x03U,   /**< Sets SHA512 mode */
+} cy_en_cryptolite_sha_mode_t;
+
+/** SHA internal operation states. */
+typedef enum
+{
+    /** \cond INTERNAL */
+    CY_CRYPTOLITE_SHA_PROCESS_INITIALIZED   = 0x01U,   /**< SHA operation is initialized */
+    CY_CRYPTOLITE_SHA_PROCESS_STARTED       = 0x02U,   /**< SHA descriptor structure initialized. */
+    CY_CRYPTOLITE_SHA_PROCESS_PARTIALLY     = 0x03U,   /**< SHA operation partially completed */
+    CY_CRYPTOLITE_SHA_PROCESS_FINISHED      = 0x04U,   /**< SHA operation is completed */
+    /** \endcond */
+}cy_en_cryptolite_sha_process_state_t;
+/** \} group_cryptolite_sha_enums */
+#endif /* (CRYPTOLITE_SHA_PRESENT) || defined (CY_DOXYGEN) */
 
 #if defined (CRYPTOLITE_AES_PRESENT) || defined (CY_DOXYGEN)
 /**
@@ -298,11 +391,17 @@ typedef struct
 * All fields for the structure are internal. Firmware never reads or
 * writes these values.
 */
-typedef struct sha_struct_t {
+typedef struct
+{
     /** \cond INTERNAL */
-   uint32_t data0;
-   uint32_t data1;
-   uint32_t data2;
+    /** Control word. */
+    uint32_t data0;
+    /** Pointer to message chunk (input) or current hash value (input) and new hash value (output)
+      * based on Control Word (Schedule or Process control).
+      */
+    uint32_t data1;
+    /** Pointer to message schedule array (output/input). */
+    uint32_t data2;
    /** \endcond */
 } cy_stc_cryptolite_sha_desc_t;
 
@@ -316,15 +415,36 @@ typedef struct sha_struct_t {
 typedef struct
 {
     /** \cond INTERNAL */
-    uint32_t msgBlock[CY_CRYPTOLITE_SHA256_BLOCK_SIZE_U32];
-    uint32_t hash[CY_CRYPTOLITE_SHA256_HASH_SIZE_U32];
-    uint32_t message_schedule[CY_CRYPTOLITE_SHA256_BLOCK_SIZE];
-    uint8_t *message;
+    /** Internal buffer used in case of unaligned processing. */
+    uint32_t block[CY_CRYPTOLITE_SHA_MAX_BLOCK_SIZE_U32];
+    /** block size to be processed at each time. */
+    uint32_t blockSize;
+    /** Hash buffer used for storing Hash value during SHA calculation. */
+    uint32_t hash[CY_CRYPTOLITE_SHA_MAX_HASH_SIZE_U32];
+    /** Hash size to be used during the SHA calculation. */
+    uint32_t hashSize;
+    /** Buffer required by SHA module for processing. */
+    uint32_t schedule[CY_CRYPTOLITE_SHA_MAX_SCHEDULE_SIZE];
+    /** processed input message size. */
     uint32_t messageSize;
+    /** processed input message index with in the message block. */
     uint32_t msgIdx;
-    /** Operation data descriptors */
+    /** PAD size required as per SHA standard. */
+    uint32_t paddSize;
+    /** Actual Hash digest size. */
+    uint32_t digestSize;
+    /* Pointer to internal block in SHA driver to use in case of unaligned processing. */
+    uint8_t *message;
+    /** Pointer to initial Hash values required as per SHA standard. */
+    uint8_t *initialHash;
+    /** Operation data descriptor for message schedule function. */
     cy_stc_cryptolite_sha_desc_t message_schedule_struct;
+    /** Operation data descriptor for process function. */
     cy_stc_cryptolite_sha_desc_t message_process_struct;
+    /** SHA mode of operation. */
+    cy_en_cryptolite_sha_mode_t shaMode;
+    /** Internal process state. */
+    cy_en_cryptolite_sha_process_state_t processState;
     /** \endcond */
 } cy_stc_cryptolite_sha_context_t;
 
@@ -354,6 +474,74 @@ typedef struct {
 /** \} group_cryptolite_vu_data_structures */
 #endif /* defined (CRYPTOLITE_VU_PRESENT) || defined (CY_DOXYGEN) */
 /** \} group_cryptolite_data_structures */
+
+#if defined (CRYPTOLITE_VU_PRESENT) || defined (CY_DOXYGEN)
+/**
+* \addtogroup group_cryptolite_rsa_data_structures
+* \{
+*/
+
+/**
+* All fields for the context structure are internal. Firmware never reads or
+* writes these values. Firmware allocates the structure and provides the
+* address of the structure to the driver in the function calls. Firmware must
+* ensure that the defined instance of this structure remains in scope
+* while the drive is in use.
+*
+* The driver uses this structure to store and manipulate the RSA public key and
+* additional coefficients to accelerate RSA calculation.
+*
+*  RSA key contained from two fields:
+*  - n - modulus part of the key
+*  - e - exponent part of the key.
+*
+* Other fields are accelerating coefficients and can be calculated internally
+*
+* If the RSA coefficients are pre-calculated, the corresponding buffers can be 
+* const and defined in Flash memory. The private buffer must be defined in RAM.
+* \note All the buffers must be 4 byte aligned.
+* \ref cy_stc_cryptolite_rsa_pub_key_t and must also be in little-endian order.<br>
+* 
+*/
+CY_ALIGN(4)
+typedef struct
+{
+    /** The pointer to the modulus part of public key (in little-endian format). */
+    uint8_t *moduloPtr;
+    /** The modulus length, in bits, maximum supported size is 4096 Bits */
+    uint32_t moduloLength;
+
+    /** The pointer to the exponent part of public key */
+    uint8_t *pubExpPtr;
+    /** The exponent length, in bits, maximum supported size is 256Bit */
+    uint32_t pubExpLength;
+
+    /** The pointer to the Barrett coefficient. Memory for it should be
+        allocated by user with size moduloLength + 1. */
+    uint8_t *barretCoefPtr;
+
+    /** The pointer to the binary inverse of the modulo. Memory for it
+        should be allocated by user with size moduloLength + 1. */
+    uint8_t *inverseModuloPtr;
+
+    /** The pointer to the (2^moduloLength mod modulo). Memory for it should
+        be allocated by user with size moduloLength */
+    uint8_t *rBarPtr;
+
+    /** The pointer to the private buffer and used by RSA decryption calculations.
+        Memory for it should be allocated by user with size
+        privateBufferSize = 4*VU_BITS_TO_WORDS(2*CY_CRYPTOLITE_RSA_BIT_SIZE+1)
+                          + 4*VU_BITS_TO_WORDS(2*CY_CRYPTOLITE_RSA_BIT_SIZE+1)
+                          + 4*VU_BITS_TO_WORDS(CY_CRYPTOLITE_RSA_BIT_SIZE) */
+    uint8_t *privateBuffer;
+    
+    /** when set to 'false', pre-calculated coefficients must be provided in 'barretCoefPtr, 'inverseModuloPtr' and 'rBarPtr'.
+        When set to 'true', all the acceleration step coefficients will be calculated as part of \ref Cy_Cryptolite_Rsa_Verify */
+    bool calculateCoeff;
+} cy_stc_cryptolite_rsa_pub_key_t;
+
+/** \} group_cryptolite_rsa_data_structures */
+#endif /* defined (CRYPTOLITE_VU_PRESENT) || defined (CY_DOXYGEN) */
 
 #if defined(__cplusplus)
 }

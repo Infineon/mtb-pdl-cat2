@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.c
-* \version 2.60
+* \version 2.70
 *
 * The source file of the USBPD Hot-Plug Detect driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -113,6 +113,8 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_ReceiveInit(cy_stc_usbpd_context_t *context, c
     pd->intr1_cfg |= (3UL << PDSS_INTR1_CFG_HPDIN_CFG_POS);
     /* Disable HPD IN filter. */
     pd->intr1_cfg &= ~(PDSS_INTR1_CFG_HPDIN_FILT_EN);
+    /* Bypass filter. */
+    pd->intr1_cfg |= (PDSS_INTR1_CFG_HPDIN_FILT_BYPASS);
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)) */
 
 #if defined(CY_DEVICE_CCG3)
@@ -129,6 +131,14 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_ReceiveInit(cy_stc_usbpd_context_t *context, c
     pd->ctrl = (pd->ctrl & ~(PDSS_CTRL_HPD_DIRECTION | PDSS_CTRL_HPDT_ENABLED)) |
         PDSS_CTRL_HPD_ENABLED;
     pd->hpd_ctrl1 &= ~(PDSS_HPD_CTRL1_RESET_HPD_STATE);
+
+    /* If HPD line state goes high before initializing the HPD receiver block,
+     * then set the HPD input change interrupt.
+     */
+    if(Cy_USBPD_Hpd_ReceiveGetStatus(context))
+    {
+        pd->intr1_set |= PDSS_INTR1_HPDIN_CHANGED;
+    }
 
     CY_UNUSED_PARAMETER(dummy);
     return CY_USBPD_STAT_SUCCESS;
@@ -186,7 +196,11 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_TransmitInit(cy_stc_usbpd_context_t *context, 
 
     /* Set the default values for the HPDT config settings. */
     pd->hpdt_ctrl1 = PDSS_HPDT_CTRL1_DEFAULT;
+#if defined(CY_DEVICE_PMG1S3)
+    pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT_VALUE;
+#else
     pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT;
+#endif /* defined(CY_DEVICE_PMG1S3) */
 
     /* Enable the HPD queue interrupt. */
     pd->intr2 = PDSS_INTR2_MASK_HPDT_COMMAND_DONE_MASK;
@@ -274,13 +288,21 @@ void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value)
         {
             /* Start HPD off in the high state and queue a PLUG event. */
             pd->hpdt_ctrl1 = PDSS_HPDT_CTRL1_DEFAULT | PDSS_HPDT_CTRL1_DEFAULT_LEVEL;
+#if defined(CY_DEVICE_PMG1S3)
+            pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT_VALUE;
+#else
             pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT;
+#endif /* defined(CY_DEVICE_PMG1S3) */
         }
         else
         {
             /* Start HPD off in the low state. */
             pd->hpdt_ctrl1 = PDSS_HPDT_CTRL1_DEFAULT;
+#if defined(CY_DEVICE_PMG1S3)
+            pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT_VALUE;
+#else
             pd->hpdt_ctrl2 = PDSS_HPDT_CTRL2_DEFAULT;
+#endif /* defined(CY_DEVICE_PMG1S3) */
         }
 
         /*
@@ -338,7 +360,12 @@ bool Cy_USBPD_Hpd_ReceiveGetStatus(cy_stc_usbpd_context_t *context)
     /* If the HPD receive block is turned ON, get the current state of the signal. */
     if (context->hpdReceiveEnable)
     {
+#if defined(CY_DEVICE_PMG1S3)
+        /* Obtain the HPD line status from INTR1_STATUS register. */
+        ret = ((pd->intr1_status & PDSS_INTR1_STATUS_HPD_STATUS) != 0) ? true : false;
+#else
         ret = ((pd->status & PDSS_STATUS_HPD_STATUS) != 0) ? true : false;
+#endif /* defined(CY_DEVICE_PMG1S3) */
     }
 #else
     (void) context;
@@ -456,11 +483,13 @@ void Cy_USBPD_Hpd_RxWakeup(cy_stc_usbpd_context_t *context)
 
             /* Ensure that Loopback is disabled. */
             pd->hpd_ctrl1 &= ~PDSS_HPD_CTRL1_LOOPBACK_EN;
-        }
+            /* Disable HPD TX. */
+            pd->ctrl &= ~PDSS_CTRL_HPDT_ENABLED;
 
-        /* Enable the HPD Queue interrupt to capture true HPD interrupts from now on. */
-        pd->intr2 = PDSS_INTR2_HPD_QUEUE;
-        pd->intr2_mask |= PDSS_INTR2_MASK_HPD_QUEUE_MASK;
+            /* Enable the HPD Queue interrupt to capture true HPD interrupts from now on. */
+            pd->intr2 = PDSS_INTR2_HPD_QUEUE;
+            pd->intr2_mask |= PDSS_INTR2_MASK_HPD_QUEUE_MASK;
+        }
     }
 #else
     (void)context;
@@ -702,7 +731,7 @@ void Cy_USBPD_Hpd_Intr1Handler(cy_stc_usbpd_context_t *context)
 
     if ((pd->intr1_masked & PDSS_INTR1_HPDIN_CHANGED) != 0UL)
     {
-        pd->intr1_mask &= ~PDSS_INTR1_HPDIN_CHANGED;
+        /* Clear the interrupt. */
         pd->intr1 = PDSS_INTR1_HPDIN_CHANGED;
 
         /*

@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -40,6 +40,7 @@ enum
     CY_GPIO_PACKAGE_DFN,
     CY_GPIO_PACKAGE_SOIC,
     CY_GPIO_PACKAGE_SSOP,
+    CY_GPIO_PACKAGE_LGA,
 };
 
 #define CY_GPIO_PACKAGE_TYPE            CY_GPIO_PACKAGE_CSP

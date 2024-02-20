@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_spi.h
-* \version 4.40
+* \version 4.50
 *
 * Provides SPI API declarations of the SCB driver.
 *
@@ -1507,8 +1507,6 @@ __STATIC_INLINE void Cy_SCB_SPI_ClearSlaveMasterStatus(CySCB_Type *base, uint32_
 * \note
 * * This function only reads data available in the RX FIFO. It does not
 *   initiate an SPI transfer.
-* * When in the master mode, this function writes data into the TX FIFO and
-*   waits until the transfer is completed before reading data from the RX FIFO.
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_SPI_Read(CySCB_Type const *base)
@@ -1542,8 +1540,6 @@ __STATIC_INLINE uint32_t Cy_SCB_SPI_Read(CySCB_Type const *base)
 * \note
 * * This function only reads data available in the RX FIFO. It does not
 *   initiate an SPI transfer.
-* * When in the master mode, this function writes data into the TX FIFO and
-*   waits until the transfer is completed before reading data from the RX FIFO.
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_SPI_ReadArray(CySCB_Type const *base, void *buffer, uint32_t size)

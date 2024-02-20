@@ -81,12 +81,68 @@ $(document).ready(function(){initNavTree('group__group__sysclk.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#groups">API Reference</a>  </div>
+<a href="#groups">Modules</a>  </div>
   <div class="headertitle">
 <div class="title">SysClk (System Clock)</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
+
+<p>The System Clock (SysClk) driver contains the API for configuring system and peripheral clocks.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
+Modules</h2></td></tr>
+<tr class="memitem:group__group__sysclk__macros"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__macros.html">Macros</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__enums"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__enums.html">General Enumerated Types</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__imo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__imo.html">Internal Main Oscillator (IMO)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__imo"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Internal Main Oscillator (IMO) is a primary clock source for the CPU core and most of the peripherals. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__ext__clk"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ext__clk.html">External Clock Source (EXTCLK)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__ext__clk"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External Clock Source (EXTCLK) is a clock source routed into PSoC through a GPIO pin. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__ext__ref"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ext__ref.html">External PLL Reference Clock Source (EXTREF)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__ext__ref"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External PLL Reference Clock Source (EXTREF) is a clock source routed into PSoC through a GPIO pin. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__eco"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__eco.html">External Crystal Oscillator (ECO)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__eco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External Crystal Oscillator (ECO) is a clock source that consists of an oscillator circuit that drives an external crystal through its dedicated ECO pins. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__pll"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll.html">Phase Locked Loop (PLL)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__pll"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PLL is a clock generation circuit that can be used to produce a higher frequency clock from a reference clock. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__ilo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ilo.html">Internal Low-Speed Oscillator (ILO)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__ilo"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILO operates with no external components and outputs a clock signal at roughly 40 kHz. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__wco"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco.html">Watch Crystal Oscillator (WCO)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__wco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__clk__hf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clock</a></td></tr>
+<tr class="memdesc:group__group__sysclk__clk__hf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The high frequency clock HFCLK is a source for the system clock for CPU and the peripheral clock dividers. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__clk__peripheral"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__peripheral.html">Peripherals Clock Dividers</a></td></tr>
+<tr class="memdesc:group__group__sysclk__clk__peripheral"><td class="mdescLeft">&#160;</td><td class="mdescRight">There are multiple peripheral clock dividers that, in effect, create multiple separate peripheral clocks: <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__clk__sys"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__sys.html">System Clock</a></td></tr>
+<tr class="memdesc:group__group__sysclk__clk__sys"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system clock is the source clock for CPU core (Cortex-M0+ in PSoC 4). <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__clk__pump"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__pump.html">Pump Clock</a></td></tr>
+<tr class="memdesc:group__group__sysclk__clk__pump"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pump clock is a clock source used to provide analog precision in low voltage applications. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__csv"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__csv.html">Clock Supervision Block (CSV)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__csv"><td class="mdescLeft">&#160;</td><td class="mdescRight">The clock supervision block uses a reference clock (IMO clock) to check that a monitored clock (clk_exco) is within an allowed frequency window. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__pgm__dly"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pgm__dly.html">Programmable Delay Block (PGM_DELAY)</a></td></tr>
+<tr class="memdesc:group__group__sysclk__pgm__dly"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PGM_DELAY block is a 16-bit down counter clocked by IMO clock and being triggered by the CSV. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__int"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__int.html">Interrupts</a></td></tr>
+<tr class="memdesc:group__group__sysclk__int"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API is to manage a few interrupt sources within the EXCO block. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__sysclk__pm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a></td></tr>
+<tr class="memdesc:group__group__sysclk__pm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entering and exiting low power modes require compatible clock configurations to be set before entering low power and restored upon wakeup and exit. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>The System Clock (SysClk) driver contains the API for configuring system and peripheral clocks. </p>
 <p>The functions and other declarations used in this driver are in cy_sysclk.h. You can include cy_pdl.h to get access to all functions and declarations in the PDL.</p>
 <p>Firmware uses the API to configure, enable, or disable a clock.</p>
@@ -111,7 +167,7 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
-<td rowspan="2">3.10 </td><td>The documentation of the ILO compensation algorithm is more detailed. </td><td>Documentation enhancement.  </td></tr>
+<td rowspan="2">3.10 </td><td>The documentation of ILO compensation algorithm is more detailed. </td><td>Documentation enhancement.  </td></tr>
 <tr>
 <td><a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4">Cy_SysClk_IloCompensate()</a> API function implementation is updated. </td><td>Corner case bug fixing.  </td></tr>
 <tr>
@@ -164,59 +220,6 @@ Changelog</h1>
 <td>The implementation of <a class="el" href="group__group__sysclk__ext__clk__funcs.html#gad4b77c61d47878007b5c50e3baf13e51">Cy_SysClk_ExtClkSetFrequency</a>, <a class="el" href="group__group__sysclk__ilo__funcs.html#ga17cc56e4b20c8a43076b3a544affb6a4">Cy_SysClk_IloCompensate</a>, <a class="el" href="group__group__sysclk__eco__funcs.html#ga98d131a40b66646c6fa4c1c18d0720a9">Cy_SysClk_EcoConfigure</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#gac1e9b87cbc94efa1b1cb9693ca181c2b">Cy_SysClk_PllSetSource</a>, <a class="el" href="group__group__sysclk__pll__funcs.html#ga1977baa6d9c6d723089be8621d6411b4">Cy_SysClk_PllConfigure</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga55b20a2add73fd288bb8b64b6eae8331">Cy_SysClk_ClkHfSetSource</a>, <a class="el" href="group__group__sysclk__clk__hf__funcs.html#ga7c420ee0ea20656a701c9ef5914c04dd">Cy_SysClk_ClkHfGetSource</a> and <a class="el" href="group__group__sysclk__clk__hf__funcs.html#gac8f410d1745006bb7bb77964ae28a490">Cy_SysClk_ClkHfGetFrequency</a> functions is updated. </td><td>Bug fixing and code optimization.  </td></tr>
 <tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
-</table>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
-API Reference</h2></td></tr>
-<tr class="memitem:group__group__sysclk__macros"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__macros.html">Macros</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__enums"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__enums.html">General Enumerated Types</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__imo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__imo.html">Internal Main Oscillator (IMO)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__imo"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Internal Main Oscillator (IMO) is a primary clock source for the CPU core and most of the peripherals. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__ext__clk"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ext__clk.html">External Clock Source (EXTCLK)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__ext__clk"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External Clock Source (EXTCLK) is a clock source routed into PSoC through a GPIO pin. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__ext__ref"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ext__ref.html">External PLL Reference Clock Source (EXTREF)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__ext__ref"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External PLL Reference Clock Source (EXTREF) is a clock source routed into PSoC through a GPIO pin. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__eco"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__eco.html">External Crystal Oscillator (ECO)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__eco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The External Crystal Oscillator (ECO) is a clock source that consists of an oscillator circuit that drives an external crystal through its dedicated ECO pins. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__pll"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pll.html">Phase Locked Loop (PLL)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__pll"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PLL is a clock generation circuit that can be used to produce a higher frequency clock from a reference clock. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__ilo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__ilo.html">Internal Low-Speed Oscillator (ILO)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__ilo"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILO operates with no external components and outputs a clock signal at roughly 40 kHz. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__wco"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco.html">Watch Crystal Oscillator (WCO)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__wco"><td class="mdescLeft">&#160;</td><td class="mdescRight">The WCO is a highly accurate 32.768 kHz clock source capable of operating in all power modes. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__clk__hf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__hf.html">High-Frequency Clock</a></td></tr>
-<tr class="memdesc:group__group__sysclk__clk__hf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The high frequency clock HFCLK is a source for the system clock for CPU and the peripheral clock dividers. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__clk__peripheral"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__peripheral.html">Peripherals Clock Dividers</a></td></tr>
-<tr class="memdesc:group__group__sysclk__clk__peripheral"><td class="mdescLeft">&#160;</td><td class="mdescRight">There are multiple peripheral clock dividers that, in effect, create multiple separate peripheral clocks: <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__clk__sys"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__sys.html">System Clock</a></td></tr>
-<tr class="memdesc:group__group__sysclk__clk__sys"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system clock is the source clock for CPU core (Cortex-M0+ in PSoC 4). <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__clk__pump"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__clk__pump.html">Pump Clock</a></td></tr>
-<tr class="memdesc:group__group__sysclk__clk__pump"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pump clock is a clock source used to provide analog precision in low voltage applications. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__csv"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__csv.html">Clock Supervision Block (CSV)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__csv"><td class="mdescLeft">&#160;</td><td class="mdescRight">The clock supervision block uses a reference clock (IMO clock) to check that a monitored clock (clk_exco) is within an allowed frequency window. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__pgm__dly"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pgm__dly.html">Programmable Delay Block (PGM_DELAY)</a></td></tr>
-<tr class="memdesc:group__group__sysclk__pgm__dly"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PGM_DELAY block is a 16-bit down counter clocked by IMO clock and being triggered by the CSV. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__int"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__int.html">Interrupts</a></td></tr>
-<tr class="memdesc:group__group__sysclk__int"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API is to manage a few interrupt sources within the EXCO block. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__sysclk__pm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__pm.html">Low Power Callback</a></td></tr>
-<tr class="memdesc:group__group__sysclk__pm"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entering and exiting low power modes require compatible clock configurations to be set before entering low power and restored upon wakeup and exit. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

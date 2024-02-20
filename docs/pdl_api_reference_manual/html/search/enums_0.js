@@ -23,6 +23,8 @@ var searchData=
   ['cy_5fen_5fcrypto_5fdir_5fmode_5ft',['cy_en_crypto_dir_mode_t',['../group__group__crypto__enums.html#gae040fb530d4d110976bedfcdb7c8f09c',1,'cy_crypto_common.h']]],
   ['cy_5fen_5fcrypto_5fsha_5fmode_5ft',['cy_en_crypto_sha_mode_t',['../group__group__crypto__enums.html#ga66ead9efce36e261e978cad722bf2dbb',1,'cy_crypto_common.h']]],
   ['cy_5fen_5fcrypto_5fstatus_5ft',['cy_en_crypto_status_t',['../group__group__crypto__enums.html#ga3a65158da3dc5cb6aa016ae599542aad',1,'cy_crypto_common.h']]],
+  ['cy_5fen_5fcryptolite_5fsha_5fmode_5ft',['cy_en_cryptolite_sha_mode_t',['../group__group__cryptolite__sha__enums.html#ga9dfc40ba7980b0b0d82fcd4ceef4647f',1,'cy_cryptolite_common.h']]],
+  ['cy_5fen_5fcryptolite_5fsha_5fprocess_5fstate_5ft',['cy_en_cryptolite_sha_process_state_t',['../group__group__cryptolite__sha__enums.html#ga41708eb3f6e663e9bd4780e809886205',1,'cy_cryptolite_common.h']]],
   ['cy_5fen_5fcryptolite_5fstatus_5ft',['cy_en_cryptolite_status_t',['../group__group__cryptolite__common__enums.html#gafaeb3f2fb88784222220aee907e36710',1,'cy_cryptolite_common.h']]],
   ['cy_5fen_5fcsd_5fkey_5ft',['cy_en_csd_key_t',['../group__group__csd__enums.html#ga281a1b4a5cddb0bee365a7835985ccba',1,'cy_csd.h']]],
   ['cy_5fen_5fcsd_5fstatus_5ft',['cy_en_csd_status_t',['../group__group__csd__enums.html#ga6cde526987c66fff895f48902589f979',1,'cy_csd.h']]],

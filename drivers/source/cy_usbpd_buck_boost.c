@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.60
+* \version 2.70
 *
 * The source file of the USBPD Buck Boost Driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

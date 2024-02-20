@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.60
+* \version 2.70
 *
 * Provides API declarations of the USBPD Type C driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -96,6 +96,19 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">2.70</td>
+*     <td>Corrected REFGEN control settings for PMG1S3.</td>
+*     <td>Defect Fix.</td>
+*    </tr>
+*    <tr>
+*     <td>Updated configuration table space for Dock solutions.</td>
+*     <td>New feature support.</td>
+*    </tr>
+*    <tr>
+*     <td>Updates related to HPD handling for PMG1S3.</td>
+*     <td>Defect Fix.</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="3">2.60</td>
 *     <td>Added PMG1B1 BB VOUT RCP support.</td>
@@ -321,7 +334,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       60
+#define CY_USBPD_DRV_VERSION_MINOR                       70
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite.h
-* \version 1.20
+* \version 1.30
 *
 * \brief
 *  This file provides an API declaration of the Cryptolite driver
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -134,9 +134,33 @@
 *     multiplication, shift etc. </td>
 *   </tr>
 *
+*   <tr>
+*     <td>RSA Algorithm</td>
+*     <td>A cryptographic RSA decryption function.
+*     This function takes encrypted RSA signature of given RSA-bit size and decrypts the 
+*     SHA digest. The output SHA digest extracted from RSA signature is compared with input SHA 
+*     digest and returns status TRUE if both digests are same.
+*     This function uses Montgomery modular multiplication. Montgomery
+*     multiplication requires two Montgomery coefficients. In addition, Montgomery
+*     transformation is accelerated using Barrett reduction which requires one Barrett coefficient.
+*     With the help of above calculated coefficients, the function decrypts the RSA signature and
+*     extracts the SHA digest. The coefficients can be pre-calculated and kept in non-volatile memory
+*     to improve the timing.
+*     </td>
+*   </tr>
+* 
 * \section group_cryptolite_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">1.30</td>
+*     <td>Added support for SHA-384 and SHA-512.</td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
+*     <td>Added RSA driver for signature verification using the provided public key.</td>
+*     <td>New feature support.</td>
+*   </tr>
 *   <tr>
 *     <td>1.20</td>
 *     <td>Corrected variable type name.</td>
@@ -159,6 +183,7 @@
 * \defgroup group_cryptolite_aes AES
 * \defgroup group_cryptolite_vu VU
 * \defgroup group_cryptolite_trng TRNG
+* \defgroup group_cryptolite_rsa RSA
 *
 * \} */
 
@@ -170,6 +195,7 @@
 #include "cy_cryptolite_vu.h"
 #include "cy_cryptolite_sha.h"
 #include "cy_cryptolite_trng.h"
+#include "cy_cryptolite_rsa.h"
 
 #endif /* #if !defined(CY_CRYPTOLITE_H) */
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_aes.c
-* \version 1.20
+* \version 1.30
 *
 * \brief
 * This file provides the source code for the API for the AES method in the 
@@ -8,7 +8,7 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -278,6 +278,54 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Aes_Cfb(CRYPTOLITE_Type *base,
     }
 
     *ivOffset = _ivOffset;
+
+    return (result);
+}
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Aes_Ofb
+********************************************************************************
+*
+* Performs AES operation on a plain text with the Output Feedback Block (OFB)
+* method.
+*
+*******************************************************************************/
+cy_en_cryptolite_status_t Cy_Cryptolite_Aes_Ofb(CRYPTOLITE_Type *base,
+                                        uint32_t srcSize,
+                                        uint8_t *ivPtr,
+                                        uint8_t *dst,
+                                        uint8_t const *src,
+                                        cy_stc_cryptolite_aes_context_t *aesContext)
+{
+    uint8_t ivOffset = 0;
+    cy_en_cryptolite_status_t result = CY_CRYPTOLITE_SUCCESS;
+
+    if (NULL == base || srcSize == 0UL || NULL == dst || NULL == src || NULL == aesContext)
+    {
+        return (CY_CRYPTOLITE_BAD_PARAMS);
+    }
+
+    while (srcSize > 0U)
+    {
+        if (ivOffset == 0U)
+        {
+            /* In AES-OFB mode iv is encrypted with the key */
+            result = Cy_Cryptolite_Aes_ProcessBlock(base, ivPtr, ivPtr, aesContext);
+            if(CY_CRYPTOLITE_SUCCESS != result)
+            {
+                return result;
+            }
+        }
+
+        /* Source block is exclusive OR'ed with Encrypted IV.*/
+        *dst = (unsigned char)(*src ^ ivPtr[ivOffset]);
+
+        src++;
+        dst++;
+        ivOffset = (ivOffset + 1U) & 0x0FU;
+
+        srcSize--;
+    }
 
     return (result);
 }

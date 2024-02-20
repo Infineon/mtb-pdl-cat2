@@ -4,5 +4,6 @@ var group__group__cryptolite =
     [ "SHA", "group__group__cryptolite__sha.html", "group__group__cryptolite__sha" ],
     [ "AES", "group__group__cryptolite__aes.html", "group__group__cryptolite__aes" ],
     [ "VU", "group__group__cryptolite__vu.html", "group__group__cryptolite__vu" ],
-    [ "TRNG", "group__group__cryptolite__trng.html", "group__group__cryptolite__trng" ]
+    [ "TRNG", "group__group__cryptolite__trng.html", "group__group__cryptolite__trng" ],
+    [ "RSA", "group__group__cryptolite__rsa.html", "group__group__cryptolite__rsa" ]
 ];

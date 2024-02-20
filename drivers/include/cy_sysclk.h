@@ -70,7 +70,7 @@
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
 *     <td rowspan="2">3.10</td>
-*     <td>The documentation of the ILO compensation algorithm is more detailed.</td>
+*     <td>The documentation of ILO compensation algorithm is more detailed.</td>
 *     <td>Documentation enhancement.</td>
 *   </tr>
 *   <tr>

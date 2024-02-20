@@ -86,7 +86,6 @@ $(document).ready(function(){initNavTree('group__group__gpio__functions__init.ht
 <div class="title">Initialization Functions<div class="ingroups"><a class="el" href="group__group__gpio.html">GPIO         (General Purpose Input Output)</a> &raquo; <a class="el" href="group__group__gpio__functions.html">Functions</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -112,6 +111,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:gab0eeafea970eadb4e147ff6d0e3804dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the port address based on the given port number.  <a href="#gab0eeafea970eadb4e147ff6d0e3804dc">More...</a><br /></td></tr>
 <tr class="separator:gab0eeafea970eadb4e147ff6d0e3804dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gad61553f65d4e6bd827eb6464a7913461"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gad61553f65d4e6bd827eb6464a7913461">&#9670;&nbsp;</a></span>Cy_GPIO_Pin_Init()</h2>
@@ -257,7 +257,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This function modifies port registers in read-modify-write operations. It is not thread safe as the resource is shared among multiple pins on a port. You can use the <a class="el" href="group__group__syslib__functions.html#gae679f15a1702c159c105b596a8801105" title="Cy_SysLib_EnterCriticalSection disables interrupts and returns a value indicating whether the interru...">Cy_SysLib_EnterCriticalSection()</a> and <a class="el" href="group__group__syslib__functions.html#ga8c16343c075610b2888b0693f972b555" title="Re-enables the interrupts if they were enabled before Cy_SysLib_EnterCriticalSection() was called...">Cy_SysLib_ExitCriticalSection()</a> functions to ensure that <a class="el" href="group__group__gpio__functions__init.html#gac0c0ed22816c4bcedfb642202f91ba72" title="Initialize the most common configuration settings for all pin types. ">Cy_GPIO_Pin_FastInit()</a> function execution is not interrupted.</dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Quickly initialize pin P0.3 (e.g. quickly set up a test LED) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__init.html#gac0c0ed22816c4bcedfb642202f91ba72">Cy_GPIO_Pin_FastInit</a>(P0_0_PORT, P0_0_NUM, <a class="code" href="group__group__gpio__drive_modes.html#ga822f7d73072811b69a754d70806247b9">CY_GPIO_DM_PULLUP</a>, 1UL, P0_0_GPIO);</div><div class="line"></div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Quickly initialize pin P0.0 (e.g. quickly set up a test LED) */</span></div><div class="line">    <a class="code" href="group__group__gpio__functions__init.html#gac0c0ed22816c4bcedfb642202f91ba72">Cy_GPIO_Pin_FastInit</a>(P0_0_PORT, P0_0_NUM, <a class="code" href="group__group__gpio__drive_modes.html#ga822f7d73072811b69a754d70806247b9">CY_GPIO_DM_PULLUP</a>, 1UL, P0_0_GPIO);</div><div class="line"></div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
