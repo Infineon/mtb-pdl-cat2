@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 3.10
+* \version 3.20
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
@@ -30,8 +30,15 @@
 #endif /* NDEBUG */
 
 /* Flash wait states */
+#if defined(CPUSS_FLASHC_PRESENT_WITH_ECC)
+#define CY_SYSLIB_FLASH_WS_0_FREQ_MAX       ( 12UL)
+#define CY_SYSLIB_FLASH_WS_1_FREQ_MAX       ( 24UL)
+#define CY_SYSLIB_FLASH_WS_2_FREQ_MAX       ( 36UL)
+#else
 #define CY_SYSLIB_FLASH_WS_0_FREQ_MAX       ( 16UL)
 #define CY_SYSLIB_FLASH_WS_1_FREQ_MAX       ( 32UL)
+#endif /* CPUSS_FLASHC_PRESENT_WITH_ECC */
+
 /* Flash invalidation bit position in CPUSS_FLASH_CTL register*/
 #define CPUSS_FLASH_INVALIDATE_BIT (1UL << 8)
 
@@ -251,8 +258,14 @@ __WEAK void Cy_SysLib_ProcessingFault(void)
 void Cy_SysLib_SetWaitStates(uint32_t clkHfMHz)
 {
     uint32_t waitStates;
+#if defined(CPUSS_FLASHC_PRESENT_WITH_ECC)
+    waitStates =  (clkHfMHz <= CY_SYSLIB_FLASH_WS_0_FREQ_MAX) ? 0UL :
+                  (clkHfMHz <= CY_SYSLIB_FLASH_WS_1_FREQ_MAX) ? 1UL :
+                  ((clkHfMHz <= CY_SYSLIB_FLASH_WS_2_FREQ_MAX) ? 2UL : 3UL);
+#else
     waitStates =  (clkHfMHz <= CY_SYSLIB_FLASH_WS_0_FREQ_MAX) ? 0UL :
                   ((clkHfMHz <= CY_SYSLIB_FLASH_WS_1_FREQ_MAX) ? 1UL : 2UL);
+#endif /* defined(CPUSS_FLASHC_PRESENT_WITH_ECC) */
 
     CY_REG32_CLR_SET(CPUSS_FLASH_CTL, CPUSS_FLASH_CTL_FLASH_WS, waitStates);
 

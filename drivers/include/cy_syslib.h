@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 3.10
+* \version 3.20
 *
 * Provides an API declaration of the SysLib driver.
 *
@@ -110,6 +110,11 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.20</td>
+*     <td>Updated the flash wait state register configuration in \ref Cy_SysLib_SetWaitStates() for devices with FLASH ECC support.</td>
+*     <td>Support for devices with FLASH ECC feature.</td>
+*   </tr>
 *   <tr>
 *     <td>3.10</td>
 *     <td>Added Cy_SysLib_GetUniqueId() to fetch silicon unique information.</td>
@@ -278,7 +283,7 @@ typedef enum
 #define CY_SYSLIB_DRV_VERSION_MAJOR    3
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    10
+#define CY_SYSLIB_DRV_VERSION_MINOR    20
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;

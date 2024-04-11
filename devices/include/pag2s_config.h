@@ -526,8 +526,6 @@ typedef enum
 #define SFLASH_AUTO_SFLASH              1u
 /* Does this product have standard SWD placement control ? */
 #define SFLASH_STD_SWD                  1u
-/* Flash Macro 0 has extra rows */
-#define SFLASH_FLASH_M0_XTRA_ROWS       0u
 /* Does this product use SRSS-HV ? */
 #define SFLASH_SRSSHV                   1u
 /* Does this product have PACSS? */

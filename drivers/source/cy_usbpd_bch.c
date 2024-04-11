@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.70
+* \version 2.80
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.

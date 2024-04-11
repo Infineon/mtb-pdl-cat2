@@ -41,9 +41,6 @@
     <Block name="can"/>
     <Block name="canfd.chan"/>
   </RemoveListWounding>
-  <RemoveListWounding name="LPCOMP_REMOVED">
-    <Block name="lpcomp.comp"/>
-  </RemoveListWounding>
   <RemoveListWounding name="SCB_REMOVED">
     <Block name="scb"/>
   </RemoveListWounding>
@@ -53,6 +50,20 @@
   <RemoveListWounding name="USBPD_REMOVED">
     <Block name="usbpd"/>
   </RemoveListWounding>
+  <IndexResourceWounding name="LPCOMP_REMOVED">
+    <ResourceIndex index="0">
+      <Block name="lpcomp[0].comp[0]"/>
+    </ResourceIndex>
+    <ResourceIndex index="1">
+      <Block name="lpcomp[0].comp[1]"/>
+    </ResourceIndex>
+    <ResourceIndex index="2">
+      <Block name="lpcomp[1].comp[0]"/>
+    </ResourceIndex>
+    <ResourceIndex index="3">
+      <Block name="lpcomp[1].comp[1]"/>
+    </ResourceIndex>
+  </IndexResourceWounding>
   <IndexResourceWounding name="OPAMP_REMOVED">
     <ResourceIndex index="0">
       <Block name="pass[0].ctb[0].oa[0]" />

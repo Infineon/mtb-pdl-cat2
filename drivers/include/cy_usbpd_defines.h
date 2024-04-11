@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.70
+* \version 2.80
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -547,7 +547,7 @@
 /** USB-C port number 1. Supported only on the Dual Port devices. */
 #define TYPEC_PORT_1_IDX                (1u)
 
-#if ((defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D)))
+#if ((defined(CYPM1321_97BZXIT)) || (defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D)))
 
 #ifndef NO_OF_TYPEC_PORTS
 /** Two USB-C ports supported on CYPM1322-97BZXIT part. */
@@ -565,7 +565,7 @@
 /** Single USB-C port supported. */
 #define PMG1_PD_DUALPORT_ENABLE         (0u)
 
-#endif /* ((defined(CY_DEVICE_PMG1S3) && defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D))) */
+#endif /* ((defined(CYPM1321_97BZXIT)) || (defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D))) */
 
 /********************************* PD macros **********************************/
 

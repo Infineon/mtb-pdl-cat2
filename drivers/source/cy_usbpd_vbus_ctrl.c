@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.70
+* \version 2.80
 *
 * The source file of the USBPD VBUS Control driver.
 *

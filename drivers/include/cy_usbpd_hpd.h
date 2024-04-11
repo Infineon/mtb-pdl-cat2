@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 2.70
+* \version 2.80
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *

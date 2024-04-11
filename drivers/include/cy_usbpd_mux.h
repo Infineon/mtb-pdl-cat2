@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.h
-* \version 2.70
+* \version 2.80
 *
 * Provides API declarations of the USBPD MUX Control driver.
 *

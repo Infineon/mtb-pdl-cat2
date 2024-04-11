@@ -1367,8 +1367,8 @@
     #include "cypas212_32lqxq.h"
 #elif defined (CYPAS213_32LQXQ)
     #include "cypas213_32lqxq.h"
-#elif defined (CYPAS274_32LQXQ)
-    #include "cypas274_32lqxq.h"
+#elif defined (CYPAS2174_32LQXQ)
+    #include "cypas2174_32lqxq.h"
 #else
     #error Undefined part number
 #endif

@@ -1,8 +1,8 @@
 /***************************************************************************//**
-* \file cypas274_32lqxq.h
+* \file cypas2174_32lqxq.h
 *
 * \brief
-* CYPAS274-32LQXQ device header
+* CYPAS2174-32LQXQ device header
 *
 ********************************************************************************
 * \copyright
@@ -24,11 +24,11 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CYPAS274_32LQXQ_H_
-#define _CYPAS274_32LQXQ_H_
+#ifndef _CYPAS2174_32LQXQ_H_
+#define _CYPAS2174_32LQXQ_H_
 
 /**
-* \addtogroup group_device CYPAS274-32LQXQ
+* \addtogroup group_device CYPAS2174-32LQXQ
 * \{
 */
 
@@ -49,7 +49,7 @@ typedef enum {
   SVCall_IRQn                       =  -5,      /*!<  -5 System Service Call via SVC instruction */
   PendSV_IRQn                       =  -2,      /*!<  -2 Pendable request for system service */
   SysTick_IRQn                      =  -1,      /*!<  -1 System Tick Timer */
-  /* CYPAS274-32LQXQ Peripheral Interrupt Numbers */
+  /* CYPAS2174-32LQXQ Peripheral Interrupt Numbers */
   srss_interrupt_srss_IRQn          =   0,      /*!<   0 [DeepSleep] SRSS interrupts */
   srss_wdt_irq_IRQn                 =   1,      /*!<   1 [DeepSleep] WDT Interrupt */
   ioss_interrupt_gpio_IRQn          =   2,      /*!<   2 [DeepSleep] GPIO consolidated interrupt */
@@ -196,9 +196,9 @@ typedef enum {
 #define FAULT_STRUCT0                           ((FAULT_STRUCT_Type*) &FAULT->STRUCT[0])                          /* 0x40130000 */
 #define FAULT_STRUCT1                           ((FAULT_STRUCT_Type*) &FAULT->STRUCT[1])                          /* 0x40130100 */
 
-/** \} CYPAS274-32LQXQ */
+/** \} CYPAS2174-32LQXQ */
 
-#endif /* _CYPAS274_32LQXQ_H_ */
+#endif /* _CYPAS2174_32LQXQ_H_ */
 
 
 /* [] END OF FILE */
