@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.9.0
+# mtb-pdl-cat2 peripheral driver library v2.10.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,9 +6,12 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
+### New Features
+- Updated the USBPD driver to enable support for CCG6xF_CFP family devices.
+
 ### Updated drivers
-- [SYSLIB 3.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
-- [USBPD 2.80](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+- [SYSCLK 3.10.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [USBPD 2.90](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 ## Defect fixes
 
@@ -22,7 +25,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.2.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.4.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.14.0      |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.15.0      |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  |  11.3.1      |
 | IAR compiler                                                                  |  9.30.1      |
@@ -45,6 +48,8 @@ This version of PDL was validated for compatibility with the following software 
 - [PSoC&trade; 4 datasheets](https://www.infineon.com/cms/en/search.html#!term=all&view=all&utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-doc_search)
 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
+
+- [CCGxF_CFP device family](https://www.infineon.com/cms/en/product/universal-serial-bus/usb-c-power-delivery-controllers)
 
 ---
 © 2020-2024, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

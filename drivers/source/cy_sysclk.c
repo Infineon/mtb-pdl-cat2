@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.10
+* \version 3.10.1
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -486,6 +486,9 @@ void Cy_SysClk_IloStartMeasurement(void)
 * Calling this function immediately stops the the ILO frequency measurement.
 * Call this function before placing the device to deepsleep, if
 * \ref Cy_SysClk_IloStartMeasurement() API was called before.
+*
+* \note This function is not allowed to call immediately 
+*       after the \ref Cy_SysClk_IloStartMeasurement.
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_ISR

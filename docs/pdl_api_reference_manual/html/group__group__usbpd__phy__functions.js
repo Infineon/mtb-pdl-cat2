@@ -9,7 +9,7 @@ var group__group__usbpd__phy__functions =
     [ "Cy_USBPD_Phy_AbortBIST_Cm2", "group__group__usbpd__phy__functions.html#gaece70b7b61c850c5fec69763e7250b0f", null ],
     [ "Cy_USBPD_Phy_AbortTxMsg", "group__group__usbpd__phy__functions.html#ga2764d22095e1ad13ea49414fd27978ac", null ],
     [ "Cy_USBPD_Phy_SendReset", "group__group__usbpd__phy__functions.html#ga3cfd8cd8b16a4a7b440fcc0d7ba0b9b0", null ],
-    [ "Cy_USBPD_Intr0_RxTx_Handler", "group__group__usbpd__phy__functions.html#ga6577c6ef4f41e21ffcb778055a643412", null ],
+    [ "Cy_USBPD_Intr0RxTxHandler", "group__group__usbpd__phy__functions.html#gaed379051e8827e6f08f6213cf938d1a8", null ],
     [ "Cy_USBPD_Phy_GetRxPacket", "group__group__usbpd__phy__functions.html#ga5eb50ae90792398f81de7a17e0fcd18c", null ],
     [ "Cy_USBPD_Intr0Handler", "group__group__usbpd__phy__functions.html#gaab8ddf51fa7b3f62c05e6d81ed85fa70", null ],
     [ "Cy_USBPD_Phy_IsBusy", "group__group__usbpd__phy__functions.html#ga206ab1c54684e0c147a6f8e713c867c6", null ],

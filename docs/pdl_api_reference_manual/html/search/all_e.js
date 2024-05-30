@@ -65,7 +65,7 @@ var searchData=
   ['pmg1_5fpd_5fdualport_5fenable',['PMG1_PD_DUALPORT_ENABLE',['../group__group__usbpd__common__macros.html#gab14fef4fa9f3c708f4b973214f1e333e',1,'cy_usbpd_defines.h']]],
   ['polarity',['polarity',['../structcy__stc__pd__dpm__config__t.html#a377c195e77071160781dff9fefec4371',1,'cy_stc_pd_dpm_config_t']]],
   ['policy_5fmanager_5fenable',['policy_manager_enable',['../structcy__stc__auto__cfg__settings__t.html#a226150b6d00602f40e0ffe61a7723261',1,'cy_stc_auto_cfg_settings_t']]],
-  ['pollforvsys',['pollForVsys',['../structcy__stc__usbpd__context__t.html#ab58d87aa74b8a7b03e546c476c02ebdf',1,'cy_stc_usbpd_context_t']]],
+  ['pollforvsys',['pollForVsys',['../structcy__stc__usbpd__context__t.html#a8c003179cce900bb1c537641a6089496',1,'cy_stc_usbpd_context_t']]],
   ['port',['port',['../structcy__stc__usbpd__context__t.html#a78aa853d7fd5f132737e5dd49d067044',1,'cy_stc_usbpd_context_t']]],
   ['port_5fpower',['port_power',['../structcy__stc__auto__cfg__settings__t.html#ab095e18e9daac73743f3d59a1b8a3770',1,'cy_stc_auto_cfg_settings_t']]],
   ['portcap',['portCap',['../structcy__pd__pd__do__t_1_1_s_t_d___d_p___v_d_o.html#a53b7fdaa3a039b74e45ea50150177353',1,'cy_pd_pd_do_t::STD_DP_VDO']]],

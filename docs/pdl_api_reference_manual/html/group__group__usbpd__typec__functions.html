@@ -194,6 +194,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga13ead41685ab00f543b9182d8986342a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec__functions.html#ga13ead41685ab00f543b9182d8986342a">Cy_USBPD_Intr1Handler</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga13ead41685ab00f543b9182d8986342a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle all wake-up interrupt sources.  <a href="#ga13ead41685ab00f543b9182d8986342a">More...</a><br /></td></tr>
 <tr class="separator:ga13ead41685ab00f543b9182d8986342a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga082de01aacfc9d9cdd25c381d34f60bf"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec__functions.html#ga082de01aacfc9d9cdd25c381d34f60bf">Cy_USBPD_TypeC_GetRpRdStatus</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint8_t channel, bool rd_idx)</td></tr>
+<tr class="memdesc:ga082de01aacfc9d9cdd25c381d34f60bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the current status on the CC line.  <a href="#ga082de01aacfc9d9cdd25c381d34f60bf">More...</a><br /></td></tr>
+<tr class="separator:ga082de01aacfc9d9cdd25c381d34f60bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac577bd23284658fc8f20b1c5a7d6b83d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec__functions.html#gac577bd23284658fc8f20b1c5a7d6b83d">Cy_USBPD_EnableSwitch</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gac577bd23284658fc8f20b1c5a7d6b83d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable's the VSYS/VBUS TO VDDD Switch.  <a href="#gac577bd23284658fc8f20b1c5a7d6b83d">More...</a><br /></td></tr>
+<tr class="separator:gac577bd23284658fc8f20b1c5a7d6b83d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9e9d784365637a560ca858dd006868f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__typec__functions.html#gae9e9d784365637a560ca858dd006868f">Cy_USBPD_VBus_Regulator_Init</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gae9e9d784365637a560ca858dd006868f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does init of VBus Regulator.  <a href="#gae9e9d784365637a560ca858dd006868f">More...</a><br /></td></tr>
+<tr class="separator:gae9e9d784365637a560ca858dd006868f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -1364,6 +1373,105 @@ Functions</h2></td></tr>
 
 <p>Handle all wake-up interrupt sources. </p>
 <p>INTR1/INTR3/INTR5 etc are mapped to the wake-up interrupt vector.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>Pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="ga082de01aacfc9d9cdd25c381d34f60bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga082de01aacfc9d9cdd25c381d34f60bf">&#9670;&nbsp;</a></span>Cy_USBPD_TypeC_GetRpRdStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Cy_USBPD_TypeC_GetRpRdStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>rd_idx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function returns the current status on the CC line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>Pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a>.</td></tr>
+    <tr><td class="paramname">channel</td><td>Channel index, where CC1 = 0, CC2 = 1</td></tr>
+    <tr><td class="paramname">rd_idx</td><td>Rd termination index in sink mode</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t Rp status when Rp is asserted <a class="el" href="group__group__usbpd__common__enums.html#ga55cdcd7dacbb17e61280527c2616ff62">cy_en_pd_rp_cc_status_t</a>. Rd status when Rd is asserted <a class="el" href="group__group__usbpd__common__enums.html#ga1d4039edfbd1fe24c01780218a89d995">cy_en_pd_rd_cc_status_t</a>. </dd></dl>
+
+</div>
+</div>
+<a id="gac577bd23284658fc8f20b1c5a7d6b83d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac577bd23284658fc8f20b1c5a7d6b83d">&#9670;&nbsp;</a></span>Cy_USBPD_EnableSwitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_EnableSwitch </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable's the VSYS/VBUS TO VDDD Switch. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>Pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
+
+</div>
+</div>
+<a id="gae9e9d784365637a560ca858dd006868f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae9e9d784365637a560ca858dd006868f">&#9670;&nbsp;</a></span>Cy_USBPD_VBus_Regulator_Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_VBus_Regulator_Init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Does init of VBus Regulator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>Pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a>.</td></tr>

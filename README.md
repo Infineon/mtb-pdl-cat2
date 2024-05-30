@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PDL simplifies software development for PSoC&trade; 4 and PMG1 (CAT2)
+The PDL simplifies software development for PSoC&trade; 4, PMG1 (CAT2) and CCGxF_CFP
 family of devices. The PDL integrates device header files, startup code, and
 peripheral drivers into a single package. The drivers abstract the hardware
 functions into a set of easy-to-use APIs. These are fully documented in the
@@ -61,6 +61,7 @@ See the "Getting started" section of the [PDL API reference manual](https://infi
 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
 
+- [CCGxF_CFP device family](https://www.infineon.com/cms/en/product/universal-serial-bus/usb-c-power-delivery-controllers)
 
 ---
 © 2020-2024, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

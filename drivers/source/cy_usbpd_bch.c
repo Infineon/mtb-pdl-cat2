@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.80
+* \version 2.90
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -30,6 +30,7 @@
 
 #if (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD))
 
+#if (!defined(CY_DEVICE_CCG6DF_CFP))
 #include <cy_usbpd_defines.h>
 #include <cy_usbpd_bch.h>
 #include <cy_usbpd_common.h>
@@ -3374,5 +3375,6 @@ bool Cy_USBPD_Bch_Is_Cdp_SmBusy(cy_stc_usbpd_context_t *context)
     return (cdp_busy);
 }
 #endif /* (defined(CCG_CDP_EN) && BATTERY_CHARGING_ENABLE) */
+#endif /* (!defined(CY_DEVICE_CCG6DF_CFP)) */
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */
 /* [] END OF FILE */

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 2.80
+* \version 2.90
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
@@ -90,7 +90,8 @@
 #define HPD_P1_PORT                             (3U)
 #define HPD_P0_PIN                              (3U)
 #define HPD_P1_PIN                              (3U)
-#define HPD_HSIOM_SETTING                       (12U)
+#define HPD_HSIOM_SETTING_P0                    (12U)
+#define HPD_HSIOM_SETTING_P1                    (12U)
 
 #elif (defined(CY_DEVICE_CCG6))
 #define HPD_P0_PORT_PIN                         0x30U    /* GPIO_PORT3_PIN_0 */
@@ -99,7 +100,8 @@
 #define HPD_P1_PORT                             (3U)
 #define HPD_P0_PIN                              (0U)
 #define HPD_P1_PIN                              (4U)
-#define HPD_HSIOM_SETTING                       (12U)
+#define HPD_HSIOM_SETTING_P0                    (12U)
+#define HPD_HSIOM_SETTING_P1                    (12U)
 
 #elif (defined(CY_DEVICE_CCG3PA))
 /* HPD not supported in CCG3PA. Loading dummy values. */
@@ -109,7 +111,8 @@
 #define HPD_P1_PORT                             (3U)
 #define HPD_P0_PIN                              (3U)
 #define HPD_P1_PIN                              (3U)
-#define HPD_HSIOM_SETTING                       (12U)
+#define HPD_HSIOM_SETTING_P0                    (12U)
+#define HPD_HSIOM_SETTING_P1                    (12U)
 
 #elif (defined(CY_DEVICE_PMG1S3))
 #define HPD_P0_PORT_PIN                         0x14U    /* GPIO_PORT_1_PIN_4 */
@@ -118,7 +121,18 @@
 #define HPD_P1_PORT                             (7U)
 #define HPD_P0_PIN                              (4U)
 #define HPD_P1_PIN                              (1U)
-#define HPD_HSIOM_SETTING                       (13U)
+#define HPD_HSIOM_SETTING_P0                    (13U)
+#define HPD_HSIOM_SETTING_P1                    (13U)
+
+#elif (defined(CY_DEVICE_CCG6DF_CFP))
+#define HPD_P0_PORT_PIN                         0x50U    /* GPIO_PORT_5_PIN_0 */
+#define HPD_P1_PORT_PIN                         0x51U    /* GPIO_PORT_5_PIN_1 */
+#define HPD_P0_PORT                             (5U)
+#define HPD_P1_PORT                             (5U)
+#define HPD_P0_PIN                              (0U)
+#define HPD_P1_PIN                              (1U)
+#define HPD_HSIOM_SETTING_P0                    (13U)
+#define HPD_HSIOM_SETTING_P1                    (15U)
 
 #elif (defined(CY_DEVICE_CCG7D))
 #define HPD_P0_PORT_PIN                         (0x00U)    /* GPIO_PORT_0_PIN_0 */
@@ -127,7 +141,8 @@
 #define HPD_P1_PORT                             (1U)
 #define HPD_P0_PIN                              (0U)
 #define HPD_P1_PIN                              (6U)
-#define HPD_HSIOM_SETTING                       (13U)
+#define HPD_HSIOM_SETTING_P0                    (13U)
+#define HPD_HSIOM_SETTING_P1                    (13U)
 
 #elif (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #define HPD_P0_PORT_PIN                         (0x03U)    /* GPIO_PORT_0_PIN_3 */
@@ -136,7 +151,8 @@
 #define HPD_P1_PORT                             (0U)
 #define HPD_P0_PIN                              (3U)
 #define HPD_P1_PIN                              (3U)
-#define HPD_HSIOM_SETTING                       (13U)
+#define HPD_HSIOM_SETTING_P0                    (13U)
+#define HPD_HSIOM_SETTING_P1                    (13U)
 
 #else
 #error "Device not supported."

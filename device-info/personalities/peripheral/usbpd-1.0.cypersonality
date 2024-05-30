@@ -30,7 +30,7 @@
 
 <Personality id="m0s8usbpd" name="USBPD" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
-    <IpBlock name="m0s8usbpd_ver2,mxusbpd_s8" />
+    <IpBlock name="m0s8usbpd_ver2,mxusbpd_s8,mxusbpd_ver3_s8" />
     <Resource name="usbpd" />
   </Dependencies>
   <ExposedMembers />

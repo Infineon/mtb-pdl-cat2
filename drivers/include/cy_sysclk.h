@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.10
+* \version 3.10.1
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -68,6 +68,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.10.1</td>
+*     <td>Added note for the \ref Cy_SysClk_IloStopMeasurement.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">3.10</td>
 *     <td>The documentation of ILO compensation algorithm is more detailed.</td>

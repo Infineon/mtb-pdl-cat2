@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.h
-* \version 2.80
+* \version 2.90
 *
 * Provides API declarations of the USBPD MUX Control driver.
 *
@@ -52,6 +52,9 @@
 * \addtogroup group_usbpd_mux_functions
 * \{
 */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context, bool enable);
+#endif /* CY_DEVICE_CCG6DF_CFP */
 
 cy_en_usbpd_status_t Cy_USBPD_Mux_ConfigDpDm(cy_stc_usbpd_context_t *context, cy_en_usbpd_dpdm_mux_cfg_t conf);
 

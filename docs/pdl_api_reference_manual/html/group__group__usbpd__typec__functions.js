@@ -34,5 +34,8 @@ var group__group__usbpd__typec__functions =
     [ "Cy_USBPD_SetEvtCb", "group__group__usbpd__typec__functions.html#ga1bbf0c04678a7bc93277d1ec64247ed2", null ],
     [ "Cy_USBPD_SetTypeCEvtCb", "group__group__usbpd__typec__functions.html#gac4c7ef2e5718b5636b4885c64fa163d8", null ],
     [ "Cy_USBPD_SetSbuLevelDetect_EvtCb", "group__group__usbpd__typec__functions.html#gaeb808a097a2c41c8bb2ad5cee069b33f", null ],
-    [ "Cy_USBPD_Intr1Handler", "group__group__usbpd__typec__functions.html#ga13ead41685ab00f543b9182d8986342a", null ]
+    [ "Cy_USBPD_Intr1Handler", "group__group__usbpd__typec__functions.html#ga13ead41685ab00f543b9182d8986342a", null ],
+    [ "Cy_USBPD_TypeC_GetRpRdStatus", "group__group__usbpd__typec__functions.html#ga082de01aacfc9d9cdd25c381d34f60bf", null ],
+    [ "Cy_USBPD_EnableSwitch", "group__group__usbpd__typec__functions.html#gac577bd23284658fc8f20b1c5a7d6b83d", null ],
+    [ "Cy_USBPD_VBus_Regulator_Init", "group__group__usbpd__typec__functions.html#gae9e9d784365637a560ca858dd006868f", null ]
 ];

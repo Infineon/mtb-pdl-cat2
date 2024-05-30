@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.80
+* \version 2.90
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,11 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="1">2.90</td>
+*     <td>Updated the USBPD driver to enable support for CCG6xF_CFP family devices.</td>
+*     <td>New family devices support.</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="1">2.80</td>
 *     <td>Updated the USBPD driver to enable dual port support for CYPM1321 device.</td>
@@ -315,6 +320,20 @@
 #else /* !defined(CY_DEVICE_CCG3PA) */
 #define PDSS_CC_CTRL_0_CMP_LA_VSEL_CFG          (7UL)
 #endif /* CY_DEVICE */
+
+/*
+ * Delay required once VSYS is detected to before enabling VSYS - VDDD switch.
+ * Set the macro to 0 to enable the switch immediately after detecting VSYS.
+ */
+#ifndef CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS
+#define CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS  (1u)
+#endif /*CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS*/
+
+/* Enable Automatically switch VDDD to VSYS when VSYS is available. */
+#ifndef CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE
+#define CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE    (1u)
+#endif /*CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS*/
+
 /** \endcond */
 
 /**
@@ -339,7 +358,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       80
+#define CY_USBPD_DRV_VERSION_MINOR                       90
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
@@ -364,6 +383,31 @@
 /** \endcond */
 
 /** \} group_usbpd_typec_macros */
+
+/**
+* \addtogroup group_usbpd_typec_enum
+* \{
+*/
+
+/**
+ * @typedef cy_en_usbpd_poll_vsys_t
+ * @brief List of values for poll for vsys variable.
+ *
+ * Bit 0 is used for enable the vsys polling.
+ * Bit 1 is used for starting the delay timer in the task.
+ * Bit 2 is used for stop re-starting the timer once it is started.
+ *
+ */
+typedef enum
+{
+    CY_USBPD_POLL_VSYS_DO_NOT_POLL = 0,   /**< Explicit VSYS switching happened. Do not poll for VSYS change. */
+    CY_USBPD_POLL_VSYS_IDLE = 1,          /**< Idle and poll for VSYS. */
+    CY_USBPD_POLL_VSYS_INT_UP = 2,        /**< Interrupt happened while in explicit switch. Hence do not start the delay timer. */
+    CY_USBPD_POLL_VSYS_START_TIMER = 3,   /**< Interrupt happened while in Idle state. start the delay timer. */
+    CY_USBPD_POLL_VSYS_STOP_TIMER = 4,    /**< Timer is started. stop re-starting it again.. */
+} cy_en_usbpd_poll_vsys_t;
+
+/** \} group_usbpd_typec_enum */
 
 /*******************************************************************************
 *                            Function Prototypes
@@ -517,6 +561,15 @@ cy_en_usbpd_status_t Cy_USBPD_SetSbuLevelDetect_EvtCb(
 
 void Cy_USBPD_Intr1Handler (
         cy_stc_usbpd_context_t *context);
+
+uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
+        cy_stc_usbpd_context_t *context,
+        uint8_t channel,
+        bool rd_idx);
+
+void Cy_USBPD_EnableSwitch(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_VBus_Regulator_Init(cy_stc_usbpd_context_t *context);
 
 /** \} group_usbpd_typec_functions */
 

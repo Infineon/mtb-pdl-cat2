@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.80
+* \version 2.90
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -41,6 +41,9 @@
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
 #include "cy_usbpd_buck_boost.h"
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
+
+/* Safe level of VBUS (in mV) that is required for CCGx to operate based on VBUS power. */
+#define VBUS_OPERATING_MINIMUM  (3200u)
 
 /* No of Rd rows and entries per row, in the thresholds LUT. */
 #define RD_ROW_NO                       (3u)
@@ -104,8 +107,27 @@ void Cy_USBPD_Phy_VbusDetachCbk (
     CY_UNUSED_PARAMETER(compOut);
 }
 
-/* Returns the current status on the CC line (rp_cc_status_t or rd_cc_status_t). */
-static uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
+/*******************************************************************************
+* Function Name: Cy_USBPD_TypeC_GetRpRdStatus
+****************************************************************************//**
+* 
+* This function returns the current status on the CC line
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \param channel
+* Channel index, where CC1 = 0, CC2 = 1
+* 
+* \param rd_idx
+* Rd termination index in sink mode
+*
+* \return uint8_t
+* Rp status when Rp is asserted \ref cy_en_pd_rp_cc_status_t.
+* Rd status when Rd is asserted \ref cy_en_pd_rd_cc_status_t.
+*
+*******************************************************************************/
+uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
         cy_stc_usbpd_context_t *context, 
         uint8_t channel, 
         bool rd_idx)
@@ -137,10 +159,10 @@ static uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
 #endif /* (!CY_PD_SINK_ONLY) */
 
 #if PSVP_FPGA_ENABLE
-        /* Set the RP SEL value based on rd_idx to ensure that the AFE uses the correct value. */
+        /* Set the RP SEL value as 3A based on rd_idx to ensure that the AFE uses the correct value. */
         if (rd_idx == true)
         {
-            pd->cc_ctrl_0 = (pd->cc_ctrl_0 & ~PDSS_CC_CTRL_0_RP_MODE_MASK) | (1UL << PDSS_CC_CTRL_0_RP_MODE_POS);
+            pd->cc_ctrl_0 = (pd->cc_ctrl_0 & ~PDSS_CC_CTRL_0_RP_MODE_MASK) | (3UL << PDSS_CC_CTRL_0_RP_MODE_POS);
         }
         else
         {
@@ -197,7 +219,9 @@ static uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
     if (temp != rval)
     {
 #if PSVP_FPGA_ENABLE
+#if (!CY_PD_SINK_ONLY)
         if (!isSrc)
+#endif /* (!CY_PD_SINK_ONLY) */
         {
             if (rd_idx)
             {
@@ -219,12 +243,14 @@ static uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
                 }
             }
         }
+#if (!CY_PD_SINK_ONLY)
         else
         {
             pd->cc_ctrl_0 = (pd->cc_ctrl_0 & ~(PDSS_CC_CTRL_0_CMP_DN_CC1V2 | PDSS_CC_CTRL_0_CMP_UP_CC1V2 |
                         PDSS_CC_CTRL_0_CC_1V2 | PDSS_CC_CTRL_0_CMP_DN_VSEL_MASK |
                         PDSS_CC_CTRL_0_CMP_UP_VSEL_MASK)) | rval;
         }
+#endif /* (!CY_PD_SINK_ONLY) */
 
         /* Delay to allow references to settle. */
         Cy_SysLib_DelayUs (100);
@@ -400,7 +426,7 @@ void Cy_USBPD_Pump_Disable (
         cy_stc_usbpd_context_t *context, 
         uint8_t index)
 {
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     context->base->pump5v_ctrl[index] |= PDSS_PUMP5V_CTRL_PUMP5V_BYPASS_LV;
     Cy_SysLib_DelayUs (10);
     context->base->pump5v_ctrl[index]  = PDSS_PUMP5V_CTRL_DEFAULT;
@@ -412,7 +438,7 @@ void Cy_USBPD_Pump_Disable (
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
     context->base->pump_ctrl |= (PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 
 /*******************************************************************************
@@ -435,8 +461,9 @@ void Cy_USBPD_Pump_Enable (
         cy_stc_usbpd_context_t *context,
         uint8_t index)
 {
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     PPDSS_REGS_T pd = context->base;
+
     /* Enable the pump only if it is not already on. */
     if ((pd->pump5v_ctrl[index] & PDSS_PUMP5V_CTRL_PUMP5V_PUMP_EN) == 0u)
     {
@@ -465,7 +492,7 @@ void Cy_USBPD_Pump_Enable (
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
     context->base->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 #if CY_USBPD_CGND_SHIFT_ENABLE
 /*******************************************************************************
@@ -549,12 +576,18 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Init (
 
     pd = context->base;
 
+#if !defined(CY_DEVICE_CCG6DF_CFP)
     pd->cc_ctrl_0 &= ~(PDSS_CC_CTRL_0_HYST_MODE | PDSS_CC_CTRL_0_EN_HYST | PDSS_CC_CTRL_0_CMP_LA_VSEL_MASK);
     pd->cc_ctrl_0 |= (PDSS_CC_CTRL_0_CMP_LA_VSEL_CFG << PDSS_CC_CTRL_0_CMP_LA_VSEL_POS);
+#endif /* !defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if defined(CY_IP_MXUSBPD)
 
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    pd->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
+#else
     pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
     /*
      * Up/Down comparators filter will only be enabled before going to
@@ -569,11 +602,11 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Init (
     pd->intr3_cfg_adc_hs[1] &= ~(PDSS_INTR3_CFG_ADC_HS_FILT_EN);
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     /* Disable filter on comparator output. */
     pd->intr3_cfg_adc_hs &= ~(PDSS_INTR3_CFG_ADC_HS_FILT_EN);
     pd->intr3_cfg_adc_hs |= PDSS_INTR3_CFG_ADC_HS_FILT_BYPASS;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
 #if !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     /* Leave the CC pump enabled. */
@@ -639,20 +672,32 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
 
 #if (!CCG_PD_BLOCK_ALWAYS_ON)
     /* Turn off PHY deepsleep. References require 100us to stabilize. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    pd->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
+#else
     pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if PMG1_PD_DUALPORT_ENABLE
     if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]) && (context->port == TYPEC_PORT_1_IDX))
     {
         /* Deep sleep reference has to be enabled on PD0 block. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
+#else
         context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     }
 #endif
 
     /*
      * Enable deep-sleep current reference outputs.
      */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    pd->pd_bg_iref8_ctrl |= (0x03u << PDSS_PD_BG_IREF8_CTRL_BG_IREF_EN_POS);
+#else
     pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_IGEN_EN;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     Cy_SysLib_DelayUs(100);
 #endif /* (!CCG_PD_BLOCK_ALWAYS_ON) */
 
@@ -961,14 +1006,22 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
         if (context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->pdssActivePorts == 0u)
         {
             /* Deep sleep reference has to be disabled on PD0 block. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->pd_ref_gen_ctrl |= PDSS_PD_REF_GEN_CTRL_PD;
+#else
             context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
         }
     }
     if (TYPEC_PORT_0_IDX != context->port)
 #endif /* PMG1_PD_DUALPORT_ENABLE */
     {
         /* Deep sleep reference has to be disabled on current PD block. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        pd->pd_ref_gen_ctrl |= PDSS_PD_REF_GEN_CTRL_PD;
+#else
         pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     }
 #endif /* !CCG_PD_BLOCK_ALWAYS_ON */
 #elif defined(CY_IP_M0S8USBPD)
@@ -1022,13 +1075,21 @@ void Cy_USBPD_TypeC_RdEnable (
     pd = context->base;
 
     /* Deep sleep reference has to be enabled on PD0 block. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    pd->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
+#else
     pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if PMG1_PD_DUALPORT_ENABLE
     if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]) && (context->port == TYPEC_PORT_1_IDX))
     {
         /* Deep sleep reference has to be enabled on PD0 block. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
+#else
         context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     }
 #endif
 
@@ -1139,7 +1200,7 @@ void Cy_USBPD_TypeC_SnkUpdateTrim (
 #if defined(CY_DEVICE_CCG3)
 #define SFLASH_PDSS_PORT0_TRIM1_BASE            (0x0FFFF282u)
 #define SFLASH_PDSS_PORT1_TRIM1_BASE            (0x0FFFF285u)
-#elif defined(CY_DEVICE_PMG1S3)
+#elif defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)
 #define SFLASH_PDSS_PORT0_TRIM1_BASE            (0x0FFFF410u)
 #define SFLASH_PDSS_PORT1_TRIM1_BASE            (0x0FFFF510u)
 #elif defined(CY_DEVICE_CCG7D)
@@ -1186,9 +1247,9 @@ void Cy_USBPD_TypeC_EnableRp (
     PPDSS_TRIMS_REGS_T trimRegs = NULL;
 #endif /* defined(CY_IP_MXUSBPD) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     uint8_t cc_trim = 0;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
     if (context == NULL)
     {
@@ -1202,12 +1263,12 @@ void Cy_USBPD_TypeC_EnableRp (
     Cy_USBPD_Pump_Enable (context, 0);
 
 #if defined(CY_IP_MXUSBPD)
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D))
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D))
     if (context->port != TYPEC_PORT_0_IDX)
     {
         pdss_rp_trim_db = (uint8_t *)SFLASH_PDSS_PORT1_TRIM1_BASE;
     }
-#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D)) */
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D)) */
 
     trimRegs = context->trimsBase;
     cc_trim  = pdss_rp_trim_db[rpVal];
@@ -1487,8 +1548,10 @@ void Cy_USBPD_TypeC_EnableRd (
     pd = context->base;
 
 #if !CY_PD_EPR_36V_SUPP_EN
+#if !PSVP_FPGA_ENABLE
     /* Disable PUMP */
     Cy_USBPD_Pump_Disable (context, 0);
+#endif /* !PSVP_FPGA_ENABLE */
 #endif /* CY_PD_EPR_36V_SUPP_EN */
 
     temp = pd->cc_ctrl_0;
@@ -1630,7 +1693,7 @@ cy_pd_cc_state_t Cy_USBPD_TypeC_GetCCStatus (
         /* Scan both CC lines: the active CC line should be scanned last. */
         newState.cc[1u - polarity] = Cy_USBPD_TypeC_GetRpRdStatus(context, 1u - polarity, 0);
         newState.cc[polarity]     = Cy_USBPD_TypeC_GetRpRdStatus(context, polarity, 0);
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
         if (context->ccOvpPending != 0U)
         {
             if (newState.cc[polarity] == (uint8_t)CY_PD_RP_OPEN)
@@ -1645,7 +1708,7 @@ cy_pd_cc_state_t Cy_USBPD_TypeC_GetCCStatus (
                 context->ccOvpPending = 0U;
             }
         }
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 #endif /* PSVP_FPGA_ENABLE */
     }
     else
@@ -2136,7 +2199,7 @@ void Cy_USBPD_DisableVsysSwitch (
 {
     if (context != NULL)
     {
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
         /*
          * If system has internal VBUS regulator, external VDDD source shall
          * be turned off.
@@ -2144,7 +2207,7 @@ void Cy_USBPD_DisableVsysSwitch (
         PPDSS_REGS_T pd = NULL;
         pd = context->base;
         pd->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH);
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
     }
 }
 
@@ -2170,17 +2233,17 @@ bool Cy_USBPD_IsVsysUp (
     uint32_t state = 0;
     bool retVal = false;
     PPDSS_REGS_T pd = NULL;
-
+    
     if ((context == NULL) || (context->port != TYPEC_PORT_0_IDX))
     {
         return retVal;
     }
-
     pd = context->base;
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
-    if(context->pollForVsys)
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
+    if(context->pollForVsys == (uint8_t) CY_USBPD_POLL_VSYS_IDLE)
     {
+    
         if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
         {
             /* Enable the VSYS detect comparator. */
@@ -2191,20 +2254,24 @@ bool Cy_USBPD_IsVsysUp (
             Cy_SysLib_DelayUs (200);
 
             /* Disable interrupts while checking for status to prevent race conditions. */
-            state = Cy_SysLib_EnterCriticalSection();
-            if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
+            state = Cy_SysLib_EnterCriticalSection();           
+            /* Check if VSYS up interrupt occurred after enabling the comparator. */
+            if (context->pollForVsys == (uint8_t) CY_USBPD_POLL_VSYS_IDLE)
             {
                 /* VSYS still not detected. Turn off the comparator again. */
                 pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
             }
-            else
-            {
-                retVal = true;
-            }
             Cy_SysLib_ExitCriticalSection(state);
         }
     }
-
+    else 
+    {
+        if(context->pollForVsys == (uint8_t) CY_USBPD_POLL_VSYS_START_TIMER)
+        {
+            /* Notify app to start delay timer */
+            retVal = true;
+        }
+    }
 #elif defined(CY_DEVICE_CCG3)
     if ((pd->ncell_status & PDSS_NCELL_STATUS_VSYS_STATUS) != 0U)
     {
@@ -2247,7 +2314,9 @@ bool Cy_USBPD_IsVsysUp (
     }
 #else
     CY_UNUSED_PARAMETER(state);
+    CY_UNUSED_PARAMETER(retVal);
     CY_UNUSED_PARAMETER(pd);
+    CY_UNUSED_PARAMETER(context);   
 #endif /* defined(CY_DEVICE_CCG3) */
 
     return retVal;
@@ -2330,7 +2399,7 @@ void Cy_USBPD_SwitchVsysToVbus (
     }
 #else
     (void)context;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 
 /*******************************************************************************
@@ -2373,7 +2442,7 @@ void Cy_USBPD_SwitchVbusToVsys (
     }
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
@@ -2670,7 +2739,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #endif /* defined(CY_DEVICE_CCG3) */
 #if defined(CY_DEVICE_PMG1S3)
     uint8_t vref = 0u;
-#endif /* defined(CY_DEVICE_PMG1S3) */
+#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if ((defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA)) && PMG1_FLIPPED_FET_CTRL)
 #if VBUS_SLOW_DISCHARGE_EN
@@ -2722,12 +2791,16 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         pd->cc_ctrl_0 &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
 
         /* Turn ON PHY deepsleep. References require 100us to stabilize. */
+#if !defined(CY_DEVICE_CCG6DF_CFP)
         pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+#endif /* !defined(CY_DEVICE_CCG6DF_CFP) */
 
         /*
          * Enable deep-sleep current reference outputs.
          */
+#if !defined(CY_DEVICE_CCG6DF_CFP)
         pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_IGEN_EN;
+#endif /* !defined(CY_DEVICE_CCG6DF_CFP) */
         Cy_SysLib_DelayUs(100);
 
 #if defined(CY_DEVICE_CCG3)
@@ -2781,6 +2854,98 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         pd->ngdo_ctrl_p |= PDSS_NGDO_CTRL_P_BYPASS_2DFF;
         pd->ngdo_ctrl_c |= PDSS_NGDO_CTRL_C_BYPASS_2DFF;
 #endif /* defined(CY_DEVICE_CCG3) */
+#if (defined(CY_DEVICE_CCG6DF_CFP))
+        /*
+         * The Deep Sleep voltage reference is used as input to the refgen block at all times.
+         * SEL0 & 1 - Not connected for CCG6DF_CFP.
+         * SEL2 - VBUS UV
+         * SEL3 - VBUS OV
+         * SEL4 - VSYS DET
+         * Each step is 10mV unit and on CCG6DF_CFP, minimum voltage is 130mV. Hence value 0x00 
+         * corresponds to 130mV output.
+         * (Output voltage in mV - 130mV)/10 gives the value in decimal. convert to hex and update.
+         * E.g for 400mV --> (400 - 130)/10 --> 27 --> 0x1B.
+         */
+        pd->pd_ref_gen_ctrl     &= ~PDSS_PD_REF_GEN_CTRL_PD;
+        pd->pd_ref_mux_ctrl_0   = 0x231B0000; /* SEL0=NC, SEL1=NC, SEL2=0x1B(400 mV), SEL3=0x23(480 mV) */
+        pd->pd_ref_mux_ctrl_1   = 0x00006600; /* SEL4=0x66(1.15 V) */
+
+        /* Give some delay for references to settle. */
+        Cy_SysLib_DelayUs (50);
+
+        /* Enable the VSYS_DET comparator. Corresponding LF filter also needs to be enabled.
+           Look for both positive and negative edge interrupts.
+           */
+        /* Set the current reference used for VConn Over-Current detection. */
+        /* Default value of the field is 2. so no need to update here. */
+        /* pd->pd_reg_control = ((pd->pd_reg_control & ~PDSS_PD_REG_CONTROL_INRUSH_DET_SEL_MASK) |
+                (2u << PDSS_PD_REG_CONTROL_INRUSH_DET_SEL_POS));*/
+        if (context->port == TYPEC_PORT_0_IDX)
+        {
+            /* Enable interrupt on either positive or negative edge from the VSYS_DET comparator. */
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
+            pd->intr7_filter_cfg = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
+                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
+                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+
+            /* Need to disable the bypass on VSYS good comparator. */
+            pd->pd_reg_ctrl |= PDSS_PD_REG_CTRL_BYPASS_VSYS_GOOD_ACCB;
+
+            /* Wait for some time and check VSYS status. */
+            Cy_SysLib_Delay (1);
+#if defined(PSVP_FPGA_ENABLE)
+            /* Force notify application about presence of VSYS supply for PSVP. */
+            if (context->supplyChangeCbk != NULL)
+            {
+                context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
+            }
+#else
+            if ((pd->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) == 0U)
+            {
+                /* Notify application layer about absence of VSYS supply. */
+                if (context->supplyChangeCbk != NULL)
+                {
+                    context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, false);
+                }
+                Cy_SysLib_Delay (1);
+
+                /* VSYS is not present, disable VSYS switch. */
+                pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
+
+                /* Leave the VSYS detect comparator disabled. We will enable this periodically to check for VSYS up. */
+                pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
+            }
+            else
+            {
+                /* Notify application about presence of VSYS supply. */
+                if (context->supplyChangeCbk != NULL)
+                {
+                    context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
+                }
+            }
+#endif /* PSVP_FPGA_ENABLE */
+
+            /* Enable interrupt for VSYS detection. */
+            pd->intr7_mask |= (PDSS_INTR7_CLK_LF_EDGE_CHANGED);
+            /* Enable polling for VSYS status change. */
+            context->pollForVsys = (uint8_t) CY_USBPD_POLL_VSYS_IDLE;
+        }
+
+        /* Enable HF Clk as source for Fault protection filters. */
+        pd->ctrl |= PDSS_CTRL_SEL_CLK_FILTER;
+
+
+        /* amux_nhv[5]/amux_nhv[3] should be set for proper connection.
+           amux_nhv[2] is used to select 6% divider instead of 8% divider.
+         */    
+        pd->amux_nhv_ctrl |= (1UL << 3) | (1UL << 2);
+        /*
+         * Connect 10% of VBUS_C to VBUS_MON comparator input. This has to be done at start to prevent errors on
+         * the pct10 feedback lines.
+         */
+        pd->amux_denfet_ctrl |= PDSS_AMUX_DENFET_CTRL_SEL;
+#endif /* (defined(CY_DEVICE_CCG6DF_CFP)) */
 
 #if defined(CY_DEVICE_PMG1S3)
         /* Disable the keep off control circuit. */
@@ -2873,7 +3038,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
             /* Enable interrupt for VSYS detection. */
             pd->intr7_mask |= (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
             /* Enable polling for VSYS status change. */
-            context->pollForVsys = true;
+            context->pollForVsys = (uint8_t) CY_USBPD_POLL_VSYS_IDLE;
         }
 
         /* Enable HF Clk as source for Fault protection filters. */
@@ -2899,7 +3064,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 
         /* Disable RCP comparator which are enabled by default */
         pd->csa_rcp_1_ctrl &= ~((1UL<<7) | (1UL<<0)) ;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
 #if defined(CY_DEVICE_CCG3PA)
 
@@ -3217,6 +3382,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
 #if ((PSVP_FPGA_ENABLE))
+#if (!defined(CY_DEVICE_CCG6DF_CFP))
             /*
              * We need to wait for CCG3PA to be up. Then only we can read the TRIM data.
              * Since there is nothing to be done until the AFE board is up, wait for a
@@ -3230,6 +3396,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 }
                 Cy_SysLib_Delay(100);
             }
+#endif /* (!defined(CY_DEVICE_CCG6DF_CFP)) */
 #endif /* (PSVP_FPGA_ENABLE) */
 
 #if (PDL_VBTR_ENABLE)
@@ -3243,8 +3410,6 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #if (PDL_IBTR_ENABLE)
         context->ibtrIdle = true;
 #endif /* PDL_IBTR_ENABLE */
-        /* Enable polling for VSYS status change. */
-        context->pollForVsys = true;
 
         /* Initialize ADCs. */
         status = Cy_USBPD_Adc_Init (context, CY_USBPD_ADC_ID_0);
@@ -3267,6 +3432,8 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
         (void)status;
+        /* Init the VBUS regulator */
+        Cy_USBPD_VBus_Regulator_Init(context);
 
         return CY_USBPD_STAT_SUCCESS;
     }
@@ -3275,7 +3442,88 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         return CY_USBPD_STAT_BAD_PARAM;
     }
 }
+/*******************************************************************************
+* Function Name: Cy_USBPD_VBus_Regulator_Init
+****************************************************************************//**
+* 
+* Does init of VBus Regulator.
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
 
+void Cy_USBPD_VBus_Regulator_Init(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
+    PPDSS_REGS_T pd = context->base;
+    static PPDSS_REGS_T pd0 = NULL;
+
+    if (context->port == TYPEC_PORT_0_IDX)
+    {
+        pd0 = context->base;
+    }
+    /* when all three power supplies are present then CCG takes the below priority.
+     * 1. VSYS
+     * 2. Port 0 VBUS
+     * 3. Port 1 VBUS
+     */
+
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        if ((pd0->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) == 0U)
+#else
+        if ((pd0->intr7_status & (CLK_LF_FILT_NUM << PDSS_INTR7_STATUS_FILT_8_POS)) == 0U)
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+        {
+            /* VSYS is not present. Check if port 0 VBUS is present. */
+            if (Cy_USBPD_Adc_MeasureVbus(context, CY_USBPD_ADC_ID_0,
+                    CY_USBPD_ADC_INPUT_AMUX_B) >= VBUS_OPERATING_MINIMUM)
+            {
+                /* Check if CCG is dual port. */
+#if (NO_OF_TYPEC_PORTS > 1u)
+                if (context->port == TYPEC_PORT_0_IDX)
+                {
+                    /* Enable VBUS regulator. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                    pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_EN;
+#else
+                    pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+                }
+                else
+                {
+                    /* Check if other port's regulator enabled. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                    if (0u == (pd0->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_VREG20_EN))
+#else
+                    if (0u == (pd0->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_VREG20_1_EN))
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+                    {
+                        /* Other port's regulator is not enabled. enable VBUS regulator. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                        pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_EN;
+#else
+                        pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+                    }
+                }
+#else
+                /* Single port, hence enable the VBUS regulator. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_EN;
+#else
+                pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+#endif
+            }
+        }
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
+
+}
 /*******************************************************************************
 * Function Name: Cy_USBPD_PrepareDeepSleep
 ****************************************************************************//**
@@ -3407,7 +3655,7 @@ bool Cy_USBPD_PrepareDeepSleep (
              */
             (void)level;
 
-
+#if (!(CY_PD_USE_ADC_IN_DS))            
 #if CY_PD_REV3_ENABLE
             if (dpmConfig->frRxEnLive == false)
 #endif /* CY_PD_REV3_ENABLE */
@@ -3430,6 +3678,7 @@ bool Cy_USBPD_PrepareDeepSleep (
                         CY_USBPD_ADC_INT_RISING,
                         Cy_USBPD_Phy_VbusDetachCbk);
             }
+#endif /*(!(CY_PD_USE_ADC_IN_DS)) */
 #endif /* (!defined(CY_DEVICE_SERIES_WLC1)) */
 
             CY_UNUSED_PARAMETER(level);
@@ -3950,6 +4199,60 @@ bool Cy_USBPD_Resume(
 }
 
 /*******************************************************************************
+* Function Name: Cy_USBPD_EnableSwitch
+****************************************************************************//**
+* 
+* Enable's the VSYS/VBUS TO VDDD Switch.
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_EnableSwitch(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) 
+    PPDSS_REGS_T pd = context->base;
+    /* is VSYS is still present */
+#if defined(CY_DEVICE_CCG6DF_CFP) 
+    if ((pd->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) != 0U)
+#else
+    if ((pd->intr7_status & (CLK_LF_FILT_NUM << PDSS_INTR7_STATUS_FILT_8_POS)) != 0U)
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+    {       
+        /* VSYS is now present: Enable switch and disable regulator. */
+        pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
+        Cy_SysLib_DelayUs (100);
+
+        /* Disable the vbus regulator on port0 */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_VREG20_EN;
+#else
+        pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+#if PMG1_PD_DUALPORT_ENABLE
+        /* Disable the vbus regulator on port1 */
+        if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]) && (context->port == TYPEC_PORT_0_IDX))
+        {
+            PPDSS_REGS_T pdPort1 = context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]->base;
+#if defined(CY_DEVICE_CCG6DF_CFP)
+            pdPort1->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_VREG20_EN);
+#else
+            pdPort1->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_VREG20_1_EN);
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+        }
+#endif /* PMG1_PD_DUALPORT_ENABLE */
+
+        /* update vsys polling status */
+        context->pollForVsys &= (uint8_t) (~((uint8_t)CY_USBPD_POLL_VSYS_INT_UP | (uint8_t)CY_USBPD_POLL_VSYS_STOP_TIMER));
+    }
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
+}
+
+/*******************************************************************************
 * Function Name: Cy_USBPD_Intr1Handler
 ****************************************************************************//**
 * 
@@ -3968,11 +4271,11 @@ void Cy_USBPD_Intr1Handler (
 {
     PPDSS_REGS_T pd = context->base;
     uint32_t intrCause = pd->intr1_masked;
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
 #if PDL_VBUS_RCP_ENABLE
     uint32_t mask = 0u;
 #endif /* PDL_VBUS_RCP_ENABLE */
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 
@@ -4071,7 +4374,7 @@ void Cy_USBPD_Intr1Handler (
 #endif /* PDL_VIN_UVP_ENABLE */
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
 
 #if PDL_VBUS_SCP_ENABLE
     /*
@@ -4085,7 +4388,11 @@ void Cy_USBPD_Intr1Handler (
 #endif /* PDL_VBUS_SCP_ENABLE */
 
 #if PDL_VBUS_RCP_ENABLE
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    mask = PDSS_INTR13_MASKED_CSA_COMP_OUT_CHANGED_MASKED;
+#else
     mask = (PDSS_INTR13_MASKED_CSA_OUT_CHANGED_MASKED) | (PDSS_INTR13_MASKED_CSA_COMP_OUT_CHANGED_MASKED) | (PDSS_INTR13_MASKED_CSA_VBUS_OVP_CHANGED_MASKED);
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     /*
      * RCP interrupt handling.
      * Provider FET would have been turned off. We only need to clear the interrupt and start recovery.
@@ -4096,7 +4403,20 @@ void Cy_USBPD_Intr1Handler (
     }
 #endif /* PDL_VBUS_RCP_ENABLE */
 
-#endif /* defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) */
+#endif /* defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
+
+#if (!CY_PD_SINK_ONLY)
+#if (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE)
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        if ((pd->intr20 & PDSS_INTR20_VSWAP_VBUS_LESS_5_DONE) != 0U)
+        {
+            pd->intr20_mask &= ~PDSS_INTR20_VSWAP_VBUS_LESS_5_DONE;
+            pd->intr20 = PDSS_INTR20_VSWAP_VBUS_LESS_5_DONE;
+            Cy_USBPD_Vbus_FrsRx_IntrHandler(context);
+        }
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+#endif /* (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE) */
+#endif /* (!CY_PD_SINK_ONLY) */
 
     /*
      * This routine expects all interrupts which are triggered to be disabled
@@ -4126,12 +4446,14 @@ void Cy_USBPD_Intr1Handler (
 
 #if (!CY_PD_SINK_ONLY)
 #if (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE)
+#if !defined(CY_DEVICE_CCG6DF_CFP)
         if ((intrCause & PDSS_INTR1_VSWAP_VBUS_LESS_5_DONE) != 0U)
         {
             pd->intr1_mask &= ~PDSS_INTR1_VSWAP_VBUS_LESS_5_DONE;
             pd->intr1 = PDSS_INTR1_VSWAP_VBUS_LESS_5_DONE;
             Cy_USBPD_Vbus_FrsRx_IntrHandler(context);
         }
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 #endif /* (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE) */
 #endif /* (!CY_PD_SINK_ONLY) */
 
@@ -4147,7 +4469,7 @@ void Cy_USBPD_Intr1Handler (
         }
 #endif /* ((SYS_DEEPSLEEP_ENABLE) && (CY_PD_HW_DRP_TOGGLE_ENABLE)) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #if PDL_VCONN_OCP_ENABLE
         if ((intrCause & (PDSS_INTR1_CC1_OCP_CHANGED | PDSS_INTR1_CC2_OCP_CHANGED)) != 0U)
         {
@@ -4175,7 +4497,7 @@ void Cy_USBPD_Intr1Handler (
         }
 #endif /* PMG1_V5V_CHANGE_DETECT */
 
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
 #if defined(CY_DEVICE_CCG3)
         if ((intrCause & (PDSS_INTR1_CMP_OUT1_CHANGED | PDSS_INTR1_CMP_OUT2_CHANGED)) != 0U)
@@ -4340,7 +4662,7 @@ void Cy_USBPD_Intr1Handler (
     }
 #endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     if (pd->intr7_masked != 0U)
     {
         uint32_t value = pd->intr7;
@@ -4348,23 +4670,21 @@ void Cy_USBPD_Intr1Handler (
         pd->intr7 = value;
 
         /* VSYS detection interrupt. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+        if ((pd->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) != 0U)
+#else
         if ((pd->intr7_status & (CLK_LF_FILT_NUM << PDSS_INTR7_STATUS_FILT_8_POS)) != 0U)
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
         {
-            /* VSYS is now present: Enable switch and disable regulator. */
-            pd->vreg_vsys_ctrl |= PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
-            Cy_SysLib_DelayUs (100);
-
-            /* Disable the vbus regulator on port0 */
-            pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_VREG20_1_EN;
-#if PMG1_PD_DUALPORT_ENABLE
-            /* Disable the vbus regulator on port1 */
-            if((NULL != context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]) && (context->port == TYPEC_PORT_0_IDX))
-            {
-                PPDSS_REGS_T pdPort1 = context->altPortUsbPdCtx[TYPEC_PORT_1_IDX]->base;
-                pdPort1->vreg_vsys_ctrl &= ~(PDSS_VREG_VSYS_CTRL_VREG20_1_EN);
-            }
-#endif /* PMG1_PD_DUALPORT_ENABLE */
-
+/* is auto switch enabled @compile time */
+#if (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE)
+/* is auto switch delay disabled @compile time */
+#if (!CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS)
+            Cy_USBPD_EnableSwitch(context);
+#endif /* (!CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS) */
+            /* update vsys polling status */
+            context->pollForVsys |= (uint8_t) CY_USBPD_POLL_VSYS_INT_UP;
+#endif /* (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE) */
             /* Notify application about presence of VSYS supply. */
             if (context->supplyChangeCbk != NULL)
             {
@@ -4372,9 +4692,22 @@ void Cy_USBPD_Intr1Handler (
             }
         }
         else
-        {
-            /* Disable the VSYS-VDDD Switch. */
-            pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
+        {             
+/* is auto switch enabled @compile time */
+#if (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE)
+            /* update vsys polling status */
+            context->pollForVsys = (uint8_t) CY_USBPD_POLL_VSYS_IDLE;
+   
+            /* Check if CCG is powered from VSYS.*/
+            if (0u != (pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH))
+            {
+                /* Disable the VSYS-VDDD Switch. */
+                pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
+                /* Reset DUT as the drop on VDDD is already happened. */
+                NVIC_SystemReset();
+            }
+#endif /* (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE) */
+
 
             /* Notify application about absence of VSYS supply. */
             if (context->supplyChangeCbk != NULL)
@@ -4398,7 +4731,7 @@ void Cy_USBPD_Intr1Handler (
 
 #endif /* (defined(CY_DEVICE_PMG1S3) && (SBU_LEVEL_DETECT_EN != 0))) */
     }
-#endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) */
+#endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if defined(CY_DEVICE_CCG3PA)
     if (pd->intr5_masked != 0U)
@@ -4447,7 +4780,7 @@ void Cy_USBPD_Intr1Handler (
         pd->intr9 = PDSS_INTR9_QCOM_RCVR_DM_CHANGED |
             PDSS_INTR9_QCOM_RCVR_DP_CHANGED;
     }
-#elif (defined(CY_DEVICE_PMG1S3) && (!QC_AFC_CHARGING_DISABLED))
+#elif (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) && (!QC_AFC_CHARGING_DISABLED))
     if ((pd->intr9_masked & (PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK | PDSS_INTR9_MASK_QCOM_RCVR_DP_CHANGED_MASK)) != 0u)
     {
         pd->intr9_mask &= ~(PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK |
@@ -4455,7 +4788,7 @@ void Cy_USBPD_Intr1Handler (
         pd->intr9 = PDSS_INTR9_MASK_QCOM_RCVR_DM_CHANGED_MASK |
             PDSS_INTR9_MASK_QCOM_RCVR_DP_CHANGED_MASK;
     }
-#endif /* (defined(CY_DEVICE_PMG1S3) && (!QC_AFC_CHARGING_DISABLED)) */
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) && (!QC_AFC_CHARGING_DISABLED)) */
 
 #if defined(CY_IP_MXUSBPD)
     if ((pd->intr9_masked & (BCH_PORT_0_CMP1_INTR_MASK | BCH_PORT_0_CMP2_INTR_MASK)) != 0u)
@@ -4479,15 +4812,15 @@ void Cy_USBPD_Intr1Handler (
 
 #endif /* BATTERY_CHARGING_ENABLE */
 
-#if (defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
+#if (defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
 
-#if defined(CY_DEVICE_CCG6)
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF_CFP))
     /* SBU1/2 OVP change interrupt. */
     if ((pd->intr3_masked & PDSS_INTR3_SBU1_SBU2_OVP_CHANGED_MASK) != 0U)
     {
         Cy_USBPD_Fault_SbuOvp_IntrHandler (context);
     }
-#endif /* defined (CY_DEVICE_CCG6) */
+#endif /* defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF_CFP) */
 
     /* Comparator (ADC) output change interrupt. */
     if ((pd->intr3_masked & PDSS_INTR3_CMP_OUT_CHANGED) != 0U)
@@ -4504,7 +4837,7 @@ void Cy_USBPD_Intr1Handler (
     }
 #endif /* PDL_VBUS_OCP_ENABLE */
 
-#endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) */
+#endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 #if CCG_CF_HW_DET_ENABLE

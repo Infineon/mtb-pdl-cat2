@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.80
+* \version 2.90
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -364,6 +364,18 @@
 #ifndef CALL_MAP
 #define CALL_MAP(func)                (func)
 #endif /* CALL_MAP */
+
+#ifndef MODULE_DISABLE
+#define MODULE_DISABLE                    (0u)
+#endif /* MODULE_DISABLE */
+
+#ifndef MODULE_IN_ROM
+#define MODULE_IN_ROM                     (1u)
+#endif /* MODULE_IN_ROM */
+
+#ifndef MODULE_IN_FLASH
+#define MODULE_IN_FLASH                 (2u)
+#endif /* MODULE_IN_FLASH */
 #endif /* !CCG_SROM_CODE_ENABLE */
 
 /*
@@ -547,7 +559,14 @@
 /** USB-C port number 1. Supported only on the Dual Port devices. */
 #define TYPEC_PORT_1_IDX                (1u)
 
-#if ((defined(CYPM1321_97BZXIT)) || (defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D)))
+/** CYPD8229_52LQXI part and CYPD8229_52LQXIT part has the same silicon ID. */
+#if ((defined(CYPM1321_97BZXIT)) || \
+        (defined(CYPM1322_97BZXIT)) || \
+        (defined(CYPD8225_97BZXIT)) || \
+        (defined(CY_DEVICE_CCG7D)) || \
+        (defined(CYPD6229_52LQXI)) || \
+        (defined(CYPD6229_52LQXIT)) || \
+        (defined(CYPD8229_52LQXIT)))
 
 #ifndef NO_OF_TYPEC_PORTS
 /** Two USB-C ports supported on CYPM1322-97BZXIT part. */
@@ -565,7 +584,7 @@
 /** Single USB-C port supported. */
 #define PMG1_PD_DUALPORT_ENABLE         (0u)
 
-#endif /* ((defined(CYPM1321_97BZXIT)) || (defined(CYPM1322_97BZXIT)) || (defined(CY_DEVICE_CCG7D))) */
+#endif /* CY_DEVICE */
 
 /********************************* PD macros **********************************/
 

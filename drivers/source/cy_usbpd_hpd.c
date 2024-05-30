@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.c
-* \version 2.80
+* \version 2.90
 *
 * The source file of the USBPD Hot-Plug Detect driver.
 *
@@ -85,14 +85,14 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_ReceiveInit(cy_stc_usbpd_context_t *context, c
         Cy_GPIO_SetDrivemode(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4),
                 (HPD_P0_PORT_PIN & 0x0Fu), CY_GPIO_DM_HIGHZ);
         Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4),
-                (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+                (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P0);
     }
     else
     {
         Cy_GPIO_SetDrivemode(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4),
                 (HPD_P1_PORT_PIN & 0x0Fu), CY_GPIO_DM_HIGHZ);
         Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4),
-                (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+                (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P1);
     }
 
     /* Set the default values for the HPD config settings. */
@@ -109,7 +109,7 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_ReceiveInit(cy_stc_usbpd_context_t *context, c
     pd->intr2 = PDSS_INTR2_MASK_HPD_QUEUE_MASK;
     pd->intr2_mask |= PDSS_INTR2_MASK_HPD_QUEUE_MASK;
 
-#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
+#if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))
     pd->intr1_cfg |= (3UL << PDSS_INTR1_CFG_HPDIN_CFG_POS);
     /* Disable HPD IN filter. */
     pd->intr1_cfg &= ~(PDSS_INTR1_CFG_HPDIN_FILT_EN);
@@ -184,14 +184,14 @@ cy_en_usbpd_status_t Cy_USBPD_Hpd_TransmitInit(cy_stc_usbpd_context_t *context, 
         Cy_GPIO_SetDrivemode(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4),
                 (HPD_P0_PORT_PIN & 0x0Fu), CY_GPIO_DM_STRONG);
         Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4),
-                (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+                (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P0);
     }
     else
     {
         Cy_GPIO_SetDrivemode(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4),
                 (HPD_P1_PORT_PIN & 0x0Fu), CY_GPIO_DM_STRONG);
         Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4),
-                (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+                (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P1);
     }
 
     /* Set the default values for the HPDT config settings. */
@@ -314,11 +314,11 @@ void Cy_USBPD_Hpd_Wakeup(cy_stc_usbpd_context_t *context, bool value)
 
         if (context->port == 0U)
         {
-            Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4), (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+            Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P0_PORT_PIN >> 4), (HPD_P0_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P0);
         }
         else
         {
-            Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4), (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING);
+            Cy_GPIO_SetHSIOM(Cy_GPIO_PortToAddr(HPD_P1_PORT_PIN >> 4), (HPD_P1_PORT_PIN & 0x0Fu), (en_hsiom_sel_t)HPD_HSIOM_SETTING_P1);
         }
     }
 #else

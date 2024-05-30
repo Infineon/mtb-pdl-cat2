@@ -171,6 +171,7 @@ var searchData=
   ['cy_5fen_5fusbpd_5fevents_5ft',['cy_en_usbpd_events_t',['../group__group__usbpd__common__enums.html#ga8712c4ead0a5426fdfa5e89f5f3a021e',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fhpd_5fevents_5ft',['cy_en_usbpd_hpd_events_t',['../group__group__usbpd__common__enums.html#ga6e673a8af225421fca677352c4593b20',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fphy_5fevents_5ft',['cy_en_usbpd_phy_events_t',['../group__group__usbpd__common__enums.html#ga8e68d9ddd7c6f827722fdcfb967b6d52',1,'cy_usbpd_common.h']]],
+  ['cy_5fen_5fusbpd_5fpoll_5fvsys_5ft',['cy_en_usbpd_poll_vsys_t',['../group__group__usbpd__typec__enum.html#gad3fbfa4bff6874dae39e5f48fa88db1b',1,'cy_usbpd_typec.h']]],
   ['cy_5fen_5fusbpd_5frefgen_5fop_5ft',['cy_en_usbpd_refgen_op_t',['../group__group__usbpd__vbus__ctrl__enums.html#gaa7bbc58027c888e1c24c06967a3bd659',1,'cy_usbpd_vbus_ctrl.h']]],
   ['cy_5fen_5fusbpd_5fsbu_5fswitch_5fstate_5ft',['cy_en_usbpd_sbu_switch_state_t',['../group__group__usbpd__common__enums.html#ga07d345ebd78ee59e02d2dede5695ccec',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fstatus_5ft',['cy_en_usbpd_status_t',['../group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358',1,'cy_usbpd_common.h']]],

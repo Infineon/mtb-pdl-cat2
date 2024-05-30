@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.80
+* \version 2.90
 *
 * The source file of the USBPD Transceiver driver.
 *
@@ -88,7 +88,7 @@
 
 #endif /* defined(CY_DEVICE_CCG3) */
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 
 #define RX_CNT_MAX_CFG                  (RX_CNT_MAX_VAL << PDSS_RX_CC_0_CFG_RX_CNT_MAX_POS)
 #define RX_UI_BOUNDARY_DELTA_CFG        (RX_UI_BOUNDARY_DELTA_VAL << PDSS_RX_CC_0_CFG_RX_UI_BOUNDARY_DELTA_POS)
@@ -1194,7 +1194,7 @@ PDL_ATTRIBUTES bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
 * None
 *
 *******************************************************************************/
-PDL_ATTRIBUTES void Cy_USBPD_Intr0_RxTx_Handler(cy_stc_usbpd_context_t *context)
+PDL_ATTRIBUTES void Cy_USBPD_Intr0RxTxHandler(cy_stc_usbpd_context_t *context)
 {
     PPDSS_REGS_T pd = context->base;
     uint32_t rval, intr_msk = 0;
@@ -1562,7 +1562,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 
     if (pd->intr0_masked != 0u)
     {
-        CALL_MAP(Cy_USBPD_Intr0_RxTx_Handler)(context);
+        CALL_MAP(Cy_USBPD_Intr0RxTxHandler)(context);
     }
     if (pd->intr2_masked != 0u)
     {
@@ -1610,7 +1610,11 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
             NVIC_ClearPendingIRQ(usbpd_0_interrupt_IRQn + context->port);
 
             /* Enable the SWAP_VBUS_LESS_5_DONE interrupt so that we can identify when the power swap is done. */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+            pd->intr20_mask |= PDSS_INTR20_VSWAP_VBUS_LESS_5_DONE;
+#else
             pd->intr1_mask |= PDSS_INTR1_VSWAP_VBUS_LESS_5_DONE;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
         }
 #endif /* (CY_PD_REV3_ENABLE && CY_PD_FRS_RX_ENABLE) */
 
@@ -1640,7 +1644,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
 #endif /* (!(CY_PD_SOURCE_ONLY)) */
     }
     
-#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED))
+#if ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED))
     if(pd->intr4_masked != 0u)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
@@ -1650,7 +1654,7 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
     {
         Cy_USBPD_Bch_Intr0Handler(context);
     }
-#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED)) */
+#endif /* ((defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) && (!QC_AFC_CHARGING_DISABLED)) */
 #if PDL_VBTR_ENABLE
     if ((pd->intr8_masked & (PDSS_INTR8_VBTR_OPR_DONE)) != 0u)
     {
@@ -1788,6 +1792,26 @@ void Cy_USBPD_Intr0Handler(cy_stc_usbpd_context_t *context)
         }
     }
 #endif /* PDL_IBTR_ENABLE */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    if (pd->intr21_masked != 0)
+    {
+        /* Save current SBU<->DBG connection status */
+        if (pd->intr21 & PDSS_INTR21_SBU_DBG_CONNECTION)
+        {
+            /* Enable SBU OVP */
+            pd->intr3_cfg_sbu20_ovp_hs =
+                PDSS_INTR3_CFG_SBU20_OVP_HS_SBU1_FILT_EN                |
+                0x02UL << PDSS_INTR3_CFG_SBU20_OVP_HS_SBU1_FILT_CFG_POS |
+                0x01UL << PDSS_INTR3_CFG_SBU20_OVP_HS_SBU1_FILT_SEL_POS |
+                PDSS_INTR3_CFG_SBU20_OVP_HS_SBU2_FILT_EN                |
+                0x02UL << PDSS_INTR3_CFG_SBU20_OVP_HS_SBU2_FILT_CFG_POS |
+                0x01UL << PDSS_INTR3_CFG_SBU20_OVP_HS_SBU2_FILT_SEL_POS;
+        }
+
+        /* Clear the SBU debug connection interrupt.*/
+        pd->intr21 = pd->intr21_masked;
+    }
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 }
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

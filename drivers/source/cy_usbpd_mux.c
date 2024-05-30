@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.80
+* \version 2.90
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
@@ -31,6 +31,9 @@
 
 #include "cy_usbpd_common.h"
 #include "cy_usbpd_mux.h"
+#if defined(CY_DEVICE_PMG1S3)
+#include "cy_gpio.h"
+#endif /* CY_DEVICE_PMG1S3 */
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Mux_ConfigDpDm
@@ -92,6 +95,135 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_ConfigDpDm(cy_stc_usbpd_context_t *context, cy
     return CY_USBPD_STAT_NOT_SUPPORTED;
 #endif /* defined(CY_DEVICE_CCG6) */
 }
+
+#if defined(CY_DEVICE_PMG1S3)
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_ConfigDebugGpio
+****************************************************************************//**
+*
+* This function configures DBG GPIO for CCG8/S devices.
+**
+*
+* \param port
+* Selected Type-C port
+*
+* \param sbuState
+* SBU switch state
+*
+* \return
+*  None
+*
+*******************************************************************************/
+static void Cy_USBPD_Mux_ConfigDebugGpio(uint8_t port, cy_en_usbpd_sbu_switch_state_t sbuState)
+{
+#if !PMG1_PD_DUALPORT_ENABLE
+    (void) port;
+#endif /* !PMG1_PD_DUALPORT_ENABLE */
+
+    if (sbuState == CY_USBPD_SBU_CONNECT_DBG1)
+    {
+        /* Configure DBG1 GPIO */
+#if PMG1_PD_DUALPORT_ENABLE
+        if (port == TYPEC_PORT_0_IDX)
+        {
+            Cy_GPIO_Pin_FastInit(GPIO_PRT0, (0x05UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+        }
+        else
+#endif /* PMG1_PD_DUALPORT_ENABLE */
+        {
+            Cy_GPIO_Pin_FastInit(GPIO_PRT0, (0x02UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+        }
+    }
+    else if (sbuState == CY_USBPD_SBU_CONNECT_DBG2)
+    {
+#if PMG1_PD_DUALPORT_ENABLE
+        if (port == TYPEC_PORT_0_IDX)
+        {
+            Cy_GPIO_Pin_FastInit(GPIO_PRT0, (0x04UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+        }
+        else
+#endif /* PMG1_PD_DUALPORT_ENABLE */
+        {
+            Cy_GPIO_Pin_FastInit(GPIO_PRT0, (0x03UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+        }
+    }
+    else
+    {
+        /* Nothing to handle */
+    }
+}
+#endif /* CY_DEVICE_PMG1S3 */
+
+#if defined(CY_DEVICE_CCG6DF_CFP)
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_FuncModeEn
+****************************************************************************//**
+*
+* This function enables functional mode (FW controlled) for SBU configuration.
+**
+*
+* \param context
+* USBPD PDL Context pointer.
+*
+* \param enable
+* Enable/disable functional mode (FW controlled) for SBU configuration.
+*
+* \return
+*  cy_en_usbpd_status_t CY_USBPD_STAT_SUCCESS if enabling/disabling can be provided,
+*  CY_USBPD_STAT_NOT_READY if SBU configuration FSM is already in progress,
+*  CY_USBPD_STAT_INVALID_ARGUMENT is requested mode is already enabled/disabled.
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context, bool enable)
+{
+    cy_en_usbpd_status_t ret = CY_USBPD_STAT_NOT_READY;
+    uint32_t intstate;
+    uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
+    PPDSS_REGS_T pd = context->base;
+
+    /* Workaround for CCG6DF CFP silicon to use registers for port 1 to control SBU. */
+    if (
+           (siliconId == 0x3E00UL) ||
+           (siliconId == 0x3E01UL) ||
+           (siliconId == 0x3E80UL)
+       )
+    {
+        pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
+    }
+
+    /*
+     * Check if SBU<->DBG connection is already in the requested state by tracking
+     * FSM_CURR_STATE value in HW_SBU_STATUS register where
+     * 0x00 - indicates that SBU sequencer FSM is in disconnected state
+     * 0x07 - indicates that SBU sequencer FSM is in connected state
+     */
+    if (
+           (((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL) && (enable == false)) ||
+           (((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL) && (enable))
+        )
+    {
+        return CY_USBPD_STAT_INVALID_ARGUMENT;
+    }
+
+    intstate = Cy_SysLib_EnterCriticalSection();
+
+    /* Enable SBU<->DBG connection if disabled */
+    if ((enable) && ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL))
+    {
+        pd->hw_sbu_ctrl_1 |= PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
+        ret = CY_USBPD_STAT_SUCCESS;
+    }
+    else if ((!enable) && ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL))
+    {
+        pd->hw_sbu_ctrl_1 &= ~PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
+        ret = CY_USBPD_STAT_SUCCESS;
+    }
+
+    Cy_SysLib_ExitCriticalSection(intstate);
+
+    return ret;
+}
+#endif /* CY_DEVICE_CCG6DF_CFP */
 
 /*******************************************************************************
 * Function Name: Cy_USBPD_Mux_SbuSwitchConfigure
@@ -279,12 +411,15 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     PPDSS_REGS_T pd = context->base; 
     uint32_t regIndexLs;
     uint32_t regIndexAux;
+    uint32_t regFlipMux = 0u;
+    uint8_t port = context->port;
     uint32_t intstate;
+    uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
 
     /* Workaround for CCG8S/PMG1S3 to use registers for port 1 to control SBU */
     if (
-           ((SFLASH_SILICON_ID & 0xFFFFUL) == 0x3581UL) ||
-           ((SFLASH_SILICON_ID & 0xFFFFUL) == 0x3501UL)
+           (siliconId == 0x3581UL) ||
+           (siliconId == 0x3501UL)
        )
     {
         pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
@@ -401,6 +536,285 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     /* Update the switch register. */
     pd->sbu_new_ctrl[0] = regIndexLs;
     pd->sbu_new_ctrl[1] = regIndexAux;
+
+    /* Handle SBU<->DBG Flip MUX connection for CCG8D/S silicon */
+    if (
+               (siliconId == 0x3580UL) ||
+               (siliconId == 0x3581UL)
+       )
+    {
+        /* Configure SBU1 connection */
+        if ((sbu1State == CY_USBPD_SBU_CONNECT_DBG1) || (sbu1State == CY_USBPD_SBU_CONNECT_DBG2))
+        {
+            /* Configure SBU1 GPIO */
+#if PMG1_PD_DUALPORT_ENABLE
+            if (port == TYPEC_PORT_0_IDX)
+            {
+                Cy_GPIO_Pin_FastInit(GPIO_PRT6, (0x63UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+            }
+            else
+#endif /* PMG1_PD_DUALPORT_ENABLE */
+            {
+                Cy_GPIO_Pin_FastInit(GPIO_PRT6, (0x60UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+            }
+
+            /* Enable UPS_OUT_EN for SBU1 */
+            regFlipMux |= 0x01UL << PDSS_FMX_CTRL_UPS_OUT_EN_POS;
+
+            if (sbu1State == CY_USBPD_SBU_CONNECT_DBG1)
+            {
+                /* Configure DBG1 GPIO */
+                Cy_USBPD_Mux_ConfigDebugGpio(port, CY_USBPD_SBU_CONNECT_DBG1);
+
+                /* Enable DNS_OUT_EN for DBG1 */
+                regFlipMux |= 0x01UL << PDSS_FMX_CTRL_DNS_OUT_EN_POS;
+                /* Select DNS_IN[0] input for UPS_MUX_SEL[1:0] */
+                regFlipMux |= 0x00UL << PDSS_FMX_CTRL_UPS_MUX_SEL_POS;
+                /* Select UPS_IN[0] input for DNS_MUX_SEL[1:0] */
+                regFlipMux |= 0x00UL << PDSS_FMX_CTRL_DNS_MUX_SEL_POS;
+            }
+            else
+            {
+                /* Configure DBG2 GPIO */
+                Cy_USBPD_Mux_ConfigDebugGpio(port, CY_USBPD_SBU_CONNECT_DBG2);
+
+                /* Enable DNS_OUT_EN for DBG2 */
+                regFlipMux |= 0x02UL << PDSS_FMX_CTRL_DNS_OUT_EN_POS;
+                /* Select DNS_IN[1] input for UPS_MUX_SEL[1:0] */
+                regFlipMux |= 0x01UL << PDSS_FMX_CTRL_UPS_MUX_SEL_POS;
+                /* Select UPS_IN[0] input for DNS_MUX_SEL[3:2] */
+                regFlipMux |= 0x00UL << PDSS_FMX_CTRL_DNS_MUX_SEL_POS;
+            }
+        }
+
+        /* Configure SBU2 connection */
+        if ((sbu2State == CY_USBPD_SBU_CONNECT_DBG1) || (sbu2State == CY_USBPD_SBU_CONNECT_DBG2))
+        {
+            /* Configure SBU2 GPIO */
+#if PMG1_PD_DUALPORT_ENABLE
+            if (port == TYPEC_PORT_0_IDX)
+            {
+                Cy_GPIO_Pin_FastInit(GPIO_PRT6, (0x62UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+            }
+            else
+#endif /* PMG1_PD_DUALPORT_ENABLE */
+            {
+                Cy_GPIO_Pin_FastInit(GPIO_PRT6, (0x61UL & 0x0FUL), CY_GPIO_DM_PULLUP_DOWN, 0, HSIOM_SEL_DS_0);
+            }
+
+            /* Enable UPS_OUT_EN for SBU2 */
+            regFlipMux |= 0x02UL << PDSS_FMX_CTRL_UPS_OUT_EN_POS;
+
+            if (sbu2State == CY_USBPD_SBU_CONNECT_DBG1)
+            {
+                /* Configure DBG1 GPIO */
+                Cy_USBPD_Mux_ConfigDebugGpio(port, CY_USBPD_SBU_CONNECT_DBG1);
+
+                /* Enable DNS_OUT_EN for DBG1 */
+                regFlipMux |= 0x01UL << PDSS_FMX_CTRL_DNS_OUT_EN_POS;
+                /* Select DNS_IN[0] input for UPS_MUX_SEL[3:2] */
+                regFlipMux |= 0x00UL << PDSS_FMX_CTRL_UPS_MUX_SEL_POS;
+                /* Select UPS_IN[1] input for DNS_MUX_SEL[1:0] */
+                regFlipMux |= 0x01UL << PDSS_FMX_CTRL_DNS_MUX_SEL_POS;
+            }
+            else
+            {
+                /* Configure DBG2 GPIO */
+                Cy_USBPD_Mux_ConfigDebugGpio(port, CY_USBPD_SBU_CONNECT_DBG2);
+
+                /* Enable DNS_OUT_EN for DBG2 */
+                regFlipMux |= 0x02UL << PDSS_FMX_CTRL_DNS_OUT_EN_POS;
+                /* Select DNS_IN[1] input for UPS_MUX_SEL[3:2] */
+                regFlipMux |= 0x04UL << PDSS_FMX_CTRL_UPS_MUX_SEL_POS;
+                /* Select UPS_IN[1] input for DNS_MUX_SEL[3:2] */
+                regFlipMux |= 0x04UL << PDSS_FMX_CTRL_DNS_MUX_SEL_POS;
+            }
+        }
+
+        /* Update Flip MUX register. */
+        pd->fmx_ctrl = regFlipMux;
+    }
+
+    Cy_SysLib_ExitCriticalSection(intstate);
+    return CY_USBPD_STAT_SUCCESS;
+#elif defined(CY_DEVICE_CCG6DF_CFP)
+    PPDSS_REGS_T pd = context->base;
+    uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
+    uint32_t regIndexLs = 0u;
+    uint32_t regIndexAux = 0u;
+    uint32_t regIndexDbg = 0u;
+    uint32_t sbuClipperCtrl = 0u;
+    uint32_t switchCtrl = 0u;
+    uint32_t intstate;
+
+    /* Check that state values are within allowed range without cross-connections */
+    if (
+           ((sbu1State >= CY_USBPD_SBU_MAX_STATE) || (sbu2State >= CY_USBPD_SBU_MAX_STATE)) ||
+           ((sbu1State == sbu2State) && (sbu1State > CY_USBPD_SBU_NOT_CONNECTED))
+       )
+    {
+        /* Do not service the request. */
+        return CY_USBPD_STAT_INVALID_ARGUMENT;
+    }
+
+    /* SBU Connections for CCG6DF CFP:
+     * pd_sbu_ls_ctrl_0 - LSTX and LSRX
+     * pd_sbu_lres_ctrl - AUX1 and AUX2
+     * pd_sbu_hres_ctrl - DBG1 and DBG2
+     * IN1 - SBU1
+     * IN2 - SBU2
+     * OUT1 - LSTX/AUX1(AUXP)/DBG1
+     * OUT2 - LSRX/AUX2(AUXN)/DBG2
+     * */
+
+    /* Workaround for CCG6DF CFP silicon to use registers for port 1 to control SBU. */
+    if (
+           (siliconId == 0x3E00UL) ||
+           (siliconId == 0x3E01UL) ||
+           (siliconId == 0x3E80UL)
+       )
+    {
+        pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
+    }
+
+    /* HW DBG<->SBU connection is already established and functional mode can not be proceed */
+    if ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL)
+    {
+        return CY_USBPD_STAT_NOT_READY;
+    }
+
+    if (sbu1State > CY_USBPD_SBU_NOT_CONNECTED)
+    {
+        /* Set SBU1 clipper */
+        sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN | PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ISO_N;
+    }
+    if (sbu2State > CY_USBPD_SBU_NOT_CONNECTED)
+    {
+       /* Set SBU2 clipper */
+       sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN | PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ISO_N;
+    }
+
+    if (
+           ((sbu1State >= CY_USBPD_SBU_CONNECT_AUX1) && (sbu1State <= CY_USBPD_SBU_CONNECT_LSRX)) ||
+           ((sbu2State >= CY_USBPD_SBU_CONNECT_AUX1) && (sbu2State <= CY_USBPD_SBU_CONNECT_LSRX))
+       )
+    {
+        /* Set 3.3 volt OVP threshold for AUXP/AUXN/LSTX/LSRX connection */
+        sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
+    }
+
+    intstate = Cy_SysLib_EnterCriticalSection();
+
+    /* Set SBU clipper */
+    pd->pd_30sbu_clipper_ctrl  = sbuClipperCtrl;
+
+    switch (sbu1State)
+    {
+        case CY_USBPD_SBU_CONNECT_AUX1:
+            /* SBU1 shall be connected to AUX1 and not to AUX2. */
+            regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_AUX2:
+            regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_LSTX:
+            regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_LSRX:
+            regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_DBG1:
+            regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_DBG2:
+            regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN;
+            break;
+
+        default:
+            /* Do Nothing */
+            break;
+    }
+
+    switch (sbu2State)
+    {
+        case CY_USBPD_SBU_CONNECT_AUX1:
+            /* SBU2 shall be connected to AUX1 and not to AUX2. */
+            regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_AUX2:
+            regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_LSTX:
+            regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_LSRX:
+            regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_DBG1:
+            regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN;
+            break;
+
+        case CY_USBPD_SBU_CONNECT_DBG2:
+            regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN;
+            break;
+
+        default:
+            /* Do Nothing */
+            break;
+    }
+
+    /* Update SBU connections configuration */
+    pd->pd_sbu_lres_ctrl = regIndexAux;
+    pd->pd_sbu_ls_ctrl_0 = regIndexLs;
+    pd->pd_sbu_hres_ctrl = regIndexDbg;
+
+    /* Set HW control of the gate drivers */
+    switchCtrl = PDSS_SWITCH_CTRL_00_AUTO_MODE | PDSS_SWITCH_CTRL_00_SEL_ON_OFF | PDSS_SWITCH_CTRL_00_EN_SWITCH_ON_VALUE;
+
+    /* Enable SBU1 OVP Fault */
+    if (sbu1State > CY_USBPD_SBU_NOT_CONNECTED)
+    {
+        switchCtrl |= (0x01UL << PDSS_SWITCH_CTRL_00_SEL_FAULT_EN_POS);
+    }
+    /* Enable SBU2 OVP Fault */
+    if (sbu2State > CY_USBPD_SBU_NOT_CONNECTED)
+    {
+        switchCtrl |= (0x02UL << PDSS_SWITCH_CTRL_00_SEL_FAULT_EN_POS);
+    }
+
+    /* Configure gate drivers depending on current SBU configuration */
+    if (regIndexAux != 0u)
+    {
+        /* SBU<->AUX connection */
+        pd->switch_ctrl_00 = switchCtrl;
+    }
+    if (regIndexDbg != 0u)
+    {
+        /* SBU<->DBG connection */
+        pd->switch_ctrl_01 = switchCtrl;
+    }
+    if (regIndexLs != 0u)
+    {
+        /* SBU<->LS connection */
+        pd->switch_ctrl_02 = switchCtrl;
+    }
+
+    /* Provide some delay and turn the pump on. */
+    Cy_SysLib_DelayUs (5);
+    Cy_USBPD_Pump_Enable (context, (uint8_t)(1U));
+
+    /* Store SBU1 and SBU2 states. */
+    context->sbu1State = sbu1State;
+    context->sbu2State = sbu2State;
 
     Cy_SysLib_ExitCriticalSection(intstate);
     return CY_USBPD_STAT_SUCCESS;

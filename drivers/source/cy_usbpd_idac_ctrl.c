@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.80
+* \version 2.90
 *
 * The source file of the USBPD IDAC Control driver.
 *
@@ -743,8 +743,10 @@ void Cy_USBPD_Hal_Disable_CV(cy_stc_usbpd_context_t *context)
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
 #if (PSVP_FPGA_ENABLE)
+#if (!defined(CY_DEVICE_CCG6DF_CFP))
     /* Ensure that the voltage drops to 5V. */
     ctrl_inf_set_idac(0);
+#endif /* (!defined(CY_DEVICE_CCG6DF_CFP)) */
 #endif /* PSVP_FPGA_ENABLE */
 }
 /*******************************************************************************
@@ -983,7 +985,9 @@ void Cy_USBPD_Hal_Set_Fb_Dac(cy_stc_usbpd_context_t *context, int16_t dac_value)
      * through another SCB on AFE side. And CTRL_INF can be used to
      * set IDAC directly for SVS_DEBUG.
      */
+#if (!defined(CY_DEVICE_CCG6DF_CFP))
     ctrl_inf_set_idac(dac_value);
+#endif /* (!defined(CY_DEVICE_CCG6DF_CFP)) */
 #endif /* (PSVP_FPGA_ENABLE) */
 }
 /*******************************************************************************
@@ -1728,7 +1732,9 @@ void Cy_USBPD_CF_Enable(cy_stc_usbpd_context_t *context, uint32_t cur)
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(cur);
 #if PSVP_FPGA_ENABLE
+#if (!defined(CY_DEVICE_CCG6DF_CFP))
     ctrl_inf_cf_enable(cur);
+#endif /* (!defined(CY_DEVICE_CCG6DF_CFP)) */
 #endif /* PSVP_FPGA_ENABLE */
 #endif /* (defined(CY_DEVICE_CCG3PA) && CY_PD_VBUS_CF_EN) */
 }

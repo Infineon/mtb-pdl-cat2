@@ -30,7 +30,7 @@
 
 <Personality id="m0s8pin" name="Pin" version="2.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
-    <IpBlock name="m0s8ioss" />
+    <IpBlock name="m0s8ioss,m0s8ioss_ver2" />
     <Resource name="ioss\.port\.pin"/>
   </Dependencies>
   <ExposedMembers>

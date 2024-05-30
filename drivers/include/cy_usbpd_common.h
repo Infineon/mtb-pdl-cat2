@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.80
+* \version 2.90
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -192,6 +192,8 @@ typedef enum
     CY_USBPD_SBU_CONNECT_AUX2,                   /**< Connect SBU pin to AUX_N. */
     CY_USBPD_SBU_CONNECT_LSTX,                   /**< Connect SBU pin to LSTX. */
     CY_USBPD_SBU_CONNECT_LSRX,                   /**< Connect SBU pin to LSRX. */
+    CY_USBPD_SBU_CONNECT_DBG1,                   /**< Connect SBU pin to DEBUG1. */
+    CY_USBPD_SBU_CONNECT_DBG2,                   /**< Connect SBU pin to DEBUG2. */
     CY_USBPD_SBU_MAX_STATE                       /**< Invalid value: not supported. */
 } cy_en_usbpd_sbu_switch_state_t;
 
@@ -776,6 +778,8 @@ typedef enum
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_P0_SBU1               = 3,    /**< Port-0 SBU1 Comparator. Only available on PMG1S3. */
     CY_USBPD_VBUS_COMP_ID_P0_SBU2               = 4,    /**< Port-0 SBU2 Comparator. Only available on PMG1S3. */
+#elif defined (CY_DEVICE_CCG6DF_CFP)
+    CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
 #elif (defined (CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     CY_USBPD_VBUS_COMP_ID_VSYS_DET              = 2,    /**< VSYS detection comparator*/
     CY_USBPD_VBUS_COMP_ID_VBUS_DISCHARGE        = 3,    /**< Discharge comparator. */
@@ -1992,6 +1996,7 @@ typedef struct cy_stc_usbpd_context_t_
     /** Callback function for VBUS OCP fault */
     cy_cb_vbus_fault_t vbusOcpCbk;
 
+#if defined(CY_DEVICE_SERIES_PMG1B1)
     /** Callback function for VBAT OVP fault */
     cy_cb_vbus_fault_t vbatOvpCbk;
 
@@ -2000,6 +2005,7 @@ typedef struct cy_stc_usbpd_context_t_
 
     /** Callback function for VBAT OCP fault */
     cy_cb_vbus_fault_t vbatOcpCbk;
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
 
     /** Callback function for CC/SBU OVP fault */
     cy_cb_vbus_fault_t ccSbuOvpCbk;
@@ -2225,7 +2231,7 @@ typedef struct cy_stc_usbpd_context_t_
 #endif /* defined(CY_DEVICE_CCG7D)  */
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
     /** Enable polling for VSYS status change */
-    bool pollForVsys;
+    uint8_t pollForVsys;
 
     /** USBPD context pointer for all ports. */
     struct cy_stc_usbpd_context_t_ *altPortUsbPdCtx[NO_OF_TYPEC_PORTS];

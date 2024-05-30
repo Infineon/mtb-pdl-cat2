@@ -31,7 +31,7 @@
 <Personality id="m0s8extclk" name="EXTCLK" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
     <IpBlock name="s8srsslt" />
-    <IpBlock name="m0s8ioss" />
+    <IpBlock name="m0s8ioss,m0s8ioss_ver2" />
     <Resource name="srss\.clock\.ext" />
   </Dependencies>
   <ExposedMembers>

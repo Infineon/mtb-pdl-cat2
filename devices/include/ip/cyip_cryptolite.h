@@ -39,7 +39,7 @@
   * \brief N/A (CRYPTOLITE)
   */
 typedef struct {
-   __IM uint32_t CTL;                           /*!< 0x00000000 Control */
+  __IOM uint32_t CTL;                           /*!< 0x00000000 Control */
    __IM uint32_t STATUS;                        /*!< 0x00000004 Status */
    __IM uint32_t RESERVED[2];
   __IOM uint32_t ECC_CTL;                       /*!< 0x00000010 ECC control */
@@ -90,6 +90,8 @@ typedef struct {
 #define CRYPTOLITE_CTL_PC_Msk                   0xF0UL
 #define CRYPTOLITE_CTL_MS_Pos                   8UL
 #define CRYPTOLITE_CTL_MS_Msk                   0xF00UL
+#define CRYPTOLITE_CTL_SHA_SEL_Pos              12UL
+#define CRYPTOLITE_CTL_SHA_SEL_Msk              0x3000UL
 /* CRYPTOLITE.STATUS */
 #define CRYPTOLITE_STATUS_BUSY_Pos              0UL
 #define CRYPTOLITE_STATUS_BUSY_Msk              0x1UL

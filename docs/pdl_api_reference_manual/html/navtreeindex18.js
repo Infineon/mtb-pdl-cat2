@@ -1,5 +1,17 @@
 var NAVTREEINDEX18 =
 {
+"structcy__stc__buck__boost__cfg__t.html#aee2f82e674166816c24b13d23cca614e":[2,25,0,2,16,13],
+"structcy__stc__buck__boost__cfg__t.html#aef859779fe2c3e3435a413ee47831228":[2,25,0,2,16,22],
+"structcy__stc__buck__boost__cfg__t.html#af87e05a9689899b8ef03c3c5030d67d4":[2,25,0,2,16,48],
+"structcy__stc__cable__comp__cfg__t.html":[2,25,0,2,12],
+"structcy__stc__cable__comp__cfg__t.html#a764513f48121cf2536769dbc7d8dedb3":[2,25,0,2,12,3],
+"structcy__stc__cable__comp__cfg__t.html#a76807303cf975392dd8445a3112adc10":[2,25,0,2,12,0],
+"structcy__stc__cable__comp__cfg__t.html#a7932a0b359e274177b07b309a21ab54a":[2,25,0,2,12,2],
+"structcy__stc__cable__comp__cfg__t.html#acddfd7b271afa309101c8162e26b782b":[2,25,0,2,12,1],
+"structcy__stc__canfd__bitrate__t.html":[2,0,2,10],
+"structcy__stc__canfd__bitrate__t.html#a523057c64beba065109a9e1ddde61026":[2,0,2,10,1],
+"structcy__stc__canfd__bitrate__t.html#a799cba48b1e361b3c36d0e6c45bbde9b":[2,0,2,10,0],
+"structcy__stc__canfd__bitrate__t.html#ae64d325646d076fddcd642b675fd69fb":[2,0,2,10,2],
 "structcy__stc__canfd__bitrate__t.html#af0366ec649f3052303d8def51ec61147":[2,0,2,10,3],
 "structcy__stc__canfd__config__t.html":[2,0,2,16],
 "structcy__stc__canfd__config__t.html#a0e1e8fcb815a5ac12419846bfa62983c":[2,0,2,16,17],
@@ -237,17 +249,5 @@ var NAVTREEINDEX18 =
 "structcy__stc__fault__vconn__ocp__cfg__t.html#a3f785b54d68a3f422c2fabc6edc063ea":[2,25,0,2,5,0],
 "structcy__stc__fault__vconn__ocp__cfg__t.html#a60ae77daad991f86ece757b1f6cacb1e":[2,25,0,2,5,1],
 "structcy__stc__fault__vconn__ocp__cfg__t.html#aa911494dfdb1b76ad3ffd4a78ab64e4a":[2,25,0,2,5,2],
-"structcy__stc__fault__vin__uvp__ovp__cfg__t.html":[2,25,0,2,7],
-"structcy__stc__fault__vin__uvp__ovp__cfg__t.html#a6506efc36c40aec62ab0d4a49a4a9866":[2,25,0,2,7,0],
-"structcy__stc__gpio__pin__config__t.html":[2,7,2,2],
-"structcy__stc__gpio__pin__config__t.html#a224590619198ad520a196319b618deda":[2,7,2,2,3],
-"structcy__stc__gpio__pin__config__t.html#a6f1ce86e05635f3d78fb4727d907d0aa":[2,7,2,2,1],
-"structcy__stc__gpio__pin__config__t.html#a7814ef8c93a369b03c6e4c1005c2e601":[2,7,2,2,4],
-"structcy__stc__gpio__pin__config__t.html#aa43f5365da64dd51783d98f06edeb300":[2,7,2,2,5],
-"structcy__stc__gpio__pin__config__t.html#ae39ff5dc65ffef2808a0183f23691389":[2,7,2,2,0],
-"structcy__stc__gpio__pin__config__t.html#af8a4f6b10a8e655125dfafd511c7af6e":[2,7,2,2,2],
-"structcy__stc__gpio__prt__config__t.html":[2,7,2,1],
-"structcy__stc__gpio__prt__config__t.html#a48aff556861a97796f9e8aa9dbdc8e64":[2,7,2,1,1],
-"structcy__stc__gpio__prt__config__t.html#a5b303bc4b3284a5e35ed9bb544e1e5cc":[2,7,2,1,3],
-"structcy__stc__gpio__prt__config__t.html#a6fd95e28ec1e3bf59e385f5acf00bc02":[2,7,2,1,2]
+"structcy__stc__fault__vin__uvp__ovp__cfg__t.html":[2,25,0,2,7]
 };

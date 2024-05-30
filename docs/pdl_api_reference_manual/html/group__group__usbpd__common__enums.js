@@ -8,6 +8,8 @@ var group__group__usbpd__common__enums =
       [ "CY_USBPD_SBU_CONNECT_AUX2", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695ccecaddde0ff8e12b6efc902ebf1c0eaa04e2", null ],
       [ "CY_USBPD_SBU_CONNECT_LSTX", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca45a624af70022af619e89d289f28a91a", null ],
       [ "CY_USBPD_SBU_CONNECT_LSRX", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca2520e4ebdc728fff936fe7213d3da7a1", null ],
+      [ "CY_USBPD_SBU_CONNECT_DBG1", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca3ab1c7732c0cb07a654628efbe6b9409", null ],
+      [ "CY_USBPD_SBU_CONNECT_DBG2", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca0dbf13f91038007de1a99746834d5073", null ],
       [ "CY_USBPD_SBU_MAX_STATE", "group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca14402b442cebb9682f8ca437fa43cb93", null ]
     ] ],
     [ "cy_en_usbpd_dpdm_mux_cfg_t", "group__group__usbpd__common__enums.html#ga481d5d73d2874ba793a20303a54e6e6b", [

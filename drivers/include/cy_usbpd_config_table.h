@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.80
+* \version 2.90
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -980,10 +980,13 @@ typedef struct
     uint16_t    port_0_config_offset; /**< Offset of the Port 0 Configuration table */
     uint16_t    port_0_config_size;   /**< Size of the Port 0 Configuration table in bytes*/
     uint16_t    port_1_config_offset; /**< Offset of the Port 1 Configuration table */
-    uint16_t    port_1_config_size;   /**< Size of the Port 1 Configuration table in bytes*/
+    uint16_t    port_1_config_size;   /**< Size of the Port 1 Configuration table in bytes */
+    uint16_t    host_config_offset;   /**< Offset of the Host Configuration Table */
+    uint16_t    host_config_size;     /**< Size of the Host Configuration Table */
+    uint16_t    bb_offset;            /**< Offset of billboard table */
+    uint16_t    bb_size;              /**< Size of billboard table */
     uint16_t    user_area_offset;     /**< Offset of the User Configuration area. */
     uint16_t    user_area_size;       /**< Size of the User Configuration area in bytes */
-    uint8_t     reserved_1[4];        /**< Reserved area for future expansion. */
 } host_config_t;
 
 typedef struct
@@ -1744,6 +1747,8 @@ cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);
 #if defined(CY_DEVICE_CCG7D)
 cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_tbl(cy_stc_usbpd_context_t *context);
 #endif /* defined(CY_DEVICE_CCG7D) */
+
+host_config_param_t* pd_get_ptr_host_config_param_tbl(cy_stc_usbpd_context_t *context);
 
 #endif /* CY_USE_CONFIG_TABLE */
 
