@@ -1,8 +1,8 @@
 /***************************************************************************//**
-* \file cy8c4046lqin_t451.h
+* \file cy8c4045lqi_t451.h
 *
 * \brief
-* CY8C4046LQIN-T451 device header
+* CY8C4045LQI-T451 device header
 *
 ********************************************************************************
 * \copyright
@@ -24,11 +24,11 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CY8C4046LQIN_T451_H_
-#define _CY8C4046LQIN_T451_H_
+#ifndef _CY8C4045LQI_T451_H_
+#define _CY8C4045LQI_T451_H_
 
 /**
-* \addtogroup group_device CY8C4046LQIN-T451
+* \addtogroup group_device CY8C4045LQI-T451
 * \{
 */
 
@@ -49,7 +49,7 @@ typedef enum {
   SVCall_IRQn                       =  -5,      /*!<  -5 System Service Call via SVC instruction */
   PendSV_IRQn                       =  -2,      /*!<  -2 Pendable request for system service */
   SysTick_IRQn                      =  -1,      /*!<  -1 System Tick Timer */
-  /* CY8C4046LQIN-T451 Peripheral Interrupt Numbers */
+  /* CY8C4045LQI-T451 Peripheral Interrupt Numbers */
   ioss_interrupts_gpio_0_IRQn       =   0,      /*!<   0 [DeepSleep] GPIO P0 */
   ioss_interrupts_gpio_1_IRQn       =   1,      /*!<   1 [DeepSleep] GPIO P1 */
   ioss_interrupts_gpio_2_IRQn       =   2,      /*!<   2 [DeepSleep] GPIO P2 */
@@ -85,15 +85,14 @@ typedef enum {
 
 /* Memory Blocks */
 #define CY_SRAM_BASE                    0x20000000UL
-#define CY_SRAM_SIZE                    0x00002000UL
+#define CY_SRAM_SIZE                    0x00001000UL
 #define CY_FLASH_BASE                   0x00000000UL
-#define CY_FLASH_SIZE                   0x00010000UL
+#define CY_FLASH_SIZE                   0x00008000UL
 #define CY_SFLASH_BASE                  0x0FFFF000UL
 #define CY_SFLASH_SIZE                  0x00000400UL
 #define CY_ROM_BASE                     0x10000000UL
 #define CY_ROM_SIZE                     0x00002000UL
 
-#include "system_cat2.h"                        /*!< Category 2 System */
 
 /* IP List */
 #define CY_IP_ARMCM0P                   1u
@@ -124,14 +123,16 @@ typedef enum {
 #define CY_IP_M0S8TCPWM_INSTANCES       1u
 #define CY_IP_M0S8TCPWM_VERSION         2u
 
-#include "psoc4000t_config.h"
-#include "gpio_psoc4000t_24_qfn_nso.h"
-
 #define CY_DEVICE_PSOC4ASF2
 #define CY_DEVICE_SERIES_PSOC_4000T
-#define CY_SILICON_ID                   0x361511C6UL
+#define CY_SILICON_ID                   0x362822C6UL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
+
+#include "system_cat2.h"                        /*!< Category 2 System */
+
+#include "psoc4000t_config.h"
+#include "gpio_psoc4000t_16_qfn.h"
 
 /*******************************************************************************
 *                                    SFLASH
@@ -222,9 +223,9 @@ typedef enum {
 #define MSCLP0_MODE2                            ((MSCLP_MODE_Type*) &MSCLP0->MODE[2])                             /* 0x40290680 */
 #define MSCLP0_SNS                              ((MSCLP_SNS_Type*) &MSCLP0->SNS)                                  /* 0x40292000 */
 
-/** \} CY8C4046LQIN-T451 */
+/** \} CY8C4045LQI-T451 */
 
-#endif /* _CY8C4046LQIN_T451_H_ */
+#endif /* _CY8C4045LQI_T451_H_ */
 
 
 /* [] END OF FILE */

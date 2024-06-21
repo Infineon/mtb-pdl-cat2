@@ -114,7 +114,6 @@ typedef enum {
 #define CY_CAN0MRAM_BASE                0x40410000UL
 #define CY_CAN0MRAM_SIZE                0x00010000UL
 
-#include "system_cat2.h"                        /*!< Category 2 System */
 
 /* IP List */
 #define CY_IP_MXAUDIOSS                 1u
@@ -181,14 +180,16 @@ typedef enum {
 #define CY_IP_M0S8WCO_INSTANCES         1u
 #define CY_IP_M0S8WCO_VERSION           1u
 
-#include "psoc4100smax_config.h"
-#include "gpio_psoc4100smax_48_qfn_auto.h"
-
 #define CY_DEVICE_PSOC4AS4
 #define CY_DEVICE_SERIES_PSOC_4100S_MAX
 #define CY_SILICON_ID                   0x2EA011BEUL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
+
+#include "system_cat2.h"                        /*!< Category 2 System */
+
+#include "psoc4100smax_config.h"
+#include "gpio_psoc4100smax_48_qfn_auto.h"
 
 /*******************************************************************************
 *                                    SFLASH

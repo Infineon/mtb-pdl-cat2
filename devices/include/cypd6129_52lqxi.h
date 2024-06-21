@@ -100,7 +100,6 @@ typedef enum {
 #define CY_ROM_BASE                     0x10000000UL
 #define CY_ROM_SIZE                     0x00018000UL
 
-#include "system_cat2.h"                        /*!< Category 2 System */
 
 /* IP List */
 #define CY_IP_ARMCM0P                   1u
@@ -137,14 +136,16 @@ typedef enum {
 #define CY_IP_MXUSBPD_INSTANCES         2u
 #define CY_IP_MXUSBPD_VERSION           3u
 
-#include "ccg6df_cfp_config.h"
-#include "gpio_ccg6df_cfp_52_qfn_1_port_sw.h"
-
 #define CY_DEVICE_CCG6DF_CFP
 #define CY_DEVICE_SERIES_CCG6DF_CFP
 #define CY_SILICON_ID                   0x3E0011CEUL
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
+
+#include "system_cat2.h"                        /*!< Category 2 System */
+
+#include "ccg6df_cfp_config.h"
+#include "gpio_ccg6df_cfp_52_qfn_1_port_sw.h"
 
 /*******************************************************************************
 *                                    SFLASH

@@ -248,7 +248,6 @@ typedef enum
     P1_0_USBPD1_EXT_HSRCP           =  9,       /* Digital Active - usbpd[1].ext_hsrcp */
     P1_0_SCB0_UART_CTS              = 10,       /* Digital Active - scb[0].uart_cts:0 */
     P1_0_USBPD0_EXT_HSRCP           = 11,       /* Digital Active - usbpd[0].ext_hsrcp */
-    P1_0_CPUSS_SWD_DATA             = 12,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P1_0_USBPD0_EXT_HS1             = 13,       /* Digital Deep Sleep - usbpd[0].ext_hs1 */
     P1_0_SCB0_SPI_MOSI              = 14,       /* Digital Deep Sleep - scb[0].spi_mosi:0 */
 
@@ -258,7 +257,6 @@ typedef enum
     P1_1_USBPD1_EXT_PWM_OUT         =  9,       /* Digital Active - usbpd[1].ext_pwm_out */
     P1_1_SCB0_UART_RTS              = 10,       /* Digital Active - scb[0].uart_rts:0 */
     P1_1_USBPD0_EXT_PWM_OUT         = 11,       /* Digital Active - usbpd[0].ext_pwm_out */
-    P1_1_CPUSS_SWD_CLK              = 12,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P1_1_USBPD0_EXT_LS1             = 13,       /* Digital Deep Sleep - usbpd[0].ext_ls1 */
     P1_1_SCB0_SPI_SELECT0           = 14,       /* Digital Deep Sleep - scb[0].spi_select0:0 */
 

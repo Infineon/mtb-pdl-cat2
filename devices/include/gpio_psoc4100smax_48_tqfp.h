@@ -392,7 +392,6 @@ typedef enum
     P0_2_CANFD_TTCAN_RX0            = 11,       /* Digital Active - canfd.ttcan_rx[0]:1 */
     P0_2_LCD_COM2                   = 12,       /* Digital Deep Sleep - lcd.com[2] */
     P0_2_LCD_SEG2                   = 13,       /* Digital Deep Sleep - lcd.seg[2] */
-    P0_2_CPUSS_SWD_DATA             = 14,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P0_2_SCB0_SPI_SELECT3           = 15,       /* Digital Deep Sleep - scb[0].spi_select3:0 */
 
     /* P0.3 */
@@ -405,7 +404,6 @@ typedef enum
     P0_3_CANFD_TTCAN_TX0            = 11,       /* Digital Active - canfd.ttcan_tx[0]:1 */
     P0_3_LCD_COM3                   = 12,       /* Digital Deep Sleep - lcd.com[3]:0 */
     P0_3_LCD_SEG3                   = 13,       /* Digital Deep Sleep - lcd.seg[3] */
-    P0_3_CPUSS_SWD_CLK              = 14,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P0_3_SCB2_SPI_SELECT0           = 15,       /* Digital Deep Sleep - scb[2].spi_select0:1 */
 
     /* P0.4 */

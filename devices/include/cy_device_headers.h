@@ -1315,8 +1315,42 @@
     #include "cy8c4046lqi_t451.h"
 #elif defined (CY8C4046FNI_T452)
     #include "cy8c4046fni_t452.h"
-#elif defined (CY8C4046LQIN_T451)
-    #include "cy8c4046lqin_t451.h"
+#elif defined (CY8C4025LQI_T442)
+    #include "cy8c4025lqi_t442.h"
+#elif defined (CY8C4025FNI_T442)
+    #include "cy8c4025fni_t442.h"
+#elif defined (CY8C4045LQI_T442)
+    #include "cy8c4045lqi_t442.h"
+#elif defined (CY8C4045LQI_T441)
+    #include "cy8c4045lqi_t441.h"
+#elif defined (CY8C4045FNI_T442)
+    #include "cy8c4045fni_t442.h"
+#elif defined (CY8C4025LQI_T441)
+    #include "cy8c4025lqi_t441.h"
+#elif defined (CY8C4025LQI_T452)
+    #include "cy8c4025lqi_t452.h"
+#elif defined (CY8C4025FNI_T452)
+    #include "cy8c4025fni_t452.h"
+#elif defined (CY8C4045LQI_T452)
+    #include "cy8c4045lqi_t452.h"
+#elif defined (CY8C4045LQI_T451)
+    #include "cy8c4045lqi_t451.h"
+#elif defined (CY8C4045FNI_T452)
+    #include "cy8c4045fni_t452.h"
+#elif defined (CY8C4025LQI_T451)
+    #include "cy8c4025lqi_t451.h"
+#elif defined (CY8C4026LQI_T442)
+    #include "cy8c4026lqi_t442.h"
+#elif defined (CY8C4026FNI_T442)
+    #include "cy8c4026fni_t442.h"
+#elif defined (CY8C4046LQI_T442)
+    #include "cy8c4046lqi_t442.h"
+#elif defined (CY8C4046LQI_T441)
+    #include "cy8c4046lqi_t441.h"
+#elif defined (CY8C4046FNI_T442)
+    #include "cy8c4046fni_t442.h"
+#elif defined (CY8C4026LQI_T441)
+    #include "cy8c4026lqi_t441.h"
 #elif defined (CYPM1011_24LQXI)
     #include "cypm1011_24lqxi.h"
 #elif defined (CYPM1111_40LQXIT)
@@ -1394,7 +1428,7 @@
 #elif defined (CYPD8229_52LQXIT)
     #include "cypd8229_52lqxit.h"
 #else
-    #error Undefined part number
+    #error Undefined part number. Consider updating PDL via ModusToolbox Library Manager to resolve the issue.
 #endif
 
 #endif /* _CY_DEVICE_HEADERS_H_ */

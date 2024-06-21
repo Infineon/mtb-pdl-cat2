@@ -251,13 +251,11 @@ typedef enum
     /* P1.4 */
     P1_4_GPIO                       =  0,       /* SW controlled GPIO. */
     P1_4_SCB3_UART_TX               = 10,       /* Digital Active - scb[3].uart_tx */
-    P1_4_CPUSS_SWD_CLK              = 13,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P1_4_SCB3_SPI_MISO              = 14,       /* Digital Deep Sleep - scb[3].spi_miso:0 */
 
     /* P1.5 */
     P1_5_GPIO                       =  0,       /* SW controlled GPIO. */
     P1_5_SCB3_UART_RX               = 10,       /* Digital Active - scb[3].uart_rx */
-    P1_5_CPUSS_SWD_DATA             = 13,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P1_5_SCB3_SPI_SELECT0           = 14,       /* Digital Deep Sleep - scb[3].spi_select0:0 */
 
     /* P1.6 */

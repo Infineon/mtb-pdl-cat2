@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
-  <vendor>Cypress Semiconductor</vendor>
-  <vendorID>Cypress</vendorID>
+  <vendor>Infineon Technologies</vendor>
+  <vendorID>Infineon</vendorID>
   <name>psoc4100s</name>
   <series>PSoC4100S</series>
   <version>1.0</version>
   <description>PSoC4100S</description>
-  <licenseText>(c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company)\n
+  <licenseText>(c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company)\n
     or an affiliate of Cypress Semiconductor Corporation.\n
 \n
     SPDX-License-Identifier: Apache-2.0\n

@@ -234,7 +234,6 @@ typedef enum
     P2_2_TCPWM_LINE0                =  9,       /* Digital Active - tcpwm.line[0]:1 */
     P2_2_SCB0_UART_TX               = 11,       /* Digital Active - scb[0].uart_tx:1 */
     P2_2_USBPD0_GPIO_DDFT1          = 12,       /* Digital Deep Sleep - usbpd[0].gpio_ddft1 */
-    P2_2_CPUSS_SWD_DATA             = 13,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P2_2_USBPD0_AFC_TX_DATA0        = 14,       /* Digital Deep Sleep - usbpd[0].afc_tx_data[0] */
     P2_2_SCB1_I2C_SDA               = 15,       /* Digital Deep Sleep - scb[1].i2c_sda:0 */
 
@@ -244,7 +243,6 @@ typedef enum
     P2_3_TCPWM_LINE1                =  9,       /* Digital Active - tcpwm.line[1]:1 */
     P2_3_SCB0_UART_RX               = 11,       /* Digital Active - scb[0].uart_rx:1 */
     P2_3_USBPD0_GPIO_DDFT0          = 12,       /* Digital Deep Sleep - usbpd[0].gpio_ddft0 */
-    P2_3_CPUSS_SWD_CLK              = 13,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P2_3_USBPD0_AFC_TX_DATA1        = 14,       /* Digital Deep Sleep - usbpd[0].afc_tx_data[1] */
     P2_3_SCB1_I2C_SCL               = 15,       /* Digital Deep Sleep - scb[1].i2c_scl:0 */
 
@@ -253,12 +251,10 @@ typedef enum
     P3_0_SRSS_EXT_CLK               =  9,       /* Digital Active - srss.ext_clk */
     P3_0_SCB1_UART_TX               = 11,       /* Digital Active - scb[1].uart_tx:0 */
     P3_0_USBPD0_TX_DATA             = 12,       /* Digital Deep Sleep - usbpd[0].tx_data */
-    P3_0_CPUSS_SWD_DATA             = 13,       /* Digital Deep Sleep - cpuss.swd_data:2 */
 
     /* P3.1 */
     P3_1_GPIO                       =  0,       /* SW controlled GPIO. */
     P3_1_SCB1_UART_RX               = 11,       /* Digital Active - scb[1].uart_rx:0 */
-    P3_1_CPUSS_SWD_CLK              = 13,       /* Digital Deep Sleep - cpuss.swd_clk:2 */
     P3_1_USBPD0_AFC_TX_DATA_EN      = 14        /* Digital Deep Sleep - usbpd[0].afc_tx_data_en */
 } en_hsiom_sel_t;
 

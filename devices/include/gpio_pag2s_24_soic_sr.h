@@ -144,7 +144,6 @@ typedef enum
     P1_0_TCPWM_LINE0                =  9,       /* Digital Active - tcpwm.line[0]:1 */
     P1_0_TCPWM_TR_OVERFLOW0         = 10,       /* Digital Active - tcpwm.tr_overflow[0]:1 */
     P1_0_TCPWM_TR_COMPARE_MATCH0    = 11,       /* Digital Active - tcpwm.tr_compare_match[0]:1 */
-    P1_0_CPUSS_SWD_CLK              = 12,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P1_0_USBPD0_GPIO_DDFT1          = 13,       /* Digital Deep Sleep - usbpd[0].gpio_ddft1 */
     P1_0_USBPD0_FAULT_GPIO1         = 14,       /* Digital Deep Sleep - usbpd[0].fault_gpio1 */
     P1_0_USBPD0_TX_DATA             = 15,       /* Digital Deep Sleep - usbpd[0].tx_data */
@@ -155,7 +154,6 @@ typedef enum
     P1_1_TCPWM_LINE0                =  9,       /* Digital Active - tcpwm.line[0]:2 */
     P1_1_TCPWM_TR_OVERFLOW0         = 10,       /* Digital Active - tcpwm.tr_overflow[0]:2 */
     P1_1_TCPWM_TR_COMPARE_MATCH0    = 11,       /* Digital Active - tcpwm.tr_compare_match[0]:2 */
-    P1_1_CPUSS_SWD_DATA             = 12,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P1_1_USBPD0_GPIO_DDFT0          = 13,       /* Digital Deep Sleep - usbpd[0].gpio_ddft0 */
     P1_1_USBPD0_FAULT_GPIO0         = 14,       /* Digital Deep Sleep - usbpd[0].fault_gpio0 */
     P1_1_USBPD0_TX_DATA_EN          = 15        /* Digital Deep Sleep - usbpd[0].tx_data_en */

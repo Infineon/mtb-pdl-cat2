@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
-  <vendor>Cypress Semiconductor</vendor>
-  <vendorID>Cypress</vendorID>
+  <vendor>Infineon Technologies</vendor>
+  <vendorID>Infineon</vendorID>
   <name>ccg6df_cfp</name>
   <series>CCG6DF_CFP</series>
   <version>1.0</version>
   <description>CCG6DF_CFP</description>
-  <licenseText>(c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company)\n
+  <licenseText>(c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company)\n
     or an affiliate of Cypress Semiconductor Corporation.\n
 \n
     SPDX-License-Identifier: Apache-2.0\n
@@ -2760,49 +2760,57 @@ For GPIOV1P2_I2C cells, refer to PORT_VTRIP_SEL description for usage.</descript
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU0</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad0</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad0
+1: Enable 10k Ohm resistor pull up on pad0</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU1</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad1</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad1
+1: Enable 10k Ohm resistor pull up on pad1</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU2</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad2</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad2
+1: Enable 10k Ohm resistor pull up on pad2</description>
                 <bitRange>[18:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU3</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad3</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad3
+1: Enable 10k Ohm resistor pull up on pad3</description>
                 <bitRange>[19:19]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU4</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad4</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad4
+1: Enable 10k Ohm resistor pull up on pad4</description>
                 <bitRange>[20:20]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU5</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad5</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad5
+1: Enable 10k Ohm resistor pull up on pad5</description>
                 <bitRange>[21:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU6</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad6</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad6
+1: Enable 10k Ohm resistor pull up on pad6</description>
                 <bitRange>[22:22]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU7</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad7</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad7
+1: Enable 10k Ohm resistor pull up on pad7</description>
                 <bitRange>[23:23]</bitRange>
                 <access>read-write</access>
               </field>
@@ -2897,49 +2905,57 @@ vtrip_sel = 1 =&gt; TTL mode</description>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU0</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad0</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad0
+1: Enable 10k Ohm resistor pull up on pad0</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU1</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad1</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad1
+1: Enable 10k Ohm resistor pull up on pad1</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU2</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad2</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad2
+1: Enable 10k Ohm resistor pull up on pad2</description>
                 <bitRange>[18:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU3</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad3</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad3
+1: Enable 10k Ohm resistor pull up on pad3</description>
                 <bitRange>[19:19]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU4</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad4</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad4
+1: Enable 10k Ohm resistor pull up on pad4</description>
                 <bitRange>[20:20]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU5</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad5</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad5
+1: Enable 10k Ohm resistor pull up on pad5</description>
                 <bitRange>[21:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU6</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad6</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad6
+1: Enable 10k Ohm resistor pull up on pad6</description>
                 <bitRange>[22:22]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>INPUT_WEAK_RESISTOR_PU7</name>
-                <description>Enable weak (10KOhm) resistor pull up IO pad7</description>
+                <description>0: Enable 4.7k Ohm resistor pull up on pad7
+1: Enable 10k Ohm resistor pull up on pad7</description>
                 <bitRange>[23:23]</bitRange>
                 <access>read-write</access>
               </field>

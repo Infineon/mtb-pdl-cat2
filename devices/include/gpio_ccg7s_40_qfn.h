@@ -261,7 +261,6 @@ typedef enum
     P1_2_TCPWM_TR_COMPARE_MATCH5    =  9,       /* Digital Active - tcpwm.tr_compare_match[5]:0 */
     P1_2_SCB1_UART_TX               = 10,       /* Digital Active - scb[1].uart_tx:0 */
     P1_2_TCPWM_TR_OVERFLOW5         = 11,       /* Digital Active - tcpwm.tr_overflow[5] */
-    P1_2_CPUSS_SWD_DATA             = 12,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P1_2_USBPD0_HPD                 = 13,       /* Digital Deep Sleep - usbpd[0].hpd:1 */
     P1_2_SCB1_SPI_MISO              = 14,       /* Digital Deep Sleep - scb[1].spi_miso:0 */
     P1_2_SCB1_I2C_SDA               = 15,       /* Digital Deep Sleep - scb[1].i2c_sda:0 */
@@ -274,7 +273,6 @@ typedef enum
     P1_3_TCPWM_TR_COMPARE_MATCH6    =  9,       /* Digital Active - tcpwm.tr_compare_match[6]:0 */
     P1_3_SCB1_UART_RX               = 10,       /* Digital Active - scb[1].uart_rx:0 */
     P1_3_TCPWM_TR_OVERFLOW6         = 11,       /* Digital Active - tcpwm.tr_overflow[6] */
-    P1_3_CPUSS_SWD_CLK              = 12,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P1_3_USBPD0_GPIO_DDFT0          = 13,       /* Digital Deep Sleep - usbpd[0].gpio_ddft0 */
     P1_3_SCB1_SPI_CLK               = 14,       /* Digital Deep Sleep - scb[1].spi_clk:0 */
     P1_3_SCB1_I2C_SCL               = 15,       /* Digital Deep Sleep - scb[1].i2c_scl:0 */

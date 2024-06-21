@@ -236,7 +236,6 @@ typedef enum
     P0_2_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_2_SCB0_UART_RX               =  9,       /* Digital Active - scb[0].uart_rx:2 */
     P0_2_MSCLP_MSC_DDRV2            = 12,       /* Digital Deep Sleep - msclp.msc_ddrv[2] */
-    P0_2_CPUSS_SWD_CLK              = 13,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P0_2_SCB0_I2C_SCL               = 14,       /* Digital Deep Sleep - scb[0].i2c_scl:2 */
     P0_2_SCB0_SPI_MOSI              = 15,       /* Digital Deep Sleep - scb[0].spi_mosi:0 */
 
@@ -248,7 +247,6 @@ typedef enum
     P0_3_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P0_3_SCB0_UART_TX               =  9,       /* Digital Active - scb[0].uart_tx:2 */
     P0_3_MSCLP_MSC_DDRV3            = 12,       /* Digital Deep Sleep - msclp.msc_ddrv[3] */
-    P0_3_CPUSS_SWD_DATA             = 13,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P0_3_SCB0_I2C_SDA               = 14,       /* Digital Deep Sleep - scb[0].i2c_sda:2 */
     P0_3_SCB0_SPI_MISO              = 15,       /* Digital Deep Sleep - scb[0].spi_miso:0 */
 

@@ -467,7 +467,6 @@ typedef enum
     P4_0_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_0_PASS0_DSI_SAR_DATA3        =  9,       /* Digital Active - pass[0].dsi_sar_data[3]:0 */
     P4_0_SCB0_UART_RX               = 10,       /* Digital Active - scb[0].uart_rx:0 */
-    P4_0_CPUSS_SWD_CLK              = 12,       /* Digital Deep Sleep - cpuss.swd_clk:1 */
     P4_0_USBPD0_DDFT1               = 13,       /* Digital Deep Sleep - usbpd[0].ddft1 */
     P4_0_SCB0_SPI_CLK               = 14,       /* Digital Deep Sleep - scb[0].spi_clk:0 */
     P4_0_SCB0_I2C_SCL               = 15,       /* Digital Deep Sleep - scb[0].i2c_scl:0 */
@@ -480,7 +479,6 @@ typedef enum
     P4_1_AMUXB                      =  7,       /* AMUXBUS B connection. */
     P4_1_PASS0_DSI_SAR_DATA4        =  9,       /* Digital Active - pass[0].dsi_sar_data[4]:0 */
     P4_1_SCB0_UART_TX               = 10,       /* Digital Active - scb[0].uart_tx:0 */
-    P4_1_CPUSS_SWD_DATA             = 12,       /* Digital Deep Sleep - cpuss.swd_data:1 */
     P4_1_USBPD0_DDFT0               = 13,       /* Digital Deep Sleep - usbpd[0].ddft0 */
     P4_1_SCB0_SPI_MOSI              = 14,       /* Digital Deep Sleep - scb[0].spi_mosi:0 */
     P4_1_SCB0_I2C_SDA               = 15,       /* Digital Deep Sleep - scb[0].i2c_sda:0 */
