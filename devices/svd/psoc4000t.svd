@@ -10923,7 +10923,7 @@ This switch can be used for firmware vdda level detection to facilitate appropri
           <dim>64</dim>
           <dimIncrement>4</dimIncrement>
           <name>SW_SEL_CSW[%s]</name>
-          <description>CapSense Sensor Switch Control</description>
+          <description>CAPSENSE Sensor Switch Control</description>
           <addressOffset>0x300</addressOffset>
           <size>32</size>
           <access>read-write</access>
@@ -11265,7 +11265,7 @@ Firmware Rule: When using the digital driver, the GPIO MSC analog cannot be used
           <dim>8</dim>
           <dimIncrement>4</dimIncrement>
           <name>SW_SEL_CSW_FUNC[%s]</name>
-          <description>CapSense Sensor Switch Control Global Functions</description>
+          <description>CAPSENSE Sensor Switch Control Global Functions</description>
           <addressOffset>0x400</addressOffset>
           <size>32</size>
           <access>read-write</access>
@@ -11605,7 +11605,7 @@ Firmware Rule: When using the digital driver, the GPIO MSC analog cannot be used
         </register>
         <register>
           <name>CSW_CTL_LO</name>
-          <description>CapSense Sensor Switch Control Low</description>
+          <description>CAPSENSE Sensor Switch Control Low</description>
           <addressOffset>0x500</addressOffset>
           <size>32</size>
           <access>read-write</access>
@@ -11625,7 +11625,7 @@ CSW_FUNC_MODE[x] = 1: Use SW_SEL_CSW_FUNC[y] for control MUX x as selected by y 
         </register>
         <register>
           <name>CSW_CTL_HI</name>
-          <description>CapSense Sensor Switch Control High</description>
+          <description>CAPSENSE Sensor Switch Control High</description>
           <addressOffset>0x504</addressOffset>
           <size>32</size>
           <access>read-write</access>
@@ -14679,7 +14679,7 @@ Firmware Rule: Must be &gt; 0. Typical range [4,8].</description>
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_HI_MASK2</name>
-            <description>CapSense Sensor Switch Function Select High Mask 2</description>
+            <description>CAPSENSE Sensor Switch Function Select High Mask 2</description>
             <addressOffset>0x1014</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -14698,7 +14698,7 @@ SNS_SW_SEL_CSW_HI_MASK0.FUNC_MASK[x]} used to select appropriate SW_SEL_CSW_FUNC
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_HI_MASK1</name>
-            <description>CapSense Sensor Switch Function Select High Mask 1</description>
+            <description>CAPSENSE Sensor Switch Function Select High Mask 1</description>
             <addressOffset>0x1018</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -14717,7 +14717,7 @@ SNS_SW_SEL_CSW_HI_MASK0.FUNC_MASK[x]} used to select appropriate SW_SEL_CSW_FUNC
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_HI_MASK0</name>
-            <description>CapSense Sensor Switch Function Select High Mask 0</description>
+            <description>CAPSENSE Sensor Switch Function Select High Mask 0</description>
             <addressOffset>0x101C</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -14736,7 +14736,7 @@ SNS_SW_SEL_CSW_HI_MASK0.FUNC_MASK[x]} used to select appropriate SW_SEL_CSW_FUNC
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_LO_MASK2</name>
-            <description>CapSense Sensor Switch Function Select Low Mask 2</description>
+            <description>CAPSENSE Sensor Switch Function Select Low Mask 2</description>
             <addressOffset>0x1020</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -14755,7 +14755,7 @@ SNS_SW_SEL_CSW_LO_MASK0.FUNC_MASK[x]} used to select appropriate SW_SEL_CSW_FUNC
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_LO_MASK1</name>
-            <description>CapSense Sensor Switch Function Select Low Mask 1</description>
+            <description>CAPSENSE Sensor Switch Function Select Low Mask 1</description>
             <addressOffset>0x1024</addressOffset>
             <size>32</size>
             <access>read-write</access>
@@ -14774,7 +14774,7 @@ SNS_SW_SEL_CSW_LO_MASK0.FUNC_MASK[x]} used to select appropriate SW_SEL_CSW_FUNC
           </register>
           <register>
             <name>SNS_SW_SEL_CSW_LO_MASK0</name>
-            <description>CapSense Sensor Switch Function Select Low Mask 0</description>
+            <description>CAPSENSE Sensor Switch Function Select Low Mask 0</description>
             <addressOffset>0x1028</addressOffset>
             <size>32</size>
             <access>read-write</access>

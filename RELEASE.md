@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.11.0
+# mtb-pdl-cat2 peripheral driver library v2.12.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,8 +7,8 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Support for new MPNs devices of the PSoC 4000T device family.
-- Removed non-primary SWD pin selection.
+- Support for new MPNs devices of the PSoC4-S3 device family.
+- Support for new MPNs devices of the CCG7S device family.
 
 ## Defect fixes
 
@@ -21,8 +21,8 @@ This version of PDL was validated for compatibility with the following software 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.2.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.4.1       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.16.0      |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.4.2       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.17.0      |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  |  11.3.1      |
 | IAR compiler                                                                  |  9.30.1      |

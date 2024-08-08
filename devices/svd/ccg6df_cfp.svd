@@ -1788,43 +1788,51 @@ Note: when initializing IO's that are connected to a live bus (such as I2C), mak
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>INPUT</name>
-                    <description>Mode 1: Output buffer off (high Z). Input buffer on.</description>
+                    <description>Mode 1: Output buffer OFF (high Z). Input buffer ON.  
+GPIOV1P2_I2C: Output buffer OFF (high Z). Input buffer ON.  
+I2C_DVC: Output buffer OFF (high Z). Input buffer ON.</description>
                     <value>1</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>0_PU</name>
-                    <description>Mode 2: Strong pull down ('0'), weak/resistive pull up (PU). Input buffer on.
-For GPIOV1P2_I2C, Strong pull down only.</description>
+                    <description>Mode 2: Strong pull down ('0'), weak/resistive pull up ON (PU). Input buffer ON.
+GPIOV1P2_I2C: Strong pull down ('0'), open drain (High Z). Input buffer ON.
+I2C_DVC: Strong pull down ('0'), weak/resistive pull up ON (PU). Input buffer ON. (Resistive pull up controlled by DS_1P8_I2C_DVC.INPUT_WEAK_RESISTOR_PU*.</description>
                     <value>2</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>PD_1</name>
-                    <description>Mode 3: Weak/resistive pull down (PD), strong pull up ('1'). Input buffer on.
-For GPIOV1P2_I2C: Weak pull down only.</description>
+                    <description>Mode 3: Weak/resistive pull down (PD), strong pull up ('1'). Input buffer ON.
+GPIOV1P2_I2C: Weak/resistive pull down (PD), open drain (High Z). Input buffer ON.
+I2C_DVC: Weak/resistive pull down (PD), open drain (High Z). Input buffer ON</description>
                     <value>3</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>0_Z</name>
-                    <description>Mode 4: Strong pull down ('0'), open drain (pull up off). Input buffer on.
-For GPIOV1P2_I2C, Strong pull down only.</description>
+                    <description>Mode 4: Strong pull down ('0'), open drain (High Z). Input buffer ON.
+GPIOV1P2_I2C: Strong pull down ('0'), open drain (High Z). Input buffer ON.
+I2C_DVC: Pull down with Weak Pull up ON('0'), weak/resistive pull up ON (PU). Input buffer ON. (Resistive pull up controlled by DS_1P8_I2C_DVC.INPUT_WEAK_RESISTOR_PU*.</description>
                     <value>4</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>Z_1</name>
-                    <description>Mode 5: Open drain (pull down off), strong pull up ('1'). Input buffer on.
-Illegal for GPIOV1P2_I2C</description>
+                    <description>Mode 5: Open drain (High Z), strong pull up ('1'). Input buffer ON.
+GPIOV1P2_I2C: Illegal.
+I2C_DVC: Illegal.</description>
                     <value>5</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>0_1</name>
-                    <description>Mode 6: Strong pull down ('0'), strong pull up ('1'). Input buffer on.
-For GPIOV1P2_I2C, Strong pull down only.</description>
+                    <description>Mode 6: Strong pull down ('0'), strong pull up ('1'). Input buffer ON.
+GPIOV1P2_I2C: Strong pull down ('0'), open drain (High Z). Input buffer ON.
+I2C_DVC: Strong pull down ('0'), open drain (High Z). Input buffer ON.</description>
                     <value>6</value>
                   </enumeratedValue>
                   <enumeratedValue>
                     <name>PD_PU</name>
-                    <description>Mode 7: Weak/resistive pull down (PD), weak/resistive pull up (PU). Input buffer on.
-For GPIOV1P2_I2C: Weak pull down only.</description>
+                    <description>Mode 7: Weak/resistive pull down (PD), weak/resistive pull up (PU). Input buffer ON.
+GPIOV1P2_I2C: Weak/resistive pull down (PD), open drain (High Z). Input buffer ON.
+I2C_DVC: Weak/resistive pull down (PD), weak/resistive pull up (PU). Input buffer ON.(Resistive pull up controlled by DS_1P8_I2C_DVC.INPUT_WEAK_RESISTOR_PU*.</description>
                     <value>7</value>
                   </enumeratedValue>
                 </enumeratedValues>

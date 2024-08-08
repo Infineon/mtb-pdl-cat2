@@ -64,12 +64,12 @@ typedef struct {
   __IOM uint32_t SNS_LP_AOS_SNS_CTL2;           /*!< 0x00001008 LP-AoS Sensor Control 2 */
   __IOM uint32_t SNS_LP_AOS_SNS_CTL3;           /*!< 0x0000100C LP-AoS Sensor Control 3 */
   __IOM uint32_t SNS_LP_AOS_SNS_CTL4;           /*!< 0x00001010 LP-AoS Sensor Control 4 */
-  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK2;       /*!< 0x00001014 CapSense Sensor Switch Function Select High Mask 2 */
-  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK1;       /*!< 0x00001018 CapSense Sensor Switch Function Select High Mask 1 */
-  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK0;       /*!< 0x0000101C CapSense Sensor Switch Function Select High Mask 0 */
-  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK2;       /*!< 0x00001020 CapSense Sensor Switch Function Select Low Mask 2 */
-  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK1;       /*!< 0x00001024 CapSense Sensor Switch Function Select Low Mask 1 */
-  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK0;       /*!< 0x00001028 CapSense Sensor Switch Function Select Low Mask 0 */
+  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK2;       /*!< 0x00001014 CAPSENSE Sensor Switch Function Select High Mask 2 */
+  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK1;       /*!< 0x00001018 CAPSENSE Sensor Switch Function Select High Mask 1 */
+  __IOM uint32_t SNS_SW_SEL_CSW_HI_MASK0;       /*!< 0x0000101C CAPSENSE Sensor Switch Function Select High Mask 0 */
+  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK2;       /*!< 0x00001020 CAPSENSE Sensor Switch Function Select Low Mask 2 */
+  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK1;       /*!< 0x00001024 CAPSENSE Sensor Switch Function Select Low Mask 1 */
+  __IOM uint32_t SNS_SW_SEL_CSW_LO_MASK0;       /*!< 0x00001028 CAPSENSE Sensor Switch Function Select Low Mask 0 */
   __IOM uint32_t SNS_SCAN_CTL;                  /*!< 0x0000102C Sensor Scan Control */
   __IOM uint32_t SNS_CDAC_CTL;                  /*!< 0x00001030 Sensor CAPDAC Control */
   __IOM uint32_t SNS_CTL;                       /*!< 0x00001034 Sense Control and Command Register */
@@ -144,11 +144,11 @@ typedef struct {
    __IM uint32_t RESERVED9[4];
   __IOM uint32_t SW_SEL_BGR;                    /*!< 0x00000220 Bandgap Reference Switch Control */
    __IM uint32_t RESERVED10[55];
-  __IOM uint32_t SW_SEL_CSW[64];                /*!< 0x00000300 CapSense Sensor Switch Control */
-  __IOM uint32_t SW_SEL_CSW_FUNC[8];            /*!< 0x00000400 CapSense Sensor Switch Control Global Functions */
+  __IOM uint32_t SW_SEL_CSW[64];                /*!< 0x00000300 CAPSENSE Sensor Switch Control */
+  __IOM uint32_t SW_SEL_CSW_FUNC[8];            /*!< 0x00000400 CAPSENSE Sensor Switch Control Global Functions */
    __IM uint32_t RESERVED11[56];
-  __IOM uint32_t CSW_CTL_LO;                    /*!< 0x00000500 CapSense Sensor Switch Control Low */
-  __IOM uint32_t CSW_CTL_HI;                    /*!< 0x00000504 CapSense Sensor Switch Control High */
+  __IOM uint32_t CSW_CTL_LO;                    /*!< 0x00000500 CAPSENSE Sensor Switch Control Low */
+  __IOM uint32_t CSW_CTL_HI;                    /*!< 0x00000504 CAPSENSE Sensor Switch Control High */
    __IM uint32_t RESERVED12[62];
         MSCLP_MODE_Type MODE[4];                /*!< 0x00000600 Sense Mode Configuration Structure */
    __IM uint32_t RESERVED13[1600];

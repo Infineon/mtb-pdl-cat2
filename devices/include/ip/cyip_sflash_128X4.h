@@ -69,17 +69,19 @@ typedef struct {
   __IOM uint16_t PACSS_DIAG_RSH2_PURES;         /*!< 0x0000035E Measured RSH2 pull-up resistor value for shunt open testing */
   __IOM uint16_t PACSS_DIAG_RSL2_PURES;         /*!< 0x00000360 Measured RSL2 pull-up resistor value for shunt open testing */
   __IOM uint16_t PACSS_CHAN1_ETEMP_TRIM;        /*!< 0x00000362 Channel 1 gain adjust to be used with external temperature
-                                                                measurements */
-  __IOM uint32_t PACSS_DIAG_TEMP_P_CAL_S;       /*!< 0x00000364 Primary temperature calibration data setup */
+                                                                measurements, first temperature */
+   __IM uint16_t RESERVED5[5];
+  __IOM uint16_t PACSS_CHAN1_ETEMP_TRIM_2;      /*!< 0x0000036E Channel 1 gain adjust to be used with external temperature
+                                                                measurements, second temperature */
   __IOM uint16_t PACSS_DIAG_TEMP_P_CAL_A2;      /*!< 0x00000368 Primary temperature calibration data polynomial a2 */
   __IOM uint16_t PACSS_DIAG_TEMP_P_CAL_A1;      /*!< 0x0000036A Primary temperature calibration data polynomial a1 */
   __IOM uint16_t PACSS_DIAG_TEMP_P_CAL_A0;      /*!< 0x0000036C Primary temperature calibration data polynomial a0 */
-   __IM uint16_t RESERVED5;
+   __IM uint16_t RESERVED6;
   __IOM uint32_t PACSS_DIAG_TEMP_A_CAL_S;       /*!< 0x00000370 Alternate temperature calibration data setup */
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A2;      /*!< 0x00000374 Alternate temperature calibration data polynomial a2 */
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A1;      /*!< 0x00000376 Alternate temperature calibration data polynomial a1 */
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A0;      /*!< 0x00000378 Alternate temperature calibration data polynomial a0 */
-   __IM uint16_t RESERVED6;
+   __IM uint16_t RESERVED7;
   __IOM uint16_t SAR_TEMP_MULTIPLIER;           /*!< 0x0000037C SAR Temperature Sensor Multiplication Factor */
   __IOM uint16_t SAR_TEMP_OFFSET;               /*!< 0x0000037E SAR Temperature Sensor Offset */
 } SFLASH_Type;                                  /*!< Size = 896 (0x380) */
@@ -169,6 +171,9 @@ typedef struct {
 /* SFLASH.PACSS_CHAN1_ETEMP_TRIM */
 #define SFLASH_PACSS_CHAN1_ETEMP_TRIM_ETGAINADJ_Pos 0UL
 #define SFLASH_PACSS_CHAN1_ETEMP_TRIM_ETGAINADJ_Msk 0xFFFFUL
+/* SFLASH.PACSS_CHAN1_ETEMP_TRIM_2 */
+#define SFLASH_PACSS_CHAN1_ETEMP_TRIM_2_ETGAINADJ2_Pos 0UL
+#define SFLASH_PACSS_CHAN1_ETEMP_TRIM_2_ETGAINADJ2_Msk 0xFFFFUL
 /* SFLASH.PACSS_DIAG_TEMP_P_CAL_S */
 #define SFLASH_PACSS_DIAG_TEMP_P_CAL_S_IREF_1_MASK_Pos 0UL
 #define SFLASH_PACSS_DIAG_TEMP_P_CAL_S_IREF_1_MASK_Msk 0x1FFUL
