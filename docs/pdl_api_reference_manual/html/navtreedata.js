@@ -9,7 +9,8 @@ var NAVTREE =
       [ "CMSIS Documentation", "^https://www.keil.com/pack/doc/CMSIS/General/html/index.html", null ]
     ] ],
     [ "Additional Resources", "page_infineon_resources.html", null ],
-    [ "MISRA-C:2012 Compliance", "page_misra.html", null ]
+    [ "MISRA-C:2012 Compliance", "page_misra.html", null ],
+    [ "CMSIS Documentation", "page_cmsis_docs.html", null ]
   ] ]
 ];
 
@@ -29,14 +30,14 @@ var NAVTREEINDEX =
 "group__group__tcpwm__pwm__alignment.html#ga11be53f7e2d3b141f52d6ed2d7ef8c6a",
 "group__group__usbpd__common__enums.html#ga1031515bbe496c2bdc370fd32455d8b0",
 "group__group__usbpd__common__enums.html#ggae21a3e8eee0088f55a06e6fad2b0b7f3a696b7e2bc72b5a64e5d4c675db64bb0d",
-"group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba27cdefd5a202f7b84ce84d2c75bd3c90",
-"group__group__usbpd__typec__macros.html#ga8139d99d7a92709f2ca1ebc2710a59f6",
-"structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o.html#a8b10bb5313f415eaeda82ea63f50ee80",
-"structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r___g_i_v_e_b_a_c_k.html#a1c53a4e0c0d817b5f7f1d4cc75533d3b",
-"structcy__stc__buck__boost__cfg__t.html#aee2f82e674166816c24b13d23cca614e",
-"structcy__stc__fault__vin__uvp__ovp__cfg__t.html#a6506efc36c40aec62ab0d4a49a4a9866",
-"structcy__stc__scb__spi__config__t.html#a4a8fa24b12a399b989276d7c6fa42837",
-"structcy__stc__usbpd__context__t.html#a4574d2bffd9f2ed5bd1be39e371567ec"
+"group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fae5664e545819c2411babc81d526fa1fe",
+"group__group__usbpd__typec__functions.html#gae9e9d784365637a560ca858dd006868f",
+"structcy__en__canfd__fifo__config__t.html#af31f828a227fa2050eb5f85f1a1560b0",
+"structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#a2a5fa66e1a62f20fe0c1a530d8071d8e",
+"structcy__stc__buck__boost__cfg__t.html#a54ca7cece2478c179a994a4ae5d3bc32",
+"structcy__stc__fault__vbus__ocp__cfg__t.html#ac3d7be51a89fd5c22c5c486c1544c0d4",
+"structcy__stc__scb__ezi2c__config__t.html#a148817489baeb7ef705e35f4e9687156",
+"structcy__stc__usbpd__config__t.html#af6271831ee6785efa0995b9a1a286a83"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

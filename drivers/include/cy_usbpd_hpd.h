@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_hpd.h
-* \version 2.90
+* \version 2.100
 *
 * Provides API declarations of the USBPD Hot-Plug Detect driver.
 *
@@ -176,7 +176,8 @@
  */
 #define PDSS_HPD_CTRL3_DEFAULT_VALUE            (0x0005304BUL)
 
-/** This is the default value to be used for HPDT_CTRL2 register.
+/** This is the default value to be used for HPDT_CTRL2 register. This change is brought in
+ * to meet the timings mentioned in the display port specification.
  * This value translates to:
  * SET_LOW_DELAY = 0x530 (2.21 ms)
  * SET_HIGH_DELAY  = 0x7bc (3.3 ms)

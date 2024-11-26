@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.90
+* \version 2.100
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -123,6 +123,10 @@
 #define QC_SRC_AFC_CHARGING_DISABLED    (1u)
 #endif /* QC_SRC_AFC_CHARGING_DISABLED */
 
+#ifndef BC_AFC_SINK_ERROR_INT_ENABLE
+#define BC_AFC_SINK_ERROR_INT_ENABLE    (0u)
+#endif /* BC_AFC_SINK_ERROR_INT_ENABLE */
+
 #ifndef ENABLE_APPLE_BC12_SUPPORT
 #define ENABLE_APPLE_BC12_SUPPORT       (0u)
 #endif /* ENABLE_APPLE_BC12_SUPPORT */
@@ -131,8 +135,12 @@
 #define BC_SOURCE_ONLY                  (0u)
 #endif /* BC_SOURCE_ONLY */
 
+#ifndef CCG_TYPE_A_PORT_ENABLE
+#define CCG_TYPE_A_PORT_ENABLE          (0u)
+#endif /* CCG_TYPE_A_PORT_ENABLE */
+
 #ifndef NO_OF_BC_PORTS
-#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_PMG1S3))
+#if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_PMG1S3) || CCG_TYPE_A_PORT_ENABLE)
 #define NO_OF_BC_PORTS                  (2u)
 #else
 #define NO_OF_BC_PORTS                  (1u)
@@ -404,10 +412,6 @@
 #endif /* defined(CY_DEVICE_CCG7D) */
 #endif /* CCG_PD_DUALPORT_ENABLE */
 
-#ifndef CCG_TYPE_A_PORT_ENABLE
-#define CCG_TYPE_A_PORT_ENABLE                  (0u)
-#endif /* CCG_TYPE_A_PORT_ENABLE */
-
 #ifndef CY_USBPD_CGND_SHIFT_ENABLE
 
 #if defined(CY_DEVICE_CCG7S)
@@ -492,12 +496,10 @@
 #define CCG_DYN_PFET_GATE_DRV_TYP               (30u)
 #endif /* CCG_DYN_PFET_GATE_DRV_TYP */
 
-#if PDL_VBUS_OCP_ENABLE
+#ifndef VBUS_DEFINE_SOLN_MAX_CURRENT_EN
 /* Enables to set solution specific max OCP current threshold */
-#define VBUS_DEFINE_SOLN_MAX_CURRENT_EN         (1u)
-#else
 #define VBUS_DEFINE_SOLN_MAX_CURRENT_EN         (0u)
-#endif /* PDL_VBUS_OCP_ENABLE */
+#endif /* VBUS_DEFINE_SOLN_MAX_CURRENT_EN */
 
 #if VBUS_DEFINE_SOLN_MAX_CURRENT_EN
 /*
@@ -1082,13 +1084,8 @@ typedef union
         uint32_t capMismatch                : 1;    /**< Capability mismatch. */
         uint32_t giveBackFlag               : 1;    /**< GiveBack supported flag = 0. */
 #if CY_PD_REV3_ENABLE
-#if CY_PD_EPR_ENABLE
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t eprPdo                     : 1;    /**< used in EPR_Request message for EPR objects. */
-#else
-        uint32_t objPos                     : 3;    /**< Object position. */
-        uint32_t rsrvd2                     : 1;    /**< Reserved field. */
-#endif /* CY_PD_EPR_ENABLE */
 #else
         uint32_t objPos                     : 3;    /**< Object position. */
         uint32_t rsrvd2                     : 1;    /**< Reserved field. */
@@ -1441,7 +1438,18 @@ typedef union
         uint32_t rsvd2                      : 2;    /**< Reserved field. */
         uint32_t apdoType                   : 2;    /**< APDO type: Should be 0x01 for EPR AVS */
         uint32_t supplyType                 : 2;    /**< PDO type: Should be 3 for APDO. */
-    } epr_avs_src;                                  /**< DO interpreted as a Adjustable Voltages Supply - Source. */
+    } epr_avs_src;                                  /**< DO interpreted as an EPR Adjustable Voltages Supply - Source. */
+
+    /** @brief SPR AVS Source PDO. */
+    struct SPR_AVS_SRC
+    {
+        uint32_t maxCur2                    : 10;   /**< Max current in 10mA units for 15-20 V range. */
+        uint32_t maxCur1                    : 10;   /**< Max current in 10mA units for 9-15 V range. */
+        uint32_t rsvd                       : 6;    /**< Reserved field. */
+        uint32_t pkCurrent                  : 2;    /**< Peak Current in %. */
+        uint32_t apdoType                   : 2;    /**< APDO type: Should be 0x02 for SPR AVS */
+        uint32_t supplyType                 : 2;    /**< PDO type: Should be 0x03 for APDO. */
+    } spr_avs_src;                                  /**< DO interpreted as an SPR Adjustable Voltages Supply - Source. */
 
     /** @brief Programmable Power Supply Sink PDO. */
     struct EPR_AVS_SNK
@@ -1471,6 +1479,23 @@ typedef union
         uint32_t rsvd3                      : 1;    /**< Reserved field. */
         uint32_t objPos                     : 4;    /**< Object position - index to source PDO. */
     } rdo_epr_avs;                                  /**< DO interpreted as a AVS Request. */
+
+    /** @brief SPR AVS Request Data Object. */
+    struct RDO_SPR_AVS
+    {
+        uint32_t opCur                      : 7;    /**< Operating current in 50 mA units. */
+        uint32_t rsvd1                      : 2;    /**< Reserved field. */
+        uint32_t outVolt                    : 12;   /**< Output Voltage in 25mV units. The two least significant bit */
+                                                    /**< Shall be zero making the effective step size 100 mV. */
+        uint32_t rsvd2                      : 1;    /**< Reserved field. */
+        uint32_t eprModeCapable             : 1;    /**< EPR mode capable. */
+        uint32_t unchunkSup                 : 1;    /**< Whether unchunked extended messages are supported. */
+        uint32_t noUsbSuspend               : 1;    /**< No USB suspend flag. */
+        uint32_t usbCommCap                 : 1;    /**< Whether sink supports USB communication. */
+        uint32_t capMismatch                : 1;    /**< Capability mismatch flag. */
+        uint32_t rsvd3                      : 1;    /**< Reserved field. */
+        uint32_t objPos                     : 4;    /**< Object position - index to source PDO. */
+    } rdo_spr_avs;                                  /**< DO interpreted as SPR AVS Request. */
 
     /** @brief PD 3.0 Alert Data Object. */
     struct ADO_ALERT

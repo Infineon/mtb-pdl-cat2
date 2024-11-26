@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.90
+* \version 2.100
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
@@ -66,7 +66,7 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_ConfigDpDm(cy_stc_usbpd_context_t *context, cy
     if (conf == CY_USBPD_DPDM_MUX_CONN_NONE)
     {
         /* Disable pump first. PUMP[3] is for Port 0 */
-        Cy_USBPD_Pump_Enable (context, (uint8_t)(2U));
+        Cy_USBPD_Pump_Disable (context, (uint8_t)(2U));
         
         Cy_SysLib_DelayUs(2);
 
@@ -265,7 +265,7 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     if ((sbu1State == CY_USBPD_SBU_NOT_CONNECTED) && (sbu2State == CY_USBPD_SBU_NOT_CONNECTED))
     {
         /* Turn off pump first and then disable all switches. */
-        Cy_USBPD_Pump_Enable(context, (uint8_t)(1U));
+        Cy_USBPD_Pump_Disable(context, (uint8_t)(1U));
         Cy_SysLib_DelayUs (2);
 
         pd->sbu20_sbu1_en_1_ctrl = 0;
@@ -416,11 +416,8 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     uint32_t intstate;
     uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
 
-    /* Workaround for CCG8S/PMG1S3 to use registers for port 1 to control SBU */
-    if (
-           (siliconId == 0x3581UL) ||
-           (siliconId == 0x3501UL)
-       )
+    /* Workaround for CCG8S to use registers for port 1 to control SBU */
+    if (siliconId == 0x3581UL)
     {
         pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
     }
@@ -899,6 +896,114 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_AuxTermConfigure(cy_stc_usbpd_context_t *conte
     CY_UNUSED_PARAMETER(aux2Config);
     return CY_USBPD_STAT_NOT_SUPPORTED;
 #endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_PMG1S3) */   
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_SbuAdftEnable
+****************************************************************************//**
+*
+* This function enables the ADFT block of SBU.
+*
+* \param context
+* USBPD PDL Context pointer.
+*
+* \param adftInput
+* Input from the SBU that needs to be connected to ADFT
+*
+* \return
+*  cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Mux_SbuAdftEnable(cy_stc_usbpd_context_t *context,
+                                   cy_en_usbpd_sbu_adft_input_t adftInput)
+{
+    cy_en_usbpd_status_t status = CY_USBPD_STAT_NOT_SUPPORTED;
+#if (defined(CY_DEVICE_PMG1S3))
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval = pd->sbu_new_ctrl[1];
+
+    /* Check if ADFT input passed is correct. */
+    if (adftInput > CY_USBPD_SBU_ADFT_AUX1_SBU2)
+    {
+        /* Wrong configuration. */
+        status = CY_USBPD_STAT_INVALID_ARGUMENT;
+    }
+    else
+    {
+        /* Enable ADFT block of SBU */
+        regval &= ~PDSS_SBU_NEW_CTRL_SBU_NEW_ADFT_SEL_MASK;
+        regval |= (PDSS_SBU_NEW_CTRL_SBU_NEW_ADFT_EN | ((uint32_t)adftInput << PDSS_SBU_NEW_CTRL_SBU_NEW_ADFT_SEL_POS));
+
+        pd->sbu_new_ctrl[1] = regval;
+        status = CY_USBPD_STAT_SUCCESS;
+    }
+#elif (defined(CY_DEVICE_CCG6))
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval = pd->sbu20_0_ctrl;
+
+    /* Enable ADFT block of SBU */
+    regval &= ~PDSS_SBU20_0_CTRL_SBU20_ADFT_SEL_MASK;
+    regval |= (PDSS_SBU20_0_CTRL_SBU20_ADFT_EN | ((uint32_t)adftInput << PDSS_SBU20_0_CTRL_SBU20_ADFT_SEL_POS));
+
+    pd->sbu20_0_ctrl = regval;
+    status = CY_USBPD_STAT_SUCCESS;
+#elif (defined(CY_DEVICE_CCG3))
+    PPDSS_REGS_T pd = context->base;
+    uint32_t regval = pd->sbu_ctrl;
+
+    /* Check if ADFT input passed is correct. */
+    if ((adftInput > CY_USBPD_SBU_ADFT_AUX2) ||
+            (adftInput < CY_USBPD_SBU_ADFT_SBU1))
+    {
+        /* Wrong configuration. */
+        status = CY_USBPD_STAT_INVALID_ARGUMENT;
+    }
+    else
+    {
+        /* Enable ADFT block of SBU */
+        regval &= ~PDSS_SBU_CTRL_SBU_ADFT_SEL_MASK;
+        regval |= (PDSS_SBU_CTRL_SBU_ADFT_EN | ((uint32_t)adftInput << PDSS_SBU_CTRL_SBU_ADFT_SEL_POS));
+
+        pd->sbu_ctrl = regval;
+        status = CY_USBPD_STAT_SUCCESS;
+    }
+#else
+    CY_UNUSED_PARAMETER(context);
+    CY_UNUSED_PARAMETER(adftInput);
+#endif /* (defined(CY_DEVICE_PMG1S3)) */
+    return status;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_SbuAdftDisable
+****************************************************************************//**
+*
+* This function disables the ADFT block of SBU.
+*
+* \param context
+* USBPD PDL Context pointer.
+*
+* \return
+*  None
+*
+*******************************************************************************/
+void Cy_USBPD_Mux_SbuAdftDisable(cy_stc_usbpd_context_t *context)
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    PPDSS_REGS_T pd = context->base;
+    /* Disable the ADFT block of SBU */
+    pd->sbu_new_ctrl[1] &= ~(PDSS_SBU_NEW_CTRL_SBU_NEW_ADFT_EN | PDSS_SBU_NEW_CTRL_SBU_NEW_ADFT_SEL_MASK);
+#elif (defined(CY_DEVICE_CCG6))
+    PPDSS_REGS_T pd = context->base;
+    /* Disable the ADFT block of SBU */
+    pd->sbu20_0_ctrl &= ~(PDSS_SBU20_0_CTRL_SBU20_ADFT_EN | PDSS_SBU20_0_CTRL_SBU20_ADFT_SEL_MASK);
+#elif (defined(CY_DEVICE_CCG3))
+    PPDSS_REGS_T pd = context->base;
+    /* Disable the ADFT block of SBU */
+    pd->sbu_ctrl &= ~(PDSS_SBU_CTRL_SBU_ADFT_EN | PDSS_SBU_CTRL_SBU_ADFT_SEL_MASK);
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (defined(CY_DEVICE_PMG1S3)) */
 }
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

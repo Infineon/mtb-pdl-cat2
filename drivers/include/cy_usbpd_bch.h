@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.h
-* \version 2.80
+* \version 2.100
 *
 * Header file for legacy charging feature of USBPD PDL.
 *
@@ -341,6 +341,14 @@ bool Cy_USBPD_Bch_Phy_CompResult(cy_stc_usbpd_context_t *context, uint8_t compId
 cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDpPd(cy_stc_usbpd_context_t *context);
 
 cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDpPd(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDmPd(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDmPd(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDpPu(cy_stc_usbpd_context_t *context);
+
+cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDpPu(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Bch_ApplyRdatLkgDp(cy_stc_usbpd_context_t *context);
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.80
+* \version 2.100
 *
 * The source file of the USBPD Buck Boost Driver.
 *

@@ -55,6 +55,8 @@ var searchData=
   ['max_5fpwm_5fduty_5fcycle',['max_pwm_duty_cycle',['../structcy__stc__buck__boost__cfg__t.html#a0844b02382dabce8931a09e58cfba1e4',1,'cy_stc_buck_boost_cfg_t']]],
   ['max_5fpwm_5fduty_5fcycle_5fhigh_5fline',['max_pwm_duty_cycle_high_line',['../structcy__stc__buck__boost__cfg__t.html#a003a0f3bbb4cc4adf2cbc29e356456b1',1,'cy_stc_buck_boost_cfg_t']]],
   ['maxcur',['maxCur',['../structcy__pd__pd__do__t_1_1_p_p_s___s_r_c.html#af0784a57cbc48c70545ed8f3df01c9b5',1,'cy_pd_pd_do_t::PPS_SRC']]],
+  ['maxcur1',['maxCur1',['../structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a7c4ac0cc08e4f3f01e8d3fe5bbef9ec5',1,'cy_pd_pd_do_t::SPR_AVS_SRC']]],
+  ['maxcur2',['maxCur2',['../structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a2ad2f042a7ec7314653ecce2dd97dad6',1,'cy_pd_pd_do_t::SPR_AVS_SRC']]],
   ['maxcurpower',['maxCurPower',['../structcy__pd__pd__do__t_1_1_s_r_c___g_e_n.html#aa665dcac9de3a57767267e0db8c7d945',1,'cy_pd_pd_do_t::SRC_GEN']]],
   ['maxcurrent',['maxCurrent',['../structcy__pd__pd__do__t_1_1_f_i_x_e_d___s_r_c.html#a85b97728a19e1a772a6d362259dee634',1,'cy_pd_pd_do_t::FIXED_SRC::maxCurrent()'],['../structcy__pd__pd__do__t_1_1_v_a_r___s_r_c.html#aeeddf4f27e0321ea12a63937a6294226',1,'cy_pd_pd_do_t::VAR_SRC::maxCurrent()']]],
   ['maxopcurrent',['maxOpCurrent',['../structcy__pd__pd__do__t_1_1_r_d_o___f_i_x_e_d___v_a_r.html#aed89d17f5e2a3223afdff871283a007a',1,'cy_pd_pd_do_t::RDO_FIXED_VAR']]],

@@ -98,6 +98,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga003e43b31b77130bea91c06d1e3568e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__mux__functions.html#ga003e43b31b77130bea91c06d1e3568e3">Cy_USBPD_Mux_AuxTermConfigure</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#ga4004e905b820e8b5b3f801c416350742">cy_en_usbpd_aux_resistor_config_t</a> aux1Config, <a class="el" href="group__group__usbpd__common__enums.html#ga4004e905b820e8b5b3f801c416350742">cy_en_usbpd_aux_resistor_config_t</a> aux2Config)</td></tr>
 <tr class="memdesc:ga003e43b31b77130bea91c06d1e3568e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function configures resistor values for AUX1 and AUX2.  <a href="#ga003e43b31b77130bea91c06d1e3568e3">More...</a><br /></td></tr>
 <tr class="separator:ga003e43b31b77130bea91c06d1e3568e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e57a68a1c5e927b542d4ea289f5b3ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__mux__functions.html#ga1e57a68a1c5e927b542d4ea289f5b3ed">Cy_USBPD_Mux_SbuAdftEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__legacy__enums.html#ga1f0712cd2ba0b6cbb5b564764f0ece09">cy_en_usbpd_sbu_adft_input_t</a> adftInput)</td></tr>
+<tr class="memdesc:ga1e57a68a1c5e927b542d4ea289f5b3ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function enables the ADFT block of SBU.  <a href="#ga1e57a68a1c5e927b542d4ea289f5b3ed">More...</a><br /></td></tr>
+<tr class="separator:ga1e57a68a1c5e927b542d4ea289f5b3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10b95687b6fc0f5c93e24f03fb2d5aca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__mux__functions.html#ga10b95687b6fc0f5c93e24f03fb2d5aca">Cy_USBPD_Mux_SbuAdftDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga10b95687b6fc0f5c93e24f03fb2d5aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function disables the ADFT block of SBU.  <a href="#ga10b95687b6fc0f5c93e24f03fb2d5aca">More...</a><br /></td></tr>
+<tr class="separator:ga10b95687b6fc0f5c93e24f03fb2d5aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -226,6 +232,71 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>cy_en_usbpd_status_t </dd></dl>
+
+</div>
+</div>
+<a id="ga1e57a68a1c5e927b542d4ea289f5b3ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1e57a68a1c5e927b542d4ea289f5b3ed">&#9670;&nbsp;</a></span>Cy_USBPD_Mux_SbuAdftEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358">cy_en_usbpd_status_t</a> Cy_USBPD_Mux_SbuAdftEnable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__legacy__enums.html#ga1f0712cd2ba0b6cbb5b564764f0ece09">cy_en_usbpd_sbu_adft_input_t</a>&#160;</td>
+          <td class="paramname"><em>adftInput</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function enables the ADFT block of SBU. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>USBPD PDL Context pointer.</td></tr>
+    <tr><td class="paramname">adftInput</td><td>Input from the SBU that needs to be connected to ADFT</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cy_en_usbpd_status_t </dd></dl>
+
+</div>
+</div>
+<a id="ga10b95687b6fc0f5c93e24f03fb2d5aca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga10b95687b6fc0f5c93e24f03fb2d5aca">&#9670;&nbsp;</a></span>Cy_USBPD_Mux_SbuAdftDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Mux_SbuAdftDisable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function disables the ADFT block of SBU. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>USBPD PDL Context pointer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None </dd></dl>
 
 </div>
 </div>

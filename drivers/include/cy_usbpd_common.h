@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.90
+* \version 2.100
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -240,7 +240,7 @@ typedef enum
     CY_USBPD_HPD_INPUT_CHANGE            /**< HPD IO raw status change. */
 } cy_en_usbpd_hpd_events_t;
 
-/** ADC block IDs */
+/** ADC block IDs. Refer to the device datasheet and TRM for more details. */
 typedef enum 
 {
     CY_USBPD_ADC_ID_0,                        /**< ADC-0 in the PD block. Supported by all devices. */
@@ -1050,6 +1050,40 @@ typedef enum
     PD_VBAT_GND_SCP_6A = 0,               /**< 6A is current limit */
     PD_VBAT_GND_SCP_10A                   /**< 10A is current limit */
 } cy_en_usbpd_vbat_gnd_scp_level_t;
+
+/** List of ADFT inputs from SBU. */
+typedef enum
+{
+#if (defined(CY_DEVICE_PMG1S3))
+    CY_USBPD_SBU_ADFT_AUX1_SBU1 = 0,               /**< Connect SBU1 to ADFT0 and AUXP to ADFT1 */
+    CY_USBPD_SBU_ADFT_AUX2_SBU2,                   /**< Connect SBU2 to ADFT0 and AUXN to ADFT1 */
+    CY_USBPD_SBU_ADFT_AUX2_SBU1,                   /**< Connect SBU1 to ADFT0 and AUXN to ADFT1 */
+    CY_USBPD_SBU_ADFT_AUX1_SBU2                    /**< Connect SBU2 to ADFT0 and AUXP to ADFT1 */
+#elif (defined(CY_DEVICE_CCG3))
+    CY_USBPD_SBU_ADFT_HIGHZ = 0,                   /**< ADFT0/1 is High-Z */
+    CY_USBPD_SBU_ADFT_SBU1,                        /**< Connect SBU1 to ADFT0/1 */
+    CY_USBPD_SBU_ADFT_SBU2,                        /**< Connect SBU2 to ADFT0/1 */
+    CY_USBPD_SBU_ADFT_AUX1,                        /**< Connect AUXP to ADFT0/1 */
+    CY_USBPD_SBU_ADFT_AUX2                         /**< Connect AUXN to ADFT0/1 */
+#elif (defined(CY_DEVICE_CCG6))
+    CY_USBPD_SBU_ADFT_HIGHZ_HIGHZ = 0,             /**< ADFT0 and ADFT1 are High-Z */
+    CY_USBPD_SBU_ADFT_GND_GND,                     /**< Connect ADFT0 and ADFT1 to GND */
+    CY_USBPD_SBU_ADFT_GND_SBU1_INT,                /**< Connect sbu1_int to ADFT0 and ADFT1 to GND */
+    CY_USBPD_SBU_ADFT_ISNK_OVP_SBU2_INT,           /**< Connect sbu2_int to ADFT0 and isnk_ovp to ADFT1 */
+    CY_USBPD_SBU_ADFT_HIGHZ_SBU2,                  /**< Connect sbu2 to ADFT0, ADFT1 is High-Z */
+    CY_USBPD_SBU_ADFT_GND_OVP_DETECT_SBU1 = 6,     /**< Connect ovp_detect_sbu1 to ADFT0 and ADFT1 to GND */
+    CY_USBPD_SBU_ADFT_GND_OVP_DETECT_SBU2,         /**< Connect ovp_detect_sbu2 to ADFT0 and ADFT1 to GND */
+    CY_USBPD_SBU_ADFT_SBU1_ISNK1_LSRX,             /**< Connect lstx to ADFT0 and sbu1_isnk1 to ADFT1 */
+    CY_USBPD_SBU_ADFT_HIGHZ_SBU1_ISNK2,            /**< Connect sbu1_isnk2 to ADFT0, ADFT1 is High-Z */
+    CY_USBPD_SBU_ADFT_SBU2_ISNK2_SBU2_ISNK1,       /**< Connect sbu2_isnk1 to ADFT0 and sbu2_isnk2 to ADFT1 */
+    CY_USBPD_SBU_ADFT_AUX2_GND = 12,               /**< Connect ADFT0 to GND and AUXN to ADFT1 */
+    CY_USBPD_SBU_ADFT_LSTX_AUX1,                   /**< Connect lstx to ADFT0 and AUXP to ADFT1 */
+    CY_USBPD_SBU_ADFT_GND_SBU1                     /**< Connect sbu1 to ADFT0 and ADFT1 to GND */
+#else
+    CY_USBPD_SBU_ADFT_INVALID = 0                  /**< Not supported */
+#endif
+} cy_en_usbpd_sbu_adft_input_t;
+
 /** \} group_usbpd_legacy_enums */
 
 /**
@@ -2239,6 +2273,8 @@ typedef struct cy_stc_usbpd_context_t_
     /** Callback function for BB Vout RCP fault */
     cy_cb_vbus_fault_t voutRcpCbk;
 
+    /** Array to store CC registers before updating */
+    uint32_t ccRegisters[6];
 } cy_stc_usbpd_context_t;
 
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.90
+* \version 2.100
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -908,6 +908,12 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
 #endif /* defined (CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PMG1S3) */
 
 #elif defined(CY_IP_M0S8USBPD)
+
+    /* Power up the block. */
+    pd->cc_ctrl_0 &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
+
+    /* Enable Deep sleep reference. */
+    pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 
     /* Enable PUMP */
     pd->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP  | PDSS_PUMP_CTRL_BYPASS_LV);
@@ -3137,31 +3143,26 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 
 #else /* VBUS_SLOW_DISCHARGE_EN */
                 pd->dischg_shv_ctrl[0] = ((pd->dischg_shv_ctrl[0] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
-                        (PMG1S0_DISCHG_DS_VBUS_C_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+                        (VBUS_C_DISCHG_DS << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
                 pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
-                        (PMG1S0_DISCHG_DS_VBUS_C_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+                        (VBUS_IN_DISCHG_DS << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
 #endif /* VBUS_SLOW_DISCHARGE_EN */
         }
-
         else
-
         {
-
-
-
-        pd->dischg_shv_ctrl[0] = ((pd->dischg_shv_ctrl[0] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
-                                    (PMG1S0_DISCHG_DS_VBUS_C_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
-        pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
-                                    (PMG1S0_DISCHG_DS_VBUS_IN_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+            pd->dischg_shv_ctrl[0] = ((pd->dischg_shv_ctrl[0] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
+                                        (PMG1S0_DISCHG_DS_VBUS_C_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
+            pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_DS_MASK) |
+                                        (PMG1S0_DISCHG_DS_VBUS_IN_00 << PDSS_DISCHG_SHV_CTRL_DISCHG_DS_POS));
         }
-#if (CY_PD_SINK_ONLY || (CY_PD_SOURCE_ONLY && PMG1_FLIPPED_FET_CTRL))
+#if (PMG1_FLIPPED_FET_CTRL)
         /*
         * In this case (applications like Power bank), VBUS_IN node of silicon is connected
         * to TYPE-C VBUS. Therefore, select VBUS_IN resistor divider to monitor TYPE-C VBUS
         */
         pd->amux_nhv_ctrl |= ((1U << AMUX_ADC_PMG1S0_VBUS_IN_8P_EN_POS) |
                                 (1U << AMUX_ADC_PMG1S0_VBUS_IN_20P_EN_POS));
-#endif /* (CY_PD_SINK_ONLY || (CY_PD_SOURCE_ONLY && PMG1_FLIPPED_FET_CTRL)) */
+#endif /* (PMG1_FLIPPED_FET_CTRL) */
 
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
@@ -5098,6 +5099,120 @@ cy_en_usbpd_status_t Cy_USBPD_SetSbuLevelDetect_EvtCb(
     context->sbuDetectCb = cb;
 
     return CY_USBPD_STAT_SUCCESS;
+}
+/*******************************************************************************
+* Function Name: Cy_USBPD_TypeC_SetCC_to_0V
+****************************************************************************//**
+*
+* This function sets CC1 line to 0V
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* None
+*
+*******************************************************************************/
+void Cy_USBPD_TypeC_SetCC_to_0V (cy_stc_usbpd_context_t *context)
+{
+    uint32_t intr_state;
+    PPDSS_REGS_T pd = NULL;
+    uint32_t regVal = 0;
+
+    if (context == NULL)
+    {
+        return;
+    }
+
+    intr_state = Cy_SysLib_EnterCriticalSection();
+    pd = context->base;
+    
+    
+    /* Saving the last status of the registers before setting CC to 0
+    to restore back when needed */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    context->ccRegisters[0] = pd->pd_ref_gen_ctrl;
+#else
+    context->ccRegisters[0] = pd->dpslp_ref_ctrl;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+    context->ccRegisters[1] = pd->cc_ctrl_0;
+    context->ccRegisters[2] = pd->tx_ctrl;
+    context->ccRegisters[3] = pd->cc_ctrl_1;
+    context->ccRegisters[4] = pd->debug_cc_0;
+    
+    /* Setting CC to 0 */
+
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    regVal = pd->pd_ref_gen_ctrl;
+    regVal &= ~PDSS_PD_REF_GEN_CTRL_PD;
+    pd->pd_ref_gen_ctrl = regVal;
+#else
+    regVal = pd->dpslp_ref_ctrl;
+    regVal |= PDSS_DPSLP_REF_CTRL_IGEN_EN;
+    regVal &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+    pd->dpslp_ref_ctrl = regVal;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+
+    regVal = pd->cc_ctrl_0;
+    regVal |= PDSS_CC_CTRL_0_TX_EN;
+    regVal &= ~PDSS_CC_CTRL_0_PWR_DISABLE;
+    regVal &= ~PDSS_CC_CTRL_0_CC_1V2;
+    pd->cc_ctrl_0 = regVal;
+
+    regVal = pd->tx_ctrl;
+    regVal |= PDSS_TX_CTRL_TX_REG_EN;
+    pd->tx_ctrl = regVal;
+
+    regVal = pd->cc_ctrl_1;
+    regVal &= ~PDSS_CC_CTRL_1_VTX_SEL_MASK;
+    pd->cc_ctrl_1 = regVal;
+
+    regVal = pd->debug_cc_0;
+    regVal |= PDSS_DEBUG_CC_0_TX_CC_DRIVE_SRC;
+    regVal &= ~PDSS_DEBUG_CC_0_TX_CC_DATA;
+    pd->debug_cc_0 = regVal;
+
+    Cy_SysLib_ExitCriticalSection(intr_state);
+}
+/*******************************************************************************
+* Function Name: Cy_USBPD_TypeC_SetCC_to_PrevState
+****************************************************************************//**
+*
+* This function restores all the registers back. When Cy_USBPD_TypeC_SetCC_to_0V() call
+* is made, cc registers are updated to put zero volt on cc lines and therefore after all that
+* this function is called to restore registers back.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+*  None
+*******************************************************************************/
+void Cy_USBPD_TypeC_SetCC_to_PrevState(cy_stc_usbpd_context_t *context)
+{
+    uint32_t intr_state;
+    PPDSS_REGS_T pd = NULL;
+
+    if (context == NULL)
+    {
+        return;
+    }
+    intr_state = Cy_SysLib_EnterCriticalSection();
+    pd = context->base;
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    pd->pd_ref_gen_ctrl = context->ccRegisters[0];
+#else
+#if (!defined(CY_DEVICE_CCG3))
+    pd->dpslp_ref_ctrl = context->ccRegisters[0];
+#endif /* (!defined(CY_DEVICE_CCG3)) */
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+    pd->cc_ctrl_0 = context->ccRegisters[1];
+    pd->tx_ctrl = context->ccRegisters[2];
+    pd->cc_ctrl_1 = context->ccRegisters[3];
+    pd->debug_cc_0 = context->ccRegisters[4];
+    Cy_SysLib_DelayUs(10);
+
+    Cy_SysLib_ExitCriticalSection(intr_state);
 }
 
 #endif /* (defined(CY_IP_MXUSBPD) || defined(CY_IP_M0S8USBPD)) */

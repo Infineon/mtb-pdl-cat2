@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.h
-* \version 2.90
+* \version 2.100
 *
 * Provides API declarations of the USBPD MUX Control driver.
 *
@@ -65,6 +65,11 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
 cy_en_usbpd_status_t Cy_USBPD_Mux_AuxTermConfigure(cy_stc_usbpd_context_t *context,
                                    cy_en_usbpd_aux_resistor_config_t aux1Config,
                                    cy_en_usbpd_aux_resistor_config_t aux2Config);
+
+cy_en_usbpd_status_t Cy_USBPD_Mux_SbuAdftEnable(cy_stc_usbpd_context_t *context,
+                                   cy_en_usbpd_sbu_adft_input_t adftInput);
+
+void Cy_USBPD_Mux_SbuAdftDisable(cy_stc_usbpd_context_t *context);
 
 /** \} group_usbpd_mux_functions */
 

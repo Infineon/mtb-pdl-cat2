@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.90
+* \version 2.100
 *
 * The source file of the USBPD Transceiver driver.
 *
@@ -1179,10 +1179,10 @@ PDL_ATTRIBUTES bool Cy_USBPD_Phy_IsBusy(cy_stc_usbpd_context_t *context)
 
 
 /*******************************************************************************
-* Function Name: Cy_USBPD_Intr0Handler
+* Function Name: Cy_USBPD_Intr0RxTxHandler
 ****************************************************************************//**
 *
-* Interrupt Handler function for USBPD Transceiver and HPD interrupts.
+* Interrupt Handler function for USBPD Transceiver interrupts.
 *
 * \param context
 * The pointer to the context structure \ref cy_stc_usbpd_context_t allocated

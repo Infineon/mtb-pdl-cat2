@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.90
+* \version 2.100
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *

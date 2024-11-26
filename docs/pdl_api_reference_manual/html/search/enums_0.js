@@ -173,6 +173,7 @@ var searchData=
   ['cy_5fen_5fusbpd_5fphy_5fevents_5ft',['cy_en_usbpd_phy_events_t',['../group__group__usbpd__common__enums.html#ga8e68d9ddd7c6f827722fdcfb967b6d52',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fpoll_5fvsys_5ft',['cy_en_usbpd_poll_vsys_t',['../group__group__usbpd__typec__enum.html#gad3fbfa4bff6874dae39e5f48fa88db1b',1,'cy_usbpd_typec.h']]],
   ['cy_5fen_5fusbpd_5frefgen_5fop_5ft',['cy_en_usbpd_refgen_op_t',['../group__group__usbpd__vbus__ctrl__enums.html#gaa7bbc58027c888e1c24c06967a3bd659',1,'cy_usbpd_vbus_ctrl.h']]],
+  ['cy_5fen_5fusbpd_5fsbu_5fadft_5finput_5ft',['cy_en_usbpd_sbu_adft_input_t',['../group__group__usbpd__legacy__enums.html#ga1f0712cd2ba0b6cbb5b564764f0ece09',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fsbu_5fswitch_5fstate_5ft',['cy_en_usbpd_sbu_switch_state_t',['../group__group__usbpd__common__enums.html#ga07d345ebd78ee59e02d2dede5695ccec',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fstatus_5ft',['cy_en_usbpd_status_t',['../group__group__usbpd__common__enums.html#ga7e13e85edf9c9c4e16cf27f1020c6358',1,'cy_usbpd_common.h']]],
   ['cy_5fen_5fusbpd_5fsupply_5ft',['cy_en_usbpd_supply_t',['../group__group__usbpd__common__enums.html#ga7f02d50bd3785f9ffb8423e9f7215311',1,'cy_usbpd_common.h']]],

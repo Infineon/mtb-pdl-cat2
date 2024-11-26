@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.90
+* \version 2.100
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,15 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="2">2.100</td>
+*     <td>Added new APIs to enable or disable the SBU ADFT block.</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
+*     <td>Updated the USBPD driver to enable battery charging support on Type-A port for the CYPM1011 device.</td>
+*     <td>New feature support</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="1">2.90</td>
 *     <td>Updated the USBPD driver to enable support for CCG6xF_CFP family devices.</td>
@@ -295,7 +304,10 @@
 #define VBUS_C_DISCHG_DS                        (4u)
 #endif /* VBUS_C_DISCHG_DS */
 #endif /* VBUS_IN_DISCHARGE_EN */
+
+#ifndef VBUS_IN_DISCHG_DS
 #define VBUS_IN_DISCHG_DS                       (4u)
+#endif /*VBUS_IN_DISCHG_DS*/
 
 #if VBUS_SLOW_DISCHARGE_EN
 /* Time interval in ms between every steps of discharge strength setting */
@@ -358,7 +370,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       90
+#define CY_USBPD_DRV_VERSION_MINOR                       100
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)
@@ -563,9 +575,13 @@ void Cy_USBPD_Intr1Handler (
         cy_stc_usbpd_context_t *context);
 
 uint8_t Cy_USBPD_TypeC_GetRpRdStatus (
-        cy_stc_usbpd_context_t *context,
-        uint8_t channel,
+        cy_stc_usbpd_context_t *context, 
+        uint8_t channel, 
         bool rd_idx);
+        
+void Cy_USBPD_TypeC_SetCC_to_0V (cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_TypeC_SetCC_to_PrevState(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_EnableSwitch(cy_stc_usbpd_context_t *context);
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.90
+* \version 2.100
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
@@ -128,7 +128,6 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_En(cy_stc_usbpd_context_t *context)
     cy_en_usbpd_status_t stat = CY_USBPD_STAT_NOT_SUPPORTED;
     uint8_t cport=context->port;
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = cport;
 #if CY_FLIPPED_DP_DM
@@ -171,7 +170,9 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_En(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     pd->ctrl |= (1u << (PDSS_CTRL_AFC_ENABLED_POS + cport));
 #else
+#if (!defined(CY_DEVICE_PMG1S3))
     pd->ctrl |= (uint32_t)PDSS_CTRL_AFC_ENABLED;
+#endif /* (!defined(CY_DEVICE_PMG1S3)) */
 #endif /* defined(CY_DEVICE_CCG3PA) */
 #endif /* !QC_AFC_CHARGING_DISABLED */
 
@@ -219,7 +220,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_Dis(cy_stc_usbpd_context_t *context)
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
     (void)chgb_id;
-#endif /* (defined(CCG3PA) || defined(CCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if (CCG_TYPE_A_PORT_ENABLE == 0)
     if (cport < NO_OF_TYPEC_PORTS)
@@ -251,7 +252,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_Dis(cy_stc_usbpd_context_t *context)
 #if !QC_AFC_CHARGING_DISABLED
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
         pd->ctrl &= ~(1 << (PDSS_CTRL_AFC_ENABLED_POS + cport));
-#else /* !(defined(CCG3PA) || defined(CCG3PA2)) */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
         pd->ctrl &= ~(PDSS_CTRL_AFC_ENABLED);
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #endif /* !QC_AFC_CHARGING_DISABLED  */
@@ -307,6 +308,9 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
@@ -388,6 +392,16 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSrcTerm(cy_stc_usbpd_context_t *cont
 #endif /* (!QC_AFC_CHARGING_DISABLED) */
 
         case CHGB_SRC_TERM_DCP:
+#if (defined(CY_DEVICE_CCG6))
+            if ((context->dpmGetConfig())->polarity != 0u)
+            {
+                pd->dpdm_ctrl |= PDSS_DPDM_CTRL_DCP_SHORT_DPDM_BOTTOM;
+            }
+            else
+            {
+                pd->dpdm_ctrl |= PDSS_DPDM_CTRL_DCP_SHORT_DPDM_TOP;
+            }
+#endif /* (defined(CY_DEVICE_CCG6)) */
             pd->bch_det_0_ctrl[chgb_id] |= (PDSS_BCH_DET_0_CTRL_DCP_EN | PDSS_BCH_DET_0_CTRL_RDAT_LKG_DP_EN);
             break;
 
@@ -484,9 +498,11 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_ConfigSnkTerm(cy_stc_usbpd_context_t *cont
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     PPDSS_REGS_T pd = context->base ;
 
@@ -625,9 +641,11 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_RemoveTerm(cy_stc_usbpd_context_t *context
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     PPDSS_REGS_T pd = context->base;
@@ -717,14 +735,11 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
                                   cy_en_usbpd_bch_comp_edge_t edge)
 {
 #if defined(CY_IP_MXUSBPD)
-
-    uint8_t chgb_id;
+    uint8_t chgb_id = context->port;
 #if defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)
 #if CY_FLIPPED_DP_DM
-    chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-    chgb_id = 0;
-#endif /* !CY_FLIPPED_DP_DM */
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else
     chgb_id = 0;
 #endif /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
@@ -862,9 +877,6 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
             PDSS_CHGDET_CTRL_0_CMPP_OFFSET_EN |
             PDSS_CHGDET_CTRL_0_EN_COMP_CHGDET);
 
-    /* Clear any previous comparator interrupts. */
-    pd->intr3 = PDSS_INTR3_CHGDET_CHANGED;
-
     /* Configure the comparator inputs. */
     regVal = pd->chgdet_ctrl_0;
     regVal |= (((uint32_t)mInput << PDSS_CHGDET_CTRL_0_CMP_INN_SEL_POS) |
@@ -874,6 +886,11 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
     if (vref == CHGB_VREF_0_325V)
     {
         regVal |= ((5UL << PDSS_CHGDET_CTRL_0_CMP_OFFSET_SEL_POS) |
+                (uint32_t)PDSS_CHGDET_CTRL_0_CMPP_OFFSET_EN);
+    }
+    else
+    {
+        regVal |= ((4UL << PDSS_CHGDET_CTRL_0_CMP_OFFSET_SEL_POS) |
                 (uint32_t)PDSS_CHGDET_CTRL_0_CMPP_OFFSET_EN);
     }
 
@@ -896,6 +913,9 @@ bool Cy_USBPD_Bch_Phy_Config_Comp(cy_stc_usbpd_context_t *context,
                 (2UL << PDSS_INTR3_CFG_0_CHGDET_FILT_SEL_POS) |
                 ((uint32_t)edge << PDSS_INTR3_CFG_0_CHGDET_CFG_POS));
     }
+
+    /* Clear any previous comparator interrupts. */
+    pd->intr3 = PDSS_INTR3_CHGDET_CHANGED;
 
     Cy_SysLib_ExitCriticalSection(intr_state);
     return result;
@@ -932,14 +952,12 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_DisableComp(cy_stc_usbpd_context_t *contex
         uint8_t compIdx )
 {
 #if defined(CY_IP_MXUSBPD)
-    uint8_t chgb_id;
+    uint8_t chgb_id = context->port;
 #if defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)
 #if CY_FLIPPED_DP_DM
-    chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-    chgb_id = 0;
-#endif /* !CY_FLIPPED_DP_DM */
-#else
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     chgb_id = 0;
 #endif /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
@@ -1022,20 +1040,34 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_Phy_Isolate_DpDm(cy_stc_usbpd_context_t *conte
 bool Cy_USBPD_Bch_Phy_CompResult(cy_stc_usbpd_context_t *context, uint8_t compIdx)
 {
     bool retVal = false;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base ;
 
     if(compIdx == 0u)
     {
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+        if ((pd->intr9_status_0 & ((uint32_t)BCH_PORT_0_CMP1_INTR_MASK << (chgb_id << 1))) != 0u)
+#else
         if ((pd->intr9_status_0 & (uint32_t)(BCH_PORT_0_CMP1_INTR_MASK)) != 0u)
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
         {
             retVal = true;
         }
     }
     else
     {
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+        if ((pd->intr9_status_0 & ((uint32_t)BCH_PORT_0_CMP2_INTR_MASK << (chgb_id << 1))) != 0u)
+#else
         if ((pd->intr9_status_0 & (uint32_t)(BCH_PORT_0_CMP2_INTR_MASK)) != 0u)
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
         {
             retVal = true;
         }
@@ -1072,7 +1104,15 @@ bool Cy_USBPD_Bch_Phy_CompResult(cy_stc_usbpd_context_t *context, uint8_t compId
 cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDpPd(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    context->base->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_RDP_PD_EN;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDP_PD_EN;
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_0 |= PDSS_CHGDET_CTRL_0_RDP_PD_EN;
 #else
@@ -1098,9 +1138,148 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDpPd(cy_stc_usbpd_context_t *context)
 cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDpPd(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    context->base->bch_det_0_ctrl[0] &= ~PDSS_BCH_DET_0_CTRL_RDP_PD_EN;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_RDP_PD_EN;
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_0 &= ~PDSS_CHGDET_CTRL_0_RDP_PD_EN;
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* CY_IP */
+
+    return CY_USBPD_STAT_SUCCESS;
+}
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_ApplyDmPd
+****************************************************************************//**
+*
+* This function applies pulldown on D-.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* \ref cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDmPd(cy_stc_usbpd_context_t *context)
+{
+#if defined(CY_IP_MXUSBPD)
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDM_PD_EN;
+#elif defined(CY_IP_M0S8USBPD)
+    context->base->chgdet_ctrl_0 |= PDSS_CHGDET_CTRL_0_RDM_PD_EN;
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* CY_IP */
+
+    return CY_USBPD_STAT_SUCCESS;
+}
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_RemoveDmPd
+****************************************************************************//**
+*
+* This function removes pulldown on D-.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* \ref cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDmPd(cy_stc_usbpd_context_t *context)
+{
+#if defined(CY_IP_MXUSBPD)
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_RDM_PD_EN;
+#elif defined(CY_IP_M0S8USBPD)
+    context->base->chgdet_ctrl_0 &= ~PDSS_CHGDET_CTRL_0_RDM_PD_EN;
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* CY_IP */
+
+    return CY_USBPD_STAT_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_ApplyDpPu
+****************************************************************************//**
+*
+* This function applies pullup on D+.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* \ref cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_ApplyDpPu(cy_stc_usbpd_context_t *context)
+{
+#if defined(CY_IP_MXUSBPD)
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDP_PU_EN;
+#elif defined(CY_IP_M0S8USBPD)
+    context->base->chgdet_ctrl_0 |= PDSS_CHGDET_CTRL_0_RDP_PU_EN;
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* CY_IP */
+
+    return CY_USBPD_STAT_SUCCESS;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Bch_RemoveDpPu
+****************************************************************************//**
+*
+* This function removes pullup on D+.
+*
+* \param context
+* Pointer to the context structure \ref cy_stc_usbpd_context_t.
+*
+* \return
+* \ref cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDpPu(cy_stc_usbpd_context_t *context)
+{
+#if defined(CY_IP_MXUSBPD)
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_RDP_PU_EN;
+#elif defined(CY_IP_M0S8USBPD)
+    context->base->chgdet_ctrl_0 &= ~PDSS_CHGDET_CTRL_0_RDP_PU_EN;
 #else
     CY_UNUSED_PARAMETER(context);
 #endif /* CY_IP */
@@ -1124,19 +1303,17 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_RemoveDpPd(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Bch_ApplyRdatLkgDp(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    uint8_t chgb_id;
-
-#if ((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM))
-        chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-        chgb_id = context->port;
-#endif /* !((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM)) */
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DP_EN;
 #else
     context->base->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DP_EN;
-    CY_UNUSED_PARAMETER(chgb_id);
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #elif defined(CY_IP_M0S8USBPD)
@@ -1162,19 +1339,17 @@ void Cy_USBPD_Bch_ApplyRdatLkgDp(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Bch_ApplyRdatLkgDm(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    uint8_t chgb_id;
-
-#if ((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM))
-        chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-        chgb_id = context->port;
-#endif /* !((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM)) */
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-        context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
+    context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
 #else
-        context->base->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
-        CY_UNUSED_PARAMETER(chgb_id);
+    context->base->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #elif defined(CY_IP_M0S8USBPD)
@@ -1200,19 +1375,17 @@ void Cy_USBPD_Bch_ApplyRdatLkgDm(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Bch_RemoveRdatLkgDp(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    uint8_t chgb_id;
-
-#if ((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM))
-        chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-        chgb_id = context->port;
-#endif /* !((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM)) */
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     context->base->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_RDAT_LKG_DP_EN;
 #else
     context->base->bch_det_0_ctrl[0] &= ~PDSS_BCH_DET_0_CTRL_RDAT_LKG_DP_EN;
-    CY_UNUSED_PARAMETER(chgb_id);
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_0 &= ~PDSS_CHGDET_CTRL_0_RDAT_LKG_DP_EN;
@@ -1237,23 +1410,21 @@ void Cy_USBPD_Bch_RemoveRdatLkgDp(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Bch_RemoveRdatLkgDm(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    uint8_t chgb_id;
-
-#if ((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM))
-        chgb_id = (context->port == 0u) ? 1u : 0u;
-#else
-        chgb_id = context->port;
-#endif /* !((defined(CY_DEVICE_CCG3PA)) && (CY_FLIPPED_DP_DM)) */
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     context->base->bch_det_0_ctrl[chgb_id] &= ~PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
 #else
     context->base->bch_det_0_ctrl[0] &= ~PDSS_BCH_DET_0_CTRL_RDAT_LKG_DM_EN;
-    CY_UNUSED_PARAMETER(chgb_id);
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #elif defined(CY_IP_M0S8USBPD)
-    context->base->chgdet_ctrl_0 &= ~~PDSS_CHGDET_CTRL_0_RDAT_LKG_DM_EN;
+    context->base->chgdet_ctrl_0 &= ~PDSS_CHGDET_CTRL_0_RDAT_LKG_DM_EN;
 #else
     CY_UNUSED_PARAMETER(context);
 #endif /* CY_IP */
@@ -1282,9 +1453,11 @@ void Cy_USBPD_Bch_Apply_AppleTermDp(cy_stc_usbpd_context_t *context,
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     PPDSS_REGS_T pd = context->base ;
@@ -1367,9 +1540,11 @@ void Cy_USBPD_Bch_Apply_AppleTermDm(cy_stc_usbpd_context_t *context,
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     PPDSS_REGS_T pd = context->base ;
@@ -1440,8 +1615,13 @@ void Cy_USBPD_Bch_Apply_VdmSrc(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-    context->base->bch_det_0_ctrl[context->port] |= PDSS_BCH_DET_0_CTRL_VDM_SRC_EN;
-#else /* !(defined(CCG3PA) || defined(CCG3PA2)) */
+    /* Defines which DP/DM lines to be routed to */
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+    context->base->bch_det_0_ctrl[chgb_id] |= PDSS_BCH_DET_0_CTRL_VDM_SRC_EN;
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     context->base->bch_det_0_ctrl[0] |= PDSS_BCH_DET_0_CTRL_VDM_SRC_EN;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #elif defined(CY_IP_M0S8USBPD)
@@ -1468,8 +1648,13 @@ void Cy_USBPD_Bch_Remove_VdmSrc(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-    context->base->bch_det_0_ctrl[context->port] &= ~(PDSS_BCH_DET_0_CTRL_VDM_SRC_EN);
-#else /* !(defined(CCG3PA) || defined(CCG3PA2)) */
+    /* Defines which DP/DM lines to be routed to */
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+    context->base->bch_det_0_ctrl[chgb_id] &= ~(PDSS_BCH_DET_0_CTRL_VDM_SRC_EN);
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     context->base->bch_det_0_ctrl[0] &= ~PDSS_BCH_DET_0_CTRL_VDM_SRC_EN;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #elif defined(CY_IP_M0S8USBPD)
@@ -1496,7 +1681,12 @@ bool Cy_USBPD_Bch_Is_VdmSrc_On(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-    return ((bool)((context->base->bch_det_0_ctrl[context->port] & PDSS_BCH_DET_0_CTRL_VDM_SRC_EN) != 0u));
+    /* Defines which DP/DM lines to be routed to */
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+    return ((bool)((context->base->bch_det_0_ctrl[chgb_id] & PDSS_BCH_DET_0_CTRL_VDM_SRC_EN) != 0u));
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     return ((bool)((context->base->bch_det_0_ctrl[0] & PDSS_BCH_DET_0_CTRL_VDM_SRC_EN) != 0UL));
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
@@ -1528,9 +1718,11 @@ void Cy_USBPD_Bch_Remove_AppleSrcDp(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     pd->bch_det_1_ctrl[chgb_id] &=
                 ~(PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DP_MASK
@@ -1566,13 +1758,15 @@ void Cy_USBPD_Bch_Remove_AppleSrcDm(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base;
-#if (defined(CY_DEVICE_CCCG3PA) || defined(CY_DEVICE_CCCG3PA2))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
     uint8_t chgb_id = context->port;
-#else /* !(defined(CY_DEVICE_CCCG3PA) || defined(CY_DEVICE_CCCG3PA2)) */
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 pd->bch_det_1_ctrl[chgb_id] &=
                 ~(PDSS_BCH_DET_1_CTRL_CHGDET_APPLE_MODE_DM_MASK
@@ -1606,7 +1800,15 @@ pd->bch_det_1_ctrl[chgb_id] &=
 void Cy_USBPD_Bch_Enable_AppleDet(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    context->base->bch_det_1_ctrl[0] |= PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_1_ctrl[chgb_id] |= PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_1 |= PDSS_CHGDET_CTRL_1_CHGDET_APP_DET;
 #else
@@ -1630,7 +1832,15 @@ void Cy_USBPD_Bch_Enable_AppleDet(cy_stc_usbpd_context_t *context)
 void Cy_USBPD_Bch_Disable_AppleDet(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
-    context->base->bch_det_1_ctrl[0] &= ~PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) 
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
+    context->base->bch_det_1_ctrl[chgb_id] &= ~PDSS_BCH_DET_1_CTRL_CHGDET_APP_DET;
 #elif defined(CY_IP_M0S8USBPD)
     context->base->chgdet_ctrl_1 &= ~PDSS_CHGDET_CTRL_1_CHGDET_APP_DET;
 #else
@@ -1655,10 +1865,13 @@ bool Cy_USBPD_Bch_Phy_DpStat(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base ;
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
-    uint8_t chgb_id = 0;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS_POS + chgb_id))) != 0UL)
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#elif (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S))
     if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DP_STATUS)) != 0u)
 #endif /* CCGx */
     {
@@ -1691,10 +1904,13 @@ bool Cy_USBPD_Bch_Phy_DmStat(cy_stc_usbpd_context_t *context)
 {
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base ;
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))
-    uint8_t chgb_id = 0;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
     if ((pd->intr9_status_1 & (1UL << (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS_POS + chgb_id))) != 0UL)
-#elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#elif (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S))
      if ((pd->intr9_status_1 & (PDSS_INTR9_STATUS_1_QCOM_RCVR_DM_STATUS)) != 0u)
 #endif /* CCGx */
     {
@@ -1729,7 +1945,7 @@ void Cy_USBPD_Bch_Phy_Config_DeepSleep(cy_stc_usbpd_context_t *context)
 #if (CCG_TYPE_A_PORT_ENABLE == 0)
     if (context->port < NO_OF_TYPEC_PORTS)
 #else
-    if (cport < 2u)
+    if (context->port < 2u)
 #endif
     {
     PPDSS_REGS_T pd = context->base ;
@@ -1746,16 +1962,15 @@ void Cy_USBPD_Bch_Phy_Config_DeepSleep(cy_stc_usbpd_context_t *context)
 #endif /* !CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-    (void)chgb_id;
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     /* Configuring both edge detection. */
     pd->intr9_cfg_bch_det[chgb_id] |= (PDSS_INTR9_CFG_BCH_DET_QCOM_RCVR_DM_CFG_MASK |
             PDSS_INTR9_CFG_BCH_DET_QCOM_RCVR_DP_CFG_MASK);
 
-#if (defined(CY_DEVICE_CCG3PA))
-    pd->intr9_mask |= ((1UL << PDSS_INTR9_QCOM_RCVR_DM_CHANGED_POS) |
-                (1UL << PDSS_INTR9_QCOM_RCVR_DP_CHANGED_POS));
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+    pd->intr9_mask |= (((1UL << PDSS_INTR9_QCOM_RCVR_DM_CHANGED_POS) |
+                (1UL << PDSS_INTR9_QCOM_RCVR_DP_CHANGED_POS)) << chgb_id);
 #else
     pd->intr9_mask |= (PDSS_INTR9_QCOM_RCVR_DM_CHANGED |
             PDSS_INTR9_QCOM_RCVR_DP_CHANGED);
@@ -1842,15 +2057,22 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcStop(cy_stc_usbpd_context_t *context)
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseEn(cy_stc_usbpd_context_t *context)
 {
-    uint8_t cport=context->port;
+    uint8_t chgb_id = context->port;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    chgb_id = 0u;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     PPDSS_REGS_T pd = context->base;
     
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG6))
     /* Sense changes on DM/DP lines */
-    pd->qc3_chrger_ctrl[cport] |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+    pd->qc3_chrger_ctrl[chgb_id] |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
 #else /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG6)) */
     pd->qc3_chrger_ctrl |= PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
-    CY_UNUSED_PARAMETER(cport);
+    CY_UNUSED_PARAMETER(chgb_id);
 #endif /* CCGx */
     return CY_USBPD_STAT_SUCCESS;
 }
@@ -1871,21 +2093,24 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseEn(cy_stc_usbpd_context_t *con
 *******************************************************************************/
 cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcMasterSenseDis(cy_stc_usbpd_context_t *context)
 {
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
+    uint8_t chgb_id = context->port;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    chgb_id = 0u;
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     PPDSS_REGS_T pd = context->base;
 
-#if defined(CY_DEVICE_PMG1S3)
-    pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S) || defined(CY_DEVICE_CCG6))
+    pd->qc3_chrger_ctrl[chgb_id] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
 #else
-    pd->qc3_chrger_ctrl[0] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
-#endif /* defined(CY_DEVICE_PMG1S3) */
+    pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+    CY_UNUSED_PARAMETER(chgb_id);
+#endif /* CCGx */
 
     return CY_USBPD_STAT_SUCCESS;
-
-#else
-    CY_UNUSED_PARAMETER(context);
-    return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3))  */
 }
 
 /*******************************************************************************
@@ -1909,16 +2134,26 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStart(cy_stc_usbpd_context_t *con
     uint32_t regval;
     volatile uint32_t *qc3_chrger_ctrl = NULL;
     volatile uint32_t *afc_hs_filter_cfg = NULL;
-    
+
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
     context->bcQcPulseCount = 0;
     
 #if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     qc3_chrger_ctrl = &pd->qc3_chrger_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl[0];
-    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
-#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */    
+    qc3_chrger_ctrl = &pd->qc3_chrger_ctrl[chgb_id];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[chgb_id];
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S)) */
     
     /*
      * Enable pulse count and filter. DP filter should look for rising edge
@@ -1975,12 +2210,20 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *cont
 {
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
-
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
     context->bcQcPulseCount = 0;
 #if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     pd->qc3_chrger_ctrl &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    pd->qc3_chrger_ctrl[0] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
+    pd->qc3_chrger_ctrl[chgb_id] &= ~PDSS_QC3_CHRGER_CTRL_QC3_0_CHG_EN;
 #endif /* defined(CY_DEVICE_PMG1S3) */
 
     /* Disable D+/D- pulse interrupts */
@@ -1992,7 +2235,7 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_QcSrcContModeStop(cy_stc_usbpd_context_t *cont
 #else
     CY_UNUSED_PARAMETER(context);
     return CY_USBPD_STAT_NOT_SUPPORTED;
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))  */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S)) */
 }
 
 /*******************************************************************************
@@ -2016,15 +2259,25 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
     volatile uint32_t *afc_2_ctrl = NULL;
     volatile uint32_t *afc_hs_filter_cfg = NULL;
     uint32_t regval = 0;
-    
-#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S))
     afc_1_ctrl = &pd->afc_1_ctrl;
     afc_2_ctrl = &pd->afc_2_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    afc_1_ctrl = &pd->afc_1_ctrl[0];
-    afc_2_ctrl = &pd->afc_2_ctrl[0];
-    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
+    afc_1_ctrl = &pd->afc_1_ctrl[chgb_id];
+    afc_2_ctrl = &pd->afc_2_ctrl[chgb_id];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[chgb_id];
 #endif /* defined(CY_DEVICE_PMG1S3) */
     
     regval = *afc_1_ctrl;
@@ -2046,6 +2299,11 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcInit(cy_stc_usbpd_context_t *context)
     /* Enable filter. */
     *afc_hs_filter_cfg &= ~(PDSS_AFC_HS_FILTER_CFG_DM_FILT_SEL_MASK);
     *afc_hs_filter_cfg |= (PDSS_AFC_HS_FILTER_CFG_DM_FILT_EN);
+
+#if (defined(CY_DEVICE_PMG1S3))
+    /* Enable clock */
+    pd->ctrl |= (uint32_t)PDSS_CTRL_AFC_ENABLED;
+#endif /* (defined(CY_DEVICE_PMG1S3)) */
 
     return CY_USBPD_STAT_SUCCESS;
 
@@ -2074,12 +2332,22 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL;
-    
+
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0u) ? 1u : 0u;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
 #if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
-#endif /* defined(CY_DEVICE_PMG1S3) */    
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[chgb_id];
+#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S) */
     
     /* Set opcode for afc source operation */
     *afc_opcode_ctrl = AFC_SOURCE_OPCODE | (1UL << 29u);
@@ -2087,6 +2355,20 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
     Cy_SysLib_DelayUs (10);
 
     /* Enable Interrupts */ 
+#if defined(CY_DEVICE_CCG3PA)
+    if (chgb_id == 0)
+    {
+        pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+    }
+    else
+    {
+        pd->intr4 = CHGB_AFC_INTR4_PORT1_ALL_INTR_BIT_MASK;
+    }
+
+    pd->intr4_mask |= (((1 << PDSS_INTR4_AFC_SM_IDLE_POS) |
+            (1 << PDSS_INTR4_UPDATE_PING_PONG_POS) |
+            (1 << PDSS_INTR4_AFC_RX_RESET_POS)) << chgb_id);
+#else
     pd->intr4 = (PDSS_INTR4_AFC_PING_RECVD | PDSS_INTR4_AFC_SM_IDLE |
                  PDSS_INTR4_AFC_TIMEOUT | PDSS_INTR4_AFC_RX_RESET |
                  PDSS_INTR4_UPDATE_PING_PONG | PDSS_INTR4_AFC_ERROR);
@@ -2094,7 +2376,8 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSrcStart(cy_stc_usbpd_context_t *context)
     pd->intr4_mask |= ((PDSS_INTR4_AFC_SM_IDLE) |
                 (PDSS_INTR4_UPDATE_PING_PONG) |
                 (PDSS_INTR4_AFC_RX_RESET));
-    
+#endif /* defined(CY_DEVICE_CCG3PA) */
+
     context->bcAfcRxIdx = 0;
 
     /* Start operation */
@@ -2215,9 +2498,9 @@ void Cy_USBPD_Bch_AfcLoadTxData(cy_stc_usbpd_context_t *context)
 #if defined(CY_DEVICE_CCG3PA)
     uint8_t chgb_id = cport;
 #if CY_FLIPPED_DP_DM
-    chgb_id = (cport == 0) ? 1 : 0;
+    chgb_id = (chgb_id == 0) ? 1 : 0;
 #endif /* CY_FLIPPED_DP_DM */
-#endif /* defined(CCG3PA) */
+#endif /* defined(CY_DEVICE_CCG3PA) */
 
 #if (TYPE_A_PORT_ENABLE == 0)
     if (cport < NO_OF_TYPEC_PORTS)
@@ -2335,15 +2618,24 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkInit(cy_stc_usbpd_context_t *context)
     volatile uint32_t *afc_1_ctrl = NULL;
     volatile uint32_t *afc_2_ctrl = NULL;
     volatile uint32_t *afc_hs_filter_cfg = NULL;
-    
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0) ? 1 : 0;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
 #if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_1_ctrl = &pd->afc_1_ctrl;
     afc_2_ctrl = &pd->afc_2_ctrl;
     afc_hs_filter_cfg = &pd->afc_hs_filter_cfg;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    afc_1_ctrl = &pd->afc_1_ctrl[0];
-    afc_2_ctrl = &pd->afc_2_ctrl[0];
-    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[0];
+    afc_1_ctrl = &pd->afc_1_ctrl[chgb_id];
+    afc_2_ctrl = &pd->afc_2_ctrl[chgb_id];
+    afc_hs_filter_cfg = &pd->afc_hs_filter_cfg[chgb_id];
 #endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1) */
 
     *afc_1_ctrl &= ~(PDSS_AFC_1_CTRL_TX_RESET |
@@ -2392,22 +2684,46 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStartPing(cy_stc_usbpd_context_t *conte
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL;
-    
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0) ? 1 : 0;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
 #if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[chgb_id];
 #endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1) */
 
     /* Set opcode for afc sink operation */
     *afc_opcode_ctrl = AFC_SINK_OPCODE_PING;
 
     /* Enable Interrupts */
+#if defined(CY_DEVICE_CCG3PA)
+    if (chgb_id == 0)
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+    }
+    else
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT1_ALL_INTR_BIT_MASK;
+    }
+
+    PDSS->intr4_mask |= (((1 << PDSS_INTR4_AFC_SM_IDLE_POS) |
+                        (1 << PDSS_INTR4_UPDATE_PING_PONG_POS) |
+                        (1 << PDSS_INTR4_AFC_RX_RESET_POS)) << chgb_id);
+#else
     pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
 
     pd->intr4_mask |= (PDSS_INTR4_AFC_SM_IDLE
                         | PDSS_INTR4_UPDATE_PING_PONG
                         | PDSS_INTR4_AFC_RX_RESET);
+#endif /* defined(CY_DEVICE_CCG3PA) */
 
     context->bcAfcRxIdx = 0;
 
@@ -2441,26 +2757,55 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStart(cy_stc_usbpd_context_t *context)
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
     volatile uint32_t *afc_opcode_ctrl = NULL; 
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0) ? 1 : 0;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
 
     /* Set opcode for afc sink operation */
 #if defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1)
     afc_opcode_ctrl = &pd->afc_opcode_ctrl;
+    CY_UNUSED_PARAMETER(chgb_id);
 #else
-    afc_opcode_ctrl = &pd->afc_opcode_ctrl[0];
-#endif
+    afc_opcode_ctrl = &pd->afc_opcode_ctrl[chgb_id];
+#endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_SERIES_WLC1) */
 
     /* Set opcode for afc sink operation */
     *afc_opcode_ctrl = AFC_SINK_OPCODE;
-    
+
+    /* Enable Interrupts */
+#if defined(CY_DEVICE_CCG3PA)
+    if (chgb_id == 0)
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+    }
+    else
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT1_ALL_INTR_BIT_MASK;
+    }
+
+    PDSS->intr4_mask |= (((1 << PDSS_INTR4_AFC_SM_IDLE_POS) |
+                        (1 << PDSS_INTR4_UPDATE_PING_PONG_POS) |
+                        /* Not used. Errors are handled in AFC sink state machine */
+#if BC_AFC_SINK_ERROR_INT_ENABLE
+                        (1 << PDSS_INTR4_AFC_ERROR_POS) |
+                        (1 << PDSS_INTR4_AFC_TIMEOUT_POS) |
+#endif /* BC_AFC_SINK_ERROR_INT_ENABLE */
+                        (1 << PDSS_INTR4_AFC_RX_RESET_POS)) << chgb_id);
+#else
     pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
     
-    /* Enable Interrupts */
     pd->intr4_mask = ( PDSS_INTR4_AFC_SM_IDLE | PDSS_INTR4_UPDATE_PING_PONG |
                         /* Not used. Errors are handled in AFC sink state machine */
 #if BC_AFC_SINK_ERROR_INT_ENABLE
                        PDSS_INTR4_AFC_ERROR | PDSS_INTR4_AFC_TIMEOUT |
 #endif /* BC_AFC_SINK_ERROR_INT_ENABLE */
                        PDSS_INTR4_AFC_RX_RESET);
+#endif /* CY_DEVICE_CCG3PA */
 
     context->bcAfcRxIdx = 0U;
 
@@ -2492,12 +2837,31 @@ cy_en_usbpd_status_t Cy_USBPD_Bch_AfcSinkStop(cy_stc_usbpd_context_t *context)
 {
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) 
     PPDSS_REGS_T pd = context->base;
-    
+#if (defined(CY_DEVICE_CCG3PA))
+    uint8_t chgb_id = context->port;
+#if CY_FLIPPED_DP_DM
+    chgb_id = (chgb_id == 0) ? 1 : 0;
+#endif /* CY_FLIPPED_DP_DM */
+#else
+    uint8_t chgb_id = 0;
+#endif /* (defined(CY_DEVICE_CCG3PA) */
+
     /* Disable Interrupts */
     pd->intr4_mask = 0;
 
+#if defined(CY_DEVICE_CCG3PA)
+    if (chgb_id == 0)
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
+    }
+    else
+    {
+        PDSS->intr4 = CHGB_AFC_INTR4_PORT1_ALL_INTR_BIT_MASK;
+    }
+#else
     pd->intr4 = CHGB_AFC_INTR4_PORT0_ALL_INTR_BIT_MASK;
-
+    CY_UNUSED_PARAMETER(chgb_id);
+#endif /* defined(CY_DEVICE_CCG3PA) */
     return CY_USBPD_STAT_SUCCESS;
 
 #else
@@ -2529,15 +2893,15 @@ void Cy_USBPD_Bch_QC3_IntrHandler(cy_stc_usbpd_context_t *context)
 #if defined(CY_DEVICE_CCG3PA)
     uint8_t chgb_id = cport;
 #if CY_FLIPPED_DP_DM
-    chgb_id = (cport == 0) ? 1 : 0;
+    chgb_id = (chgb_id == 0) ? 1 : 0;
 #endif /* CY_FLIPPED_DP_DM */
 #endif /* defined(CY_DEVICE_CCG3PA) */
 
-#if (CY_TYPE_A_PORT_ENABLE == 0)
+#if (CCG_TYPE_A_PORT_ENABLE == 0)
     if (cport < NO_OF_TYPEC_PORTS)
 #else
     if (cport < 2u)
-#endif /* CY_TYPE_A_PORT_ENABLE == 0 */
+#endif /* CCG_TYPE_A_PORT_ENABLE == 0 */
     {
         PPDSS_REGS_T pd = context->base;
 
@@ -2611,7 +2975,7 @@ void Cy_USBPD_Bch_AfcPingPong_IntrHandler(cy_stc_usbpd_context_t *context)
     uint8_t cport = context->port;
     uint8_t chgb_id = cport;
 #if CY_FLIPPED_DP_DM
-    chgb_id = (cport == 0) ? 1 : 0;
+    chgb_id = (chgb_id == 0) ? 1 : 0;
 #endif /* CY_FLIPPED_DP_DM */
 
 #if (BCR == 1)
@@ -2700,7 +3064,7 @@ void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context)
     uint8_t cport=context->port;
     uint8_t chgb_id = cport;
 #if CY_FLIPPED_DP_DM
-    chgb_id = (cport == 0) ? 1 : 0;
+    chgb_id = (chgb_id == 0) ? 1 : 0;
 #endif /* CY_FLIPPED_DP_DM */
 
 #if (BCR == 1)
@@ -2712,8 +3076,12 @@ void Cy_USBPD_Bch_AfcIdle_IntrHandler(cy_stc_usbpd_context_t *context)
 #endif /* defined(CY_DEVICE_CCG3PA) */
     PPDSS_REGS_T pd = context->base;
     uint32_t event;
-    
+
+#if (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S))
     if((pd->intr4 & (PDSS_INTR4_AFC_ERROR | PDSS_INTR4_AFC_TIMEOUT)) != 0UL)
+#else /* CCG3PA */
+    if((pd->intr4 & (1 << (PDSS_INTR4_AFC_ERROR_POS + chgb_id) | (1 << (PDSS_INTR4_AFC_TIMEOUT_POS + chgb_id)))) != 0UL)
+#endif /* (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_PAG2S)) */
     {
         event = BC_EVT_AFC_MSG_SEND_FAIL;
     }
@@ -2755,11 +3123,11 @@ void Cy_USBPD_Bch_AfcReset_IntrHandler(cy_stc_usbpd_context_t *context)
     cport = 0u;
 #endif /* (BCR == 1) */
 
-#if (CY_TYPE_A_PORT_ENABLE == 0)
+#if (CCG_TYPE_A_PORT_ENABLE == 0)
     if (cport < NO_OF_TYPEC_PORTS)
 #else
     if (cport < 2u)
-#endif /* CY_TYPE_A_PORT_ENABLE==0 */
+#endif /* CCG_TYPE_A_PORT_ENABLE==0 */
     {
         /* Report reset received event. */
         if (context->bcPhyCbk != NULL)
@@ -2802,13 +3170,13 @@ void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
 
         if (pd->intr4_masked & (1 << (PDSS_INTR4_UPDATE_PING_PONG_POS + 1)))
         {
-            Cy_USBPD_Bch_AfcPingPong_IntrHandler(context);
+            Cy_USBPD_Bch_AfcPingPong_IntrHandler(context->altPortUsbPdCtx[0]);
             pd->intr4 = 1 << (PDSS_INTR4_UPDATE_PING_PONG_POS + 1);
         }
 
         if (pd->intr4_masked & (1 << PDSS_INTR4_AFC_SM_IDLE_POS))
         {
-            Cy_USBPD_Afc_HandleIdleIntr(context);
+            Cy_USBPD_Bch_AfcIdle_IntrHandler(context);
             pd->intr4 = (
                        (1 << PDSS_INTR4_AFC_SM_IDLE_POS)
 #if BCR || QC_AFC_SNK_EN
@@ -2820,7 +3188,7 @@ void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
 
         if (pd->intr4_masked & (1 << (PDSS_INTR4_AFC_SM_IDLE_POS + 1)))
         {
-            Cy_USBPD_Bch_AfcIdle_IntrHandler(context);
+            Cy_USBPD_Bch_AfcIdle_IntrHandler(context->altPortUsbPdCtx[0]);
             pd->intr4 = ((1 << (PDSS_INTR4_AFC_SM_IDLE_POS + 1))
 #if BCR || QC_AFC_SNK_EN
                        |(1 << (PDSS_INTR4_AFC_ERROR_POS + 1)) |
@@ -2837,7 +3205,7 @@ void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
 
         if (pd->intr4_masked & (1 << (PDSS_INTR4_AFC_RX_RESET_POS + 1)))
         {
-            Cy_USBPD_Bch_AfcReset_IntrHandler(context);
+            Cy_USBPD_Bch_AfcReset_IntrHandler(context->altPortUsbPdCtx[0]);
             pd->intr4 = 1 << (PDSS_INTR4_AFC_RX_RESET_POS + 1);
         }
     }
@@ -2850,10 +3218,10 @@ void Cy_USBPD_Bch_Intr0Handler(cy_stc_usbpd_context_t *context)
         }
         if (pd->intr6_masked & QC3_PORT_1_DP_DM_PULSE_MASK)
         {
-            Cy_USBPD_Bch_QC3_IntrHandler(context);
+            Cy_USBPD_Bch_QC3_IntrHandler(context->altPortUsbPdCtx[0]);
         }
     }
-#else
+#else /* defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) */
     if(pd->intr4_masked != 0u)
     {
         if ((pd->intr4_masked & (PDSS_INTR4_UPDATE_PING_PONG)) != 0u)
@@ -2935,7 +3303,7 @@ void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context)
         }
     }
 
-#if !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
 #if ((NO_OF_BC_PORTS == 2) || (CY_FLIPPED_DP_DM))
     if ((pd->intr9_masked & BCH_PORT_1_CMP1_INTR_MASK) != 0u)
     {
@@ -2946,7 +3314,7 @@ void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context)
         /* Report an CMP1 fire event. */
         if (context->bcPhyCbk != NULL)
         {
-            context->bcPhyCbk(context, BC_EVT_CMP1_FIRE);
+            context->bcPhyCbk(context->altPortUsbPdCtx[0], BC_EVT_CMP1_FIRE);
         }
     }
 
@@ -2959,11 +3327,11 @@ void Cy_USBPD_Bch_Intr1Handler(cy_stc_usbpd_context_t *context)
         /* Report an CMP2 fire event. */
         if (context->bcPhyCbk != NULL)
         {
-            context->bcPhyCbk(context, BC_EVT_CMP2_FIRE);
+            context->bcPhyCbk(context->altPortUsbPdCtx[0], BC_EVT_CMP2_FIRE);
         }
     }
 #endif /* ((NO_OF_BC_PORTS == 2) || (CY_FLIPPED_DP_DM)) */
-#endif /* !(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
 #elif defined(CY_IP_M0S8USBPD)
 
@@ -3027,11 +3395,10 @@ bool Cy_USBPD_Bch_CompareVolt(cy_stc_usbpd_context_t *context, uint8_t inp, uint
         chgb_id = (context->port == 0u) ? 1u : 0u; /* PRQA S 2995, 2997 */
 #else
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
-        chgb_id = port;
+        chgb_id = context->port;
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
         chgb_id = 0;
-        (void)chgb_id;
-#endif /* (defined(CCG3PA) || defined(CCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 #endif /* !CY_FLIPPED_DP_DM */
         uint32_t val;
 
@@ -3056,9 +3423,9 @@ bool Cy_USBPD_Bch_CompareVolt(cy_stc_usbpd_context_t *context, uint8_t inp, uint
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
         stat = ((val & ((uint32_t)BCH_PORT_0_CMP1_INTR_MASK << ((uint32_t)chgb_id << 1))) != 0u);
-#else /* !(defined(CCG3PA) || defined(CCG3PA2)) */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
         stat = ((val & (BCH_PORT_0_CMP1_INTR_MASK)) != 0u);
-#endif /* (defined(CCG3PA) || defined(CCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
         Cy_SysLib_ExitCriticalSection (intr_state);
     }
@@ -3185,14 +3552,14 @@ bool Cy_USBPD_Bch_CdpSm(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
-    uint8_t chgb_id = port;
+    uint8_t chgb_id = context->port;
 #if CY_FLIPPED_DP_DM
     /* For CCG3PA applications which require the block to be routed to DP1/DM1 */
     chgb_id = (chgb_id == 0u) ? 1u : 0u;
 #endif /* CY_FLIPPED_DP_DM */
 #else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-#endif /* (defined(CCG3PA) || defined(CCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     if (context->cdpState.isActive  == true)
     {
@@ -3267,7 +3634,7 @@ void Cy_USBPD_Bch_CdpEn(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2))
     /* Defines which DP/DM lines to be routed to */
-    uint8_t chgb_id = port;
+    uint8_t chgb_id = context->port;
 #if CY_FLIPPED_DP_DM
     /* For CCG3PA applications which require the block to be routed to DP1/DM1 */
     chgb_id = (chgb_id == 0u) ? 1u : 0u;
@@ -3346,9 +3713,9 @@ bool Cy_USBPD_Bch_Is_Cdp_SmBusy(cy_stc_usbpd_context_t *context)
     /* For CCG3PA applications which require the block to be routed to DP1/DM1 */
     chgb_id = (chgb_id == 0u) ? 1u : 0u;
 #endif /* CY_FLIPPED_DP_DM */
-#else /* !(defined(CCG3PA) || defined(CCG3PA2)) */
+#else /* !(defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
     uint8_t chgb_id = 0;
-#endif /* (defined(CCG3PA) || defined(CCG3PA2)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2)) */
 
     if (context->cdpState.isActive)
     {

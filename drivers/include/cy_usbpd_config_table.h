@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.90
+* \version 2.100
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -59,7 +59,7 @@
 /**< Macro to extract the default VCONN_SWAP command response from the swap_response field
      in the configuration table. */
 
-#define CY_MAX_DEV_COUNT_CDTT                (8u)
+#define CY_MAX_DEV_COUNT_CDTT                (16u)
 /**< Maximum device count. Indicates the maximum number of device connection supported by the DMC */
 
 #define CY_CONFIG_GET_PPS_SNK_ENABLED(resp)  ((resp) & 0x01u)

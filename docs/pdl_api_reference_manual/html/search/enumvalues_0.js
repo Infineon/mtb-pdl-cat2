@@ -885,6 +885,7 @@ var searchData=
   ['cy_5fusbpd_5fpoll_5fvsys_5fint_5fup',['CY_USBPD_POLL_VSYS_INT_UP',['../group__group__usbpd__typec__enum.html#ggad3fbfa4bff6874dae39e5f48fa88db1baeb945bef3d06bfba0ff686f5b3edf691',1,'cy_usbpd_typec.h']]],
   ['cy_5fusbpd_5fpoll_5fvsys_5fstart_5ftimer',['CY_USBPD_POLL_VSYS_START_TIMER',['../group__group__usbpd__typec__enum.html#ggad3fbfa4bff6874dae39e5f48fa88db1ba6baf6a6dcf6d89fa0513f3d770f88a80',1,'cy_usbpd_typec.h']]],
   ['cy_5fusbpd_5fpoll_5fvsys_5fstop_5ftimer',['CY_USBPD_POLL_VSYS_STOP_TIMER',['../group__group__usbpd__typec__enum.html#ggad3fbfa4bff6874dae39e5f48fa88db1bab49e49eb6cf423524fac5100e646405e',1,'cy_usbpd_typec.h']]],
+  ['cy_5fusbpd_5fsbu_5fadft_5finvalid',['CY_USBPD_SBU_ADFT_INVALID',['../group__group__usbpd__legacy__enums.html#gga1f0712cd2ba0b6cbb5b564764f0ece09ad4f492cc20d9172c625ab43eef283ae0',1,'cy_usbpd_common.h']]],
   ['cy_5fusbpd_5fsbu_5fconnect_5faux1',['CY_USBPD_SBU_CONNECT_AUX1',['../group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca399ce8f17eaf09026953a353f261276b',1,'cy_usbpd_common.h']]],
   ['cy_5fusbpd_5fsbu_5fconnect_5faux2',['CY_USBPD_SBU_CONNECT_AUX2',['../group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695ccecaddde0ff8e12b6efc902ebf1c0eaa04e2',1,'cy_usbpd_common.h']]],
   ['cy_5fusbpd_5fsbu_5fconnect_5fdbg1',['CY_USBPD_SBU_CONNECT_DBG1',['../group__group__usbpd__common__enums.html#gga07d345ebd78ee59e02d2dede5695cceca3ab1c7732c0cb07a654628efbe6b9409',1,'cy_usbpd_common.h']]],

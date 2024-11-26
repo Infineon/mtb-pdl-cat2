@@ -224,6 +224,7 @@ var NAVTREEINDEX13 =
 "group__group__usbpd__legacy__enums.html":[2,25,2,1],
 "group__group__usbpd__legacy__enums.html#ga0724253cfa70ad27593072c3947c9aba":[2,25,2,1,0],
 "group__group__usbpd__legacy__enums.html#ga1d718bf5e6d1f8cddf5241f243d10063":[2,25,2,1,1],
+"group__group__usbpd__legacy__enums.html#ga1f0712cd2ba0b6cbb5b564764f0ece09":[2,25,2,1,8],
 "group__group__usbpd__legacy__enums.html#ga3fec791fb8f1143d0f76b316b7eb3bac":[2,25,2,1,4],
 "group__group__usbpd__legacy__enums.html#ga812e2efcd5f052772560335dc3578b7f":[2,25,2,1,6],
 "group__group__usbpd__legacy__enums.html#ga882504d230ebad6ca6d4ab69905bc87b":[2,25,2,1,7],
@@ -241,13 +242,12 @@ var NAVTREEINDEX13 =
 "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063a9d0ae5a87b4b24f1cdc2da80cc3e49d2":[2,25,2,1,1,8],
 "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063ac308b118d30b45f7fbca0e93451a73c8":[2,25,2,1,1,7],
 "group__group__usbpd__legacy__enums.html#gga1d718bf5e6d1f8cddf5241f243d10063afef425f3b79c68a488c63d1559d38bcd":[2,25,2,1,1,3],
+"group__group__usbpd__legacy__enums.html#gga1f0712cd2ba0b6cbb5b564764f0ece09ad4f492cc20d9172c625ab43eef283ae0":[2,25,2,1,8,0],
 "group__group__usbpd__legacy__enums.html#gga3fec791fb8f1143d0f76b316b7eb3baca02f3e6feda6741856169098a7402fb33":[2,25,2,1,4,1],
 "group__group__usbpd__legacy__enums.html#gga3fec791fb8f1143d0f76b316b7eb3baca2c843031742c5ca912def6fbe7e79de9":[2,25,2,1,4,0],
 "group__group__usbpd__legacy__enums.html#gga3fec791fb8f1143d0f76b316b7eb3baca6729dcf9cf41bcbb7e0d1de54415b0c3":[2,25,2,1,4,2],
 "group__group__usbpd__legacy__enums.html#gga3fec791fb8f1143d0f76b316b7eb3bacaf6abfe47b954c209ce796e1bf427b442":[2,25,2,1,4,3],
 "group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa0422a334f8c4371906c634f3e1b5a7e5":[2,25,2,1,6,2],
 "group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa444e12e72b6de4896f5fba4765f57592":[2,25,2,1,6,1],
-"group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa9744ced0222d62174d8c9c32c7759513":[2,25,2,1,6,0],
-"group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fae5664e545819c2411babc81d526fa1fe":[2,25,2,1,6,3],
-"group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba125814ab0d45f5a64fa84eed580b223e":[2,25,2,1,7,0]
+"group__group__usbpd__legacy__enums.html#gga812e2efcd5f052772560335dc3578b7fa9744ced0222d62174d8c9c32c7759513":[2,25,2,1,6,0]
 };

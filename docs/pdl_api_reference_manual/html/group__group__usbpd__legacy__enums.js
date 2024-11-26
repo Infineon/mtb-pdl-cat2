@@ -50,5 +50,8 @@ var group__group__usbpd__legacy__enums =
     [ "cy_en_usbpd_vbat_gnd_scp_level_t", "group__group__usbpd__legacy__enums.html#ga882504d230ebad6ca6d4ab69905bc87b", [
       [ "PD_VBAT_GND_SCP_6A", "group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba125814ab0d45f5a64fa84eed580b223e", null ],
       [ "PD_VBAT_GND_SCP_10A", "group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba27cdefd5a202f7b84ce84d2c75bd3c90", null ]
+    ] ],
+    [ "cy_en_usbpd_sbu_adft_input_t", "group__group__usbpd__legacy__enums.html#ga1f0712cd2ba0b6cbb5b564764f0ece09", [
+      [ "CY_USBPD_SBU_ADFT_INVALID", "group__group__usbpd__legacy__enums.html#gga1f0712cd2ba0b6cbb5b564764f0ece09ad4f492cc20d9172c625ab43eef283ae0", null ]
     ] ]
 ];

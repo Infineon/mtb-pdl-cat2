@@ -283,7 +283,8 @@ var group__group__usbpd__common__data__structures =
       [ "bbSsPwmDuty", "structcy__stc__usbpd__context__t.html#aee65cc90037bbcc5bd5d9448a2f53bb4", null ],
       [ "pollForVsys", "structcy__stc__usbpd__context__t.html#a8c003179cce900bb1c537641a6089496", null ],
       [ "altPortUsbPdCtx", "structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438", null ],
-      [ "voutRcpCbk", "structcy__stc__usbpd__context__t.html#aeb60f72517f8c73f08ee36ed13a3eadd", null ]
+      [ "voutRcpCbk", "structcy__stc__usbpd__context__t.html#aeb60f72517f8c73f08ee36ed13a3eadd", null ],
+      [ "ccRegisters", "structcy__stc__usbpd__context__t.html#a90bcef564f22e3f3759028dc85b76db1", null ]
     ] ],
     [ "cy_pd_pd_hdr_t", "unioncy__pd__pd__hdr__t.html", [
       [ "val", "unioncy__pd__pd__hdr__t.html#ad1109ebd4635054241eae5bf6d39a832", null ],
@@ -342,8 +343,10 @@ var group__group__usbpd__common__data__structures =
       [ "pps_snk", "unioncy__pd__pd__do__t.html#a581632882fe4daf187991359906ecca6", null ],
       [ "rdo_pps", "unioncy__pd__pd__do__t.html#a62113840067ce52e1cb6a513eeb533ef", null ],
       [ "epr_avs_src", "unioncy__pd__pd__do__t.html#a62d89e39924dce24c2e41b12ab554719", null ],
+      [ "spr_avs_src", "unioncy__pd__pd__do__t.html#a0fbb6e2f54e169a370aa0d19abf7e588", null ],
       [ "epr_avs_snk", "unioncy__pd__pd__do__t.html#a791461d748ed07d70bf487345ce74239", null ],
       [ "rdo_epr_avs", "unioncy__pd__pd__do__t.html#a8e65b9804be64e4631bade25ba65390b", null ],
+      [ "rdo_spr_avs", "unioncy__pd__pd__do__t.html#a47e40d532ddcb75cbbf883c39be43e82", null ],
       [ "ado_alert", "unioncy__pd__pd__do__t.html#a4e78cc3e87bd47cc596f95d8bb5ebb4e", null ],
       [ "tbt_ufp_vdo", "unioncy__pd__pd__do__t.html#a95d104519f18a5aac6d704a8a657829c", null ],
       [ "tbt_vdo", "unioncy__pd__pd__do__t.html#aad3a037cb3631c0e195e64f471fed18c", null ],
@@ -434,6 +437,19 @@ var group__group__usbpd__common__data__structures =
       [ "ovp", "structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a9892ff0d9edae731c825e332cb707d3a", null ],
       [ "extdAlert", "structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a1594125b7d96ec7e7c7fec0dd66161e2", null ]
     ] ],
+    [ "RDO_SPR_AVS", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html", [
+      [ "opCur", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a8753d91be4f5a980e599c2fa5fcc6102", null ],
+      [ "rsvd1", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a0139e18a83e339e9519c892280acaa6f", null ],
+      [ "outVolt", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a953a315c6ea8c9ebbd3010894be54921", null ],
+      [ "rsvd2", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#aa5d9678d0d0f691d5e759989a0cc85a0", null ],
+      [ "eprModeCapable", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a623cc26b1d2e19307b4adff3a92a1d38", null ],
+      [ "unchunkSup", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#adfd1a6275600e0f11a230b0f2c6cac3a", null ],
+      [ "noUsbSuspend", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a9a0a918abb165bf3b2902346951480ff", null ],
+      [ "usbCommCap", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a7011624278f25a2799bb5fd09645134a", null ],
+      [ "capMismatch", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a415e667bb8b693cfb6082339bffc559a", null ],
+      [ "rsvd3", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#aa06619d52c3878938866628353f89ce4", null ],
+      [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#af404df383070f426c73e66fcf62dfd31", null ]
+    ] ],
     [ "RDO_EPR_AVS", "structcy__pd__pd__do__t_1_1_r_d_o___e_p_r___a_v_s.html", [
       [ "opCur", "structcy__pd__pd__do__t_1_1_r_d_o___e_p_r___a_v_s.html#a546d741982c17dca05158e18525bba51", null ],
       [ "rsvd1", "structcy__pd__pd__do__t_1_1_r_d_o___e_p_r___a_v_s.html#a21e2b9565a40c1732490e5f2269ba376", null ],
@@ -455,6 +471,14 @@ var group__group__usbpd__common__data__structures =
       [ "rsvd2", "structcy__pd__pd__do__t_1_1_e_p_r___a_v_s___s_n_k.html#adf251c277fb767efb87a0a6fae9d1cc8", null ],
       [ "apdoType", "structcy__pd__pd__do__t_1_1_e_p_r___a_v_s___s_n_k.html#a093c2f56af688f61756fb6dcd0bfaabd", null ],
       [ "supplyType", "structcy__pd__pd__do__t_1_1_e_p_r___a_v_s___s_n_k.html#acb5eb2b3c20e2f752304dad23e300dcb", null ]
+    ] ],
+    [ "SPR_AVS_SRC", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html", [
+      [ "maxCur2", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a2ad2f042a7ec7314653ecce2dd97dad6", null ],
+      [ "maxCur1", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a7c4ac0cc08e4f3f01e8d3fe5bbef9ec5", null ],
+      [ "rsvd", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#afae099c63b6b370c6e5de9e4cf7cb603", null ],
+      [ "pkCurrent", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#aa4672b4f32df60a43cfdc12db81dd8f0", null ],
+      [ "apdoType", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a566c23c70a77c0c306a204a29c765adb", null ],
+      [ "supplyType", "structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#a6f3277c109d8d94746d193f4cc4bcd02", null ]
     ] ],
     [ "EPR_AVS_SRC", "structcy__pd__pd__do__t_1_1_e_p_r___a_v_s___s_r_c.html", [
       [ "pdp", "structcy__pd__pd__do__t_1_1_e_p_r___a_v_s___s_r_c.html#addef60cf053221103fcf54fa76b6f48c", null ],
@@ -724,7 +748,7 @@ var group__group__usbpd__common__data__structures =
       [ "capMismatch", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ad9c5f87ccd286fe7171eaef2680458a4", null ],
       [ "giveBackFlag", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ac257e263b0d90e82da22a4e9ad7bece8", null ],
       [ "objPos", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#aba6846e9276d33f07bbf986a941cfe17", null ],
-      [ "rsrvd2", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#ae0890177e8ab621e5b8785c974c491a1", null ]
+      [ "eprPdo", "structcy__pd__pd__do__t_1_1_r_d_o___g_e_n.html#a0e68c96d0c295f38dc61493e8ac1e4e8", null ]
     ] ],
     [ "RDO_BAT_GIVEBACK", "structcy__pd__pd__do__t_1_1_r_d_o___b_a_t___g_i_v_e_b_a_c_k.html", [
       [ "minOpPower", "structcy__pd__pd__do__t_1_1_r_d_o___b_a_t___g_i_v_e_b_a_c_k.html#a12c20d90f24d4d2c292d59c7aaa35a3c", null ],
