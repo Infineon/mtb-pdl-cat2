@@ -234,7 +234,7 @@
 * \snippet scb_ezi2c_snippet.c EZI2C_DS_CLOCK_CONFIG_CALLBACK
 *
 * \note
-* Not applicable for PSoC 4100S Max and PSoC 4000T.
+* Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 * \defgroup group_scb_ezi2c_macros Macros
 * \defgroup group_scb_ezi2c_functions Functions
@@ -387,7 +387,7 @@ typedef struct cy_stc_scb_ezi2c_context
     * The pointer to a deep sleep callback that is called when any of
     * \ref group_scb_ezi2c_macros_deep_sleep_callback_events occurs (applicable only
     * for the slave)
-    * \note Not applicable for PSoC 4100S Max and PSoC 4000T.
+    * \note Not applicable for PSOC 4100S Max and PSOC 4000T.
     */
     cy_cb_scb_ezi2c_handle_deep_sleep_mode_t cbDeepSleep;
 #endif /* CY_IP_M0S8SCB */
@@ -519,7 +519,7 @@ __STATIC_INLINE void Cy_SCB_EZI2C_RegisterDSClockConfig(CySCB_Type const *base,
 * \defgroup group_scb_ezi2c_macros_deep_sleep_callback_events EZI2C Deep Sleep Callback
 * Events Macros to check deep sleep event by \ref cy_cb_scb_ezi2c_handle_deep_sleep_mode_t
 * callback.
-* \note Not applicable for PSoC 4100S Max and PSoC 4000T.
+* \note Not applicable for PSOC 4100S Max and PSOC 4000T.
 * \{
 */
 /**
@@ -631,7 +631,7 @@ __STATIC_INLINE void Cy_SCB_EZI2C_Enable(CySCB_Type *base)
 * To remove the callback, pass NULL as the pointer to a callback function.
 *
 * \note
-* Not applicable for PSoC 4100S Max and PSoC 4000T.
+* Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_EZI2C_RegisterDSClockConfig(CySCB_Type const *base,

@@ -312,7 +312,7 @@ void Cy_SCB_I2C_Disable(CySCB_Type *base, cy_stc_scb_i2c_context_t *context)
 *   Cy_SCB_I2C_RegisterDSClockConfig. Callback function must disable or
 *   enable the clock divider depending on the event \ref
 *   group_scb_i2c_macros_deep_sleep_callback_events.
-*   Not applicable for PSoC 4100S Max and PSoC 4000T.
+*   Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SCB_I2C_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
@@ -760,7 +760,7 @@ uint32_t Cy_SCB_I2C_GetDataRate(CySCB_Type const *base, uint32_t scbClockHz)
 * The data rate in Hz. \n
 * When zero value is returned the clk_scb is out of valid range.
 *
-* \note Only applicable for PSoC 4100S Max.
+* \note Only applicable for PSOC 4100S Max.
 *
 * \note Only applicable for Slave mode.
 *
@@ -1693,7 +1693,7 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_MasterWrite(CySCB_Type *base,
 * in this structure.
 * 
 * \note
-* On for PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices this function 
+* On for PSOC 4000S, 4100S, 4100S Plus, and PSOC 4500S devices this function 
 * should not be called, when I2C bus is busy with the data or address transfer
 * in case if FIFO is used.
 *
@@ -1706,7 +1706,7 @@ cy_en_scb_i2c_status_t Cy_SCB_I2C_MasterWrite(CySCB_Type *base,
 * If the clear operation is requested while the master transmits the address,
 * the direction of transaction is changed to read and one byte is read
 * before Stop is issued. This byte is discarded.
-* For the PSoC 4000S, 4100S, 4100S Plus, and PSoC 4500S devices FIFO will not
+* For the PSOC 4000S, 4100S, 4100S Plus, and PSOC 4500S devices FIFO will not
 * be cleared, if used, causing part of transfer to occur, but whole message
 * will not be transmitted, if the message is longer, than FIFO size.
 *

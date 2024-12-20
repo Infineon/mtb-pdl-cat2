@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 3.20
+* \version 3.30
 *
 * Provides an API declaration of the SysLib driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -68,7 +68,7 @@
 *   <tr>
 *     <td>CY_ASSERT_CLASS_1</td>
 *     <td>CY_ASSERT_L1</td>
-*     <td>A parameter that could change between different PSoC devices
+*     <td>A parameter that could change between different PSOC devices
 *         (e.g. the number of clock paths)</td>
 *   </tr>
 *   <tr>
@@ -110,6 +110,22 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3">3.30</td>
+*     <td>Added support for PSOC4 HVMS/PA platform.</td>
+*     <td>New device support.</td>
+*   </tr>
+*   <tr>
+*     <td>Extended syslib reset reason mask for PSOC4 HVMS/PA devices.
+*     \ref Cy_SysLib_GetResetReason() and \ref Cy_SysLib_ClearResetReason() API functions implementation is updated.
+*     Minor documentation updates.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td>Added \ref Cy_SysLib_GetBootStatus() and \ref Cy_SysLib_GetBootResult() functions to handle Boot-Up Status and Results.
+*     Applicable to PSOC4 HVMS/PA only.</td>
+*     <td>New feature support.</td>
+*   </tr>
 *   <tr>
 *     <td>3.20</td>
 *     <td>Updated the flash wait state register configuration in \ref Cy_SysLib_SetWaitStates() for devices with FLASH ECC support.</td>
@@ -208,13 +224,28 @@ extern "C" {
     #define CY_ARM_FAULT_DEBUG         (CY_ARM_FAULT_DEBUG_ENABLED)
 #endif /* CY_ARM_FAULT_DEBUG */
 
+/*
+ * DIE offset related to the flash type
+ * There is no direct information about the flash type,
+ * but it is possible to identify flash indirectly.
+ * In the previous versions of SAS, FLASH_PAGE_SIZE was coded by
+ * 0-1-3 for 64-128-256 bytes of the page size
+ * in the new version of SAS, FLASH PAGE SIZE directly represents the page size in bytes
+ * flash coded as 0-1-3 have offset 0x178-0x278
+ * flash coded in bytes have offset 0x050
+ * PSOC4HV192K can be exception (coded in bytes but offset 0x178)
+ * but PSOC4HV192K not exist in silicon
+ */
+#if (CPUSS_SPCIF_FLASH_PAGE_SIZE == 128U)
+    /** The macro to DIE offset address of the devices with flash.128x4 */
+    #define CY_PDL_DIE_OFFSET_ADDR        (0x050U)
 /* Handling devices with different die offset via Flash page size (0=64, 1=128 or 3=256 bytes) */
-#if ((CPUSS_SPCIF_FLASH_PAGE_SIZE == 0U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 1U))
-/** The macro to DIE offset address of the devices with flash page size 64 or 128 bytes */
-#define CY_PDL_DIE_OFFSET_ADDR        (0x178U)
-#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE ==3U)
-/** The macro to DIE offset address of the devices with flash page size 256 bytes */
-#define CY_PDL_DIE_OFFSET_ADDR        (0x278U)
+#elif ((CPUSS_SPCIF_FLASH_PAGE_SIZE == 0U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 1U))
+    /** The macro to DIE offset address of the devices with flash page size 64 or 128 bytes */
+    #define CY_PDL_DIE_OFFSET_ADDR        (0x178U)
+#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE == 3U)
+    /** The macro to DIE offset address of the devices with flash page size 256 bytes */
+    #define CY_PDL_DIE_OFFSET_ADDR        (0x278U)
 #endif /* CPUSS_SPCIF_FLASH_PAGE_SIZE */
 
 /**
@@ -251,12 +282,30 @@ typedef enum
     CY_SYSLIB_UNKNOWN       = CY_SYSLIB_ID | CY_PDL_STATUS_ERROR | 0xFFUL     /**< Unknown status code */
 } cy_en_syslib_status_t;
 
+#if defined(SFLASH_AUTO_SFLASH) || defined(CY_DOXYGEN)
+    /** Instances of Boot Result data register. */
+    /**
+    * \note This Enum is applicable to PSOC4 HVMS/PA only.
+    **/
+    typedef enum
+    {
+        CY_SYSLIB_BOOT_RESULT_0 = 0UL, /**< Used to get the Boot Result data for BOOT_RESULT_0 register */
+        CY_SYSLIB_BOOT_RESULT_1 = 1UL, /**< Used to get the Boot Result data for BOOT_RESULT_1 register */
+    } cy_en_syslib_boot_result_t;
+
+    /** \cond INTERNAL */
+    /* Macro to validate parameters in \ref Cy_SysLib_GetBootResult() function */
+    #define CY_SYSLIB_IS_BOOT_DATA_SET_VALID(dataSet)   (((dataSet) == CY_SYSLIB_BOOT_RESULT_0) || \
+                                                        ((dataSet) == CY_SYSLIB_BOOT_RESULT_1))
+    /** \endcond */
+
+#endif /* SFLASH_AUTO_SFLASH */
 /** \} group_syslib_enumerated_types */
+
 /**
 * \addtogroup group_syslib_data_structures
 * \{
 */
-
 #if (CY_ARM_FAULT_DEBUG == CY_ARM_FAULT_DEBUG_ENABLED)
     /** The fault configuration structure. */
     typedef struct
@@ -283,7 +332,7 @@ typedef enum
 #define CY_SYSLIB_DRV_VERSION_MAJOR    3
 
 /** The driver minor version */
-#define CY_SYSLIB_DRV_VERSION_MINOR    20
+#define CY_SYSLIB_DRV_VERSION_MINOR    30
 
 #if defined (__ICCARM__)
     typedef union { cy_israddress __fun; void * __ptr; } cy_intvec_elem;
@@ -319,7 +368,7 @@ typedef double   float64_t; /**< Specific-length typedef for the basic numerical
 
 /**
 * Class 1 - The highest class, safety-critical functions which rely on parameters that could be
-* changed between different PSoC devices
+* changed between different PSOC devices
 */
 #define CY_ASSERT_CLASS_1           (1U)
 
@@ -362,12 +411,56 @@ typedef double   float64_t; /**< Specific-length typedef for the basic numerical
 * \{
 * Define RESET_CAUSE mask values
 */
-/** A basic WatchDog Timer (WDT) reset has occurred since the last power cycle. */
-#define CY_SYSLIB_RESET_HWWDT           (0x0001UL)
-/** A protection violation occurred that requires a RESET. */
-#define CY_SYSLIB_PROT_FAULT            (0x0008UL)
-/** The CPU requested a system reset through it's SYSRESETREQ. This can be done via a debugger probe or in firmware. */
-#define CY_SYSLIB_RESET_SOFT            (0x0010UL)
+#if defined(CY_IP_S8SRSSLT) || defined(CY_IP_M0S8SRSSHV)
+    /** A basic WatchDog Timer (WDT) reset has occurred since the last power cycle. */
+    #define CY_SYSLIB_RESET_HWWDT           SRSS_CONCAT(RES_CAUSE_RESET_WDT_Msk)
+    /** A protection violation occurred that requires a reset */
+    #define CY_SYSLIB_PROT_FAULT            SRSS_CONCAT(RES_CAUSE_RESET_PROT_FAULT_Msk)
+    /** The CPU requested a system reset through it's SYSRESETREQ. This can be done via a debugger probe or in firmware. */
+    #define CY_SYSLIB_RESET_SOFT            SRSS_CONCAT(RES_CAUSE_RESET_SOFT_Msk)
+#endif /* defined(CY_IP_S8SRSSLT) || defined(CY_IP_M0S8SRSSHV) */
+#if defined(CY_IP_M0S8SRSSHV)
+    /** Reset caused by the Fault Infrastructure.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_ACT_FAULT       SRSSHV_RES_CAUSE_RESET_ACT_FAULT_Msk
+    /** Challenge/Response Watchdog reset.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_CRWDT           SRSSHV_RES_CAUSE_RESET_CRWDT_Msk
+    /** External XRES pin was asserted.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_XRES            SRSSHV_RES_CAUSE_RESET_XRES_Msk
+    /** External VDDD supply crossed brown-out limit.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_BODVDDD         SRSSHV_RES_CAUSE_RESET_BODVDDD_Msk
+    /** Internal VCCD core supply crossed the brown-out limit.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_BODVCCD         SRSSHV_RES_CAUSE_RESET_BODVCCD_Msk
+    /** Overvoltage detection on the external VDDD supply.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_OVDVDDD         SRSSHV_RES_CAUSE_RESET_OVDVDDD_Msk
+    /** Overvoltage detection on the internal core VCCD supply.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_OVDVCCD         SRSSHV_RES_CAUSE_RESET_OVDVCCD_Msk
+    /** External VDDD supply crossed brown-out limit.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_BODHVSS         SRSSHV_RES_CAUSE_RESET_BODHVSS_Msk
+    /** Indicator that a POR occurred.
+     * \note Only applicable for PSOC 4 HVMS/PA devices. */
+    #define CY_SYSLIB_RESET_PORVDDD         SRSSHV_RES_CAUSE_RESET_PORVDDD_Msk
+#endif /* defined(CY_IP_M0S8SRSSHV) */
+
+/** \cond INTERNAL */
+#if defined(CY_IP_S8SRSSLT)
+    /** Define Reset Reason mask */
+    #define CY_SYSLIB_RESET_REASON_MASK    (CY_SYSLIB_RESET_HWWDT | CY_SYSLIB_PROT_FAULT | CY_SYSLIB_RESET_SOFT)
+#elif defined(CY_IP_M0S8SRSSHV)
+    /** Define Reset Reason mask */
+    #define CY_SYSLIB_RESET_REASON_MASK    (CY_SYSLIB_RESET_HWWDT     | CY_SYSLIB_PROT_FAULT    | CY_SYSLIB_RESET_SOFT    |\
+                                            CY_SYSLIB_RESET_ACT_FAULT | CY_SYSLIB_RESET_CRWDT   | CY_SYSLIB_RESET_XRES    |\
+                                            CY_SYSLIB_RESET_BODVDDD   | CY_SYSLIB_RESET_BODVCCD | CY_SYSLIB_RESET_OVDVDDD |\
+                                            CY_SYSLIB_RESET_OVDVCCD   | CY_SYSLIB_RESET_BODHVSS | CY_SYSLIB_RESET_PORVDDD )
+#endif /* defined(CY_IP_S8SRSSLT) */
+/** \endcond */
 
 /** \} group_syslib_macros_reset_cause */
 
@@ -406,6 +499,10 @@ void Cy_SysLib_ClearResetReason(void);
 #endif /* (CY_ARM_FAULT_DEBUG == CY_ARM_FAULT_DEBUG_ENABLED) */
 void Cy_SysLib_SetWaitStates(uint32_t clkHfMHz);
 
+#if defined(SFLASH_AUTO_SFLASH) || defined(CY_DOXYGEN)
+    uint32_t Cy_SysLib_GetBootStatus(void);
+    uint32_t Cy_SysLib_GetBootResult(cy_en_syslib_boot_result_t bootResultSet);
+#endif /* SFLASH_AUTO_SFLASH */
 
 /*******************************************************************************
 * Function Name: Cy_SysLib_EnterCriticalSection

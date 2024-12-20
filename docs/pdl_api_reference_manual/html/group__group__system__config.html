@@ -122,7 +122,7 @@ Device Memory Definition</h2>
 <p>Change the flash and RAM sizes by editing the macros value in the linker file: </p><div class="fragment"><div class="line">define symbol __ICFEDIT_region_IROM1_start__ = 0x00000000;</div><div class="line">define symbol __ICFEDIT_region_IROM1_end__   = 0x00007FFF;</div><div class="line"></div><div class="line">define symbol __ICFEDIT_region_IRAM1_start__ = 0x20000000;</div><div class="line">define symbol __ICFEDIT_region_IRAM1_end__   = 0x20000FFF;</div></div><!-- fragment --><h2><a class="anchor" id="group_system_config_device_initialization"></a>
 Device Initialization</h2>
 <p>After a power-on-reset (POR), the boot process is handled by the boot code from the on-chip ROM that is always executed by the core. The boot code passes the control to the startup code located in flash.</p>
-<p>The startup code performs the device initialization by a call to Reset_Handler(), which calls <a class="el" href="group__group__system__config__system__functions.html#ga93f514700ccf00d08dbdcff7f1224eb2" title="Initializes the system: disables the WDT, disables the interrupts and calls the Cy_SystemInit() funct...">SystemInit()</a>, and then calls the CMSIS-defined __PROGRAM_START().</p>
+<p>The startup code performs the device initialization by a call to Reset_Handler(), which calls <a class="el" href="group__group__system__config__system__functions.html#ga93f514700ccf00d08dbdcff7f1224eb2" title="Initializes the system: unlocks and disables the WDT, disables the interrupts and calls the Cy_System...">SystemInit()</a>, and then calls the CMSIS-defined __PROGRAM_START().</p>
 <h2><a class="anchor" id="group_system_config_heap_stack_config"></a>
 Heap and Stack Configuration</h2>
 <p>The heap and stack configurations are defined by the linker scripts.</p>
@@ -142,6 +142,10 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td rowspan="2">2.1 </td><td>Added Cy_BootStatus() for PSoC4 HVMS/PA platform. Updated Reset_Handler() to support Default Handler for Boot-Up Status. </td><td rowspan="2">Major: Support for new devices.  </td></tr>
+<tr>
+<td>Updated <a class="el" href="group__group__system__config__system__functions.html#ga93f514700ccf00d08dbdcff7f1224eb2">SystemInit()</a> function for PSoC4 HVMS/PA devices. Minor documentation updates.  </td></tr>
 <tr>
 <td>2.0 </td><td>Removed unused extern cy_delayFreqHz. </td><td>PDL major revision.  </td></tr>
 <tr>

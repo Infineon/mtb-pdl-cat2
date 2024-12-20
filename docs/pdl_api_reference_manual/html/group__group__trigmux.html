@@ -103,10 +103,10 @@ Modules</h2></td></tr>
 <p>The trigger multiplexer provides access to the multiplexer that selects a set of trigger output signals from different peripheral blocks to route them to the specific trigger input of another peripheral block. </p>
 <p>The functions and other declarations used in this driver are in cy_trigmux.h. You can include cy_pdl.h to get access to all functions and declarations in the PDL.</p>
 <p>The TrigMux driver is based on the trigger multiplexer's hardware block. The Trigger multiplexer block consists of multiple trigger multiplexers. These trigger multiplexers are grouped in trigger groups. All the trigger multiplexers in the trigger group share similar input options.</p>
-<p>The trigger architecture of the PSoC device is explained in the technical reference manual (TRM). Refer to the TRM to better understand the trigger multiplexer routing architecture available.</p>
+<p>The trigger architecture of the PSOC device is explained in the technical reference manual (TRM). Refer to the TRM to better understand the trigger multiplexer routing architecture available.</p>
 <h1><a class="anchor" id="group_trigmux_section_Configuration_Considerations"></a>
 Configuration Considerations</h1>
-<p>To route a trigger signal from one peripheral in the PSoC to another, the user must configure a reduction multiplexer and a distribution multiplexer. The <a class="el" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe">Cy_TrigMux_Connect</a> is used to configure a trigger multiplexer connection.</p>
+<p>To route a trigger signal from one peripheral in the PSOC to another, the user must configure a reduction multiplexer and a distribution multiplexer. The <a class="el" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe">Cy_TrigMux_Connect</a> is used to configure a trigger multiplexer connection.</p>
 <p>The <a class="el" href="group__group__trigmux__functions.html#ga9a10a91df7c51ba3b61fdedbcc2d0cfe" title="Connects an input trigger source and output trigger. ">Cy_TrigMux_Connect()</a> function has two main parameters, inTrig and outTrig that refer to the input and output trigger lines connected using the multiplexer. These parameters are represented in the following format:<br />
  </p><div class="image">
 <img src="trigmux_parameter_30.png" alt="trigmux_parameter_30.png"/>

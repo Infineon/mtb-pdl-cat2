@@ -92,13 +92,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ga55c680002d6169929659f3a13c538f1a"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#ga55c680002d6169929659f3a13c538f1a">Cy_SysClk_WcoEnable</a> (uint32_t timeoutUs)</td></tr>
 <tr class="memdesc:ga55c680002d6169929659f3a13c538f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the WCO.  <a href="#ga55c680002d6169929659f3a13c538f1a">More...</a><br /></td></tr>
 <tr class="separator:ga55c680002d6169929659f3a13c538f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga855b936e5f17dc77abd2c44ec0660e2a"><td class="memItemLeft" align="right" valign="top"><a id="ga855b936e5f17dc77abd2c44ec0660e2a"></a>
-__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#ga855b936e5f17dc77abd2c44ec0660e2a">Cy_SysClk_WcoDisable</a> (void)</td></tr>
-<tr class="memdesc:ga855b936e5f17dc77abd2c44ec0660e2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the WCO. <br /></td></tr>
+<tr class="memitem:ga855b936e5f17dc77abd2c44ec0660e2a"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#ga855b936e5f17dc77abd2c44ec0660e2a">Cy_SysClk_WcoDisable</a> (void)</td></tr>
+<tr class="memdesc:ga855b936e5f17dc77abd2c44ec0660e2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the WCO.  <a href="#ga855b936e5f17dc77abd2c44ec0660e2a">More...</a><br /></td></tr>
 <tr class="separator:ga855b936e5f17dc77abd2c44ec0660e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga27e0f5f8ffb22cda37c56b4fa3cfa613"><td class="memItemLeft" align="right" valign="top"><a id="ga27e0f5f8ffb22cda37c56b4fa3cfa613"></a>
-__STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#ga27e0f5f8ffb22cda37c56b4fa3cfa613">Cy_SysClk_WcoIsEnabled</a> (void)</td></tr>
-<tr class="memdesc:ga27e0f5f8ffb22cda37c56b4fa3cfa613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the WCO enable/disable state. <br /></td></tr>
+<tr class="memitem:ga27e0f5f8ffb22cda37c56b4fa3cfa613"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#ga27e0f5f8ffb22cda37c56b4fa3cfa613">Cy_SysClk_WcoIsEnabled</a> (void)</td></tr>
+<tr class="memdesc:ga27e0f5f8ffb22cda37c56b4fa3cfa613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the WCO enable/disable state.  <a href="#ga27e0f5f8ffb22cda37c56b4fa3cfa613">More...</a><br /></td></tr>
 <tr class="separator:ga27e0f5f8ffb22cda37c56b4fa3cfa613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacc3559fbeb07e4ceedeff368001b30f8"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__wco__funcs.html#gacc3559fbeb07e4ceedeff368001b30f8">Cy_SysClk_WcoBypass</a> (bool bypass)</td></tr>
 <tr class="memdesc:gacc3559fbeb07e4ceedeff368001b30f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables/disables external clock input through the WCO input pin.  <a href="#gacc3559fbeb07e4ceedeff368001b30f8">More...</a><br /></td></tr>
@@ -123,6 +121,7 @@ __STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class
 </div><div class="memdoc">
 
 <p>Enables the WCO. </p>
+<p>This API is available on devices with the WCO Feature (i.e. PSOC 4000S and 4100S Max). Refer to the Device Datasheet to check the WCO feature support.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timeoutUs</td><td>- WCO startup delay in microseconds.</td></tr>
@@ -130,6 +129,48 @@ __STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class
   </dd>
 </dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: The WCO needs to source the WDC timers.</span></div><div class="line"><span class="comment">     *           Timeout of 500ms is tolerable.</span></div><div class="line"><span class="comment">     *           (Please refer to the datasheet for your device)</span></div><div class="line"><span class="comment">     *           The WCO pins are configured using the gpio driver.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Enable the WCO with a timeout of 500000 microseconds */</span></div><div class="line">    <a class="code" href="group__group__sysclk__wco__funcs.html#ga55c680002d6169929659f3a13c538f1a">Cy_SysClk_WcoEnable</a>(CY_SYSCLK_WCO_TIMEOUT_US);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga855b936e5f17dc77abd2c44ec0660e2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga855b936e5f17dc77abd2c44ec0660e2a">&#9670;&nbsp;</a></span>Cy_SysClk_WcoDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_SysClk_WcoDisable </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the WCO. </p>
+<p>This API is available on devices with the WCO Feature (i.e. PSOC 4000S and 4100S Max). Refer to the Device Datasheet to check the WCO feature support. </p>
+
+</div>
+</div>
+<a id="ga27e0f5f8ffb22cda37c56b4fa3cfa613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga27e0f5f8ffb22cda37c56b4fa3cfa613">&#9670;&nbsp;</a></span>Cy_SysClk_WcoIsEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE bool Cy_SysClk_WcoIsEnabled </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the WCO enable/disable state. </p>
+<p>This API is available on devices with the WCO Feature (i.e. PSOC 4000S and 4100S Max). Refer to the Device Datasheet to check the WCO feature support. </p>
 
 </div>
 </div>
@@ -150,6 +191,7 @@ __STATIC_INLINE bool&#160;</td><td class="memItemRight" valign="bottom"><a class
 </div><div class="memdoc">
 
 <p>Enables/disables external clock input through the WCO input pin. </p>
+<p>This API is available on devices with the WCO Feature (i.e. PSOC 4000S and 4100S Max). Refer to the Device Datasheet to check the WCO feature support.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bypass</td><td><ul>

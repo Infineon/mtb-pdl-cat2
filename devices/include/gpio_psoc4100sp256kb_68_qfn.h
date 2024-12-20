@@ -2,7 +2,7 @@
 * \file gpio_psoc4100sp256kb_68_qfn.h
 *
 * \brief
-* PSoC4100Sp256KB device GPIO header for 68-QFN package
+* PSOC4100Sp256KB device GPIO header for 68-QFN package
 *
 ********************************************************************************
 * \copyright

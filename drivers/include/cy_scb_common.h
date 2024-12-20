@@ -145,7 +145,7 @@
 *     <td rowspan="5">3.10</td>
 *     <td>I2C: Fixed the issue when an address byte is treated as a data byte
 *         with an enabled Accepting address in the FIFO option.
-*         For the PSoC P4000S, P4100S, P4100S Plus, and PSoC 4500S devices,
+*         For the PSOC P4000S, P4100S, P4100S Plus, and PSOC 4500S devices,
 *         added the parameter to \ref cy_stc_scb_i2c_config_t to configure
 *         a delay after the Address Match event.</td>
 *     <td>To improve the Accepting address in FIFO, if enabled.</td>
@@ -160,8 +160,8 @@
 *     <td>Earlier, High-level functions didn't report about parity errors.</td>
 *   </tr>
 *   <tr>
-*     <td>SPI: Added information that for the PSoC 4000S, PSoC 4100S,
-*        PSoC 4100 Plus, and PSoC 4500S series, the SPI in Motorola mode
+*     <td>SPI: Added information that for the PSOC 4000S, PSOC 4100S,
+*        PSOC 4100 Plus, and PSOC 4500S series, the SPI in Motorola mode
 *        generates a spare \ref CY_SCB_TX_INTR_UNDERFLOW interrupt at the end
 *        of the transmission (the TX FIFO buffer is empty and no additional
 *        data is requested by Master) in \ref CY_SCB_SPI_CPHA0_CPOL0
@@ -179,14 +179,14 @@
 *   </tr>
 *   <tr>
 *     <td rowspan="3">3.0.1</td>
-*     <td>UART: Added information that for PSoC 4000S, PSoC 4100S, PSoC 4100S
-*         Plus, and PSoC 4500S series, a stop bits error is detected only if
+*     <td>UART: Added information that for PSOC 4000S, PSOC 4100S, PSOC 4100S
+*         Plus, and PSOC 4500S series, a stop bits error is detected only if
 *         the stop bits length equals or exceeds 1.5 bits.</td>
 *     <td>Documentation updates.</td>
 *   </tr>
 *   <tr>
-*     <td>UART: Added information that for PSoC 4000S, PSoC 4100S, PSoC 4100S
-*         Plus, and PSoC 4500S series, the actual break width may be up to one
+*     <td>UART: Added information that for PSOC 4000S, PSOC 4100S, PSOC 4100S
+*         Plus, and PSOC 4500S series, the actual break width may be up to one
 *         bit less than the specified break width.</td>
 *     <td>Documentation updates.</td>
 *   </tr>

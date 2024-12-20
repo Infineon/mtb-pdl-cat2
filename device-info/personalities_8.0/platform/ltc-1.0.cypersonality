@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file ltc-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* LTC personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8ltc" name="Lifetime Counter" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8srsshv" />
+    <Resource name="srss\.ltc" />
+  </Dependencies>
+  <ExposedMembers />
+  <Parameters>
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__ltc.html" linkText="Open Lifetime Counter Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamString id="sourceClockRsc" name="Source Clock Resource" group="Internal" default="`${&quot;srss[0].clock[0].lfclk[0]&quot;}`" visible="false" editable="false" desc="" />
+    <ParamRange id="sourceFreq" name="source frequency" group="Internal" default="`${getExposedMember(sourceClockRsc, &quot;frequency&quot;)}`" min="0" max="40000" resolution="1" visible="false" editable="false" desc="" />
+    <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(sourceClockRsc)}`" visible="false" editable="false" desc="" />
+    <ParamString id="namePrefix" name="namePrefix" group="Internal" default="Cy_Cfg_LTC" visible="false" editable="false" desc="" />
+
+    <!-- Time constants definition -->
+    <ParamRange id="secInDay" name="secInDay" group="Internal" default="86400" min="86400" max="86400" resolution="1" visible="false" editable="false" desc="" />
+    <ParamRange id="secInHour" name="secInHour" group="Internal" default="3600" min="3600" max="3600" resolution="1" visible="false" editable="false" desc="" />
+ 
+    <!-- Default values for fields -->
+    <ParamRange id="defDiv" name="defDiv" group="Internal" default="2" min="2" max="2" resolution="1" visible="false" editable="false" desc="" />
+    <ParamRange id="defWakeup" name="defWakeup" group="Internal" default="4294967295" min="4294967295" max="4294967295" resolution="1" visible="false" editable="false" desc="" />
+    
+    <!-- LTC general configuration -->
+    <ParamBool id="wakeupEvent" name="Wakeup event" group="General" default="false" visible="true" editable="true" desc="Enable wakeup event. Enables or disables the lifetime counter interrupt triggering." />
+
+    <!-- Configuration mode -->
+    <ParamChoice id="configuration" name="Configuration" group="General" default="auto" visible="true" editable="true" desc="Choose the automatic or manual tuning">
+      <Entry name="Automatic" value="auto"   visible="true"/>
+      <Entry name="Manual"    value="manual" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="manConfig" name="Manual Configuration" group="Internal" default="`${configuration eq manual}`" visible="false" editable="false" desc="" />
+
+    <ParamRange id="wakeupVal" name="Wakeup value" group="General" default="4294967295" min="1" max="4294967295" resolution="1" visible="`${manConfig | debug}`" editable="`${manConfig | debug}`" desc="When lifetime wakeup event is enabled and counter reaches wakeup value, an interrupt is generated." />
+    <ParamChoice id="prescaler" name="Pre Scaler" group="General" default="`${defDiv}`" visible="`${manConfig | debug}`" editable="`${manConfig | debug}`" desc="The source clock frequency prescaler">
+      <Entry name="2" value="2" visible="true"/>
+      <Entry name="4" value="4" visible="true"/>
+      <Entry name="8" value="8" visible="true"/>
+      <Entry name="16" value="16" visible="true"/>
+      <Entry name="32" value="32" visible="true"/>
+    </ParamChoice>
+
+    <!-- Internal calculation for seconds sum by prescaler and the source frequency -->
+    <ParamRange id="ticksInSec" name="Counter ticks in second" group="Internal" default="`${1.0 / (sourceFreq / prescaler)}`" min="0" max="1.0" resolution="0.000000000001" visible="false" editable="false" desc="" />
+    <ParamRange id="secondsSum" name="Seconds sum" group="Internal" default="`${ticksInSec * wakeupVal}`" min="0" max="4320000" resolution="0.000000000001"  visible="`${debug}`" editable="false" desc="Wakeup event - seconds." />
+
+    <!-- to wakeup time information based on manual configuration  -->
+    <ParamRange id="toWakeupDays" name="Days" group="Internal" default="`${floor(secondsSum / (secInDay))}`" min="0" max="48" resolution="1" visible="false" editable="false" desc="Wakeup event - days." />
+    <ParamRange id="toWakeupHours" name="Hours" group="Internal" default="`${floor((secondsSum % (secInDay)) / (secInHour))}`" min="0" max="23" resolution="1" visible="false" editable="false" desc="Wakeup event - hours." />
+    <ParamRange id="toWakeupMinutes" name="Minutes" group="Internal" default="`${floor(((secondsSum % (secInDay)) % (secInHour)) / 60.0)}`" min="0" max="59" resolution="1" visible="false" editable="false" desc="Wakeup event - minutes." />
+    <ParamRange id="toWakeupSeconds" name="Seconds" group="Internal" default="`${((secondsSum % (secInDay)) % (secInHour)) % 60.0}`" min="0" max="59" resolution="0.0001"  visible="false" editable="false" desc="Wakeup event - seconds." />
+    <ParamString id="wakeupTime" name="Wakeup time" group="General" default="`${toWakeupDays}`d/`${toWakeupHours}`h/`${toWakeupMinutes}`m/`${toWakeupSeconds}`s" visible="`${manConfig | debug}`" editable="false" desc="Calculated wakeup time in dd/hh/mm/ss format" />
+
+    <!-- Fields for auto parameter calculation  -->
+    <ParamRange id="forCalcDays" name="Days" group="General" default="0" min="0" max="48" resolution="1" visible="`${!manConfig | debug}`" editable="`${!manConfig | debug}`" desc="Wakeup event - days." />
+    <ParamRange id="forCalcHours" name="Hours" group="General" default="0" min="0" max="23" resolution="1" visible="`${!manConfig | debug}`" editable="`${!manConfig | debug}`" desc="Wakeup event - hours." />
+    <ParamRange id="forCalcMinutes" name="Minutes" group="General" default="0" min="0" max="59" resolution="1" visible="`${!manConfig | debug}`" editable="`${!manConfig | debug}`" desc="Wakeup event - minutes." />
+    <ParamRange id="forCalcSeconds" name="Seconds" group="General" default="1" min="0" max="59" resolution="1"  visible="`${!manConfig | debug}`" editable="`${!manConfig | debug}`" desc="Wakeup event - seconds." />
+    <ParamRange id="forTclSecondsSum" name="Seconds sum for TCL script" group="Internal" default="`${(forCalcDays * secInDay) + (forCalcHours * secInHour) + (forCalcMinutes * 60) + forCalcSeconds}`" min="0" max="4320000" resolution="1"  visible="`${debug}`" editable="false" desc="" />
+
+    <!-- TCL calculation of the lifetime counter parameters -->
+    <ParamString id="callSolver" name="callSolver" group="Internal" default="`${runTcl(&quot;ltc_solver-1.0.tcl&quot;, sourceFreq, forTclSecondsSum)}`" visible="`${debug}`" editable="false" desc="Lifetime counter solver" />
+    <ParamRange id="prescalerCalc" name="Pre Scaler" group="General" default="`${getTclVar(&quot;prescalerCalc&quot;, callSolver)}`" min="2" max="32" resolution="1"  visible="`${!manConfig | debug}`" editable="false" desc="The source clock frequency prescaler" />
+    <ParamRange id="wakeupCalc" name="Wakeup value" group="General" default="`${getTclVar(&quot;wakeupCalc&quot;, callSolver)}`" min="1" max="4294967295" resolution="1"  visible="`${!manConfig | debug}`" editable="false" desc="When lifetime wakeup event is enabled and counter reaches wakeup value, an interrupt is generated." />
+
+    <!-- Debug information for wakeup ticks comparison -->
+    <ParamRange id="manualTicks" name="manual ticks" group="corVal" default="`${prescaler * wakeupVal}`" min="0" max="429496729500" resolution="1.0"  visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="autoTicks" name="auto ticks" group="corVal" default="`${prescalerCalc * wakeupCalc}`" min="0" max="429496729500" resolution="1.0"  visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="calcErrorDiff" name="calc difference" group="corVal" default="`${abs(manualTicks - autoTicks)}`" min="0" max="429496729500" resolution="1.0"  visible="`${debug}`" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for Lifetime Counter is not enabled" condition="`${srcNotUsed}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+  
+  <ConfigFirmware>
+    <ConfigInclude value="cy_ltc.h" include="true" />
+
+    <ConfigDefine name="`${namePrefix}`_WAKEUP_EVENT" value="(`${!wakeupEvent}`)" public="false" include="true" />
+    <ConfigDefine name="`${namePrefix}`_WAKEUP_VAL" value="(`${toHex(manConfig ? wakeupVal : wakeupCalc)}`)" public="false" include="true" />
+    <ConfigDefine name="`${namePrefix}`_DIVIDER" value="(CY_LTC_PRESEL_DIV_`${manConfig ? prescaler : prescalerCalc}`)" public="false" include="true" />
+
+    <!-- LTC configuration function -->
+    <!-- The next symbol is HTML entity in Unicode used for representing certain character in HTML document.
+    `&#xA;` is an entity for the newline character, equivalent to the `\n` symbol. -->
+    <ConfigFunction signature="__STATIC_INLINE void Cy_LTC_Config(void)" public="false"  include="true" body="
+     Cy_LTC_Disable();&#xA;
+     Cy_LTC_SetWakeup(`${namePrefix}`_WAKEUP_VAL);&#xA;
+     Cy_LTC_SetDivider(`${namePrefix}`_DIVIDER);&#xA;
+     Cy_LTC_SetCounterValue(0U);&#xA;
+     Cy_LTC_ClearInterrupt();&#xA;
+     Cy_LTC_SetInterruptMask(`${namePrefix}`_WAKEUP_EVENT);&#xA;
+     Cy_LTC_Enable();" />
+
+    <ConfigInstruction value="Cy_LTC_Config();" include="true" />
+  </ConfigFirmware>
+</Personality>

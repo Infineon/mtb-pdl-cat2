@@ -1,13 +1,15 @@
 /***************************************************************************//**
 * \file cy_flash.c
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 * Provides the public functions for the API for the Flash driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +23,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
+*
 *******************************************************************************/
 #include "cy_flash.h"
 #include "cy_sysclk.h"
@@ -100,6 +103,13 @@
 /*  Macro #0: rows 0x00-0x1ff, Macro #1: rows 0x200-0x3ff, macro # 2: rows 0x400-0x5ff  */
 #define CY_FLASH_GET_MACRO_FROM_ROW(row)                ((row) / CY_FLASH_SIZEOF_MACRO)
 
+/* key write value to SPCIF_FLASH_LOCK register */
+#define CY_FLASH_PROTECTION_LOCK_KEY                    (0xF56B3A81UL)
+/* Macro value of mask for flash address */
+#define CY_FLASH_WORD_ADDR_CHECK_MSK                    (0x00000007U)
+/* Used to get the flash word address for ECC injection   */
+#define CY_CPU_FLASH_WORD_ADDR_CHECK_POS                (0x00000003U)
+
 #define CY_FLASH_CLOCK_BACKUP_SIZE      (6U)
 typedef struct Cy_Flash_ClockBackupStruct
 {
@@ -117,6 +127,40 @@ static bool Cy_Flash_ValidAddr(uint32_t flashAddr);
     static bool Cy_Flash_ValidFlashAddr(uint32_t flashAddr);
 #endif /* (CY_FLASH_NON_BLOCKING_SUPPORTED) */
 
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
+/******************************************************************************
+* Function Name: Cy_Flash_GetMacroNumFromRowNum
+********************************************************************************
+*
+* \brief
+*  Get flash macro number from row number
+* \param [in] rowNum
+*  The flash row number.
+* \return
+*  flash macro number
+*
+*******************************************************************************/
+static uint32_t Cy_Flash_GetMacroNumFromRowNum(uint32_t rowNum)
+{
+    /* The number of the flash macro cell, which contains the required row */
+    uint32_t flashMacroNum = 0UL;
+    /* flashMacroLowNum - the number of rows in one flash macro cell*/
+    uint32_t flashMacroLowNum = CY_FLASH_SIZEOF_MACRO;
+    uint32_t tmpRowNum = rowNum;
+
+    /*
+     * Decrement RowNum until the remainder is less than the size
+     * The number of decrements will represent the number of cells
+     */
+    while(tmpRowNum >= flashMacroLowNum)
+    {
+        tmpRowNum -= flashMacroLowNum;
+        flashMacroNum++;
+    }
+
+    return (flashMacroNum);
+}
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) */
 
 /*******************************************************************************
 * Function Name: Cy_Flash_WriteRow
@@ -205,6 +249,33 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
                     {
                         result = resultClockRestore;
                     }
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
+                    /*
+                     * if the whole flash macro cell is locked, the return code from SROM is UNKNOWN
+                     */
+                    else
+                    {
+                        /*
+                         * Check if the macro cell is protected
+                         * 1 - unprotected
+                         * 0 - protected
+                         */
+                        uint32_t protection;
+                        uint32_t macroNum;
+                        /* It is safe to suppress return code as the pointer is always valid */
+                        (void)Cy_Flash_GetProtectionStatus(&protection);
+                        macroNum = Cy_Flash_GetMacroNumFromRowNum(rowNum);
+                        /*
+                         * macroNum bit into the protection represent state
+                         * of the macroNum flash macro cell
+                         */
+                        if(0U == CY_CHECK_BIT(protection,macroNum))
+                        {
+                            /* If the macro is protected, replace the error code by more readable */
+                            result = CY_FLASH_DRV_ROW_PROTECTED;
+                        }
+                    }
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) */
                 }
             }
             Cy_SysLib_ExitCriticalSection(interruptState);
@@ -595,8 +666,12 @@ static bool Cy_Flash_ValidAddr(uint32_t flashAddr)
         }
     }
     else
-    #if (SFLASH_FLASH_M0_XTRA_ROWS == 1U)
-        if ((flashAddr >= CY_FLASH_SFLASH_USERBASE) && (flashAddr < (CY_FLASH_SFLASH_USERBASE + CY_FLASH_SIZEOF_USERSFLASH)))
+    #if (defined (SFLASH_FLASH_M0_XTRA_ROWS) && (SFLASH_FLASH_M0_XTRA_ROWS == 1U)) || defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos)
+        if (((flashAddr >= CY_FLASH_SFLASH_USERBASE) && (flashAddr < (CY_FLASH_SFLASH_USERBASE + CY_FLASH_SIZEOF_USERSFLASH)))
+    #if (defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos))
+            || ((flashAddr >= CY_FLASH_SFLASH_USERBASE1) && (flashAddr < (CY_FLASH_SFLASH_USERBASE1 + CY_FLASH_SIZEOF_USERSFLASH1)))
+    #endif /* defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos */
+            )
         {
             if ((flashAddr % CY_FLASH_SIZEOF_ROW) == 0UL)
             {
@@ -604,7 +679,7 @@ static bool Cy_Flash_ValidAddr(uint32_t flashAddr)
             }
         }
         else
-    #endif /* (SFLASH_FLASH_M0_XTRA_ROWS == 1U) */
+    #endif /* defined (SFLASH_FLASH_M0_XTRA_ROWS) && (SFLASH_FLASH_M0_XTRA_ROWS == 1U) || defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos) */
     {
         valid = false;
     }
@@ -632,12 +707,34 @@ static uint32_t Cy_Flash_GetRowNum(uint32_t flashAddr)
     {
         result = (flashAddr - CY_FLASH_BASE) / CY_FLASH_SIZEOF_ROW;
     }
-    #if (SFLASH_FLASH_M0_XTRA_ROWS == 1U)
+    #if defined (SFLASH_FLASH_M0_XTRA_ROWS) && (SFLASH_FLASH_M0_XTRA_ROWS == 1U)
         else /* Assume SFLASH */
         {
             result = (flashAddr - CY_FLASH_SFLASH_USERBASE) / CY_FLASH_SIZEOF_ROW;
         }
-    #endif /* (SFLASH_FLASH_M0_XTRA_ROWS == 1U) */
+    #elif (defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos))
+        /* if USER SFLASH AREA defined */
+        /* Check 0th USER SFLASH */
+        else if ((flashAddr >= CY_FLASH_SFLASH_USERBASE) && (flashAddr < (CY_FLASH_SFLASH_USERBASE + CY_FLASH_SIZEOF_USERSFLASH)))
+        {
+            if (CY_FLASH_SIZEOF_USERSFLASH > CY_FLASH_SIZEOF_ROW)
+            {
+                result = (flashAddr - CY_FLASH_SFLASH_USERBASE) / CY_FLASH_SIZEOF_ROW;
+            }
+        }
+        /* Check 2th USER SFLASH */
+        else if ((flashAddr >= CY_FLASH_SFLASH_USERBASE1) && (flashAddr < (CY_FLASH_SFLASH_USERBASE1 + CY_FLASH_SIZEOF_USERSFLASH1)))
+        {
+            if (CY_FLASH_SIZEOF_USERSFLASH1 > CY_FLASH_SIZEOF_ROW)
+            {
+                result = (flashAddr - CY_FLASH_SFLASH_USERBASE1) / CY_FLASH_SIZEOF_ROW;
+            }
+        }
+        else
+        {
+            result = 0U;
+        }
+    #endif /* defined (SFLASH_FLASH_M0_XTRA_ROWS) && (SFLASH_FLASH_M0_XTRA_ROWS == 1U) */
 
     return (result);
 }
@@ -686,14 +783,18 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockBackup(void)
 static cy_en_flashdrv_status_t Cy_Flash_ClockConfig(void)
 {
     cy_en_flashdrv_status_t result = CY_FLASH_DRV_SUCCESS;
-
+#if defined(CY_IP_M0S8SRSSHV)
+    Cy_SysClk_UnlockProtReg();
+#endif /* defined(CY_IP_M0S8SRSSHV) */
     /* FM-Lite Clock Configuration */
     CPUSS_SYSARG =(uint32_t) ((CY_FLASH_KEY_TWO(CY_FLASH_API_OPCODE_CLK_CONFIG) <<  CY_FLASH_PARAM_KEY_TWO_OFFSET) |
                     CY_FLASH_KEY_ONE);
     CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_CLK_CONFIG;
     __NOP();
     result = ProcessStatusCode();
-
+#if defined(CY_IP_M0S8SRSSHV)
+    Cy_SysClk_LockProtReg();
+#endif /* defined(CY_IP_M0S8SRSSHV) */
     return (result);
 }
 
@@ -712,7 +813,9 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockRestore(void)
 {
     cy_en_flashdrv_status_t result = CY_FLASH_DRV_SUCCESS;
     volatile uint32_t   parameters[2U];
-
+#if defined(CY_IP_M0S8SRSSHV)
+    Cy_SysClk_UnlockProtReg();
+#endif /* defined(CY_IP_M0S8SRSSHV) */
     /* FM-Lite Clock Restore */
     parameters[0U] = (uint32_t) ((CY_FLASH_KEY_TWO(CY_FLASH_API_OPCODE_CLK_RESTORE) <<  CY_FLASH_PARAM_KEY_TWO_OFFSET) |
                     CY_FLASH_KEY_ONE);
@@ -722,9 +825,188 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockRestore(void)
 
     __NOP();
     result = ProcessStatusCode();
-
+#if defined(CY_IP_M0S8SRSSHV)
+    Cy_SysClk_LockProtReg();
+#endif /* defined(CY_IP_M0S8SRSSHV) */
     return (result);
 }
 
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2) || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_Flash_SetProtection
+****************************************************************************//**
+*
+* \brief
+*  Controls protection against the program/erase operation of the flash.
+*
+* \param bitField Bitfield value that specify the protection setting of Flash macros.
+*
+* \return \ref group_flash_enumerated_types
+*
+* \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_PROTECT
+*
+*******************************************************************************/
+cy_en_flashdrv_status_t Cy_Flash_SetProtection(const uint32_t bitField)
+{
+    cy_en_flashdrv_status_t result = CY_FLASH_DRV_SUCCESS;
+    /* Check the range of the bitfield */
+    if(bitField <= CY_FLASH_PROTECTION_BIT_PARAM_MAX)
+    {
+        /* Check if the write access to FLASH_MACRO_WE.MAC_WRITE_EN is locked */
+        if(0UL != _FLD2VAL(SPCIF_FLASH_MACRO_WE_LOCKED,FLASH_MACRO_WRITE_EN))
+        {
+            /* Set the key to unlock */
+            LOCK_FLASH = (uint32_t)CY_FLASH_PROTECTION_LOCK_KEY;
+            /* Set protection setting */
+            FLASH_MACRO_WRITE_EN = _VAL2FLD(SPCIF_FLASH_MACRO_WE_MAC_WRITE_EN,bitField);
+            /* Set the key to lock */
+            LOCK_FLASH = (uint32_t)CY_FLASH_PROTECTION_LOCK_KEY;
+        }
+        else
+        {
+            /* Set protection setting */
+            FLASH_MACRO_WRITE_EN = _VAL2FLD(SPCIF_FLASH_MACRO_WE_MAC_WRITE_EN,bitField);
+        }
+        /* Protection is success */
+        result = CY_FLASH_DRV_SUCCESS;
+    }
+    else
+    {
+        result = CY_FLASH_DRV_INVALID_INPUT_PARAMETERS;
+    } /* if(bitField <= CY_FLASH_PROTECTION_BIT_PARAM_MAX) */
+    return (result);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_Flash_GetProtectionStatus
+****************************************************************************//**
+*
+* \brief Gets the flash protection status of the specified flash.
+*
+* \param statusPtr
+*  The pointer to the area to store the protection status.
+*
+* \return \ref group_flash_enumerated_types
+*
+* \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_PROTECT
+*
+*******************************************************************************/
+cy_en_flashdrv_status_t Cy_Flash_GetProtectionStatus(uint32_t* statusPtr)
+{
+    cy_en_flashdrv_status_t result = CY_FLASH_DRV_SUCCESS;
+    /* NULL check of Status pointer */
+    if(NULL != statusPtr)
+    {
+        *statusPtr = _FLD2VAL(SPCIF_FLASH_MACRO_WE_MAC_WRITE_EN,FLASH_MACRO_WRITE_EN);
+    }
+    else
+    {
+        result = CY_FLASH_DRV_INVALID_INPUT_PARAMETERS;
+    }
+    return (result);
+}
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) */
+
+#if (defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U))  || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_Flash_SetupEccInjection
+****************************************************************************//**
+*
+* \brief
+*  Set CPUSS_FLASHC_ECC_CTL register to setup ECC error injection.
+*
+* \param [in] address
+*  Specifies the address where an ECC error will be injected.
+*
+* \param [in] parity
+*  Specifies the parity, which will be injected to the word address.
+*
+* \return \ref group_flash_enumerated_types
+*
+* * \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_ECC
+*
+* \note
+*  Set the lowest three bits of the address to zero.
+*  For FLASH ECC, the word address WORD_ADDR[23:0] is device address A[26:3].
+*
+*******************************************************************************/
+cy_en_flashdrv_status_t Cy_Flash_SetupEccInjection(const uint32_t address, const uint8_t parity)
+{
+    cy_en_flashdrv_status_t result = CY_FLASH_DRV_SUCCESS;
+    /* Check if parameters are valid */
+    if(0U != (address & CY_FLASH_WORD_ADDR_CHECK_MSK))
+    {
+        result = CY_FLASH_DRV_INVALID_INPUT_PARAMETERS;
+    }
+    else if(((CY_FLASH_BASE + CY_FLASH_SIZEOF_FLASH) <= address) || (CY_FLASH_BASE >= (address + 1U)))
+    {
+        result = CY_FLASH_DRV_INVALID_INPUT_PARAMETERS;
+    }
+    else
+    {
+        CPUSS_FLASHC_ECC_CTL = _VAL2FLD(CPUSS_FLASHC_ECC_CTL_FLASH_WORD_ADDR,(address >> CY_CPU_FLASH_WORD_ADDR_CHECK_POS)) |
+                _VAL2FLD(CPUSS_FLASHC_ECC_CTL_PARITY,parity);
+    } /* (0U != (address & CY_FLASH_WORD_ADDR_CHECK_MSK)) */
+    return (result);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_Flash_EnableEccInjection
+****************************************************************************//**
+*
+* \brief Set CPUSS_FLASH_CTL register to enable ECC injection.
+*
+* \return None
+*
+* \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_ECC
+*
+*******************************************************************************/
+void Cy_Flash_EnableEccInjection(void)
+{
+    CPUSS_FLASH_CTL |= CPUSS_FLASH_CTL_FLASH_ECC_INJ_EN_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_Flash_DisableEccInjection
+****************************************************************************//**
+*
+* \brief Set CPUSS_FLASH_CTL register to disable ECC injection
+*
+* \return None
+*
+* \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_ECC
+*
+*******************************************************************************/
+void Cy_Flash_DisableEccInjection(void)
+{
+    CPUSS_FLASH_CTL &= ~CPUSS_FLASH_CTL_FLASH_ECC_INJ_EN_Msk;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_Flash_IsEccInjectionEnabled
+****************************************************************************//**
+*
+* \brief Check whether the ECC error injection of data flash is enabled.
+*
+* \return TRUE if injection enabled, FALSE - otherwise.
+*
+* \funcusage
+* \snippet flash_snippet.c SNIPPET_FLASH_ECC
+*
+*******************************************************************************/
+bool Cy_Flash_IsEccInjectionEnabled(void)
+{
+    return (bool)_FLD2VAL(CPUSS_FLASH_CTL_FLASH_ECC_INJ_EN,CPUSS_FLASH_CTL);
+}
+#endif /* (defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U))  || defined (CY_DOXYGEN) */
 
 /* [] END OF FILE */

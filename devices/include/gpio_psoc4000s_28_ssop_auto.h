@@ -2,7 +2,7 @@
 * \file gpio_psoc4000s_28_ssop_auto.h
 *
 * \brief
-* PSoC4000S device GPIO header for 28-SSOP-AUTO package
+* PSOC4000S device GPIO header for 28-SSOP-AUTO package
 *
 ********************************************************************************
 * \copyright

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--****************************************************************************
+* \file hvss.cypersonality
+* \version 1.0
+*
+* \brief
+* HVSS personality description file. It Supports CAT2 family of devices.
+*
+********************************************************************************
+* \copyright
+* Copyright (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8hvss" name="HVSS" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8hvss,m0s8hvss_ver2" />
+    <Resource name="hvss" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="linPhyLinInt" paramId="linPhyLinInt" />
+    <ExposedMember key="linPhyEn" paramId="linPhyEn" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Overview" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__hvss.html" linkText="Open HVSS Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamString id="INSTANCE" name="INSTANCE" group="Internal" default="`${toUpper(INST_NAME)}`" visible="false" editable="false" desc="" />
+
+    <!-- For DRC depencies checking -->
+    <ParamString id="sourceClockRsc" name="Source Clock Resource" group="Internal" default="`${&quot;srss[0].clock[0].lfclk[0]&quot;}`" visible="false" editable="false" desc="" />
+    <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(sourceClockRsc)}`" visible="false" editable="false" desc="" />
+
+    <!-- Detect block -->
+    <ParamBool id="ipHVSSVer1" name="ipHVSSVer1" group="Internal" default="`${(&quot;m0s8hvss&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
+    <ParamBool id="ipHVSSVer2" name="ipHVSSVer2" group="Internal" default="`${(&quot;m0s8hvss_ver2&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
+
+    <!-- Clamp Mode -->
+    <ParamChoice id="clampMode" name="Clamp Mode" group="HV regulator" default="CY_HVSS_HVREG_DIS_CLAMP_DIS_DIODE" visible="`${ipHVSSVer2}`" editable="true" desc="Zener and diode mode.">
+      <Entry name="Zener clamp disable, diode disable" value="CY_HVSS_HVREG_DIS_CLAMP_DIS_DIODE" visible="true" />
+      <Entry name="Zener clamp disable, diode enable" value="CY_HVSS_HVREG_DIS_CLAMP_EN_DIODE" visible="true" />
+      <Entry name="Zener clamp enable, diode disable" value="CY_HVSS_HVREG_EN_CLAMP_DIS_DIODE" visible="true" />
+      <Entry name="Zener clamp enable, diode enable" value="CY_HVSS_HVREG_EN_CLAMP_EN_DIODE" visible="true" />
+    </ParamChoice>
+    
+    <!-- Thermal Shutdown actions -->    
+    <ParamChoice id="tsdMode" name="Thermal Shutdown (TSD)" group="HV regulator" default="CY_HVSS_HVREG_REG_ON_FOR_TSD" visible="`${ipHVSSVer2}`" editable="true" desc="Specifies an action on TSD event.">
+      <Entry name="Keep Vdd on for TSD event (LIN turns off)" value="CY_HVSS_HVREG_REG_ON_FOR_TSD" visible="true" />
+      <Entry name="Turn off Vdd and LIN on TSD event" value="CY_HVSS_HVREG_REG_OFF_FOR_TSD" visible="true" />
+      <Entry name="Turn off TSD circuit" value="CY_HVSS_HVREG_OFF_TSD_CKT" visible="true" />
+    </ParamChoice>
+
+    <ParamBool id="vbatDivEn" name="Vbat Divider Enable" group="HV regulator" default="false" visible="true" editable="true" desc="Enables VBAT voltage divider." />
+
+    <!-- LIN PHY configurations -->
+    <ParamBool id="linPhyEn" name="Lin PHY Enable" group="LIN PHY" default="false" visible="true" editable="true" desc="Enables LIN interface." />
+    <!-- Do not fully supported now. In the feature attribute visibility for ParamChoice and Entry blocks should be changed to support for ipHVSSVer2. -->
+    <ParamChoice id="linPhyInt" name="LIN or CXPI interface" group="LIN PHY" default="CY_HVSS_LIN_PHY_0_INTERFACE" visible="false" editable="true" desc="Selects LIN or CXPI interface.">
+      <Entry name="LIN-PHY 0" value="CY_HVSS_LIN_PHY_0_INTERFACE" visible="true" />
+      <!-- Second interface do not supported now -->
+      <Entry name="LIN-PHY 1" value="CY_HVSS_LIN_PHY_1_INTERFACE" visible="false" />
+      <!-- CXPI do not supported now -->
+      <Entry name="CXPI master" value="CY_HVSS_CXPI_MASTER_INTERFACE" visible="false" />
+      <Entry name="CXPI slave" value="CY_HVSS_CXPI_SLAVE_INTERFACE" visible="false" />
+    </ParamChoice>
+
+    <ParamBool id="linPhyLinInt" name="linPhyLinInt" group="internal" default="`${linPhyInt eq CY_HVSS_LIN_PHY_0_INTERFACE || linPhyInt eq CY_HVSS_LIN_PHY_1_INTERFACE}`" visible="false" editable="false" desc="" />
+
+    <!-- TODO: Currently do not used -->
+    <ParamChoice id="linPhyAltEn" name="Primary or Alternate interface" group="LIN PHY" default="CY_HVSS_LIN_PHY_INTERFACE_PRIMARY" visible="false" editable="true" desc="Selects Primary or Alternate interface.">
+      <Entry name="Primary interface" value="CY_HVSS_LIN_PHY_INTERFACE_PRIMARY" visible="true" />
+      <Entry name="Alternate interface" value="CY_HVSS_LIN_PHY_INTERFACE_ALTERNATE" visible="true" />
+    </ParamChoice>
+
+    <ParamBool id="linPhyRFDetect" name="RF Detect" group="LIN PHY" default="false" visible="true" editable="true" desc="Slew rate of LIN waveform. Reduce impact on LIN driver from incoming EMI." />
+
+    <ParamChoice id="linPhyMode" name="LIN Mode" group="LIN PHY" default="CY_HVSS_LIN_PHY_MODE_DISABLED" visible="true" editable="true" desc="LIN PHY operation mode.">
+      <Entry name="DISABLED" value="CY_HVSS_LIN_PHY_MODE_DISABLED" visible="true" />
+      <Entry name="SLEEP" value="CY_HVSS_LIN_PHY_MODE_SLEEP" visible="true" />
+      <Entry name="STANDBY" value="CY_HVSS_LIN_PHY_MODE_STANDBY" visible="true" />
+      <Entry name="DIAGNOSIS" value="CY_HVSS_LIN_PHY_MODE_DIAGNOSIS" visible="true" />
+      <Entry name="NORMAL, 1.0 V/us TX edge rate" value="CY_HVSS_LIN_PHY_MODE_NORMAL_1_0" visible="true" />
+      <Entry name="NORMAL, 1.5 V/us TX edge rate" value="CY_HVSS_LIN_PHY_MODE_NORMAL_1_5" visible="true" />
+      <Entry name="NORMAL, 2.0 V/us TX edge rate" value="CY_HVSS_LIN_PHY_MODE_NORMAL_2_0" visible="true" />
+      <Entry name="Fast mode" value="CY_HVSS_LIN_PHY_MODE_FAST" visible="true" />
+    </ParamChoice>
+
+    <!-- Timers -->
+    <ParamBool id="linWakeupTimerEn" name="Wakeup Timer Enable" group="LIN PHY" default="false" visible="true" editable="true" desc="Enables wakeup timer." />
+    <ParamRange id="linWakeupTimerVal" name="Wakeup Timer Value" group="LIN PHY" default="0" min="0" max="4095" resolution="1" visible="true" editable="true" desc="Wakeup timer value. This parameter specifies the number of LFCLK edges from dominant happen to wakeup interrupt events are triggered. Note that if the number of edges in a period is n, specify n-1 in this field." />
+    <ParamBool id="linFaultTimerEn" name="Fault Timer Enable" group="LIN PHY" default="false" visible="true" editable="true" desc="Enables fault timer." />
+    <ParamRange id="linFaultTimerVal" name="Fault Timer Value" group="LIN PHY" default="0" min="0" max="4095" resolution="1" visible="true" editable="true" desc="Fault timer value. This parameter specifies the number of LFCLK edges from dominant happen to wakeup interrupt events are triggered. Note that if the number of edges in a period is n, specify n-1 in this field." />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for HVSS is not enabled" condition="`${srcNotUsed}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_hvss.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="true" />
+    <ConfigInclude value="cy_gpio.h" include="true" />
+
+    <ConfigDefine name="`${INSTANCE}`_HW" value="(HVSS)" public="true" include="true" />
+    <ConfigDefine name="`${INSTANCE}`_IRQ_0" value="(hvss_interrupt_hvss_IRQn)" public="true" include="true" />
+
+    <!-- Internal pins defines -->
+    <ConfigDefine name="INTERNAL_LIN_PORT_PORT" value="(GPIO_PRT2)" public="true" include="`${linPhyEn}`" />
+    <ConfigDefine name="INTERNAL_LIN_EN_PIN" value="(2U)" public="true" include="`${linPhyEn}`" />
+    <ConfigDefine name="INTERNAL_LIN_TXD_PIN" value="(1U)" public="true" include="`${linPhyEn}`" />
+    <ConfigDefine name="INTERNAL_LIN_RXD_PIN" value="(0U)" public="true" include="`${linPhyEn}`" />
+    <ConfigDefine name="INTERNAL_LIN_PORT_HSIOM" value="(HSIOM_SEL_ACT_1)" public="true" include="`${linPhyEn}`" />
+    <ConfigDefine name="INTERNAL_LIN_PORT_IRQ" value="(ioss_interrupts_gpio_2_IRQn)" public="true" include="`${linPhyEn}`" />
+
+    <ConfigStruct name="initConfig" type="cy_hvss_config_t" const="true" public="true" include="true" >
+      <Member name="linEnable" value="`${linPhyEn}`" />
+      <Member name="linMode" value="`${linPhyMode}`" />
+      <Member name="rfDetect" value="`${linPhyRFDetect ? &quot;CY_HVSS_LIN_PHY_SL_ROUND_MODERATE&quot; : &quot;CY_HVSS_LIN_PHY_SL_ROUND_NORMAL&quot;}`" />
+      <Member name="linPhyRoute" value="`${linPhyAltEn}`" />
+      <Member name="wakeupTimerEnable" value="`${linWakeupTimerEn}`" />
+      <Member name="wakeupTimerValue" value="`${linWakeupTimerVal}`" />
+      <Member name="faultTimerEnable" value="`${linFaultTimerEn}`" />
+      <Member name="faultTimerValue" value="`${linFaultTimerVal}`" />
+      <!-- IP block ver2 fields only -->
+      <Member name="hvregClampMode" value="`${clampMode}`" include="`${ipHVSSVer2}`"/>
+      <Member name="hvregTsdMode" value="`${tsdMode}`" include="`${ipHVSSVer2}`"/>
+      <Member name="vbatDivEnable" value="`${vbatDivEn}`" include="`${ipHVSSVer2}`"/>
+      <Member name="phyInterfaceSel" value="`${linPhyInt}`" include="`${ipHVSSVer2}`"/>
+    </ConfigStruct>
+
+    <!-- Internal pin default configuration -->
+    <ConfigStruct name="internLinConfig" type="cy_stc_gpio_pin_config_t" const="true" public="true" include="`${linPhyEn}`" >
+      <Member name="outVal" value="1" />
+      <Member name="driveMode" value="CY_GPIO_DM_ANALOG" />
+      <Member name="hsiom" value="INTERNAL_LIN_PORT_HSIOM" />
+      <Member name="intEdge" value="CY_GPIO_INTR_DISABLE" />
+      <Member name="vtrip" value="CY_GPIO_VTRIP_CMOS" />
+      <Member name="slewRate" value="CY_GPIO_SLEW_FAST" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_GPIO_Pin_Init(INTERNAL_LIN_PORT_PORT, INTERNAL_LIN_EN_PIN, &amp;internLinConfig);" include="`${linPhyEn}`"  />
+    <ConfigInstruction value="Cy_GPIO_Pin_Init(INTERNAL_LIN_PORT_PORT, INTERNAL_LIN_TXD_PIN, &amp;internLinConfig);" include="`${linPhyEn}`"  />
+    <ConfigInstruction value="Cy_GPIO_Pin_Init(INTERNAL_LIN_PORT_PORT, INTERNAL_LIN_RXD_PIN, &amp;internLinConfig);" include="`${linPhyEn}`"  />
+    <ConfigInstruction value="Cy_HVSS_Init(&amp;initConfig);" include="`${linPhyEn}`" />
+  </ConfigFirmware>
+</Personality>

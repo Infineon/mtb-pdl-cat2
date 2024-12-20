@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syspm.c
-* \version 3.0
+* \version 3.10
 *
 * This driver provides the source code for API power management.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -230,7 +230,7 @@ void Cy_SysPm_CpuEnterSleepNoCallbacks(void)
 * the \ref Cy_SysClk_DeepSleepCallback()
 * (or it's customized version, accordingly to the application specifics)
 * should be registered (recommended as the last in the registration sequence).
-* Otherwise, PSoC may stuck at wakeup from Deep Sleep.
+* Otherwise, PSOC may stuck at wakeup from Deep Sleep.
 *
 * \return
 * Entered status, see \ref cy_en_syspm_status_t.
@@ -313,9 +313,9 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void)
 *******************************************************************************/
 void Cy_SysPm_CpuEnterDeepSleepNoCallbacks(void)
 {
-    /* Adjust delay to wait for references to settle on wakeup from Deep Sleep */
-    SRSSLT_PWR_KEY_DELAY = SFLASH_DPSLP_KEY_DELAY;
-
+    /* Adjust delay to wait for references to settle on wakeup from Deep Sleep */  
+    SRSS_PWR_KEY_DELAY = SFLASH_DPSLP_KEY_DELAY;
+        
     /* The CPU enters Deep Sleep mode upon execution of WFI */
     SCB_SCR |= SCB_SCR_SLEEPDEEP_Msk;
     __WFI();
@@ -691,5 +691,213 @@ cy_stc_syspm_callback_t* Cy_SysPm_GetFailedCallback(cy_en_syspm_callback_type_t 
     return failedCallback[(uint32_t) type];
 }
 
+#if defined(CY_IP_M0S8SRSSHV)
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_SupplySupervisionStatus
+****************************************************************************//**
+*
+* Return the status of the supply supervision
+*
+* \param supplyEntitySelect
+* \ref cy_en_syspm_supply_entity_select_t which status have to be checked
+*
+* \return
+* - True if the supply entity is OK
+* - False if if the supply entity is not OK
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+bool Cy_SysPm_SupplySupervisionStatus(cy_en_syspm_supply_entity_select_t supplyEntitySelect)
+{
+    bool result = false;
+    switch(supplyEntitySelect)
+    {
+        case CY_SYSPM_OVD_VDD_OK:
+            {
+                result = _FLD2BOOL(SRSSHV_PWR_SSV_STATUS_OVDVDDD_OK, SRSSHV->PWR_SSV_STATUS);
+            }
+            break;
+
+        case CY_SYSPM_OVD_VCC_OK:
+            {
+                result = _FLD2BOOL(SRSSHV_PWR_SSV_STATUS_OVDVCCD_OK, SRSSHV->PWR_SSV_STATUS);
+            }
+            break;
+
+        case CY_SYSPM_BOD_VDD_OK:
+            {
+                result = _FLD2BOOL(SRSSHV_PWR_SSV_STATUS_BODVDDD_OK, SRSSHV->PWR_SSV_STATUS);
+            }
+            break;
+
+        case CY_SYSPM_BOD_VCC_OK:
+            {
+                result = _FLD2BOOL(SRSSHV_PWR_SSV_STATUS_BODVCCD_OK, SRSSHV->PWR_SSV_STATUS);
+            }
+            break;
+
+        case CY_SYSPM_BOD_HV_OK:
+            {
+                result = _FLD2BOOL(SRSSHV_PWR_SSV_STATUS_BODHVSS_OK, SRSSHV->PWR_SSV_STATUS);
+            }
+            break;
+        default:
+            {
+                result = false;
+            }
+            break;
+    }
+    return result;
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_BodHVEnable
+****************************************************************************//**
+*
+* Enable Brown-out detection for HV supply
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \note You can check status by the \ref Cy_SysPm_SupplySupervisionStatus function
+*
+* \funcusage
+* \snippet syspm_snippet.c snippet_Cy_SysPm_BodHVEnable
+*******************************************************************************/
+void Cy_SysPm_BodHVEnable(void)
+{
+    /*
+     * To avoid LockProtReg from ISR, enter critical section.
+     */
+    uint32_t state = Cy_SysLib_EnterCriticalSection();
+    Cy_SysClk_UnlockProtReg();
+    SRSSHV->PWR_SSV_CTL |= SRSSHV_PWR_SSV_CTL_BODHVSS_ENABLE_Msk;
+    Cy_SysClk_LockProtReg();
+    /* Exit out of critical section. */
+    Cy_SysLib_ExitCriticalSection(state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_BodHVDisable
+****************************************************************************//**
+*
+* Disable Brown-out detection for HV supply
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \note You can check status by the \ref Cy_SysPm_SupplySupervisionStatus function
+*
+* \funcusage
+* \snippet syspm_snippet.c snippet_Cy_SysPm_BodHVDisable
+*
+*******************************************************************************/
+void Cy_SysPm_BodHVDisable(void)
+{
+    /*
+     * To avoid LockProtReg from ISR, enter critical section.
+     */
+    uint32_t state = Cy_SysLib_EnterCriticalSection();
+    Cy_SysClk_UnlockProtReg();
+    SRSSHV->PWR_SSV_CTL &= ~SRSSHV_PWR_SSV_CTL_BODHVSS_ENABLE_Msk;
+    Cy_SysClk_LockProtReg();
+    /* Exit out of critical section. */
+    Cy_SysLib_ExitCriticalSection(state);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_OvdEnable
+****************************************************************************//**
+*
+* Enable OverVoltage detection for selected supply
+*
+* \param ovdSel
+* \ref cy_en_syspm_ovd_sel_t on which supply OVD have to be enabled
+*
+* \note You can check OVD status by the \ref Cy_SysPm_SupplySupervisionStatus function
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet syspm_snippet.c snippet_Cy_SysPm_OvdEnable
+*
+*******************************************************************************/
+void Cy_SysPm_OvdEnable(cy_en_syspm_ovd_sel_t ovdSel)
+{
+    CY_ASSERT_L2(CY_SYSPM_OVD_SEL_IS_VALID(ovdSel));
+
+    /* avoid (un)lock race condition */
+    uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+    /* disable protection before operation */
+    Cy_SysClk_UnlockProtReg();
+    switch(ovdSel)
+    {
+        case CY_SYSPM_OVD_VDD:
+            {
+                SRSSHV->PWR_SSV_CTL |= SRSSHV_PWR_SSV_CTL_OVDVDDD_ENABLE_Msk;
+            }
+            break;
+
+        case CY_SYSPM_OVD_VCC:
+            {
+                SRSSHV->PWR_SSV_CTL |= SRSSHV_PWR_SSV_CTL_OVDVCCD_ENABLE_Msk;
+            }
+            break;
+        default:
+            /* do nothing */
+            break;
+    }
+    Cy_SysClk_LockProtReg();
+    Cy_SysLib_ExitCriticalSection(intrState);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysPm_OvdDisable
+****************************************************************************//**
+*
+* Disable OverVoltage detection for selected supply
+*
+* \param ovdSel
+* \ref cy_en_syspm_ovd_sel_t on which supply OVD have to be disabled
+*
+* \note You can check OVD status by the \ref Cy_SysPm_SupplySupervisionStatus function
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet syspm_snippet.c snippet_Cy_SysPm_OvdDisable
+*
+*******************************************************************************/
+void Cy_SysPm_OvdDisable(cy_en_syspm_ovd_sel_t ovdSel)
+{
+    CY_ASSERT_L2(CY_SYSPM_OVD_SEL_IS_VALID(ovdSel));
+
+    /* avoid (un)lock race condition */
+    uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+    /* disable protection before operation */
+    Cy_SysClk_UnlockProtReg();
+    switch(ovdSel)
+    {
+        case CY_SYSPM_OVD_VDD:
+            {
+                SRSSHV->PWR_SSV_CTL &= ~SRSSHV_PWR_SSV_CTL_OVDVDDD_ENABLE_Msk;
+            }
+            break;
+
+        case CY_SYSPM_OVD_VCC:
+            {
+                SRSSHV->PWR_SSV_CTL &= ~SRSSHV_PWR_SSV_CTL_OVDVCCD_ENABLE_Msk;
+            }
+            break;
+
+        default:
+            /* do nothing */
+            break;
+    }
+    Cy_SysClk_LockProtReg();
+    Cy_SysLib_ExitCriticalSection(intrState);
+}
+
+#endif /* defined(CY_IP_M0S8SRSSHV) */
 
 /* [] END OF FILE */

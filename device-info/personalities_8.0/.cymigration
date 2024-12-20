@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Migration>
+  <Source id="m0s8pll-1.0">
+    <Destination id="m0s8pll-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8pll-1.0">
+    <Destination id="m0s8pll-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8pll-2.0">
+    <Destination id="m0s8pll-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8mscv3-1.0">
+    <Destination id="m0s8mscv3-1.1" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8csd-1.0">
+    <Destination id="m0s8csd-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+    </Destination>
+  </Source>
+  <Source id="m0s8csd-1.1">
+    <Destination id="m0s8csd-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+    </Destination>
+  </Source>
+  <Source id="m0s8csd-1.2">
+    <Destination id="m0s8csd-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+    </Destination>
+  </Source>
+  <Source id="m0s8sar-1.0">
+    <Destination id="m0s8sar-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8sar-1.0">
+    <Destination id="m0s8sar-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8sar-2.0">
+    <Destination id="m0s8sar-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8hfclk-1.0">
+    <Destination id="m0s8hfclk-3.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="sourceClock" value="`${(value(&quot;sourceClock&quot;,&quot;IMO&quot;) eq &quot;ECO&quot;) ? &quot;EXCO&quot; : (value(&quot;sourceClock&quot;,&quot;IMO&quot;) eq &quot;PLL&quot;) ? &quot;EXCO&quot; : value(&quot;sourceClock&quot;,&quot;IMO&quot;)}`" />
+    </Destination>
+  </Source>
+  <Source id="m0s8pumpclk-1.0">
+    <Destination id="m0s8pumpclk-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8hfclk-2.0">
+    <Destination id="m0s8hfclk-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8ilo-1.0">
+    <Destination id="m0s8ilo-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8sysclocks-1.0">
+    <Destination id="m0s8sysclocks-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8wco-1.0">
+    <Destination id="m0s8wco-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8wdt-1.0">
+    <Destination id="m0s8wdt-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8pin-1.0">
+    <Destination id="m0s8pin-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="portLevelConfig" value="`${value(&quot;portLevelConfig&quot;,&quot;false&quot;)}`" />
+    </Destination>
+  </Source>
+  <Source id="m0s8mscv3lp-1.0">
+    <Destination id="m0s8mscv3lp-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+  <Source id="m0s8mscv3lp-2.0">
+    <Destination id="m0s8mscv3lp-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+  </Source>
+</Migration>

@@ -7,6 +7,7 @@
     <ExposedParamKey id="SAR_SAMPLE_RATE" param_name="SAR12Sample_ksps" />
     <ExposedParamKey id="VDD_MIN" param_name="Vddmin_volts" />
     <ExposedParamKey id="VDD_MAX" param_name="Vddmax_volts" />
+    <ExposedParamKey id="VDDD_Mv" param_name="VdddMv" />
   </ExposedParameterKeys>
   <Connectivity location="connectivity" />
   <Wounding location="chipresourcewoundings.xml" />
@@ -15,12 +16,13 @@
   <!--There are no TriggerGroup type="ONE_TO_ONE" in triggers.cydata so TrigMuxSelectTemplate is not used.-->
   <TrigMuxSelectTemplate value="/* NOT USED */" />
   <Profiles>
-    <Profile displayName="Solutions" fileName="solutions" evalPriority="7" displayPriority="1" description="Solution configuration" resources="vres(\[\d+\]).*" />
+    <Profile purpose="MEMORY" displayName="Memory" fileName="memory" evalPriority="8" displayPriority="6" description="Memory configuration" resources="(vres\[\d+\]\.(reserved_memory_region|memory|security)\[\d+\].*)|(m33syscpuss\[\d+\]\.cm33.*)|(m55appcpuss\[\d+\]\.cm55.*)|(.*\.mpc\[\d+\])" />
+    <Profile displayName="Solutions" fileName="solutions" evalPriority="7" displayPriority="1" description="Solution configuration" resources="vres\[\d+\].*" />
     <Profile displayName="System" diagramType="CLOCKS" fileName="system" evalPriority="1" displayPriority="5" description="System configuration" resources="srss(\[\d+\])?\.(clock|power|eeprom)(\[\d+\])?.*|cpuss(\[\d+\])?\.dap(\[\d+\])?|wco(\[\d+\])?$|exco(\[\d+\])?.*" />
-    <Profile displayName="DMA" fileName="dmas" evalPriority="3" displayPriority="7" description="DMA configuration" resources="cpuss(\[\d+\])?\.(dw|dmac).*" />
-    <Profile displayName="Peripheral-Clocks" fileName="clocks" evalPriority="2" displayPriority="6" description="Clock configuration" resources="peri(\[\d+\])?\.div_.*" />
+    <Profile displayName="DMA" fileName="dmas" evalPriority="3" displayPriority="8" description="DMA configuration" resources="cpuss(\[\d+\])?\.(dw|dmac).*" />
+    <Profile displayName="Peripheral-Clocks" fileName="clocks" evalPriority="2" displayPriority="7" description="Clock configuration" resources="peri(\[\d+\]).*" />
     <Profile displayName="Pins" diagramType="PACKAGE" fileName="pins" evalPriority="6" displayPriority="3" description="Pin configuration" resources="ioss[\[\.].*" />
-    <Profile displayName="Software" fileName="software" evalPriority="1" displayPriority="8" description="Software configuration" resources="features[\[\.].*" />
+    <Profile displayName="Software" fileName="software" evalPriority="1" displayPriority="9" description="Software configuration" resources="features[\[\.].*" />
     <Profile displayName="Peripherals" fileName="peripherals" evalPriority="5" displayPriority="2" description="Peripheral Hardware Block configuration" resources=".*" />
     <!--This won't match any HW locations because it is after the catchall (.*). This is on purpose and needed to specify display order/code gen order for Analog/routing.-->
     <Profile purpose="ROUTING" displayName="Analog-Routing" diagramType="ANALOG" fileName="routing" evalPriority="4" displayPriority="4" description="Establishes all necessary connections between hardware elements." resources="NONE" >

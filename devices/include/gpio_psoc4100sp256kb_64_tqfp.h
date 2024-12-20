@@ -2,7 +2,7 @@
 * \file gpio_psoc4100sp256kb_64_tqfp.h
 *
 * \brief
-* PSoC4100Sp256KB device GPIO header for 64-TQFP package
+* PSOC4100Sp256KB device GPIO header for 64-TQFP package
 *
 ********************************************************************************
 * \copyright

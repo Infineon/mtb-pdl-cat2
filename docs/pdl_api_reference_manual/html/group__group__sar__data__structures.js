@@ -8,11 +8,19 @@ var group__group__sar__data__structures =
       [ "avgEn", "structcy__stc__sar__channel__config__t.html#af6393b0df19a16d1b6618d4a715eeca5", null ],
       [ "sampleTimeSel", "structcy__stc__sar__channel__config__t.html#ab61cbba910f3baa6c2bf1a2bf57df173", null ],
       [ "rangeIntrEn", "structcy__stc__sar__channel__config__t.html#a67d3ddbfcad287244787c09d676c9c44", null ],
-      [ "satIntrEn", "structcy__stc__sar__channel__config__t.html#a1647ee3d1f9393f71876a4c961ec884a", null ]
+      [ "satIntrEn", "structcy__stc__sar__channel__config__t.html#a1647ee3d1f9393f71876a4c961ec884a", null ],
+      [ "neg_addr", "structcy__stc__sar__channel__config__t.html#aacea474742a1139ad72de4b0a42e129f", null ],
+      [ "negAddrEn", "structcy__stc__sar__channel__config__t.html#a6b89a7597d5d259795c563c268fb9189", null ],
+      [ "diagVplusSource", "structcy__stc__sar__channel__config__t.html#a0ba8fc3d1b06a2d80ae5ffb744148529", null ],
+      [ "diagVplusSink", "structcy__stc__sar__channel__config__t.html#aaf4f5f2033992c2244776ce380c7b198", null ],
+      [ "diagVminusSoure", "structcy__stc__sar__channel__config__t.html#ad969e1eaaf738dde7ed3ff45f8f7c6e5", null ],
+      [ "diagVminusSink", "structcy__stc__sar__channel__config__t.html#a6c0c8e4001bf7fb643b4d4979ed67523", null ]
     ] ],
     [ "cy_stc_sar_routing_config_t", "structcy__stc__sar__routing__config__t.html", [
       [ "muxSwitch", "structcy__stc__sar__routing__config__t.html#a91171c914047613e455ba37c81fe0d43", null ],
-      [ "muxSwitchHwCtrl", "structcy__stc__sar__routing__config__t.html#ab5b111c24489c3f1ad0a7b1d576754f2", null ]
+      [ "muxSwitchHwCtrl", "structcy__stc__sar__routing__config__t.html#ab5b111c24489c3f1ad0a7b1d576754f2", null ],
+      [ "muxSwitch2", "structcy__stc__sar__routing__config__t.html#a754743b9e9a136c1cedb0c4ee9977963", null ],
+      [ "muxSwitchHwCtrl2", "structcy__stc__sar__routing__config__t.html#a877e5a71e15b35639877c4febc3fa572", null ]
     ] ],
     [ "cy_stc_sar_config_t", "structcy__stc__sar__config__t.html", [
       [ "vrefSel", "structcy__stc__sar__config__t.html#ac37d21aadb6b486072394a6d795adfe5", null ],

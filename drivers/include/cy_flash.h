@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_flash.h
-* \version 1.0.1
+* \version 1.10
 *
 * Provides the API declarations of the Flash driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2020 Cypress Semiconductor Corporation
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +22,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
+*
 *******************************************************************************/
 
 #if !defined(CY_FLASH_H)
@@ -34,7 +37,7 @@
 * You can include cy_pdl.h to get access to all functions
 * and declarations in the PDL.
 *
-* Flash memory in PSoC devices provides non-volatile storage for user firmware,
+* Flash memory in PSOC devices provides non-volatile storage for the user firmware,
 * user configuration data, and bulk data storage.
 *
 * Flash programming operations are implemented as system calls. System calls are
@@ -85,6 +88,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">1.10</td>
+*     <td>Added Flash protection control support, Added ECC support.</td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
+*     <td>Added support for extra rows FLASH Macro.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
+*   <tr>
+*     <td>Added support for latest FLASH page size macro.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Removed unused library.</td>
 *     <td>Minor enhancement.</td>
@@ -129,7 +145,7 @@ extern "C" {
 #define CY_FLASH_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_FLASH_DRV_VERSION_MINOR       0
+#define CY_FLASH_DRV_VERSION_MINOR       10
 
 #define CY_FLASH_ID               (CY_PDL_DRV_ID(0x14UL))                          /**< FLASH PDL ID */
 
@@ -148,16 +164,16 @@ extern "C" {
 /** The size of the Flash memory */
 #define CY_FLASH_SIZEOF_FLASH               (CY_FLASH_SIZE)
 
-#if (CPUSS_SPCIF_FLASH_PAGE_SIZE == 0U)
+#if (CPUSS_SPCIF_FLASH_PAGE_SIZE == 0U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 64U)
     /** The size of the Flash row */
     #define CY_FLASH_SIZEOF_ROW             (64U)
-#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE == 1U)
+#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE == 1U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 128U)
     /** The size of the Flash row */
     #define CY_FLASH_SIZEOF_ROW             (128U)
-#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE == 3U)
+#elif (CPUSS_SPCIF_FLASH_PAGE_SIZE == 3U) || (CPUSS_SPCIF_FLASH_PAGE_SIZE == 256U)
     /** The size of the Flash row */
     #define CY_FLASH_SIZEOF_ROW             (256U)
-#endif
+#endif /* (CPUSS_SPCIF_FLASH_PAGE_SIZE > 3U) */
 
 /** The number of Flash rows */
 #define CY_FLASH_NUMBER_ROWS                (CY_FLASH_SIZE / CY_FLASH_SIZEOF_ROW)
@@ -168,7 +184,7 @@ extern "C" {
 /** The number of the Flash macros */
 #define CY_FLASH_NUMBER_MACROS              (CPUSS_SPCIF_FLASH_MACROS)
 
-#if (SFLASH_FLASH_M0_XTRA_ROWS == 1U) || defined (CY_DOXYGEN)
+#if (defined (SFLASH_FLASH_M0_XTRA_ROWS) && (SFLASH_FLASH_M0_XTRA_ROWS == 1U)) || defined (CY_DOXYGEN)
     #if (CY_FLASH_SIZEOF_ROW == 256U)
         /** The Supervisory Flash memory user base address */
         #define CY_FLASH_SFLASH_USERBASE    (CY_SFLASH_BASE + 0x400U)
@@ -185,6 +201,16 @@ extern "C" {
 
     /** The size of the Supervisory Flash user memory */
     #define CY_FLASH_SIZEOF_USERSFLASH      (CY_FLASH_NUMBER_SFLASH_ROWS * CY_FLASH_SIZEOF_SFLASH_ROW)
+#elif (defined (SFLASH_USER_SFLASH_AREA_LOCATION_Pos))
+    #define SFLASH_HIGH_BASE_ADDR               (0x0FFF0000UL)
+    /* If user area exist */
+    /* The User SFlash memory base address */
+    #define CY_FLASH_SFLASH_USERBASE    (SFLASH_HIGH_BASE_ADDR | _FLD2VAL(SFLASH_USER_SFLASH_AREA_LOCATION, SFLASH_USER_AREA))
+    /* The User SFlash memory base address */
+    #define CY_FLASH_SFLASH_USERBASE1    (SFLASH_HIGH_BASE_ADDR | _FLD2VAL(SFLASH_USER_SFLASH_AREA_LOCATION, SFLASH_USER_AREA1))
+    /* The size of the Supervisory Flash user memory */
+    #define CY_FLASH_SIZEOF_USERSFLASH    _FLD2VAL(SFLASH_USER_SFLASH_AREA_SIZE, SFLASH_USER_AREA)
+    #define CY_FLASH_SIZEOF_USERSFLASH1    _FLD2VAL(SFLASH_USER_SFLASH_AREA_SIZE, SFLASH_USER_AREA1)
 #endif /* (SFLASH_FLASH_M0_XTRA_ROWS == 1U) || defined (CY_DOXYGEN) */
 
 /** Reports if device supports non-blocking Flash operations */
@@ -243,6 +269,16 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
     cy_en_flashdrv_status_t Cy_Flash_IsOperationComplete(void);
 #endif /* (CY_FLASH_NON_BLOCKING_SUPPORTED) || defined (CY_DOXYGEN) */
 cy_en_flashdrv_status_t Cy_Flash_RowChecksum(uint32_t rowAddr, uint32_t* checksumPtr);
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2) || defined (CY_DOXYGEN)
+cy_en_flashdrv_status_t Cy_Flash_SetProtection(const uint32_t bitField);
+cy_en_flashdrv_status_t Cy_Flash_GetProtectionStatus(uint32_t* statusPtr);
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) || defined (CY_DOXYGEN) */
+#if (defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U))  || defined (CY_DOXYGEN)
+cy_en_flashdrv_status_t Cy_Flash_SetupEccInjection(const uint32_t address, const uint8_t parity);
+void Cy_Flash_EnableEccInjection(void);
+void Cy_Flash_DisableEccInjection(void);
+bool Cy_Flash_IsEccInjectionEnabled(void);
+#endif /* (defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U))  || defined (CY_DOXYGEN) */
 
 /** \} group_flash_functions */
 

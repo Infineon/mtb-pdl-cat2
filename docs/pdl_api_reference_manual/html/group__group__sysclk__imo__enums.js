@@ -7,7 +7,8 @@ var group__group__sysclk__imo__enums =
       [ "CY_SYSCLK_IMO_36MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a48bce1549adaaf3e99a0f9333feb8f1b", null ],
       [ "CY_SYSCLK_IMO_40MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a53cce49e3fc011cb7061b5b0cdd36c06", null ],
       [ "CY_SYSCLK_IMO_44MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319ab5e0272ed52d425fa63d27e54b201bb6", null ],
-      [ "CY_SYSCLK_IMO_48MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a4850d269cd4c13ff33ce3dd93cd19f7f", null ]
+      [ "CY_SYSCLK_IMO_48MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a4850d269cd4c13ff33ce3dd93cd19f7f", null ],
+      [ "CY_SYSCLK_IMO_49_152MHZ", "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a66f9256a2a393bac571a1db0ec058ff0", null ]
     ] ],
     [ "cy_en_sysclk_imo_lock_t", "group__group__sysclk__imo__enums.html#ga98c5de12c8fb777be65114eb28deb613", [
       [ "CY_SYSCLK_IMO_LOCK_NONE", "group__group__sysclk__imo__enums.html#gga98c5de12c8fb777be65114eb28deb613ae03b8f36e2ccb5f2844d0a9bab3216cc", null ],

@@ -2,7 +2,7 @@
 * \file gpio_psoc4100s_28_ssop_auto.h
 *
 * \brief
-* PSoC4100S device GPIO header for 28-SSOP-AUTO package
+* PSOC4100S device GPIO header for 28-SSOP-AUTO package
 *
 ********************************************************************************
 * \copyright

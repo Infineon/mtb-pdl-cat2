@@ -35,7 +35,7 @@
 * \{
 *
 * The MSC HW block represents the devices of the fifth CAPSENSE&trade; generation.
-* It enables multiple sensing capabilities on PSoC&trade; devices,
+* It enables multiple sensing capabilities on PSOC&trade; devices,
 * including self-cap and mutual-cap capacitive touch-sense solutions.
 *
 * The CAPSENSE&trade; solution includes:
@@ -316,7 +316,7 @@
 * * Infineon Kits:
 *
 *   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-041s-max/">
-*     <b>CY8CKIT-041S-MAX PSoC&trade; 4100S Max pioneer kit</b></a>
+*     <b>CY8CKIT-041S-MAX PSOC&trade; 4100S Max pioneer kit</b></a>
 *
 * * General Information:
 *
@@ -324,7 +324,7 @@
 *     <b>PDL API Reference</b></a>
 *
 *   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4100S_and_PSoC_4100S_Plus_PSoC_4_Architecture_TRM-AdditionalTechnicalInformation-v12_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f9433460188">
-*     <b>PSoC&trade; 4100S and PSoC&trade; 4100S Plus: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
+*     <b>PSOC&trade; 4100S and PSOC&trade; 4100S Plus: PSOC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
 *   * <a href="https://github.com/Infineon"><b>Infineon Technologies GitHub</b></a>
 *

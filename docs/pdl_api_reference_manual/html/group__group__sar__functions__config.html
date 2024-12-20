@@ -98,12 +98,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4808c2e7e72e2648c0efbf3eb025366f"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga4808c2e7e72e2648c0efbf3eb025366f">Cy_SAR_SetChanMask</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t enableMask)</td></tr>
 <tr class="memdesc:ga4808c2e7e72e2648c0efbf3eb025366f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the enable/disable mask for the channels.  <a href="#ga4808c2e7e72e2648c0efbf3eb025366f">More...</a><br /></td></tr>
 <tr class="separator:ga4808c2e7e72e2648c0efbf3eb025366f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa63eb45393e4698e76a82c963c45aea2"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#gaa63eb45393e4698e76a82c963c45aea2">Cy_SAR_GetChanMask</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base)</td></tr>
+<tr class="memdesc:gaa63eb45393e4698e76a82c963c45aea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the enable/disable mask for the channels.  <a href="#gaa63eb45393e4698e76a82c963c45aea2">More...</a><br /></td></tr>
+<tr class="separator:gaa63eb45393e4698e76a82c963c45aea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaff69993327b0aba19490c7ac9708138c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t lowLimit)</td></tr>
 <tr class="memdesc:gaff69993327b0aba19490c7ac9708138c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the low threshold for range detection.  <a href="#gaff69993327b0aba19490c7ac9708138c">More...</a><br /></td></tr>
 <tr class="separator:gaff69993327b0aba19490c7ac9708138c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1010c3aa3528648ac3715481c0339e28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t highLimit)</td></tr>
 <tr class="memdesc:ga1010c3aa3528648ac3715481c0339e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the high threshold for range detection.  <a href="#ga1010c3aa3528648ac3715481c0339e28">More...</a><br /></td></tr>
 <tr class="separator:ga1010c3aa3528648ac3715481c0339e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabf0640c66ae40e74d7c65545d2b017ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#gabf0640c66ae40e74d7c65545d2b017ed">Cy_SAR_SetVref</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, <a class="el" href="group__group__sar__enums.html#ga8f8244be5b3475b12564d27ce435dc83">cy_en_sar_ctrl_vref_sel_t</a> vrefSel)</td></tr>
+<tr class="memdesc:gabf0640c66ae40e74d7c65545d2b017ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the Vref of the SAR ADC during runtime.  <a href="#gabf0640c66ae40e74d7c65545d2b017ed">More...</a><br /></td></tr>
+<tr class="separator:gabf0640c66ae40e74d7c65545d2b017ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, <a class="el" href="group__group__sar__range__thres__register__enums.html#gaccf649d65a86e17939c3d20a684cd9cd">cy_en_sar_range_detect_condition_t</a> cond)</td></tr>
 <tr class="memdesc:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the condition in which range detection interrupts are triggered.  <a href="#ga7fc7fe5bfdf2f43c218f839592f3afa8">More...</a><br /></td></tr>
 <tr class="separator:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,6 +210,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaa63eb45393e4698e76a82c963c45aea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa63eb45393e4698e76a82c963c45aea2">&#9670;&nbsp;</a></span>Cy_SAR_GetChanMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE uint32_t Cy_SAR_GetChanMask </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the enable/disable mask for the channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the structure, which describes registers.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Channel enable/disable mask. Each bit corresponds to a channel.<ul>
+<li>0: the corresponding channel is disabled.</li>
+<li>1: the corresponding channel is enabled; it will be included in the next scan. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
 <a id="gaff69993327b0aba19490c7ac9708138c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaff69993327b0aba19490c7ac9708138c">&#9670;&nbsp;</a></span>Cy_SAR_SetLowLimit()</h2>
 
@@ -282,6 +319,48 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd></dd></dl>
 <div class="fragment"><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Adjust the the low limit of the range detection to 0x300 and the high limit to 0xC00. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c">Cy_SAR_SetLowLimit</a>(SAR0, 0x300UL);</div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28">Cy_SAR_SetHighLimit</a>(SAR0, 0xC00UL);</div></div><!-- fragment -->
+</div>
+</div>
+<a id="gabf0640c66ae40e74d7c65545d2b017ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabf0640c66ae40e74d7c65545d2b017ed">&#9670;&nbsp;</a></span>Cy_SAR_SetVref()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_SAR_SetVref </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__sar__enums.html#ga8f8244be5b3475b12564d27ce435dc83">cy_en_sar_ctrl_vref_sel_t</a>&#160;</td>
+          <td class="paramname"><em>vrefSel</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the Vref of the SAR ADC during runtime. </p>
+<p>If Vref = BGR or VDDA/2, API enables the Vref buffer, otherwise, disable the Vref buffer. When using this API, the user must:</p><ul>
+<li>Stop the ADC before running this function.</li>
+<li>Configure the correct gain of channels using Cy_SAR_SetChannelGain for raw count conversations APIs to work properly while using a different Vref.</li>
+<li>Allow sufficient time for Vref to settle change when using a bypass cap or the Vref buffer.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the structure, which describes registers.</td></tr>
+    <tr><td class="paramname">vrefSel</td><td>The enumerated type of possible Vref settings <a class="el" href="group__group__sar__enums.html#ga8f8244be5b3475b12564d27ce435dc83">cy_en_sar_ctrl_vref_sel_t</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ga7fc7fe5bfdf2f43c218f839592f3afa8"></a>

@@ -2,7 +2,7 @@
 * \file psoc4100smax_config.h
 *
 * \brief
-* PSoC4100Smax device configuration header
+* PSOC4100Smax device configuration header
 *
 ********************************************************************************
 * \copyright

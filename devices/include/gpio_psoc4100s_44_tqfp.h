@@ -2,7 +2,7 @@
 * \file gpio_psoc4100s_44_tqfp.h
 *
 * \brief
-* PSoC4100S device GPIO header for 44-TQFP package
+* PSOC4100S device GPIO header for 44-TQFP package
 *
 ********************************************************************************
 * \copyright

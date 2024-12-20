@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['neg_5faddr',['neg_addr',['../structcy__stc__sar__channel__config__t.html#aacea474742a1139ad72de4b0a42e129f',1,'cy_stc_sar_channel_config_t']]],
+  ['negaddren',['negAddrEn',['../structcy__stc__sar__channel__config__t.html#a6b89a7597d5d259795c563c268fb9189',1,'cy_stc_sar_channel_config_t']]],
   ['negsel',['negSel',['../structcy__stc__sar__config__t.html#a4691f394f7e8086d35dcc1d1975af345',1,'cy_stc_sar_config_t']]],
   ['negvref',['negVref',['../structcy__stc__sar__config__t.html#a413d545a2e73f4cde796ec9c12b59c0a',1,'cy_stc_sar_config_t']]],
   ['nextitm',['nextItm',['../structcy__stc__syspm__callback__t.html#a491e913ae8b54d0a61f2ac6959abf8ab',1,'cy_stc_syspm_callback_t']]],

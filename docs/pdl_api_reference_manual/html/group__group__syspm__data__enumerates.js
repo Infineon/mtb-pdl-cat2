@@ -12,6 +12,17 @@ var group__group__syspm__data__enumerates =
       [ "CY_SYSPM_DEEPSLEEP", "group__group__syspm__data__enumerates.html#gga8c2960c0164ead1cfa86e7d6846b6ff0abc51d74deff0ceea4304b01b2d57bd9d", null ],
       [ "CY_SYSPM_HIBERNATE", "group__group__syspm__data__enumerates.html#gga8c2960c0164ead1cfa86e7d6846b6ff0a613e2f83e3ab88e3569cf34ff0fa5912", null ]
     ] ],
+    [ "cy_en_syspm_ovd_sel_t", "group__group__syspm__data__enumerates.html#ga1d2ca460c2f87303cc154d08b2fb7a21", [
+      [ "CY_SYSPM_OVD_VDD", "group__group__syspm__data__enumerates.html#gga1d2ca460c2f87303cc154d08b2fb7a21adecfb136df1f8e7a95495af673798a92", null ],
+      [ "CY_SYSPM_OVD_VCC", "group__group__syspm__data__enumerates.html#gga1d2ca460c2f87303cc154d08b2fb7a21ac948d5a858437e287e4b859be696d857", null ]
+    ] ],
+    [ "cy_en_syspm_supply_entity_select_t", "group__group__syspm__data__enumerates.html#ga219c1c0c47a516504e4951a05f38a65d", [
+      [ "CY_SYSPM_OVD_VDD_OK", "group__group__syspm__data__enumerates.html#gga219c1c0c47a516504e4951a05f38a65da453ae761db8072fc2e7c21eec6b95a12", null ],
+      [ "CY_SYSPM_OVD_VCC_OK", "group__group__syspm__data__enumerates.html#gga219c1c0c47a516504e4951a05f38a65daeb3ab18728377dbdd80d058b62abaa15", null ],
+      [ "CY_SYSPM_BOD_VDD_OK", "group__group__syspm__data__enumerates.html#gga219c1c0c47a516504e4951a05f38a65da2dce4f97eb8e2832e2cf95ee585ec104", null ],
+      [ "CY_SYSPM_BOD_VCC_OK", "group__group__syspm__data__enumerates.html#gga219c1c0c47a516504e4951a05f38a65da2307c910cdba7b13595bbdfe84439d5d", null ],
+      [ "CY_SYSPM_BOD_HV_OK", "group__group__syspm__data__enumerates.html#gga219c1c0c47a516504e4951a05f38a65da7dbf04e6156a952c72aea6b0b9573829", null ]
+    ] ],
     [ "cy_en_syspm_callback_mode_t", "group__group__syspm__data__enumerates.html#gae06cd8869fe61d709ad6145ca9f3cd63", [
       [ "CY_SYSPM_CHECK_READY", "group__group__syspm__data__enumerates.html#ggae06cd8869fe61d709ad6145ca9f3cd63ab7ec706d80b347433d0063f2a8115784", null ],
       [ "CY_SYSPM_CHECK_FAIL", "group__group__syspm__data__enumerates.html#ggae06cd8869fe61d709ad6145ca9f3cd63a96acf2d0ae5537798228d5fba0fecd17", null ],

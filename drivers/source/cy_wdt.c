@@ -1,12 +1,14 @@
 /***************************************************************************//**
 * \file cy_wdt.c
-* \version 1.0.3
+* \version 1.10
 *
 *  This file provides the source code to the API for the WDT driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2016-2023 Cypress Semiconductor Corporation
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,16 +44,45 @@ extern "C" {
 *
 * This function clears the WDT interrupt.
 *
+* For PSOC4 HVMS/PA devices the given default setting of the WDT:
+* - The WDT is unlocked and disabled.
+* - The WDT Lower Limit value is set to 0 and Lower action to None.
+* - The WDT Warn Limit value is set to 0 and Warn action to None.
+* - The WDT Upper Limit value is set to 32768 (~1 sec when clk_lf = 32KHz) and Upper action to Reset.
+* - The WDT is locked again.
+*
 *******************************************************************************/
 void Cy_WDT_Init(void)
 {
+#if defined(CY_IP_S8SRSSLT)
     Cy_WDT_Disable();
     Cy_WDT_SetMatch(CY_SRSS_WDT_DEFAULT_MATCH_VALUE);
     Cy_WDT_SetIgnoreBits(CY_SRSS_WDT_DEFAULT_IGNORE_BITS);
+#elif defined(CY_IP_M0S8SRSSHV)
+    /* Unlock the WDT registers by two writes */
+    Cy_WDT_Unlock();
+
+    Cy_WDT_Disable();
+
+    /* The WDT Lower Limit value is set to 0 and Lower action to None. */
+    Cy_WDT_SetLowerLimit(CY_WDT_DEFAULT_LOWER_LIMIT);
+    Cy_WDT_SetLowerAction(CY_WDT_LOW_UPPER_LIMIT_ACTION_NONE);
+    /* The WDT Warn Limit value is set to 0 and Warn action to None. */
+    Cy_WDT_SetWarnLimit(CY_WDT_DEFAULT_WARN_LIMIT);
+    Cy_WDT_SetWarnAction(CY_WDT_WARN_ACTION_NONE);
+    /* The WDT Upper Limit value is set to 32768 (~1 sec when clk_lf = 32KHz)
+    and Upper action to Reset. */
+    Cy_WDT_SetUpperLimit(CY_WDT_DEFAULT_UPPER_LIMIT);
+    Cy_WDT_SetUpperAction(CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET);
+
+    /* Lock the WDT registers */
+    Cy_WDT_Lock();
+#endif /* CY_IP_S8SRSSLT */
     Cy_WDT_ClearInterrupt();
 }
 
 
+#if defined(CY_IP_S8SRSSLT)
 /*******************************************************************************
 * Function Name: Cy_WDT_SetMatch
 ****************************************************************************//**
@@ -62,11 +93,12 @@ void Cy_WDT_Init(void)
 * The valid range is [0-65535]. The value to be used to match
 * against the counter.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 *******************************************************************************/
 void Cy_WDT_SetMatch(uint32_t match)
 {
     CY_ASSERT_L2(CY_WDT_IS_MATCH_VALID(match));
-
     CY_REG32_CLR_SET(SRSSLT_WDT_MATCH, SRSSLT_WDT_MATCH_MATCH, match);
 }
 
@@ -91,31 +123,47 @@ void Cy_WDT_SetMatch(uint32_t match)
 * the device can go into an infinite WDT reset loop. This may happen
 * if a WDT reset occurs faster that a device start-up.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 *******************************************************************************/
 void Cy_WDT_SetIgnoreBits(uint32_t bitsNum)
 {
-    CY_ASSERT_L2(CY_WDT_IS_IGNORE_BITS_VALID(bitsNum));
-    CY_REG32_CLR_SET(SRSSLT_WDT_MATCH, SRSSLT_WDT_MATCH_IGNORE_BITS, bitsNum);
+   CY_ASSERT_L2(CY_WDT_IS_IGNORE_BITS_VALID(bitsNum));
+   CY_REG32_CLR_SET(SRSSLT_WDT_MATCH, SRSSLT_WDT_MATCH_IGNORE_BITS, bitsNum);
 }
+#endif /* CY_IP_S8SRSSLT */
 
 
 /*******************************************************************************
 * Function Name: Cy_WDT_ClearInterrupt
 ****************************************************************************//**
 *
-* Clears the WDT match flag which is set every time the WDT counter reaches a
-* WDT match value. Two unserviced interrupts lead to a system reset
-* (i.e. at the third match).
+* Clears the WDT interrupt request which is set
+* as configured by WDT action and limits.
 *
 *******************************************************************************/
 void Cy_WDT_ClearInterrupt(void)
 {
-    SRSSLT_SRSS_INTR = SRSSLT_SRSS_INTR_WDT_MATCH_Msk;
+#if defined(CY_IP_S8SRSSLT)
+    SRSS_SRSS_INTR = SRSSLT_SRSS_INTR_WDT_MATCH_Msk;
 
     /* Read the interrupt register to ensure that the initial clearing write has
     * been flushed out to the hardware.
     */
-    (void) SRSSLT_SRSS_INTR;
+    (void) SRSS_SRSS_INTR;
+#elif defined(CY_IP_M0S8SRSSHV)
+    WDT->INTR = WDT_INTR_WDT_Msk;
+
+    /* Due to internal synchronization, it takes up to 8 SYSCLK cycles
+    * to update after a W1C or reading this register and during this time
+    * AHB bus is stalled.
+    */
+    Cy_SysLib_DelayCycles(8U);
+    /* Read the interrupt register to ensure that the initial clearing write has
+    * been flushed out to the hardware.
+    */
+    (void) WDT->INTR;
+#endif /* CY_IP_S8SRSSLT */
 }
 
 

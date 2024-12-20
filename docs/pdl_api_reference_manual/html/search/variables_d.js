@@ -16,6 +16,7 @@ var searchData=
   ['order',['order',['../structcy__stc__syspm__callback__t.html#a13e6dfd81747d61783aac9ca28931fe4',1,'cy_stc_syspm_callback_t']]],
   ['otp',['otp',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#ab2ce62b3ae05262de9e86683b7ffde50',1,'cy_pd_pd_do_t::ADO_ALERT']]],
   ['outputdiv',['outputDiv',['../structcy__stc__sysclk__pll__manual__config__t.html#ac2665b097bfa38215c8de4cd0bbc5f68',1,'cy_stc_sysclk_pll_manual_config_t']]],
+  ['outputenable',['outputEnable',['../structcy__stc__sysfault__config__t.html#a84a9dcd62233670ec1ac24a3b3036919',1,'cy_stc_sysfault_config_t']]],
   ['outputfreq',['outputFreq',['../structcy__stc__sysclk__pll__config__t.html#a3d31734799778468744f28eaec4a8d20',1,'cy_stc_sysclk_pll_config_t']]],
   ['outputmode',['outputMode',['../structcy__stc__ctb__opamp__config__t.html#aa164f8dff25db585633064953ce5aab5',1,'cy_stc_ctb_opamp_config_t::outputMode()'],['../structcy__stc__lpcomp__config__t.html#a480331bf074a8da85d644604ccbd4be1',1,'cy_stc_lpcomp_config_t::outputMode()']]],
   ['outval',['outVal',['../structcy__stc__gpio__pin__config__t.html#ae39ff5dc65ffef2808a0183f23691389',1,'cy_stc_gpio_pin_config_t']]],

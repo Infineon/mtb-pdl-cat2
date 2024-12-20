@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_device.h
-* \version 1.20
+* \version 1.40
 *
 * This file specifies the structure for core and peripheral block HW base
 * addresses, versions, and parameters.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -39,40 +39,130 @@
 *******************************************************************************/
 
 #define CY_SYSCLK_HF_CLK_MAX_FREQ           (CY_HF_CLK_MAX_FREQ)
+#define CY_CHECK_BIT(var,pos) ((uint32_t)(var) & ((uint32_t)1UL<<(uint32_t)(pos)))
 
-#define SRSS_PWR_CONTROL                    (((SRSSLT_Type *) SRSSLT)->PWR_CONTROL)
-#define SRSSLT_PWR_KEY_DELAY                (((SRSSLT_Type *) SRSSLT)->PWR_KEY_DELAY)
 
-#define SRSSLT_WDT_DISABLE_KEY              (((SRSSLT_Type *) SRSSLT)->WDT_DISABLE_KEY)
-#define SRSSLT_WDT_COUNTER                  (((SRSSLT_Type *) SRSSLT)->WDT_COUNTER)
-#define SRSSLT_WDT_MATCH                    (((SRSSLT_Type *) SRSSLT)->WDT_MATCH)
+/*******************************************************************************
+*                SRSS Common
+*******************************************************************************/
 
-#define SRSSLT_CLK_SELECT                   (((SRSSLT_Type *) SRSSLT)->CLK_SELECT)
-#define SRSSLT_CLK_ILO_CONFIG               (((SRSSLT_Type *) SRSSLT)->CLK_ILO_CONFIG)
-#define SRSSLT_CLK_IMO_CONFIG               (((SRSSLT_Type *) SRSSLT)->CLK_IMO_CONFIG)
-#define SRSSLT_CLK_DFT_SELECT               (((SRSSLT_Type *) SRSSLT)->CLK_DFT_SELECT)
-#define SRSSLT_CLK_IMO_SELECT               (((SRSSLT_Type *) SRSSLT)->CLK_IMO_SELECT)
-#define SRSSLT_CLK_IMO_TRIM1                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM1)
-#define SRSSLT_CLK_IMO_TRIM2                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM2)
-#define SRSSLT_CLK_IMO_TRIM3                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM3)
+#if defined(CY_IP_S8SRSSLT)
+    #define SRSS_Type SRSSLT_Type
+    #define SRSS SRSSLT
+    /* Macros to concatenate register definitions (SRSSLT_CLK_SELECT). */
+    #define SRSS_CONCAT(param)    SRSSLT_ ## param
+#elif defined(CY_IP_M0S8SRSSHV)
+    #define SRSS_Type SRSSHV_Type
+    #define SRSS SRSSHV
+    /* Macros to concatenate register definitions (SRSSHV_CLK_SELECT). */
+    #define SRSS_CONCAT(param)    SRSSHV_ ## param
+#endif /* defined(CY_IP_S8SRSSLT) */
 
-#define SRSSLT_SRSS_INTR                      (((SRSSLT_Type *) SRSSLT)->SRSS_INTR)
-#define SRSSLT_SRSS_INTR_SET                  (((SRSSLT_Type *) SRSSLT)->SRSS_INTR_SET)
-#define SRSSLT_SRSS_INTR_MASK                 (((SRSSLT_Type *) SRSSLT)->SRSS_INTR_MASK)
+#define SRSS_PWR_CONTROL                    (((SRSS_Type *) SRSS)->PWR_CONTROL)
+#define SRSS_RES_CAUSE                      (((SRSS_Type *) SRSS)->RES_CAUSE)
+#define SRSS_PWR_KEY_DELAY                  (((SRSS_Type *) SRSS)->PWR_KEY_DELAY)
 
-#define SRSS_RES_CAUSE                      (((SRSSLT_Type *) SRSSLT)->RES_CAUSE)
+#define SRSS_CLK_SELECT                     (((SRSS_Type *) SRSS)->CLK_SELECT)
+#define SRSS_CLK_SELECT_HFCLK_SEL_Pos       SRSS_CONCAT(CLK_SELECT_HFCLK_SEL_Pos)
+#define SRSS_CLK_SELECT_HFCLK_SEL_Msk       SRSS_CONCAT(CLK_SELECT_HFCLK_SEL_Msk)
+#define SRSS_CLK_SELECT_PUMP_SEL_Pos        SRSS_CONCAT(CLK_SELECT_PUMP_SEL_Pos)
+#define SRSS_CLK_SELECT_PUMP_SEL_Msk        SRSS_CONCAT(CLK_SELECT_PUMP_SEL_Msk)
+#define SRSS_CLK_SELECT_HFCLK_DIV_Pos       SRSS_CONCAT(CLK_SELECT_HFCLK_DIV_Pos)
+#define SRSS_CLK_SELECT_HFCLK_DIV_Msk       SRSS_CONCAT(CLK_SELECT_HFCLK_DIV_Msk)
+#define SRSS_CLK_SELECT_SYSCLK_DIV_Pos      SRSS_CONCAT(CLK_SELECT_SYSCLK_DIV_Pos)
+#define SRSS_CLK_SELECT_SYSCLK_DIV_Msk      SRSS_CONCAT(CLK_SELECT_SYSCLK_DIV_Msk)
 
-#define SRSSLT_TST_DDFT_CTRL                   (*((__IOM uint32_t *)(SRSSLT_BASE + 0x18UL)))
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Pos      0UL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Msk      0xFUL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Pos      8UL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Msk      0xF00UL
+#define SRSS_CLK_DFT_SELECT                 (((SRSS_Type *) SRSS)->CLK_DFT_SELECT)
+#define SRSS_CLK_DFT_SELECT_DFT_SEL0_Pos    SRSS_CONCAT(CLK_DFT_SELECT_DFT_SEL0_Pos)
+#define SRSS_CLK_DFT_SELECT_DFT_SEL0_Msk    SRSS_CONCAT(CLK_DFT_SELECT_DFT_SEL0_Msk)
+#define SRSS_CLK_DFT_SELECT_DFT_SEL1_Pos    SRSS_CONCAT(CLK_DFT_SELECT_DFT_SEL1_Pos)
+#define SRSS_CLK_DFT_SELECT_DFT_SEL1_Msk    SRSS_CONCAT(CLK_DFT_SELECT_DFT_SEL1_Msk)
 
-#define SRSSLT_TST_TRIM_CNTR1                  (*((__IOM uint32_t *)(SRSSLT_BASE + 0x1CUL)))
-#define SRSSLT_TST_TRIM_CNTR1_COUNTER_DONE_Pos 31UL
-#define SRSSLT_TST_TRIM_CNTR1_COUNTER_DONE_Msk 0x80000000UL
+#define SRSS_CLK_CAL_CNT1                   (((SRSS_Type *) SRSS)->CLK_CAL_CNT1)
+#define SRSS_CLK_CAL_CNT2                   (((SRSS_Type *) SRSS)->CLK_CAL_CNT2)
 
-#define SRSSLT_TST_TRIM_CNTR2                  (*((__IOM uint32_t *)(SRSSLT_BASE + 0x20UL)))
+#define SRSS_CLK_ILO_CONFIG                 (((SRSS_Type *) SRSS)->CLK_ILO_CONFIG)
+#define SRSS_CLK_ILO_CONFIG_ENABLE_Pos      SRSS_CONCAT(CLK_ILO_CONFIG_ENABLE_Pos)
+#define SRSS_CLK_ILO_CONFIG_ENABLE_Msk      SRSS_CONCAT(CLK_ILO_CONFIG_ENABLE_Msk)
+
+#define SRSS_CLK_IMO_CONFIG                 (((SRSS_Type *) SRSS)->CLK_IMO_CONFIG)
+#define SRSS_CLK_IMO_CONFIG_ENABLE_Pos      SRSS_CONCAT(CLK_IMO_CONFIG_ENABLE_Pos)
+#define SRSS_CLK_IMO_CONFIG_ENABLE_Msk      SRSS_CONCAT(CLK_IMO_CONFIG_ENABLE_Msk)
+#define SRSS_CLK_IMO_SELECT                 (((SRSS_Type *) SRSS)->CLK_IMO_SELECT)
+#define SRSS_CLK_IMO_SELECT_FREQ_Pos        SRSS_CONCAT(CLK_IMO_SELECT_FREQ_Pos)
+#define SRSS_CLK_IMO_SELECT_FREQ_Msk        SRSS_CONCAT(CLK_IMO_SELECT_FREQ_Msk)
+#define SRSS_CLK_IMO_TRIM1                  (((SRSS_Type *) SRSS)->CLK_IMO_TRIM1)
+#define SRSS_CLK_IMO_TRIM1_OFFSET_Pos        SRSS_CONCAT(CLK_IMO_TRIM1_OFFSET_Pos)
+#define SRSS_CLK_IMO_TRIM1_OFFSET_Msk        SRSS_CONCAT(CLK_IMO_TRIM1_OFFSET_Msk)
+#define SRSS_CLK_IMO_TRIM2                  (((SRSS_Type *) SRSS)->CLK_IMO_TRIM2)
+#define SRSS_CLK_IMO_TRIM2_FSOFFSET_Pos     SRSS_CONCAT(CLK_IMO_TRIM2_FSOFFSET_Pos)
+#define SRSS_CLK_IMO_TRIM2_FSOFFSET_Msk     SRSS_CONCAT(CLK_IMO_TRIM2_FSOFFSET_Msk)
+#define SRSS_CLK_IMO_TRIM3                  (((SRSS_Type *) SRSS)->CLK_IMO_TRIM3)
+
+#define SRSS_SRSS_INTR                      (((SRSS_Type *) SRSS)->SRSS_INTR)
+#define SRSS_SRSS_INTR_SET                  (((SRSS_Type *) SRSS)->SRSS_INTR_SET)
+#define SRSS_SRSS_INTR_MASK                 (((SRSS_Type *) SRSS)->SRSS_INTR_MASK)
+
+#define SRSS_TST_DDFT_CTRL                  (*((__IOM uint32_t *)(SRSS_CONCAT(BASE) + 0x18UL)))
+#define SRSS_TST_DDFT_CTRL_DFT_SEL0_Pos     0UL
+#define SRSS_TST_DDFT_CTRL_DFT_SEL0_Msk     0xFUL
+#define SRSS_TST_DDFT_CTRL_DFT_SEL1_Pos     8UL
+#define SRSS_TST_DDFT_CTRL_DFT_SEL1_Msk     0xF00UL
+
+
+/*******************************************************************************
+*                SRSSLT (for SRSSLT only)
+*******************************************************************************/
+
+#if defined(CY_IP_S8SRSSLT)
+    #define SRSSLT_PWR_KEY_DELAY                (((SRSSLT_Type *) SRSSLT)->PWR_KEY_DELAY)
+
+    #define SRSSLT_CLK_SELECT                   (((SRSSLT_Type *) SRSSLT)->CLK_SELECT)
+    #define SRSSLT_CLK_ILO_CONFIG               (((SRSSLT_Type *) SRSSLT)->CLK_ILO_CONFIG)
+    #define SRSSLT_CLK_IMO_CONFIG               (((SRSSLT_Type *) SRSSLT)->CLK_IMO_CONFIG)
+    #define SRSSLT_CLK_DFT_SELECT               (((SRSSLT_Type *) SRSSLT)->CLK_DFT_SELECT)
+    #define SRSSLT_CLK_IMO_SELECT               (((SRSSLT_Type *) SRSSLT)->CLK_IMO_SELECT)
+    #define SRSSLT_CLK_IMO_TRIM1                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM1)
+    #define SRSSLT_CLK_IMO_TRIM2                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM2)
+    #define SRSSLT_CLK_IMO_TRIM3                (((SRSSLT_Type *) SRSSLT)->CLK_IMO_TRIM3)
+
+    #define SRSSLT_SRSS_INTR                      (((SRSSLT_Type *) SRSSLT)->SRSS_INTR)
+    #define SRSSLT_SRSS_INTR_SET                  (((SRSSLT_Type *) SRSSLT)->SRSS_INTR_SET)
+    #define SRSSLT_SRSS_INTR_MASK                 (((SRSSLT_Type *) SRSSLT)->SRSS_INTR_MASK)
+
+    #define SRSSLT_TST_DDFT_CTRL                   (*((__IOM uint32_t *)(SRSSLT_BASE + 0x18UL)))
+    #define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Pos      0UL
+    #define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Msk      0xFUL
+    #define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Pos      8UL
+    #define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Msk      0xF00UL
+
+    #define SRSSLT_WDT_DISABLE_KEY          (((SRSSLT_Type *) SRSSLT)->WDT_DISABLE_KEY)
+    #define SRSSLT_WDT_COUNTER              (((SRSSLT_Type *) SRSSLT)->WDT_COUNTER)
+    #define SRSSLT_WDT_MATCH                (((SRSSLT_Type *) SRSSLT)->WDT_MATCH)
+
+    #define SRSSLT_TST_TRIM_CNTR1                  (*((__IOM uint32_t *)(SRSSLT_BASE + 0x1CUL)))
+    #define SRSSLT_TST_TRIM_CNTR1_COUNTER_DONE_Pos 31UL
+    #define SRSSLT_TST_TRIM_CNTR1_COUNTER_DONE_Msk 0x80000000UL
+
+    #define SRSSLT_TST_TRIM_CNTR2                  (*((__IOM uint32_t *)(SRSSLT_BASE + 0x20UL)))
+#endif /* defined(CY_IP_S8SRSSLT) */
+
+
+/*******************************************************************************
+*                SRSSHV (for SRSSHV only)
+*******************************************************************************/
+
+#if defined(CY_IP_M0S8SRSSHV)
+    #define SRSS_PILO_CTL                       (((SRSS_Type *) SRSS)->PILO_CTL)
+    #define SRSS_PILO_CTL_ILO_EN_Pos            SRSS_CONCAT(PILO_CTL_ILO_EN_Pos)
+    #define SRSS_PILO_CTL_ILO_EN_Msk            SRSS_CONCAT(PILO_CTL_ILO_EN_Msk)
+    #define SRSS_PILO_CTL_TR_CAP_Pos            SRSS_CONCAT(PILO_CTL_TR_CAP_Pos)
+    #define SRSS_PILO_CTL_TR_CAP_Msk            SRSS_CONCAT(PILO_CTL_TR_CAP_Msk)
+
+    #define SRSS_HPOSC_CTL                       (((SRSS_Type *) SRSS)->HPOSC_CTL)
+    #define SRSS_HPOSC_CTL_IMO_EN_Pos            SRSS_CONCAT(HPOSC_CTL_IMO_EN_Pos)
+    #define SRSS_HPOSC_CTL_IMO_EN_Msk            SRSS_CONCAT(HPOSC_CTL_IMO_EN_Msk)
+#endif /* defined(CY_IP_M0S8SRSSHV) */
 
 
 /*******************************************************************************
@@ -80,6 +170,18 @@
 *******************************************************************************/
 
 #define FLASHC_FLASH_CTL                    (FLASHC->FLASH_CTL)
+
+#if defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U)
+#define CPUSS_FLASH_CTL                     (((CPUSS_Type *) CPUSS)->FLASH_CTL)
+#define CPUSS_FLASHC_ECC_CTL                (((CPUSS_Type *) CPUSS)->FLASHC_ECC_CTL)
+#endif /* defined(CPUSS_FLASHC_PRESENT_WITH_ECC) && (CPUSS_FLASHC_PRESENT_WITH_ECC == 1U) */
+
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
+#define FLASH_MACRO_WRITE_EN                (((SPCIF_Type*) SPCIF_BASE)->FLASH_MACRO_WE)
+/* Max value of MAC_WRITE_EN bit (SPCIF_FLASH_MACRO_WE register) */
+#define CY_FLASH_PROTECTION_BIT_PARAM_MAX   (0x0FU)
+#define LOCK_FLASH                          (((SPCIF_Type*) SPCIF_BASE)->FLASH_LOCK)
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) */
 
 
 /*******************************************************************************
@@ -91,6 +193,7 @@
 
 #define SFLASH_IMO_TRIM_LT(freq)            ((uint32_t)(((SFLASH_Type *) SFLASH)->IMO_TRIM_LT[(freq)]))
 #define SFLASH_IMO_TCTRIM_LT(freq)          ((uint32_t)(((SFLASH_Type *) SFLASH)->IMO_TCTRIM_LT[(freq)]))
+#define SFLASH_IMO_STEPSIZE_LT(freq)        ((uint32_t)(((SFLASH_Type *) SFLASH)->IMO_STEPSIZE_LT[(freq)]))
 
 /* CapSense-related trim registers */
 #define SFLASH_CSD0_ADC_VREF_TRIM1          (((SFLASH_Type *) SFLASH)->CSDV2_CSD0_ADC_TRIM1)
@@ -105,6 +208,10 @@
     #define SFLASH_MSCLP0_CLK_IMO_TRIM3_25_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_25))
 #endif /* CY_IP_M0S8MSCV3LP */
 
+#if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
+#define SFLASH_USER_AREA                    (((SFLASH_Type *) SFLASH)->USER_SFLASH_AREA[0U])
+#define SFLASH_USER_AREA1                   (((SFLASH_Type *) SFLASH)->USER_SFLASH_AREA[1U])
+#endif /* defined(CPUSS_SPCIF_FLASH_S8FS_VER2) */
 
 /*******************************************************************************
 *                CPUSS
@@ -136,6 +243,9 @@
 #define LPCOMP_TRIM3(base)                  (((LPCOMP_Type *)(base))->TRIM3)
 #define LPCOMP_TRIM4(base)                  (((LPCOMP_Type *)(base))->TRIM4)
 
+#if defined(CY_DEVICE_PSOC4HVMS64K)
+    #define lpcomp_interrupt_IRQn           lpcomp_0_interrupt_IRQn
+#endif
 #define LPCOMP_DFT_REG                      (*((__IOM uint32_t *)(LPCOMP_BASE + 0x08UL)))
 
 #define LPCOMP_DFT_CAL_EN_Pos               0UL
@@ -185,7 +295,12 @@
 #define SAR_CHAN_EN(base)                   (((SAR_Type *)(base))->CHAN_EN)
 #define SAR_CHAN_CONFIG(base, chan)         (((SAR_Type *)(base))->CHAN_CONFIG[(chan)])
 #define SAR_CHAN_RESULT(base, chan)         (((SAR_Type *)(base))->CHAN_RESULT[(chan)])
-#define SAR_CHAN_RESULT_VALID(base)         (((SAR_Type *)(base))->CHAN_RESULT_VALID)
+
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4u <= CY_IP_M0S8PASS4A_SAR_VERSION)
+    #define SAR_CHAN_RESULT_VALID(base)         (((SAR_Type *)(base))->CHAN_RESULT_UPDATED)
+#else
+    #define SAR_CHAN_RESULT_VALID(base)         (((SAR_Type *)(base))->CHAN_RESULT_VALID)
+#endif /* 4u <= CY_IP_M0S8PASS4A_SAR_VERSION */
 
 #define SAR_INTR(base)                      (((SAR_Type *)(base))->INTR)
 #define SAR_INTR_MASK(base)                 (((SAR_Type *)(base))->INTR_MASK)
@@ -196,6 +311,11 @@
 #define SAR_MUX_SWITCH_CLEAR0(base)         (((SAR_Type *)(base))->MUX_SWITCH_CLEAR0)
 #define SAR_MUX_SWITCH0(base)               (((SAR_Type *)(base))->MUX_SWITCH0)
 #define SAR_MUX_SWITCH_HW_CTRL(base)        (((SAR_Type *)(base))->MUX_SWITCH_HW_CTRL)
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+#define SAR_MUX_SWITCH_CLEAR2(base)         (((SAR_Type *)(base))->MUX_SWITCH_CLEAR2)
+#define SAR_MUX_SWITCH2(base)               (((SAR_Type *)(base))->MUX_SWITCH2)
+#define SAR_MUX_SWITCH_HW_CTRL2(base)       (((SAR_Type *)(base))->MUX_SWITCH_HW_CTRL2)
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 
 #define SAR_ANA_TRIM(base)                  (((SAR_Type *)(base))->ANA_TRIM)
 #define SAR_PUMP_CTRL(base)                 (((SAR_Type *)(base))->PUMP_CTRL)
@@ -417,8 +537,8 @@
 #define SCB_CTRL(base)                      (((CySCB_Type*) (base))->CTRL)
 #define SCB_SPI_CTRL(base)                  (((CySCB_Type*) (base))->SPI_CTRL)
 #define SCB_SPI_STATUS(base)                (((CySCB_Type*) (base))->SPI_STATUS)
-#define SCB_SPI_TX_CTRL(base)               (((CySCB_Type*) (base))->SPI_TX_CTRL) /* for PSoC 4100S Max only */
-#define SCB_SPI_RX_CTRL(base)               (((CySCB_Type*) (base))->SPI_RX_CTRL) /* for PSoC 4100S Max only */
+#define SCB_SPI_TX_CTRL(base)               (((CySCB_Type*) (base))->SPI_TX_CTRL) /* for PSOC 4100S Max only */
+#define SCB_SPI_RX_CTRL(base)               (((CySCB_Type*) (base))->SPI_RX_CTRL) /* for PSOC 4100S Max only */
 #define SCB_UART_CTRL(base)                 (((CySCB_Type*) (base))->UART_CTRL)
 #define SCB_UART_TX_CTRL(base)              (((CySCB_Type*) (base))->UART_TX_CTRL)
 #define SCB_UART_RX_CTRL(base)              (((CySCB_Type*) (base))->UART_RX_CTRL)
@@ -429,9 +549,9 @@
 #define SCB_I2C_M_CMD(base)                 (((CySCB_Type*) (base))->I2C_M_CMD)
 #define SCB_I2C_S_CMD(base)                 (((CySCB_Type*) (base))->I2C_S_CMD)
 #define SCB_I2C_CFG(base)                   (((CySCB_Type*) (base))->I2C_CFG)
-#define SCB_I2C_STRETCH_CTRL(base)          (((CySCB_Type*) (base))->I2C_STRETCH_CTRL)   /* for PSoC 4100S Max only */
-#define SCB_I2C_STRETCH_STATUS(base)        (((CySCB_Type*) (base))->I2C_STRETCH_STATUS) /* for PSoC 4100S Max only */
-#define SCB_I2C_CTRL_HS(base)               (((CySCB_Type*) (base))->I2C_CTRL_HS)        /* for PSoC 4100S Max only */
+#define SCB_I2C_STRETCH_CTRL(base)          (((CySCB_Type*) (base))->I2C_STRETCH_CTRL)   /* for PSOC 4100S Max only */
+#define SCB_I2C_STRETCH_STATUS(base)        (((CySCB_Type*) (base))->I2C_STRETCH_STATUS) /* for PSOC 4100S Max only */
+#define SCB_I2C_CTRL_HS(base)               (((CySCB_Type*) (base))->I2C_CTRL_HS)        /* for PSOC 4100S Max only */
 #define SCB_TX_CTRL(base)                   (((CySCB_Type*) (base))->TX_CTRL)
 #define SCB_TX_FIFO_CTRL(base)              (((CySCB_Type*) (base))->TX_FIFO_CTRL)
 #define SCB_TX_FIFO_STATUS(base)            (((CySCB_Type*) (base))->TX_FIFO_STATUS)
@@ -802,6 +922,40 @@
 #define REG_CRYPTOLITE_INTR_TRNG_MASK(base)         (((CRYPTOLITE_Type*)(base))->INTR_TRNG_MASK)
 #define REG_CRYPTOLITE_INTR_TRNG_MASKED(base)       (((CRYPTOLITE_Type*)(base))->INTR_TRNG_MASKED)
 
+/*******************************************************************************
+*                FAULT
+*******************************************************************************/
+
+#define FAULT_CTL(base)                         (((FAULT_STRUCT_Type *)(base))->CTL)
+#define FAULT_STATUS(base)                      (((FAULT_STRUCT_Type *)(base))->STATUS)
+#define FAULT_DATA(base)                        (((FAULT_STRUCT_Type *)(base))->DATA)
+#define FAULT_PENDING0(base)                    (((FAULT_STRUCT_Type *)(base))->PENDING0)
+#define FAULT_MASK0(base)                       (((FAULT_STRUCT_Type *)(base))->MASK0)
+#define FAULT_INTR(base)                        (((FAULT_STRUCT_Type *)(base))->INTR)
+#define FAULT_INTR_SET(base)                    (((FAULT_STRUCT_Type *)(base))->INTR_SET)
+#define FAULT_INTR_MASK(base)                   (((FAULT_STRUCT_Type *)(base))->INTR_MASK)
+#define FAULT_INTR_MASKED(base)                 (((FAULT_STRUCT_Type *)(base))->INTR_MASKED)
+
+/*******************************************************************************
+*                LIN
+*******************************************************************************/
+#if defined (CY_IP_MXLIN)
+#define LIN_CH_CTL0(base)                       (((LIN_CH_Type *)(base))->CTL0)
+#define LIN_CH_CTL1(base)                       (((LIN_CH_Type *)(base))->CTL1)
+#define LIN_CH_STATUS(base)                     (((LIN_CH_Type *)(base))->STATUS)
+#define LIN_CH_CMD(base)                        (((LIN_CH_Type *)(base))->CMD)
+#define LIN_CH_TX_RX_STATUS(base)               (((LIN_CH_Type *)(base))->TX_RX_STATUS)
+#define LIN_CH_PID_CHECKSUM(base)               (((LIN_CH_Type *)(base))->PID_CHECKSUM)
+#define LIN_CH_DATA0(base)                      (((LIN_CH_Type *)(base))->DATA0)
+#define LIN_CH_DATA1(base)                      (((LIN_CH_Type *)(base))->DATA1)
+#define LIN_CH_INTR(base)                       (((LIN_CH_Type *)(base))->INTR)
+#define LIN_CH_INTR_SET(base)                   (((LIN_CH_Type *)(base))->INTR_SET)
+#define LIN_CH_INTR_MASK(base)                  (((LIN_CH_Type *)(base))->INTR_MASK)
+#define LIN_CH_INTR_MASKED(base)                (((LIN_CH_Type *)(base))->INTR_MASKED)
+
+#define LIN_ERROR_CTL(base)                     (((LIN_Type *)(base))->ERROR_CTL)
+#define LIN_TEST_CTL(base)                      (((LIN_Type *)(base))->TEST_CTL)
+#endif /* CY_IP_MXLIN */
 
 #endif /* CY_DEVICE_H_ */
 

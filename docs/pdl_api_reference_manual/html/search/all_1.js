@@ -66,6 +66,8 @@ var searchData=
   ['bitrate',['bitrate',['../structcy__stc__canfd__config__t.html#a4f9e70770fabc4e2f30fe3afb1e5bdbc',1,'cy_stc_canfd_config_t']]],
   ['bodcbk',['bodCbk',['../structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543',1,'cy_stc_usbpd_context_t']]],
   ['boostpump',['boostPump',['../structcy__stc__sar__config__t.html#a4951410faf048d909ed7fac0955762af',1,'cy_stc_sar_config_t']]],
+  ['breakdelimiterlength',['breakDelimiterLength',['../structcy__stc__lin__config__t.html#af9c24b82566921988d35145cba31553e',1,'cy_stc_lin_config_t']]],
+  ['breakfieldlength',['breakFieldLength',['../structcy__stc__lin__config__t.html#aacfa65d8340ba82301f04b57321bcfa1',1,'cy_stc_lin_config_t']]],
   ['breaklevel',['breakLevel',['../structcy__stc__scb__uart__config__t.html#ab0133eeaf24654d02fcd32ff654d1602',1,'cy_stc_scb_uart_config_t']]],
   ['breakwidth',['breakWidth',['../structcy__stc__scb__uart__config__t.html#a923970897f4434aadda6bee185a2367d',1,'cy_stc_scb_uart_config_t']]],
   ['brownoutdetenstatus',['brownOutDetEnStatus',['../structcy__stc__usbpd__context__t.html#a91c743462b50c8096ad8237af9eabc38',1,'cy_stc_usbpd_context_t']]],
@@ -78,5 +80,6 @@ var searchData=
   ['basic_20configuration_20functions',['Basic Configuration Functions',['../group__group__ctb__functions__basic.html',1,'']]],
   ['block_20functions',['Block Functions',['../group__group__dmac__block__functions.html',1,'']]],
   ['block_20configuration_20functions',['Block Configuration Functions',['../group__group__seglcd__functions__config.html',1,'']]],
+  ['bod_2fovd_20monitoring',['BOD/OVD monitoring',['../group__group__syspm__function__monitoring.html',1,'']]],
   ['buck_20boost_20_28usbpd_29',['Buck Boost (USBPD)',['../group__group__usbpd__buck__boost.html',1,'']]]
 ];

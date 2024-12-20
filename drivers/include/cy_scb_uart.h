@@ -408,7 +408,7 @@ typedef struct stc_scb_uart_config
     * Specifies the number of stop bits in the UART transaction, in half-bit
     * increments.
     *
-    * \note For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S
+    * \note For the PSOC 4000S, PSOC 4100S, PSOC 4100S Plus, and PSOC 4500S
     * series, a stop bits error is detected only if the stop bits length equals
     * or exceeds 1.5 bits.
     */
@@ -506,7 +506,7 @@ typedef struct stc_scb_uart_config
 
     /** Specifies the number of bits to detect a break condition.
     *
-    * \note For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S
+    * \note For the PSOC 4000S, PSOC 4100S, PSOC 4100S Plus, and PSOC 4500S
     * series, the actual break width may be up to one bit less than the
     * specified break width. For example, if the value of the breakWidth is
     * 11, the actual break width will be from 10 to 11 bits.
@@ -515,7 +515,7 @@ typedef struct stc_scb_uart_config
 
     /** Specifies the low or high level pulse detection for break condition.
     *
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     bool        breakLevel;
 

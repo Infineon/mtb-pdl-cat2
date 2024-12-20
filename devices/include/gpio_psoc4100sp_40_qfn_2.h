@@ -2,7 +2,7 @@
 * \file gpio_psoc4100sp_40_qfn_2.h
 *
 * \brief
-* PSoC4100Sp device GPIO header for 40-QFN-2 package
+* PSOC4100Sp device GPIO header for 40-QFN-2 package
 *
 ********************************************************************************
 * \copyright

@@ -38,13 +38,13 @@
 * These trigger multiplexers are grouped in trigger groups. All the trigger
 * multiplexers in the trigger group share similar input options.
 *
-* The trigger architecture of the PSoC device is explained in the technical reference
+* The trigger architecture of the PSOC device is explained in the technical reference
 * manual (TRM). Refer to the TRM to better understand the trigger multiplexer routing
 * architecture available.
 *
 * \section group_trigmux_section_Configuration_Considerations Configuration Considerations
 *
-* To route a trigger signal from one peripheral in the PSoC
+* To route a trigger signal from one peripheral in the PSOC
 * to another, the user must configure a reduction multiplexer and a distribution
 * multiplexer. The \ref Cy_TrigMux_Connect is used to configure a trigger multiplexer connection.
 *

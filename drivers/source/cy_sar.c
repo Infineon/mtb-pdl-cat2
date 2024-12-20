@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.30
+* \version 2.40
 *
 * Provides the functions for the API for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -36,6 +36,13 @@ extern "C" {
 #define CY_SAR_SAMPLE_TIME_DEINIT       ((3UL << SAR_SAMPLE_TIME01_SAMPLE_TIME0_Pos) | (3UL << SAR_SAMPLE_TIME01_SAMPLE_TIME1_Pos))  /**< De-init value for the SAMPLE_TIME* registers */
 #define CY_SAR_SAMPLE_CTRL_DEINIT       (SAR_SAMPLE_CTRL_DIFFERENTIAL_SIGNED_Msk | SAR_SAMPLE_CTRL_DSI_SYNC_TRIGGER_Msk)  /**< De-init value for the SAMPLE_CTRL register */
 #define CY_SAR_CLEAR_ALL_SWITCHES       (0x3FFFFFFFUL)    /**< Value to clear all SARMUX switches */
+
+/* Mask value of MUX_SWITCH2 */
+#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+    #define CY_SAR_MUX_SWITCH2_MASK (0xFFFFFFFFU)
+#else
+    #define CY_SAR_MUX_SWITCH2_MASK (0xFFFF0000U)
+#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
 #define CY_SAR_DEINIT_SQ_CTRL           (SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P0_Msk \
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P1_Msk \
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P2_Msk \
@@ -106,6 +113,63 @@ extern "C" {
                                          (CY_SAR_AVG_CNT_256         == (avg)))
 #define CY_SAR_MIN_SAMPLE_TIME          (2UL)
 #define CY_SAR_SAMPLE_TIME(sTime)       ((CY_SAR_MIN_SAMPLE_TIME <= (sTime)) && ((sTime) <= SAR_SAMPLE_TIME01_SAMPLE_TIME0_Msk))
+
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+#define CY_SAR_DIAG(addr)               ((CY_SAR_ADDR_DIAG_GND         == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_SRSS_BGR    == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VBAT_DIV_24 == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VCC_DIV_2   == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VDD_DIV_6   == (addr)))
+#else
+#define CY_SAR_DIAG(addr)               (0u)
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
+
+#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#define CY_SAR_EXP_ADDR(addr)           ((CY_SAR_ADDR_EXPMUX_0         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_1         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_2         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_3         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_4         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_5         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_6         == (addr)) || \
+                                         (CY_SAR_ADDR_EXPMUX_7         == (addr)))
+
+#define CY_SAR_EXP_NEG_ADDR(addr)       ((CY_SAR_NEG_ADDR_EXPMUX_0     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_1     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_2     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_3     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_4     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_5     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_6     == (addr)) || \
+                                          CY_SAR_NEG_ADDR_EXPMUX_7     == (addr)))
+#else
+#define CY_SAR_EXP_ADDR(addr)           (0u)
+#define CY_SAR_EXP_NEG_ADDR(addr)       (0u)
+#endif /* 1U == CY_PASS0_SAR_EXPMUX_PRESENT */
+
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+#define CY_SAR_DIAG(addr)               ((CY_SAR_ADDR_DIAG_GND         == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_SRSS_BGR    == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VBAT_DIV_24 == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VCC_DIV_2   == (addr)) || \
+                                         (CY_SAR_ADDR_DIAG_VDD_DIV_6   == (addr)))
+
+#define CY_SAR_NEG_DIAG(addr)           ((CY_SAR_NEG_ADDR_DIAG_VSSA        == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_DIAG_VSSD        == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_AMUXBUS_A == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_AMUXBUS_B == (addr)))
+
+#define CY_SAR_NEG_ADDR(addr)           ((CY_SAR_NEG_ADDR_SARMUX_0     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_1     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_2     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_3     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_4     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_5     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_6     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_SARMUX_7     == (addr)))
+#else
+#define CY_SAR_DIAG(addr)               (0u)
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 #define CY_SAR_ADDR(addr)               ((CY_SAR_ADDR_SARMUX_0         == (addr)) || \
                                          (CY_SAR_ADDR_SARMUX_1         == (addr)) || \
                                          (CY_SAR_ADDR_SARMUX_2         == (addr)) || \
@@ -137,8 +201,93 @@ extern "C" {
 #define SAR_SAMPLE_CTRL_DSI_TRIGGER_MODE_Pos (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Pos)
 #define SAR_SAMPLE_CTRL_DSI_TRIGGER_MODE_Msk (SAR_SAMPLE_CTRL_DSI_TRIGGER_EN_Msk | SAR_SAMPLE_CTRL_DSI_TRIGGER_LEVEL_Msk)
 
-#define SAR_CHAN_CONFIG_ADDR_Pos  (SAR_CHAN_CONFIG_PIN_ADDR_Pos)
-#define SAR_CHAN_CONFIG_ADDR_Msk  (SAR_CHAN_CONFIG_PIN_ADDR_Msk | SAR_CHAN_CONFIG_PORT_ADDR_Msk)
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4 <= CY_IP_M0S8PASS4A_SAR_VERSION)
+    #define SAR_CHAN_CONFIG_ADDR_Pos  (SAR_CHAN_CONFIG_POS_PIN_ADDR_Pos)
+    #define SAR_CHAN_CONFIG_ADDR_Msk  (SAR_CHAN_CONFIG_POS_PIN_ADDR_Msk | SAR_CHAN_CONFIG_POS_PORT_ADDR_Msk)
+    #define SAR_CHAN_CONFIG_NEG_ADDR_Pos  (SAR_CHAN_CONFIG_NEG_PIN_ADDR_Pos)
+    #define SAR_CHAN_CONFIG_NEG_ADDR_Msk  (SAR_CHAN_CONFIG_NEG_PIN_ADDR_Msk | SAR_CHAN_CONFIG_NEG_PORT_ADDR_Msk)
+#else
+    #define SAR_CHAN_CONFIG_ADDR_Pos  (SAR_CHAN_CONFIG_PIN_ADDR_Pos)
+    #define SAR_CHAN_CONFIG_ADDR_Msk  (SAR_CHAN_CONFIG_PIN_ADDR_Msk | SAR_CHAN_CONFIG_PORT_ADDR_Msk)
+#endif /* (4 <= CY_IP_M0S8PASS4A_SAR_VERSION) */
+
+/* firmware control of expmux and diagmux */
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#define CY_EXP_VPLUS(addr)               ((CY_SAR_EXPMUX_FW_P0_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P1_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P2_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P3_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P4_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P5_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P6_VPLUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P7_VPLUS == (addr)))
+#define CY_EXP_VMINUS(addr)              ((CY_SAR_EXPMUX_FW_P0_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P1_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P2_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P3_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P4_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P5_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P6_VMINUS == (addr)) || \
+                                          (CY_SAR_EXPMUX_FW_P7_VMINUS == (addr)))
+#else
+#define CY_EXP_VPLUS(addr)               (0u)
+#define CY_EXP_VMINUS(addr)              (0u)
+#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
+#define CY_DIAG_VPLUS(addr)              ((CY_SAR_DIAGMUX_FW_VD0_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD1_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD2_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD3_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD4_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD5_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD6_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VD7_VPLUS == (addr)))
+#define CY_DIAG_VMINUS(addr)             ((CY_SAR_DIAGMUX_FW_VG0_VMINUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VG1_VMINUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VG2_VMINUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_VG3_VMINUS == (addr)))
+#define CY_BROKEN_WIRE(addr)             ((CY_SAR_DIAGMUX_FW_CSRC_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_CSINK_VPLUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_CSRC_VMINUS == (addr)) || \
+                                          (CY_SAR_DIAGMUX_FW_CSINK_VMINUS == (addr)))
+#else
+#define CY_EXP_VPLUS(addr)               (0u)
+#define CY_EXP_VMINUS(addr)              (0u)
+#define CY_DIAG_VPLUS(addr)              (0u)
+#define CY_DIAG_VMINUS(addr)             (0u)
+#define CY_BROKEN_WIRE(addr)             (0u)
+#endif /* (4U <= CY_IP_M0S8PASS4A_SAR_VERSION) */
+
+/* hardware control of expmux and diagmux */
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#define CY_HW_EXPMUX(addr)               ((CY_SAR_EXPMUX_HW_CTRL_P0 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P1 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P2 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P3 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P4 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P5 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P6 == (addr)) || \
+                                          (CY_SAR_EXPMUX_HW_CTRL_P7 == (addr)))
+#else
+#define CY_HW_EXPMUX(addr)               (0u)
+#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
+#define CY_HW_DIAGMUX(addr)              ((CY_SAR_DIAGMUX_HW_CTRL_V0 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V1 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V2 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V3 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V4 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V5 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V6 == (addr)) || \
+                                          (CY_SAR_DIAGMUX_HW_CTRL_V7 == (addr)))
+#define CY_HW_BROKEN_WIRE(addr)          ((CY_SAR_HW_CTRL_CSRC_VPLUS == (addr)) || \
+                                         (CY_SAR_HW_CTRL_CSRC_VMINUS == (addr)) || \
+                                         (CY_SAR_HW_CTRL_CSINK_VPLUS == (addr)) || \
+                                         (CY_SAR_HW_CTRL_CSINK_VMINUS == (addr)))
+#else
+#define CY_HW_DIAGMUX(addr)               (0u)
+#define CY_HW_BROKEN_WIRE(addr)           (0u)
+#endif /* (4U <= CY_IP_M0S8PASS4A_SAR_VERSION) */
 
 #define CY_SAR_BACKUP_ENABLED  (1UL)
 #define CY_SAR_BACKUP_STARTED  (2UL)
@@ -164,13 +313,7 @@ static int16_t Cy_SAR_offset[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_SAR_INSTANCES
 */
 static int32_t Cy_SAR_countsPer10Volt[CY_SAR_NUM_CHANNELS][CY_IP_M0S8PASS4A_SAR_INSTANCES];
 
-static bool Cy_SAR_GetBusyStatus(SAR_Type * base);
 static void Cy_SAR_WaitWhileBusy(SAR_Type * base);
-
-static bool Cy_SAR_GetBusyStatus(SAR_Type * base)
-{
-    return (_FLD2BOOL(SAR_STATUS_BUSY, SAR_STATUS(base)));
-}
 
 static void Cy_SAR_WaitWhileBusy(SAR_Type * base)
 {
@@ -251,7 +394,9 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
         CY_ASSERT_L3(CY_SAR_RANGE_COND(config->rangeCond));
         CY_ASSERT_L2(CY_SAR_INJMASK(config->chanEn));
 
+    #if defined(SAR_CTRL_DSI_SYNC_CONFIG_Msk) && defined(SAR_CTRL_DSI_MODE_Msk)
         SAR_CTRL(base) &= SAR_CTRL_DSI_SYNC_CONFIG_Msk | SAR_CTRL_DSI_MODE_Msk; /* preserve the DSI_SYNC_CONFIG and DSI_MODE fields (and BTW disable the block)  */
+    #endif /*defined(SAR_CTRL_DSI_SYNC_CONFIG_Msk) && defined(SAR_CTRL_DSI_MODE_Msk)*/    
         SAR_CTRL(base) |= _VAL2FLD(SAR_CTRL_VREF_SEL, config->vrefSel) |
                          _BOOL2FLD(SAR_CTRL_VREF_BYP_CAP_EN, config->vrefBypCapEn) |
                           _VAL2FLD(SAR_CTRL_NEG_SEL, config->negSel) |
@@ -290,7 +435,15 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
 
             if (NULL != locChanCfg)
             {
-                CY_ASSERT_L3(CY_SAR_ADDR(locChanCfg->addr));
+                CY_ASSERT_L3(CY_SAR_ADDR(locChanCfg->addr) || CY_SAR_DIAG(locChanCfg->addr) || CY_SAR_EXP_ADDR(locChanCfg->addr));
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+                if (locChanCfg->negAddrEn)
+                {
+                    CY_ASSERT_L3(CY_SAR_NEG_ADDR(locChanCfg->neg_addr) || \
+                                 CY_SAR_NEG_DIAG(locChanCfg->neg_addr) || \
+                                 CY_SAR_EXP_NEG_ADDR(locChanCfg->neg_addr));
+                }
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
                 CY_ASSERT_L3(CY_SAR_RESOLUTION(locChanCfg->resolution));
                 CY_ASSERT_L2(CY_SAR_SAMPLE_TIMER(locChanCfg->sampleTimeSel));
 
@@ -300,7 +453,17 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
                                                  _BOOL2FLD(SAR_CHAN_CONFIG_DIFFERENTIAL_EN, locChanCfg->differential) |
                                                   _VAL2FLD(SAR_CHAN_CONFIG_RESOLUTION, locChanCfg->resolution) |
                                                  _BOOL2FLD(SAR_CHAN_CONFIG_AVG_EN, locChanCfg->avgEn) |
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION))
+                                                 _VAL2FLD(SAR_CHAN_CONFIG_SAMPLE_TIME_SEL, locChanCfg->sampleTimeSel) |
+                                                 _VAL2FLD(SAR_CHAN_CONFIG_NEG_ADDR, locChanCfg->neg_addr) |
+                                                 _BOOL2FLD(SAR_CHAN_CONFIG_NEG_ADDR_EN, locChanCfg->negAddrEn) |
+                                                 _BOOL2FLD(SAR_CHAN_CONFIG_DIAG_VPLUS_SOURCE, locChanCfg->diagVplusSource) |
+                                                 _BOOL2FLD(SAR_CHAN_CONFIG_DIAG_VPLUS_SINK, locChanCfg->diagVplusSink) |
+                                                 _BOOL2FLD(SAR_CHAN_CONFIG_DIAG_VMINUS_SOURCE, locChanCfg->diagVminusSoure) |
+                                                 _BOOL2FLD(SAR_CHAN_CONFIG_DIAG_VMINUS_SINK, locChanCfg->diagVminusSink);
+#else
                                                   _VAL2FLD(SAR_CHAN_CONFIG_SAMPLE_TIME_SEL, locChanCfg->sampleTimeSel);
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
                 }
                 else
                 {
@@ -308,7 +471,17 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
                                                _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_DIFFERENTIAL_EN, locChanCfg->differential) |
                                                 _VAL2FLD(SAR_INJ_CHAN_CONFIG_INJ_RESOLUTION, locChanCfg->resolution) |
                                                _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_AVG_EN, locChanCfg->avgEn) |
-                                                _VAL2FLD(SAR_INJ_CHAN_CONFIG_INJ_SAMPLE_TIME_SEL, locChanCfg->sampleTimeSel);
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION))
+                                                 _VAL2FLD(SAR_INJ_CHAN_CONFIG_INJ_SAMPLE_TIME_SEL, locChanCfg->sampleTimeSel) |
+                                                 _VAL2FLD(SAR_CHAN_CONFIG_NEG_ADDR, locChanCfg->neg_addr) |
+                                                 _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_NEG_ADDR_EN, locChanCfg->negAddrEn) |
+                                                 _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_DIAG_VPLUS_SOURCE, locChanCfg->diagVplusSource) |
+                                                 _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_DIAG_VPLUS_SINK, locChanCfg->diagVplusSink) |
+                                                 _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_DIAG_VMINUS_SOURCE, locChanCfg->diagVminusSoure) |
+                                                 _BOOL2FLD(SAR_INJ_CHAN_CONFIG_INJ_DIAG_VMINUS_SINK, locChanCfg->diagVminusSink);
+#else
+                                                  _VAL2FLD(SAR_INJ_CHAN_CONFIG_INJ_SAMPLE_TIME_SEL, locChanCfg->sampleTimeSel);
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
                 }
 
                 /* For signed single ended channels with NEG_SEL set to VREF,
@@ -363,6 +536,12 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
 
             SAR_MUX_SWITCH0(base) = config->routingConfig->muxSwitch;
             SAR_MUX_SWITCH_HW_CTRL(base) = config->routingConfig->muxSwitchHwCtrl;
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4u <= CY_IP_M0S8PASS4A_SAR_VERSION)
+            SAR_MUX_SWITCH_CLEAR2(base) = CY_SAR_MUX_SWITCH2_MASK;
+
+            SAR_MUX_SWITCH2(base) = config->routingConfig->muxSwitch2;
+            SAR_MUX_SWITCH_HW_CTRL2(base) = config->routingConfig->muxSwitchHwCtrl2;
+#endif /* 4u <= CY_IP_M0S8PASS4A_SAR_VERSION */
         }
 
         /* Set the Cap trim if it was trimmed out of range from sflash */
@@ -439,6 +618,10 @@ cy_en_sar_status_t Cy_SAR_DeInit(SAR_Type * base, bool deInitRouting)
         {
             SAR_MUX_SWITCH_CLEAR0(base) = CY_SAR_CLEAR_ALL_SWITCHES;
             SAR_MUX_SWITCH_HW_CTRL(base) = CY_SAR_DEINIT;
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION))
+            SAR_MUX_SWITCH_CLEAR2(base) = CY_SAR_MUX_SWITCH2_MASK;
+            SAR_MUX_SWITCH_HW_CTRL2(base) = CY_SAR_DEINIT;
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
         }
         SAR_PUMP_CTRL(base) = CY_SAR_DEINIT;
 
@@ -756,6 +939,24 @@ cy_en_sar_status_t Cy_SAR_IsEndConversion(SAR_Type * base, cy_en_sar_return_mode
     return result;
 }
 
+/*******************************************************************************
+* Function Name: Cy_SAR_GetBusyStatus
+****************************************************************************//**
+*
+* Get SAR conversion status.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \return
+*  TRUE : SAR conversion is busy.
+*  FALSE: SAR conversion is not busy.
+*
+*******************************************************************************/
+bool Cy_SAR_GetBusyStatus(const SAR_Type * base)
+{
+    return (_FLD2BOOL(SAR_STATUS_BUSY, SAR_STATUS(base)));
+}
 
 /*******************************************************************************
 * Function Name: Cy_SAR_IsChannelSigned
@@ -836,11 +1037,25 @@ bool Cy_SAR_IsChannelSingleEnded(const SAR_Type * base, uint32_t chan)
 
     if (chan < CY_SAR_SEQ_NUM_CHANNELS)
     {
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+        /* if SAR_CHAN_CONFIG_DIFFERENTIAL_EN or SAR_CHAN_CONFIG_NEG_ADDR_EN is TRUE,
+           then it's not SingleEnded measure */
+        isSingleEnded = !(_FLD2BOOL(SAR_CHAN_CONFIG_DIFFERENTIAL_EN, SAR_CHAN_CONFIG(base, chan)) || \
+                         _FLD2BOOL(SAR_CHAN_CONFIG_NEG_ADDR_EN, SAR_CHAN_CONFIG(base, chan)));
+#else
         isSingleEnded = !_FLD2BOOL(SAR_CHAN_CONFIG_DIFFERENTIAL_EN, SAR_CHAN_CONFIG(base, chan));
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
     }
     else if (CY_SAR_INJ_CHANNEL == chan)
     {
+#if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
+        /* if SAR_INJ_CHAN_CONFIG_INJ_DIFFERENTIAL_EN or SAR_INJ_CHAN_CONFIG_INJ_NEG_ADDR_EN is TRUE,
+           then it's not SingleEnded injection measure */
+        isSingleEnded = !(_FLD2BOOL(SAR_INJ_CHAN_CONFIG_INJ_DIFFERENTIAL_EN, SAR_INJ_CHAN_CONFIG(base)) || \
+                          _FLD2BOOL(SAR_INJ_CHAN_CONFIG_INJ_NEG_ADDR_EN, SAR_INJ_CHAN_CONFIG(base)));
+#else
         isSingleEnded = !_FLD2BOOL(SAR_INJ_CHAN_CONFIG_INJ_DIFFERENTIAL_EN, SAR_INJ_CHAN_CONFIG(base));
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
     }
     else
     {
@@ -875,24 +1090,7 @@ bool Cy_SAR_IsChannelSingleEnded(const SAR_Type * base, uint32_t chan)
 *******************************************************************************/
 int16_t Cy_SAR_GetResult16(const SAR_Type * base, uint32_t chan)
 {
-    CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
-
-    uint32_t adcResult = 0UL;
-
-    if (chan < CY_SAR_SEQ_NUM_CHANNELS)
-    {
-        adcResult = _FLD2VAL(SAR_CHAN_RESULT_RESULT, SAR_CHAN_RESULT(base, chan));
-    }
-    else if (CY_SAR_INJ_CHANNEL == chan)
-    {
-        adcResult = _FLD2VAL(SAR_INJ_RESULT_INJ_RESULT, SAR_INJ_RESULT(base));
-    }
-    else
-    {
-        /* Return zero */
-    }
-
-    return (int16_t) adcResult;
+    return (int16_t) Cy_SAR_GetResult32(base, chan);
 }
 
 
@@ -920,7 +1118,24 @@ int16_t Cy_SAR_GetResult16(const SAR_Type * base, uint32_t chan)
 *******************************************************************************/
 int32_t Cy_SAR_GetResult32(const SAR_Type * base, uint32_t chan)
 {
-    return ((int32_t)Cy_SAR_GetResult16(base, chan));
+    CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
+
+    uint32_t adcResult = 0UL;
+
+    if (chan < CY_SAR_SEQ_NUM_CHANNELS)
+    {
+        adcResult = _FLD2VAL(SAR_CHAN_RESULT_RESULT, SAR_CHAN_RESULT(base, chan));
+    }
+    else if (CY_SAR_INJ_CHANNEL == chan)
+    {
+        adcResult = _FLD2VAL(SAR_INJ_RESULT_INJ_RESULT, SAR_INJ_RESULT(base));
+    }
+    else
+    {
+        /* Return zero */
+    }
+
+    return (int32_t) adcResult;
 }
 
 
@@ -981,6 +1196,36 @@ void Cy_SAR_SetHighLimit(SAR_Type * base, uint32_t highLimit)
     CY_ASSERT_L2(CY_SAR_RANGE_LIMIT(highLimit));
 
     CY_REG32_CLR_SET(SAR_RANGE_THRES(base), SAR_RANGE_THRES_RANGE_HIGH, highLimit);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SAR_SetVref
+****************************************************************************//**
+*
+* Sets the Vref of the SAR ADC during runtime.
+* If Vref = BGR or VDDA/2, API enables the Vref buffer, otherwise, disable the Vref buffer.
+* When using this API, the user must:
+* *   Stop the ADC before running this function.
+* *   Configure the correct gain of channels using Cy_SAR_SetChannelGain for raw count conversations APIs to work properly while using a different Vref.
+* *   Allow sufficient time for Vref to settle change when using a bypass cap or the Vref buffer.
+*
+* \param base
+* The pointer to the structure, which describes registers.
+*
+* \param  vrefSel
+* The enumerated type of possible Vref settings \ref cy_en_sar_ctrl_vref_sel_t.
+*
+*******************************************************************************/
+void Cy_SAR_SetVref(SAR_Type *base, cy_en_sar_ctrl_vref_sel_t vrefSel)
+{
+    CY_ASSERT_L2(CY_SAR_VREF(vrefSel));
+
+    CY_REG32_CLR_SET(SAR_CTRL(base), SAR_CTRL_VREF_SEL, vrefSel);
+    if (CY_SAR_VREF_SEL_BGR != vrefSel)
+    {
+        CY_REG32_CLR_SET(base->DFT_CTRL, SAR_DFT_CTRL_DCEN, 1U);
+    }
 }
 
 
@@ -1470,6 +1715,121 @@ int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t ad
     /* Add tInitial + tAdjust + 0.5 to round to nearest int. Shift off frac bits, and return. */
     return (retVal);
 }
+
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4u <= CY_IP_M0S8PASS4A_SAR_VERSION)) || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_SAR_SetDiagSwitch
+****************************************************************************//**
+*
+*  Firmware control for EXPMUX and DIAGMUX switches to connect analog signals to the SAR
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param mask
+*  MUX_SWITCH2 mask value
+* The mask to open or close switches.
+* Select one or more values from the \ref group_sar_diag_exp_mux_switch
+* and "OR" them together.
+*
+* \param setSwitch
+*  Mode (false: Clear mask pattern, true:Set mask pattern)
+*
+* \return
+*  None
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+void Cy_SAR_SetDiagSwitch(const SAR_Type * base, uint32_t mask, bool setSwitch)
+{
+    CY_ASSERT_L2(CY_EXP_VPLUS(mask) || \
+                 CY_EXP_VMINUS(mask) || \
+                 CY_DIAG_VPLUS(mask) || \
+                 CY_DIAG_VMINUS(mask) || \
+                 CY_BROKEN_WIRE(mask));
+
+    if(setSwitch)
+    {
+        SAR_MUX_SWITCH2(base) = mask;
+    }
+    else
+    {
+        SAR_MUX_SWITCH_CLEAR2(base) = mask;
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_SAR_GetDiagSwitch
+****************************************************************************//**
+*
+*  Get control state for EXPMUX and DIAGMUX switches
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \return
+* Mask which represent DiagSwitches
+* return 0 if no valid switch2 present
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+uint32_t Cy_SAR_GetDiagSwitch(const SAR_Type * base)
+{
+    return SAR_MUX_SWITCH2(base);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SAR_SetDiagHwCtrl
+****************************************************************************//**
+*
+*  Set MUX_SWITCH_HW_CTRL2 register value.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param mask
+* The mask of the MUX_SWITCH_HW_CTRL2 switches to allow SARSEQ control.
+* Select one or more values from the \ref group_sar_diag_exp_mux_switch
+* and "OR" them together.
+*
+* \return
+*  None
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+******************************************************************************/
+void Cy_SAR_SetDiagHwCtrl(volatile SAR_Type * base, uint32_t mask)
+{
+    CY_ASSERT_L2(CY_HW_EXPMUX(mask)  || \
+                 CY_HW_DIAGMUX(mask) || \
+                 CY_HW_BROKEN_WIRE(mask));
+
+    SAR_MUX_SWITCH_HW_CTRL2(base) = mask;
+}
+
+/*******************************************************************************
+* Function Name: Cy_SAR_GetDiagHwCtrl
+****************************************************************************//**
+*
+*  Get MUX_SWITCH_HW_CTRL2 register value.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \return
+* The mask which represents MUX_SWITCH_HW_CTRL2 Switches.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+uint32_t Cy_SAR_GetDiagHwCtrl(const SAR_Type * base)
+{
+    return SAR_MUX_SWITCH_HW_CTRL2(base);
+}
+#endif /* (CY_IP_M0S8PASS4A_SAR_VERSION >= 4u) */
+
 
 
 /*******************************************************************************

@@ -39,15 +39,18 @@
   * \brief Supervisory Flash Area (Cypress Trim & Wounding Info) (SFLASH)
   */
 typedef struct {
-   __IM uint32_t RESERVED[35];
+   __IM uint8_t  RESERVED[139];
+  __IOM uint8_t  MSCLP_TRIM_CTL_46;             /*!< 0x0000008B CSD0 Trim Control for 46MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM1_46;        /*!< 0x0000008C Local IMO Trim Register 1 for 46MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM2_46;        /*!< 0x0000008D Local IMO Trim Register 2 for 46MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM3_46;        /*!< 0x0000008E Local IMO Trim Register 3 for 46MHz */
-   __IM uint8_t  RESERVED1[6];
+   __IM uint8_t  RESERVED1[5];
+  __IOM uint8_t  MSCLP_TRIM_CTL_38;             /*!< 0x00000094 CSD0 Trim Control for 38MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM1_38;        /*!< 0x00000095 Local IMO Trim Register 1 for 38MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM2_38;        /*!< 0x00000096 Local IMO Trim Register 2 for 38MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM3_38;        /*!< 0x00000097 Local IMO Trim Register 3 for 38MHz */
-   __IM uint16_t RESERVED2[3];
+   __IM uint8_t  RESERVED2[5];
+  __IOM uint8_t  MSCLP_TRIM_CTL_25;             /*!< 0x0000009D CSD0 Trim Control for 25MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM1_25;        /*!< 0x0000009E Local IMO Trim Register 1 for 25MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM2_25;        /*!< 0x0000009F Local IMO Trim Register 2 for 25MHz */
   __IOM uint8_t  MSCLP_CLK_IMO_TRIM3_25;        /*!< 0x000000A0 Local IMO Trim Register 3 for 25MHz */
@@ -62,7 +65,7 @@ typedef struct {
    __IM uint32_t RESERVED6;
   __IOM uint32_t SWD_LISTEN;                    /*!< 0x00000158 Listen Window Length */
   __IOM uint32_t FLASH_START;                   /*!< 0x0000015C Flash Image Start Address */
-  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM1;          /*!< 0x00000160 CSDV2 CSD0 ADC TRIM 1 */
+  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM1;          /*!< 0x00000160 Low byte of CSDv2 Calibration */
   __IOM uint8_t  CSDV2_CSD0_ADC_TRIM2;          /*!< 0x00000161 CSDV2 CSD0 ADC TRIM2 */
    __IM uint16_t RESERVED7;
   __IOM uint16_t SAR_TEMP_MULTIPLIER;           /*!< 0x00000164 SAR Temperature Sensor Multiplication Factor */
@@ -76,6 +79,9 @@ typedef struct {
 } SFLASH_Type;                                  /*!< Size = 510 (0x1FE) */
 
 
+/* SFLASH.MSCLP_TRIM_CTL_46 */
+#define SFLASH_MSCLP_TRIM_CTL_46_MSC_TRIM_CTL1_Pos 0UL
+#define SFLASH_MSCLP_TRIM_CTL_46_MSC_TRIM_CTL1_Msk 0xFFUL
 /* SFLASH.MSCLP_CLK_IMO_TRIM1_46 */
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_46_TRIM1_Pos 0UL
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_46_TRIM1_Msk 0xFFUL
@@ -85,6 +91,9 @@ typedef struct {
 /* SFLASH.MSCLP_CLK_IMO_TRIM3_46 */
 #define SFLASH_MSCLP_CLK_IMO_TRIM3_46_TRIM3_Pos 0UL
 #define SFLASH_MSCLP_CLK_IMO_TRIM3_46_TRIM3_Msk 0xFFUL
+/* SFLASH.MSCLP_TRIM_CTL_38 */
+#define SFLASH_MSCLP_TRIM_CTL_38_MSC_TRIM_CTL2_Pos 0UL
+#define SFLASH_MSCLP_TRIM_CTL_38_MSC_TRIM_CTL2_Msk 0xFFUL
 /* SFLASH.MSCLP_CLK_IMO_TRIM1_38 */
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_38_TRIM1_Pos 0UL
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_38_TRIM1_Msk 0xFFUL
@@ -94,6 +103,9 @@ typedef struct {
 /* SFLASH.MSCLP_CLK_IMO_TRIM3_38 */
 #define SFLASH_MSCLP_CLK_IMO_TRIM3_38_TRIM3_Pos 0UL
 #define SFLASH_MSCLP_CLK_IMO_TRIM3_38_TRIM3_Msk 0xFFUL
+/* SFLASH.MSCLP_TRIM_CTL_25 */
+#define SFLASH_MSCLP_TRIM_CTL_25_MSC_TRIM_CTL3_Pos 0UL
+#define SFLASH_MSCLP_TRIM_CTL_25_MSC_TRIM_CTL3_Msk 0xFFUL
 /* SFLASH.MSCLP_CLK_IMO_TRIM1_25 */
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_25_TRIM1_Pos 0UL
 #define SFLASH_MSCLP_CLK_IMO_TRIM1_25_TRIM1_Msk 0xFFUL

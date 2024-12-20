@@ -2,7 +2,7 @@
 * \file gpio_psoc4100s_35_wlcsp_2.h
 *
 * \brief
-* PSoC4100S device GPIO header for 35-WLCSP-2 package
+* PSOC4100S device GPIO header for 35-WLCSP-2 package
 *
 ********************************************************************************
 * \copyright

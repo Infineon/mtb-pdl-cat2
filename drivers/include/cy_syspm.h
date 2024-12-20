@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syspm.h
-* \version 3.0
+* \version 3.10
 *
 * Provides the function definitions for the power management API.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -43,7 +43,7 @@
 ********************************************************************************
 * \subsection group_syspm_power_modes Power Modes
 ********************************************************************************
-* PSoC 4 MCUs support three CPU power modes. These power modes
+* PSOC 4 MCUs support three CPU power modes. These power modes
 * are intended to minimize average power consumption in an application.
 *
 * The CPU **Active**, **Sleep** and **Deep Sleep** power modes are
@@ -396,6 +396,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>3.10</td>
+*     <td>Add OVD and BOD support. \ref group_syspm_function_monitoring.</td>
+*     <td>Applicable to PSOC4 HVMS/PA only.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="2">3.0</td>
 *     <td>Added \ref Cy_SysPm_CpuEnterSleepNoCallbacks() and
 *         \ref Cy_SysPm_CpuEnterDeepSleepNoCallbacks(). 
@@ -444,9 +449,52 @@
 * \{
 *   \defgroup group_syspm_functions_power       Power Modes
 *   \defgroup group_syspm_functions_callback    Low Power Callbacks
+*   \defgroup group_syspm_function_monitoring   BOD/OVD monitoring
 * \}
 * \defgroup group_syspm_data_structures Data Structures
 * \defgroup group_syspm_data_enumerates Enumerated Types
+
+* \defgroup group_syspm_function_monitoring   BOD/OVD monitoring
+* \{
+* The power supply includes monitoring to ensure that the required
+* voltage levels exist. The voltage monitoring system includes
+* power-on reset (POR), brownout detection (BOD)
+* and over-voltage detection (OVD).
+*
+* <b> BOD </b>
+*
+* The BOD circuit protects the operating or retaining logic from possibly
+* unsafe supply conditions by applying reset to the device.
+* The BOD circuit generates a reset if the core voltage dips
+* below the minimum safe operating voltage. The system will not come out
+* of RESET until the supply is detected to be valid again.
+*
+* <b> OVD </b>
+*
+* PSOC HV MS offers two OVD circuits that are VDDD detection (OVD VDDD)
+* and VCCD detection (OVD VCCD). Similar to the BOD circuit, the OVD circuit
+* detects supply conditions above a threshold and applies a reset. As the
+* name suggests, the OVD circuit maintains a device reset,
+* if VDDD or VCCD supply stays higher than thresholds. The OVD circuit can
+* generate a reset in all device power modes except
+* Deep Sleep mode (\ref group_syspm_power_modes).
+*
+* The OVDs are disabled by default and firmware needs to enable them.
+*
+* After OVD VDDD is enabled OVD VDDD ok status
+* (\ref Cy_SysPm_SupplySupervisionStatus) will always read 1,
+* because a detected over-voltage condition will reset the chip.
+* After OVD VCCD is enabledOVD VCCD ok status
+* (\ref Cy_SysPm_SupplySupervisionStatus) it will always read 1,
+* because a detected over-over-voltage condition will reset the chip.
+*
+* Hardware clears this statuses during POR.
+*
+* <b> Reset Detection </b>
+*
+* Use the \ref Cy_SysLib_GetResetReason() function to detect whether the BOD/OVD has
+* triggered a device reset.
+* \}
 */
 
 #if !defined (CY_SYSPM_H)
@@ -475,11 +523,17 @@ extern "C" {
 #define CY_SYSPM_DRV_VERSION_MAJOR       3
 
 /** Driver minor version */
-#define CY_SYSPM_DRV_VERSION_MINOR       0
+#define CY_SYSPM_DRV_VERSION_MINOR       10
 
 /** SysPm driver identifier */
 #define CY_SYSPM_ID                      (CY_PDL_DRV_ID(0x10U))
 
+#if defined(CY_IP_M0S8SRSSHV)
+/** \cond */
+#define CY_SYSPM_OVD_SEL_IS_VALID(sel)      ((CY_SYSPM_OVD_VDD == (sel)) || \
+                                             (CY_SYSPM_OVD_VCC == (sel)))
+/** \endcond */
+#endif /* defined(CY_IP_M0S8SRSSHV) */
 
 /*******************************************************************************
 *       Internal Defines
@@ -535,6 +589,31 @@ typedef enum
     CY_SYSPM_HIBERNATE  = 2U,    /**< Currently not supported. Reserved for Future. */
 
 } cy_en_syspm_callback_type_t;
+
+#if defined(CY_IP_M0S8SRSSHV)
+/**
+ * This enumerator is used to select
+ * on which line overvoltage will be detected
+ */
+typedef enum
+{
+    CY_SYSPM_OVD_VDD = 0U,   /**< Enable for OVD on vddd. */
+    CY_SYSPM_OVD_VCC = 1U,   /**< Enable for OVD on vccd. */
+} cy_en_syspm_ovd_sel_t;
+
+/**
+ * This enumerator is used to select
+ * on which detector status will be checked
+ */
+typedef enum
+{
+    CY_SYSPM_OVD_VDD_OK = 0U,   /**< Indication status for OVD on vddd. */
+    CY_SYSPM_OVD_VCC_OK = 1U,   /**< Indication status for OVD on vccd. */
+    CY_SYSPM_BOD_VDD_OK = 2U,   /**< Indication status for BOD on vddd. */
+    CY_SYSPM_BOD_VCC_OK = 3U,   /**< Indication status for for BOD on vccd. */
+    CY_SYSPM_BOD_HV_OK  = 4U,   /**< Indication status for for BOD on high voltage subsystem. */
+}cy_en_syspm_supply_entity_select_t;
+#endif /* defined(CY_IP_M0S8SRSSHV) */
 
 /** This enumeration specifies the associated callback mode. This enum defines the callback mode. */
 typedef enum
@@ -647,8 +726,25 @@ cy_en_syspm_status_t Cy_SysPm_CpuEnterDeepSleep(void);
 void Cy_SysPm_CpuEnterSleepNoCallbacks(void);
 void Cy_SysPm_CpuEnterDeepSleepNoCallbacks(void);
 void                 Cy_SysPm_SleepOnExit(bool enable);
+
 /** \} group_syspm_functions_power */
 
+/**
+* \addtogroup group_syspm_function_monitoring
+* \{
+*/
+
+#if defined(CY_IP_M0S8SRSSHV)
+bool Cy_SysPm_SupplySupervisionStatus(cy_en_syspm_supply_entity_select_t supplyEntitySelect);
+
+void Cy_SysPm_BodHVEnable(void);
+void Cy_SysPm_BodHVDisable(void);
+
+void Cy_SysPm_OvdEnable(cy_en_syspm_ovd_sel_t ovdSel);
+void Cy_SysPm_OvdDisable(cy_en_syspm_ovd_sel_t ovdSel);
+#endif /* defined(CY_IP_M0S8SRSSHV) */
+
+/** \} group_syspm_function_monitoring */
 
 /**
 * \addtogroup group_syspm_functions_callback

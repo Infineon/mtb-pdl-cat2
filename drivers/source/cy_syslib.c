@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 3.20
+* \version 3.30
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
 *
 ********************************************************************************
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -142,14 +142,26 @@ void Cy_SysLib_ClearFlashCacheAndBuffer(void)
 *
 * | Name                          | Value
 * |-------------------------------|---------------------
-* | CY_SYSLIB_RESET_HWWDT         | 0x00001 (bit0)
-* | CY_SYSLIB_PROT_FAULT          | 0x00008 (bit3)
-* | CY_SYSLIB_RESET_SOFT          | 0x00010 (bit4)
+* | CY_SYSLIB_RESET_HWWDT         | 0x00000001UL (bit0)
+* | CY_SYSLIB_PROT_FAULT          | 0x00000008UL (bit3)
+* | CY_SYSLIB_RESET_SOFT          | 0x00000010UL (bit4)
+* \note The below system resets are only applicable for PSOC 4 HVMS/PA devices.
+* | Name                          | Value
+* |-------------------------------|---------------------
+* | CY_SYSLIB_RESET_ACT_FAULT     | 0x00000002UL (bit1)
+* | CY_SYSLIB_RESET_CRWDT         | 0x00000200UL (bit9)
+* | CY_SYSLIB_RESET_XRES          | 0x00010000UL (bit16)
+* | CY_SYSLIB_RESET_BODVDDD       | 0x00020000UL (bit17)
+* | CY_SYSLIB_RESET_BODVCCD       | 0x00080000UL (bit19)
+* | CY_SYSLIB_RESET_OVDVDDD       | 0x00100000UL (bit20)
+* | CY_SYSLIB_RESET_OVDVCCD       | 0x00400000UL (bit22)
+* | CY_SYSLIB_RESET_BODHVSS       | 0x01000000UL (bit24)
+* | CY_SYSLIB_RESET_PORVDDD       | 0x40000000UL (bit30)
 *
 *******************************************************************************/
 uint32_t Cy_SysLib_GetResetReason(void)
 {
-    return (SRSS_RES_CAUSE & (CY_SYSLIB_RESET_HWWDT | CY_SYSLIB_PROT_FAULT | CY_SYSLIB_RESET_SOFT));
+    return (SRSS_RES_CAUSE & CY_SYSLIB_RESET_REASON_MASK);
 }
 
 
@@ -157,7 +169,7 @@ uint32_t Cy_SysLib_GetResetReason(void)
 * Function Name: Cy_SysLib_ClearResetReason
 ****************************************************************************//**
 *
-* This function clears the values of RES_CAUSE and RES_CAUSE2.
+* This function clears the values of the RES_CAUSE register.
 *
 *******************************************************************************/
 void Cy_SysLib_ClearResetReason(void)
@@ -165,7 +177,7 @@ void Cy_SysLib_ClearResetReason(void)
     /* RES_CAUSE register bits are RW1C (every bit is cleared upon writing 1),
      * so write all ones to clear all the reset reasons.
      */
-    SRSS_RES_CAUSE = (CY_SYSLIB_RESET_HWWDT | CY_SYSLIB_PROT_FAULT | CY_SYSLIB_RESET_SOFT);
+    SRSS_RES_CAUSE = CY_SYSLIB_RESET_REASON_MASK;
 }
 
 
@@ -278,4 +290,69 @@ uint64_t Cy_SysLib_GetUniqueId(void)
     return (*((uint64_t *)(SFLASH_BASE + CY_PDL_DIE_OFFSET_ADDR)));
 }
 
+/* Only a specific version of BootRom supports Boot Status.
+This version of BootRom was created to work with Automotive SFLASH. */
+#if defined(SFLASH_AUTO_SFLASH) || defined(CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_SysLib_GetBootStatus
+****************************************************************************//**
+*
+* \brief
+* Returns the boot status.
+* The Boot process uses CPUSS_SYSARG register to signal success/failure of Boot.
+*
+* \return Boot status. If the return value is "0x0" boot was successful.
+* If the return value is other than "0x0", the boot process failed.
+* For a description of the meaning of the return value OTHER than zero,
+* refer to the device TRM.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+uint32_t Cy_SysLib_GetBootStatus(void)
+{
+  return (CPUSS_SYSARG);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysLib_GetBootResult
+****************************************************************************//**
+*
+* \brief
+* Returns the results from the Boot Process for the provided
+* \ref cy_en_syslib_boot_result_t.
+*
+* \param bootResultSet
+* Instance of Boot Result data register \ref cy_en_syslib_boot_result_t.
+* This register contains details of any results from the Boot Process.
+* Register Content only valid if there is an error indication
+* from the boot process \ref Cy_SysLib_GetBootStatus.
+*
+* \return
+* Boot Result data register. Default value is "0x0".
+* For a description of the meaning of the return value OTHER than zero,
+* refer to the device TRM.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+uint32_t Cy_SysLib_GetBootResult(cy_en_syslib_boot_result_t bootResultSet)
+{
+    CY_ASSERT_L2(CY_SYSLIB_IS_BOOT_DATA_SET_VALID(bootResultSet));
+
+    uint32_t boot_result_data = 0x0;
+
+    if (CY_SYSLIB_BOOT_RESULT_0 == bootResultSet)
+    {
+        boot_result_data = ((CPUSS_Type *) CPUSS)->BOOT_RESULT_0;
+    }
+    else
+    {
+        boot_result_data = ((CPUSS_Type *) CPUSS)->BOOT_RESULT_1;
+    }
+
+  return (boot_result_data);
+}
+#endif /* SFLASH_AUTO_SFLASH */
 /* [] END OF FILE */

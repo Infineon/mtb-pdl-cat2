@@ -2,7 +2,7 @@
 * \file gpio_psoc4000t_16_qfn.h
 *
 * \brief
-* PSoC4000T device GPIO header for 16-QFN package
+* PSOC4000T device GPIO header for 16-QFN package
 *
 ********************************************************************************
 * \copyright

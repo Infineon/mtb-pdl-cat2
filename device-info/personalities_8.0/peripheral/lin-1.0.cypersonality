@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file lin.cypersonality
+* \version 1.0
+*
+* \brief
+* LIN personality description file. It Supports CAT2 family of devices.
+*
+********************************************************************************
+* \copyright
+* Copyright (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="lin" name="LIN" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="mxlin" />
+    <Resource name="lin" />
+    <DependentResource name="hvss" />
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Overview" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__lin.html" linkText="Open LIN Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamString id="INSTANCE" name="INSTANCE" group="Internal" default="`${toUpper(INST_NAME)}`" visible="false" editable="false" desc="" />
+
+    <!-- For DRC depencies checking -->
+    <ParamString id="hvssBlockName" name="Source Clock Resource" group="Internal" default="`${&quot;hvss[0]&quot;}`" visible="false" editable="false" desc="" />
+    <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(hvssBlockName)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="linphyIntEn" name="linphyIntEn" group="Internal" default="`${hasExposedMember(hvssBlockName, &quot;linPhyLinInt&quot;) ? getExposedMember(hvssBlockName, &quot;linPhyLinInt&quot;) : false}`" visible="false" editable="false" desc="" />
+    <ParamBool id="linphyEn" name="linphyEn" group="Internal" default="`${hasExposedMember(hvssBlockName, &quot;linPhyEn&quot;) ? getExposedMember(hvssBlockName, &quot;linPhyEn&quot;) : false}`" visible="false" editable="false" desc="" />
+
+    <ParamRange id="oversampleRate" name="oversampleRate" group="internal" default="16" min="16" max="16" resolution="1" visible="false" editable="false" desc="" />
+
+    <!--Channel 1-->
+    <ParamBool id="node1En" name="Node Enable" group="Node1" default="false" visible="true" editable="true" desc="Enables LIN node." />
+
+    <ParamRange id="baudRate0" name="Baud Rate (bps)" group="Node1" default="9600" min="1" max="1000000" resolution="1" visible="`${node1En}`" editable="true" desc="Baud rate that LIN operates." />
+    <ParamRange id="none0ID" name="ID" group="Node1" default="`${0x00}`" min="`${0x00}`" max="`${0x3F}`" resolution="1" visible="`${node1En}`" editable="true" desc="" />
+    <ParamBool id="masterMode0" name="Master Mode" group="Node1" default="true" visible="`${node1En}`" editable="true" desc="If TRUE, corresponding channel = master mode, If FALSE, slave mode." />
+    <ParamBool id="transceiverAutoEnable0" name="Transceiver Auto Enable" group="Node1" default="true" visible="`${node1En}`" editable="true" desc="If TRUE, corresponding LIN channel transceiver is enabled automatically, If FALSE, firmware has to handle the transceiver enable signal manually." />
+    <ParamRange id="breakFieldLength0" name="Break Field Length" group="Node1" default="13" min="0" max="31" resolution="1" visible="`${node1En}`" editable="true" desc="This field is used for transmission/reception of BOTH break and wakeup length (minus 1) in bit periods. Recommend 11 bit periods (break length for slave nodes), 13 bit periods (break length for master nodes)" />
+    
+    <ParamChoice id="breakDelimiterLength0" name="Break Delimiter Length" group="Node1" default="LIN_BREAK_DILIMITER_LENGTH_1BITS" visible="`${node1En}`" editable="true" desc="Break delimiter length. This field specifies the break delimiter length:(used in header transmission, not used in header reception). ">
+      <Entry name="1 Bit" value="LIN_BREAK_DILIMITER_LENGTH_1BITS" visible="true" />
+      <Entry name="2 Bit" value="LIN_BREAK_DILIMITER_LENGTH_2BITS" visible="true" />
+      <Entry name="3 Bit" value="LIN_BREAK_DILIMITER_LENGTH_3BITS" visible="true" />
+      <Entry name="4 Bit" value="LIN_BREAK_DILIMITER_LENGTH_4BITS" visible="true" />
+    </ParamChoice>
+    
+    <ParamChoice id="stopBit0" name="Stop Bit" group="Node1" default="LIN_ONE_STOP_BIT" visible="`${node1En}`" editable="true" desc="Stop Bit periods. ">
+      <Entry name="1" value="LIN_ONE_STOP_BIT" visible="true" />
+      <Entry name="2" value="LIN_TWO_STOP_BIT" visible="true" />
+    </ParamChoice>
+    
+    <ParamBool id="filterEnable0" name="Filter Enable" group="Node1" default="true" visible="`${node1En}`" editable="true" desc="If enabled, lin rx filter operates. The sequences '000', '001', '010' and '100' result in a filtered value '0'.                                    The sequences '111', '110', '101' and '011' result in a filtered value '1'." />
+    
+    <!--Channel 2-->
+    <ParamBool id="node2En" name="Node Enable" group="Node2" default="false" visible="true" editable="true" desc="Enables LIN node." />
+
+    <ParamRange id="baudRate1" name="Baud Rate (bps)" group="Node2" default="9600" min="1" max="1000000" resolution="1" visible="`${node2En}`" editable="true" desc="Baud rate that LIN operates." />
+    <ParamRange id="none1ID" name="ID" group="Node2" default="`${0x00}`" min="`${0x00}`" max="`${0x3F}`" resolution="1" visible="`${node2En}`" editable="true" desc="" />
+    <ParamBool id="masterMode1" name="Master Mode" group="Node2" default="true" visible="`${node2En}`" editable="true" desc="If TRUE, corresponding channel = master mode, If FALSE, slave mode." />
+    <ParamBool id="transceiverAutoEnable1" name="Transceiver Auto Enable" group="Node2" default="true" visible="`${node2En}`" editable="true" desc="If TRUE, corresponding LIN channel transceiver is enabled automatically, If FALSE, firmware has to handle the transceiver enable signal manually." />
+    <ParamRange id="breakFieldLength1" name="Break Field Length" group="Node2" default="13" min="0" max="31" resolution="1" visible="`${node2En}`" editable="true" desc="This field is used for transmission/reception of BOTH break and wakeup length (minus 1) in bit periods. Recommend 11 bit periods (break length for slave nodes), 13 bit periods (break length for master nodes)" />
+
+    <ParamChoice id="breakDelimiterLength1" name="Break Delimiter Length" group="Node2" default="LIN_BREAK_DILIMITER_LENGTH_1BITS" visible="`${node2En}`" editable="true" desc="Break delimiter length. This field specifies the break delimiter length:(used in header transmission, not used in header reception). ">
+      <Entry name="1 Bit" value="LIN_BREAK_DILIMITER_LENGTH_1BITS" visible="true" />
+      <Entry name="2 Bit" value="LIN_BREAK_DILIMITER_LENGTH_2BITS" visible="true" />
+      <Entry name="3 Bit" value="LIN_BREAK_DILIMITER_LENGTH_3BITS" visible="true" />
+      <Entry name="4 Bit" value="LIN_BREAK_DILIMITER_LENGTH_4BITS" visible="true" />
+    </ParamChoice>
+    
+    <ParamChoice id="stopBit1" name="Stop Bit" group="Node2" default="LIN_ONE_STOP_BIT" visible="`${node2En}`" editable="true" desc="Stop Bit periods. ">
+      <Entry name="1" value="LIN_ONE_STOP_BIT" visible="true" />
+      <Entry name="2" value="LIN_TWO_STOP_BIT" visible="true" />
+    </ParamChoice>
+    
+    <ParamBool id="filterEnable1" name="Filter Enable" group="Node2" default="true" visible="`${node2En}`" editable="true" desc="If enabled, lin rx filter operates. The sequences '000', '001', '010' and '100' result in a filtered value '0'. The sequences '111', '110', '101' and '011' result in a filtered value '1'." />
+
+    <!-- Calculate required clocks with oversampling -->
+    <ParamRange id="lin0ClkHz" name="lin0ClkHz" group="Internal" default="`${baudRate0 * oversampleRate}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
+    <ParamRange id="lin1ClkHz" name="lin1ClkHz" group="Internal" default="`${baudRate1 * oversampleRate}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Connections -->
+    <ParamSignal port="lin_en[0]" name="LIN EN0" group="Outputs" visible="`${node1En}`" desc="LIN output signal to signal the transceiver." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="DEFAULT" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="lin_rx[0]" name="LIN RX0" group="Inputs" visible="`${node1En}`" desc="LIN input signal Can be connected to digital input pin." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="DEFAULT" reason="">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="lin_tx[0]" name="LIN TX0" group="Outputs" visible="`${node1En}`" desc="Output signal for LIN. Can be connected to digital output pin." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="DEFAULT" reason="">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <!-- Clock for channel 0 -->
+    <ParamSignal port="clock_ch_en[0]" name="Interface Clock Ch0" group="Inputs" visible="`${node1En}`" desc="Clock input signal for LIN Channel0." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Clock frequency does not match desired `${lin0ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)
+                - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz) >= 0.5)
+                 ? ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)
+                 : floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16.5\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Update integer divider. Clock frequency does not match desired `${lin0ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / cast(float, lin0ClkHz))}`" />
+        </Parameter>
+        <Parameter id="fracDivider" severity="ERROR" reason="Update fractional divider. Clock frequency does not match desired `${lin0ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${((((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)
+                  - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)) * 32.0)
+                  - floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)
+                  - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)) * 32.0) >= 0.5)
+                  \? ceil(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)- floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)) * 32.0)
+                  : floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin0ClkHz)) * 32.0)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <!-- Clock for channel 1 -->
+    <ParamSignal port="clock_ch_en[1]" name="Interface Clock Ch1" group="Inputs" visible="`${node2En}`" desc="Clock input signal for LIN Channel1." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Clock frequency does not match desired `${lin1ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)
+                - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz) >= 0.5)
+                 ? ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)
+                 : floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16.5\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Update integer divider. Clock frequency does not match desired `${lin1ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / cast(float, lin1ClkHz))}`" />
+        </Parameter>
+        <Parameter id="fracDivider" severity="ERROR" reason="Update fractional divider. Clock frequency does not match desired `${lin1ClkHz / 1000.0}`kHz." >
+          <Fixed
+            value="`${((((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)
+                  - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)) * 32.0)
+                  - floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)
+                  - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)) * 32.0) >= 0.5)
+                  \? ceil(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)) * 32.0)
+                  : floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / lin1ClkHz)) * 32.0)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <ParamString id="InstNumber" name="Instance Number" group="Internal" default="`${getInstNumber(&quot;lin&quot;)}`" visible="false" editable="false" desc="LIN Instance number." />
+
+    <ParamString id="sourceClock0" name="sourceClock0" group="Internal" default="`${getBlockFromSignal(&quot;clock_ch_en[0]&quot;)}`" visible="false" editable="false" desc="Source Clock Resource" />
+    <ParamString id="sourceClock1" name="sourceClock1" group="Internal" default="`${getBlockFromSignal(&quot;clock_ch_en[1]&quot;)}`" visible="false" editable="false" desc="Source Clock Resource" />
+    <ParamBool id="pclkOk0" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock_ch_en&quot;, 0) &amp;&amp; isBlockUsed(sourceClock0)}`" visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
+    <ParamBool id="pclkOk1" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock_ch_en&quot;, 1) &amp;&amp; isBlockUsed(sourceClock1)}`" visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
+    <ParamString id="pclkDst" name="PCLK Destination" group="Internal" default="PCLK_LIN_CLOCK_CH_EN0" visible="false" editable="false" desc="Generates PCLK connection define." />
+    <ParamString id="pclkDst1" name="PCLK Destination" group="Internal" default="PCLK_LIN_CLOCK_CH_EN1" visible="false" editable="false" desc="Generates PCLK connection define." />
+
+    <ParamRange  id="inputClkHz0" name="inputClkHz0" group="Internal" default="`${getExposedMember(sourceClock0, &quot;frequency&quot;)}`" min="0" max="200000000" resolution="1" visible="false" editable="false" desc="Input clock frequency in kHz" />
+    <ParamRange  id="inputClkHz1" name="inputClkHz1" group="Internal" default="`${getExposedMember(sourceClock1, &quot;frequency&quot;)}`" min="0" max="200000000" resolution="1" visible="false" editable="false" desc="Input clock frequency in kHz" />
+
+    <!-- Calculated Baud Rate-->
+    <ParamRange id="actualbaudRate0" name="Actual Baud Rate (bps)" group="Node1" default="`${inputClkHz0/oversampleRate}`" min="0" max="4294967295" resolution="1" visible="`${node1En}`" editable="false" desc="The actual baud rate displays the baud rate at which the LIN operates with current settings." />
+    <ParamRange id="actualbaudRate1" name="Actual Baud Rate (bps)" group="Node2" default="`${inputClkHz1/oversampleRate}`" min="0" max="4294967295" resolution="1" visible="`${node2En}`" editable="false" desc="The actual baud rate displays the baud rate at which the LIN operates with current settings." />
+    <ParamRange id="baudRate0Accuracy" name="Baud Rate Accuracy (%)" group="Node1" default="`${(abs(baudRate0 - actualbaudRate0) / baudRate0) * 100}`" min="0" max="200000000" resolution="0.001" visible="`${node1En}`" editable="false" desc="Deviation of actual baud rate from desired baud rate (does not include Clk_Peri accuracy)." />
+    <ParamRange id="baudRate1Accuracy" name="Baud Rate Accuracy (%)" group="Node2" default="`${(abs(baudRate1 - actualbaudRate1) / baudRate1) * 100}`" min="0" max="200000000" resolution="0.001" visible="`${node2En}`" editable="false" desc="Deviation of actual baud rate from desired baud rate (does not include Clk_Peri accuracy)." />
+  </Parameters>
+  <DRCs>
+    <DRC type="ERROR" text="LIN TX has to be connected for node 1." condition="`${!hasConnection(&quot;lin_tx&quot;, 0) &amp;&amp; node1En}`" />
+    <DRC type="ERROR" text="LIN RX has to be connected for node 1." condition="`${!hasConnection(&quot;lin_rx&quot;, 0) &amp;&amp; node1En}`" />  
+    <DRC type="ERROR" text="Interface Clock has to be connected for node 1." condition="`${!hasConnection(&quot;clock_ch_en&quot;, 0) &amp;&amp; node1En}`" />  
+    <DRC type="ERROR" text="Interface Clock has to be connected for node 2." condition="`${!hasConnection(&quot;clock_ch_en&quot;, 1) &amp;&amp; node2En}`" />  
+
+    <DRC type="ERROR" text="Channel 1 is used but LIN interface mode is not enabled" condition="`${node2En &amp;&amp; !linphyIntEn}`" >
+      <FixIt action="SET_PARAM" target="`${hvssBlockName}`.linPhyLinInt" value="0" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Channel 1 is used but LIN physic is not enabled" condition="`${node2En &amp;&amp; !linphyEn}`" >
+      <FixIt action="SET_PARAM" target="`${hvssBlockName}`.linPhyEn" value="true" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Source clock for HVSS is not enabled" condition="`${node2En &amp;&amp; srcNotUsed}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${hvssBlockName}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_lin.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="`${pclkOk0 || pclkOk1}`" />
+
+    <ConfigDefine name="`${INSTANCE}`_HW" value="(LIN`${InstNumber}`)" public="true" include="true" />
+    <ConfigDefine name="`${INSTANCE}`_CHANNEL0" value="(LIN`${InstNumber}`_CH0)" public="true" include="`${node1En}`" />
+    <ConfigDefine name="`${INSTANCE}`_CHANNEL1" value="(LIN`${InstNumber}`_CH1)" public="true" include="`${node2En}`" />
+
+    <ConfigDefine name="`${INSTANCE}`_IRQ_0" value="(lin_interrupts_0_IRQn)" public="true" include="`${node1En}`" />
+    <ConfigDefine name="`${INSTANCE}`_IRQ_1" value="(lin_interrupts_1_IRQn)" public="true" include="`${node2En}`" />
+
+    <ConfigDefine name="`${INSTANCE}`_ID_0" value="(`${none0ID}`)" public="true" include="`${node1En}`" />
+    <ConfigDefine name="`${INSTANCE}`_ID_1" value="(`${none1ID}`)" public="true" include="`${node2En}`" />
+
+    <!-- Configuration for channel 0 / node 1 (LIN GPIO instance) -->
+    <ConfigStruct name="`${INST_NAME}`_ch0_config" type="cy_stc_lin_config_t" const="`${inFlash}`" public="true" include="`${node1En}`" >
+      <Member name="masterMode" value="`${masterMode0}`" />
+      <Member name="linTransceiverAutoEnable" value="`${transceiverAutoEnable0}`" />
+      <Member name="breakFieldLength" value="`${breakFieldLength0}`" />
+      <Member name="breakDelimiterLength" value="`${breakDelimiterLength0}`" />
+      <Member name="stopBit" value="`${stopBit0}`" />
+      <Member name="filterEnable" value="`${filterEnable0}`" />
+    </ConfigStruct>
+    <!-- Configuration for channel 1 / node 2 (LIN PHY instance) -->
+    <ConfigStruct name="`${INST_NAME}`_ch1_config" type="cy_stc_lin_config_t" const="`${inFlash}`" public="true" include="`${node2En}`" >
+      <Member name="masterMode" value="`${masterMode1}`" />
+      <Member name="linTransceiverAutoEnable" value="`${transceiverAutoEnable1}`" />
+      <Member name="breakFieldLength" value="`${breakFieldLength1}`" />
+      <Member name="breakDelimiterLength" value="`${breakDelimiterLength1}`" />
+      <Member name="stopBit" value="`${stopBit1}`" />
+      <Member name="filterEnable" value="`${filterEnable1}`" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(sourceClock0, &quot;clockSel&quot;)}`);" include="`${pclkOk0}`"  />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst1}`, `${getExposedMember(sourceClock1, &quot;clockSel&quot;)}`);" include="`${pclkOk1}`"  />
+
+    <ConfigInstruction value="Cy_LIN_Init(`${INSTANCE}`_CHANNEL0, &amp;`${INST_NAME}`_ch0_config);" include="`${node1En}`" />
+    <ConfigInstruction value="Cy_LIN_Init(`${INSTANCE}`_CHANNEL1, &amp;`${INST_NAME}`_ch1_config);" include="`${node2En}`" />
+    
+    <ConfigInstruction value="Cy_LIN_SetHeader(`${INSTANCE}`_CHANNEL0, `${INSTANCE}`_ID_0);" include="`${node1En}`" />
+    <ConfigInstruction value="Cy_LIN_SetHeader(`${INSTANCE}`_CHANNEL1, `${INSTANCE}`_ID_1);" include="`${node2En}`" />
+  </ConfigFirmware>
+</Personality>

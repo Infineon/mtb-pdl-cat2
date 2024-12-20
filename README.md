@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PDL simplifies software development for PSoC&trade; 4, PMG1 (CAT2) and CCGxF_CFP
+The PDL simplifies software development for PSOC&trade; 4, PMG1 (CAT2) and CCGxF_CFP
 family of devices. The PDL integrates device header files, startup code, and
 peripheral drivers into a single package. The drivers abstract the hardware
 functions into a set of easy-to-use APIs. These are fully documented in the
@@ -13,7 +13,7 @@ functions into a set of easy-to-use APIs. These are fully documented in the
 - Includes all the updates made to the peripheral drivers for ModusToolbox&trade;
   software
 
-- Contains standard set of PSoC&trade; 4/EZ-PD&trade; PMG1 digital and analog peripheral
+- Contains standard set of PSOC&trade; 4/EZ-PD&trade; PMG1 digital and analog peripheral
   drivers that enable rapid peripheral software development in third-party IDEs
 
 - The Arm&reg; Cortex® microcontroller software interface standard (CMSIS) core
@@ -24,7 +24,7 @@ functions into a set of easy-to-use APIs. These are fully documented in the
 
 The PDL reduces the need to understand register usage and bit structures,
 thus easing software development for the extensive set of peripherals in the
-PSoC&trade; 4 and PMG1 series. See the
+PSOC&trade; 4 and PMG1 series. See the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
 for detailed information.
 
@@ -53,11 +53,11 @@ See the "Getting started" section of the [PDL API reference manual](https://infi
 
 - [ModusToolbox&trade; Device Configurator Tool Guide](https://documentation.infineon.com/html/modustoolbox-software/en/latest/tool-guide/ModusToolbox_Device_Configurator_User_Guide.html)
 
-- [AN79953 - Getting started with PSoC&trade; 4](https://www.infineon.com/dgdl/Infineon-AN79953_Getting_Started_with_PSoC_4-ApplicationNotes-v21_00-EN.pdf?fileId=8ac78c8c7cdc391c017d07271fd64bc1&utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-an_vanitylink&redirId=AN_VL1112)
+- [AN79953 - Getting started with PSOC&trade; 4](https://www.infineon.com/dgdl/Infineon-AN79953_Getting_Started_with_PSoC_4-ApplicationNotes-v21_00-EN.pdf?fileId=8ac78c8c7cdc391c017d07271fd64bc1&utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-an_vanitylink&redirId=AN_VL1112)
 
-- [PSoC&trade; 4 technical reference manuals](https://documentation.infineon.com/psoc4/docs/hup1702048028817)
+- [PSOC&trade; 4 technical reference manuals](https://documentation.infineon.com/psoc4/docs/hup1702048028817)
 
-- [PSoC&trade; 4 datasheets](https://documentation.infineon.com/psoc4/docs/qqs1702048028479)
+- [PSOC&trade; 4 datasheets](https://documentation.infineon.com/psoc4/docs/qqs1702048028479)
 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
 

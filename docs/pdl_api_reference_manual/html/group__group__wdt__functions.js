@@ -11,6 +11,22 @@ var group__group__wdt__functions =
     [ "Cy_WDT_GetIgnoreBits", "group__group__wdt__functions.html#ga3ec661a60927ab0c15e654540f55c95b", null ],
     [ "Cy_WDT_MaskInterrupt", "group__group__wdt__functions.html#gab6caa17bf5bcb0c365f60e602e653fed", null ],
     [ "Cy_WDT_UnmaskInterrupt", "group__group__wdt__functions.html#ga38c69c98675d6024a7d73acb41b24399", null ],
+    [ "Cy_WDT_GetInterruptStatusMasked", "group__group__wdt__functions.html#gad62ce7b3562cf1754659eed3fab0e22a", null ],
     [ "Cy_WDT_ClearInterrupt", "group__group__wdt__functions.html#ga727d9ae6fdba36809bf631985a3eb987", null ],
-    [ "Cy_WDT_ClearWatchdog", "group__group__wdt__functions.html#ga8a86bbc9823552318191ea6c153e99fa", null ]
+    [ "Cy_WDT_ClearWatchdog", "group__group__wdt__functions.html#ga8a86bbc9823552318191ea6c153e99fa", null ],
+    [ "Cy_WDT_Lock", "group__group__wdt__functions.html#ga5a0d9b4d5c6454af7213b32c4db7671c", null ],
+    [ "Cy_WDT_Unlock", "group__group__wdt__functions.html#ga0c4e41c9c1b0d575747d1a984e63a6b0", null ],
+    [ "Cy_WDT_Locked", "group__group__wdt__functions.html#ga7d651ba3f26230b7bf18ca730d342450", null ],
+    [ "Cy_WDT_SetLowerLimit", "group__group__wdt__functions.html#gac3068b5f898aaecbb16a7e747eb2ac6a", null ],
+    [ "Cy_WDT_SetUpperLimit", "group__group__wdt__functions.html#ga370b6a151be8d6a9facd471589c9dd5a", null ],
+    [ "Cy_WDT_SetWarnLimit", "group__group__wdt__functions.html#gaa398184eb16a3a080d4e96c32641c0e8", null ],
+    [ "Cy_WDT_SetLowerAction", "group__group__wdt__functions.html#gaea903a29e21c0e159352a816c326fe72", null ],
+    [ "Cy_WDT_SetUpperAction", "group__group__wdt__functions.html#ga0ede82be1107d76de2fd9fb1fd243915", null ],
+    [ "Cy_WDT_SetWarnAction", "group__group__wdt__functions.html#gaf86e75ba80f13612682449113e891c5e", null ],
+    [ "Cy_WDT_SetAutoService", "group__group__wdt__functions.html#ga0c8d2fa84afb395152979a6a033ac676", null ],
+    [ "Cy_WDT_SetDeepSleepPause", "group__group__wdt__functions.html#gaccb50fc9fcea1fd761ea74d1254e852e", null ],
+    [ "Cy_WDT_SetDebugRun", "group__group__wdt__functions.html#gaa29c8fc8616e2340c7bb7560788b0616", null ],
+    [ "Cy_WDT_SetService", "group__group__wdt__functions.html#ga44b0861b8d7b8553f84842da51e9c423", null ],
+    [ "Cy_WDT_SetCount", "group__group__wdt__functions.html#ga12073c183281ce947b965d060712aa7e", null ],
+    [ "Cy_WDT_SetInterrupt", "group__group__wdt__functions.html#ga9270f9edce62b929919ea835a5279e2a", null ]
 ];

@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('group__group__system__config__system__
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga93f514700ccf00d08dbdcff7f1224eb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__system__config__system__functions.html#ga93f514700ccf00d08dbdcff7f1224eb2">SystemInit</a> (void)</td></tr>
-<tr class="memdesc:ga93f514700ccf00d08dbdcff7f1224eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the system: disables the WDT, disables the interrupts and calls the <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit()</a> function.  <a href="#ga93f514700ccf00d08dbdcff7f1224eb2">More...</a><br /></td></tr>
+<tr class="memdesc:ga93f514700ccf00d08dbdcff7f1224eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the system: unlocks and disables the WDT, disables the interrupts and calls the <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit()</a> function.  <a href="#ga93f514700ccf00d08dbdcff7f1224eb2">More...</a><br /></td></tr>
 <tr class="separator:ga93f514700ccf00d08dbdcff7f1224eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga70ad2d6aad9d042677abbbbc571f9d68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit</a> (void)</td></tr>
 <tr class="memdesc:ga70ad2d6aad9d042677abbbbc571f9d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty weak function.  <a href="#ga70ad2d6aad9d042677abbbbc571f9d68">More...</a><br /></td></tr>
@@ -118,8 +118,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes the system: disables the WDT, disables the interrupts and calls the <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit()</a> function. </p>
-<dl class="section note"><dt>Note</dt><dd>This function does not initialize clocks. To set up clocks in pre-main, define strong function <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit</a> with your custom clock initialization. </dd></dl>
+<p>Initializes the system: unlocks and disables the WDT, disables the interrupts and calls the <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit()</a> function. </p>
+<dl class="section note"><dt>Note</dt><dd>This function does not initialize clocks. To set up clocks in pre-main, define strong function <a class="el" href="group__group__system__config__system__functions.html#ga70ad2d6aad9d042677abbbbc571f9d68">Cy_SystemInit</a> with your custom clock initialization.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>For PSoC4 HVMS/PA the Watchdog timer should be unlocked before being disabled. </dd></dl>
 
 </div>
 </div>

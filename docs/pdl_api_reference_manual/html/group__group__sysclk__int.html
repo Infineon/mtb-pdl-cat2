@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('group__group__sysclk__int.html','');})
 </div><!--header-->
 <div class="contents">
 
-<p>This API is to manage a few interrupt sources within the EXCO block.  
+<p>This API is to manage a few interrupt sources.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
@@ -98,8 +98,12 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>This API is to manage a few interrupt sources within the EXCO block. </p>
-<p>This feature is available on devices with the EXCO_ver2 (i.e. PSoC 4500S and 4100S Max). Refer to the Device Datasheet to check the detailed set of interrupts support. Also see the TRM for more details about the interrupts themselves. </p>
+<p>This API is to manage a few interrupt sources. </p>
+<p>Supported interrupt sources can be within</p><ul>
+<li>the EXCO block on devices with the EXCO_ver2 (i.e. PSOC 4500S and 4100S Max)</li>
+<li>the clock calibration block on PSOC4 HVMS/PA devices.</li>
+</ul>
+<p>Refer to the Device Datasheet to check the detailed set of interrupts support. Also see the TRM for more details about the interrupts themselves. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

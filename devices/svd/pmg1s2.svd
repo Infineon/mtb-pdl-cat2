@@ -28,9 +28,9 @@
     <endian>little</endian>
     <mpuPresent>false</mpuPresent>
     <fpuPresent>false</fpuPresent>
-    <vtorPresent>0</vtorPresent>
+    <vtorPresent>false</vtorPresent>
     <nvicPrioBits>2</nvicPrioBits>
-    <vendorSystickConfig>0</vendorSystickConfig>
+    <vendorSystickConfig>false</vendorSystickConfig>
   </cpu>
   <addressUnitBits>8</addressUnitBits>
   <width>32</width>
@@ -346,32 +346,6 @@ Note that this field is retained. However, the counter that is used to implement
             </field>
           </fields>
         </register>
-        <cluster>
-          <dim>16</dim>
-          <dimIncrement>512</dimIncrement>
-          <name>TR_GROUP[%s]</name>
-          <description>Peripheral Interconnect trigger group control registers</description>
-          <addressOffset>0x00002000</addressOffset>
-          <register>
-            <dim>128</dim>
-            <dimIncrement>4</dimIncrement>
-            <name>TR_OUT_CTL[%s]</name>
-            <description>Trigger control register</description>
-            <addressOffset>0x0</addressOffset>
-            <size>32</size>
-            <access>read-write</access>
-            <resetValue>0x0</resetValue>
-            <resetMask>0x7F</resetMask>
-            <fields>
-              <field>
-                <name>SEL</name>
-                <description>Specifies input trigger. This field is typically set during the setup of a chip use case scenario. Changing this field while activated triggers are present on the input triggers may result in unpredictable behavior. Note that input trigger 0 (default value) is typically connected to a constant signal level of '0', and as a result will not cause HW activation of the output trigger.</description>
-                <bitRange>[6:0]</bitRange>
-                <access>read-write</access>
-              </field>
-            </fields>
-          </register>
-        </cluster>
       </registers>
     </peripheral>
     <peripheral>
@@ -401,7 +375,7 @@ Note that this field is retained. However, the counter that is used to implement
             <fields>
               <field>
                 <name>IO0_SEL</name>
-                <description>Selects connection for IO pad 0 route.</description>
+                <description>N/A</description>
                 <bitRange>[3:0]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -489,43 +463,43 @@ Note that this field is retained. However, the counter that is used to implement
               </field>
               <field>
                 <name>IO1_SEL</name>
-                <description>Selects connection for IO pad 1 route.</description>
+                <description>N/A</description>
                 <bitRange>[7:4]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO2_SEL</name>
-                <description>Selects connection for IO pad 2 route.</description>
+                <description>N/A</description>
                 <bitRange>[11:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO3_SEL</name>
-                <description>Selects connection for IO pad 3 route.</description>
+                <description>N/A</description>
                 <bitRange>[15:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO4_SEL</name>
-                <description>Selects connection for IO pad 4 route.</description>
+                <description>N/A</description>
                 <bitRange>[19:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO5_SEL</name>
-                <description>Selects connection for IO pad 5 route.</description>
+                <description>N/A</description>
                 <bitRange>[23:20]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO6_SEL</name>
-                <description>Selects connection for IO pad 6 route.</description>
+                <description>N/A</description>
                 <bitRange>[27:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO7_SEL</name>
-                <description>Selects connection for IO pad 7 route.</description>
+                <description>N/A</description>
                 <bitRange>[31:28]</bitRange>
                 <access>read-write</access>
               </field>
@@ -637,7 +611,7 @@ Note that this field is retained. However, the counter that is used to implement
           <fields>
             <field>
               <name>POWER_MODE</name>
-              <description>Current power mode of the device.  Note that this field cannot be read in all power modes on actual silicon.</description>
+              <description>N/A</description>
               <bitRange>[3:0]</bitRange>
               <access>read-only</access>
               <enumeratedValues>
@@ -665,7 +639,9 @@ Note that this field is retained. However, the counter that is used to implement
             </field>
             <field>
               <name>DEBUG_SESSION</name>
-              <description>Indicates whether a debug session is active (CDBGPWRUPREQ signal is 1)</description>
+              <description>Indicates whether a debug session is active
+0: Inactive
+1: Active</description>
               <bitRange>[4:4]</bitRange>
               <access>read-only</access>
               <enumeratedValues>
@@ -683,29 +659,27 @@ Note that this field is retained. However, the counter that is used to implement
             </field>
             <field>
               <name>LPM_READY</name>
-              <description>Indicates whether the low power mode regulator is ready to enter DEEPSLEEP mode.  
-0: If DEEPSLEEP mode is requested, device will enter SLEEP mode.  When low power regulators are ready, device will automatically enter the originally requested mode.
-1: Normal operation.  DEEPSLEEP works as described.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>OVER_TEMP_EN</name>
-              <description>Enables the die over temperature sensor.  Must be enabled when using the TEMP_HIGH interrupt.</description>
+              <description>Enable the die over temperature sensor.  Must be enabled when using the TEMP_HIGH interrupt.
+0: Disable
+1: Enable</description>
               <bitRange>[16:16]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>OVER_TEMP_THRESH</name>
-              <description>Over-temperature threshold.
-0: TEMP_HIGH condition occurs between 120C and 125C.
-1: TEMP_HIGH condition occurs between 60C and 75C (used for testing).</description>
+              <description>N/A</description>
               <bitRange>[17:17]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SPARE</name>
-              <description>Spare AHB readback bits that are hooked to PWR_PWRSYS_TRIM1.SPARE_TRIM[1:0] through spare logic equivalent to bitwise inversion.  Engineering only.</description>
+              <description>N/A</description>
               <bitRange>[19:18]</bitRange>
               <access>read-only</access>
             </field>
@@ -713,7 +687,7 @@ Note that this field is retained. However, the counter that is used to implement
               <name>EXT_VCCD</name>
               <description>Always write 0 except as noted below. 
 
-PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provided externally (on Vccd pin).  Setting this bit turns off the active regulator and will lead to system reset (BOD) unless both Vddd and Vccd pins are supplied externally.  This register bit only resets for XRES, POR, or a detected BOD.</description>
+For PSoC 4000 CapSense products, set this bit if Vccd is provided externally (on Vccd pin).  Setting this bit turns off the active regulator and will lead to system reset (BOD) unless both Vddd and Vccd pins are supplied externally.  This register bit only resets for XRES, POR, or a detected BOD.</description>
               <bitRange>[23:23]</bitRange>
               <access>read-write</access>
             </field>
@@ -934,29 +908,27 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
           <fields>
             <field>
               <name>SWD_CONNECTED</name>
-              <description>0: SWD not active
-1: SWD activated (Line Reset &amp; Connect sequence passed)
-(Note: this bit replaces TST_CTRL.SWD_CONNECTED and is present in all M0S8 products except TSG4)</description>
+              <description>Indicates SWD Connection status
+0: SWD not active
+1: SWD activated (Line Reset &amp; Connect sequence passed)</description>
               <bitRange>[2:2]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>BLOCK_ALT_XRES</name>
-              <description>Relevant only for parts that have the alternate XRES mechanism of overloading a GPIO pin temporarily as alternate XRES during test.  When set, this bit blocks the alternate XRES function, such that the pin can be used for normal I/O or for ddft/adft observation.  See SAS Part-V and Part-IX for details. This register bit only resets for XRES, POR, or a detected BOD.</description>
+              <description>Relevant only for parts that have the alternate XRES mechanism of overloading a GPIO pin temporarily as alternate XRES during test.  When set, this bit blocks the alternate XRES function, such that the pin can be used for normal I/O or for ddft/adft observation. This register bit only resets for XRES, POR, or a detected BOD.</description>
               <bitRange>[28:28]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>TEST_KEY_DFT_EN</name>
-              <description>This bit is set when a XRES test mode key is shifted in.  It is the value of the test_key_dft_en signal.  When this bit is set, the BootROM will not yield execution to the FLASH image (same function as setting TEST_MODE bit below).</description>
+              <description>N/A</description>
               <bitRange>[30:30]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>TEST_MODE</name>
-              <description>Setting this bit will prevent BootROM from yielding execution to Flash image.
-0: Normal operation mode
-1: Test mode (any test mode)</description>
+              <description>N/A</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -1542,7 +1514,7 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
           <fields>
             <field>
               <name>OFFSET</name>
-              <description>Frequency trim bits.  These bits are determined at manufacturing time for each FREQ setting in CLK_IMO_SELECT and stored in SFLASH.  This field is hardware updated during USB osclock mode or when a WCO uses this mechanism for PLL locking the WCO.  This is only available with devices that have either USB or a WCO. This field is mapped to the most significant bits of the IMO trim imo_clk_trim[10:3].  The step size of 1 LSB on this field is approximately 120 kHz.</description>
+              <description>Frequency trim bits. These bits are determined at manufacturing time for each FREQ setting in CLK_IMO_SELECT and stored in SFLASH. For devices that have either USB or a WCO, this field is hardware updated during USB osclock mode or when a WCO uses this mechanism for PLL locking the WCO. This field is mapped to the most significant bits of the IMO trim imo_clk_trim[10:3]. The step size of 1 LSB on this field is approximately 120 kHz.</description>
               <bitRange>[7:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -1778,8 +1750,7 @@ If the drive mode for the pin is set to high Z Analog, the pin state will read 0
             <fields>
               <field>
                 <name>DM0</name>
-                <description>The GPIO drive mode for IO pad 0.
-Note: when initializing IO's that are connected to a live bus (such as I2C), make sure the HSIOM is properly configured (HSIOM_PRT_SELx) before turning the IO on here to avoid producing glitches on the bus.</description>
+                <description>N/A</description>
                 <bitRange>[2:0]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -1827,73 +1798,67 @@ Note: when initializing IO's that are connected to a live bus (such as I2C), mak
               </field>
               <field>
                 <name>DM1</name>
-                <description>The GPIO drive mode for IO pad 1.</description>
+                <description>N/A</description>
                 <bitRange>[5:3]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM2</name>
-                <description>The GPIO drive mode for IO pad 2.</description>
+                <description>N/A</description>
                 <bitRange>[8:6]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM3</name>
-                <description>The GPIO drive mode for IO pad 3.</description>
+                <description>N/A</description>
                 <bitRange>[11:9]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM4</name>
-                <description>The GPIO drive mode for IO pad 4.</description>
+                <description>N/A</description>
                 <bitRange>[14:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM5</name>
-                <description>The GPIO drive mode for IO pad 5.</description>
+                <description>N/A</description>
                 <bitRange>[17:15]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM6</name>
-                <description>The GPIO drive mode for IO pad 6.</description>
+                <description>N/A</description>
                 <bitRange>[20:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM7</name>
-                <description>The GPIO drive mode for IO pad 7.</description>
+                <description>N/A</description>
                 <bitRange>[23:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_VTRIP_SEL</name>
-                <description>The GPIO cells include a VTRIP_SEL signal to alter the input buffer voltage. Note: this bit is ignored for SIO ports, the VTRIP_SEL settings in the SIO register are used instead (a separate VTRIP_SEL is provided for each pin pair).
-0: input buffer functions as a CMOS input buffer.
-1: input buffer functions as a LVTTL input buffer.</description>
+                <description>N/A</description>
                 <bitRange>[24:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_SLOW</name>
-                <description>This field controls the output edge rate of all pins on the port:
-'0': fast.
-'1': slow.</description>
+                <description>N/A</description>
                 <bitRange>[25:25]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_HYST_TRIM</name>
-                <description>This field is used to improve the hysteresis (to 10 percent of vddio) of the selectable trip point input buffer. The voltage reference comes from the VREFGEN block and is only available when using the VREFGEN block:
-'0': &lt;= 2.2 V input signaling Voltage.
-'1': &gt; 2.2 V input signaling Voltage.</description>
+                <description>N/A</description>
                 <bitRange>[27:27]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_SLEW_CTL</name>
-                <description>Slew control. Only used in the O_Z drive mode (mode 4: strong pull down, open drain): This field is intended for I2C functionality. See BROS 001-70428 for more details.</description>
+                <description>This field is used to vary slew rate in I2C mode. It comes into picture only when slow=1 and DM=4 ( strong pull down, open drain). Following modes are supported and the corresponding fall time specs are mentioned:</description>
                 <bitRange>[29:28]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -1924,16 +1889,7 @@ FS+ mode (Vext&lt;=2.8,1.71&lt;VDDD&lt;5.5) (20-120ns)</description>
               </field>
               <field>
                 <name>PORT_IB_MODE_SEL</name>
-                <description>This field selects the input buffer reference. The size (1 or 2 bits) and functionality is dependent on the IO cell.
-For GPIOv2 IO cells, bit PORT_IB_MODE_SEL[1] is not used (GPIOv2 IO cell replaces GPIO IO cell):
-'0'/'2': CMOS input buffer (PORT_VTRIP_SEL is '0'), LVTTL input buffer (PORT_VTRIP_SEL is '1')
-'1'/'3': vcchib.
-For GPIO_OVTv2 and SIOv2 IO cells:
-'0': CMOS input buffer (PORT_VTRIP_SEL is '0'), LVTTL input buffer (PORT_VTRIP_SEL is '1')
-'1': vcchib.
-'2': OVT.
-'3': Reference (possibly from reference generator cell).
-For SIO IO cell, this field is present but not used as the SIO IO cell does not provide input buffer mode select functionality (SIOv2 IO cell will replace SIO IO cell, as soon as it is available).</description>
+                <description>N/A</description>
                 <bitRange>[31:30]</bitRange>
                 <access>read-write</access>
               </field>
@@ -2186,145 +2142,149 @@ For SIO IO cell, this field is present but not used as the SIO IO cell does not 
                 <name>PAIR_VREG01_EN</name>
                 <description>Selects output buffer mode:
 0: unregulated output buffer
-1: regulated output buffer</description>
+1: regulated output buffer
+
+The regulated output configuration is selected ONLY if the dm&lt;2:0&gt; bits set a strong pull up configuration (Modes 3, 5, or 6). Weak pull up modes pull to VDDIO.</description>
                 <bitRange>[0:0]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF01_SEL</name>
                 <description>Selects input buffer mode:
-0: singled ended input buffer
-1: differential input buffer</description>
+0: singled ended input buffer with a threshold controlled by PAIR_VTRIP01_SEL
+1: differential input buffer, see table in PAIR_VTRIP01_SEL description for details</description>
                 <bitRange>[1:1]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP01_SEL</name>
-                <description>Selects trip-point of input buffer. In single ended input buffer mode (IBUF01_SEL = '0'):
-0: input buffer functions as a CMOS input buffer.
-1: input buffer functions as a LVTTL input buffer.
-In differential input buffer mode (IBUF01_SEL = '1')
-'0': trip-point is 0.5*Vddio or 0.5*Voh (depends on VREF_SEL/VOH_SEL)
-'1': trip-point is 0.4*Vddio or 1.0*Vref  (depends on VREF_SEL)
+                <description>In single ended input buffer mode (PAIR_IBUF01_SEL = '0'):
+VTRIP_SEL=0: input buffer functions as a CMOS input buffer.
+VTRIP_SEL=1: input buffer functions as a LVTTL input buffer.
 
-Please refer to s8iom0s8 BROS 001-70428, section 4.2.7  for more details.</description>
+In differential input buffer mode (PAIR_IBUF01_SEL = '1'): 
+PAIR_VREF01_SEL=00: 
+  a) PAIR_VTRIP01_SEL=0 -&gt; Trip point=50 percent of vddio
+  b) PAIR_VTRIP01_SEL=1 -&gt; Trip point=40 percent of vddio
+
+PAIR_VREF01_SEL=01/10/11:
+  a) PAIR_VTRIP01_SEL=0 -&gt; Trip point=50 percent of Voh (see table in PAIR_VOH01_SEL for details)
+  b) PAIR_VTRIP01_SEL=1 -&gt; Trip point=Vref  (see table in PAIR_VREF01_SEL for details)</description>
                 <bitRange>[2:2]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF01_SEL</name>
-                <description>Selects reference voltage Vref for trip-point of input buffer:
-0: trip-point reference of SRSS internal reference Vref (1.2V)
-1: trip-point reference of SRSS internal reference Vref (1.2V)
-2: trip-point reference of AMUXBUS_A
-3: trip-point reference of AMUXBUS_B
-
-Please refer to s8iom0s8 BROS 001-70428, section 4.2.7 for more details.</description>
+                <description>Selects reference voltage Vref for trip-point of input buffer and reference for VOH regulator:
+0: Vref = 1.2V (input buffers use vddio as Vref)
+1: Vref = 1.2V
+2: Vref = AMUXBUS_A
+3: Vref = AMUXBUS_B</description>
                 <bitRange>[4:3]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH01_SEL</name>
-                <description>Selects regulated Voh output level and trip point of input buffer for a specific SIO pin pair. Voh depends on the selected reference voltage (VREF_SEL). 
-0: Voh = 1*reference; e.g. reference at 1.2V -&gt; Voh = 1.2V 
-1: Voh = 1.25*reference; e.g. reference at 1.2V -&gt; Voh = 1.5V
-2: Voh = 1.49*reference; e.g. reference at 1.2V -&gt; Voh = ~1.8V
-3: Voh = 1.67*reference; e.g. reference at 1.2V -&gt; Voh = 2V
-4: Voh = 2.08*reference; e.g. reference at 1.2V -&gt; Voh = 2.5V
-5: Voh = 2.5*reference; e.g. reference at 1.2V -&gt; Voh = 3V
-6: Voh = 2.78*reference; e.g. reference at 1.2V -&gt; Voh = ~3.3V
-7: Voh = 4.16*reference; e.g. reference at 1.2V -&gt; Voh = 5.0V
-Note: The upper value on VOH is limited to Vddio - 400mV</description>
+                <description>Selects regulated Voh output level and trip point of input buffer for a specific SIO pin pair. Voh depends on the selected Vref voltage (see table in PAIR_VREF_01SEL description for details). 
+0: Voh = 1*vref 
+1: Voh = 1.25*vref
+2: Voh = 1.49*vref
+3: Voh = 1.67*vref
+4: Voh = 2.08*vref
+5: Voh = 2.5*vref
+6: Voh = 2.78*vref
+7: Voh = 4.16*vref
+Note: The upper value on Voh is limited to Vddio - 400mV</description>
                 <bitRange>[7:5]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG23_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[8:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[9:9]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[10:10]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[12:11]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[15:13]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG45_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[18:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[20:19]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[23:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG67_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[24:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[25:25]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[26:26]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[28:27]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[31:29]</bitRange>
                 <access>read-write</access>
               </field>
@@ -2524,7 +2484,15 @@ Note: The upper value on VOH is limited to Vddio - 400mV</description>
             </field>
             <field>
               <name>EC_AM_MODE</name>
-              <description>Internally clocked mode ('0') or externally clocked mode ('1') address matching (I2C) or selection (SPI). In internally clocked mode, the serial interface protocols run off the peripheral clock. In externally clocked mode, the serial interface protocols run off the clock as provided by the serial interface. Externally clocked mode is only used for synchronous serial interface protocols (SPI and I2C) in slave mode. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported.
+              <description>This field specifies the clocking for the address matching (I2C) or slave selection detection logic (SPI)
+'0': Internally clocked mode 
+'1': Externally clocked mode 
+
+In internally clocked mode, the serial interface protocols run off the SCB clock. In externally clocked mode, the serial interface protocols run off the clock as provided by the serial interface.
+
+The clocking for the rest of the logic is determined by CTRL.EC_OP_MODE.
+
+Externally clocked mode is only used for synchronous serial interface protocols (SPI and I2C) in slave mode. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported.
 
 In UART mode this field should be '0'.</description>
               <bitRange>[8:8]</bitRange>
@@ -2532,7 +2500,12 @@ In UART mode this field should be '0'.</description>
             </field>
             <field>
               <name>EC_OP_MODE</name>
-              <description>Internally clocked mode ('0') or externally clocked mode ('1') operation. In internally clocked mode, the serial interface protocols run off the peripheral clock. In externally clocked mode, the serial interface protocols run off the clock as provided by the serial interface. Externally clocked operation mode is only used for synchronous serial interface protocols (SPI and I2C) in slave mode AND EZ mode. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported. The maximum SPI slave, EZ mode bitrate is 48 Mbps (transmission and IO delays outside the IP will degrade the effective bitrate).
+              <description>This field specifies the clocking for the SCB block
+'0': Internally clocked mode 
+'1': externally clocked mode
+ In internally clocked mode, the serial interface protocols run off the SCB clock. In externally clocked mode, the serial interface protocols run off the clock as provided by the serial interface. 
+
+Externally clocked operation mode is only used for synchronous serial interface protocols (SPI and I2C) in slave mode AND EZ mode. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported. The maximum SPI slave, EZ mode bitrate is 48 Mbps (transmission and IO delays outside the IP will degrade the effective bitrate).
 
 In UART mode this field should be '0'.</description>
               <bitRange>[9:9]</bitRange>
@@ -2540,7 +2513,8 @@ In UART mode this field should be '0'.</description>
             </field>
             <field>
               <name>EZ_MODE</name>
-              <description>Non EZ mode ('0') or EZ mode ('1'). In EZ mode, a meta protocol is applied to the serial interface protocol. This meta protocol adds meaning to the data frames transferred by the serial interface protocol: a data frame can represent a memory address, a write memory data element or a read memory data element. EZ mode is only used for synchronous serial interface protocols: SPI and I2C. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported and the transmitter should use continuous data frames; i.e. data frames mot separated by slave deselection. This mode is only applicable to slave functionality. In EZ mode, the slave can read from and write to an addressable memory structure of 32 bytes. In EZ mode, data frames should 8-bit in size and should be transmitted and received with the Most Significant Bit (MSB) first.
+              <description>Non EZ mode ('0') or EZ mode ('1').
+In EZ mode, a meta protocol is applied to the serial interface protocol. This meta protocol adds meaning to the data frames transferred by the serial interface protocol: a data frame can represent a memory address, a write memory data element or a read memory data element. EZ mode is only used for synchronous serial interface protocols: SPI and I2C. In SPI mode, only Motorola submode (all Motorola modes: 0, 1, 2, 3) is supported and the transmitter should use continuous data frames; i.e. data frames not separated by slave deselection. This mode is only applicable to slave functionality. In EZ mode, the slave can read from and write to an addressable memory structure of 32 bytes. In EZ mode, data frames should 8-bit in size and should be transmitted and received with the Most Significant Bit (MSB) first.
 
 In UART mode this field should be '0'.</description>
               <bitRange>[10:10]</bitRange>
@@ -2548,17 +2522,13 @@ In UART mode this field should be '0'.</description>
             </field>
             <field>
               <name>BYTE_MODE</name>
-              <description>Determines the number of bits per FIFO data element:
-'0': 16-bit FIFO data elements.
-'1': 8-bit FIFO data elements. This mode doubles the amount of FIFO entries, but  TX_CTRL.DATA_WIDTH and RX_CTRL.DATA_WIDTH are restricted to [0, 7].</description>
+              <description>N/A</description>
               <bitRange>[11:11]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>CMD_RESP_MODE</name>
-              <description>Determines CMD_RESP mode of operation:
-'0': CMD_RESP mode disabled.
-'1': CMD_RESP mode enabled (also requires EC_AM_MODE and EC_OP_MODE to be set to '1').</description>
+              <description>N/A</description>
               <bitRange>[12:12]</bitRange>
               <access>read-write</access>
             </field>
@@ -2566,7 +2536,7 @@ In UART mode this field should be '0'.</description>
               <name>ADDR_ACCEPT</name>
               <description>Determines whether a received matching address is accepted in the RX FIFO ('1') or not ('0').
 
-In I2C mode, this field is used to allow the slave to put the received slave address or general call address in the RX FIFO. Note that a received matching address is put in the RX FIFO when ADDR_ACCEPT is '1' for both I2C read and write transfers.
+In I2C mode, this field is used to allow the slave to put the received slave address or general call address in the RX FIFO. Note that a received matching address is put in the RX FIFO when this bit is '1' for both I2C read and write transfers.
 
 In multi-processor UART receiver mode, this field is used to allow the receiver to put the received address in the RX FIFO. Note: non-matching addresses are never put in the RX FIFO.</description>
               <bitRange>[16:16]</bitRange>
@@ -2574,7 +2544,7 @@ In multi-processor UART receiver mode, this field is used to allow the receiver 
             </field>
             <field>
               <name>BLOCK</name>
-              <description>Only used in externally clocked mode. If the externally clocked logic and the MMIO SW accesses to EZ memory coincide/collide, this bit determines whether a SW access should block and result in bus wait states ('BLOCK is 1') or not (BLOCK is '0'). IF BLOCK is '0' and the accesses collide, MMIO read operations return 0xffff:ffff and MMIO write operations are ignored. Colliding accesses are registered as interrupt causes: field BLOCKED of MMIO registers INTR_TX and INTR_RX.</description>
+              <description>Only used in externally clocked mode. If the externally clocked logic and the internal CPU accesses to EZ memory coincide/collide, this bit determines whether the CPU access should block and result in bus wait states ('BLOCK is 1') or not (BLOCK is '0'). IF BLOCK is '0' and the accesses collide, CPU read operations return 0xffff:ffff and CPU write operations are ignored. Colliding accesses are registered as interrupt causes: INTR_TX.BLOCKED and INTR_RX.BLOCKED.</description>
               <bitRange>[17:17]</bitRange>
               <access>read-write</access>
             </field>
@@ -2603,12 +2573,12 @@ In multi-processor UART receiver mode, this field is used to allow the receiver 
             </field>
             <field>
               <name>ENABLED</name>
-              <description>IP enabled ('1') or not ('0'). The proper order in which to initialize the IP is as follows:
-- Program protocol specific information using SPI_CTRL, UART_CTRL (and UART_TX_CTRL and UART_RX_CTRL) or I2C_CTRL. This includes selection of a submode, master/slave functionality and transmitter/receiver functionality when applicable.
+              <description>SCB block is enabled ('1') or not ('0'). The proper order in which to initialize SCB is as follows:
+- Program protocol specific information using SPI_CTRL, UART_CTRL (and UART_TX_CTRL and UART_RX_CTRL) or I2C_CTRL registers. This includes selection of a submode, master/slave functionality and transmitter/receiver functionality when applicable.
 - Program generic transmitter (TX_CTRL) and receiver (RX_CTRL) information. This includes enabling of the transmitter and receiver functionality.
 - Program transmitter FIFO (TX_FIFO_CTRL) and receiver FIFO (RX_FIFO_CTRL) information.
-- Program CTRL to enable IP, select the specific operation mode and oversampling factor.
-When the IP is enabled, no control information should be changed. Changes should be made AFTER disabling the IP, e.g. to modify the operation mode (from I2C to SPI) or to go from externally to internally clocked. The change takes effect after the IP is re-enabled. Note that disabling the IP will cause re-initialization of the design and associated state is lost (e.g. FIFO content).</description>
+- Program CTRL register to enable SCB, select the specific operation mode and oversampling factor.
+When this block is enabled, no control information should be changed. Changes should be made AFTER disabling this block, e.g. to modify the operation mode (from I2C to SPI) or to go from externally to internally clocked. The change takes effect after the block is re-enabled. Note that disabling the block will cause re-initialization of the design and associated state is lost (e.g. FIFO content).</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -2642,13 +2612,13 @@ When the IP is enabled, no control information should be changed. Changes should
           <fields>
             <field>
               <name>BASE_RD_ADDR</name>
-              <description>I2C/SPI read base address for CMD_RESP mode. Address is used by a I2C CMD_RESP mode read transfer (CTRL.MODE is I2C) or a SPI CMD_RESP mode read transfer (CTRL.MODE is SPI): at the start of a read transfer BASE_RD_ADDR is copied to CMD_RESP_STATUS.CURR_RD_ADDR. This field should not be modified during ongoing bus transfers.</description>
+              <description>I2C/SPI read base address for CMD_RESP mode. At the start of a read transfer this BASE_RD_ADDR is copied to CMD_RESP_STATUS.CURR_RD_ADDR. This field should not be modified during ongoing bus transfers.</description>
               <bitRange>[8:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>BASE_WR_ADDR</name>
-              <description>I2C/SPI write base address for CMD_RESP mode. Address is used by a I2C CMD_RESP mode write transfer (CTRL.MODE is I2C) or a SPI CMD_RESP mode write transfer (CTRL.MODE is SPI): at the start of a write transfer BASE_WR_ADDR is copied to CMD_RESP_STATUS.CURR_WR_ADDR. This field should not be modified during ongoing bus transfers.</description>
+              <description>I2C/SPI write base address for CMD_RESP mode. At the start of a write transfer this BASE_WR_ADDR is copied to CMD_RESP_STATUS.CURR_WR_ADDR. This field should not be modified during ongoing bus transfers.</description>
               <bitRange>[24:16]</bitRange>
               <access>read-write</access>
             </field>
@@ -2669,17 +2639,17 @@ When the IP is enabled, no control information should be changed. Changes should
 
 The field is used to determine how many bytes have been read (# bytes = CURR_RD_ADDR - CMD_RESP_CTRL.BASE_RD_ADDR). 
 
-This field is reliable during when there is no bus transfer. This field is potentially unreliable when there is a bus transfer bus transfer: when CMD_RESP_EC_BUSY is '0', the field is reliable.</description>
+This field is reliable when there is no bus transfer. This field is potentially unreliable when there is a ongoing bus transfer, i.e. when CMD_RESP_EC_BUSY is '0', the field is reliable.</description>
               <bitRange>[8:0]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>CURR_WR_ADDR</name>
-              <description>I2C/SPI write current address for CMD_RESP mode. HW increments the field after a read access to the memory buffer. However, when the last memory buffer address is reached, the address is NOT incremented (but remains at the maximum memory buffer address).
+              <description>I2C/SPI write current address for CMD_RESP mode. HW increments the field after a write access to the memory buffer. However, when the last memory buffer address is reached, the address is NOT incremented (but remains at the maximum memory buffer address).
 
 The field is used to determine how many bytes have been written (# bytes = CURR_WR_ADDR - CMD_RESP_CTRL.BASE_WR_ADDR).
 
-This field is reliable during when there is no bus transfer. This field is potentially unreliable when there is a bus transfer bus transfer: when CMD_RESP_EC_BUSY is '0', the field is reliable.</description>
+This field is reliable when there is no bus transfer. This field is potentially unreliable when there is a ongoing bus transfer, i.e. when CMD_RESP_EC_BUSY is '0', the field is reliable.</description>
               <bitRange>[24:16]</bitRange>
               <access>read-only</access>
             </field>
@@ -2689,7 +2659,7 @@ This field is reliable during when there is no bus transfer. This field is poten
 '0': no ongoing bus transfer.
 '1': ongoing bus transfer.
 
-For SPI, the field is '1' when the slave is selected.
+For SPI, the field is '1' when slave mode is selected.
 
 For I2C, the field is set to '1' at a I2C START/RESTART. In case of an address match, the  field is set to '0' on a I2C STOP. In case of NO address match, the field is set to '0' after the failing address match.</description>
               <bitRange>[30:30]</bitRange>
@@ -2697,11 +2667,7 @@ For I2C, the field is set to '1' at a I2C START/RESTART. In case of an address m
             </field>
             <field>
               <name>CMD_RESP_EC_BUSY</name>
-              <description>Indicates whether the CURR_RD_ADDR and CURR_WR_ADDR fields in this register are reliable (when CMD_RESP_EC_BUSY is '0') or not reliable (when CMD_RESP_EC_BUSY is '1'). Note:
-- When there is no ongoing bus transfer, CMD_RESP_EC_BUSY is '0' (reliable).
-- When there is a ongoing bus transfer, CMD_RESP_EC_BUSY is '0' (reliable), when the CURR_RD_ADDR and CURR_WR_ADDR are not being updated by the HW.
-- When there is a ongoing bus transfer, CMD_RESP_EC_BUSY is '1' (not reliable), when the CURR_RD_ADDR or CURR_WR_ADDR are being updated by the HW. 
-   Note that this update lasts one I2C clock cycle, or two SPI clock cycles.</description>
+              <description>N/A</description>
               <bitRange>[31:31]</bitRange>
               <access>read-only</access>
             </field>
@@ -2722,7 +2688,7 @@ For I2C, the field is set to '1' at a I2C START/RESTART. In case of an address m
 
 When continuous transfers are enabled individual data frame transfers are not necessarily separated by slave deselection (as indicated by the level or pulse on the SELECT line): if the TX FIFO has multiple data frames, data frames are send out without slave deselection.
 
-When continuous transfers are not enabled individual data frame transfers are always separated by slave deselection: independent of the availability of TX FIFO data frames, data frames are send out with slave deselection.</description>
+When continuous transfers are not enabled individual data frame transfers are always separated by slave deselection: independent of the availability of TX FIFO data frames, data frames are sent out with slave deselection.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -2730,27 +2696,21 @@ When continuous transfers are not enabled individual data frame transfers are al
               <name>SELECT_PRECEDE</name>
               <description>Only used in SPI Texas Instruments' submode.
 
-When '1', the data frame start indication is a pulse on the SELECT line that precedes the transfer of the first data frame bit.
+When '1', the data frame start indication is a pulse on the Slave SELECT line that precedes the transfer of the first data frame bit.
 
-When '0', the data frame start indication is a pulse on the SELECT line that coincides with the transfer of the first data frame bit.</description>
+When '0', the data frame start indication is a pulse on the Slave SELECT line that coincides with the transfer of the first data frame bit.</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>CPHA</name>
-              <description>Only applicable in SPI Motorola submode. Indicates the clock phase. This field, together with the CPOL field, indicates when MOSI data is driven and MISO data is captured:
-- Motorola mode 0. CPOL is '0', CPHA is '0': MOSI  is driven on a falling edge of SCLK. MISO is captured on a rising edge of SCLK.
-- Motorola mode 1. CPOL is '0', CPHA is '1': MOSI  is driven on a rising edge of SCLK. MISO is captured on a falling edge of SCLK.
-- Motorola mode 2. CPOL is '1', CPHA is '0': MOSI  is driven on a rising edge of SCLK. MISO is captured on a falling edge of SCLK.
-- Motorola mode 3. CPOL is '1', CPHA is '1': MOSI  is driven on a falling edge of SCLK. MISO is captured on a rising edge of SCLK.</description>
+              <description>N/A</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>CPOL</name>
-              <description>Indicates the clock polarity. Only used in SPI Motorola submode. This field, together with the CPHA field, indicates when MOSI data is driven and MISO data is captured:
-- CPOL is '0': SCLK is '0' when not transmitting data.
-- CPOL is '1': SCLK is '1' when not transmitting data.</description>
+              <description>N/A</description>
               <bitRange>[3:3]</bitRange>
               <access>read-write</access>
             </field>
@@ -2758,7 +2718,10 @@ When '0', the data frame start indication is a pulse on the SELECT line that coi
               <name>LATE_MISO_SAMPLE</name>
               <description>Changes the SCLK edge on which MISO is captured. Only used in master mode.
 
-When '0', the default applies (for Motorola as determined by CPOL and CPHA, for Texas Instruments on the falling edge of SCLK and for National Semiconductors on the rising edge of SCLK). 
+When '0', the default applies (
+for Motorola as determined by CPOL and CPHA, 
+for Texas Instruments on the falling edge of SCLK and 
+for National Semiconductors on the rising edge of SCLK). 
 
 When '1', the alternate clock edge is used (which comes half a SPI SCLK period later). Late sampling addresses the round trip delay associated with transmitting SCLK from the master to the slave and transmitting MISO from the slave to the master.</description>
               <bitRange>[4:4]</bitRange>
@@ -2766,47 +2729,39 @@ When '1', the alternate clock edge is used (which comes half a SPI SCLK period l
             </field>
             <field>
               <name>SCLK_CONTINUOUS</name>
-              <description>Only applicable in master mode. 
-'0': SCLK is generated, when the SPI master is enabled and data is transmitted.
-'1': SCLK is generated, when the SPI master is enabled. This mode is useful for slave devices that use SCLK for functional operation other than just SPI functionality.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SSEL_POLARITY0</name>
-              <description>Slave select polarity. SSEL_POLARITY0 applies to the outgoing SPI slave select signal 0 (master mode) and to the incoming SPI slave select signal (slave mode). only SPI_SELECT[0] is used in slave mode.
-For Motorola and National Semiconductors submodes: 
-'0': slave select is low/'0' active.
-'1': slave select is high/'1' active.
-For Texas Instruments submode:
-'0': high/'1' active precede/coincide pulse.
-'1': low/'0' active precede/coincide pulse.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SSEL_POLARITY1</name>
-              <description>Slave select polarity. SSEL_POLARITY1 applies to the outgoing SPI slave select signal 1 (master mode).</description>
+              <description>N/A</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SSEL_POLARITY2</name>
-              <description>Slave select polarity. SSEL_POLARITY2 applies to the outgoing SPI slave select signal 2 (master mode).</description>
+              <description>N/A</description>
               <bitRange>[10:10]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SSEL_POLARITY3</name>
-              <description>Slave select polarity. SSEL_POLARITY3 applies to the outgoing SPI slave select signal 3 (master mode).</description>
+              <description>N/A</description>
               <bitRange>[11:11]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>LOOPBACK</name>
               <description>Local loopback control (does NOT affect the information on the pins). Only used in master mode. Not used in National Semiconductors submode.
-'0': the SPI master MISO line 'spi_miso_in' is connected to the SPI MISO pin.
-'1': the SPI master MISO line 'spi_miso_in' is connected to the SPI master MOSI line 'spi_mosi_out'. In other words, in loopback mode the SPI master receives on MISO what it transmits on MOSI.</description>
+'0': No local loopback
+'1': the SPI master MISO line is connected to the SPI master MOSI line. In other words, in loopback mode the SPI master receives on MISO what it transmits on MOSI.</description>
               <bitRange>[16:16]</bitRange>
               <access>read-write</access>
             </field>
@@ -2840,14 +2795,13 @@ For Texas Instruments submode:
 - 1: Slave 1, SPI_SELECT[1].
 - 2: Slave 2, SPI_SELECT[2].
 - 3: Slave 3, SPI_SELECT[3].
-Only used in master mode. The IP should be disabled when changes are made to this field.
-only SPI_SELECT[0] is used in slave mode.</description>
+Only used in master mode. SCB block should be disabled when changes are made to this field.</description>
               <bitRange>[27:26]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>MASTER_MODE</name>
-              <description>Master ('1') or slave ('0') mode. In master mode, transmission will commence on availability of data frames in the TX FIFO. In slave mode, when selected and there is no data frame in the TX FIFO, the slave will transmit all '1's. In both master and slave modes, received data frames will be lost if the RX FIFO is full.</description>
+              <description>N/A</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -2899,8 +2853,9 @@ only SPI_SELECT[0] is used in slave mode.</description>
           <fields>
             <field>
               <name>LOOPBACK</name>
-              <description>Local loopback control (does NOT affect the information on the pins). When '0', the transmitter TX line 'uart_tx_out' is connected to the TX pin and the receiver RX line 'uart_rx_in' is connected to the RX pin. When '1', the transmitter TX line 'uart_tx_out' is connected to the receiver RX line 'uart_rx_in'. A similar connections scheme is followed for 'uart_rts_out' and 'uart_cts_in'.
-
+              <description>Local loopback control (does NOT affect the information on the pins). 
+0: Loopback is not enabled
+1: UART_TX is connected to UART_RX. UART_RTS is connected to UART_CTS.
 This allows a SCB UART transmitter to communicate with its receiver counterpart.</description>
               <bitRange>[16:16]</bitRange>
               <access>read-write</access>
@@ -2976,43 +2931,48 @@ This allows a SCB UART transmitter to communicate with its receiver counterpart.
           <fields>
             <field>
               <name>STOP_BITS</name>
-              <description>Stop bits. STOP_BITS + 1 is the duration of the stop period in terms of halve bit periods. Valid range is [1, 7]; i.e. a stop period should last at least one bit period. If STOP_BITS is '1', stop bits error detection is NOT performed. If STOP_BITS is in [2, 7], stop bits error detection is performed and the associated interrupt cause INTR_RX.FRAME_ERROR is set to '1' if an error is detected. In other words, the receiver supports data frames with a 1 bit period stop bit sequence, but requires at least 1.5 bit period stop bit sequences to detect errors. This limitation is due to possible transmitter and receiver clock skew that prevents the design from doing reliable stop bit detection for short (1 bit  period) stop bit sequences. Note that in case of a stop bits error, the successive data frames may get lost as the receiver needs to resynchronize its start bit detection. The amount of lost data frames depends on both the amount of stop bits, the idle ('1') time between data frames and the data frame value.</description>
+              <description>N/A</description>
               <bitRange>[2:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>PARITY</name>
-              <description>Parity bit. When '0', the receiver expects an even parity. When '1', the receiver expects an odd parity. Only applicable in standard UART and SmartCard submodes.</description>
+              <description>N/A</description>
               <bitRange>[4:4]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>PARITY_ENABLED</name>
-              <description>Parity checking enabled ('1') or not ('0'). Only applicable in standard UART submode. In SmartCard submode, parity checking is always enabled through hardware. In IrDA submode, parity checking is always disabled through hardware.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>POLARITY</name>
-              <description>Inverts incoming RX line signal 'uart_rx_in'. Inversion is after local loopback. This functionality is intended for IrDA receiver functionality.</description>
+              <description>Inverts incoming RX line signal. Inversion is after local loopback. This functionality is intended for IrDA receiver functionality.</description>
               <bitRange>[6:6]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>DROP_ON_PARITY_ERROR</name>
-              <description>Behavior when a parity check fails. When '0', received data is send to the RX FIFO. When '1', received data is dropped and lost. Only applicable in standard UART and SmartCard submodes (negatively acknowledged SmartCard data frames may be dropped with this field).</description>
+              <description>Behavior when a parity check fails. 
+When '0', received data is sent to the RX FIFO. 
+When '1', received data is dropped and lost. 
+Only applicable in standard UART and SmartCard submodes (negatively acknowledged SmartCard data frames may be dropped with this field).</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>DROP_ON_FRAME_ERROR</name>
-              <description>Behavior when an error is detected in a start or stop period. When '0', received data is send to the RX FIFO. When '1', received data is dropped and lost.</description>
+              <description>Behavior when an error is detected in a start or stop period. 
+When '0', received data is sent to the RX FIFO.
+ When '1', received data is dropped and lost.</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>MP_MODE</name>
-              <description>Multi-processor mode. When '1', multi-processor mode is enabled. In this mode, RX_CTRL.DATA_WIDTH should indicate a 9-bit data frame. In multi-processor mode, the 9th received bit of a data frame separates addresses (bit is '1') from data (bit is '0'). A received address is matched with RX_MATCH.DATA and RX_MATCH.MASK. In the case of a match, subsequent received data are sent to the RX FIFO. In the case of NO match, subsequent received data are dropped.</description>
+              <description>N/A</description>
               <bitRange>[10:10]</bitRange>
               <access>read-write</access>
             </field>
@@ -3024,13 +2984,13 @@ This allows a SCB UART transmitter to communicate with its receiver counterpart.
             </field>
             <field>
               <name>SKIP_START</name>
-              <description>Only applicable in standard UART submode. When '1', the receiver skips start bit detection for the first received data frame. Instead, it synchronizes on the first received data frame bit, which should be a '1'. This functionality is intended for wake up from DeepSleep when receiving a data frame. The transition from idle ('1') to START ('0') on the RX line is used to wake up the CPU. The transition detection (and the associated wake up functionality) is performed by the GPIO2 IP. The woken up CPU will enable the SCB's UART receiver functionality. Once enabled, it is assumed that the START bit is ongoing (the CPU wakeup and SCB enable time should be less than the START bit period). The SCB will synchronize to a '0' to '1' transition, which indicates the first data frame bit is received (first data frame bit should be '1'). After synchronization to the first data frame bit, the SCB will resume normal UART functionality: subsequent data frames will be synchronized on the receipt of a START bit.</description>
+              <description>N/A</description>
               <bitRange>[13:13]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>BREAK_WIDTH</name>
-              <description>Break width. BREAK_WIDTH + 1 is the minimum width in bit periods of a break. During a break the transmitted/received line value is '0'. This feature is useful for standard UART submode and LIN submode ('break field' detection). Once, the break is detected, the INTR_RX.BREAK_DETECT bit is set to '1'. Note that break detection precedes baud rate detection, which is used to synchronize/refine the receiver clock to the transmitter clock. As a result, break detection operates with an unsynchronized/unrefined receiver clock. Therefore, the receiver's definition of a bit period is imprecise and the setting of this field should take this imprecision into account. The LIN standard also accounts for this imprecision: a LIN start bit followed by 8 data bits allows for up to 9 consecutive '0' bit periods during regular transmission, whereas the LIN break detection should be at least 13 consecutive '0' bit periods. This provides for a margin of 4 bit periods. Therefore, the default value of this field is set to 10, representing a minimal break field with of 10+1 = 11 bit periods; a value in between the 9 consecutive bit periods of a regular transmission and the 13 consecutive bit periods of a break field. This provides for slight imprecisions of the receiver clock wrt. the transmitter clock. There should not be a need to program this field to any value other than its default value.</description>
+              <description>N/A</description>
               <bitRange>[19:16]</bitRange>
               <access>read-write</access>
             </field>
@@ -3047,7 +3007,7 @@ This allows a SCB UART transmitter to communicate with its receiver counterpart.
           <fields>
             <field>
               <name>BR_COUNTER</name>
-              <description>Amount of peripheral clock periods that constitute the transmission of a 0x55 data frame (sent least significant bit first) as determined by the receiver. BR_COUNTER / 8 is the amount of peripheral clock periods that constitute a bit period. This field has valid data when INTR_RX.BAUD_DETECT is set to '1'.</description>
+              <description>Amount of SCB clock periods that constitute the transmission of a 0x55 data frame (sent least significant bit first) as determined by the receiver. BR_COUNTER / 8 is the amount of SCB clock periods that constitute a bit period. This field has valid data when INTR_RX.BAUD_DETECT is set to '1'.</description>
               <bitRange>[11:0]</bitRange>
               <access>read-only</access>
             </field>
@@ -3064,35 +3024,35 @@ This allows a SCB UART transmitter to communicate with its receiver counterpart.
           <fields>
             <field>
               <name>TRIGGER_LEVEL</name>
-              <description>Trigger level. When the receiver FIFO has less entries than the amount of this field, a Ready To Send (RTS) output signal 'uart_rts_out' is activated. By setting this field to '0', flow control is effectively SW disabled (may be useful for debug purposes).</description>
+              <description>Trigger level. When the receiver FIFO has less entries than the amount of this field, a Ready To Send (RTS) output signal is activated. By setting this field to '0', flow control is effectively disabled (may be useful for debug purposes).</description>
               <bitRange>[7:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>RTS_POLARITY</name>
-              <description>Polarity of the RTS output signal 'uart_rts_out':
-'0': RTS is low/'0' active; 'uart_rts_out' is '0' when active and 'uart_rts_out' is '1' when inactive.
-'1': RTS is high/'1' active; 'uart_rts_out' is '1' when active and 'uart_rts_out' is '0' when inactive.
+              <description>Polarity of the RTS output signal:
+'0': RTS is active low; 
+'1': RTS is active high; 
 
-During IP reset (Hibernate system power mode), 'uart_rts_out' is '1'. This represents an inactive state assuming a low/'0' active polarity.</description>
+During SCB reset (Hibernate system power mode), RTS output signal is '1'. This represents an inactive state assuming an active low polarity.</description>
               <bitRange>[16:16]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>CTS_POLARITY</name>
-              <description>Polarity of the CTS input signal 'uart_cts_in':
-'0': CTS is low/'0' active; 'uart_cts_in' is '0' when active and 'uart_cts_in' is '1' when inactive.
-'1': CTS is high/'1' active; 'uart_cts_in' is '1' when active and 'uart_cts_in' is '0' when inactive.</description>
+              <description>Polarity of the CTS input signal
+'0': CTS is active low ; 
+'1': CTS is active high;</description>
               <bitRange>[24:24]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>CTS_ENABLED</name>
-              <description>Enable use of CTS input signal 'uart_cts_in' by the UART transmitter:
-'0': Disabled. The UART transmitter ignores 'uart_cts_in', and transmits when a data frame is available for transmission in the TX FIFO or the TX shift register.
-'1': Enabled. The UART transmitter uses 'uart_cts_in' to qualify the transmission of data. It transmits when 'uart_cts_in' is active and a data frame is available for transmission in the TX FIFO or the TX shift register.
+              <description>Enable use of CTS input signal by the UART transmitter:
+'0': Disabled. The UART transmitter ignores the CTS input signal and transmits when a data frame is available for transmission in the TX FIFO or the TX shift register.
+'1': Enabled. The UART transmitter uses CTS input signal to qualify the transmission of data. It transmits when CTS input signal is active and a data frame is available for transmission in the TX FIFO or the TX shift register.
 
-If UART_CTRL.LOOPBACK is '1', 'uart_cts_in' is connected to 'uart_rts_out' in the IP (both signals are subjected to signal polarity changes as indicated by RTS_POLARITY and CTS_POLARITY).</description>
+If UART_CTRL.LOOPBACK is '1', the CTS input signal is driven by the RTS output signal locally in SCB (both signals are subjected to signal polarity changes as indicated by RTS_POLARITY and CTS_POLARITY).</description>
               <bitRange>[25:25]</bitRange>
               <access>read-write</access>
             </field>
@@ -3109,54 +3069,55 @@ If UART_CTRL.LOOPBACK is '1', 'uart_cts_in' is connected to 'uart_rts_out' in th
           <fields>
             <field>
               <name>HIGH_PHASE_OVS</name>
-              <description>Serial I2C interface high phase oversampling factor. HIGH_PHASE_OVS + 1 peripheral clock periods constitute the high phase of a bit period. The valid range is [5, 15] with input signal median filtering and [4, 15] without input signal median filtering.
+              <description>Serial I2C interface high phase oversampling factor. HIGH_PHASE_OVS + 1 SCB clock periods constitute the high phase of a bit period. The valid range is [5, 15] with input signal median filtering and [4, 15] without input signal median filtering.
 
-The field is only used in master mode. In slave mode, the field is NOT used. However, there is a frequency requirement for the IP clock wrt. the regular interface (IF) high time to guarantee functional correct behavior. With input signal median filtering, the IF high time should be &gt;= 6 IP clock cycles and &lt;= 16 IP clock cycles. Without input signal median filtering, the IF high time should be &gt;= 5 IP clock cycles and &lt;= 16 IP clock cycles.</description>
+The field is only used in master mode. In slave mode, the field is NOT used. However, there is a frequency requirement for the SCB clock wrt. the regular interface (IF) high time to guarantee functional correct behavior. With input signal median filtering, the IF high time should be &gt;= 6 SCB clock cycles and &lt;= 16 SCB clock cycles. Without input signal median filtering, the IF high time should be &gt;= 5 SCB clock cycles and &lt;= 16 SCB clock cycles.</description>
               <bitRange>[3:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>LOW_PHASE_OVS</name>
-              <description>Serial I2C interface low phase oversampling factor. LOW_PHASE_OVS + 1 peripheral clock periods constitute the low phase of a bit period. The valid range is [7, 15] with input signal median filtering and [6, 15] without input signal median filtering. 
+              <description>Serial I2C interface low phase oversampling factor. LOW_PHASE_OVS + 1 SCB clock periods constitute the low phase of a bit period. The valid range is [7, 15] with input signal median filtering and [6, 15] without input signal median filtering. 
 
-The field is only used in master mode. In slave mode, the field is NOT used. However, there is a frequency requirement for the IP clock wrt. the regular (no stretching) interface (IF) low time to guarantee functional correct behavior. With input signal median filtering, the IF low time should be &gt;= 8 IP clock cycles and &lt;= 16 IP clock cycles. Without input signal median filtering, the IF low time should be &gt;= 7 IP clock cycles and &lt;= 16 IP clock cycles.</description>
+The field is only used in master mode. In slave mode, the field is NOT used. However, there is a frequency requirement for the SCB clock wrt. the regular (no stretching) interface (IF) low time to guarantee functionally correct behavior. With input signal median filtering, the IF low time should be &gt;= 8 SCB clock cycles and &lt;= 16 IP clock cycles. Without input signal median filtering, the IF low time should be &gt;= 7 SCB clock cycles and &lt;= 16 SCB clock cycles.</description>
               <bitRange>[7:4]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>M_READY_DATA_ACK</name>
-              <description>When '1', a received data element by the master is immediately ACK'd when the receiver FIFO is not full.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>M_NOT_READY_DATA_NACK</name>
-              <description>When '1', a received data element byte the master is immediately NACK'd when the receiver FIFO is full. When '0', clock stretching is used instead (till the receiver FIFO is no longer full).</description>
+              <description>N/A</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>S_GENERAL_IGNORE</name>
-              <description>When '1', a received general call slave address is immediately NACK'd (no ACK or clock stretching) and treated as a non matching slave address. This is useful for slaves that do not need any data supplied within the general call structure.</description>
+              <description>N/A</description>
               <bitRange>[11:11]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>S_READY_ADDR_ACK</name>
-              <description>When '1', a received (matching) slave address is immediately ACK'd when the receiver FIFO is not full. In EZ mode, this field should be set to '1'.</description>
+              <description>N/A</description>
               <bitRange>[12:12]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>S_READY_DATA_ACK</name>
-              <description>When '1', a received data element by the slave is immediately ACK'd when the receiver FIFO is not full. In EZ mode, this field should be set to '1'.</description>
+              <description>N/A</description>
               <bitRange>[13:13]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>S_NOT_READY_ADDR_NACK</name>
-              <description>For internally clocked logic (EC_AM is '0' and EC_OP is '0') on an address match or general call address (and S_GENERAL_IGNORE is '0'). Only used when:
-- EC_AM is '0', EC_OP is '0' and non EZ mode.
+              <description>This field is used during an address match or general call address in internally clocked mode 
+Only used when:
+ - EC_AM_MODE is '0', EC_OP_MODE is '0', S_GENERAL_IGNORE is '0] and non EZ mode.
 Functionality is as follows:
 - 1: a received (matching) slave address is immediately NACK'd when the receiver FIFO is full.
 - 0: clock stretching is performed (till the receiver FIFO is no longer full). 
@@ -3166,15 +3127,17 @@ For externally clocked logic (EC_AM is '1') on an address match or general call 
 - EC_AM is '1' and general call address match.
 - EC_AM is '1' and non EZ mode.
 Functionality is as follows:
-- 1: a received (matching or general) slave address is always immediately NACK'd. There are two possibilities: 1). the internally clocked logic is enabled (we are in Active system power mode) and it handles the rest of the current transfer. In this case the I2C master will not observe the NACK. 2). the internally clocked logic is not enabled (we are in DeepSleep system power mode). In this case the I2C master will observe the NACK and may retry the transfer in the future (which gives the internally clocked logic the time to wake up from DeepSleep system power mode). 
-- 0: clock stretching is performed (till the internally clocked logic takes over). The internally clocked logic will handle the ongoing transfer as soon as it is enabled.</description>
+- 1: a received (matching or general) slave address is always immediately NACK'd. There are two possibilities:
+       1). the SCB clock is available (in Active system power mode) and it handles the rest of the current transfer. In this case the I2C master will not observe the NACK. 
+       2).SCB clock is not present (in DeepSleep system power mode). In this case the I2C master will observe the NACK and may retry the transfer in the future (which gives the internally clocked logic the time to wake up from DeepSleep system power mode). 
+- 0: clock stretching is performed (till the SCB clock is available). The logic will handle the ongoing transfer as soon as the clock is enabled.</description>
               <bitRange>[14:14]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>S_NOT_READY_DATA_NACK</name>
-              <description>For internally clocked logic only. Only used when:
-- non EZ mode.
+              <description>Only used when:
+- non EZ mode
 Functionality is as follows:
 - 1: a received data element byte the slave is immediately NACK'd when the receiver FIFO is full.
 - 0: clock stretching is performed (till the receiver FIFO is no longer full).</description>
@@ -3183,19 +3146,21 @@ Functionality is as follows:
             </field>
             <field>
               <name>LOOPBACK</name>
-              <description>Local loopback control (does NOT affect the information on the pins). Only applicable in master/slave mode. When '0', the I2C SCL and SDA lines are connected to the I2C SCL and SDA pins. When '1', I2C SCL and SDA lines are routed internally in the peripheral, and as a result unaffected by other I2C devices. This allows a SCB I2C peripheral to address itself.</description>
+              <description>Local loopback control (does NOT affect the information on the pins). Only applicable in master/slave mode. 
+When '0', no loopback
+When '1', loopback is enabled internally in the peripheral, and as a result unaffected by other I2C devices. This allows a SCB I2C peripheral to address itself.</description>
               <bitRange>[16:16]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SLAVE_MODE</name>
-              <description>Slave mode enabled ('1') or not ('0').</description>
+              <description>N/A</description>
               <bitRange>[30:30]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>MASTER_MODE</name>
-              <description>Master mode enabled ('1') or not ('0'). Note that both master and slave modes can be enabled at the same time. This allows the IP to address itself.</description>
+              <description>N/A</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -3212,7 +3177,7 @@ Functionality is as follows:
           <fields>
             <field>
               <name>BUS_BUSY</name>
-              <description>I2C bus is busy. The bus is considered busy ('1'), from the time a START is detected or from the time the SCL line is '0'. The bus is considered idle ('0'), from the time a STOP is detected. If the IP is disabled, BUS_BUSY is '0'. After enabling the IP, it takes time for the BUS_BUSY to detect a busy bus. This time is the maximum high time of the SCL line. For a 100 kHz interface frequency, this maximum high time may last roughly 5 us (half a bit period).
+              <description>I2C bus is busy. The bus is considered busy ('1'), from the time a START is detected or from the time the SCL line is '0'. The bus is considered idle ('0'), from the time a STOP is detected. If SCB block is disabled, BUS_BUSY is '0'. After enabling the block, it takes time for the BUS_BUSY to detect a busy bus. This time is the maximum high time of the SCL line. For a 100 kHz interface frequency, this maximum high time may last roughly 5 us (half a bit period).
 
 For single master systems, BUS_BUSY does not have to be used to detect an idle bus before a master starts a transfer using I2C_M_CMD.M_START (no bus collisions).
 
@@ -3222,31 +3187,31 @@ For multi-master systems, BUS_BUSY can be used to detect an idle bus before a ma
             </field>
             <field>
               <name>I2C_EC_BUSY</name>
-              <description>Indicates whether the externally clocked logic is potentially accessing the EZ memory and/or updating BASE_EZ_ADDR or CURR_EZ_ADDR (this is only possible in EZ mode). This bit can be used by SW to determine whether BASE_EZ_ADDR and CURR_EZ_ADDR are reliable.</description>
+              <description>N/A</description>
               <bitRange>[1:1]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>S_READ</name>
-              <description>I2C slave read transfer ('1') or I2C slave write transfer ('0'). When the I2C slave is inactive/idle or receiving START, REPEATED START, STOP or an address, this field is '0''.</description>
+              <description>N/A</description>
               <bitRange>[4:4]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>M_READ</name>
-              <description>I2C master read transfer ('1') or I2C master write transfer ('0'). When the I2C master is inactive/idle or transmitting START, REPEATED START, STOP or an address, this field is '0''.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>CURR_EZ_ADDR</name>
-              <description>I2C slave current EZ address. Current address pointer. This field is only reliable in internally clocked mode. In externally clocked mode the field may be unreliable (during an ongoing transfer when I2C_EC_BUSY is '1'), as clock domain synchronization is not performed in the design.</description>
+              <description>N/A</description>
               <bitRange>[15:8]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>BASE_EZ_ADDR</name>
-              <description>I2C slave base EZ address. Address as provided by an I2C write transfer. This field is only reliable in internally clocked mode. In externally clocked mode the field may be unreliable, as clock domain synchronization is not performed in the design.</description>
+              <description>N/A</description>
               <bitRange>[23:16]</bitRange>
               <access>read-only</access>
             </field>
@@ -3328,13 +3293,13 @@ For multi-master systems, BUS_BUSY can be used to detect an idle bus before a ma
           <fields>
             <field>
               <name>SDA_IN_FILT_TRIM</name>
-              <description>Trim bits for 'i2c_sda_in' 50 ns filter. See s8i2cs BROS (001-59539) for more details on the trim bit values.</description>
+              <description>Trim settings for the 50ns glitch filter on the SDA input. Default setting meets the I2C glitch rejections specs. Programmability available if required</description>
               <bitRange>[1:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SDA_IN_FILT_SEL</name>
-              <description>Selection of 'i2c_sda_in' filter delay:
+              <description>Enable for 50ns glitch filter on SDA input
 '0': 0 ns.
 '1: 50 ns (filter enabled).</description>
               <bitRange>[4:4]</bitRange>
@@ -3342,13 +3307,13 @@ For multi-master systems, BUS_BUSY can be used to detect an idle bus before a ma
             </field>
             <field>
               <name>SCL_IN_FILT_TRIM</name>
-              <description>Trim bits for 'i2c_scl_in' 50 ns filter. See s8i2cs BROS (001-59539) for more details on the trim bit values. With s8iom0s8v1p2 I/Os, trim bits should be programmed to 3 to suppress glitches below 50ns.</description>
+              <description>Trim settings for the 50ns glitch filter on the SCL input. Default setting meets the I2C glitch rejections specs. Programmability available if required</description>
               <bitRange>[9:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SCL_IN_FILT_SEL</name>
-              <description>Selection of 'i2c_scl_in' filter delay:
+              <description>Enable for 50ns glitch filter on SCL input
 '0': 0 ns.
 '1: 50 ns (filter enabled).</description>
               <bitRange>[12:12]</bitRange>
@@ -3356,25 +3321,25 @@ For multi-master systems, BUS_BUSY can be used to detect an idle bus before a ma
             </field>
             <field>
               <name>SDA_OUT_FILT0_TRIM</name>
-              <description>Trim bits for 'i2c_sda_out' 50 ns filter 0. See s8i2cs BROS (001-59539) for more details on the trim bit values.</description>
+              <description>Trim settings for the 50ns delay filter on SDA output used to guarantee tHD_DAT I2C parameter. Default setting meets the I2C spec. Programmability available if required</description>
               <bitRange>[17:16]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SDA_OUT_FILT1_TRIM</name>
-              <description>Trim bits for 'i2c_sda_out' 50 ns filter 1. See s8i2cs BROS (001-59539) for more details on the trim bit values.</description>
+              <description>Trim settings for the 50ns delay filter on SDA output used to guarantee tHD_DAT I2C parameter. Default setting meets the I2C spec. Programmability available if required</description>
               <bitRange>[19:18]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SDA_OUT_FILT2_TRIM</name>
-              <description>Trim bits for 'i2c_sda_out' 50 ns filter 2. See s8i2cs BROS (001-59539) for more details on the trim bit values.</description>
+              <description>Trim settings for the 50ns delay filter on SDA output used to guarantee tHD_DAT I2C parameter. Default setting meets the I2C spec. Programmability available if required</description>
               <bitRange>[21:20]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SDA_OUT_FILT_SEL</name>
-              <description>Selection of cumulative 'i2c_sda_out' filter delay:
+              <description>Selection of cumulative filter delay on SDA output to meet tHD_DAT parameter
 '0': 0 ns.
 '1': 50 ns (filter 0 enabled).
 '2': 100 ns (filters 0 and 1 enabled).
@@ -3594,17 +3559,13 @@ A write to a full TX FIFO sets INTR_TX.OVERFLOW to '1'.</description>
           <fields>
             <field>
               <name>ADDR</name>
-              <description>Slave device address.
-
-In UART multi-processor mode, all 8 bits are used.
-
-In I2C slave mode, only bits 7 down to 1 are used. This reflects the organization of the first transmitted byte in a I2C transfer: the first 7 bits represent the address of the addressed slave, and the last 1 bit is a read/write indicator ('0': write, '1': read).</description>
+              <description>N/A</description>
               <bitRange>[7:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>MASK</name>
-              <description>Slave device address mask. This field is a mask that specifies which of the ADDR field bits in the ADDR field take part in the matching of the slave address: MATCH = ((ADDR &amp; MASK) == ('slave address' &amp; MASK)).</description>
+              <description>Slave device address mask. This field is a mask that specifies which of the slave address bits take part in the matching. MATCH = ((ADDR &amp; MASK) == ('slave address' &amp; MASK)).</description>
               <bitRange>[23:16]</bitRange>
               <access>read-write</access>
             </field>
@@ -3623,9 +3584,9 @@ In I2C slave mode, only bits 7 down to 1 are used. This reflects the organizatio
               <name>DATA</name>
               <description>Data read from the receiver FIFO. Reading a data frame will remove the data frame from the FIFO; i.e. behavior is similar to that of a POP operation. Note that when CTRL.BYTE_MODE is '1', only DATA[7:0] are used.
 
-This register has a side effect when read by software: a data frame is removed from the FIFO. This may be undesirable during debug; i.e. a read during debug should NOT have a side effect. To this end, the IP uses the AHB-Lite 'hmaster[0]' input signal. When this signal is '1' in the address cycle of a bus transfer, a read transfer will not have a side effect. As a result, a read from this register will not remove a data frame from the FIFO. As a result, a read from this register behaves as a read from the SCB_RX_FIFO_RD_SILENT register.
+A read from an empty RX FIFO sets INTR_RX.UNDERFLOW to '1'.
 
-A read from an empty RX FIFO sets INTR_RX.UNDERFLOW to '1'.</description>
+When this register is read through the debugger, the data frame will not be removed from the FIFO. Similar in operation to RX_FIFO_RD_SILENT</description>
               <bitRange>[15:0]</bitRange>
               <access>read-only</access>
             </field>
@@ -3710,7 +3671,7 @@ A read from an empty RX FIFO sets INTR_RX.UNDERFLOW to '1'.</description>
               <name>WAKE_UP</name>
               <description>Wake up request. Active on incoming slave request (with address match).
 
-Only used when EC_AM is '1'.</description>
+Only used when CTRL.EC_AM_MODE is '1'.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -3718,7 +3679,7 @@ Only used when EC_AM is '1'.</description>
               <name>EZ_STOP</name>
               <description>STOP detection. Activated on the end of a every transfer (I2C STOP).
 
-Only available for a slave request with an address match, in EZ and CMD_RESP modes, when EC_OP is '1'.</description>
+Only available for a slave request with an address match, in EZ and CMD_RESP modes, when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
@@ -3726,7 +3687,7 @@ Only available for a slave request with an address match, in EZ and CMD_RESP mod
               <name>EZ_WRITE_STOP</name>
               <description>STOP detection after a write transfer occurred. Activated on the end of a write transfer (I2C STOP). This event is an indication that a buffer memory location has been written to. For EZ mode: a  transfer that only writes the base address does NOT activate this event. 
 
-Only available for a slave request with an address match, in EZ and CMD_RESP modes, when EC_OP is '1'.</description>
+Only available for a slave request with an address match, in EZ and CMD_RESP modes, when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
@@ -3734,7 +3695,7 @@ Only available for a slave request with an address match, in EZ and CMD_RESP mod
               <name>EZ_READ_STOP</name>
               <description>STOP detection after a read transfer occurred. Activated on the end of a read transfer (I2C STOP). This event is an indication that a buffer memory location has been read from.
 
-Only available for a slave request with an address match, in EZ and CMD_RESP modes, when EC_OP is '1'.</description>
+Only available for a slave request with an address match, in EZ and CMD_RESP modes, when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[3:3]</bitRange>
               <access>read-write</access>
             </field>
@@ -3823,7 +3784,7 @@ Only available for a slave request with an address match, in EZ and CMD_RESP mod
               <name>WAKE_UP</name>
               <description>Wake up request. Active on incoming slave request when externally clocked selection is '1'.
 
-Only used when EC_AM is '1'.</description>
+Only used when CTRL.EC_AM_MODE is '1'.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -3831,7 +3792,7 @@ Only used when EC_AM is '1'.</description>
               <name>EZ_STOP</name>
               <description>STOP detection. Activated on the end of a every transfer (SPI deselection).
 
-Only available in EZ and CMD_RESP mode and when EC_OP is '1'.</description>
+Only available in EZ and CMD_RESP mode and when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
@@ -3839,7 +3800,7 @@ Only available in EZ and CMD_RESP mode and when EC_OP is '1'.</description>
               <name>EZ_WRITE_STOP</name>
               <description>STOP detection after a write transfer occurred. Activated on the end of a write transfer (SPI deselection). This event is an indication that a buffer memory location has been written to. For EZ mode: a  transfer that only writes the base address does NOT activate this event. 
 
-Only used in EZ and CMD_RESP modes and when EC_OP is '1'.</description>
+Only used in EZ and CMD_RESP modes and when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
@@ -3847,7 +3808,7 @@ Only used in EZ and CMD_RESP modes and when EC_OP is '1'.</description>
               <name>EZ_READ_STOP</name>
               <description>STOP detection after a read transfer occurred. Activated on the end of a read transfer (SPI deselection). This event is an indication that a buffer memory location has been read from.
 
-Only used in EZ and CMD_RESP modes and when EC_OP is '1'.</description>
+Only used in EZ and CMD_RESP modes and when CTRL.EC_OP_MODE is '1'.</description>
               <bitRange>[3:3]</bitRange>
               <access>read-write</access>
             </field>
@@ -4122,37 +4083,31 @@ Only used in EZ and CMD_RESP modes and when EC_OP is '1'.</description>
           <fields>
             <field>
               <name>I2C_ARB_LOST</name>
-              <description>I2C slave lost arbitration: the value driven on the SDA line is not the same as the value observed on the SDA line (while the SCL line is '1'). This should not occur, it represents erroneous I2C bus behavior. In case of lost arbitration, the I2C slave state machine abort the ongoing transfer. The Firmware may decide to clear the TX and RX FIFOs in case of this error.</description>
+              <description>I2C slave lost arbitration: the value driven on the SDA line is not the same as the value observed on the SDA line (while the SCL line is '1'). This should not occur, it represents erroneous I2C bus behavior. In case of lost arbitration, the I2C slave state machine aborts the ongoing transfer. The Firmware may decide to clear the TX and RX FIFOs in case of this error.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_NACK</name>
-              <description>I2C slave negative acknowledgement received. Set to '1', when the slave receives a NACK (typically after the slave transmitted TX data).</description>
+              <description>N/A</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_ACK</name>
-              <description>I2C slave acknowledgement received. Set to '1', when the slave receives a ACK (typically after the slave transmitted TX data).</description>
+              <description>N/A</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_WRITE_STOP</name>
-              <description>I2C STOP event for I2C write transfer intended for this slave (address matching is performed). Set to '1', when STOP or REPEATED START event is detected. The REPEATED START event is included in this interrupt cause such that the I2C transfers separated by a REPEATED START can be distinguished and potentially treated separately by the Firmware. Note that the second I2C transfer (after a REPEATED START) may be to a different slave address.
-
-In non EZ mode, the event is detected on any I2C write transfer intended for this slave. Note that a I2C write address intended for the slave (address is matching and a it is a write transfer) will result in a I2C_WRITE_STOP event independent of whether the I2C address is ACK'd or NACK'd.
-
-In EZ mode, the event is detected only on I2C write transfers that have EZ data written to the memory structure (an I2C write transfer that only communicates an I2C address and EZ address, will not result in this event being detected).</description>
+              <description>N/A</description>
               <bitRange>[3:3]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_STOP</name>
-              <description>I2C STOP event for I2C (read or write) transfer intended for this slave (address matching is performed). Set to '1', when STOP or REPEATED START event is detected. The REPEATED START event is included in this interrupt cause such that the I2C transfers separated by a REPEATED START can be distinguished and potentially treated separately by the Firmware. Note that the second I2C transfer (after a REPEATED START) may be to a different slave address.
-
-The event is detected on any I2C transfer intended for this slave. Note that a I2C address intended for the slave (address is matching) will result in a I2C_STOP event independent of whether the I2C address is ACK'd or NACK'd.</description>
+              <description>N/A</description>
               <bitRange>[4:4]</bitRange>
               <access>read-write</access>
             </field>
@@ -4160,43 +4115,43 @@ The event is detected on any I2C transfer intended for this slave. Note that a I
               <name>I2C_START</name>
               <description>I2C slave START received. Set to '1', when START or REPEATED START event is detected.
 
-In the case of externally clocked address matching (CTRL.EC_AM_MODE is '1') AND clock stretching is performed (till the internally clocked logic takes over) (I2C_CTRL.S_NOT_READY_ADDR_NACK is '0'), this field is NOT set. The Firmware should use INTR_S_EC.WAKE_UP, INTR_S.I2C_ADDR_MATCH and INTR_S.I2C_GENERAL.</description>
+In the case of externally clocked address matching (CTRL.EC_AM_MODE is '1') AND clock stretching is performed (I2C_CTRL.S_NOT_READY_ADDR_NACK is '0'), this field is NOT set. The Firmware should use INTR_S_EC.WAKE_UP, INTR_S.I2C_ADDR_MATCH and INTR_S.I2C_GENERAL.</description>
               <bitRange>[5:5]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_ADDR_MATCH</name>
-              <description>I2C slave matching address received. If CTRL.ADDR_ACCEPT, the received address (including the R/W bit) is available in the RX FIFO. In the case of externally clocked address matching (CTRL.EC_AM_MODE is '1') and internally clocked operation (CTRL.EC_OP_MODE is '0'), this field is set when the event is detected.</description>
+              <description>N/A</description>
               <bitRange>[6:6]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_GENERAL</name>
-              <description>I2C slave general call address received.  If CTRL.ADDR_ACCEPT, the received address 0x00 (including the R/W bit) is available in the RX FIFO.   In the case of externally clocked address matching (CTRL.EC_AM_MODE is '1') and internally clocked operation (CTRL.EC_OP_MODE is '0'), this field is set when the event is detected.</description>
+              <description>N/A</description>
               <bitRange>[7:7]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>I2C_BUS_ERROR</name>
-              <description>I2C slave bus error (unexpected detection of START or STOP condition). This should not occur, it represents erroneous I2C bus behavior. In case of a bus error, the I2C slave state machine abort the ongoing transfer. The Firmware may decide to clear the TX and RX FIFOs in case of this error.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SPI_EZ_WRITE_STOP</name>
-              <description>SPI slave deselected after a write EZ SPI transfer occurred.</description>
+              <description>N/A</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SPI_EZ_STOP</name>
-              <description>SPI slave deselected after any EZ SPI transfer occurred.</description>
+              <description>N/A</description>
               <bitRange>[10:10]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>SPI_BUS_ERROR</name>
-              <description>SPI slave deselected at an unexpected time in the SPI transfer. The Firmware may decide to clear the TX and RX FIFOs in case of this error.</description>
+              <description>N/A</description>
               <bitRange>[11:11]</bitRange>
               <access>read-write</access>
             </field>
@@ -4462,41 +4417,31 @@ In the case of externally clocked address matching (CTRL.EC_AM_MODE is '1') AND 
           <fields>
             <field>
               <name>TRIGGER</name>
-              <description>Less entries in the TX FIFO than the value specified by TX_FIFO_CTRL. 
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>NOT_FULL</name>
-              <description>TX FIFO is not full. Dependent on CTRL.BYTE_MODE: (FF_DATA_NR = EZ_DATA_NR/2)
-BYTE_MODE is '0': # entries != FF_DATA_NR/2.
-BYTE_MODE is '1': # entries != FF_DATA_NR.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>EMPTY</name>
-              <description>TX FIFO is empty; i.e. it has 0 entries.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[4:4]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>OVERFLOW</name>
-              <description>Attempt to write to a full TX FIFO.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>UNDERFLOW</name>
-              <description>Attempt to read from an empty TX FIFO. This happens when the IP is ready to transfer data and EMPTY is '1'.
+              <description>Attempt to read from an empty TX FIFO. This happens when SCB is ready to transfer data and EMPTY is '1'.
 
 Only used in FIFO mode.</description>
               <bitRange>[6:6]</bitRange>
@@ -4504,25 +4449,25 @@ Only used in FIFO mode.</description>
             </field>
             <field>
               <name>BLOCKED</name>
-              <description>AHB-Lite write transfer can not get access to the EZ memory (EZ data access), due to an externally clocked EZ access. This may happen when STATUS.EC_BUSY is '1'.</description>
+              <description>SW cannot get access to the EZ memory (EZ data access), due to an externally clocked EZ access. This may happen when STATUS.EC_BUSY is '1'.</description>
               <bitRange>[7:7]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>UART_NACK</name>
-              <description>UART transmitter received a negative acknowledgement in SmartCard mode. Set to '1', when event is detected. Write with '1' to clear bit.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>UART_DONE</name>
-              <description>UART transmitter done event. This happens when the IP is done transferring all data in the TX FIFO; i.e. EMPTY is '1'. Set to '1', when event is detected. Write with '1' to clear bit.</description>
+              <description>N/A</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>UART_ARB_LOST</name>
-              <description>UART lost arbitration: the value driven on the TX line is not the same as the value observed on the RX line. This condition event is useful when transmitter and receiver share a TX/RX line. This is the case in LIN or SmartCard modes. Set to '1', when event is detected. Write with '1' to clear bit.</description>
+              <description>N/A</description>
               <bitRange>[10:10]</bitRange>
               <access>read-write</access>
             </field>
@@ -4734,77 +4679,61 @@ Only used in FIFO mode.</description>
           <fields>
             <field>
               <name>TRIGGER</name>
-              <description>More entries in the RX FIFO than the value specified by TRIGGER_LEVEL in SCB_RX_FIFO_CTL.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>NOT_EMPTY</name>
-              <description>RX FIFO is not empty.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FULL</name>
-              <description>RX FIFO is full. Note that received data frames are lost when the RX FIFO is full. Dependent on CTRL.BYTE_MODE: (FF_DATA_NR = EZ_DATA_NR/2)
-BYTE_MODE is '0': # entries == FF_DATA_NR/2.
-BYTE_MODE is '1': # entries == FF_DATA_NR.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[3:3]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>OVERFLOW</name>
-              <description>Attempt to write to a full RX FIFO. Note: in I2C mode, the OVERFLOW is set when a data frame is received and the RX FIFO is full, independent of whether it is ACK'd or NACK'd.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[5:5]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>UNDERFLOW</name>
-              <description>Attempt to read from an empty RX FIFO.
-
-Only used in FIFO mode.</description>
+              <description>N/A</description>
               <bitRange>[6:6]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>BLOCKED</name>
-              <description>AHB-Lite read transfer can not get access to the EZ memory (EZ_DATA accesses), due to an externally clocked EZ access. This may happen when STATUS.EC_BUSY is '1'.</description>
+              <description>SW cannot get access to the EZ memory (EZ_DATA accesses), due to an externally clocked EZ access. This may happen when STATUS.EC_BUSY is '1'.</description>
               <bitRange>[7:7]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FRAME_ERROR</name>
-              <description>Frame error in received data frame. Set to '1', when event is detected. Write with '1' to clear bit. This can be either a start or stop bit(s) error:
-Start bit error: after the detection of the beginning of a start bit period (RX line changes from '1' to '0'), the middle of the start bit period is sampled erroneously (RX line is '1').  Note: a start bit error is detected BEFORE a data frame is received.
-Stop bit error: the RX line is sampled as '0', but a '1' was expected. Note: a stop bit error may result in failure to receive successive data frame(s). Note: a stop bit error is detected AFTER a data frame is received.
-
-A stop bit error is detected after a data frame is received, and the UART_RX_CTL.DROP_ON_FRAME_ERROR field specifies whether the received frame is dropped or send to the RX FIFO. If UART_RX_CTL.DROP_ON_FRAME_ERROR is '1', the received data frame is dropped. If UART_RX_CTL.DROP_ON_FRAME_ERROR is '0', the received data frame is send to the RX FIFO. Note that Firmware can only identify the erroneous data frame in the RX FIFO if it is fast enough to read the data frame before the hardware writes a next data frame into the RX FIFO; i.e. the RX FIFO does not have error flags to tag erroneous data frames.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>PARITY_ERROR</name>
-              <description>Parity error in received data frame. Set to '1', when event is detected. Write with '1' to clear bit. If UART_RX_CTL.DROP_ON_PARITY_ERROR is '1', the received frame is dropped. If UART_RX_CTL.DROP_ON_PARITY_ERROR is '0', the received frame is send to the RX FIFO. In SmartCard submode, negatively acknowledged data frames generate a parity error. Note that Firmware can only identify the erroneous data frame in the RX FIFO if it is fast enough to read the data frame before the hardware writes a next data frame into the RX FIFO.</description>
+              <description>N/A</description>
               <bitRange>[9:9]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>BAUD_DETECT</name>
-              <description>LIN baudrate detection is completed.  The receiver software uses the UART_RX_STATUS.BR_COUNTER value to set the right IP clock (from the programmable clock IP) to guarantee successful receipt of the first LIN data frame (Protected Identifier Field) after the synchronization byte. Set to '1', when event is detected. Write with '1' to clear bit.</description>
+              <description>N/A</description>
               <bitRange>[10:10]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>BREAK_DETECT</name>
-              <description>Break detection is successful: the line is '0' for UART_RX_CTRL.BREAK_WIDTH + 1 bit period. Can occur at any time to address unanticipated break fields; i.e. 'break-in-data' is supported. This feature is supported for the UART standard and LIN submodes. For the UART standard submodes, ongoing receipt of data frames is NOT affected; i.e. Firmware is expected to take the proper action. For the LIN submode, possible ongoing receipt of a data frame is stopped and the (partially) received data frame is dropped and baud rate detection is started. Set to '1', when event is detected. Write with '1' to clear bit.</description>
+              <description>N/A</description>
               <bitRange>[11:11]</bitRange>
               <access>read-write</access>
             </field>
@@ -5816,24 +5745,21 @@ otherwise: undefined.</description>
                   <name>AES_FORWARD</name>
                   <description>SRC_CTL0.OFFSET specifies the offset of the key (as used in the first  cipher round) in the memory buffer.
 SRC_CTL1.OFFSET specifies the offset of the plaintext in the memory buffer.
-DST_CTL0.OFFSET specifies the offset of the key (as used by the last  cipher round) in the memory buffer.
-DST_CTL1.OFFSET specifies the offset of the cipher in the memory buffer.</description>
+DST_CTL0.OFFSET specifies the offset of the key (as used by the last  cipher round) in the memory buffer....</description>
                   <value>0</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>AES_INVERSE</name>
                   <description>SRC_CTL0.OFFSET specifies the offset of the round key (as used in the first inverse cipher round) in the memory buffer.
 SRC_CTL1.OFFSET specifies the offset of the ciphertext in the memory buffer.
-DST_CTL0.OFFSET specifies the offset of the key (as used by the last inverse cipher round) in the memory buffer.
-DST_CTL1.OFFSET specifies the offset of the plaintext in the memory buffer.</description>
+DST_CTL0.OFFSET specifies the offset of the key (as used by the last inverse cipher round) in the memory buffer....</description>
                   <value>1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>SHA</name>
                   <description>SRC_CTL0.OFFSET specifies the offset of the message in the memory buffer.
 SRC_CTL1.OFFSET specifies the offset of the input hash in the memory buffer.
-DST_CTL0.OFFSET specifies the offset of a temporary buffer (to hold message schedule round constants) in the memory buffer.
-DST_CTL1.OFFSET specifies the offset of the output hash in the memory buffer.</description>
+DST_CTL0.OFFSET specifies the offset of a temporary buffer (to hold message schedule round constants) in the memory buffer....</description>
                   <value>16</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -7229,8 +7155,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -7621,8 +7546,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -7801,8 +7725,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -8045,8 +7968,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -8249,8 +8171,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -8453,8 +8374,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -8657,8 +8577,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -8861,8 +8780,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -9065,8 +8983,7 @@ OUT:  NAK</description>
                   <name>ACK_OUT</name>
                   <description>SETUP: Ignore
 IN: Ignore
-OUT:  Accept data and ACK if STALL=0, STALL otherwise.  
-Change to MODE=8 after one succesfull OUT token.</description>
+OUT:  Accept data and ACK if STALL=0, STALL otherwise.  ...</description>
                   <value>9</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -13653,7 +13570,7 @@ When changing the source of a specific interrupt, it is advised to temporarily d
 '0': 0 wait states. Use this setting for newer, faster ROM design. Use this setting for older, slower ROM design and frequencies in the range [0, 24] MHz.
 '1': 1 wait state. Use this setting for older, slower ROM design and frequencies in the range &lt;24, 48] MHz.
 
-CPUSSv2 supports two types of ROM memory: an older, slower design (operating at up to 24 MHz) and a newer, faster design (operating at up to 48 MHz). The older design requires 1 wait state for frequencies above 24 MHz. The newer design never requires wait states. All chips after Street Fighter will use the newer design. As a result, all chips after Street Fighter can always use 0 wait states.</description>
+Should always be set to 0.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>

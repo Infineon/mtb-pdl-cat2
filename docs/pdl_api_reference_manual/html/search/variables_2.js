@@ -46,6 +46,7 @@ var searchData=
   ['cfg_5ftable',['cfg_table',['../structcy__stc__usbpd__context__t.html#a542b49e04408a69578097a8b427ee901',1,'cy_stc_usbpd_context_t']]],
   ['chanen',['chanEn',['../structcy__stc__sar__config__t.html#a860414bfd6efe5a299f0d6076da4ffc3',1,'cy_stc_sar_config_t']]],
   ['channelconfig',['channelConfig',['../structcy__stc__sar__config__t.html#ab62eaff49cde9d423d24d10d0b10b948',1,'cy_stc_sar_config_t']]],
+  ['chidx',['chidx',['../structcy__stc__lin__test__config__t.html#ab6e5507b387745c46a31013624fcb331',1,'cy_stc_lin_test_config_t::chidx()'],['../structcy__stc__lin__test__error__config__t.html#a695b15c3a1cbe0fa2e824c8403c2c1cd',1,'cy_stc_lin_test_error_config_t::chidx()']]],
   ['chipsyncen',['chipSyncEn',['../structcy__stc__smartio__config__t.html#a2c76c4ec1793ed007576f483769c827a',1,'cy_stc_smartio_config_t']]],
   ['chunked',['chunked',['../structcy__pd__pd__hdr__t_1_1_p_d___h_d_r.html#a61302cc79619c9bf3df181f2e59d1510',1,'cy_pd_pd_hdr_t::PD_HDR']]],
   ['chunknum',['chunkNum',['../structcy__pd__pd__hdr__t_1_1_p_d___h_d_r.html#a1158c53490cf565612012d6b37e33e6d',1,'cy_pd_pd_hdr_t::PD_HDR']]],

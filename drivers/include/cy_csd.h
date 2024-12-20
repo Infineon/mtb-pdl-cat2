@@ -34,7 +34,7 @@
 ********************************************************************************
 * \{
 *
-* The CSD HW block enables multiple sensing capabilities on PSoC&trade; devices,
+* The CSD HW block enables multiple sensing capabilities on PSOC&trade; devices,
 * including self-cap and mutual-cap capacitive touch sensing solutions,
 * a 10-bit ADC, IDAC, and Comparator.
 *
@@ -296,13 +296,13 @@
 * * Infineon Kits:
 *
 *   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-145-40xx/">
-*     <b>CY8CKIT-145-40XX PSoC&trade; 4000S CAPSENSE&trade; Prototyping Kit</b></a>
+*     <b>CY8CKIT-145-40XX PSOC&trade; 4000S CAPSENSE&trade; Prototyping Kit</b></a>
 *
 *   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-149/">
-*     <b>CY8CKIT-149 PSoC&trade; 4100S Plus Prototyping Kit</b></a>
+*     <b>CY8CKIT-149 PSOC&trade; 4100S Plus Prototyping Kit</b></a>
 *
 *   * <a href="https://www.infineon.com/cms/en/product/evaluation-boards/cy8ckit-041-41xx/">
-*     <b>CY8CKIT-041-41XX PSoC&trade; 4100S CAPSENSE&trade; Pioneer Kit</b></a>
+*     <b>CY8CKIT-041-41XX PSOC&trade; 4100S CAPSENSE&trade; Pioneer Kit</b></a>
 *
 * * General Information:
 *
@@ -310,10 +310,10 @@
 *     <b>PDL API Reference</b></a>
 *
 *   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4000S_Family_PSoC_4_Architecture_Technical_Reference_Manual_(TRM)-AdditionalTechnicalInformation-v04_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f915c737eb7">
-*     <b>PSoC&trade; 4000S Family: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
+*     <b>PSOC&trade; 4000S Family: PSOC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
 *   * <a href="https://www.infineon.com/dgdl/Infineon-PSoC_4100S_and_PSoC_4100S_Plus_PSoC_4_Architecture_TRM-AdditionalTechnicalInformation-v12_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0f9433460188">
-*     <b>PSoC&trade; 4100S and PSoC&trade; 4100S Plus: PSoC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
+*     <b>PSOC&trade; 4100S and PSOC&trade; 4100S Plus: PSOC&trade; 4 Architecture Technical Reference Manual (TRM)</b></a>
 *
 *   * <a href="https://github.com/Infineon"><b>Infineon Technologies GitHub</b></a>
 *

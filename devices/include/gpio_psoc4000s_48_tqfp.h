@@ -2,7 +2,7 @@
 * \file gpio_psoc4000s_48_tqfp.h
 *
 * \brief
-* PSoC4000S device GPIO header for 48-TQFP package
+* PSOC4000S device GPIO header for 48-TQFP package
 *
 ********************************************************************************
 * \copyright

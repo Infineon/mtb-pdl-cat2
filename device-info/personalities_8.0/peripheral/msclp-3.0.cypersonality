@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--****************************************************************************
+* \file msclp.cypersonality
+* \version 2.0
+*
+* \brief
+* MSCLP personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8mscv3lp" name="MSCLP" version="3.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+
+  <Dependencies>
+    <IpBlock name="m0s8mscv3lp" />
+    <Resource name="msclp\.msclp" />
+  </Dependencies>
+
+  <ExposedMembers>
+    <ExposedMember key="suppressCodeGen" paramId="suppressAmuxCodeGen" />
+    <ExposedMember key="CapSenseEnable" paramId="CapSenseEnable" />
+    <ExposedMember key="operationMode" paramId="operationMode" />
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- makes hidden parameters visible for debug purposes -->
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    
+    <!-- MSCLP instance number -->
+    <ParamString id="InstNumber" name="InstNumber" group="Internal" default="`${getInstNumber(&quot;msclp&quot;)}`"
+                 visible="`${debug}`" editable="false" desc="MSCLP Instance name number." />
+
+    <!-- MSCLP instance name -->
+    <ParamString id="mscInstanceName" name="MSCLP Instance Name" group="Internal" default="`${INST_NAME}`"
+                 visible="`${debug}`" editable="true" desc="Instance name set by CapSense Configurator" />
+
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
+              default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__msclp.html"
+              linkText="Open MSCLP Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- ExposedMember -->
+    <ParamBool id="suppressAmuxCodeGen" name="Suppress Amuxbus Configuration Code Generation" group="Internal"
+               default="true" visible="false" editable="false"
+               desc="Prevents pins connected to this personality to generate configuration code" />
+
+    <!-- VDDA Voltage query -->
+    <!-- Not needed for MSCLP -->
+    <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="System"
+               default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="vddaMv" name="VDDA Voltage (mV)" group="System"
+                default="`${isPowerEnabled ? getExposedMember(&quot;srss[0].power[0]&quot;, &quot;vddaMv&quot;) : 3300}`"
+                min="0" max="5000" resolution="1" visible="`${debug}`" editable="false" desc="VDDA voltage in millivolts" />
+
+    <!-- Clock -->
+    <ParamString id="clkLfRsc" name="CLK_LF Resource" group="System" default="srss[0].clock[0].lfclk[0]"
+                 visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="clkLfOk" name="CLK_LF Valid" group="System" default="`${isBlockUsed(clkLfRsc)}`"
+               visible="`${debug}`" editable="false" desc="Checks whether CLK_LF is enabled" />
+
+    <!-- CapSense -->
+    <ParamBool id="CapSenseEnable" name="Enable CapSense" group="CapSense" default="true"
+               visible="false" editable="false" desc="Enables CapSense function of sensing hardware block" />
+
+    <!-- External Frame Start Signal Pin Assignment -->
+    <ParamBool id="extFrmStartEn" name="External Frame Start Sync Enable" group="System" default="false"
+               visible="`${debug}`" editable="true" desc="Enables external frame start synchronization" />
+
+    <ParamSignal port="ext_frm_start[0]" name="External Frame Start Signal" group="System" visible="`${extFrmStartEn}`"
+                 desc="Choose a signal for an external frame start" canBeEmpty="`${!extFrmStartEn}`" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="`${extFrmStartEn}`" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamString id="ExtFrmStartBlock" name="ExtFrmStartBlock" group="System"
+      default="`${extFrmStartEn ? getBlockFromSignal(&quot;ext_frm_start[0]&quot;) : &quot;&quot;}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamBool id="ExtFrmStartSigIsUsed" name="ExtFrmStartSigIsUsed" group="System"
+      default="`${extFrmStartEn &amp;&amp; isBlockUsed(ExtFrmStartBlock)}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="ExtFrmStartSigPortNum" name="ExtFrmStartSigPortNum" group="System"
+      default="`${ExtFrmStartSigIsUsed ? getInstFromLocation(getParamValue(&quot;ExtFrmStartBlock&quot;), &quot;port&quot;) : &quot;0&quot;}`"
+      min="0" max="15" resolution="1" visible="`${debug &amp;&amp; ExtFrmStartSigIsUsed}`" editable="false" desc="" />
+
+      <ParamRange id="ExtFrmStartSigPinNum" name="ExtFrmStartSigPinNum" group="System"
+      default="`${getInstFromLocation(getParamValue(&quot;ExtFrmStartBlock&quot;), &quot;pin&quot;)}`"
+      min="0" max="7" resolution="1" visible="`${debug &amp;&amp; ExtFrmStartSigIsUsed}`" editable="false" desc="" />
+
+    <!-- Sensor Assignment -->
+    <ParamString id="SensePadNr" name="SNS_PAD_NUMBER" group="CapSense"
+                 default="`${lookupExpression(&quot;SENSE_PAD_NR&quot;)}`"
+                 visible="`${debug}`" editable="false" desc="The maximum possible sensor number" />
+
+    <ParamRange id="SensorCount" name="Sensor count" group="CapSense"
+                default="0" min="0" max="`${SensePadNr}`" resolution="1"
+                visible="`${debug}`" editable="true" desc="Sensor count" />
+    <ParamRange id="CapacitorCount" name="Capacitor count" group="CapSense"
+                default="0" min="0" max="2" resolution="1"
+                visible="`${debug}`" editable="true" desc="Capacitor count" />
+    <ParamRange id="TotalCount" name="Total count" group="CapSense"
+                default="`${(SensorCount + CapacitorCount)}`" min="0" max="34" resolution="1"
+                visible="`${debug}`" editable="false" desc="Total Sensor and Capacitor count" />
+
+    <Repeat count="32">
+      <ParamString id="SensorName$idx" name="SensorName$idx" group="Internal" default=""
+                   visible="`${debug}`" editable="`${$idx &lt; SensorCount}`" desc="" />
+    </Repeat>
+    <Repeat count="2">
+      <ParamString id="CapacitorName$idx" name="CapacitorName$idx" group="Internal" default=""
+                   visible="`${debug}`" editable="`${$idx &lt; CapacitorCount}`" desc="" />
+    </Repeat>
+    <Repeat count="2">
+      <ParamString id="CapacitorNameInt$idx" name="CapacitorNameInt$idx" group="Internal" default="CY_`${mscInstanceName}`_`${CapacitorName$idx}`"
+                   visible="`${debug}`" editable="false" desc="" />
+    </Repeat>
+
+    <ParamMux id="sense" name="Sensors" group="Sensors" allowedIp="^(msclp|ioss)">
+        <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+            <Resource value="msclp\[`${InstNumber}`\]\.sense\[.*" type="FIXED_FUNCTION" />
+        </Constraint>
+        <Constraint type="DENY" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+            <Resource value="msclp\[`${InstNumber}`\]\.cmod\d+pad.*" type="FIXED_FUNCTION" />
+        </Constraint>
+      <Common port="amuxbus_a[0]" />
+      <Common port="amuxbus_b[0]" />
+      <Arm name="`${SensorName$idx}`"
+           desc=""
+           visible="`${$idx &lt; SensorCount}`"
+           canBeEmpty="`${!($idx &lt; SensorCount)}`"
+           group="CAPSENSE Sensors"
+           repeatCount="32"/>
+    </ParamMux>
+
+    <ParamMux id="cmod" name="CMOD" group="CMODS" allowedIp="^(msclp|ioss)">
+        <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+            <Resource value="msclp\[`${InstNumber}`\]\.cmod\d+pad.*" type="FIXED_FUNCTION" />
+        </Constraint>
+      <Common port="amuxbus_a[0]" />
+      <Common port="amuxbus_b[0]" />
+      <Arm name="`${CapacitorName$idx}`"
+           desc=""
+           visible="`${$idx &lt; CapacitorCount}`"
+           canBeEmpty="`${!($idx &lt; CapacitorCount)}`"
+           group="External Capacitors"
+           repeatCount="2"/>
+    </ParamMux>
+
+    <Repeat count="32">
+      <ParamString id="SensorSignal$idx" name="SensorSignal$idx" group="Sensors"
+      default="`${$idx &lt; SensorCount ? getBlockFromSignalValue(getMuxArmSignal(&quot;sense&quot;, $idx)) : &quot;&quot;}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamBool id="SensorIsUsed$idx" name="SensorIsUsed$idx" group="Sensors"
+      default="`${($idx &lt; SensorCount) &amp;&amp; isBlockUsed(SensorSignal$idx)}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="SensorPortNum$idx" name="SensorPortNum$idx" group="Sensors"
+      default="`${getInstFromLocation(getParamValue(&quot;SensorSignal$idx&quot;), &quot;port&quot;)}`"
+      min="0" max="15" resolution="1" visible="`${debug &amp;&amp; SensorIsUsed$idx}`" editable="false" desc="" />
+
+      <ParamRange id="SensorPinNum$idx" name="SensorPinNum$idx" group="Sensors"
+      default="`${getInstFromLocation(getParamValue(&quot;SensorSignal$idx&quot;), &quot;pin&quot;)}`"
+      min="0" max="7" resolution="1" visible="`${debug &amp;&amp; SensorIsUsed$idx}`" editable="false" desc="" />
+    </Repeat>
+
+    <Repeat count="2">
+      <ParamString id="CmodSignal$idx" name="CmodSignal$idx" group="External Capacitors"
+      default="`${getBlockFromSignalValue(getMuxArmSignal(&quot;cmod&quot;, $idx))}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamBool id="CmodIsUsed$idx" name="CmodIsUsed$idx" group="External Capacitors"
+      default="`${($idx &lt; CapacitorCount) &amp;&amp; isBlockUsed(CmodSignal$idx)}`"
+      visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="CmodPortNum$idx" name="CmodPortNum$idx" group="External Capacitors"
+      default="`${getInstFromLocation(getParamValue(&quot;CmodSignal$idx&quot;), &quot;port&quot;)}`"
+      min="0" max="15" resolution="1" visible="`${debug &amp;&amp; CmodIsUsed$idx}`" editable="false" desc="" />
+
+      <ParamRange id="CmodPinNum$idx" name="CmodPinNum$idx" group="External Capacitors"
+      default="`${getInstFromLocation(getParamValue(&quot;CmodSignal$idx&quot;), &quot;pin&quot;)}`"
+      min="0" max="7" resolution="1" visible="`${debug &amp;&amp; CmodIsUsed$idx}`" editable="false" desc="" />
+    </Repeat>
+
+  </Parameters>
+
+  <!-- Violations lead to build fail -->
+  <DRCs>
+    <DRC type="ERROR" text="The CLK_LF is not enabled" condition="`${!clkLfOk}`" >
+        <FixIt action="ENABLE_BLOCK" target="`${clkLfRsc}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <!-- Includes -->
+    <ConfigInclude value="cy_msclp.h" include="true" />
+
+    <!-- Defines -->
+    <!-- External Frame Start Signal Connection -->
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PORT"
+                  value="GPIO_PRT`${ExtFrmStartSigPortNum}`"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PIN"
+                  value="`${ExtFrmStartSigPinNum}`u"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+    <ConfigDefine name="CY_MSCLP0_EXT_FRM_START_PORT_NUM"
+                  value="`${ExtFrmStartSigPortNum}`u"
+                  public="true"
+                  include="`${ExtFrmStartSigIsUsed}`" />
+
+    <!-- Cmod Connections -->
+    <ConfigDefine name="`${CapacitorNameInt$idx}`_PORT"
+                  value="GPIO_PRT`${CmodPortNum$idx}`"
+                  public="true"
+                  include="`${CmodIsUsed$idx}`"
+                  repeatCount="2" />
+    <ConfigDefine name="`${CapacitorNameInt$idx}`_PIN"
+                  value="`${CmodPinNum$idx}`u"
+                  public="true"
+                  include="`${CmodIsUsed$idx}`"
+                  repeatCount="2" />
+    <ConfigDefine name="`${CapacitorNameInt$idx}`_PORT_NUM"
+                  value="`${CmodPortNum$idx}`u"
+                  public="true"
+                  include="`${CmodIsUsed$idx}`"
+                  repeatCount="2" />
+
+    <!-- Sensor Connections -->
+    <ConfigDefine name="`${SensorName$idx}`_PORT"
+                  value="GPIO_PRT`${SensorPortNum$idx}`"
+                  public="true"
+                  include="`${SensorIsUsed$idx}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${SensorName$idx}`_PIN"
+                  value="`${SensorPinNum$idx}`u"
+                  public="true"
+                  include="`${SensorIsUsed$idx}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${SensorName$idx}`_PAD"
+                  value="P`${SensorPortNum$idx . &quot;_&quot; . SensorPinNum$idx}`_MSCLP_MSC_GPIO_CTRL_SNS"
+                  public="true"
+                  include="`${SensorIsUsed$idx}`"
+                  repeatCount="32" />
+
+    <ConfigDefine name="CY_`${mscInstanceName}`_HW" value="MSCLP`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="MSCLP`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_IRQ" value="msclp_interrupt_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="msclp_interrupt_IRQn" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_LP_IRQ" value="msclp_interrupt_lp_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_LP_IRQ" value="msclp_interrupt_lp_IRQn" public="true" include="true" />
+    <ConfigStruct name="cy_msclp_`${InstNumber}`_context" type="cy_stc_msclp_context_t" const="false" public="true" include="true" >
+        <Member name="lockKey" value="CY_MSCLP_NONE_KEY" />
+    </ConfigStruct>
+  </ConfigFirmware>
+</Personality>

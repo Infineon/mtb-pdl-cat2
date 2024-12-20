@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file sar-diag-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* SAR diagnostic personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8sardiag" name="diagmux" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8pass4a_ver4" />
+    <Resource name="pass\.sarmux\.diagmux" />
+  </Dependencies>
+  <ExposedMembers/>
+  <Parameters>
+    <!-- Signals -->
+    <ParamSignal port="diag_vssa_gnd[0]" name="Diagnostic Mux VSSA" group="diagnostic" visible="true" desc="from vssa_k" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vplus\[0]" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="diag_srss_bgr[0]" name="Diagnostic Mux SRSS bandgap voltage" group="diagnostic" visible="true" desc="from srss.vref1p2" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vplus\[0]" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="diag_vbat_24v[0]" name="Diagnostic Mux VBAT/24 from HVDIV" group="diagnostic" visible="true" desc="from hvss.vs0_in_p" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vplus\[0]" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="diag_vcc_div[0]" name="Diagnostic Mux VCC/2" group="diagnostic" visible="true" desc="Divided supply, to be routed back to vs port as diagnostic input" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vplus\[0]" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="diag_vdd_div[0]" name="Diagnostic Mux VDD/6" group="diagnostic" visible="true" desc="Divided supply, to be routed back to vs port as diagnostic input" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vplus\[0]" valid="true" />
+    </ParamSignal>
+
+    <ParamSignal port="diag_vminus_vssa_gnd[0]" name="Diagnostic vssa ground input" group="diagnostic" visible="true" desc="" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vminus\[0]" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="diag_vminus_vssd_gnd[0]" name="Diagnostic vssd ground input" group="diagnostic" visible="true" desc="" canBeEmpty="true">
+      <Constraint type="ACCEPT" targetLocation="pass\[\d+\]\.sar\[\d+\]\.vminus\[0]" valid="true" />
+    </ParamSignal>
+  </Parameters>
+  <DRCs/>
+  <ConfigFirmware/>
+</Personality>

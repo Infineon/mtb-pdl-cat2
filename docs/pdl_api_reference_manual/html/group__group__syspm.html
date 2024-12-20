@@ -108,7 +108,7 @@ Modules</h2></td></tr>
 Configuration Considerations</h1>
 <h2><a class="anchor" id="group_syspm_power_modes"></a>
 Power Modes</h2>
-<p>PSoC 4 MCUs support three CPU power modes. These power modes are intended to minimize average power consumption in an application.</p>
+<p>PSOC 4 MCUs support three CPU power modes. These power modes are intended to minimize average power consumption in an application.</p>
 <p>The CPU <b>Active</b>, <b>Sleep</b> and <b>Deep Sleep</b> power modes are Arm-defined power modes supported by the Arm CPU instruction set architecture (ISA).</p>
 <h3><a class="anchor" id="group_syspm_switching_into_sleep"></a>
 Switching CPU into Sleep</h3>
@@ -215,6 +215,8 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td>3.10 </td><td>Add OVD and BOD support. <a class="el" href="group__group__syspm__function__monitoring.html">BOD/OVD monitoring</a>. </td><td>Applicable to PSOC4 HVMS/PA only.  </td></tr>
 <tr>
 <td rowspan="2">3.0 </td><td>Added <a class="el" href="group__group__syspm__functions__power.html#ga0dbfb8d55476773c9daf64186c561857">Cy_SysPm_CpuEnterSleepNoCallbacks()</a> and <a class="el" href="group__group__syspm__functions__power.html#ga16a9b6a228c1453d50b009c29ef9af83">Cy_SysPm_CpuEnterDeepSleepNoCallbacks()</a>. Alternative to <a class="el" href="group__group__syspm__functions__power.html#ga614227f50da974213b141e860f8a4527">Cy_SysPm_CpuEnterSleep()</a> and <a class="el" href="group__group__syspm__functions__power.html#gae24d1a7d457b5355858651a213c2f4cd">Cy_SysPm_CpuEnterDeepSleep()</a> but without execution of registered callbacks. The newly added functions can be used for minimization of flash memory consumption and/or speed-up of the Low-power mode entry/exit. The application is responsible for preparing a device for entering Low-power mode and restoring its state on a wakeup.  </td><td>Flash memory consumption optimization  </td></tr>
 <tr>

@@ -1,6 +1,7 @@
 var searchData=
 [
   ['can_20fd_20_20_20_20_20_20_20_28can_20with_20flexible_20data_2drate_29',['CAN FD       (CAN with Flexible Data-Rate)',['../group__group__canfd.html',1,'']]],
+  ['crwdt_20_20_20_20_20_20_20_20_28challenge_20response_20watchdog_20timer_29',['CRWDT        (Challenge Response Watchdog Timer)',['../group__group__crwdt.html',1,'']]],
   ['crypto_20_20_20_20_20_20_20_28cryptography_29',['Crypto       (Cryptography)',['../group__group__crypto.html',1,'']]],
   ['cyclic_20redundancy_20code_20_28crc_29',['Cyclic redundancy code (CRC)',['../group__group__crypto__lld__crc__functions.html',1,'']]],
   ['control_20and_20status',['Control and status',['../group__group__crypto__lld__hw__functions.html',1,'']]],
@@ -15,8 +16,10 @@ var searchData=
   ['control_20register_20enums',['Control Register Enums',['../group__group__sar__ctrl__register__enums.html',1,'']]],
   ['counts_20conversion_20functions',['Counts Conversion Functions',['../group__group__sar__functions__countsto.html',1,'']]],
   ['common',['Common',['../group__group__scb__common.html',1,'']]],
+  ['clock_20calibration',['Clock Calibration',['../group__group__sysclk__calclk.html',1,'']]],
   ['clock_20supervision_20block_20_28csv_29',['Clock Supervision Block (CSV)',['../group__group__sysclk__csv.html',1,'']]],
   ['callback_20timeout_20events',['Callback Timeout Events',['../group__group__sysclk__pm__events.html',1,'']]],
+  ['clock_20trim_20_28imo_2c_20pilo_29',['Clock Trim (IMO, PILO)',['../group__group__sysclk__trim.html',1,'']]],
   ['common',['Common',['../group__group__tcpwm__common.html',1,'']]],
   ['counter_20clk_20prescalers',['Counter CLK Prescalers',['../group__group__tcpwm__counter__clk__prescalers.html',1,'']]],
   ['counter_20compare_20capture',['Counter Compare Capture',['../group__group__tcpwm__counter__compare__capture.html',1,'']]],

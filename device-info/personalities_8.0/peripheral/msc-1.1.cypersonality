@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file msc.cypersonality
+* \version 1.1
+*
+* \brief
+* MSC personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8mscv3" name="MSC" version="1.1" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8mscv3" />
+    <Resource name="msc\.msc" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="suppressCodeGen" paramId="suppressAmuxCodeGen" />
+    <ExposedMember key="CapSenseEnable" paramId="CapSenseEnable" />
+    <ExposedMember key="pclkExp" paramId="pclkExp" />
+    <ExposedMember key="dmaTrigsAssigned" paramId="allDmaTriggersAssigned" />
+    <ExposedMember key="operationMode" paramId="operationMode" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- MSC instance number -->
+    <ParamString id="InstNumber" name="InstNumber" group="Internal" default="`${getInstNumber(&quot;msc&quot;)}`"
+                 visible="false" editable="false" desc="MSC Instance name number." />
+
+    <!-- MSC instance name -->
+    <ParamString id="mscInstanceName" name="MSC Instance Name" group="Internal" default="`${INST_NAME}`"
+                 visible="false" editable="true" desc="Instance name set by CapSense Configurator" />
+
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
+              default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__msc.html"
+              linkText="Open MSC Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- ExposedMember -->
+    <ParamBool id="suppressAmuxCodeGen" name="Suppress Amuxbus Configuration Code Generation" group="Internal"
+               default="true" visible="false" editable="false"
+               desc="Prevents pins connected to this personality to generate configuration code" />
+
+    <!-- Inputs -->
+    <ParamSignal port="clock_msc[0]" name="Clock Signal" group="Inputs" visible="true"
+                 desc="Peripheral clock divider. CAPSENSE middleware changes its value in run-time.
+                       Consider that while sharing the same Peripheral Clock between CAPSENSE and
+                       other peripherals like TCPWM, SCB, etc."
+                 canBeEmpty="false" />
+
+    <!-- VDDA Voltage query -->
+    <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="System"
+               default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="vddaMv" name="VDDA Voltage (mV)" group="System"
+                default="`${isPowerEnabled ? getExposedMember(&quot;srss[0].power[0]&quot;, &quot;vddaMv&quot;) : 3300}`"
+                min="0" max="5000" resolution="1" visible="false" editable="false" desc="VDDA voltage in millivolts" />
+
+    <!-- Peripheral / CPU clock query -->
+    <ParamString id="pclk" name="PCLK" group="System" default="`${getBlockFromSignal(&quot;clock_msc[0]&quot;)}`"
+                 visible="false" editable="false" desc="Connected peripheral clock divider (PCLK)" />
+    <ParamBool id="pclkOk" name="PCLK Valid" group="System"
+               default="`${hasConnection(&quot;clock_msc&quot;, 0) &amp;&amp; isBlockUsed(pclk)}`"
+               visible="false" editable="false" desc="Checks whether there is a PCLK connected and enabled" />
+    <ParamString id="pclkExp" name="PCLK_EXP" group="System"
+                 default="`${pclkOk ? getBlockFromSignal(&quot;clock_msc[0]&quot;) : &quot;Unassigned&quot;}`"
+                 visible="false" editable="false" desc="Exposed peripheral clock divider (PCLK)" />
+    <ParamString id="periClkRsc" name="CLK_PERI Resource" group="System" default="srss[0].clock[0].sysclk[0]"
+                 visible="false" editable="false" desc="" />
+    <ParamBool id="periClkOk" name="CLK_PERI Valid" group="System" default="`${isBlockUsed(periClkRsc)}`"
+               visible="false" editable="false" desc="Checks whether CLK_PERI is enabled" />
+    <ParamString id="pclkDst" name="PCLK Destination" group="System" default="PCLK_MSC`${InstNumber}`_CLOCK_MSC"
+                 visible="false" editable="false" desc="" />
+    <ParamString id="cpuClkRsc" name="HFCLK Resource" group="System" default="srss[0].clock[0].hfclk[0]"
+                 visible="false" editable="false" desc="" />
+    <ParamBool id="cpuClkOk" name="HFCLK Valid" group="System" default="`${isBlockUsed(cpuClkRsc)}`"
+               visible="false" editable="false" desc="Checks whether HFCLK is enabled" />
+
+    <!-- CapSense -->
+    <ParamBool id="CapSenseEnable" name="Enable CapSense" group="CapSense" default="true"
+               visible="false" editable="false" desc="Enables CapSense function of CSD hardware block" />
+
+    <ParamString id="operationMode" name="CapSense Operation Mode" group="CapSense" default="`${&quot;CPU&quot;}`"
+                 visible="false" editable="true" desc="Configures the CapSense operation mode" />
+
+    <ParamBool id="isDmaModeEnabled" name="CS DMA Mode selected" group="DMA selection"
+               default="`${(operationMode eq &quot;CS_DMA&quot;)}`"
+               visible="false" editable="false" desc="Indicates that CS-DMA mode is enabled" />
+
+    <!-- DMA signals -->
+    <ParamSignal port="tr_wr_req_in[0]" name="Write DMAC Channel Trigger Output" group="DMA connections"
+                 visible="`${CapSenseEnable}`"
+                 desc="Sensor configuration write request acknowledge."
+                 canBeEmpty="true" multiSelect="false"/>
+    <ParamSignal port="tr_wr_req_out[0]" name="Chain Write DMAC Channel Trigger Input" group="DMA connections"
+                 visible="`${CapSenseEnable}`"
+                 desc="Sensor configuration write request."
+                 canBeEmpty="true" multiSelect="false"/>
+    <ParamSignal port="tr_rd_req_in[0]" name="Read DMAC Channel Trigger Output" group="DMA connections"
+                 visible="`${CapSenseEnable}`"
+                 desc="Sensor scan result read request."
+                 canBeEmpty="true" multiSelect="false"/>
+    <ParamSignal port="tr_rd_req_out[0]" name="Chain Read DMAC Channel Trigger Input" group="DMA connections"
+                 visible="`${CapSenseEnable}`"
+                 desc="Sensor scan result read request acknowledge."
+                 canBeEmpty="true" multiSelect="false"/>
+
+    <ParamString id="wrDmaChBlockNum" name="Write DMA Channel block number" group="DMA selection"
+                 default="`${getBlockFromSignal(&quot;tr_wr_req_in[0]&quot;)}`"
+                 visible="false" editable="false" desc="Indicates the number of Write DMA channel block" />
+    <ParamString id="chainWrDmaChBlockNum" name="Chain Write DMA Channel block number" group="DMA selection"
+                 default="`${getBlockFromSignal(&quot;tr_wr_req_out[0]&quot;)}`"
+                 visible="false" editable="false" desc="Indicates the number of Chain Write DMA channel block" />
+    <ParamString id="rdDmaChBlockNum" name="Read DMA Channel block number" group="DMA selection"
+                 default="`${getBlockFromSignal(&quot;tr_rd_req_in[0]&quot;)}`"
+                 visible="false" editable="false" desc="Indicates the number of Read DMA channel block" />
+    <ParamString id="chainRdDmaChBlockNum" name="Chain Read DMA Channel block number" group="DMA selection"
+                 default="`${getBlockFromSignal(&quot;tr_rd_req_out[0]&quot;)}`"
+                 visible="false" editable="false" desc="Indicates the number of Chain Read DMA channel block" />
+
+    <ParamString id="chainWrDmaChTrOut" name="DMA Channel triggered by Chain Write channel" group="DMA selection"
+                 default="`${isBlockUsed(chainWrDmaChBlockNum) ? getExposedMember(chainWrDmaChBlockNum, &quot;dmac_tr_out&quot;) : &quot;Disabled&quot;}`" visible="false" editable="false" desc="DMA Channel triggered by Chain Write channel" />
+    <ParamString id="chainRdDmaChTrOut" name="DMA Channel triggered by Chain Read channel" group="DMA selection"
+                 default="`${isBlockUsed(chainRdDmaChBlockNum) ? getExposedMember(chainRdDmaChBlockNum, &quot;dmac_tr_out&quot;) : &quot;Disabled&quot;}`" visible="false" editable="false" desc="DMA Channel triggered by Chain Read channel" />
+
+    <ParamBool id="isWrDmaChAssigned" name="Write DMA Channel assigned" group="DMA selection"
+               default="`${(hasConnection(&quot;tr_wr_req_in&quot;, 0) &amp;&amp; isBlockUsed(wrDmaChBlockNum))}`"
+               visible="false" editable="false" desc="Indicates that the WR DMA channel is assigned" />
+    <ParamBool id="isChainWrDmaChAssigned" name="Chain Write DMA Channel assigned" group="DMA selection"
+               default="`${(hasConnection(&quot;tr_wr_req_out&quot;, 0) &amp;&amp; isBlockUsed(chainWrDmaChBlockNum))}`"
+               visible="false" editable="false" desc="Indicates that the Chain WR DMA channel is assigned" />
+    <ParamBool id="isRdDmaChAssigned" name="Read DMA Channel assigned" group="DMA selection"
+               default="`${(hasConnection(&quot;tr_rd_req_in&quot;, 0) &amp;&amp; isBlockUsed(rdDmaChBlockNum))}`"
+               visible="false" editable="false" desc="Indicates that the RD DMA channel is assigned" />
+    <ParamBool id="isChainRdDmaChAssigned" name="Chain Read DMA Channel assigned" group="DMA selection"
+               default="`${(hasConnection(&quot;tr_rd_req_out&quot;, 0) &amp;&amp; isBlockUsed(chainRdDmaChBlockNum))}`"
+               visible="false" editable="false" desc="Indicates that the Chain WR DMA channel is assigned" />
+    <ParamBool id="allDmaChannelsAssigned" name="All DMA channels are assigned" group="DMA selection"
+               default="`${(isWrDmaChAssigned &amp;&amp; isChainWrDmaChAssigned &amp;&amp; isRdDmaChAssigned &amp;&amp; isChainRdDmaChAssigned)}`"
+               visible="false" editable="false" desc="Indicates that all DMA channels are assigned" />
+    <ParamBool id="allDmaTriggersAssigned" name="All DMA trigger signals are assigned" group="DMA selection"
+               default="`${(allDmaChannelsAssigned &amp;&amp; wrDmaChBlockNum eq chainWrDmaChTrOut &amp;&amp; rdDmaChBlockNum eq chainRdDmaChTrOut)}`"
+               visible="false" editable="false" desc="Indicates that all DMA trigger signals are assigned" />
+
+    <ParamBool id="allDmaChAssignmentValid" name="All DMA Channels are assigned correctly" group="DMA selection"
+               default="`${(wrDmaChBlockNum ne chainWrDmaChBlockNum &amp;&amp; wrDmaChBlockNum ne rdDmaChBlockNum &amp;&amp; wrDmaChBlockNum ne chainRdDmaChBlockNum &amp;&amp; chainWrDmaChBlockNum ne rdDmaChBlockNum &amp;&amp; chainWrDmaChBlockNum ne chainRdDmaChBlockNum &amp;&amp; rdDmaChBlockNum ne chainRdDmaChBlockNum &amp;&amp; wrDmaChBlockNum ne &quot;&quot; &amp;&amp; chainWrDmaChBlockNum ne &quot;&quot; &amp;&amp; rdDmaChBlockNum ne &quot;&quot; &amp;&amp; chainRdDmaChBlockNum ne &quot;&quot;)}`"
+               visible="false" editable="false" desc="Indicates that Channels are assigned correctly" />
+
+    <!-- Sensor/Capacitor assign -->
+    <ParamBool id="isConnectionLegacy" name="Legacy Connection Enable" group="CapSense" default="true"
+               visible="false" editable="true" desc="Indicates that AMUXBUS is used to make connection between pins and CapSense HW" />
+
+    <ParamRange id="SensorCount" name="Sensor count" group="CapSense" default="0" min="0"
+                max="`${isConnectionLegacy ? 256 : lookupExpression(&quot;SENSE_PAD_NR&quot;)}`" resolution="1"
+                visible="false" editable="true" desc="Sensor count" />
+    <ParamRange id="CapacitorCount" name="Capacitor count" group="CapSense" default="0" min="0" max="4" resolution="1"
+                visible="false" editable="true" desc="Capacitor count" />
+
+    <ParamRange id="AmuxCapacitorCount" name="Amux Capacitor count" group="CapSense" default="`${isConnectionLegacy ? CapacitorCount : 0}`" min="0"
+                max="4" resolution="1" visible="false" editable="false" desc="Capacitor count to be connected to the AMUXBUS" />
+    <ParamRange id="AmuxSensorCount" name="Amux Sensor count" group="CapSense" default="`${isConnectionLegacy ? (SensorCount + AmuxCapacitorCount) : 0}`"
+                min="0" max="256" resolution="1" visible="false" editable="false" desc="Sensor count to be connected to the AMUXBUS" />
+
+    <ParamRange id="PadCapacitorCount" name="Pad Capacitor count" group="CapSense" default="`${!isConnectionLegacy ? CapacitorCount : 0}`" min="0"
+                max="4" resolution="1" visible="false" editable="false" desc="Capacitor count to be connected to the Dedicated Pad" />
+    <ParamRange id="PadSensorCount" name="Pad Sensor count" group="CapSense" default="`${!isConnectionLegacy ? SensorCount : 0}`" min="0" max="32" resolution="1"
+                visible="false" editable="false" desc="Sensor count to be connected to the Dedicated Pad" />
+
+    <Repeat count="260"><!-- ParamMux can connect 260 sensors in case if the number of external capacitors is 0. -->
+      <ParamString id="SensorName$idx" name="SensorName$idx" group="Internal" default=""
+                   visible="false" editable="`${$idx &lt; SensorCount}`" desc="" />
+    </Repeat>
+    <Repeat count="4">
+      <ParamString id="CapacitorName$idx" name="CapacitorName$idx" group="Internal" default=""
+                   visible="false" editable="`${$idx &lt; CapacitorCount}`" desc="" />
+    </Repeat>
+    <Repeat count="4">
+      <ParamString id="CapacitorNameInt$idx" name="CapacitorNameInt$idx" group="Internal" default="CY_`${mscInstanceName}`_`${CapacitorName$idx}`"
+                   visible="false" editable="false" desc="" />
+    </Repeat>
+    <!-- MUX for sensors/capacitors -->
+    <ParamMux id="sense" name="Sensors" group="Sensors" allowedIp="^(msc|ioss)">
+        <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+            <Resource value="msc\[`${InstNumber}`\]\.sense\[.*" type="FIXED_FUNCTION" />
+        </Constraint>
+        <Common port="amuxbus_a[0]" />
+        <Common port="amuxbus_b[0]" />
+        <Arm name="`${($idx &lt; AmuxCapacitorCount) ? CapacitorName$idx : getParamValue(&quot;SensorName&quot;.($idx - AmuxCapacitorCount))}`"
+        desc="`${&quot;Pin connection for sense[$idx] signal&quot;}`"
+        visible="`${(($idx &lt; AmuxSensorCount))}`"
+        canBeEmpty="`${!(($idx &lt; AmuxSensorCount))}`"
+        group="`${( ($idx &lt; AmuxCapacitorCount) ? &quot;External Capacitors&quot; : &quot;CapSense Sensors&quot; )}`"
+                repeatCount="260"/> <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
+    </ParamMux>
+    <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
+    <Repeat count="260">
+      <ParamString id="SensorSignal$idx" name="" group="Sensors"
+                   default="`${$idx &lt; AmuxSensorCount ? getBlockFromSignalValue(getMuxArmSignal(&quot;sense&quot;, $idx)) : &quot;&quot;}`"
+                   visible="false" editable="false" desc="" />
+    </Repeat>
+
+        <ParamSignal port="cmod1pad[0]" name="`${CapacitorName0}`" group="External Capacitors"
+                     visible="`${(PadCapacitorCount &gt; 0)}`"
+                     desc="`${&quot;Pin connection for cmod1pad[0] virtual pad&quot;}`"
+                     canBeEmpty="`${!(PadCapacitorCount &gt; 0)}`"
+                     requirePreferred="true" multiSelect="false">
+        </ParamSignal>
+
+        <ParamSignal port="cmod2pad[0]" name="`${CapacitorName1}`" group="External Capacitors"
+                     visible="`${(PadCapacitorCount &gt; 1)}`"
+                     desc="`${&quot;Pin connection for cmod2pad[0] virtual pad&quot;}`"
+                     canBeEmpty="`${!(PadCapacitorCount &gt; 1)}`"
+                     requirePreferred="true" multiSelect="false">
+        </ParamSignal>
+
+        <ParamSignal port="cmod3pad[0]" name="`${CapacitorName2}`" group="External Capacitors"
+                     visible="`${(PadCapacitorCount &gt; 2)}`"
+                     desc="`${&quot;Pin connection for cmod3pad[0] virtual pad&quot;}`"
+                     canBeEmpty="`${!(PadCapacitorCount &gt; 2)}`"
+                     requirePreferred="true" multiSelect="false">
+        </ParamSignal>
+
+        <ParamSignal port="cmod4pad[0]" name="`${CapacitorName3}`" group="External Capacitors"
+                     visible="`${(PadCapacitorCount &gt; 3)}`"
+                     desc="`${&quot;Pin connection for cmod3pad[0] virtual pad&quot;}`"
+                     canBeEmpty="`${!(PadCapacitorCount &gt; 3)}`"
+                     requirePreferred="true" multiSelect="false">
+        </ParamSignal>
+
+        <Repeat count="32">
+          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="CapSense Sensors"
+                       visible="`${($idx &lt; PadSensorCount)}`"
+                       desc="`${&quot;Pin connection for s_pad[$idx] virtual pad&quot;}`"
+                       canBeEmpty="`${!($idx &lt; PadSensorCount)}`"
+                       requirePreferred="true" multiSelect="false">
+                       <Constraint type="REQUIRE" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+                       </Constraint>
+          </ParamSignal>
+        </Repeat>
+
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="The SYS_CLK is not enabled" condition="`${!periClkOk}`" >
+        <FixIt action="ENABLE_BLOCK" target="`${periClkRsc}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="The HFCLK is not enabled" condition="`${!cpuClkOk}`" >
+        <FixIt action="ENABLE_BLOCK" target="`${cpuClkRsc}`" value="" valid="true" />
+    </DRC>
+    <DRC type="WARNING" text="All DMA trigger signals should be connected to the different DMA channels"
+        condition="`${(isDmaModeEnabled &amp;&amp; !allDmaChAssignmentValid)}`" >
+    </DRC>
+    <DRC type="WARNING"
+      text="CapSense's Scan Mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Write/Chain Write DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(wrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainWrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
+      condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(wrDmaChBlockNum eq chainWrDmaChTrOut)}`"
+         paramId="tr_in[0]"
+         location="`${wrDmaChBlockNum}`">
+      <FixIt action="SET_PARAM" target="`${wrDmaChBlockNum . &quot;.tr_in[0]&quot;}`" value="`${chainWrDmaChBlockNum . &quot;.tr_out[0]&quot;}`" valid="true"/>
+    </DRC>
+    <DRC type="WARNING"
+      text="CapSense's Scan Mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Read/Chain Read DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(rdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainRdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
+      condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(rdDmaChBlockNum eq chainRdDmaChTrOut)}`"
+         paramId="tr_in[0]"
+         location="`${rdDmaChBlockNum}`">
+      <FixIt action="SET_PARAM" target="`${rdDmaChBlockNum . &quot;.tr_in[0]&quot;}`" value="`${chainRdDmaChBlockNum . &quot;.tr_out[0]&quot;}`" valid="true"/>
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <!-- Includes -->
+    <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
+    <ConfigInclude value="cy_msc.h" include="true" />
+
+    <ConfigDefine name="CY_`${mscInstanceName}`_DMAC_BASE_ADDR" value="`${allDmaTriggersAssigned ? &quot;DMAC&quot; : &quot;NULL&quot;}`" public="true" include="true" />
+
+    <ConfigDefine name="CY_`${mscInstanceName}`_WR_DMA_CH_INDEX" value="`${isWrDmaChAssigned ? getInstFromLocation(getParamValue(&quot;tr_wr_req_in[0]&quot;), &quot;chan&quot;) : &quot;0&quot;}`u" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_CHAIN_WR_DMA_CH_INDEX" value="`${isChainWrDmaChAssigned ? getInstFromLocation(getParamValue(&quot;tr_wr_req_out[0]&quot;), &quot;chan&quot;) : &quot;0&quot;}`u" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_RD_DMA_CH_INDEX" value="`${isRdDmaChAssigned ? getInstFromLocation(getParamValue(&quot;tr_rd_req_in[0]&quot;), &quot;chan&quot;) : &quot;0&quot;}`u" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_CHAIN_RD_DMA_CH_INDEX" value="`${isChainRdDmaChAssigned ? getInstFromLocation(getParamValue(&quot;tr_rd_req_out[0]&quot;), &quot;chan&quot;) : &quot;0&quot;}`u" public="true" include="true" />
+
+    <ConfigDefine name="`${($idx &lt; AmuxCapacitorCount) ? CapacitorNameInt$idx : getParamValue(&quot;SensorName&quot;.($idx - AmuxCapacitorCount))}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;SensorSignal$idx&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${($idx &lt; AmuxSensorCount) &amp;&amp; isBlockUsed(SensorSignal$idx)}`"
+                  repeatCount="260" /> <!-- The Repeat Count 260 includes 256 sensors and 4 external capacitors. -->
+    <ConfigDefine name="`${($idx &lt; AmuxCapacitorCount) ? CapacitorNameInt$idx : getParamValue(&quot;SensorName&quot;.($idx - AmuxCapacitorCount))}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;SensorSignal$idx&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${($idx &lt; AmuxSensorCount) &amp;&amp; isBlockUsed(SensorSignal$idx)}`" repeatCount="260" />
+    <ConfigDefine name="`${($idx &lt; AmuxCapacitorCount) ? CapacitorNameInt$idx : getParamValue(&quot;SensorName&quot;.($idx - AmuxCapacitorCount))}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${($idx &lt; AmuxSensorCount) &amp;&amp; isBlockUsed(SensorSignal$idx)}`" repeatCount="260" />
+    <ConfigDefine name="`${CapacitorNameInt$idx}`_PORT_NUM"
+                  value="`${getInstFromLocation(getParamValue(&quot;SensorSignal$idx&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${($idx &lt; AmuxCapacitorCount) &amp;&amp; isBlockUsed(SensorSignal$idx)}`" repeatCount="4" />
+    <ConfigDefine name="`${SensorName$idx}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;s_pad[$idx]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${($idx &lt; PadSensorCount) &amp;&amp; isBlockUsed(getBlockFromSignal(&quot;s_pad[$idx]&quot;))}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${SensorName$idx}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;s_pad[$idx]&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${($idx &lt; PadSensorCount) &amp;&amp; isBlockUsed(getBlockFromSignal(&quot;s_pad[$idx]&quot;))}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${SensorName$idx}`_PAD"
+                  value="MSC`${InstNumber}`_SPAD$idx"
+                  public="true"
+                  include="`${($idx &lt; PadSensorCount) &amp;&amp; isBlockUsed(getBlockFromSignal(&quot;s_pad[$idx]&quot;))}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${SensorName$idx}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${($idx &lt; PadSensorCount) &amp;&amp; isBlockUsed(getBlockFromSignal(&quot;s_pad[$idx]&quot;))}`"
+                  repeatCount="32" />
+    <ConfigDefine name="`${CapacitorNameInt0}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;cmod1pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 0) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt0}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod1pad[0]&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 0) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt0}`_PORT_NUM"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod1pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 0) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt0}`_PAD"
+                  value="MSC`${InstNumber}`_CMOD1"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 0) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt0}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 0) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt1}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;cmod2pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 1) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt1}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod2pad[0]&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 1) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt1}`_PORT_NUM"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod2pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 1) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt1}`_PAD"
+                  value="MSC`${InstNumber}`_CMOD2"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 1) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt1}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 1) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt2}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;cmod3pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 2) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt2}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod3pad[0]&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 2) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt2}`_PORT_NUM"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod3pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 2) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt2}`_PAD"
+                  value="MSC`${InstNumber}`_CMOD3"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 2) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt2}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 2) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt3}`_PORT"
+                  value="GPIO_PRT`${getInstFromLocation(getParamValue(&quot;cmod4pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 3) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt3}`_PIN"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod4pad[0]&quot;), &quot;pin&quot;)}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 3) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt3}`_PORT_NUM"
+                  value="`${getInstFromLocation(getParamValue(&quot;cmod4pad[0]&quot;), &quot;port&quot;)}`"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 3) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt3}`_PAD"
+                  value="MSC`${InstNumber}`_CMOD4"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 3) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="`${CapacitorNameInt3}`_CH_INDEX"
+                  value="`${InstNumber}`u"
+                  public="true"
+                  include="`${(CapacitorCount &gt; 3) &amp;&amp; (!isConnectionLegacy)}`" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_HW" value="MSC`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="MSC`${InstNumber}`" public="true" include="true" />
+    <ConfigDefine name="CY_`${mscInstanceName}`_IRQ" value="msc_`${InstNumber}`_interrupt_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="msc_`${InstNumber}`_interrupt_IRQn" public="true" include="true" />
+    <ConfigStruct name="cy_msc_`${InstNumber}`_context" type="cy_stc_msc_context_t" const="false" public="true"
+                  include="true" >
+        <Member name="lockKey" value="CY_MSC_NONE_KEY" />
+    </ConfigStruct>
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(pclk, &quot;clockSel&quot;)}`);"
+                   include="`${pclkOk}`" />
+  </ConfigFirmware>
+</Personality>

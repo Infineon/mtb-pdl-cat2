@@ -127,7 +127,7 @@ Configuration Considerations</h1>
 <tr>
 <th>Class Macro</th><th>Level Macro</th><th>Type of check </th></tr>
 <tr>
-<td>CY_ASSERT_CLASS_1 </td><td>CY_ASSERT_L1 </td><td>A parameter that could change between different PSoC devices (e.g. the number of clock paths)  </td></tr>
+<td>CY_ASSERT_CLASS_1 </td><td>CY_ASSERT_L1 </td><td>A parameter that could change between different PSOC devices (e.g. the number of clock paths)  </td></tr>
 <tr>
 <td>CY_ASSERT_CLASS_2 </td><td>CY_ASSERT_L2 </td><td>A parameter that has fixed limits such as a counter period  </td></tr>
 <tr>
@@ -144,6 +144,12 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td rowspan="3">3.30 </td><td>Added support for PSOC4 HVMS/PA platform. </td><td>New device support.  </td></tr>
+<tr>
+<td>Extended syslib reset reason mask for PSOC4 HVMS/PA devices. <a class="el" href="group__group__syslib__functions.html#gac8aa61d2f8052886c676f4f592d1693d">Cy_SysLib_GetResetReason()</a> and <a class="el" href="group__group__syslib__functions.html#gaebb4e952584f0c428f58f7b4dbd3ceff">Cy_SysLib_ClearResetReason()</a> API functions implementation is updated. Minor documentation updates. </td><td>Minor enhancement.  </td></tr>
+<tr>
+<td>Added <a class="el" href="group__group__syslib__functions.html#ga85034b11b0d4af9c2b0f77f37837adaf">Cy_SysLib_GetBootStatus()</a> and <a class="el" href="group__group__syslib__functions.html#ga670cbe015d94650a6ccb78fadd8322f7">Cy_SysLib_GetBootResult()</a> functions to handle Boot-Up Status and Results. Applicable to PSOC4 HVMS/PA only. </td><td>New feature support.  </td></tr>
 <tr>
 <td>3.20 </td><td>Updated the flash wait state register configuration in <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates()</a> for devices with FLASH ECC support. </td><td>Support for devices with FLASH ECC feature.  </td></tr>
 <tr>

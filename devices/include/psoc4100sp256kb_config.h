@@ -2,7 +2,7 @@
 * \file psoc4100sp256kb_config.h
 *
 * \brief
-* PSoC4100Sp256KB device configuration header
+* PSOC4100Sp256KB device configuration header
 *
 ********************************************************************************
 * \copyright

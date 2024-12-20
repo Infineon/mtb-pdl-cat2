@@ -104,6 +104,24 @@ Functions</h2></td></tr>
 <tr class="memitem:ga29ac711091186d8a7790be298fb6148b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#ga29ac711091186d8a7790be298fb6148b">Cy_Flash_RowChecksum</a> (uint32_t rowAddr, uint32_t *checksumPtr)</td></tr>
 <tr class="memdesc:ga29ac711091186d8a7790be298fb6148b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a checksum value of the specified Flash or Supervisory Flash row.  <a href="#ga29ac711091186d8a7790be298fb6148b">More...</a><br /></td></tr>
 <tr class="separator:ga29ac711091186d8a7790be298fb6148b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5b56f82fa063cc20768e83d9c9bc204"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#gae5b56f82fa063cc20768e83d9c9bc204">Cy_Flash_SetProtection</a> (const uint32_t bitField)</td></tr>
+<tr class="memdesc:gae5b56f82fa063cc20768e83d9c9bc204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls protection against the program/erase operation of the flash.  <a href="#gae5b56f82fa063cc20768e83d9c9bc204">More...</a><br /></td></tr>
+<tr class="separator:gae5b56f82fa063cc20768e83d9c9bc204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4113bbec2bbc05866d888ab4c9409d13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#ga4113bbec2bbc05866d888ab4c9409d13">Cy_Flash_GetProtectionStatus</a> (uint32_t *statusPtr)</td></tr>
+<tr class="memdesc:ga4113bbec2bbc05866d888ab4c9409d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the flash protection status of the specified flash.  <a href="#ga4113bbec2bbc05866d888ab4c9409d13">More...</a><br /></td></tr>
+<tr class="separator:ga4113bbec2bbc05866d888ab4c9409d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c7a030f0bd3cb17eda5e03f6c617987"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#ga9c7a030f0bd3cb17eda5e03f6c617987">Cy_Flash_SetupEccInjection</a> (const uint32_t address, const uint8_t parity)</td></tr>
+<tr class="memdesc:ga9c7a030f0bd3cb17eda5e03f6c617987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set CPUSS_FLASHC_ECC_CTL register to setup ECC error injection.  <a href="#ga9c7a030f0bd3cb17eda5e03f6c617987">More...</a><br /></td></tr>
+<tr class="separator:ga9c7a030f0bd3cb17eda5e03f6c617987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59cd06737f034bcc8c1a38e6b3a517fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#ga59cd06737f034bcc8c1a38e6b3a517fd">Cy_Flash_EnableEccInjection</a> (void)</td></tr>
+<tr class="memdesc:ga59cd06737f034bcc8c1a38e6b3a517fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set CPUSS_FLASH_CTL register to enable ECC injection.  <a href="#ga59cd06737f034bcc8c1a38e6b3a517fd">More...</a><br /></td></tr>
+<tr class="separator:ga59cd06737f034bcc8c1a38e6b3a517fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90823274e57756cfd0ab01e1f046620d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#ga90823274e57756cfd0ab01e1f046620d">Cy_Flash_DisableEccInjection</a> (void)</td></tr>
+<tr class="memdesc:ga90823274e57756cfd0ab01e1f046620d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set CPUSS_FLASH_CTL register to disable ECC injection.  <a href="#ga90823274e57756cfd0ab01e1f046620d">More...</a><br /></td></tr>
+<tr class="separator:ga90823274e57756cfd0ab01e1f046620d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab61a2bfbe4003c8654f212dfb1a27833"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__flash__functions.html#gab61a2bfbe4003c8654f212dfb1a27833">Cy_Flash_IsEccInjectionEnabled</a> (void)</td></tr>
+<tr class="memdesc:gab61a2bfbe4003c8654f212dfb1a27833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the ECC error injection of data flash is enabled.  <a href="#gab61a2bfbe4003c8654f212dfb1a27833">More...</a><br /></td></tr>
+<tr class="separator:gab61a2bfbe4003c8654f212dfb1a27833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -277,6 +295,171 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a></dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <a class="code" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a> status;</div><div class="line">    uint32_t checksum = 0U;</div><div class="line"></div><div class="line">    <span class="comment">/* Calculate checksum of the data at the specified row address */</span></div><div class="line">    status = <a class="code" href="group__group__flash__functions.html#ga29ac711091186d8a7790be298fb6148b">Cy_Flash_RowChecksum</a>(0x00020000UL, &amp;checksum);</div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__flash__enumerated__types.html#ggae3ceedae602af2dd75864cf38246f496a897d5be5e24dc4bc3dd18fed0dc46b02">CY_FLASH_DRV_SUCCESS</a> != status)</div><div class="line">    {</div><div class="line">        <span class="comment">/* Handle error here */</span></div><div class="line">    }</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="gae5b56f82fa063cc20768e83d9c9bc204"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae5b56f82fa063cc20768e83d9c9bc204">&#9670;&nbsp;</a></span>Cy_Flash_SetProtection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a> Cy_Flash_SetProtection </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>bitField</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Controls protection against the program/erase operation of the flash. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bitField</td><td>Bitfield value that specify the protection setting of Flash macros.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__flash__enumerated__types.html">Enumerated Types</a></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    uint32_t protection = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#gae5b56f82fa063cc20768e83d9c9bc204">Cy_Flash_SetProtection</a>(CY_FLASH_PROTECTION_BIT_PARAM_MAX);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga4113bbec2bbc05866d888ab4c9409d13">Cy_Flash_GetProtectionStatus</a>(&amp;protection);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga4113bbec2bbc05866d888ab4c9409d13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4113bbec2bbc05866d888ab4c9409d13">&#9670;&nbsp;</a></span>Cy_Flash_GetProtectionStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a> Cy_Flash_GetProtectionStatus </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>statusPtr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the flash protection status of the specified flash. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">statusPtr</td><td>The pointer to the area to store the protection status.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__flash__enumerated__types.html">Enumerated Types</a></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    uint32_t protection = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#gae5b56f82fa063cc20768e83d9c9bc204">Cy_Flash_SetProtection</a>(CY_FLASH_PROTECTION_BIT_PARAM_MAX);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga4113bbec2bbc05866d888ab4c9409d13">Cy_Flash_GetProtectionStatus</a>(&amp;protection);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga9c7a030f0bd3cb17eda5e03f6c617987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9c7a030f0bd3cb17eda5e03f6c617987">&#9670;&nbsp;</a></span>Cy_Flash_SetupEccInjection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__flash__enumerated__types.html#gae3ceedae602af2dd75864cf38246f496">cy_en_flashdrv_status_t</a> Cy_Flash_SetupEccInjection </td>
+          <td>(</td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t&#160;</td>
+          <td class="paramname"><em>parity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set CPUSS_FLASHC_ECC_CTL register to setup ECC error injection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Specifies the address where an ECC error will be injected.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parity</td><td>Specifies the parity, which will be injected to the word address.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__group__flash__enumerated__types.html">Enumerated Types</a></dd></dl>
+<ul>
+<li><dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">bool</span> isEccEnabled = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">const</span> uint8_t parity = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga9c7a030f0bd3cb17eda5e03f6c617987">Cy_Flash_SetupEccInjection</a>(0x0000FFF0UL, parity);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga59cd06737f034bcc8c1a38e6b3a517fd">Cy_Flash_EnableEccInjection</a>();</div><div class="line">    <span class="comment">/* Inject ECC error here */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Check if ECC error because of injection or because of real error */</span></div><div class="line">    isEccEnabled = <a class="code" href="group__group__flash__functions.html#gab61a2bfbe4003c8654f212dfb1a27833">Cy_Flash_IsEccInjectionEnabled</a>();</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga90823274e57756cfd0ab01e1f046620d">Cy_Flash_DisableEccInjection</a>();</div></div><!-- fragment --> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Set the lowest three bits of the address to zero. For FLASH ECC, the word address WORD_ADDR[23:0] is device address A[26:3]. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="ga59cd06737f034bcc8c1a38e6b3a517fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga59cd06737f034bcc8c1a38e6b3a517fd">&#9670;&nbsp;</a></span>Cy_Flash_EnableEccInjection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_Flash_EnableEccInjection </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set CPUSS_FLASH_CTL register to enable ECC injection. </p>
+<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">bool</span> isEccEnabled = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">const</span> uint8_t parity = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga9c7a030f0bd3cb17eda5e03f6c617987">Cy_Flash_SetupEccInjection</a>(0x0000FFF0UL, parity);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga59cd06737f034bcc8c1a38e6b3a517fd">Cy_Flash_EnableEccInjection</a>();</div><div class="line">    <span class="comment">/* Inject ECC error here */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Check if ECC error because of injection or because of real error */</span></div><div class="line">    isEccEnabled = <a class="code" href="group__group__flash__functions.html#gab61a2bfbe4003c8654f212dfb1a27833">Cy_Flash_IsEccInjectionEnabled</a>();</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga90823274e57756cfd0ab01e1f046620d">Cy_Flash_DisableEccInjection</a>();</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga90823274e57756cfd0ab01e1f046620d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga90823274e57756cfd0ab01e1f046620d">&#9670;&nbsp;</a></span>Cy_Flash_DisableEccInjection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_Flash_DisableEccInjection </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set CPUSS_FLASH_CTL register to disable ECC injection. </p>
+<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">bool</span> isEccEnabled = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">const</span> uint8_t parity = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga9c7a030f0bd3cb17eda5e03f6c617987">Cy_Flash_SetupEccInjection</a>(0x0000FFF0UL, parity);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga59cd06737f034bcc8c1a38e6b3a517fd">Cy_Flash_EnableEccInjection</a>();</div><div class="line">    <span class="comment">/* Inject ECC error here */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Check if ECC error because of injection or because of real error */</span></div><div class="line">    isEccEnabled = <a class="code" href="group__group__flash__functions.html#gab61a2bfbe4003c8654f212dfb1a27833">Cy_Flash_IsEccInjectionEnabled</a>();</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga90823274e57756cfd0ab01e1f046620d">Cy_Flash_DisableEccInjection</a>();</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="gab61a2bfbe4003c8654f212dfb1a27833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab61a2bfbe4003c8654f212dfb1a27833">&#9670;&nbsp;</a></span>Cy_Flash_IsEccInjectionEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Cy_Flash_IsEccInjectionEnabled </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether the ECC error injection of data flash is enabled. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if injection enabled, FALSE - otherwise.</dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="keywordtype">bool</span> isEccEnabled = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">const</span> uint8_t parity = 0U;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga9c7a030f0bd3cb17eda5e03f6c617987">Cy_Flash_SetupEccInjection</a>(0x0000FFF0UL, parity);</div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga59cd06737f034bcc8c1a38e6b3a517fd">Cy_Flash_EnableEccInjection</a>();</div><div class="line">    <span class="comment">/* Inject ECC error here */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Check if ECC error because of injection or because of real error */</span></div><div class="line">    isEccEnabled = <a class="code" href="group__group__flash__functions.html#gab61a2bfbe4003c8654f212dfb1a27833">Cy_Flash_IsEccInjectionEnabled</a>();</div><div class="line"></div><div class="line">    <a class="code" href="group__group__flash__functions.html#ga90823274e57756cfd0ab01e1f046620d">Cy_Flash_DisableEccInjection</a>();</div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>

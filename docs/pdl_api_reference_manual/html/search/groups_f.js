@@ -35,6 +35,7 @@ var searchData=
   ['smart_20i_2fo_20channel_20selection',['Smart I/O channel selection',['../group__group__smartio__channels.html',1,'']]],
   ['sysclk_20_20_20_20_20_20_20_28system_20clock_29',['SysClk       (System Clock)',['../group__group__sysclk.html',1,'']]],
   ['system_20clock',['System Clock',['../group__group__sysclk__clk__sys.html',1,'']]],
+  ['sysfault_20_20_20_20_20_28system_20fault_29',['SysFault     (System Fault)',['../group__group__sysfault.html',1,'']]],
   ['sysint_20_20_20_20_20_20_20_28system_20interrupt_29',['SysInt       (System Interrupt)',['../group__group__sysint.html',1,'']]],
   ['syslib_20_20_20_20_20_20_20_28system_20library_29',['SysLib       (System Library)',['../group__group__syslib.html',1,'']]],
   ['status_20codes',['Status codes',['../group__group__syslib__macros__status__codes.html',1,'']]],

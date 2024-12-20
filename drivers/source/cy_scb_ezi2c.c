@@ -266,7 +266,7 @@ void Cy_SCB_EZI2C_Disable(CySCB_Type *base, cy_stc_scb_ezi2c_context_t *context)
 *   Cy_SCB_EZI2C_RegisterDSClockConfig. Callback function must disable or
 *   enable the clock divider depending on the event \ref
 *   group_scb_ezi2c_macros_deep_sleep_callback_events.
-*   Not applicable for PSoC 4100S Max and PSoC 4000T.
+*   Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 *******************************************************************************/
 cy_en_syspm_status_t Cy_SCB_EZI2C_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)

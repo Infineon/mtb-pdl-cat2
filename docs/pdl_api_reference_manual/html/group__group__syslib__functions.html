@@ -106,7 +106,7 @@ Functions</h2></td></tr>
 <tr class="separator:gac8aa61d2f8052886c676f4f592d1693d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaebb4e952584f0c428f58f7b4dbd3ceff"><td class="memItemLeft" align="right" valign="top"><a id="gaebb4e952584f0c428f58f7b4dbd3ceff"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#gaebb4e952584f0c428f58f7b4dbd3ceff">Cy_SysLib_ClearResetReason</a> (void)</td></tr>
-<tr class="memdesc:gaebb4e952584f0c428f58f7b4dbd3ceff"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function clears the values of RES_CAUSE and RES_CAUSE2. <br /></td></tr>
+<tr class="memdesc:gaebb4e952584f0c428f58f7b4dbd3ceff"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function clears the values of the RES_CAUSE register. <br /></td></tr>
 <tr class="separator:gaebb4e952584f0c428f58f7b4dbd3ceff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5c11de4d75e326dfc00938d95c957fd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#ga5c11de4d75e326dfc00938d95c957fd4">Cy_SysLib_FaultHandler</a> (uint32_t const *faultStackAddr)</td></tr>
 <tr class="memdesc:ga5c11de4d75e326dfc00938d95c957fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function stores the ARM Cortex registers into a non-zero init area for debugging.  <a href="#ga5c11de4d75e326dfc00938d95c957fd4">More...</a><br /></td></tr>
@@ -117,6 +117,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr class="memitem:gab328c5f1c9577b2c2f595e4e090614db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c2f595e4e090614db">Cy_SysLib_SetWaitStates</a> (uint32_t clkHfMHz)</td></tr>
 <tr class="memdesc:gab328c5f1c9577b2c2f595e4e090614db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the number of clock cycles the cache will wait before it samples data coming back from Flash.  <a href="#gab328c5f1c9577b2c2f595e4e090614db">More...</a><br /></td></tr>
 <tr class="separator:gab328c5f1c9577b2c2f595e4e090614db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85034b11b0d4af9c2b0f77f37837adaf"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#ga85034b11b0d4af9c2b0f77f37837adaf">Cy_SysLib_GetBootStatus</a> (void)</td></tr>
+<tr class="memdesc:ga85034b11b0d4af9c2b0f77f37837adaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the boot status.  <a href="#ga85034b11b0d4af9c2b0f77f37837adaf">More...</a><br /></td></tr>
+<tr class="separator:ga85034b11b0d4af9c2b0f77f37837adaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga670cbe015d94650a6ccb78fadd8322f7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#ga670cbe015d94650a6ccb78fadd8322f7">Cy_SysLib_GetBootResult</a> (<a class="el" href="group__group__syslib__enumerated__types.html#ga2bed4c504cdb7ac622ad8fa9a43bd280">cy_en_syslib_boot_result_t</a> bootResultSet)</td></tr>
+<tr class="memdesc:ga670cbe015d94650a6ccb78fadd8322f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the results from the Boot Process for the provided <a class="el" href="group__group__syslib__enumerated__types.html#ga2bed4c504cdb7ac622ad8fa9a43bd280">cy_en_syslib_boot_result_t</a>.  <a href="#ga670cbe015d94650a6ccb78fadd8322f7">More...</a><br /></td></tr>
+<tr class="separator:ga670cbe015d94650a6ccb78fadd8322f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae679f15a1702c159c105b596a8801105"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__functions.html#gae679f15a1702c159c105b596a8801105">Cy_SysLib_EnterCriticalSection</a> (void)</td></tr>
 <tr class="memdesc:gae679f15a1702c159c105b596a8801105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cy_SysLib_EnterCriticalSection disables interrupts and returns a value indicating whether the interrupts were previously enabled.  <a href="#gae679f15a1702c159c105b596a8801105">More...</a><br /></td></tr>
 <tr class="separator:gae679f15a1702c159c105b596a8801105"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,12 +261,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr>
 <th>Name </th><th>Value  </th></tr>
 <tr>
-<td>CY_SYSLIB_RESET_HWWDT </td><td>0x00001 (bit0) </td></tr>
+<td>CY_SYSLIB_RESET_HWWDT </td><td>0x00000001UL (bit0) </td></tr>
 <tr>
-<td>CY_SYSLIB_PROT_FAULT </td><td>0x00008 (bit3) </td></tr>
+<td>CY_SYSLIB_PROT_FAULT </td><td>0x00000008UL (bit3) </td></tr>
 <tr>
-<td>CY_SYSLIB_RESET_SOFT </td><td>0x00010 (bit4) </td></tr>
+<td>CY_SYSLIB_RESET_SOFT </td><td>0x00000010UL (bit4) </td></tr>
 </table>
+<dl class="section note"><dt>Note</dt><dd>The below system resets are only applicable for PSOC 4 HVMS/PA devices. <table class="doxtable">
+<tr>
+<th>Name </th><th>Value  </th></tr>
+<tr>
+<td>CY_SYSLIB_RESET_ACT_FAULT </td><td>0x00000002UL (bit1) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_CRWDT </td><td>0x00000200UL (bit9) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_XRES </td><td>0x00010000UL (bit16) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_BODVDDD </td><td>0x00020000UL (bit17) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_BODVCCD </td><td>0x00080000UL (bit19) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_OVDVDDD </td><td>0x00100000UL (bit20) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_OVDVCCD </td><td>0x00400000UL (bit22) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_BODHVSS </td><td>0x01000000UL (bit24) </td></tr>
+<tr>
+<td>CY_SYSLIB_RESET_PORVDDD </td><td>0x40000000UL (bit30) </td></tr>
+</table>
+</dd></dl>
 
 </div>
 </div>
@@ -342,6 +371,57 @@ The CY_ARM_FAULT_DEBUG macro defines if the Fault Handler is enabled. By default
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga85034b11b0d4af9c2b0f77f37837adaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga85034b11b0d4af9c2b0f77f37837adaf">&#9670;&nbsp;</a></span>Cy_SysLib_GetBootStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_SysLib_GetBootStatus </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the boot status. </p>
+<p>The Boot process uses CPUSS_SYSARG register to signal success/failure of Boot.</p>
+<dl class="section return"><dt>Returns</dt><dd>Boot status. If the return value is "0x0" boot was successful. If the return value is other than "0x0", the boot process failed. For a description of the meaning of the return value OTHER than zero, refer to the device TRM.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
+
+</div>
+</div>
+<a id="ga670cbe015d94650a6ccb78fadd8322f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga670cbe015d94650a6ccb78fadd8322f7">&#9670;&nbsp;</a></span>Cy_SysLib_GetBootResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_SysLib_GetBootResult </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__syslib__enumerated__types.html#ga2bed4c504cdb7ac622ad8fa9a43bd280">cy_en_syslib_boot_result_t</a>&#160;</td>
+          <td class="paramname"><em>bootResultSet</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the results from the Boot Process for the provided <a class="el" href="group__group__syslib__enumerated__types.html#ga2bed4c504cdb7ac622ad8fa9a43bd280">cy_en_syslib_boot_result_t</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bootResultSet</td><td>Instance of Boot Result data register <a class="el" href="group__group__syslib__enumerated__types.html#ga2bed4c504cdb7ac622ad8fa9a43bd280">cy_en_syslib_boot_result_t</a>. This register contains details of any results from the Boot Process. Register Content only valid if there is an error indication from the boot process <a class="el" href="group__group__syslib__functions.html#ga85034b11b0d4af9c2b0f77f37837adaf">Cy_SysLib_GetBootStatus</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Boot Result data register. Default value is "0x0". For a description of the meaning of the return value OTHER than zero, refer to the device TRM.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
 
 </div>
 </div>

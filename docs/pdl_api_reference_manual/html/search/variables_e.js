@@ -18,6 +18,7 @@ var searchData=
   ['phiainput',['phiAInput',['../structcy__stc__tcpwm__quaddec__config__t.html#a9bccb40249e89734807ee65b11c642fe',1,'cy_stc_tcpwm_quaddec_config_t']]],
   ['phibinput',['phiBInput',['../structcy__stc__tcpwm__quaddec__config__t.html#a4f96c057c83a5371220063f1d0fd433b',1,'cy_stc_tcpwm_quaddec_config_t']]],
   ['phyconn',['phyConn',['../structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#a736470c940f2bf81432bc047eaacdfaa',1,'cy_pd_pd_do_t::ACT_CBL_VDO_2']]],
+  ['phyinterfacesel',['phyInterfaceSel',['../structcy__hvss__config__t.html#a6ee3a6226c4bdce8c84b04ed2ad24f16',1,'cy_hvss_config_t']]],
   ['pixmap',['pixMap',['../structcy__stc__seglcd__disp__t.html#a886c5f20ab0a153ff08ebdf0f227d390',1,'cy_stc_seglcd_disp_t']]],
   ['pkcurrent',['pkCurrent',['../structcy__pd__pd__do__t_1_1_f_i_x_e_d___s_r_c.html#a184bb9390458ec78fa9d9a416285e11e',1,'cy_pd_pd_do_t::FIXED_SRC::pkCurrent()'],['../structcy__pd__pd__do__t_1_1_s_p_r___a_v_s___s_r_c.html#aa4672b4f32df60a43cfdc12db81dd8f0',1,'cy_pd_pd_do_t::SPR_AVS_SRC::pkCurrent()']]],
   ['polarity',['polarity',['../structcy__stc__pd__dpm__config__t.html#a377c195e77071160781dff9fefec4371',1,'cy_stc_pd_dpm_config_t']]],

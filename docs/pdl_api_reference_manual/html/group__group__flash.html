@@ -102,7 +102,7 @@ Modules</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Internal Flash and Supervisory Flash memory programming. </p>
 <p>The functions and other declarations used in this driver are in cy_flash.h. You can include cy_pdl.h to get access to all functions and declarations in the PDL.</p>
-<p>Flash memory in PSoC devices provides non-volatile storage for user firmware, user configuration data, and bulk data storage.</p>
+<p>Flash memory in PSOC devices provides non-volatile storage for the user firmware, user configuration data, and bulk data storage.</p>
 <p>Flash programming operations are implemented as system calls. System calls are executed out of SROM in the privileged mode of operation. Users have no access to read or modify the SROM code. The CPU requests the system call by writing the function opcode and parameters to the System Performance Controller (SPC) input registers, and then requesting the SROM to execute the function. Based on the function opcode, the SPC executes the corresponding system call from SROM and updates the SPC status register. The CPU should read this status register for the pass/fail result of the function execution.</p>
 <dl class="section note"><dt>Note</dt><dd>Flash write operations modify the clock settings of the device during the period of the write operation. Refer to the <a class="el" href="group__group__flash__functions.html#gafaa220a63444c4e5a5abe9b8c2cec721">Cy_Flash_WriteRow()</a> documentation for details.</dd></dl>
 <h1><a class="anchor" id="group_flash_configuration"></a>
@@ -117,6 +117,12 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td rowspan="3">1.10 </td><td>Added Flash protection control support, Added ECC support. </td><td>New feature support.  </td></tr>
+<tr>
+<td>Added support for extra rows FLASH Macro. </td><td>Minor enhancement.  </td></tr>
+<tr>
+<td>Added support for latest FLASH page size macro. </td><td>Minor enhancement.  </td></tr>
 <tr>
 <td>1.0.1 </td><td>Removed unused library. </td><td>Minor enhancement.  </td></tr>
 <tr>

@@ -92,15 +92,43 @@ $(document).ready(function(){initNavTree('group__group__syslib__macros__reset__c
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga3a56e49329f1b1a8b0f3f01b23982e3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga3a56e49329f1b1a8b0f3f01b23982e3f">CY_SYSLIB_RESET_HWWDT</a>&#160;&#160;&#160;(0x0001UL)</td></tr>
+<tr class="memitem:ga3a56e49329f1b1a8b0f3f01b23982e3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga3a56e49329f1b1a8b0f3f01b23982e3f">CY_SYSLIB_RESET_HWWDT</a>&#160;&#160;&#160;SRSS_CONCAT(RES_CAUSE_RESET_WDT_Msk)</td></tr>
 <tr class="memdesc:ga3a56e49329f1b1a8b0f3f01b23982e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A basic WatchDog Timer (WDT) reset has occurred since the last power cycle.  <a href="#ga3a56e49329f1b1a8b0f3f01b23982e3f">More...</a><br /></td></tr>
 <tr class="separator:ga3a56e49329f1b1a8b0f3f01b23982e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6ff6b0fc3f83a051eb1d273e6858ce65"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga6ff6b0fc3f83a051eb1d273e6858ce65">CY_SYSLIB_PROT_FAULT</a>&#160;&#160;&#160;(0x0008UL)</td></tr>
-<tr class="memdesc:ga6ff6b0fc3f83a051eb1d273e6858ce65"><td class="mdescLeft">&#160;</td><td class="mdescRight">A protection violation occurred that requires a RESET.  <a href="#ga6ff6b0fc3f83a051eb1d273e6858ce65">More...</a><br /></td></tr>
+<tr class="memitem:ga6ff6b0fc3f83a051eb1d273e6858ce65"><td class="memItemLeft" align="right" valign="top"><a id="ga6ff6b0fc3f83a051eb1d273e6858ce65"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga6ff6b0fc3f83a051eb1d273e6858ce65">CY_SYSLIB_PROT_FAULT</a>&#160;&#160;&#160;SRSS_CONCAT(RES_CAUSE_RESET_PROT_FAULT_Msk)</td></tr>
+<tr class="memdesc:ga6ff6b0fc3f83a051eb1d273e6858ce65"><td class="mdescLeft">&#160;</td><td class="mdescRight">A protection violation occurred that requires a reset. <br /></td></tr>
 <tr class="separator:ga6ff6b0fc3f83a051eb1d273e6858ce65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaab329c3d83a4e66c6d77fc3dbc746a39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaab329c3d83a4e66c6d77fc3dbc746a39">CY_SYSLIB_RESET_SOFT</a>&#160;&#160;&#160;(0x0010UL)</td></tr>
+<tr class="memitem:gaab329c3d83a4e66c6d77fc3dbc746a39"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaab329c3d83a4e66c6d77fc3dbc746a39">CY_SYSLIB_RESET_SOFT</a>&#160;&#160;&#160;SRSS_CONCAT(RES_CAUSE_RESET_SOFT_Msk)</td></tr>
 <tr class="memdesc:gaab329c3d83a4e66c6d77fc3dbc746a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPU requested a system reset through it's SYSRESETREQ.  <a href="#gaab329c3d83a4e66c6d77fc3dbc746a39">More...</a><br /></td></tr>
 <tr class="separator:gaab329c3d83a4e66c6d77fc3dbc746a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf98e87e2c0964035aa2098762724b30b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaf98e87e2c0964035aa2098762724b30b">CY_SYSLIB_RESET_ACT_FAULT</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_ACT_FAULT_Msk</td></tr>
+<tr class="memdesc:gaf98e87e2c0964035aa2098762724b30b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset caused by the Fault Infrastructure.  <a href="#gaf98e87e2c0964035aa2098762724b30b">More...</a><br /></td></tr>
+<tr class="separator:gaf98e87e2c0964035aa2098762724b30b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1b135fa3b1c21317d383add6dc8e0ef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gac1b135fa3b1c21317d383add6dc8e0ef">CY_SYSLIB_RESET_CRWDT</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_CRWDT_Msk</td></tr>
+<tr class="memdesc:gac1b135fa3b1c21317d383add6dc8e0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Challenge/Response Watchdog reset.  <a href="#gac1b135fa3b1c21317d383add6dc8e0ef">More...</a><br /></td></tr>
+<tr class="separator:gac1b135fa3b1c21317d383add6dc8e0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b0202d78f26968d02757e0b10249799"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga8b0202d78f26968d02757e0b10249799">CY_SYSLIB_RESET_XRES</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_XRES_Msk</td></tr>
+<tr class="memdesc:ga8b0202d78f26968d02757e0b10249799"><td class="mdescLeft">&#160;</td><td class="mdescRight">External XRES pin was asserted.  <a href="#ga8b0202d78f26968d02757e0b10249799">More...</a><br /></td></tr>
+<tr class="separator:ga8b0202d78f26968d02757e0b10249799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gad5f2544aa19111ecd3159a97d7dd69cf">CY_SYSLIB_RESET_BODVDDD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVDDD_Msk</td></tr>
+<tr class="memdesc:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">External VDDD supply crossed brown-out limit.  <a href="#gad5f2544aa19111ecd3159a97d7dd69cf">More...</a><br /></td></tr>
+<tr class="separator:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7798cd7ad74e8e3dc85d8d37cdb09e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gac7798cd7ad74e8e3dc85d8d37cdb09e1">CY_SYSLIB_RESET_BODVCCD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVCCD_Msk</td></tr>
+<tr class="memdesc:gac7798cd7ad74e8e3dc85d8d37cdb09e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal VCCD core supply crossed the brown-out limit.  <a href="#gac7798cd7ad74e8e3dc85d8d37cdb09e1">More...</a><br /></td></tr>
+<tr class="separator:gac7798cd7ad74e8e3dc85d8d37cdb09e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac21bba7fa0c24ecea50d12038a2ac136"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gac21bba7fa0c24ecea50d12038a2ac136">CY_SYSLIB_RESET_OVDVDDD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_OVDVDDD_Msk</td></tr>
+<tr class="memdesc:gac21bba7fa0c24ecea50d12038a2ac136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overvoltage detection on the external VDDD supply.  <a href="#gac21bba7fa0c24ecea50d12038a2ac136">More...</a><br /></td></tr>
+<tr class="separator:gac21bba7fa0c24ecea50d12038a2ac136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2928ea39085b5e38fb05ed1c62d9655"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaa2928ea39085b5e38fb05ed1c62d9655">CY_SYSLIB_RESET_OVDVCCD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_OVDVCCD_Msk</td></tr>
+<tr class="memdesc:gaa2928ea39085b5e38fb05ed1c62d9655"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overvoltage detection on the internal core VCCD supply.  <a href="#gaa2928ea39085b5e38fb05ed1c62d9655">More...</a><br /></td></tr>
+<tr class="separator:gaa2928ea39085b5e38fb05ed1c62d9655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa039e8b654226f19625c39ff36551293"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaa039e8b654226f19625c39ff36551293">CY_SYSLIB_RESET_BODHVSS</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODHVSS_Msk</td></tr>
+<tr class="memdesc:gaa039e8b654226f19625c39ff36551293"><td class="mdescLeft">&#160;</td><td class="mdescRight">External VDDD supply crossed brown-out limit.  <a href="#gaa039e8b654226f19625c39ff36551293">More...</a><br /></td></tr>
+<tr class="separator:gaa039e8b654226f19625c39ff36551293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga35546f2d5563315369a1b7378245bb70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga35546f2d5563315369a1b7378245bb70">CY_SYSLIB_RESET_PORVDDD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_PORVDDD_Msk</td></tr>
+<tr class="memdesc:ga35546f2d5563315369a1b7378245bb70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicator that a POR occurred.  <a href="#ga35546f2d5563315369a1b7378245bb70">More...</a><br /></td></tr>
+<tr class="separator:ga35546f2d5563315369a1b7378245bb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Define RESET_CAUSE mask values. </p>
@@ -112,28 +140,12 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CY_SYSLIB_RESET_HWWDT&#160;&#160;&#160;(0x0001UL)</td>
+          <td class="memname">#define CY_SYSLIB_RESET_HWWDT&#160;&#160;&#160;SRSS_CONCAT(RES_CAUSE_RESET_WDT_Msk)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>A basic WatchDog Timer (WDT) reset has occurred since the last power cycle. </p>
-
-</div>
-</div>
-<a id="ga6ff6b0fc3f83a051eb1d273e6858ce65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6ff6b0fc3f83a051eb1d273e6858ce65">&#9670;&nbsp;</a></span>CY_SYSLIB_PROT_FAULT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CY_SYSLIB_PROT_FAULT&#160;&#160;&#160;(0x0008UL)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A protection violation occurred that requires a RESET. </p>
 
 </div>
 </div>
@@ -144,13 +156,166 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CY_SYSLIB_RESET_SOFT&#160;&#160;&#160;(0x0010UL)</td>
+          <td class="memname">#define CY_SYSLIB_RESET_SOFT&#160;&#160;&#160;SRSS_CONCAT(RES_CAUSE_RESET_SOFT_Msk)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The CPU requested a system reset through it's SYSRESETREQ. </p>
 <p>This can be done via a debugger probe or in firmware. </p>
+
+</div>
+</div>
+<a id="gaf98e87e2c0964035aa2098762724b30b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf98e87e2c0964035aa2098762724b30b">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_ACT_FAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_ACT_FAULT&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_ACT_FAULT_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset caused by the Fault Infrastructure. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gac1b135fa3b1c21317d383add6dc8e0ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac1b135fa3b1c21317d383add6dc8e0ef">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_CRWDT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_CRWDT&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_CRWDT_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Challenge/Response Watchdog reset. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="ga8b0202d78f26968d02757e0b10249799"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b0202d78f26968d02757e0b10249799">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_XRES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_XRES&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_XRES_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>External XRES pin was asserted. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gad5f2544aa19111ecd3159a97d7dd69cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad5f2544aa19111ecd3159a97d7dd69cf">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_BODVDDD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_BODVDDD&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVDDD_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>External VDDD supply crossed brown-out limit. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gac7798cd7ad74e8e3dc85d8d37cdb09e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac7798cd7ad74e8e3dc85d8d37cdb09e1">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_BODVCCD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_BODVCCD&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVCCD_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Internal VCCD core supply crossed the brown-out limit. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gac21bba7fa0c24ecea50d12038a2ac136"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac21bba7fa0c24ecea50d12038a2ac136">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_OVDVDDD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_OVDVDDD&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_OVDVDDD_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overvoltage detection on the external VDDD supply. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gaa2928ea39085b5e38fb05ed1c62d9655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa2928ea39085b5e38fb05ed1c62d9655">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_OVDVCCD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_OVDVCCD&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_OVDVCCD_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Overvoltage detection on the internal core VCCD supply. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="gaa039e8b654226f19625c39ff36551293"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa039e8b654226f19625c39ff36551293">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_BODHVSS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_BODHVSS&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODHVSS_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>External VDDD supply crossed brown-out limit. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+
+</div>
+</div>
+<a id="ga35546f2d5563315369a1b7378245bb70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga35546f2d5563315369a1b7378245bb70">&#9670;&nbsp;</a></span>CY_SYSLIB_RESET_PORVDDD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CY_SYSLIB_RESET_PORVDDD&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_PORVDDD_Msk</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indicator that a POR occurred. </p>
+<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
 
 </div>
 </div>

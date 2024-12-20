@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['eccautocorrect',['eccAutoCorrect',['../structcy__ram__config__t.html#afb712c56ed7d5c89ae3fda831e4c15aa',1,'cy_ram_config_t']]],
+  ['eccenable',['eccEnable',['../structcy__ram__config__t.html#a62e09ce7ed8d8d8312ef2129fc8ffab9',1,'cy_ram_config_t']]],
   ['efc',['efc',['../structcy__stc__canfd__t1__t.html#a5b6f6aded1ed0a1c70a0c98f97a9190c',1,'cy_stc_canfd_t1_t']]],
   ['efec',['efec',['../structcy__stc__canfd__f0__t.html#a3758e2f01109b7a535b013cd85a330d1',1,'cy_stc_canfd_f0_t']]],
   ['efid1',['efid1',['../structcy__stc__canfd__f0__t.html#aa3147b8e564c6aeb462804a0db70f92f',1,'cy_stc_canfd_f0_t']]],

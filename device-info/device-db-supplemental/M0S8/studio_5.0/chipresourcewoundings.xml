@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Woundings xml_version="1" xmlns="http://cypress.com/xsd/cychipresourcewoundings_v1">
+  <MemoryWounding name="SRAM_KB" memoryId="SRAM"/>
+  <MemoryWounding name="FLASH_KB" memoryId="FLASH"/>
+  <!--<MemoryWounding name="FLASH_KB" memoryId="FLASH1"/>-->
+  
   <BooleanWounding name="WCO">
     <Block name="wco"/>
   </BooleanWounding>

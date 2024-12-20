@@ -172,7 +172,7 @@ typedef enum {
 #define CY_HF_CLK_MAX_FREQ              48000000UL
 
 
-#include "system_cat2.h"                        /*!< Category 2 System */
+#include "system_cat2.h"
 
 #include "pmg1s3_config.h"
 #include "gpio_pmg1s3_97_bga_cypm1321.h"

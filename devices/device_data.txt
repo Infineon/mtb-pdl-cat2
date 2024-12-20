@@ -1,4 +1,4 @@
-SAS_REV=caddb:13788
-MPN_REV=1538
-device-db_REV=f63cbebc3a4f3d71326e4a7415e9c51712f92db3
-hobto_fw_gen_REV=1.6.0.2028
+SAS_REV=caddb:13906
+MPN_REV=1609
+device-db_REV=eb76bfa3a4e2f760d5bf5536a94b077e7fcf5c5f
+fwgen_REV=2.0.0.1096

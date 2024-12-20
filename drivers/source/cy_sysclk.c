@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.10.1
+* \version 3.20
 *
 * Provides an API implementation of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -27,7 +27,9 @@
 
 #include "cy_sysclk.h"
 #include "cy_syslib.h"
+#include <stdint.h>
 #include <stdlib.h>
+#include <limits.h>
 
 
 /* ========================================================================== */
@@ -115,6 +117,8 @@ static uint32_t extRefFreq = 0UL; /* Internal storage for external PLL reference
 * Valid range is 1000000...48000000 (1...48 MHz) and also 0.
 * Zero means the external clock signal is not applied.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtRefSetFrequency
 *
@@ -137,6 +141,8 @@ void Cy_SysClk_ExtRefSetFrequency(uint32_t freq)
 *
 * \return The frequency of the External PLL Reference Source.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_ExtRefSetFrequency
 *
@@ -154,7 +160,16 @@ uint32_t Cy_SysClk_ExtRefGetFrequency(void)
 /* ========================================================================== */
 
 
-
+#if defined (CY_IP_M0S8SRSSHV)
+#define CY_SYSCLK_IS_FREQ_VALID(freq)  ((CY_SYSCLK_IMO_24MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_28MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_32MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_36MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_40MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_44MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_48MHZ == (freq)) || \
+                                        (CY_SYSCLK_IMO_49_152MHZ == (freq)))
+#elif defined (CY_IP_S8SRSSLT)
 #define CY_SYSCLK_IS_FREQ_VALID(freq)  ((CY_SYSCLK_IMO_24MHZ == (freq)) || \
                                         (CY_SYSCLK_IMO_28MHZ == (freq)) || \
                                         (CY_SYSCLK_IMO_32MHZ == (freq)) || \
@@ -162,8 +177,11 @@ uint32_t Cy_SysClk_ExtRefGetFrequency(void)
                                         (CY_SYSCLK_IMO_40MHZ == (freq)) || \
                                         (CY_SYSCLK_IMO_44MHZ == (freq)) || \
                                         (CY_SYSCLK_IMO_48MHZ == (freq)))
+#endif /* (CY_IP_M0S8SRSSHV) */
 
 #define CY_SYSCLK_FREQ_SCALER           (1000000UL)
+#define CY_SYSCLK_MILLI_SCALER          (1000UL)
+#define CY_SYSCLK_MICRO_SCALER          (1000000UL)
 
 
 /*******************************************************************************
@@ -214,17 +232,63 @@ cy_en_sysclk_status_t Cy_SysClk_ImoSetFrequency(cy_en_sysclk_imo_freq_t freq)
                 }
             #endif /* (CY_IP_M0S8WCO) */
 
+            #if defined(CY_IP_M0S8SRSSHV)
+                /*
+                 *  For SRSSHV, the IMO frequency TRIM step is in multiples of 4MHZ
+                 */
+                locFreq >>= 2UL;
+                if (CY_SYSCLK_IMO_49_152MHZ == freq)
+                {
+                    /* for 49.152Mhz we have to address trim index next to 48 Mhz
+                     * so we have to increment calculated index.
+                     */
+                    locFreq += 1UL;
+                }
+
+                Cy_SysClk_UnlockProtReg();
+
                 /* Set IMO to 24 MHz */
-                SRSSLT_CLK_IMO_SELECT = 0UL;
+                SRSS_CLK_IMO_SELECT = 0UL;
 
                 /* Apply coarse trim */
-                SRSSLT_CLK_IMO_TRIM1 = SFLASH_IMO_TRIM_LT(locFreq);
-
-                /* Zero out fine trim */
-                SRSSLT_CLK_IMO_TRIM2 = 0UL;
+                SRSS_CLK_IMO_TRIM1 = SFLASH_IMO_TRIM_LT(locFreq);
 
                 /* Apply TC trim */
-                SRSSLT_CLK_IMO_TRIM3 = SFLASH_IMO_TCTRIM_LT(locFreq);
+                SRSS_CLK_IMO_TRIM2 = SFLASH_IMO_TCTRIM_LT(locFreq);
+
+                /* Apply step size trim */
+                SRSS_CLK_IMO_TRIM3 = SFLASH_IMO_STEPSIZE_LT(locFreq);
+
+                Cy_SysClk_LockProtReg();
+
+                /* 
+                 * For SRSSHV, the IMO TRIM frequency is in multiples of 4
+                 * So shifting by 4 here to avoid the divide by 4 done for other platforms.
+                 */
+                if (CY_SYSCLK_IMO_49_152MHZ == freq)
+                {
+                    /* for 49.152Mhz we have to address trim index next to 48 Mhz
+                     * but set 48Mhz frequency.
+                     * so we have to decrement calculated index back.
+                     */
+                    locFreq -= 1UL;
+                }
+                locFreq <<= 2UL;
+
+            #elif defined(CY_IP_S8SRSSLT)
+                /* Set IMO to 24 MHz */
+                SRSS_CLK_IMO_SELECT = 0UL;
+
+                /* Apply coarse trim */
+                SRSS_CLK_IMO_TRIM1 = SFLASH_IMO_TRIM_LT(locFreq);
+
+                /* Zero out fine trim */
+                SRSS_CLK_IMO_TRIM2 = 0UL;
+
+                /* Apply TC trim */
+                SRSS_CLK_IMO_TRIM3 = SFLASH_IMO_TCTRIM_LT(locFreq);
+
+            #endif /* defined(CY_IP_M0S8SRSSHV) */
 
                 /* Convert the SFLASH.IMO_TRIM register index into the frequency bitfield value */
                 locFreq >>= 2UL;
@@ -233,13 +297,21 @@ cy_en_sysclk_status_t Cy_SysClk_ImoSetFrequency(cy_en_sysclk_imo_freq_t freq)
 
                 if (0UL != locFreq)
                 {
+#if defined (CY_IP_M0S8SRSSHV)
+                    Cy_SysClk_UnlockProtReg();
+#endif /* defined (CY_IP_M0S8SRSSHV) */
                     /* Select nearby intermediate frequency */
-                    CY_REG32_CLR_SET(SRSSLT_CLK_IMO_SELECT, SRSSLT_CLK_IMO_SELECT_FREQ, locFreq - 1UL);
-
+                    CY_REG32_CLR_SET(SRSS_CLK_IMO_SELECT, SRSS_CLK_IMO_SELECT_FREQ, locFreq - 1UL);
                     Cy_SysLib_DelayCycles(50UL);
 
                     /* Make small step to final frequency */
-                    CY_REG32_CLR_SET(SRSSLT_CLK_IMO_SELECT, SRSSLT_CLK_IMO_SELECT_FREQ, locFreq);
+                    CY_REG32_CLR_SET(SRSS_CLK_IMO_SELECT, SRSS_CLK_IMO_SELECT_FREQ, locFreq);
+#if defined (CY_IP_M0S8SRSSHV)
+                    /* clear history for second order trim */
+                    iterationNum = 0UL;
+                    errorIntegralHz = 0;
+                    Cy_SysClk_LockProtReg();
+#endif /* defined (CY_IP_M0S8SRSSHV) */
                 }
 
             #if defined(CY_IP_M0S8WCO)
@@ -277,10 +349,9 @@ cy_en_sysclk_status_t Cy_SysClk_ImoSetFrequency(cy_en_sysclk_imo_freq_t freq)
 uint32_t Cy_SysClk_ImoGetFrequency(void)
 {
     return (Cy_SysClk_ImoIsEnabled() ?
-            (((_FLD2VAL(SRSSLT_CLK_IMO_SELECT_FREQ, SRSSLT_CLK_IMO_SELECT) << 2UL) *
-              CY_SYSCLK_FREQ_SCALER) + (uint32_t)CY_SYSCLK_IMO_24MHZ) : 0UL);
+        (((_FLD2VAL(SRSS_CLK_IMO_SELECT_FREQ, SRSS_CLK_IMO_SELECT) << 2UL) *
+          CY_SYSCLK_FREQ_SCALER) + (uint32_t)CY_SYSCLK_IMO_24MHZ) : 0UL);
 }
-
 
 #if defined(CY_IP_M0S8WCO)
 /*******************************************************************************
@@ -290,6 +361,8 @@ uint32_t Cy_SysClk_ImoGetFrequency(void)
 * Returns IMO lock status.
 *
 * \return IMO lock state \ref cy_en_sysclk_imo_lock_t.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 *******************************************************************************/
 cy_en_sysclk_imo_lock_t Cy_SysClk_ImoGetLockStatus(void)
@@ -318,6 +391,8 @@ cy_en_sysclk_imo_lock_t Cy_SysClk_ImoGetLockStatus(void)
 * \ref CY_SYSCLK_BAD_PARAM - Invalid parameter \n
 * \ref CY_SYSCLK_INVALID_STATE - Invalid state (IMO or WCO is not enabled, etc.)
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
 {
@@ -339,8 +414,12 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
         {
             WCO_CONFIG &= ~WCO_CONFIG_DPLL_ENABLE_Msk;
 
+#if defined (CY_IP_M0S8SRSSHV)
+#error "Device not supported."
+#endif /* defined (CY_IP_M0S8SRSSHV) */
+
             /* Convert the IMO_SELECT_FREQ value into the SFLASH.IMO_TRIM register index */
-            SRSSLT_CLK_IMO_TRIM1 = SFLASH_IMO_TRIM_LT((_FLD2VAL(SRSSLT_CLK_IMO_SELECT_FREQ, SRSSLT_CLK_IMO_SELECT) << 2UL));
+            SRSS_CLK_IMO_TRIM1 = SFLASH_IMO_TRIM_LT((_FLD2VAL(SRSS_CLK_IMO_SELECT_FREQ, SRSS_CLK_IMO_SELECT) << 2UL));
 
             retVal = CY_SYSCLK_SUCCESS;
         }
@@ -356,8 +435,17 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
                 uint32_t flashCtlReg = 0UL;
                 uint32_t dpllMult = 0UL;
 
+#if defined (CY_IP_M0S8SRSSHV)
+                /* Avoid lock register's potential race condition. */
+                uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+                Cy_SysClk_UnlockProtReg();
+#endif /* defined (CY_IP_M0S8SRSSHV) */
                 /* Set oscillator interface control port to WCO */
-                SRSSLT_CLK_IMO_TRIM1 = 0UL;
+                SRSS_CLK_IMO_TRIM1 = 0UL;
+#if defined (CY_IP_M0S8SRSSHV)
+                Cy_SysClk_LockProtReg();
+                Cy_SysLib_ExitCriticalSection(intrState);
+#endif /* defined (CY_IP_M0S8SRSSHV) */
 
                 /* Set multiplier to determine IMO frequency in multiples of the WCO frequency */
                 dpllMult = CY_SYSLIB_DIV_ROUND(Cy_SysClk_ImoGetFrequency(), CY_SYSCLK_WCO_FREQ) - 1UL;
@@ -410,26 +498,22 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
 static bool iloMeasurment = false;
 static bool preventIloMeasurment = false;
 
-#define SRSSLT_CLK_DFT_SELECT_DFT_SEL_NC  (0UL) /* DFT_SEL not connected (output is 0) */
-#define SRSSLT_CLK_DFT_SELECT_DFT_SEL_ILO (1UL) /* DFT_SEL ILO output */
+#define SRSS_CLK_DFT_SELECT_DFT_SEL_NC  (0UL) /* DFT_SEL not connected (output is 0) */
+#define SRSS_CLK_DFT_SELECT_DFT_SEL_ILO (1UL) /* DFT_SEL ILO output */
 
-#define SRSSLT_CLK_DFT_SELECT_DFT_CHCK_MSK (SRSSLT_CLK_DFT_SELECT_DFT_SEL0_Msk | \
-                                            SRSSLT_CLK_DFT_SELECT_DFT_SEL1_Msk)
-#define SRSSLT_CLK_DFT_SELECT_DFT_CHCK_VAL (_VAL2FLD(SRSSLT_CLK_DFT_SELECT_DFT_SEL0, \
-                                                     SRSSLT_CLK_DFT_SELECT_DFT_SEL_NC) | \
-                                            _VAL2FLD(SRSSLT_CLK_DFT_SELECT_DFT_SEL1, \
-                                                     SRSSLT_CLK_DFT_SELECT_DFT_SEL_ILO))
+#define SRSS_CLK_DFT_SELECT_DFT_CHCK_MSK (SRSS_CLK_DFT_SELECT_DFT_SEL0_Msk | \
+                                            SRSS_CLK_DFT_SELECT_DFT_SEL1_Msk)
+#define SRSS_CLK_DFT_SELECT_DFT_CHCK_VAL (_VAL2FLD(SRSS_CLK_DFT_SELECT_DFT_SEL0, \
+                                                     SRSS_CLK_DFT_SELECT_DFT_SEL_NC) | \
+                                            _VAL2FLD(SRSS_CLK_DFT_SELECT_DFT_SEL1, \
+                                                     SRSS_CLK_DFT_SELECT_DFT_SEL_ILO))
 
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Pos   0UL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Msk   0xFUL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Pos   8UL
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Msk   0xF00UL
+#define SRSS_TST_DDFT_CTRL_DFT_SEL_CLK0   (8UL)
+#define SRSS_TST_DDFT_CTRL_DFT_SEL_CLK1   (9UL)
 
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK0   (8UL)
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK1   (9UL)
+#define SRSS_TST_DDFT_CTRL_DFT_SEL_Pos    (SRSS_TST_DDFT_CTRL_DFT_SEL0_Pos)
+#define SRSS_TST_DDFT_CTRL_DFT_SEL_Msk    (SRSS_TST_DDFT_CTRL_DFT_SEL0_Msk | SRSS_TST_DDFT_CTRL_DFT_SEL1_Msk)
 
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL_Pos    (SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Pos)
-#define SRSSLT_TST_DDFT_CTRL_DFT_SEL_Msk    (SRSSLT_TST_DDFT_CTRL_DFT_SEL0_Msk | SRSSLT_TST_DDFT_CTRL_DFT_SEL1_Msk)
 
 /** \endcond */
 
@@ -444,10 +528,14 @@ static bool preventIloMeasurment = false;
 * This function is non-blocking and needs to be called before using the
 * \ref Cy_SysClk_IloCompensate() function.
 *
-* This function configures measurement counters to be sourced by SysClk (Counter 1)
+* This function configures measurement counters to be sourced:
+* - by SysClk (Counter 1) for non PSOC4 HV devices
+* - by IMO (Counter 1) for PSOC4 HV devices
+*
 * and ILO (Counter 2).
 *
-* \note SysClk should be clocked by IMO, otherwise
+* \note for PSOC4 HV devices Calib mechanism used for compensation \ref group_sysclk_calclk_funcs
+* \note for non PSOC4 HV devices SysClk should be clocked by IMO, otherwise
 * Cy_SysClk_IloCompensate() function can give incorrect results.
 *
 * \funcusage
@@ -458,21 +546,31 @@ static bool preventIloMeasurment = false;
 ******************************************************************************/
 void Cy_SysClk_IloStartMeasurement(void)
 {
+
     if (!preventIloMeasurment)
     {
         iloMeasurment = true;
-
+#if defined(CY_IP_S8SRSSLT)
         /* Configure measurement counters to source by SysClk (Counter 1) and ILO (Counter 2)*/
-        CY_REG32_CLR_SET(SRSSLT_CLK_DFT_SELECT,
-                         SRSSLT_CLK_DFT_SELECT_DFT_SEL1,
-                         SRSSLT_CLK_DFT_SELECT_DFT_SEL_ILO);
+        CY_REG32_CLR_SET(SRSS_CLK_DFT_SELECT,
+                         SRSS_CLK_DFT_SELECT_DFT_SEL1,
+                         SRSS_CLK_DFT_SELECT_DFT_SEL_ILO);
 
-        CY_REG32_CLR_SET(SRSSLT_TST_DDFT_CTRL,
-                         SRSSLT_TST_DDFT_CTRL_DFT_SEL,
-               (_VAL2FLD(SRSSLT_TST_DDFT_CTRL_DFT_SEL0,
-                         SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK0) |
-                _VAL2FLD(SRSSLT_TST_DDFT_CTRL_DFT_SEL1,
-                         SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK1)));
+        CY_REG32_CLR_SET(SRSS_TST_DDFT_CTRL,
+                         SRSS_TST_DDFT_CTRL_DFT_SEL,
+               (_VAL2FLD(SRSS_TST_DDFT_CTRL_DFT_SEL0,
+                         SRSS_TST_DDFT_CTRL_DFT_SEL_CLK0) |
+                _VAL2FLD(SRSS_TST_DDFT_CTRL_DFT_SEL1,
+                         SRSS_TST_DDFT_CTRL_DFT_SEL_CLK1)));
+#elif defined (CY_IP_M0S8SRSSHV)
+        /* Cy_SysClk_ImoGetFrequency = frequency in Hz
+         * Cy_SysClk_ImoGetFrequency ticks - will take 1 sec
+         * Cy_SysClk_ImoGetFrequency/1000 ticks - will take ~1msec
+         */
+        (void)Cy_SysClk_CalibStart(CY_SYSCLK_MEAS_CLK_IMO,
+                                   (uint16_t)(Cy_SysClk_ImoGetFrequency()/CY_SYSCLK_MILLI_SCALER),
+                                   CY_SYSCLK_MEAS_CLK_ILO);
+#endif /* defined(CY_IP_S8SRSSLT) */
     }
 }
 
@@ -501,10 +599,18 @@ void Cy_SysClk_IloStopMeasurement(void)
     if (!preventIloMeasurment)
     {
         iloMeasurment = false;
-
+#if defined(CY_IP_S8SRSSLT)
         /* Set default configurations in 11...8 DFT register bits to zero */
-        SRSSLT_CLK_DFT_SELECT &= ~SRSSLT_CLK_DFT_SELECT_DFT_SEL1_Msk;
-        SRSSLT_TST_DDFT_CTRL &= SRSSLT_TST_DDFT_CTRL_DFT_SEL_Msk;
+        SRSS_CLK_DFT_SELECT &= ~SRSS_CLK_DFT_SELECT_DFT_SEL1_Msk;
+        SRSS_TST_DDFT_CTRL &= SRSS_TST_DDFT_CTRL_DFT_SEL_Msk;
+#elif defined(CY_IP_M0S8SRSSHV)
+        /* by default
+         * no clocks set,
+         * no dividers for both clock sources,
+         * positive edge of the clock selected for dividers
+         */
+        SRSS_CLK_DFT_SELECT = 0UL;
+#endif /* defined(CY_IP_S8SRSSLT) */
     }
 }
 
@@ -583,6 +689,7 @@ void Cy_SysClk_IloStopMeasurement(void)
 * - \ref CY_SYSCLK_INVALID_STATE - Indicates that measurement not started.
 * The user should call \ref Cy_SysClk_IloStartMeasurement() API before calling
 * this function.
+* \note for PSOC4 HV used Calib mechanism used for compensation \ref group_sysclk_calclk_funcs
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_WDT_ISR
@@ -592,26 +699,29 @@ void Cy_SysClk_IloStopMeasurement(void)
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t * compensatedCycles)
 {
+#if defined(CY_IP_S8SRSSLT)
     uint32_t iloCompensatedCycles;
     uint32_t desiredDelayInCounts;
     static bool compRunStat = false; /* compensation running status */
+#endif /* defined(CY_IP_S8SRSSLT) */
     cy_en_sysclk_status_t retVal = CY_SYSCLK_INVALID_STATE;
-
-    /* Check if CySysStartMeasurement was called before */
-    bool ddftClkSel = (SRSSLT_TST_DDFT_CTRL == (_VAL2FLD(SRSSLT_TST_DDFT_CTRL_DFT_SEL0,
-                                           SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK0) |
-                                  _VAL2FLD(SRSSLT_TST_DDFT_CTRL_DFT_SEL1,
-                                           SRSSLT_TST_DDFT_CTRL_DFT_SEL_CLK1)));
-    bool ddftCheck = (SRSSLT_CLK_DFT_SELECT_DFT_CHCK_VAL == (SRSSLT_CLK_DFT_SELECT & SRSSLT_CLK_DFT_SELECT_DFT_CHCK_MSK));
 
     if ((MIN_DELAY_US > desiredDelay) ||
         (MAX_DELAY_US < desiredDelay) ||
         (NULL == compensatedCycles))
     {
         retVal = CY_SYSCLK_BAD_PARAM;
+        return (retVal);
     }
+#if defined(CY_IP_S8SRSSLT)
     /* Check if CySysStartMeasurement was called before */
-    else if (ddftClkSel && ddftCheck)
+    bool ddftClkSel = (SRSS_TST_DDFT_CTRL == (_VAL2FLD(SRSS_TST_DDFT_CTRL_DFT_SEL0,
+                                           SRSS_TST_DDFT_CTRL_DFT_SEL_CLK0) |
+                                  _VAL2FLD(SRSS_TST_DDFT_CTRL_DFT_SEL1,
+                                           SRSS_TST_DDFT_CTRL_DFT_SEL_CLK1)));
+    bool ddftCheck = (SRSS_CLK_DFT_SELECT_DFT_CHCK_VAL == (SRSS_CLK_DFT_SELECT & SRSS_CLK_DFT_SELECT_DFT_CHCK_MSK));
+    /* Check if CySysStartMeasurement was called before */
+    if (ddftClkSel && ddftCheck)
     {
         if(compRunStat)
         {
@@ -622,7 +732,7 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
                 {
                     /* Calculate required number of ILO cycles for given delay */
                     desiredDelayInCounts = CY_SYSLIB_DIV_ROUND(desiredDelay * COEF_PHUNDRED, ILO_PERIOD_PPH);
-
+                    
                     if ((SRSSLT_TST_TRIM_CNTR2 * desiredDelayInCounts) > (0xFFFFFFFFu >> SYS_CLK_DIVIDER))
                     {
                         iloCompensatedCycles = (((SRSSLT_TST_TRIM_CNTR2 * SystemCoreClock) /
@@ -652,6 +762,21 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
             retVal = CY_SYSCLK_STARTED;
         }
     }
+#elif defined(CY_IP_M0S8SRSSHV)
+    if(0UL != SRSS_CLK_DFT_SELECT)
+    {
+        /* Cy_SysClk_CalibGetFreq returns calibrated ILO frequency using
+         * Cy_SysClk_ImoGetFrequency()/1000UL ticks of IMO as reference
+         */
+        /* Wait until calibration is done */
+        while(!Cy_SysClk_CalibDone())
+        {
+        }
+        uint64_t ILOFrequency = Cy_SysClk_CalibGetFreq(true,(uint16_t)(Cy_SysClk_ImoGetFrequency()/CY_SYSCLK_MILLI_SCALER));
+        *compensatedCycles = (uint32_t)CY_SYSLIB_DIV_ROUND((ILOFrequency * desiredDelay), CY_SYSCLK_MICRO_SCALER);
+        retVal = CY_SYSCLK_SUCCESS;
+    }
+#endif /* defined(CY_IP_S8SRSSLT) */
     else
     {
         /* Do nothing, return CY_SYSCLK_INVALID_STATE */
@@ -659,7 +784,6 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
 
     return (retVal);
 }
-
 
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u)) || defined(CY_DOXYGEN)
 /* ========================================================================== */
@@ -723,6 +847,8 @@ static uint32_t ecoFreq = 0UL; /* Internal storage for ECO frequency user settin
 *
 * Configures the external crystal oscillator (ECO) trim bits based on crystal
 * characteristics. This function should be called only when the ECO is disabled.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \param freq Operating frequency of the crystal in Hz.
 * Valid range: 4000000...33330000 (4..33.33 MHz).
@@ -850,6 +976,8 @@ cy_en_sysclk_status_t Cy_SysClk_EcoConfigure(uint32_t freq, uint32_t cLoad, uint
 * Enables the external crystal oscillator (ECO). This function should be called
 * after \ref Cy_SysClk_EcoConfigure.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 * \param timeoutUs Amount of time in microseconds to wait for the ECO to stabilize.
 * To avoid waiting for stabilization, set this parameter to 0.
 *
@@ -905,6 +1033,8 @@ cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs)
 ****************************************************************************//**
 *
 * Returns the frequency of the external crystal oscillator (ECO).
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \return The frequency of the ECO.
 *
@@ -974,6 +1104,8 @@ static void Cy_SysClk_EcoSeqGen(void)
 ****************************************************************************//**
 *
 * Selects the PLL reference clock of the selected HFCLK.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \param pllNum the number of PLL instance, starting from 0.
 * If there is only one PLL in device - the 0 is the only valid number.
@@ -1049,6 +1181,8 @@ cy_en_sysclk_status_t Cy_SysClk_PllSetSource(uint32_t pllNum, cy_en_sysclk_pll_s
 * \note
 * Call \ref Cy_SysLib_SetWaitStates after calling this function if
 * the PLL is the source of HFCLK and the HFCLK frequency is decreasing.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
@@ -1153,6 +1287,8 @@ void Cy_SysClk_PllBypass(uint32_t pllNum, cy_en_sysclk_pll_bypass_t mode)
 * the real PLL output frequency could slightly differ from the desired value
 * (specified by the \ref cy_stc_sysclk_pll_config_t::outputFreq).
 * So please check the real PLL output frequency using \ref Cy_SysClk_PllGetFrequency.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_PllConfigure
@@ -1321,6 +1457,8 @@ cy_en_sysclk_status_t Cy_SysClk_PllConfigure(uint32_t pllNum, const cy_stc_syscl
 * Call \ref Cy_SysLib_SetWaitStates after calling this function if
 * the PLL is the source of HFCLK and the PLL frequency is decreasing.
 *
+* \note Not applicable for PSOC4 HVMS/PA.
+*
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
 *
@@ -1366,6 +1504,8 @@ cy_en_sysclk_status_t Cy_SysClk_PllManualConfigure(uint32_t pllNum, const cy_stc
 * If there is only one PLL in device - the 0 is the only valid number.
 *
 * \param config \ref cy_stc_sysclk_pll_manual_config_t
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
@@ -1415,6 +1555,8 @@ void Cy_SysClk_PllGetConfiguration(uint32_t pllNum, cy_stc_sysclk_pll_manual_con
 * \note
 * Call \ref Cy_SysLib_SetWaitStates after calling this function if
 * the PLL is the source of HFCLK and the HFCLK frequency is decreasing.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_PllConfigure
@@ -1470,6 +1612,8 @@ cy_en_sysclk_status_t Cy_SysClk_PllEnable(uint32_t pllNum, uint32_t timeoutUs)
 * If there is only one PLL in device - the 0 is the only valid number.
 *
 * \return The frequency, in Hz.
+*
+* \note Not applicable for PSOC4 HVMS/PA.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_PllManualConfigure
@@ -1554,7 +1698,7 @@ static cy_en_sysclk_exco_status_t Cy_SysClk_ExcoGetStatus(void)
         {
             excoStatus = CY_SYSCLK_EXCO_OUT_PLL;
         }
-        else 
+        else
         {
             if (0UL != Cy_SysClk_EcoGetFrequency())
             {
@@ -1627,6 +1771,10 @@ static uint32_t Cy_SysClk_ExcoGetFrequency(void)
                                              ((src) == CY_SYSCLK_CLKHF_IN_EXCO)   || \
                                              ((src) == CY_SYSCLK_CLKHF_IN_ECO))
 #endif /* EXCO_PLL_PRESENT */
+#elif (defined (CY_IP_M0S8SRSSHV))
+    #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
+                                             ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
+                                             ((src) == CY_SYSCLK_CLKHF_IN_HPOSC))
 #else
     #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
                                              ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK))
@@ -1662,6 +1810,7 @@ static uint32_t Cy_SysClk_ExcoGetFrequency(void)
 *
 * \funcusage
 * \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_EcoPllHfClk
+* \snippet sysclk/snippet/sysclk_snippet.c snippet_Cy_SysClk_ClkHfSetSource_HPOSC
 *
 *******************************************************************************/
 cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
@@ -1712,6 +1861,12 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
             #endif /* EXCO_PLL_PRESENT */
             /* BWC section end */
             #endif /* CY_IP_M0S8EXCO */
+            #if defined (CY_IP_M0S8SRSSHV)
+            else if ((CY_SYSCLK_CLKHF_IN_HPOSC == source) && (Cy_SysClk_HposcIsEnabled()))
+            {
+                retVal = CY_SYSCLK_SUCCESS;
+            }
+            #endif /* CY_IP_M0S8SRSSHV */
             else
             {
                 /* do nothing */
@@ -1719,7 +1874,16 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 
             if (retVal == CY_SYSCLK_SUCCESS)
             {
-                CY_REG32_CLR_SET(SRSSLT_CLK_SELECT, SRSSLT_CLK_SELECT_HFCLK_SEL, source);
+            #if defined (CY_IP_M0S8SRSSHV)
+                /* Avoid lock register's potential race condition. */
+                uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+                Cy_SysClk_UnlockProtReg();
+            #endif /* defined (CY_IP_M0S8SRSSHV) */
+                CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSS_CLK_SELECT_HFCLK_SEL, source);
+            #if defined (CY_IP_M0S8SRSSHV)
+                Cy_SysClk_LockProtReg();
+                Cy_SysLib_ExitCriticalSection(intrState);
+            #endif /* defined (CY_IP_M0S8SRSSHV) */
             }
         }
         else
@@ -1746,6 +1910,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 * \ref CY_SYSCLK_CLKHF_IN_IMO - IMO - Internal R/C Oscillator. \n
 * \ref CY_SYSCLK_CLKHF_IN_EXTCLK - EXTCLK - External Clock Pin. \n
 * \ref CY_SYSCLK_CLKHF_IN_EXCO - EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them.
+* \ref CY_SYSCLK_CLKHF_IN_HPOSC - High Precision Oscillator. \n
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoDisable
@@ -1754,7 +1919,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 cy_en_sysclk_clkhf_src_t Cy_SysClk_ClkHfGetSource(void)
 {
     CY_MISRA_DEVIATE_LINE('MISRA C-2012 Rule 10.8', 'The field values match the enumeration.');
-    return ((cy_en_sysclk_clkhf_src_t)_FLD2VAL(SRSSLT_CLK_SELECT_HFCLK_SEL, SRSSLT_CLK_SELECT));
+    return ((cy_en_sysclk_clkhf_src_t)_FLD2VAL(SRSS_CLK_SELECT_HFCLK_SEL, SRSS_CLK_SELECT));
 }
 
 
@@ -1796,6 +1961,11 @@ uint32_t Cy_SysClk_ClkHfGetFrequency(void)
             freq = Cy_SysClk_ExcoGetFrequency();
             break;
     #endif /* CY_IP_M0S8EXCO */
+    #if defined (CY_IP_M0S8SRSSHV)
+        case CY_SYSCLK_CLKHF_IN_HPOSC:
+            freq = CY_SYSCLK_HPOSC_FREQ;
+            break;
+    #endif /* CY_IP_M0S8SRSSHV */
 
         default: /* Unsupported clock source, return 0 */
             break;
@@ -1806,6 +1976,791 @@ uint32_t Cy_SysClk_ClkHfGetFrequency(void)
 }
 
 /** \} group_sysclk_clk_hf_funcs */
+
+
+#if defined (CY_IP_M0S8SRSSHV)
+/* ========================================================================== */
+/* ==========================    LFCLK SECTION    =========================== */
+/* ========================================================================== */
+
+/** \cond */
+
+/* The LFCLK clock source switching needs (3 + 1) cycles. */
+#define CY_SYSCLK_LFCLK_SRC_SWITCH_CYCLES (4UL)
+#define CY_SYSCLK_LFCLK_SRC_SWITCH_DELAY_BY_FREQ(freq) \
+    (CY_SYSCLK_LFCLK_SRC_SWITCH_CYCLES * 1000000UL / (freq))
+
+/** \endcond */
+
+/**
+* \addtogroup group_sysclk_clk_lf_funcs
+* \{
+*/
+/*******************************************************************************
+* Function Name: Cy_SysClk_ClkLfSetSource
+****************************************************************************//**
+*
+* Selects the source of the LFCLK.
+*
+* \param source \ref cy_en_sysclk_clklf_src_t
+*
+* \return  Error / status code \ref cy_en_sysclk_status_t : \n
+* \ref CY_SYSCLK_SUCCESS - the source is successfully set; \n
+* \ref CY_SYSCLK_INVALID_STATE - the selected clock source is not enabled or does not working; \n
+* \ref CY_SYSCLK_BAD_PARAM - the source parameter is invalid.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \warning The Watchdog timer should be unlocked before set source of the LFCLK.
+* Call the \ref Cy_WDT_Unlock() API to unlock the WDT.
+*
+* \note  It takes about (3 + 1) LF clock cycles of the new selected clock to switch away
+* from the old clock to the new clock. Do not disable the original clock during this time.
+*
+* \note  If a clock source is disabled while selected, then the clock merely stops to all sources that receive it. 
+* In such a scenario, the disabled clock must be re-enabled, prior to switching FROM this clock source.
+*
+* \note This function is not re-entrant.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkLfSetSource
+*
+*******************************************************************************/
+cy_en_sysclk_status_t Cy_SysClk_ClkLfSetSource(cy_en_sysclk_clklf_src_t source)
+{
+    CY_ASSERT_L2(false == Cy_WDT_Locked());
+
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_SUCCESS;
+    do
+    {
+        cy_en_sysclk_clklf_src_t prevSrc = Cy_SysClk_ClkLfGetSource();
+        /* No switching needed */
+        if (source == prevSrc)
+        {
+            break;
+        }
+
+        uint32_t srcFreq = 0;
+        if (CY_SYSCLK_CLKLF_IN_PILO == source)
+        {
+            /* Handle situation when target source not enabled. */
+            if (!Cy_SysClk_PiloIsEnabled())
+            {
+                retVal = CY_SYSCLK_INVALID_STATE;
+                break;
+            }
+
+            srcFreq = CY_SYSCLK_PILO_FREQ;
+        }
+        else if (CY_SYSCLK_CLKLF_IN_ILO == source)
+        {
+            /* Handle situation when target source not enabled. */
+            if(!Cy_SysClk_IloIsEnabled())
+            {
+                retVal = CY_SYSCLK_INVALID_STATE;
+                break;
+            }
+
+            srcFreq = CY_SYSCLK_ILO_FREQ;
+        }
+        else
+        {
+            retVal = CY_SYSCLK_BAD_PARAM;
+            break;
+        }
+
+        /* It takes about (3 + 1) low frequency clock cycles to switch away from the old source to the new source.
+           Microsecond delay calculation which equal (3 + 1) ILO or PILO cycles by the target source frequency. */
+        uint16_t delay = (uint16_t)CY_SYSCLK_LFCLK_SRC_SWITCH_DELAY_BY_FREQ(srcFreq);
+        /* Avoid lock register's potential race condition. */
+        uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+        Cy_SysClk_UnlockProtReg();
+        CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSSHV_CLK_SELECT_LFCLK_SEL, source);
+        Cy_SysClk_LockProtReg();
+        Cy_SysLib_ExitCriticalSection(intrState);
+
+        /* Wait for low frequency clock switching. */
+        Cy_SysLib_DelayUs(delay);
+    } while(false);
+
+    return (retVal);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ClkLfGetFrequency
+****************************************************************************//**
+*
+* Reports the frequency of the LFCLK.
+*
+* \return The frequency is in Hz units and equals 0 in case of an unknown frequency.
+*
+* \note The reported value may be zero, which indicates the frequency is unknown.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkLfGetFrequency
+*
+*******************************************************************************/
+uint32_t Cy_SysClk_ClkLfGetFrequency(void)
+{
+    uint32_t freq = 0UL; /* frequency in Hz, 0 = an unknown frequency */
+
+    cy_en_sysclk_clklf_src_t source = Cy_SysClk_ClkLfGetSource();
+    /* Get the frequency of the source  */
+    switch(source)
+    {
+    case CY_SYSCLK_CLKLF_IN_PILO:
+        freq = Cy_SysClk_PiloIsEnabled() ? CY_SYSCLK_PILO_FREQ : 0UL;
+        break;
+
+    case CY_SYSCLK_CLKLF_IN_ILO:
+        freq = Cy_SysClk_IloIsEnabled() ? CY_SYSCLK_ILO_FREQ : 0UL;
+        break;
+
+    default:
+        /* Don't know the frequency, leave freq = 0UL */
+        break;
+    }
+
+    return (freq);
+}
+/** \} group_sysclk_clk_lf_funcs */
+
+
+/* ========================================================================== */
+/* ====================    CLOCK CALIBRATION SECTION    ===================== */
+/* ========================================================================== */
+__STATIC_INLINE uint32_t Cy_SysClk_CalibGetFrequency(cy_en_meas_clks_t clock)
+{
+    uint32_t frequency;
+    /* get actual frequency of the clock source */
+    switch (clock)
+    {
+    case CY_SYSCLK_MEAS_CLK_ILO:
+        frequency = CY_SYSCLK_ILO_FREQ;
+        break;
+    case CY_SYSCLK_MEAS_CLK_IMO:
+        frequency = Cy_SysClk_ImoGetFrequency();
+        break;
+    case CY_SYSCLK_MEAS_CLK_SYSCLK:
+        frequency = Cy_SysClk_ClkSysGetFrequency();
+        break;
+    case CY_SYSCLK_MEAS_CLK_HPOSC:
+        frequency = CY_SYSCLK_HPOSC_FREQ;
+        break;
+    case CY_SYSCLK_MEAS_CLK_PILO:
+        frequency = CY_SYSCLK_PILO_FREQ;
+        break;
+    default:
+        frequency = 0UL;
+        break;
+    }
+    return (frequency);
+}
+/**
+* \addtogroup group_sysclk_calclk_funcs
+* \{
+*/
+/*******************************************************************************
+* Function Name: Cy_SysClk_CalibStart
+****************************************************************************//**
+*
+* Assigns clocks to the clock measurement counters, and starts counting. The counters
+* let you measure a clock frequency using another clock as a reference. There are two
+* counters.
+*
+* - One counter (counter1), which is clocked by clock1, is loaded with an initial
+*   value and counts down to zero.
+* - The second counter (counter2), which is clocked by clock2, counts up until
+*   the first counter reaches zero.
+*
+* Either clock1 or clock2 can be a reference clock; the other clock becomes the
+* measured clock. The reference clock frequency is always known. \n
+* After calling this function, call \ref Cy_SysClk_CalibDone()
+* to determine when counting is done; that is, counter1 has counted down to zero.
+* Then call \ref Cy_SysClk_CalibGetFreq() to calculate the frequency
+* of the measured clock.
+*
+* \param clock1 The clock for counter1
+*
+* \param count1 The initial value for counter1, from which counter1 counts down to zero.
+*
+* \param clock2 The clock for counter2
+*
+* \return Error / status code: \n
+* CY_SYSCLK_INVALID_STATE if already doing a measurement \n
+* CY_SYSCLK_BAD_PARAM if invalid clock input parameter. Source have zero frequency. Or overflow expected \n
+* else CY_SYSCLK_SUCCESS
+*
+* \note The counters are both 16-bit, so the maximum value of count1 is 0xFFFF.
+* If clock2 frequency is greater than clock1, make sure that count1 is low enough
+* that counter2 does not overflow before counter1 reaches zero.
+* \note The time to complete a measurement is count1 / clock1 frequency.
+* \note The clocks for both counters must have a nonzero frequency, or
+* \ref Cy_SysClk_CalibGetFreq() incorrectly reports the result of the
+* previous  measurement.
+* \note Both clock1 and clock2 clocks must be running or the measurement will not complete.
+* \note Due to internal clock synchronization count1 should be at least 5 times the 1/frequency2.
+* \note Do not enter a device low power mode (Sleep, Deep Sleep) while doing a measurement;
+* the measured clock frequency may not be accurate.
+* \note The calibration counters are available only in Active/Sleep modes.
+* Counter values are not retained and will be in default state after wakeup from deepsleep.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_CalibStart
+*
+*******************************************************************************/
+
+
+cy_en_sysclk_status_t Cy_SysClk_CalibStart(cy_en_meas_clks_t clock1, uint16_t count1, cy_en_meas_clks_t clock2)
+{
+    uint32_t frequency1 = 0UL;
+    uint32_t frequency2 = 0UL;
+    /* if calibration is not done yet */
+    if (!Cy_SysClk_CalibDone())
+    {
+        /* Calibration is in progress. Unable to start new calibration. Emergency exit */
+        return CY_SYSCLK_INVALID_STATE;
+    }
+    /* clock sources number higher then PILO is not allowed for calibration */
+    if ((clock1 > CY_SYSCLK_MEAS_CLK_PILO) || (clock2 > CY_SYSCLK_MEAS_CLK_PILO))
+    {
+        /* emergency exit, no reasons to continue */
+        return CY_SYSCLK_BAD_PARAM;
+    }
+    /* disabled source can not be used for calibration */
+    if ((clock1 == CY_SYSCLK_MEAS_CLK_NC) || (clock2 == CY_SYSCLK_MEAS_CLK_NC))
+    {
+        /* emergency exit, no reasons to continue */
+        return CY_SYSCLK_BAD_PARAM;
+    }
+    frequency1 = Cy_SysClk_CalibGetFrequency(clock1);
+    frequency2 = Cy_SysClk_CalibGetFrequency(clock2);
+    /* if any of frequencies is zero, then no reason to continue calibration */
+    if ((0UL == frequency1) || (0UL == frequency2))
+    {
+        /* emergency exit, no reasons to continue */
+        return CY_SYSCLK_BAD_PARAM;
+    }
+    if (1UL >= count1)
+    {
+        /* CAL_COUNTER1 should always be > 1 */
+        return CY_SYSCLK_BAD_PARAM;
+    }
+    /* if frequency of the counter2 bigger then frequency of the counter1, check potential overflow */
+    if (frequency2 > frequency1)
+    {
+        /* counter1 and counter2 are 16 bits wide */
+        if((uint64_t)UINT16_MAX < ((uint64_t)frequency2/(uint64_t)frequency1)*count1)
+        {
+            /* Overflow. Emergency exit, no reasons to continue */
+            return CY_SYSCLK_BAD_PARAM;
+        }
+    }
+    else
+    {
+        /* Due to internal clock synchronization CAL_COUNTER1 should be at least 5 times the 1/frequency2. */
+        if (count1 < (uint16_t)((5ULL*(uint64_t)frequency1)/frequency2))
+        {
+            return CY_SYSCLK_BAD_PARAM;
+        }
+    }
+    /* by default
+     * no clocks set,
+     * no dividers for both clock sources,
+     * positive edge of the clock selected for dividers
+     */
+    SRSS_CLK_DFT_SELECT = 0UL;
+    /* set clocks */
+    SRSS_CLK_DFT_SELECT = _VAL2FLD(SRSS_CLK_DFT_SELECT_DFT_SEL0,clock1) | _VAL2FLD(SRSS_CLK_DFT_SELECT_DFT_SEL1,clock2);
+    /* Start the clock calibration */
+    SRSS_CLK_CAL_CNT1 = _VAL2FLD(SRSSHV_CLK_CAL_CNT1_CAL_COUNTER1,count1);
+    return CY_SYSCLK_SUCCESS;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_CalibGetFreq
+****************************************************************************//**
+*
+* Calculates the frequency of the indicated measured clock (clock1 or clock2).
+* - If clock1 is the measured clock, its frequency is: clock1 frequency = (count1 / count2) * clock2 frequency
+* - If clock2 is the measured clock, its frequency is: clock2 frequency = (count2 / count1) * clock1 frequency
+*
+* Call this function only after counting is done; see \ref Cy_SysClk_CalibDone().
+*
+* \param measuredClock False (0) if the measured clock is clock1; true (1)
+* if the measured clock is clock2.
+*
+* \param count1 The initial value for counter1, from which counter1 counts down to zero.
+* See \ref Cy_SysClk_CalibStart()
+*
+* \return The frequency of the measured clock, in Hz.
+* \warning The function returns zero, if during measurement device was in the
+* Deep Sleep or partially blocking flash operation occurred. It means that
+* current measurement is not valid and you should call the
+* Cy_SysClk_CalibStart() function once again.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_CalibGetFreq
+*
+*******************************************************************************/
+uint32_t Cy_SysClk_CalibGetFreq(bool measuredClock, uint16_t count1)
+{
+    cy_en_meas_clks_t clock1;
+    cy_en_meas_clks_t clock2;
+    /* reference frequency can be clock1 or clock2 depends of measuredClock */
+    uint32_t freqReference;
+    /* calculated frequency value based on the reference clock*/
+    uint32_t freqMeasured;
+    /* up counter value */
+    uint16_t count2;
+    /* temp variable to cast according the MISRA requirements */
+    uint32_t clock;
+
+    if (!Cy_SysClk_CalibDone() || 0U == count1)
+    {
+        /* calibration is not done yet.
+         * unable to have count1 equal zero
+         */
+        freqMeasured = 0UL;
+    }
+    else
+    {
+        clock = _FLD2VAL(SRSS_CLK_DFT_SELECT_DFT_SEL0,SRSS_CLK_DFT_SELECT);
+        clock1 = (cy_en_meas_clks_t)clock;
+        clock = _FLD2VAL(SRSS_CLK_DFT_SELECT_DFT_SEL1,SRSS_CLK_DFT_SELECT);
+        clock2 = (cy_en_meas_clks_t)clock;
+        count2 = (uint16_t)_FLD2VAL(SRSSHV_CLK_CAL_CNT2_CAL_COUNTER2,SRSS_CLK_CAL_CNT2);
+        if (measuredClock)
+        {
+            freqReference = Cy_SysClk_CalibGetFrequency(clock1);
+            if (0UL == freqReference)
+            {
+                /* reference clock is zero, unable to do calculations */
+                freqMeasured = 0UL;
+            }
+            else
+            {
+                freqMeasured = (uint32_t)((count2 * (uint64_t)freqReference)/count1);
+            }
+        }
+        else
+        {
+            freqReference = Cy_SysClk_CalibGetFrequency(clock2);
+            if (0UL == freqReference)
+            {
+                /* reference clock is zero, unable to do calculations */
+                freqMeasured = 0UL;
+            }
+            else
+            {
+                freqMeasured = (uint32_t)((count1 * (uint64_t)freqReference)/count2);
+            }
+        }
+    }
+    return freqMeasured;
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_CalibDone
+****************************************************************************//**
+*
+* Checks if clock measurement counting is done, that is, counter1 has counted down
+* to zero. Call \ref Cy_SysClk_CalibStart() before calling this function.
+*
+* \return Status of calibration counters: \n
+* true = done \n
+* false = in progress
+*
+*******************************************************************************/
+bool Cy_SysClk_CalibDone(void)
+{
+    return _FLD2BOOL(SRSSHV_CLK_CAL_CNT1_CAL_COUNTER_DONE,SRSS_CLK_CAL_CNT1);
+}
+/** \} group_sysclk_calclk_funcs */
+
+
+/* ========================================================================== */
+/* ==========================    TRIM SECTION    ============================ */
+/* ========================================================================== */
+
+/** \cond INTERNAL */
+#define CY_SYSCLK_IMOTRIM_MIN           (0U)          /* Maximum value of the IMO clock trim setting */
+#define CY_SYSCLK_IMOTRIM_MAX           (0x000007FFU) /* Maximum value of the IMO clock trim setting */
+#define CY_SYSCLK_IMOTRIM1_OFFSET_SHIFT (3U)          /* Shift value of the CLK_IMO_TRIM1 register OFFSET bit */
+#define CY_SYSCLK_IMO_COARSE_TRIM_STEP  (160000UL)    /* Coarse IMO TRIM Step size */
+#define CY_SYSCLK_IMO_FINE_TRIM_STEP    (20000UL)     /* Fine IMO TRIM Step size */
+#define CY_SYSCLK_CALIB_IMO_GAIN1       (50)          /* Value of the gain 1 factor for IMO clock */
+#define CY_SYSCLK_CALIB_IMO_GAIN2       (5)           /* Value of the gain 2 factor for IMO clock */
+
+#define CY_SYSCLK_CALIB_PILO_GAIN1      (15000)       /* Value of the gain 1 factor for PILO clock */
+#define CY_SYSCLK_CALIB_PILO_GAIN2      (1500)        /* Value of the gain 2 factor for PILO clock */
+/** CY_SYSCLK_PILO_TRIM_STEP is the default PILO TRIM Step value */
+#define CY_SYSCLK_PILO_TRIM_STEP        (50UL)         /* Default PILO TRIM Step size */
+#define CY_SYSCLK_PILOCTL_TRCAP_DEFAULT (0x000000C0U) /* Default value of the PILO_CTL register TR_CAP bit */
+#define CY_SYSCLK_PILOCTL_TRCAP_MIN     (0x00000080U) /* Minimum value of the PILO_CTL register TR_CAP bit */
+#define CY_SYSCLK_PILOCTL_TRCAP_MAX     (0x000000FFU) /* Maximum value of the PILO_CTL register TR_CAP bit */
+
+/* history for second order trim */
+uint32_t iterationNum;
+int32_t  errorIntegralHz;
+/** \endcond */
+
+/*****************************************************************************
+* Local function ('static')
+*****************************************************************************/
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ImoGetTrim
+****************************************************************************//**
+*
+* Gets the IMO Trim Value.
+*
+* \return IMO Trim Value.
+* \note LSB [2:0] bits  is hardware updated during USB osclock mode.
+* The step size of 1 LSB on this field is nominally 20 kHz.
+* [10:3] bits determined at manufacturing time for each FREQ setting.
+* This field is hardware updated during USB osclock mode.
+* The step size of 1 bit on this part is nominally 160 kHz.
+*
+*******************************************************************************/
+static uint32_t Cy_SysClk_ImoGetTrim(void)
+{
+    uint32_t trim;
+
+    trim = (uint32_t)_FLD2VAL(SRSS_CLK_IMO_TRIM1_OFFSET, SRSS_CLK_IMO_TRIM1) << CY_SYSCLK_IMOTRIM1_OFFSET_SHIFT;
+    trim += (uint32_t)_FLD2VAL(SRSS_CLK_IMO_TRIM2_FSOFFSET, SRSS_CLK_IMO_TRIM2);
+
+    return (trim);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ImoSetTrim
+****************************************************************************//**
+*
+* Set IMO Trim Value
+*
+* \param trimVal Trim value to be set for IMO.
+* \note trimVal must contain 11 bits of trim value.
+*
+*******************************************************************************/
+static void Cy_SysClk_ImoSetTrim(uint32_t trimVal)
+{
+    if (CY_SYSCLK_IMOTRIM_MAX < trimVal)
+    {
+        trimVal = CY_SYSCLK_IMOTRIM_MAX;
+    }
+    /* Avoid lock register's potential race condition. */
+    uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+    Cy_SysClk_UnlockProtReg();
+    SRSS_CLK_IMO_TRIM1 = _VAL2FLD(SRSS_CLK_IMO_TRIM1_OFFSET, (trimVal >> CY_SYSCLK_IMOTRIM1_OFFSET_SHIFT));
+    SRSS_CLK_IMO_TRIM2 = _CLR_SET_FLD32U(SRSS_CLK_IMO_TRIM2, SRSS_CLK_IMO_TRIM2_FSOFFSET, trimVal);
+    Cy_SysClk_LockProtReg();
+    Cy_SysLib_ExitCriticalSection(intrState);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_PiloGetTrim
+****************************************************************************//**
+*
+* Gets the PILO Trim Value.
+*
+* \return PILO Trim Value.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_SysClk_PiloGetTrim(void)
+{
+    return ((uint32_t)_FLD2VAL(SRSS_PILO_CTL_TR_CAP, SRSS_PILO_CTL));
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_PiloSetTrim
+****************************************************************************//**
+*
+* Set PILO Trim Value
+*
+* \param trimVal Trim value to be set for PILO.
+*
+* \note TP_CAP - PILO user temperature fine trim.
+* To meet the 1% accuracy target, the user need to trim PILO_CTL.TR_CAP to lock to HPOSC.
+* The trim uses only the lower 7 bits. This register is updated with firmware for tracking.
+*
+*
+*******************************************************************************/
+static void Cy_SysClk_PiloSetTrim(uint32_t trimVal)
+{
+    /* Set trim value to minimum value if it is below that */
+    if(CY_SYSCLK_PILOCTL_TRCAP_MIN > trimVal)
+    {
+        trimVal = CY_SYSCLK_PILOCTL_TRCAP_MIN;
+    }
+    /* Set trim value to maximum value if it exceeds */
+    if(CY_SYSCLK_PILOCTL_TRCAP_MAX < trimVal)
+    {
+        trimVal = CY_SYSCLK_PILOCTL_TRCAP_MAX;
+    }
+    /* Avoid lock register's potential race condition. */
+    uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+    /* All trim registers are protected */
+    Cy_SysClk_UnlockProtReg();
+    /* Set trim value to what it is if it is in range */
+    SRSS_PILO_CTL = _CLR_SET_FLD32U(SRSS_PILO_CTL, SRSS_PILO_CTL_TR_CAP, trimVal);
+    Cy_SysClk_LockProtReg();
+    Cy_SysLib_ExitCriticalSection(intrState);
+}
+/*******************************************************************************
+* Function Name: Cy_SysClk_CalculateNextTrim
+****************************************************************************//**
+*
+* \brief
+*  Calculates the next clock trim value with clock error value.
+* \param clock clock for which needed be
+* \param currFreq actual frequency of the clock
+* \param formula type of formula to calculate next trim value
+* \return
+*  Value of next clock trim.
+*
+******************************************************************************/
+static uint32_t Cy_SysClk_CalculateNextTrim (cy_en_meas_clks_t clock, uint32_t currFreq, cy_en_sysclk_calib_formula_t formula)
+{
+    uint32_t errorValueHz; /* absolute difference between real and expected frequencies */
+    bool sign = false; /* sign of the errorValueHz */
+    uint32_t deltaTrim = 0UL; /* delta that should be added to the current trim value for calibration */
+    uint32_t nextTrim = 0UL; /* trim value which have to be applied to tune frequency */
+    uint32_t currentTrim; /* temporary storage for current trim registers value */
+    uint32_t freqTarget; /* needed frequency */
+    uint32_t trimStep; /* Hz per bits trimming */
+    /* for second order formula borrowed from AutoPDL */
+    uint32_t clkGain1; /* proportional gain */
+    uint32_t clkGain2; /* IIR filter gain */
+
+    if (CY_SYSCLK_MEAS_CLK_IMO == clock)
+    {
+        freqTarget = Cy_SysClk_ImoGetFrequency();
+        /*
+         * since for IMO fine trim have 3 bits, 8 steps from 0 to 7
+         * total weight of the fine trim 8*20 = 160
+         * exactly fit the LSB weight of the coarse trim register,
+         * so we can use smallest step to simplify calculations
+         * of the overall trimming.
+         */
+        trimStep = CY_SYSCLK_IMO_FINE_TRIM_STEP;
+        /* Get current trim value */
+        currentTrim = Cy_SysClk_ImoGetTrim();
+        /* init gains for second order formula */
+        clkGain1 = CY_SYSCLK_CALIB_IMO_GAIN1;
+        clkGain2 = CY_SYSCLK_CALIB_IMO_GAIN2;
+    }
+    else
+    {
+        freqTarget = CY_SYSCLK_PILO_FREQ;
+        trimStep = CY_SYSCLK_PILO_TRIM_STEP;
+        /* Get current trim value */
+        currentTrim = Cy_SysClk_PiloGetTrim();
+        /* init gains for second order formula */
+        clkGain1 = CY_SYSCLK_CALIB_PILO_GAIN1;
+        clkGain2 = CY_SYSCLK_CALIB_PILO_GAIN2;
+    }
+    /* calculate diff between current and expected frequencies */
+    if(currFreq > freqTarget)
+    {
+        errorValueHz = currFreq - freqTarget;
+        /* for first order calibration frequency difference less then trim step have no sense */
+        if((CY_SYSCLK_CALIB_FIRST_ORDER == formula) && (errorValueHz < trimStep))
+        {
+            errorValueHz = 0UL;
+        }
+    }
+    else if(currFreq < freqTarget)
+    {
+        errorValueHz = freqTarget - currFreq;
+        if ((CY_SYSCLK_CALIB_FIRST_ORDER == formula) && (errorValueHz < trimStep))
+        {
+            errorValueHz = 0UL;
+        }
+        sign = true;
+    }
+    else
+    {
+        errorValueHz = 0UL;
+    }
+
+    /* for second order always calculate deltaTrim */
+    if (CY_SYSCLK_CALIB_SECOND_ORDER == formula)
+    {
+        deltaTrim = errorValueHz * clkGain1;
+        /* if accumulated freq error is positive - increase trim */
+        if (0 < errorIntegralHz)
+        {
+            deltaTrim += (uint32_t)errorIntegralHz * clkGain2;
+        }
+        else
+        {
+            /* it's unable to get abs from INT_MIN so need to handle this case separately */
+            if (INT_MIN == errorIntegralHz)
+            {
+                /* if accumulated error is negative - decrease trim till zero */
+                if (deltaTrim > (uint32_t)INT_MAX * clkGain2)
+                {
+                    deltaTrim -= (uint32_t)INT_MAX * clkGain2;
+                }
+                else
+                {
+                    deltaTrim = 0U;
+                }
+            }
+            else
+            {
+                /* if accumulated error is negative - decrease trim till zero */
+                if (deltaTrim > (uint32_t)abs(errorIntegralHz) * clkGain2)
+                {
+                    deltaTrim -= (uint32_t)abs(errorIntegralHz) * clkGain2;
+                }
+                else
+                {
+                    deltaTrim = 0U;
+                }
+            }
+        }
+        deltaTrim /= CY_SYSCLK_MICRO_SCALER;
+
+        /* Sum (integrate) previous frequency errors, ignoring one initial measurement */
+        if(0U == iterationNum)
+        {
+            iterationNum = 1U;
+        }
+        else
+        {
+            errorIntegralHz += (sign? (0 - (int32_t)errorValueHz): (int32_t)errorValueHz);
+        }
+    }
+    else
+    {
+        /* calculate the trim for first order*/
+        deltaTrim = CY_SYSLIB_DIV_ROUND(errorValueHz, trimStep);
+    }
+
+    if(sign)
+    {/* frequency is too low. Increase the trim value */
+        nextTrim = currentTrim + deltaTrim;
+    }
+    else
+    {/* frequency is too high. Decrease the trim value */
+        nextTrim = currentTrim - deltaTrim;
+        if ((int32_t)nextTrim < 0) /* limit underflow */
+        {
+            nextTrim = 0UL;
+        }
+    }
+    return nextTrim;
+}
+
+
+/**
+* \addtogroup group_sysclk_trim_funcs
+* \{
+*/
+/*******************************************************************************
+* Function Name: Cy_SysClk_ImoTrim
+****************************************************************************//**
+*
+* Trims the IMO to be as close to requested frequency as possible.
+*
+* \param imoFreq current IMO frequency. Call \ref Cy_SysClk_CalibStart
+* and other measurement functions to obtain the current frequency of the IMO.
+*
+* \param order type of the calibration \ref cy_en_sysclk_calib_formula_t
+* which will be executed.
+*
+* \return Change in trim value - 0 if done; that is, no change in trim value.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_ImoTrim
+*
+*******************************************************************************/
+int32_t Cy_SysClk_ImoTrim(uint32_t imoFreq, cy_en_sysclk_calib_formula_t order)
+{
+    uint32_t nextTrim;
+    uint32_t currentTrim;
+    uint32_t freqTarget; /* needed frequency */
+
+    freqTarget = Cy_SysClk_ImoGetFrequency();
+
+    /* Get current trim value */
+    currentTrim = Cy_SysClk_ImoGetTrim();
+
+    if ((CY_SYSCLK_CALIB_SECOND_ORDER == order) || \
+        (imoFreq > freqTarget ? (imoFreq - freqTarget) : (freqTarget - imoFreq)) > CY_SYSCLK_IMO_FINE_TRIM_STEP)
+    {
+        nextTrim = Cy_SysClk_CalculateNextTrim(CY_SYSCLK_MEAS_CLK_IMO, imoFreq, order);
+    }
+    else
+    {
+        nextTrim = currentTrim;
+    }
+
+    /* Update the trim value */
+    Cy_SysClk_ImoSetTrim(nextTrim);
+
+    return ((int32_t)nextTrim - (int32_t)currentTrim);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_PiloTrim
+****************************************************************************//**
+*
+* Trims the PILO to be as close to 32,768 Hz as possible.
+*
+* \param piloFreq current PILO frequency. Call \ref Cy_SysClk_CalibStart
+* and other measurement functions to obtain the current frequency of the PILO.
+*
+* \param order type of the calibration \ref cy_en_sysclk_calib_formula_t
+* which will be executed
+*
+*
+* \return Change in trim value; 0 if done, that is, no change in trim value.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_PiloTrim
+*
+*******************************************************************************/
+int32_t Cy_SysClk_PiloTrim(uint32_t piloFreq, cy_en_sysclk_calib_formula_t order)
+{
+    uint32_t nextTrim;
+    uint32_t currentTrim;
+
+    /* Get current trim value */
+    currentTrim = Cy_SysClk_PiloGetTrim();
+    if ((CY_SYSCLK_CALIB_SECOND_ORDER == order) || \
+        (piloFreq > CY_SYSCLK_PILO_FREQ ? (piloFreq - CY_SYSCLK_PILO_FREQ) : (CY_SYSCLK_PILO_FREQ - piloFreq)) > CY_SYSCLK_PILO_TRIM_STEP)
+    {
+        nextTrim = Cy_SysClk_CalculateNextTrim(CY_SYSCLK_MEAS_CLK_PILO, piloFreq, order);
+        /* Set trim value to minimum value if it is below that */
+        if(CY_SYSCLK_PILOCTL_TRCAP_MIN > nextTrim)
+        {
+            nextTrim = CY_SYSCLK_PILOCTL_TRCAP_MIN;
+        }
+        /* Set trim value to maximum value if it exceeds */
+        if(CY_SYSCLK_PILOCTL_TRCAP_MAX < nextTrim)
+        {
+            nextTrim = CY_SYSCLK_PILOCTL_TRCAP_MAX;
+        }
+    }
+    else
+    {
+        nextTrim = currentTrim;
+    }
+
+    /* Update the trim value */
+    Cy_SysClk_PiloSetTrim(nextTrim);
+
+    return (int32_t)nextTrim - (int32_t)currentTrim;
+}
+/** \} group_sysclk_trim_funcs */
+#endif /* CY_IP_M0S8SRSSHV */
 
 
 /* ========================================================================== */
@@ -1992,6 +2947,11 @@ cy_en_sysclk_status_t Cy_SysClk_PeriphSetFracDivider(cy_en_sysclk_divider_types_
 {
     cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
 
+    CY_UNUSED_PARAMETER(dividerType);
+    CY_UNUSED_PARAMETER(dividerNum);
+    CY_UNUSED_PARAMETER(dividerIntValue);
+    CY_UNUSED_PARAMETER(dividerFracValue);
+
 #if (0UL != PERI_PCLK_DIV_16_5_NR)
     if (IS_DIV_16_5_TYPE_NUM_VALID(dividerType, dividerNum) &&
         (dividerIntValue <= (PERI_DIV_16_5_CTL_INT16_DIV_Msk >> PERI_DIV_16_5_CTL_INT16_DIV_Pos)) &&
@@ -2049,6 +3009,9 @@ void Cy_SysClk_PeriphGetFracDivider(cy_en_sysclk_divider_types_t   dividerType,
     CY_ASSERT_L1(IS_DIV_FRC_TYPE_NUM_VALID(dividerType, dividerNum));
     CY_ASSERT_L1(NULL != dividerIntValue);
     CY_ASSERT_L1(NULL != dividerFracValue);
+
+    CY_UNUSED_PARAMETER(dividerType);
+    CY_UNUSED_PARAMETER(dividerNum);
 
 #if (0UL != PERI_PCLK_DIV_16_5_NR)
     if (IS_DIV_16_5_TYPE_NUM_VALID(dividerType, dividerNum))
@@ -2221,7 +3184,7 @@ uint32_t Cy_SysClk_PeriphSetFrequency(cy_en_sysclk_divider_types_t dividerType, 
             }
 
             /* Change the divider(s) */
-        #if ((0UL != PERI_PCLK_DIV_8_NR) && (0UL != PERI_PCLK_DIV_16_NR))
+        #if ((0UL != PERI_PCLK_DIV_8_NR) && (0UL != PERI_PCLK_DIV_16_NR) && (0UL != PERI_PCLK_DIV_24_5_NR) && (0UL != PERI_PCLK_DIV_16_5_NR))
             if ((CY_SYSCLK_DIV_8_BIT == dividerType) || (CY_SYSCLK_DIV_16_BIT == dividerType))
         #elif (0UL != PERI_PCLK_DIV_8_NR)
             if (CY_SYSCLK_DIV_8_BIT == dividerType)
@@ -2491,7 +3454,16 @@ cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t sour
         }
         else
         {
-            CY_REG32_CLR_SET(SRSSLT_CLK_SELECT, SRSSLT_CLK_SELECT_PUMP_SEL, source);
+        #if defined (CY_IP_M0S8SRSSHV)
+            /* Avoid lock register's potential race condition. */
+            uint32_t intrState = Cy_SysLib_EnterCriticalSection();
+            Cy_SysClk_UnlockProtReg();
+        #endif /* defined (CY_IP_M0S8SRSSHV) */
+            CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSS_CLK_SELECT_PUMP_SEL, source);
+        #if defined (CY_IP_M0S8SRSSHV)
+            Cy_SysClk_LockProtReg();
+            Cy_SysLib_ExitCriticalSection(intrState);
+        #endif /* defined (CY_IP_M0S8SRSSHV) */
         }
     }
     else
@@ -2512,7 +3484,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t sour
 *
 * Initializes the clock supervision parameters.
 *
-* This API is available on devices with the CSV Feature (i.e. PSoC 4500S and 4100S Max).
+* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \param config A pointer to the structure of type \ref cy_stc_sysclk_csv_config_t
@@ -2691,7 +3663,7 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
                         Cy_SysClk_ImoEnable();
                     }
 
-                    Cy_SysLib_SetWaitStates((uint32_t)CY_SYSCLK_IMO_48MHZ / 1000000UL);
+                    Cy_SysLib_SetWaitStates((uint32_t)CY_SYSCLK_IMO_48MHZ / CY_SYSCLK_FREQ_SCALER);
 
                     (void)Cy_SysClk_ClkHfSetSource(CY_SYSCLK_CLKHF_IN_IMO);
 

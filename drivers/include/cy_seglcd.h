@@ -57,11 +57,11 @@
 *   The API offers pixel identifiers - the 32-bit items of the display pixel map 
 *   (to use in the display structure definition, see \ref cy_stc_seglcd_disp_t),
 *   created by the \ref CY_SEGLCD_PIXEL macro.
-* * Common line (Com/COM for short) - A common wire/signal from the PSoC chip to the LCD glass.
+* * Common line (Com/COM for short) - A common wire/signal from the PSOC chip to the LCD glass.
 *   The API offers common line identifiers - the 32-bit items of the commons array
 *   (to use in \ref Cy_SegLCD_ClrFrame and \ref Cy_SegLCD_InvFrame),
 *   created by the \ref CY_SEGLCD_COMMON macro.
-* * Segment line (Seg/SEG for short) - A segment wire/signal from the PSoC chip to the LCD glass.
+* * Segment line (Seg/SEG for short) - A segment wire/signal from the PSOC chip to the LCD glass.
 * * Octet - A bunch of subsequent eight M0S8LCD terminals. Octets may not match GPIO ports.
 * * Frame buffer - An array of registers to control the M0S8LCD signal generation for all the M0S8LCD terminals.
 *
@@ -430,7 +430,7 @@ typedef struct
     cy_en_seglcd_drive_t drive; /**< Driving mode configuration, see: #cy_en_seglcd_drive_t. */
     cy_en_seglcd_bias_t   bias; /**< PWM bias selection, see: #cy_en_seglcd_bias_t. */
     uint8_t             comNum; /**< The number of Common connections, the valid range is 2...16
-                                 *   however the maximum is dependent on PSoC device family -
+                                 *   however the maximum is dependent on PSOC device family -
                                  *   there could be limitation to 4 or 8 commons, see the device TRM.
                                  */
     uint8_t             frRate; /**< The LCD frame rate, the valid range is 30...150 */

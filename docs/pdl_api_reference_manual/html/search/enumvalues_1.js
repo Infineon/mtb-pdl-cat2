@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['pd_5fvbat_5fgnd_5fscp_5f10a',['PD_VBAT_GND_SCP_10A',['../group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba27cdefd5a202f7b84ce84d2c75bd3c90',1,'cy_usbpd_common.h']]],
-  ['pd_5fvbat_5fgnd_5fscp_5f6a',['PD_VBAT_GND_SCP_6A',['../group__group__usbpd__legacy__enums.html#gga882504d230ebad6ca6d4ab69905bc87ba125814ab0d45f5a64fa84eed580b223e',1,'cy_usbpd_common.h']]]
+  ['hvss_5ffault_5fpwr',['HVSS_FAULT_PWR',['../group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25a4c0ff32db99be8f2c21ea9512f1427c3',1,'cy_sysfault.h']]]
 ];

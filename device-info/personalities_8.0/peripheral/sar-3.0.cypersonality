@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file sar.cypersonality
+* \version 3.0
+*
+* \brief
+* SAR personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8sar" name="SAR" version="3.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2,m0s8pass4a_ver3" />
+    <Resource name="pass\.sar" />
+  </Dependencies>
+  <ExposedMembers>
+    <ExposedMember key="sourceClockRsc" paramId="sourceClockRsc" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__sar.html" linkText="Open SAR Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamString id="version" name="version" group="Internal" default="`${getVersion()}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="passInst" name="passInst" group="Internal" default="`${getInstNumber(&quot;pass&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="dedPort" name="dedPort" group="Internal" default="`${(version eq 3) ? 1 : (passInst eq 0) ? 2 : 3}`" min="1" max="3" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="channels" name="channels" group="Internal" default="`${lookupExpression(&quot;SAR.SAR_CHANNELS&quot;)}`" min="1" max="16" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="chan16" name="chan16" desc="" group="Internal" default="`${channels eq 16}`" visible="`${debug}`" editable="false" />
+
+    <!-- Internal : HF clock query info -->
+    <ParamBool id="isHFClkEnabled" name="Is Power Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].clock[0].hfclk[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="hfClkFreqHz" name="sourceFrequency" group="Internal" default="`${isHFClkEnabled ? getExposedMember(&quot;srss[0].clock[0].hfclk[0]&quot;, &quot;frequency&quot;) : 1}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
+    <ParamBool id="isSysAnalogEnabled" name="isSysAnalogEnabled" group="Internal" default="`${isBlockUsed(&quot;pass[&quot; . passInst . &quot;]&quot;)}`" visible="`${debug}`"  editable="false" desc="" />    
+    <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="vdda" name="vdda" group="Internal" default="`${isPowerEnabled ? getExposedMember(&quot;srss[0].power[0]&quot;, &quot;vddaMv&quot;) : 3600}`" min="0" max="10000" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="vddaV" name="vddaV" group="Internal" default="`${vdda / 1000.0}`" min="0" max="10" resolution="0.001" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamChoice id="vref_select" name="Vref Select" group="General" default="CY_SAR_VREF_SEL_BGR_BYP" visible="true" editable="true" desc="Select the voltage reference source. The internal reference is configured in the AREF resource. The external device pin option here is different from the external option in the AREF resource." >
+      <Entry name="Internal BandGap Reference, with bypass capacitor" value="CY_SAR_VREF_SEL_BGR_BYP" visible="true" />
+      <Entry name="Internal BandGap Reference, without bypass capacitor" value="CY_SAR_VREF_SEL_BGR" visible="true" />
+      <Entry name="External (from Device Pin)" value="CY_SAR_VREF_SEL_EXT" visible="true" />
+      <Entry name="Vdda/2, with bypass capacitor" value="CY_SAR_VREF_SEL_VDDA_DIV_2_BYP" visible="true" />
+      <Entry name="Vdda/2, without bypass capacitor" value="CY_SAR_VREF_SEL_VDDA_DIV_2" visible="true" />
+      <Entry name="Vdda" value="CY_SAR_VREF_SEL_VDDA" visible="true" />
+    </ParamChoice>
+    <ParamBool id="vref_byp_cap" name="Vref Bypass" group="General" default="`${(CY_SAR_VREF_SEL_BGR_BYP eq vref_select) || (CY_SAR_VREF_SEL_VDDA_DIV_2_BYP eq vref_select)}`" visible="`${debug}`" editable="false" desc="Enable Vref bypass capacitor connection" />
+    <ParamBool id="isVrefExternal" name="Is Vref External" group="Internal" default="`${vref_select eq CY_SAR_VREF_SEL_EXT}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="clkFreqMinMHz" name="clkFreqMin" group="General" default="1.0" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="clkFreqMaxMHz" name="clkFreqMax" group="General" default="`${vref_select eq CY_SAR_VREF_SEL_VDDA ? 9.0 : (vref_byp_cap || isVrefExternal)  ? 18.0 : 1.6}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="vref_voltage" name="External Vref Voltage (V)" group="General" default="1.2" min="0.85" max="`${vddaV}`" resolution="0.001" visible="`${isVrefExternal}`" editable="true" desc="Enter the value of external Vref voltage in volts" />
+    <ParamRange id="vref_voltage_mv" name="vref_voltage_mv" group="Internal" default="`${(vref_select eq CY_SAR_VREF_SEL_VDDA) ? vdda : 
+                                                                                        ((vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2) || (vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2_BYP)) ? vdda / 2 : 
+                                                                                        ((vref_select eq CY_SAR_VREF_SEL_BGR) || (vref_select eq CY_SAR_VREF_SEL_BGR_BYP)) ? 1200 : vref_voltage * 1000}`" min="0" max="`${vdda}`" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="vref_voltage_display" name="Vref Voltage (V)" group="General" default="`${vref_voltage_mv / 1000.0}`" visible="`${!isVrefExternal}`" editable="false" desc="Value of the internal Vref voltage in volts" />
+    <ParamRange id="num_channels" name="Number of Channels" group="General" default="2" min="1" max="`${channels}`" resolution="1" visible="true" editable="true" desc="Number of channels to scan" />
+    <ParamBool id="inj_en" name="Injection Channel" group="General" default="false" visible="true" editable="true" desc="The injection channel usage" />
+    <ParamBool id="boostPump" name="Boost Pump" group="General" default="false" visible="true" editable="true" desc="Enables both the charge pump for SARMUX switches and the SAR internal boost pump" />
+    <ParamSignal name="Clock" port="clock_sar[0]" group="Connections" visible="true" desc="Clock that operates this block" canBeEmpty="false">
+      <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Clock frequency is '`${getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) / 1000000}`MHz', but must be within the range `${clkFreqMinMHz}`MHz-`${clkFreqMaxMHz}`MHz for proper SAR operation.">
+          <Range min="`${ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / (1000000 * clkFreqMaxMHz))}`" max="`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / (1000000 * clkFreqMinMHz))}`" />
+        </Parameter>
+      </Constraint>
+    </ParamSignal>
+    <ParamString id="sourceClockRsc" name="Source Clock Resource" group="Internal" default="`${getBlockFromSignal(&quot;clock_sar[0]&quot;)}`" visible="`${debug}`" editable="false" desc="Source Clock Resource" />
+    <ParamBool id="srcNotUsed" name="srcNotUsed" group="Internal" default="`${(sourceClockRsc ne &quot;&quot;) ? !isBlockUsed(sourceClockRsc) : true}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="error" name="error" group="Internal" default="`${srcNotUsed || getExposedMember(sourceClockRsc, &quot;error&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamRange id="sourceFreq" name="sourceFreq" group="Internal" default="`${!error ? getExposedMember(sourceClockRsc, &quot;frequency&quot;) : 0}`" min="0" max="1000000000" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="accuracy" name="accuracy" group="Internal" default="`${!error ? getExposedMember(sourceClockRsc, &quot;accuracy&quot;) : 0}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="sourceFrequencyInfo" name="Clock Frequency" group="Connections" default="`${formatFrequency(sourceFreq,accuracy)}`" visible="true" editable="false" desc="Source clock frequency" />
+
+    <ParamBool id="is_variable_clock" name="Change Clock Frequency to Meet Scan Rate" group="Connections" default="false" visible="false" editable="true" desc="Allow personality to adjust source clock frequency in order to meet target scan rate" />
+    <ParamSignal name="EOS Trigger Output" port="tr_sar_out[0]" group="Connections" visible="true" desc="Connection for the SAR End of Scan (EOS) trigger output" canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+	<ParamBool id="eos_enable" name="EOS Enable" group="Internal" default="`${hasConnection(&quot;tr_sar_out&quot;, 0)}`" visible="`${debug}`" editable="false" desc="" />
+	
+    <ParamBool id="soc_en" name="SOC Enable" group="Connections" default="false" visible="true" editable="true" desc="Enable a start of conversion (SOC) input trigger signal" />
+    <ParamSignal name="SOC Input" port="tr_sar_in[0]" group="Connections" visible="`${soc_en}`" desc="Connection for the start of conversion (SOC) input trigger signal" canBeEmpty="`${!soc_en}`" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamRange id="sample_rate" name="Target Scan Rate (sps)" group="General" default="20000" min="0" max="1125000" resolution="1" visible="true" editable="true" desc="Desired rate in which all channels are scanned" />
+    <ParamChoice id="diff_format" name="Differential Result Format" group="Sampling" default="true" visible="true" editable="true" desc="Configure the format for all differential channels" >
+      <Entry name="Unsigned" value="false" visible="true" />
+      <Entry name="Signed" value="true" visible="true" />
+    </ParamChoice>
+    <ParamString id="diff_code_range" name="Differential Code Range" group="Sampling" default="`${!diff_format ? &quot;0x000 to 0xFFF&quot; : &quot;0x800 to 0x7FF&quot;}`" visible="true" editable="false" desc="Code range for all differential channels. See associated voltage range." />
+    <ParamString id="diff_volt_range" name="Differential Voltage Range" group="Sampling" default="Vneg +/-Vref" visible="true" editable="false" desc="Voltage range for all differential channels. See associated code range." />
+
+    <ParamChoice id="se_format" name="Single-Ended Result Format" group="Sampling" default="true" visible="true" editable="true" desc="Configure the format for all single-ended channels" >
+      <Entry name="Unsigned" value="false" visible="true" />
+      <Entry name="Signed" value="true" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="trigger_mode" name="Hardware Trigger Mode" group="Sampling" default="CY_SAR_TRIGGER_MODE_FW_AND_HWEDGE" visible="`${soc_en}`" editable="true" desc="Set hardware trigger mode to edge or level sensitive. Visible only when SOC is enabled." >
+      <Entry name="Edge Sensitive" value="CY_SAR_TRIGGER_MODE_FW_AND_HWEDGE" visible="true" />
+      <Entry name="Level Sensitive" value="CY_SAR_TRIGGER_MODE_FW_AND_HWLEVEL" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="avg_cnt" name="Samples Averaged" group="Sampling" default="CY_SAR_AVG_CNT_2" visible="true" editable="true" desc="Number of samples to average when averaging is enabled" >
+      <Entry name="2" value="CY_SAR_AVG_CNT_2" visible="true" />
+      <Entry name="4" value="CY_SAR_AVG_CNT_4" visible="true" />
+      <Entry name="8" value="CY_SAR_AVG_CNT_8" visible="true" />
+      <Entry name="16" value="CY_SAR_AVG_CNT_16" visible="true" />
+      <Entry name="32" value="CY_SAR_AVG_CNT_32" visible="true" />
+      <Entry name="64" value="CY_SAR_AVG_CNT_64" visible="true" />
+      <Entry name="128" value="CY_SAR_AVG_CNT_128" visible="true" />
+      <Entry name="256" value="CY_SAR_AVG_CNT_256" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="avg_mode" name="Averaging Mode" group="Sampling" default="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" editable="true" desc="Averaging mode for all channels with averaging enabled" >
+      <Entry name="Summing" value="CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM" visible="true" />
+      <Entry name="Fixed" value="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="range_cond" name="Compare Mode" group="Range Interrupt" default="CY_SAR_RANGE_COND_BELOW" visible="true" editable="true" desc="The condition in which a range interrupt is triggered" >
+        <Entry name="Result &lt; Low" value="CY_SAR_RANGE_COND_BELOW" visible="true" />
+        <Entry name="Low &lt;= Result &lt; High" value="CY_SAR_RANGE_COND_INSIDE" visible="true" />
+        <Entry name="High &lt;= Result" value="CY_SAR_RANGE_COND_ABOVE" visible="true" />
+        <Entry name="(Result &lt; Low) or (High &lt;= Result)" value="CY_SAR_RANGE_COND_OUTSIDE" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="subRes" name="Sub Resolution" group="Sampling" default="CY_SAR_SUB_RESOLUTION_8B" visible="true" editable="true" desc="Conversion resolution for channels that have sub-resolution enabled." >
+      <Entry name="8 bit" value="CY_SAR_SUB_RESOLUTION_8B" visible="true" />
+      <Entry name="10 bit" value="CY_SAR_SUB_RESOLUTION_10B" visible="true" />
+    </ParamChoice>
+
+    <ParamRange id="range_low" name="Low Threshold" group="Range Interrupt" default="0" min="0" max="65535" resolution="1" visible="true" editable="true" desc="The low threshold for the range interrupt condition" />
+    <ParamRange id="range_high" name="High Threshold" group="Range Interrupt" default="0" min="0" max="65535" resolution="1" visible="true" editable="true" desc="The high threshold for the range interrupt condition" />
+
+    <!-- sample time = acq_time + (12 (resolutiOn) + 3) / ADC clock rate) -->
+    <ParamString id="SAMPLE_TIME_CONST" name="SAMPLE_TIME_CONST" group="Internal" default="15" visible="false" editable="false" desc="" />
+    <ParamString id="MIN_SAMPLE_TIME_NS" name="MIN_SAMPLE_TIME" group="Internal" default="167" visible="false" editable="false" desc="Minimum sample time" />
+
+    <Repeat count="16">
+        <ParamBool id="ch$idx_en" name="Enable" group="Channel $idx" default="`${num_channels &gt; $idx}`" visible="`${debug}`" editable="false" desc="Include Channel $idx in scan"/>
+    </Repeat>
+
+    <Repeat count="16">
+      <ParamChoice id="ch$idx_input" name="Input Mode" group="Channel $idx" default="CY_SAR_CHAN_SINGLE_ENDED" visible="`${ch$idx_en}`" editable="true" desc="Set Channel $idx as single-ended or differential" >
+        <Entry name="Single-ended" value="CY_SAR_CHAN_SINGLE_ENDED" visible="true" />
+        <Entry name="Differential" value="CY_SAR_CHAN_DIFFERENTIAL" visible="true" />
+      </ParamChoice>
+      <ParamBool id="ch$idx_se" name="ch$idx_se" group="Channel $idx" default="`${ch$idx_input eq CY_SAR_CHAN_SINGLE_ENDED}`" visible="`${debug}`" editable="false" desc=""/>
+      <ParamBool id="ch$idx_avg" name="Averaging" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable averaging for Channel $idx" />
+      <ParamBool id="ch$idx_range_intr" name="Range Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the range interrupt for Channel $idx" />
+      <ParamBool id="ch$idx_sat_intr" name="Saturation Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the saturation interrupt for Channel $idx" />
+      <ParamRange id="ch$idx_min_acq_time" name="Minimum Acquisition Time (ns)" group="Channel $idx" default="`${MIN_SAMPLE_TIME_NS}`" min="`${MIN_SAMPLE_TIME_NS}`" max="1000000" resolution="1" visible="`${ch$idx_en}`" editable="true" desc="Set the minimum acquisition time for Channel $idx" />
+      <ParamString id="ch$idx_samples_per_scan" name="ch$idx_samples_per_scan" group="Channel $idx" default="`${ch$idx_en ? (ch$idx_avg ? avg_cnt : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamChoice id="ch$idx_res" name="Resolution" group="Channel $idx" default="CY_SAR_MAX_RES" visible="`${ch$idx_en}`" editable="true" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
+        <Entry name="Full Resolution 12 bit" value="CY_SAR_MAX_RES" visible="true" />
+        <Entry name="Sub Resolution `${(subRes eq CY_SAR_SUB_RESOLUTION_8B) ? &quot;8 bit&quot; : &quot;10 bit&quot;}`" value="CY_SAR_SUB_RES" visible="true"/>
+      </ParamChoice>
+    </Repeat>
+
+    <!-- injection channel -->
+    <ParamChoice id="inj_input" name="Input Mode" group="Injection Channel" default="CY_SAR_CHAN_SINGLE_ENDED" visible="`${inj_en}`" editable="true" desc="Set Injection Channel as single-ended or differential" >
+        <Entry name="Single-ended" value="CY_SAR_CHAN_SINGLE_ENDED" visible="true" />
+        <Entry name="Differential" value="CY_SAR_CHAN_DIFFERENTIAL" visible="true" />
+    </ParamChoice>
+    <ParamBool id="inj_se" name="inj_se" group="Channel $idx" default="`${inj_input eq CY_SAR_CHAN_SINGLE_ENDED}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_avg" name="Averaging" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable averaging for Injection Channel" />
+    <ParamBool id="inj_range_intr" name="Range Interrupt Enable" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable the range interrupt for Injection Channel" />
+    <ParamBool id="inj_sat_intr" name="Saturation Interrupt Enable" group="Injection Channel" default="false" visible="`${inj_en}`" editable="true" desc="Enable the saturation interrupt for Injection Channel" />
+    <ParamString id="inj_samples_per_scan" name="inj_samples_per_scan" group="Injection Channel" default="`${inj_en ? (inj_avg ? avg_cnt : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamChoice id="inj_res" name="Resolution" group="Injection Channel" default="CY_SAR_MAX_RES" visible="`${inj_en}`" editable="true" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
+      <Entry name="Full Resolution 12 bit" value="CY_SAR_MAX_RES" visible="true" />
+      <Entry name="Sub Resolution `${(subRes eq CY_SAR_SUB_RESOLUTION_8B) ? &quot;8 bit&quot; : &quot;10 bit&quot;}`" value="CY_SAR_SUB_RES" visible="true"/>
+    </ParamChoice>
+
+    <ParamString id="isFixedClock" name="isFixedClock" group="Internal" default="`${is_variable_clock ? &quot;false&quot; : &quot;true&quot;}`" visible="false" editable="false" desc="" />
+    <ParamString id="scheduler" name="scheduler" group="Internal" default="`${runTcl(&quot;sar_scheduler-1.0.tcl&quot;, hfClkFreqHz, isFixedClock, sourceFreq, clkFreqMinMHz * pow(10, 6), clkFreqMaxMHz * pow(10, 6), soc_en, sample_rate, num_channels, ch0_min_acq_time, ch0_samples_per_scan, ch1_min_acq_time, ch1_samples_per_scan, ch2_min_acq_time, ch2_samples_per_scan, ch3_min_acq_time, ch3_samples_per_scan, ch4_min_acq_time, ch4_samples_per_scan, ch5_min_acq_time, ch5_samples_per_scan, ch6_min_acq_time, ch6_samples_per_scan, ch7_min_acq_time, ch7_samples_per_scan, ch8_min_acq_time, ch8_samples_per_scan, ch9_min_acq_time, ch9_samples_per_scan, ch10_min_acq_time, ch10_samples_per_scan, ch11_min_acq_time, ch11_samples_per_scan, ch12_min_acq_time, ch12_samples_per_scan, ch13_min_acq_time, ch13_samples_per_scan, ch14_min_acq_time, ch14_samples_per_scan, ch15_min_acq_time, ch15_samples_per_scan)}`" visible="false" editable="false" desc="Sample rate scheduler" />
+
+    <ParamString id="achieved_sample_rate_display" name="Achieved Free-Run Scan Rate (sps)" group="General" default="`${getTclVar(&quot;achieved_sample_rate&quot;, scheduler)}`" visible="true" editable="false" desc="The achieved scan rate for continuous sampling (free-run) mode." />
+    <ParamString id="total_scan_time_display" name="Achieved Scan Duration" group="General" default="`${getTclVar(&quot;achieved_sample_period&quot;, scheduler)}`" visible="true" editable="false" desc="Time to scan all channels." />
+    <ParamString id="required_clk_rate" name="Required ADC clock Divider" group="General" default="`${getTclVar(&quot;adc_clock_divider&quot;, scheduler)}`" visible="`${is_variable_clock}`" editable="false" desc=""/>
+    <Repeat count="16">
+        <ParamString id="ch$idx_achieved_acq_time_display" name="Achieved Acquisition Time" group="Channel $idx" default="`${getTclVar(&quot;ch$idx_achieved_acq_time&quot;, scheduler)}`" visible="`${ch$idx_en}`" editable="false" desc="Time to acquire the analog signal." />
+        <ParamString id="ch$idx_achieved_sample_time_display" name="Achieved Sample Time" group="Channel $idx" default="`${getTclVar(&quot;ch$idx_achieved_sample_time&quot;, scheduler)}`" visible="`${ch$idx_en}`" editable="false" desc="The sample time for a channel is the time required to acquire the analog signal and convert it to a digital code." />
+    </Repeat>
+
+    <!-- Are any channels single ended? -->
+    <ParamBool id="single_ended_exists" name="Single Ended Channel Exists" group="Internal" default="`${(ch0_se &amp;&amp; ch0_en) ||
+                                                                                                        (ch1_se &amp;&amp; ch1_en) ||
+                                                                                                        (ch2_se &amp;&amp; ch2_en) ||
+                                                                                                        (ch3_se &amp;&amp; ch3_en) ||
+                                                                                                        (ch4_se &amp;&amp; ch4_en) ||
+                                                                                                        (ch5_se &amp;&amp; ch5_en) ||
+                                                                                                        (ch6_se &amp;&amp; ch6_en) ||
+                                                                                                        (ch7_se &amp;&amp; ch7_en) ||
+                                                                                                        (ch8_se &amp;&amp; ch8_en) ||
+                                                                                                        (ch9_se &amp;&amp; ch9_en) ||
+                                                                                                       (ch10_se &amp;&amp; ch10_en) ||
+                                                                                                       (ch11_se &amp;&amp; ch11_en) ||
+                                                                                                       (ch12_se &amp;&amp; ch12_en) ||
+                                                                                                       (ch13_se &amp;&amp; ch13_en) ||
+                                                                                                       (ch14_se &amp;&amp; ch14_en) ||
+                                                                                                       (ch15_se &amp;&amp; ch15_en) ||
+                                                                                                        (inj_se &amp;&amp; inj_en)}`" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamChoice id="vneg_select" name="Vneg for Single-Ended Channels" group="Connections" default="CY_SAR_NEG_SEL_VSSA_KELVIN" visible="`${single_ended_exists}`" editable="true" desc="Select what drives the negative terminal of the SAR for single-ended channels" >
+      <Entry name="Vssa" value="CY_SAR_NEG_SEL_VSSA_KELVIN" visible="true" />
+      <Entry name="Routed" value="CY_SAR_NEG_SEL" visible="true" />
+      <Entry name="Vref" value="CY_SAR_NEG_SEL_VREF" visible="true" />
+    </ParamChoice>
+    <ParamSignal name="Vref External Pin" port="vref_ext[0]" group="Connections" visible="`${isVrefExternal}`" canBeEmpty="`${!isVrefExternal}`" requirePreferred="true" multiSelect="false" desc="Select the device pin for external ADC reference" />
+    <ParamString id="vneg_select_string" name="vneg_select_string" group="Internal" default="`${single_ended_exists ? ((vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN) || (vneg_select eq CY_SAR_NEG_SEL_VREF)) ? vneg_select : &quot;SAR&quot; . passInst . &quot;_NEG_SEL&quot; : CY_SAR_NEG_SEL_VSSA_KELVIN}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="se_code_range" name="Single-ended Code Range" group="Sampling" default="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN ? &quot;0x000 to 0x7FF&quot; : (!se_format ? &quot;0x000 to 0xFFF&quot; : &quot;0x800 to 0x7FF&quot;)}`" visible="true" editable="false" desc="Code range for all single-ended channels. See associated voltage range." />
+    <ParamString id="se_volt_range" name="Single-ended Voltage Range" group="Sampling" default="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN ? &quot;0 to Vref&quot; : (vneg_select eq CY_SAR_NEG_SEL_VREF ? &quot;0 to 2*Vref&quot; : &quot;Vneg +/-Vref&quot;)}`" visible="true" editable="false" desc="Voltage range for all single-ended channels. Note that the voltage on a single-ended channel cannot go below 0 V. See associated code range." />
+    <ParamBool id="vneg_routed" name="vneg_routed" group="Internal" default="`${(vneg_select ne CY_SAR_NEG_SEL_VSSA_KELVIN) &amp;&amp; (vneg_select ne CY_SAR_NEG_SEL_VREF)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isVneg" name="isVneg" group="Internal" default="`${single_ended_exists &amp;&amp; vneg_routed}`" visible="`${debug}`" editable="false" desc="" />
+
+    <!-- Only way to have multiple channels reference the same port (vplus[0]) is to use the ParamMux.
+         How ParamMux works today, all the signals must be in the same group.
+         OPM agrees to support a "group" value for the "Arm" tag -->
+    <ParamMux id="Vplus" name="Vplus Connection" group="Connections" controlType="SARSEQ`${getInstNumber(&quot;pass&quot;)}`" armSelectGroup="SarMux">
+        <Common port="vplus[0]" />
+        <Arm name="Ch$idx Vplus" desc="Assign the connection for the positive terminal of Channel $idx" visible="`${ch$idx_en}`" canBeEmpty="`${!ch$idx_en}`" multiSelect="true" repeatCount="16" group="Channel $idx" role="`${ch$idx_se ? &quot;VPLUS_SINGLE_ENDED&quot; : &quot;VPLUS_DIFFERENTIAL&quot;}`"/>
+        <Arm name="Injection Vplus" desc="Assign the connection for the positive terminal of Injection Channel" visible="`${inj_en}`" canBeEmpty="`${!inj_en}`" multiSelect="true" group="Injection Channel" role="`${inj_se ? &quot;VPLUS_SINGLE_ENDED&quot; : &quot;VPLUS_DIFFERENTIAL&quot;}`"/>
+    </ParamMux>
+    <ParamMux id="Vminus" name="Vminus Connection" group="Connections" controlType="SARSEQ`${getInstNumber(&quot;pass&quot;)}`" armSelectGroup="SarMux" routeDependency="Vplus">
+        <Common port="vminus[0]" />
+        <Arm name="Ch$idx Vminus" desc="Assign the connection for the negative terminal of Channel $idx. Only visible when channel is differential." visible="`${ch$idx_en &amp;&amp; !ch$idx_se}`" canBeEmpty="`${!ch$idx_en || ch$idx_se}`" multiSelect="true" repeatCount="16" group="Channel $idx" role="VMINUS"/>
+        <Arm name="Injection Vminus" desc="Assign the connection for the negative terminal of Injection Channel" visible="`${inj_en &amp;&amp; !inj_se}`" canBeEmpty="`${!inj_en || inj_se}`" multiSelect="true" group="Injection Channel" role="VMINUS"/>
+        <Arm name="Vneg" desc="Assign the connection for the shared negative terminal. Only visible when at least one channel is not differential." visible="`${isVneg}`" canBeEmpty="`${!isVneg}`" multiSelect="true" role="VNEG"/>
+    </ParamMux>
+
+    <Repeat count="16">
+        <ParamString id="ch$idx_p_muxarm" name="ch$idx_p_muxarm" group="Channel $idx" default="`${getMuxArmSignal(&quot;Vplus&quot;, $idx)}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamString id="ch$idx_p_block" name="ch$idx_p_block" group="Channel $idx" default="`${getBlockFromSignal(&quot;ch$idx_p_muxarm&quot;)}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_p_block_used" name="ch$idx_p_block_used" group="Channel $idx" default="`${(ch$idx_p_block ne &quot;&quot;) &amp;&amp; isBlockUsed(ch$idx_p_block)}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamBool id="ch$idx_p_blockTypeCtb" name="ch$idx_p_blockTypeCtb" group="Channel $idx" default="`${ch$idx_p_block_used ? ((ch$idx_p_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[0]&quot;) || (ch$idx_p_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[1]&quot;)) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_p_blockTypeTemp" name="ch$idx_p_blockTypeTemp" group="Channel $idx" default="`${ch$idx_p_block_used ? (findBlockFromSignal(&quot;ch$idx_p_muxarm&quot;, &quot;tempsensor&quot;) eq &quot;pass[&quot; . passInst . &quot;].sarmux[0].tempsensor[0]&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_p_blockTypePin" name="ch$idx_p_blockTypePin" group="Channel $idx" default="`${ch$idx_p_block_used ? (findBlockFromSignal(&quot;ch$idx_p_muxarm&quot;, &quot;pin&quot;) ne &quot;&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamString id="ch$idx_p_port" name="ch$idx_p_port" group="Channel $idx" default="`${ch$idx_p_blockTypePin ? getInstFromLocation(getParamValue(&quot;ch$idx_p_block&quot;), &quot;port&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamString id="ch$idx_p_pin" name="ch$idx_p_pin" group="Channel $idx" default="`${ch$idx_p_blockTypePin ? getInstFromLocation(getParamValue(&quot;ch$idx_p_block&quot;), &quot;pin&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamRange id="ch$idx_p_port_num" name="ch$idx_p_port_num" group="Channel $idx" default="`${ch$idx_p_port ne &quot;unknown&quot; ? ch$idx_p_port : 0}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+        <ParamBool id="ch$idx_p_port_ded" name="ch$idx_p_port_ded" group="Channel $idx" default="`${ch$idx_p_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamRange id="ch$idx_p_pin_num" name="ch$idx_p_pin_num" group="Channel $idx" default="`${((ch$idx_p_pin ne &quot;unknown&quot;) &amp;&amp; ch$idx_p_port_ded) ? ch$idx_p_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+        <ParamString id="ch$idx_p_oa" name="ch$idx_p_oa" group="Channel $idx" default="`${ch$idx_p_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;ch$idx_p_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamString id="ch$idx_n_muxarm" name="ch$idx_n_muxarm" group="Channel $idx" default="`${getMuxArmSignal(&quot;Vminus&quot;, $idx)}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamString id="ch$idx_n_block" name="ch$idx_n_block" group="Channel $idx" default="`${getBlockFromSignal(&quot;ch$idx_n_muxarm&quot;)}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_n_block_used" name="ch$idx_n_block_used" group="Channel $idx" default="`${(ch$idx_n_block ne &quot;&quot;) &amp;&amp; isBlockUsed(ch$idx_n_block)}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamBool id="ch$idx_n_blockTypeCtb" name="ch$idx_n_blockTypeCtb" group="Channel $idx" default="`${ch$idx_n_block_used ? ((ch$idx_n_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[0]&quot;) || (ch$idx_n_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[1]&quot;)) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_n_blockTypeTemp" name="ch$idx_n_blockTypeTemp" group="Channel $idx" default="`${ch$idx_n_block_used ? (findBlockFromSignal(&quot;ch$idx_n_muxarm&quot;, &quot;tempsensor&quot;) eq &quot;pass[&quot; . passInst . &quot;].sarmux[0].tempsensor[0]&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamBool id="ch$idx_n_blockTypePin" name="ch$idx_n_blockTypePin" group="Channel $idx" default="`${ch$idx_n_block_used ? (findBlockFromSignal(&quot;ch$idx_n_muxarm&quot;, &quot;pin&quot;) ne &quot;&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+        <ParamString id="ch$idx_n_port" name="ch$idx_n_port" group="Channel $idx" default="`${ch$idx_n_blockTypePin ? getInstFromLocation(getParamValue(&quot;ch$idx_n_block&quot;), &quot;port&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamString id="ch$idx_n_pin" name="ch$idx_n_pin" group="Channel $idx" default="`${ch$idx_n_blockTypePin ? getInstFromLocation(getParamValue(&quot;ch$idx_n_block&quot;), &quot;pin&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamRange id="ch$idx_n_port_num" name="ch$idx_n_port_num" group="Channel $idx" default="`${ch$idx_n_port ne &quot;unknown&quot; ? ch$idx_n_port : 0}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+        <ParamBool id="ch$idx_n_port_ded" name="ch$idx_n_port_ded" group="Channel $idx" default="`${ch$idx_n_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamRange id="ch$idx_n_pin_num" name="ch$idx_n_pin_num" group="Channel $idx" default="`${((ch$idx_n_pin ne &quot;unknown&quot;) &amp;&amp; ch$idx_n_port_ded) ? ch$idx_n_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+        <ParamString id="ch$idx_n_oa" name="ch$idx_n_oa" group="Channel $idx" default="`${ch$idx_n_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;ch$idx_n_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+        <ParamBool id="ch$idx_isPairOk" name="ch$idx_isPairOk" group="Channel $idx" default="`${(ch$idx_p_port_ded &amp;&amp; 
+                                                                                                 ch$idx_n_port_ded &amp;&amp;
+                                                                                                 (((ch$idx_p_pin_num eq 0) &amp;&amp; (ch$idx_n_pin_num eq 1)) ||
+                                                                                                  ((ch$idx_p_pin_num eq 2) &amp;&amp; (ch$idx_n_pin_num eq 3)) ||
+                                                                                                  ((ch$idx_p_pin_num eq 4) &amp;&amp; (ch$idx_n_pin_num eq 5)) ||
+                                                                                                  ((ch$idx_p_pin_num eq 6) &amp;&amp; (ch$idx_n_pin_num eq 7)))) ||
+                                                                                                 (ch$idx_p_blockTypeCtb &amp;&amp; 
+                                                                                                  ch$idx_n_blockTypeCtb &amp;&amp; 
+                                                                                                  (ch$idx_p_oa eq 0) &amp;&amp; 
+                                                                                                  (ch$idx_n_oa eq 1)) || 
+                                                                                                 (ch$idx_p_block eq &quot;&quot;) || 
+                                                                                                 (ch$idx_n_block eq &quot;&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    </Repeat>
+    <!-- injection channel -->
+    <ParamString id="inj_p_muxarm" name="inj_p_muxarm" group="Injection Channel" default="`${getMuxArmSignal(&quot;Vplus&quot;, 16)}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamString id="inj_p_block" name="inj_p_block" group="Injection Channel" default="`${getBlockFromSignal(&quot;inj_p_muxarm&quot;)}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_p_block_used" name="inj_p_block_used" group="Injection Channel" default="`${(inj_p_block ne &quot;&quot;) &amp;&amp; isBlockUsed(inj_p_block)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="inj_p_blockTypeCtb" name="inj_p_blockTypeCtb" group="Injection Channel" default="`${inj_p_block_used ? ((inj_p_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[0]&quot;) || (inj_p_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[1]&quot;)) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_p_blockTypeTemp" name="inj_p_blockTypeTemp" group="Injection Channel" default="`${inj_p_block_used ? (findBlockFromSignal(&quot;inj_p_muxarm&quot;, &quot;tempsensor&quot;) eq &quot;pass[&quot; . passInst . &quot;].sarmux[0].tempsensor[0]&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_p_blockTypePin" name="inj_p_blockTypePin" group="Injection Channel" default="`${inj_p_block_used ? (findBlockFromSignal(&quot;inj_p_muxarm&quot;, &quot;pin&quot;) ne &quot;&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamString id="inj_p_port" name="inj_p_port" group="Injection Channel" default="`${inj_p_blockTypePin ? getInstFromLocation(getParamValue(&quot;inj_p_block&quot;), &quot;port&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_p_pin" name="inj_p_pin" group="Injection Channel" default="`${inj_p_blockTypePin ? getInstFromLocation(getParamValue(&quot;inj_p_block&quot;), &quot;pin&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="inj_p_port_num" name="inj_p_port_num" group="Injection Channel" default="`${inj_p_port ne &quot;unknown&quot; ? inj_p_port : 0}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="inj_p_port_ded" name="inj_p_port_ded" group="Injection Channel" default="`${inj_p_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="inj_p_pin_num" name="inj_p_pin_num" group="Injection Channel" default="`${((inj_p_pin ne &quot;unknown&quot;) &amp;&amp; inj_p_port_ded) ? inj_p_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_p_oa" name="inj_p_oa" group="Injection Channel" default="`${inj_p_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;inj_p_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_n_muxarm" name="inj_n_muxarm" group="Injection Channel" default="`${getMuxArmSignal(&quot;Vminus&quot;, 16)}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamString id="inj_n_block" name="inj_n_block" group="Injection Channel" default="`${getBlockFromSignal(&quot;inj_n_muxarm&quot;)}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_n_block_used" name="inj_n_block_used" group="Injection Channel" default="`${(inj_n_block ne &quot;&quot;) &amp;&amp; isBlockUsed(inj_n_block)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="inj_n_blockTypeCtb" name="inj_n_blockTypeCtb" group="Injection Channel" default="`${inj_n_block_used ? ((inj_n_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[0]&quot;) || (inj_n_block eq &quot;pass[&quot; . passInst . &quot;].ctb[0].oa[1]&quot;)) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_n_blockTypeTemp" name="inj_n_blockTypeTemp" group="Injection Channel" default="`${inj_n_block_used ? (findBlockFromSignal(&quot;inj_n_muxarm&quot;, &quot;tempsensor&quot;) eq &quot;pass[&quot; . passInst . &quot;].sarmux[0].tempsensor[0]&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamBool id="inj_n_blockTypePin" name="inj_n_blockTypePin" group="Injection Channel" default="`${inj_n_block_used ? (findBlockFromSignal(&quot;inj_n_muxarm&quot;, &quot;pin&quot;) ne &quot;&quot;) : false}`" visible="`${debug}`" editable="false" desc=""/>
+    <ParamString id="inj_n_port" name="inj_n_port" group="Injection Channel" default="`${inj_n_blockTypePin ? getInstFromLocation(getParamValue(&quot;inj_n_block&quot;), &quot;port&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_n_pin" name="inj_n_pin" group="Injection Channel" default="`${inj_n_blockTypePin ? getInstFromLocation(getParamValue(&quot;inj_n_block&quot;), &quot;pin&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="inj_n_port_num" name="inj_n_port_num" group="Injection Channel" default="`${inj_n_port ne &quot;unknown&quot; ? inj_n_port : 0}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="inj_n_port_ded" name="inj_n_port_ded" group="Injection Channel" default="`${inj_n_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="inj_n_pin_num" name="inj_n_pin_num" group="Injection Channel" default="`${((inj_n_pin ne &quot;unknown&quot;) &amp;&amp; inj_n_port_ded) ? inj_n_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="inj_n_oa" name="inj_n_oa" group="Injection Channel" default="`${inj_n_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;inj_n_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
+                                                                                            
+    <ParamBool id="inj_isPairOk" name="inj_isPairOk" group="Injection Channel" default="`${(inj_p_port_ded &amp;&amp; 
+                                                                                            inj_n_port_ded &amp;&amp;
+                                                                                         (((inj_p_pin_num eq 0) &amp;&amp; (inj_n_pin_num eq 1)) ||
+                                                                                          ((inj_p_pin_num eq 2) &amp;&amp; (inj_n_pin_num eq 3)) ||
+                                                                                          ((inj_p_pin_num eq 4) &amp;&amp; (inj_n_pin_num eq 5)) ||
+                                                                                          ((inj_p_pin_num eq 6) &amp;&amp; (inj_n_pin_num eq 7)))) ||
+                                                                                           (inj_p_blockTypeCtb &amp;&amp; 
+                                                                                            inj_n_blockTypeCtb &amp;&amp; 
+                                                                                           (inj_p_oa eq 0) &amp;&amp; 
+                                                                                           (inj_n_oa eq 1)) || 
+                                                                                           (inj_p_block eq &quot;&quot;) || 
+                                                                                           (inj_n_block eq &quot;&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <!-- Advanced -->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+    <!-- Internal: HW name of the SAR instance -->
+    <ParamString id="pHWName" name="pHWName" group="Internal" default="SAR`${passInst}`" visible="`${debug}`" editable="false" desc="HW name of SAR instance." />
+    <!-- Peripheral clock divider connection -->
+    <ParamString id="pclk" name="pclk" group="Internal" default="`${getBlockFromSignal(&quot;clock_sar[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="pclkOk" name="pclkOk" group="Internal" default="`${hasConnection(&quot;clock_sar&quot;, 0) &amp;&amp; isBlockUsed(pclk)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pclkDst" name="pclkDst" group="Internal" default="PCLK_PASS`${passInst}`_CLOCK_SAR" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pairedDrcMessage" name="pairedDrcText" group="Internal" default="For differential channels, the inputs for direct connection should be paired: an even item for Vplus and the following odd item for Vminus (0&amp;1, 2&amp;3, SARBUS0&amp;SARBUS1, etc.). Otherwise, both pins will be routed through AMUXBUSA/B correspondingly (also paired)." visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="tempAvgDrcMessage" name="tempAvgDrcMessage" group="Internal" default="For better temperature measuring accuracy the averaging should be enabled." visible="`${debug}`" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="ADC clock frequency, `${sourceFreq}`, is out of the supported range (`${clkFreqMinMHz}` to `${clkFreqMaxMHz}` MHz)." condition="`${(sourceClockRsc ne &quot;&quot;) &amp;&amp; ((sourceFreq &gt; (clkFreqMaxMHz * 1000000)) || (sourceFreq &lt; (clkFreqMinMHz * 1000000)))}`" paramId="clk_freq_display"/>
+    <DRC type="ERROR" text="Source clock for SAR ADC is not enabled" condition="`${error}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
+    </DRC>
+    <DRC type="WARNING" text="Noise and offset can cause unsigned results to underflow (wrap-around to +ve full scale) when Vneg is set to Vssa or External." condition="`${!se_format &amp;&amp; vneg_select ne CY_SAR_NEG_SEL_VREF}`" />
+    <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vref_select eq &quot;CY_SAR_VREF_SEL_VDDA&quot;) || 
+                                                                                        (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2_BYP&quot;) ||
+                                                                                        (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2&quot;)) &amp;&amp; !isPowerEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${boostPump &amp;&amp; !isSysAnalogEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passInst . &quot;]&quot;}`" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="The SAR ADC reference voltage must be higher than 0.85 V" condition="`${!isVrefExternal &amp;&amp; (vref_voltage_mv &lt; 850)}`" />
+    <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(ch$idx_se || ch$idx_isPairOk)}`" paramId="Ch$idx Vminus" repeatCount="16" />
+    <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(inj_se || inj_isPairOk)}`" paramId="Injection Vminus" />
+    <DRC type="INFO" text="`${tempAvgDrcMessage}`" condition="`${ch$idx_p_blockTypeTemp &amp;&amp; !ch$idx_avg}`" paramId="Ch$idx Vplus" repeatCount="16" >
+      <FixIt action="SET_PARAM" target="ch$idx_avg" value="true" valid="true" />
+    </DRC>
+    <DRC type="INFO" text="`${tempAvgDrcMessage}`" condition="`${inj_p_blockTypeTemp &amp;&amp; !inj_avg}`" paramId="Injection Vplus" repeatCount="16" >
+      <FixIt action="SET_PARAM" target="inj_avg" value="true" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_sar.h" include="true" />
+    <ConfigInclude value="cycfg_routing.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="`${pHWName}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="pass_`${passInst}`_interrupt_sar_IRQn" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_VREF_MV" value="`${vref_voltage_mv}`UL" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME}`_channel_$idx_config" type="cy_stc_sar_channel_config_t" const="`${inFlash}`" public="true" include="`${ch$idx_en}`" repeatCount="16">
+      <Member name="addr"            value="(cy_en_sar_chan_config_port_pin_addr_t)(SAR`${passInst}`_VPLUS$idx_PIN | (SAR`${passInst}`_VPLUS$idx_PORT &lt;&lt; SAR_CHAN_CONFIG_PORT_ADDR_Pos))" />
+      <Member name="differential"    value="`${!ch$idx_se}`" />
+      <Member name="resolution"      value="`${ch$idx_res}`" />
+      <Member name="avgEn"           value="`${ch$idx_avg}`" />
+      <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;ch$idx_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="rangeIntrEn"     value="`${ch$idx_range_intr}`" />
+      <Member name="satIntrEn"       value="`${ch$idx_sat_intr}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_inj_channel_config" type="cy_stc_sar_channel_config_t" const="`${inFlash}`" public="true" include="`${inj_en}`">
+      <Member name="addr"            value="(cy_en_sar_chan_config_port_pin_addr_t)(SAR`${passInst}`_VPLUS16_PIN | (SAR`${passInst}`_VPLUS16_PORT &lt;&lt; SAR_CHAN_CONFIG_PORT_ADDR_Pos))" />
+      <Member name="differential"    value="`${!inj_se}`" />
+      <Member name="resolution"      value="`${inj_res}`" />
+      <Member name="avgEn"           value="`${inj_avg}`" />
+      <Member name="sampleTimeSel"   value="CY_SAR_SAMPLE_TIME_`${getTclVar(&quot;inj_sample_time_sel&quot;, scheduler)}`" />
+      <Member name="rangeIntrEn"     value="`${inj_range_intr}`" />
+      <Member name="satIntrEn"       value="`${inj_sat_intr}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_sar_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="vrefSel" value="`${((CY_SAR_VREF_SEL_BGR_BYP eq vref_select) || (CY_SAR_VREF_SEL_BGR eq vref_select)) ? CY_SAR_VREF_SEL_BGR :
+                                       ((CY_SAR_VREF_SEL_VDDA_DIV_2_BYP eq vref_select) || (CY_SAR_VREF_SEL_VDDA_DIV_2 eq vref_select)) ? CY_SAR_VREF_SEL_VDDA_DIV_2 : vref_select}`" />
+      <Member name="vrefBypCapEn" value="`${vref_byp_cap}`" />
+      <Member name="negSel" value="`${vneg_select_string}`" />
+      <Member name="negVref" value="CY_SAR_NEGVREF_HW" />
+      <Member name="boostPump" value="`${boostPump}`" />
+      <Member name="power" value="`${(sourceFreq &gt; (9000000)) ? &quot;CY_SAR_NORMAL_PWR&quot; :
+                                    ((sourceFreq &gt; (4500000)) ? &quot;CY_SAR_HALF_PWR&quot; : &quot;CY_SAR_QUARTER_PWR&quot;)}`" />
+      <Member name="sarMuxDsEn" value="false" />
+      <Member name="switchDisable" value="false" />
+      <Member name="subResolution" value="`${subRes}`" />
+      <Member name="leftAlign" value="false" />
+      <Member name="singleEndedSigned" value="`${se_format}`" />
+      <Member name="differentialSigned" value="`${diff_format}`" />
+      <Member name="avgCnt" value="`${avg_cnt}`" />
+      <Member name="avgShift" value="`${CY_SAR_AVG_MODE_SEQUENTIAL_FIXED eq avg_mode}`" />
+      <Member name="trigMode" value="`${soc_en ? trigger_mode : &quot;CY_SAR_TRIGGER_MODE_FW_ONLY&quot;}`" />
+      <Member name="eosEn" value="`${eos_enable}`" />
+      <Member name="sampleTime0" value="`${getTclVar(&quot;sample_time_0&quot;, scheduler)}`"/>
+      <Member name="sampleTime1" value="`${getTclVar(&quot;sample_time_1&quot;, scheduler)}`"/>
+      <Member name="sampleTime2" value="`${getTclVar(&quot;sample_time_2&quot;, scheduler)}`"/>
+      <Member name="sampleTime3" value="`${getTclVar(&quot;sample_time_3&quot;, scheduler)}`"/>
+      <Member name="rangeThresLow" value="`${range_low}`UL"/>
+      <Member name="rangeThresHigh" value="`${range_high}`UL"/>
+      <Member name="rangeCond" value="`${range_cond}`"/>
+      <Member name="chanEn" value="`${(ch0_en ? 1 : 0) +
+                                      (ch1_en ? 2 : 0) +
+                                      (ch2_en ? 4 : 0) +
+                                      (ch3_en ? 8 : 0) +
+                                      (ch4_en ? 16 : 0) +
+                                      (ch5_en ? 32 : 0) +
+                                      (ch6_en ? 64 : 0) +
+                                      (ch7_en ? 128 : 0) +
+                                      (ch8_en ? 256 : 0) +
+                                      (ch9_en ? 512 : 0) +
+                                      (ch10_en ? 1024 : 0) +
+                                      (ch11_en ? 2048 : 0) +
+                                      (ch12_en ? 4096 : 0) +
+                                      (ch13_en ? 8192 : 0) +
+                                      (ch14_en ? 16384 : 0) +
+                                      (ch15_en ? 32768 : 0) +
+                                      (inj_en ? 65536 : 0)}`UL"/>
+
+      <Member name="channelConfig" value="{`${(ch0_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_0_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch1_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_1_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch2_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_2_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch3_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_3_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch4_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_4_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch5_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_5_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch6_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_6_config, &quot;  : &quot;NULL, &quot;) .
+                                              (ch7_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_7_config, &quot;  : &quot;NULL, &quot;) .
+                                    (chan16 ? (ch8_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_8_config, &quot;  : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch9_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_9_config, &quot;  : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch10_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_10_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch11_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_11_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch12_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_12_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch13_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_13_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch14_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_14_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                    (chan16 ? (ch15_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_15_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
+                                              (inj_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_inj_channel_config&quot;  : &quot;NULL&quot;)}`}" />
+                                                                                            
+      <Member name="routingConfig" value="NULL" />
+      <Member name="vrefMvValue" value="`${INST_NAME}`_VREF_MV"/>
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_ADC" />
+      <Member name="block_num" value="`${passInst}`" />
+      <Member name="channel_num" value="0" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="SAR_MUX_SWITCH0(`${pHWName}`) = CY_SAR_MUX_FW_VSSA_VMINUS;" include="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN &amp;&amp; single_ended_exists}`"/>
+    <ConfigInstruction value="SAR_MUX_SWITCH_HW_CTRL(`${pHWName}`) |= CY_SAR_MUX_HW_CTRL_VSSA;" include="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN &amp;&amp; single_ended_exists}`"/>
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(pclk, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" />
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+  </ConfigFirmware>
+</Personality>

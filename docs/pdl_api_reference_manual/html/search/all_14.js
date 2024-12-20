@@ -7,6 +7,7 @@ var searchData=
   ['var_5fsnk',['VAR_SNK',['../structcy__pd__pd__do__t_1_1_v_a_r___s_n_k.html',1,'cy_pd_pd_do_t::VAR_SNK'],['../unioncy__pd__pd__do__t.html#aa13608e321e34c04f901a3c4f9cd228f',1,'cy_pd_pd_do_t::var_snk()']]],
   ['var_5fsrc',['VAR_SRC',['../structcy__pd__pd__do__t_1_1_v_a_r___s_r_c.html',1,'cy_pd_pd_do_t::VAR_SRC'],['../unioncy__pd__pd__do__t.html#a24989e869e8a5c065fc77ab60716cab6',1,'cy_pd_pd_do_t::var_src()']]],
   ['vbat_5fmon_5fdiv_5f8p_5fval',['VBAT_MON_DIV_8P_VAL',['../group__group__usbpd__vbus__ctrl.html#gab7bfd57f472c638fe1a3304d7603afa6',1,'cy_usbpd_vbus_ctrl.h']]],
+  ['vbatdivenable',['vbatDivEnable',['../structcy__hvss__config__t.html#ad0a2fcac8fe6a5e980ce7483528c7c52',1,'cy_hvss_config_t']]],
   ['vbatgndfetpin',['vbatGndFetPin',['../structcy__stc__usbpd__context__t.html#af63af9a1a4525b4e3b48cea7c7da13b7',1,'cy_stc_usbpd_context_t']]],
   ['vbatgndfetport',['vbatGndFetPort',['../structcy__stc__usbpd__context__t.html#a92650d6424586a77c3e4638845410a02',1,'cy_stc_usbpd_context_t']]],
   ['vbatgndscpcb',['vbatGndScpCb',['../structcy__stc__usbpd__context__t.html#a02483bcf8af19b00957ffe2fffe9851c',1,'cy_stc_usbpd_context_t']]],

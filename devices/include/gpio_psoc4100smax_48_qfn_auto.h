@@ -2,7 +2,7 @@
 * \file gpio_psoc4100smax_48_qfn_auto.h
 *
 * \brief
-* PSoC4100Smax device GPIO header for 48-QFN-AUTO package
+* PSOC4100Smax device GPIO header for 48-QFN-AUTO package
 *
 ********************************************************************************
 * \copyright

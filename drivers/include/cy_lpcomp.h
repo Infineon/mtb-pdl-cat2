@@ -53,7 +53,7 @@
 *    b. Connecting low-power comparator's inputs using AMUXBUS:
 *       \snippet lpcomp_snippet.c LPCOMP_SNIPPET_CONFIG_PINS_AMUXBUS
 *
-*   \note The pins assignment is for the PSoC 4100S Plus (CY8CKIT-149). The pin
+*   \note The pins assignment is for the PSOC 4100S Plus (CY8CKIT-149). The pin
 *   numbers may differ, please refer to the device documentation for the more
 *   details.
 *

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file wdt.cypersonality
+* \version 2.0
+*
+* \brief
+* WDT personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8wdt" name="WDT" version="2.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="s8srsslt,m0s8srsshv" />
+    <Resource name="srss\.wdt" />
+  </Dependencies>
+  
+  <ExposedMembers />
+  
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
+    default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__wdt.html"
+    linkText="Open Watchdog Timer Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <ParamBool id="isSRSSHVAvailable" name="isSRSSHVAvailable" group="" default="`${(&quot;m0s8srsshv&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
+    <ParamBool id="isSRSSLTAvailable" name="isSRSSLTAvailable" group="" default="`${(&quot;s8srsslt&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
+
+    <ParamRange id="match" name="Match value" group="General" default="4096" min="0" max="65535" resolution="1" visible="`${(isSRSSLTAvailable)}`" editable="true" 
+    desc="Match value for Watchdog counter.  Every time WDT_COUNTER reaches MATCH an interrupt is generated.  Two unserviced interrupts will lead to a system reset (i.e. at the third match)." />
+
+    <ParamRange id="ignore" name="Ignore bits" group="General" default="0" min="0" max="15" resolution="1" visible="`${(isSRSSLTAvailable)}`" editable="true" 
+    desc="The number of MSB bits of the watchdog timer that are NOT checked against MATCH.  This value provides control over the time-to-reset of the watchdog (which happens after 3 successive matches)." />
+
+    <ParamString id="sourceClockRsc" name="Source Clock" group="Internal" default="srss[0].clock[0].lfclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(sourceClockRsc)}`" visible="false" editable="false" desc="" />
+
+    <!-- Lower Action and Limit -->
+    <ParamChoice id="lowerAction" name="Lower Action" group="General" default="CY_WDT_LOW_UPPER_LIMIT_ACTION_NONE" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Action taken if the watchdog is serviced before Lower Limit is reached">
+      <Entry name="None" value="CY_WDT_LOW_UPPER_LIMIT_ACTION_NONE" visible="true"/>
+      <Entry name="Reset" value="CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnLowerAction" name="isEnLowerAction" group="" default="`${(&quot;CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET&quot; eq lowerAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="userLowerLimit" name="Lower Limit" group="General" default="1" min="1" max="4294967295" resolution="1" visible="`${isEnLowerAction}`" editable="true" desc="The Lower limit for the watchdog" />
+    <ParamRange id="lowerLimit" name="lowerLimit" group="" default="`${isEnLowerAction? userLowerLimit : 0}`" min="0" max="4294967295" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Upper Action and Limit -->
+    <ParamChoice id="upperAction" name="Upper Action" group="General" default="CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Action taken if the watchdog is not serviced before Upper Limit is reached">
+      <Entry name="None" value="CY_WDT_LOW_UPPER_LIMIT_ACTION_NONE" visible="true"/>
+      <Entry name="Reset" value="CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnUpperAction" name="isEnUpperAction" group="" default="`${(&quot;CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET&quot; eq upperAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="upperLimit" name="Upper Limit" group="General" default="32768" min="0" max="4294967295" resolution="1" visible="`${isEnUpperAction}`" editable="true" desc="Upper limit for the watchdog" />
+
+    <!-- Warn Action and Limit -->
+    <ParamChoice id="warnAction" name="Warn Action" group="General" default="CY_WDT_WARN_ACTION_NONE" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Action taken when the count value reaches Warn Limit">
+      <Entry name="None" value="CY_WDT_WARN_ACTION_NONE" visible="true"/>
+      <Entry name="Interrupt" value="CY_WDT_WARN_ACTION_INT" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnWarnAction" name="isEnWarnAction" group="" default="`${(&quot;CY_WDT_WARN_ACTION_INT&quot; eq warnAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="userWarnLimit" name="Warn Limit" group="General" default="1" min="1" max="4294967295" resolution="1" visible="`${isEnWarnAction}`" editable="true" desc="Warn limit for the watchdog" />
+    <ParamRange id="warnLimit" name="warnLimit" group="" default="`${isEnWarnAction? userWarnLimit : 0}`" min="0" max="4294967295" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Other WDT Configuration -->
+    <ParamBool id="autoServiceEn" name="Auto Service Enable" group="General" default="false" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Automatically service when the count value reaches WARN_LIMIT. This allows creation of a periodic interrupt if this counter is not needed as a watchdog." />
+    <ParamBool id="pauseCounter" name="Pause counter in DeepSleep" group="General" default="false" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Pauses/runs this counter when the system is in DeepSleep" />
+    <ParamBool id="runCounterDebug" name="Running counter in Debug" group="General" default="false" visible="`${(isSRSSHVAvailable)}`" editable="true" desc="Pauses/runs this counter while a debugger is connected" />
+  </Parameters>
+  
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for WDT is not enabled" condition="`${srcNotUsed}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+  
+  <ConfigFirmware>
+    <ConfigInclude value="cy_wdt.h" include="true" />
+
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="`${(isSRSSHVAvailable) ? &quot;srss_wdt_irq_IRQn&quot; : &quot;srss_interrupt_wdt_IRQn&quot;}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_AUTO_SERVICE_EN" value="`${(autoServiceEn) ? &quot;CY_WDT_ENABLE&quot; : &quot;CY_WDT_DISABLE&quot;}`" public="true" include="`${(isSRSSHVAvailable)}`" />
+    <ConfigDefine name="`${INST_NAME}`_DEEPSLEEP_PAUSE_COUNTER_EN" value="`${(pauseCounter) ? &quot;CY_WDT_ENABLE&quot; : &quot;CY_WDT_DISABLE&quot;}`" public="true" include="`${(isSRSSHVAvailable)}`" />
+    <ConfigDefine name="`${INST_NAME}`_DEBUG_RUN_COUNTER_EN" value="`${(runCounterDebug) ? &quot;CY_WDT_ENABLE&quot; : &quot;CY_WDT_DISABLE&quot;}`" public="true" include="`${(isSRSSHVAvailable)}`" />
+
+    <!-- The next symbols are HTML entities in Unicode used for representing certain characters in HTML documents.
+      `&#xA;` is an entity for the newline character, equivalent to the `\n` symbol.
+      `&#9;` is an entity for the tabulation character, equivalent to the `\t` symbol.
+      `&#13;` is an entity for the carriage return character, equivalent to the `\r` symbol. -->
+    <ConfigFunction signature="__STATIC_INLINE void Cy_WDT_Config(void)" body="
+   Cy_WDT_Unlock();&#xA;&#13;
+   Cy_WDT_SetLowerLimit(`${toHex(lowerLimit)}`UL);&#13;
+   Cy_WDT_SetLowerAction(`${lowerAction}`);&#xA;&#13;
+   Cy_WDT_SetUpperLimit(`${toHex(upperLimit)}`UL);&#13;
+   Cy_WDT_SetUpperAction(`${upperAction}`);&#xA;&#13;
+   Cy_WDT_SetWarnLimit(`${toHex(warnLimit)}`UL);&#13;
+   Cy_WDT_SetWarnAction(`${warnAction}`);&#xA;&#13;
+   Cy_WDT_SetAutoService(`${INST_NAME}`_AUTO_SERVICE_EN);&#13;
+   Cy_WDT_SetDeepSleepPause(`${INST_NAME}`_DEEPSLEEP_PAUSE_COUNTER_EN);&#13;
+   Cy_WDT_SetDebugRun(`${INST_NAME}`_DEBUG_RUN_COUNTER_EN);&#xA;&#13;
+   Cy_WDT_Lock();&#13;
+   Cy_WDT_ClearInterrupt();&#xA;" public="false" include="`${(isSRSSHVAvailable)}`" />
+
+    <ConfigFunction signature="__STATIC_INLINE void Cy_WDT_Config(void)" body="
+   Cy_WDT_SetMatch(`${match}`UL);&#13;
+   Cy_WDT_SetIgnoreBits(`${ignore}`UL);&#13;
+   Cy_WDT_ClearInterrupt();&#xA;" public="false" include="`${(isSRSSLTAvailable)}`" />
+
+  <ConfigInstruction value="Cy_WDT_Config();" include="true" />
+
+  </ConfigFirmware>
+</Personality>

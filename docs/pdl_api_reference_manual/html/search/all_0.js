@@ -62,6 +62,7 @@ var searchData=
   ['avgcnt',['avgCnt',['../structcy__stc__sar__config__t.html#ad582d301264cfa88b80404d0bcdb7932',1,'cy_stc_sar_config_t']]],
   ['avgen',['avgEn',['../structcy__stc__sar__channel__config__t.html#af6393b0df19a16d1b6618d4a715eeca5',1,'cy_stc_sar_channel_config_t']]],
   ['avgshift',['avgShift',['../structcy__stc__sar__config__t.html#ab641e5e78c2970abc9907082f4a68f33',1,'cy_stc_sar_config_t']]],
+  ['actions',['Actions',['../group__group__crwdt__actions__bitmask__macros.html',1,'']]],
   ['aes',['AES',['../group__group__cryptolite__aes.html',1,'']]],
   ['assert_20classes_20and_20levels',['Assert Classes and Levels',['../group__group__syslib__macros__assert.html',1,'']]]
 ];

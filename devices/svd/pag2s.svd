@@ -28,9 +28,9 @@
     <endian>little</endian>
     <mpuPresent>true</mpuPresent>
     <fpuPresent>false</fpuPresent>
-    <vtorPresent>1</vtorPresent>
+    <vtorPresent>true</vtorPresent>
     <nvicPrioBits>2</nvicPrioBits>
-    <vendorSystickConfig>0</vendorSystickConfig>
+    <vendorSystickConfig>false</vendorSystickConfig>
   </cpu>
   <addressUnitBits>8</addressUnitBits>
   <width>32</width>
@@ -346,32 +346,6 @@ Note that this field is retained. However, the counter that is used to implement
             </field>
           </fields>
         </register>
-        <cluster>
-          <dim>16</dim>
-          <dimIncrement>512</dimIncrement>
-          <name>TR_GROUP[%s]</name>
-          <description>Peripheral Interconnect trigger group control registers</description>
-          <addressOffset>0x00002000</addressOffset>
-          <register>
-            <dim>128</dim>
-            <dimIncrement>4</dimIncrement>
-            <name>TR_OUT_CTL[%s]</name>
-            <description>Trigger control register</description>
-            <addressOffset>0x0</addressOffset>
-            <size>32</size>
-            <access>read-write</access>
-            <resetValue>0x0</resetValue>
-            <resetMask>0x7F</resetMask>
-            <fields>
-              <field>
-                <name>SEL</name>
-                <description>Specifies input trigger. This field is typically set during the setup of a chip use case scenario. Changing this field while activated triggers are present on the input triggers may result in unpredictable behavior. Note that input trigger 0 (default value) is typically connected to a constant signal level of '0', and as a result will not cause HW activation of the output trigger.</description>
-                <bitRange>[6:0]</bitRange>
-                <access>read-write</access>
-              </field>
-            </fields>
-          </register>
-        </cluster>
       </registers>
     </peripheral>
     <peripheral>
@@ -401,7 +375,7 @@ Note that this field is retained. However, the counter that is used to implement
             <fields>
               <field>
                 <name>IO0_SEL</name>
-                <description>Selects connection for IO pad 0 route.</description>
+                <description>N/A</description>
                 <bitRange>[3:0]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -489,43 +463,43 @@ Note that this field is retained. However, the counter that is used to implement
               </field>
               <field>
                 <name>IO1_SEL</name>
-                <description>Selects connection for IO pad 1 route.</description>
+                <description>N/A</description>
                 <bitRange>[7:4]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO2_SEL</name>
-                <description>Selects connection for IO pad 2 route.</description>
+                <description>N/A</description>
                 <bitRange>[11:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO3_SEL</name>
-                <description>Selects connection for IO pad 3 route.</description>
+                <description>N/A</description>
                 <bitRange>[15:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO4_SEL</name>
-                <description>Selects connection for IO pad 4 route.</description>
+                <description>N/A</description>
                 <bitRange>[19:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO5_SEL</name>
-                <description>Selects connection for IO pad 5 route.</description>
+                <description>N/A</description>
                 <bitRange>[23:20]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO6_SEL</name>
-                <description>Selects connection for IO pad 6 route.</description>
+                <description>N/A</description>
                 <bitRange>[27:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>IO7_SEL</name>
-                <description>Selects connection for IO pad 7 route.</description>
+                <description>N/A</description>
                 <bitRange>[31:28]</bitRange>
                 <access>read-write</access>
               </field>
@@ -747,29 +721,25 @@ PSoC4-S0 and Streetfighter CapSense products may set this bit if Vccd is provide
           <fields>
             <field>
               <name>SWD_CONNECTED</name>
-              <description>0: SWD not active
-1: SWD activated (Line Reset &amp; Connect sequence passed)
-(Note: this bit replaces TST_CTRL.SWD_CONNECTED and is present in all M0S8 products except TSG4)</description>
+              <description>N/A</description>
               <bitRange>[2:2]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>BLOCK_ALT_XRES</name>
-              <description>Relevant only for parts that have the alternate XRES mechanism of overloading a GPIO pin temporarily as alternate XRES during test.  When set, this bit blocks the alternate XRES function, such that the pin can be used for normal I/O or for ddft/adft observation.  See SAS Part-V and Part-IX for details. This register field resets with hard reset (power related, XRES, WDT)</description>
+              <description>Relevant only for parts that have the alternate XRES mechanism of overloading a GPIO pin temporarily as alternate XRES during test.  When set, this bit blocks the alternate XRES function, such that the pin can be used for normal I/O or for ddft/adft observation.  This register field resets with hard reset (power related, XRES, WDT)</description>
               <bitRange>[28:28]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>TEST_KEY_DFT_EN</name>
-              <description>This bit is set when a XRES test mode key is shifted in.  It is the value of the test_key_dft_en signal.  When this bit is set, the BootROM will not yield execution to the FLASH image (same function as setting TEST_MODE bit below).</description>
+              <description>N/A</description>
               <bitRange>[30:30]</bitRange>
               <access>read-only</access>
             </field>
             <field>
               <name>TEST_MODE</name>
-              <description>0: Normal operation mode
-1: Test mode (any test mode)
-Setting this bit will prevent BootROM from yielding execution to Flash image.</description>
+              <description>N/A</description>
               <bitRange>[31:31]</bitRange>
               <access>read-write</access>
             </field>
@@ -996,7 +966,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
           <fields>
             <field>
               <name>DFT_SEL0</name>
-              <description>Select signal for DFT output #0</description>
+              <description>Select clock for Calibration Counter #1</description>
               <bitRange>[3:0]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -1084,7 +1054,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
             </field>
             <field>
               <name>DFT_DIV0</name>
-              <description>DFT Output Divide Down.</description>
+              <description>Calibration Counter #1 pre-divider</description>
               <bitRange>[5:4]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -1112,7 +1082,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
             </field>
             <field>
               <name>DFT_EDGE0</name>
-              <description>Edge sensitivity for in-line divider on output #0 (only relevant when DIV0&gt;0).</description>
+              <description>Edge sensitivity for pre-divider (only relevant when DIV0&gt;0).</description>
               <bitRange>[6:6]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -1130,7 +1100,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
             </field>
             <field>
               <name>DFT_SEL1</name>
-              <description>Select signal for DFT output #1</description>
+              <description>Select clock for Calibration Counter #2</description>
               <bitRange>[11:8]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -1218,7 +1188,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
             </field>
             <field>
               <name>DFT_DIV1</name>
-              <description>DFT Output Divide Down.</description>
+              <description>Calibration Counter #2 pre-divider</description>
               <bitRange>[13:12]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -1246,7 +1216,7 @@ Setting this bit will prevent BootROM from yielding execution to Flash image.</d
             </field>
             <field>
               <name>DFT_EDGE1</name>
-              <description>Edge sensitivity for in-line divider on output #1 (only relevant when DIV1&gt;0).</description>
+              <description>Edge sensitivity for pre-divider (only relevant when DIV0&gt;0).</description>
               <bitRange>[14:14]</bitRange>
               <access>read-write</access>
               <enumeratedValues>
@@ -2970,8 +2940,7 @@ If the drive mode for the pin is set to high Z Analog, the pin state will read 0
             <fields>
               <field>
                 <name>DM0</name>
-                <description>The GPIO drive mode for IO pad 0.
-Note: when initializing IO's that are connected to a live bus (such as I2C), make sure the HSIOM is properly configured (HSIOM_PRT_SELx) before turning the IO on here to avoid producing glitches on the bus.</description>
+                <description>N/A</description>
                 <bitRange>[2:0]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -3025,74 +2994,67 @@ For GPIOV1P2_I2C: Weak pull down only.</description>
               </field>
               <field>
                 <name>DM1</name>
-                <description>The GPIO drive mode for IO pad 1.</description>
+                <description>N/A</description>
                 <bitRange>[5:3]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM2</name>
-                <description>The GPIO drive mode for IO pad 2.</description>
+                <description>N/A</description>
                 <bitRange>[8:6]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM3</name>
-                <description>The GPIO drive mode for IO pad 3.</description>
+                <description>N/A</description>
                 <bitRange>[11:9]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM4</name>
-                <description>The GPIO drive mode for IO pad 4.</description>
+                <description>N/A</description>
                 <bitRange>[14:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM5</name>
-                <description>The GPIO drive mode for IO pad 5.</description>
+                <description>N/A</description>
                 <bitRange>[17:15]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM6</name>
-                <description>The GPIO drive mode for IO pad 6.</description>
+                <description>N/A</description>
                 <bitRange>[20:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DM7</name>
-                <description>The GPIO drive mode for IO pad 7.</description>
+                <description>N/A</description>
                 <bitRange>[23:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_VTRIP_SEL</name>
-                <description>The GPIO cells include a VTRIP_SEL signal to alter the input buffer voltage. Note: this bit is ignored for SIO ports, the VTRIP_SEL settings in the SIO register are used instead (a separate VTRIP_SEL is provided for each pin pair).
-0: input buffer functions as a CMOS input buffer.
-1: input buffer functions as a LVTTL input buffer.
-For GPIOV1P2 and GPIOV1P_I2C cells, PC.PORT_VTRIP_SEL is unused. Refer to DS register</description>
+                <description>N/A</description>
                 <bitRange>[24:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_SLOW</name>
-                <description>This field controls the output edge rate of all pins on the port:
-'0': fast.
-'1': slow.</description>
+                <description>N/A</description>
                 <bitRange>[25:25]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_HYST_TRIM</name>
-                <description>This field is used to improve the hysteresis (to 10 percent of vddio) of the selectable trip point input buffer. The voltage reference comes from the VREFGEN block and is only available when using the VREFGEN block:
-'0': &lt;= 2.2 V input signaling Voltage.
-'1': &gt; 2.2 V input signaling Voltage.</description>
+                <description>N/A</description>
                 <bitRange>[27:27]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_SLEW_CTL</name>
-                <description>Slew control. Only used in the O_Z drive mode (mode 4: strong pull down, open drain): This field is intended for I2C functionality. See BROS 001-70428 for more details.</description>
+                <description>This field is used to vary slew rate in I2C mode. It comes into picture only when slow=1 and DM=4 ( strong pull down, open drain). Following modes are supported and the corresponding fall time specs are mentioned:</description>
                 <bitRange>[29:28]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -3123,17 +3085,7 @@ FS+ mode (Vext&lt;=2.8,1.71&lt;VDDD&lt;5.5) (20-120ns)</description>
               </field>
               <field>
                 <name>PORT_IB_MODE_SEL</name>
-                <description>This field selects the input buffer reference. The size (1 or 2 bits) and functionality is dependent on the IO cell.
-For GPIOv2 IO cells, bit PORT_IB_MODE_SEL[1] is not used (GPIOv2 IO cell replaces GPIO IO cell):
-'0'/'2': CMOS input buffer (PORT_VTRIP_SEL is '0'), LVTTL input buffer (PORT_VTRIP_SEL is '1')
-'1'/'3': vcchib.
-For GPIO_OVTv2 and SIOv2 IO cells:
-'0': CMOS input buffer (PORT_VTRIP_SEL is '0'), LVTTL input buffer (PORT_VTRIP_SEL is '1')
-'1': vcchib.
-'2': OVT.
-'3': Reference (possibly from reference generator cell).
-For SIO IO cell, this field is present but not used as the SIO IO cell does not provide input buffer mode select functionality (SIOv2 IO cell will replace SIO IO cell, as soon as it is available).
-For GPIOV1P2 and GPIOV1P2_I2C cells, PC.PORT_IB_MODE_SEL unused. Refer to DS register.</description>
+                <description>N/A</description>
                 <bitRange>[31:30]</bitRange>
                 <access>read-write</access>
               </field>
@@ -3386,145 +3338,149 @@ For GPIOV1P2 and GPIOV1P2_I2C cells, PC.PORT_IB_MODE_SEL unused. Refer to DS reg
                 <name>PAIR_VREG01_EN</name>
                 <description>Selects output buffer mode:
 0: unregulated output buffer
-1: regulated output buffer</description>
+1: regulated output buffer
+
+The regulated output configuration is selected ONLY if the dm&lt;2:0&gt; bits set a strong pull up configuration (Modes 3, 5, or 6). Weak pull up modes pull to VDDIO.</description>
                 <bitRange>[0:0]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF01_SEL</name>
                 <description>Selects input buffer mode:
-0: singled ended input buffer
-1: differential input buffer</description>
+0: singled ended input buffer with a threshold controlled by PAIR_VTRIP01_SEL
+1: differential input buffer, see table in PAIR_VTRIP01_SEL description for details</description>
                 <bitRange>[1:1]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP01_SEL</name>
-                <description>Selects trip-point of input buffer. In single ended input buffer mode (IBUF01_SEL = '0'):
-0: input buffer functions as a CMOS input buffer.
-1: input buffer functions as a LVTTL input buffer.
-In differential input buffer mode (IBUF01_SEL = '1')
-'0': trip-point is 0.5*Vddio or 0.5*Voh (depends on VREF_SEL/VOH_SEL)
-'1': trip-point is 0.4*Vddio or 1.0*Vref  (depends on VREF_SEL)
+                <description>In single ended input buffer mode (PAIR_IBUF01_SEL = '0'):
+VTRIP_SEL=0: input buffer functions as a CMOS input buffer.
+VTRIP_SEL=1: input buffer functions as a LVTTL input buffer.
 
-Please refer to s8iom0s8 BROS 001-70428, section 4.2.7  for more details.</description>
+In differential input buffer mode (PAIR_IBUF01_SEL = '1'): 
+PAIR_VREF01_SEL=00: 
+  a) PAIR_VTRIP01_SEL=0 -&gt; Trip point=50 percent of vddio
+  b) PAIR_VTRIP01_SEL=1 -&gt; Trip point=40 percent of vddio
+
+PAIR_VREF01_SEL=01/10/11:
+  a) PAIR_VTRIP01_SEL=0 -&gt; Trip point=50 percent of Voh (see table in PAIR_VOH01_SEL for details)
+  b) PAIR_VTRIP01_SEL=1 -&gt; Trip point=Vref  (see table in PAIR_VREF01_SEL for details)</description>
                 <bitRange>[2:2]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF01_SEL</name>
-                <description>Selects reference voltage Vref for trip-point of input buffer:
-0: trip-point reference of SRSS internal reference Vref (1.2V)
-1: trip-point reference of SRSS internal reference Vref (1.2V)
-2: trip-point reference of AMUXBUS_A
-3: trip-point reference of AMUXBUS_B
-
-Please refer to s8iom0s8 BROS 001-70428, section 4.2.7 for more details.</description>
+                <description>Selects reference voltage Vref for trip-point of input buffer and reference for VOH regulator:
+0: Vref = 1.2V (input buffers use vddio as Vref)
+1: Vref = 1.2V
+2: Vref = AMUXBUS_A
+3: Vref = AMUXBUS_B</description>
                 <bitRange>[4:3]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH01_SEL</name>
-                <description>Selects regulated Voh output level and trip point of input buffer for a specific SIO pin pair. Voh depends on the selected reference voltage (VREF_SEL). 
-0: Voh = 1*reference; e.g. reference at 1.2V -&gt; Voh = 1.2V 
-1: Voh = 1.25*reference; e.g. reference at 1.2V -&gt; Voh = 1.5V
-2: Voh = 1.49*reference; e.g. reference at 1.2V -&gt; Voh = ~1.8V
-3: Voh = 1.67*reference; e.g. reference at 1.2V -&gt; Voh = 2V
-4: Voh = 2.08*reference; e.g. reference at 1.2V -&gt; Voh = 2.5V
-5: Voh = 2.5*reference; e.g. reference at 1.2V -&gt; Voh = 3V
-6: Voh = 2.78*reference; e.g. reference at 1.2V -&gt; Voh = ~3.3V
-7: Voh = 4.16*reference; e.g. reference at 1.2V -&gt; Voh = 5.0V
-Note: The upper value on VOH is limited to Vddio - 400mV</description>
+                <description>Selects regulated Voh output level and trip point of input buffer for a specific SIO pin pair. Voh depends on the selected Vref voltage (see table in PAIR_VREF_01SEL description for details). 
+0: Voh = 1*vref 
+1: Voh = 1.25*vref
+2: Voh = 1.49*vref
+3: Voh = 1.67*vref
+4: Voh = 2.08*vref
+5: Voh = 2.5*vref
+6: Voh = 2.78*vref
+7: Voh = 4.16*vref
+Note: The upper value on Voh is limited to Vddio - 400mV</description>
                 <bitRange>[7:5]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG23_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[8:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[9:9]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[10:10]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[12:11]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH23_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[15:13]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG45_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[18:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[20:19]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH45_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[23:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREG67_EN</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[24:24]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_IBUF67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[25:25]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VTRIP67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[26:26]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VREF67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[28:27]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PAIR_VOH67_SEL</name>
-                <description>See corresponding definition for IO pads 0 and 1.</description>
+                <description>N/A</description>
                 <bitRange>[31:29]</bitRange>
                 <access>read-write</access>
               </field>
@@ -3657,7 +3613,7 @@ Note: The upper value on VOH is limited to Vddio - 400mV</description>
             <fields>
               <field>
                 <name>DS0</name>
-                <description>The GPIO drive strength for IO pad 0.</description>
+                <description>N/A</description>
                 <bitRange>[1:0]</bitRange>
                 <access>read-write</access>
                 <enumeratedValues>
@@ -3685,67 +3641,55 @@ Note: The upper value on VOH is limited to Vddio - 400mV</description>
               </field>
               <field>
                 <name>DS1</name>
-                <description>The GPIO drive strength for IO pad 1.</description>
+                <description>N/A</description>
                 <bitRange>[3:2]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS2</name>
-                <description>The GPIO drive strength for IO pad 2.</description>
+                <description>N/A</description>
                 <bitRange>[5:4]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS3</name>
-                <description>The GPIO drive strength for IO pad 3.</description>
+                <description>N/A</description>
                 <bitRange>[7:6]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS4</name>
-                <description>The GPIO drive strength for IO pad 4.</description>
+                <description>N/A</description>
                 <bitRange>[9:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS5</name>
-                <description>The GPIO drive strength for IO pad 5.</description>
+                <description>N/A</description>
                 <bitRange>[11:10]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS6</name>
-                <description>The GPIO drive strength for IO pad 6.</description>
+                <description>N/A</description>
                 <bitRange>[13:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>DS7</name>
-                <description>The GPIO drive strength for IO pad 7.</description>
+                <description>N/A</description>
                 <bitRange>[15:14]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_V1P2_VTRIP_SEL</name>
-                <description>For GPIOV1P2:
-  0: 1.2V VDDIO 
-  1: 1.8V VDDIO
-For GPIOV1P_I2C cells:
-Used in conjunction with PORT_V1P2_IB_MODE_SEL
-   PORT_V1P2_VTRIP_SEL,PORT_V1P2_IB_MODE_SEL
-   0,0 - VDDIO 1.2V and VDDI2C 1.2V
-   1,1 - VDDIO 1.2V and VDDI2C 1.8V
-   0,0 - VDDIO 1.8V and VDDI2C 1.8V
-   All other combinations are illegal</description>
+                <description>N/A</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>PORT_V1P2_IB_MODE_SEL</name>
-                <description>For GPIOV1P2 cell,
-0: vtrip_sel register controls the vtrip_sel of the IO cells
-1: vddio detect cell output controls the vtrip_sel of the IO cells
-For GPIOV1P2_I2C cells, refer to PORT_VTRIP_SEL description for usage.</description>
+                <description>N/A</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
@@ -3762,97 +3706,97 @@ For GPIOV1P2_I2C cells, refer to PORT_VTRIP_SEL description for usage.</descript
             <fields>
               <field>
                 <name>TRIM0</name>
-                <description>trim bits for 50ns filter on IO pad 0</description>
+                <description>N/A</description>
                 <bitRange>[1:0]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM1</name>
-                <description>trim bits for 50ns filter on IO pad 1</description>
+                <description>N/A</description>
                 <bitRange>[3:2]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM2</name>
-                <description>trim bits for 50ns filter on IO pad 2</description>
+                <description>N/A</description>
                 <bitRange>[5:4]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM3</name>
-                <description>trim bits for 50ns filter on IO pad 3</description>
+                <description>N/A</description>
                 <bitRange>[7:6]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM4</name>
-                <description>trim bits for 50ns filter on IO pad 4</description>
+                <description>N/A</description>
                 <bitRange>[9:8]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM5</name>
-                <description>trim bits for 50ns filter on IO pad 5</description>
+                <description>N/A</description>
                 <bitRange>[11:10]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM6</name>
-                <description>trim bits for 50ns filter on IO pad 6</description>
+                <description>N/A</description>
                 <bitRange>[13:12]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>TRIM7</name>
-                <description>trim bits for 50ns filter on IO pad 7</description>
+                <description>N/A</description>
                 <bitRange>[15:14]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT0_EN</name>
-                <description>Filter selection for IO pad 0</description>
+                <description>N/A</description>
                 <bitRange>[16:16]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT1_EN</name>
-                <description>Filter selection for IO pad 1</description>
+                <description>N/A</description>
                 <bitRange>[17:17]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT2_EN</name>
-                <description>Filter selection for IO pad 2</description>
+                <description>N/A</description>
                 <bitRange>[18:18]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT3_EN</name>
-                <description>Filter selection for IO pad 3</description>
+                <description>N/A</description>
                 <bitRange>[19:19]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT4_EN</name>
-                <description>Filter selection for IO pad 4</description>
+                <description>N/A</description>
                 <bitRange>[20:20]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT5_EN</name>
-                <description>Filter selection for IO pad 5</description>
+                <description>N/A</description>
                 <bitRange>[21:21]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT6_EN</name>
-                <description>Filter selection for IO pad 6</description>
+                <description>N/A</description>
                 <bitRange>[22:22]</bitRange>
                 <access>read-write</access>
               </field>
               <field>
                 <name>FILT7_EN</name>
-                <description>Filter selection for IO pad 7</description>
+                <description>N/A</description>
                 <bitRange>[23:23]</bitRange>
                 <access>read-write</access>
               </field>
@@ -3930,16 +3874,14 @@ For GPIOV1P2_I2C cells, refer to PORT_VTRIP_SEL description for usage.</descript
                   <name>TEST_ADFT</name>
                   <description>select this mode during ADFT testing to control 'hld_ovr/oe_n/ analog_sel/ analog_pol/ analog_en' signals of IO cells as below:
 the ADFT-0 assigned IO cell connects to: DFT_*_0;  
-the ADFT-1 assigned IO cell connects to: DFT_*_1; 
-All other IO cells connect to: DFT_*_2;</description>
+the ADFT-1 assigned IO cell connects to: DFT_*_1; ...</description>
                   <value>1</value>
                 </enumeratedValue>
                 <enumeratedValue>
                   <name>TEST_ANA</name>
                   <description>select this mode for testing analog switches to control 'hld_ovr/oe_n/analog_en/analog_sel/analog_pol' signals of IO cells as below:
 the IO_TEST_0 assigned IO cell connects to: DFT_*_0;
-the IO_TEST_1 assigned IO cell connects to: DFT_*_1;
-All other IO cells connect to: DFT_*_2;</description>
+the IO_TEST_1 assigned IO cell connects to: DFT_*_1;...</description>
                   <value>2</value>
                 </enumeratedValue>
                 <enumeratedValue>
@@ -5007,9 +4949,7 @@ SYSCALL_REQ = 1 : the previous value (captured when SYSCALL_REQ was 0), is retai
           <fields>
             <field>
               <name>SYSCALL_ARG</name>
-              <description>Argument to System Call specified in SYSREQ. Semantics of argument depends on system call made. Typically a pointer to a parameter block.
-
-The Boot process uses this register to signal success/failure of Boot. If the register is '0x0' boot was successful. If the register is other than '0x0', the boot process failed. See the m0s8srom BROS for a description of the meaning of the return value OTHER than zero.</description>
+              <description>Argument to System Call specified in SYSREQ. Semantics of argument depends on system call made. Typically a pointer to a parameter block.</description>
               <bitRange>[31:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -5084,62 +5024,42 @@ When changing the source of a specific interrupt, it is advised to temporarily d
           <fields>
             <field>
               <name>FLASH_WS</name>
-              <description>Amount of ROM wait states:
-For Flash (without ECC).
-0: 0 wait states (fast flash: [0, 24] MHz system frequency, slow flash: [0, 16] MHz system frequency)
-1: 1 wait state (fast flash: [24, 48] MHz system frequency, slow flash: [16, 32] MHz system frequency)
-2: 2 wait states (slow flash: [32, 48] MHz system frequency)
-3-15 : Future Use.
-
-For Flash With ECC.
-0: 0 wait states ([0, 12] MHz system frequency)
-1: 1 wait state ([12, 24] MHz system frequency)
-2: 2 wait states (24,36] MHz system frequency)
-3: 3 wait states ([36,48] MHz System Frequency)
+              <description>For Flash With ECC the number of wait states (WS):
+WS = 3 for SYSCLK &lt;= FMAX
+WS = 2 for SYSCLK &lt;= 3/4 * FMAX
+WS = 1 for SYSCLK &lt;= 1/2 * FMAX
+WS = 0 for SYSCLK &lt;= 1/4 * FMAX
 4-15 : Future Use - To be used, if 3 Wait State is not sufficient.</description>
               <bitRange>[3:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>PREF_EN</name>
-              <description>Prefetch enable:
-'0': disabled. This is a desirable setting when FLASH_WS is 0 or when predictable execution time is required.
-'1': enabled.</description>
+              <description>N/A</description>
               <bitRange>[4:4]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_INVALIDATE</name>
-              <description>1': Invalidates the content of the flash controller's buffers.</description>
+              <description>N/A</description>
               <bitRange>[8:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>ARB</name>
-              <description>Arbitration policy:
-0: CPU has priority
-1: DW/DMA has priority
-2: Roundrobin
-3: Roundrobin - sticky</description>
+              <description>N/A</description>
               <bitRange>[17:16]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_ECC_INJ_EN</name>
-              <description>Enable error injection for FLASH main interface.
-When'1', the parity (ECC_CTL.PARITY[7:0]) is used for a load from the ECC_CTL.WORD_ADDR[23:0] word address.</description>
+              <description>N/A</description>
               <bitRange>[20:20]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_ERR_SILENT</name>
-              <description>Specifies bus transfer behavior for a non-recoverable error on the FLASH macro main interface (either a non-correctable ECC error, a FLASH macro main interface internal error, a FLASH macro main interface memory hole access, a M0S8 protection violation error):
-0: Bus transfer has a bus error.
-1: Bus transfer does NOT have a bus error; i.e. the error is 'silent'
-
-In either case, a Zero value is returned. 
-
-This field is ONLY used by CPU bus transfers. Non-CPU bus transfers always have a bus transfer with a bus error, in case of a non-recoverable error.</description>
+              <description>N/A</description>
               <bitRange>[21:21]</bitRange>
               <access>read-write</access>
             </field>
@@ -5160,17 +5080,13 @@ This field is ONLY used by CPU bus transfers. Non-CPU bus transfers always have 
 '0': 0 wait states. Use this setting for newer, faster ROM design. Use this setting for older, slower ROM design and frequencies in the range [0, 24] MHz.
 '1': 1 wait state. Use this setting for older, slower ROM design and frequencies in the range &lt;24, 48] MHz.
 
-CPUSSv2 supports two types of ROM memory: an older, slower design (operating at up to 24 MHz) and a newer, faster design (operating at up to 48 MHz). The older design requires 1 wait state for frequencies above 24 MHz. The newer design never requires wait states. All chips after Street Fighter will use the newer design. As a result, all chips after Street Fighter can always use 0 wait states.</description>
+Should always be set to 0.</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>ARB</name>
-              <description>Arbitration policy:
-0: CPU has priority
-1: DW/DMA has priority
-2: Roundrobin
-3: Roundrobin - sticky</description>
+              <description>N/A</description>
               <bitRange>[17:16]</bitRange>
               <access>read-write</access>
             </field>
@@ -5485,7 +5401,7 @@ Note: the SRAM controller write buffer is only used when ECC checking is enabled
           <fields>
             <field>
               <name>BOOT_RESULT</name>
-              <description>See m0s8srom BROS for details of register content after boot. Register Content only valid if there is an error indication from the boot process in CPUSS.SYSARGS.</description>
+              <description>Record details of Boot Process.</description>
               <bitRange>[31:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -5502,7 +5418,7 @@ Note: the SRAM controller write buffer is only used when ECC checking is enabled
           <fields>
             <field>
               <name>BOOT_RESULT</name>
-              <description>See m0s8srom BROS for details of register content after boot. Register Content only valid if there is an error indication from the boot process in CPUSS.SYSARGS.</description>
+              <description>Record details of Boot Process.</description>
               <bitRange>[31:0]</bitRange>
               <access>read-write</access>
             </field>
@@ -5811,39 +5727,27 @@ Note: the SRAM controller write buffer is only used when ECC checking is enabled
           <fields>
             <field>
               <name>INTERNAL_ERROR</name>
-              <description>Specifies/registers the occurrence of a FLASH macro interface internal error (typically the result of a read access while a program erase operation is ongoing) as a result of a CM0+ access. 
-
-SW clears this field to '0'. HW sets this field to '1' on a FLASH macro interface internal error. Typically, SW reads this field after a code section to detect the occurrence of an error.
-
-Note: this field is independent of FLASH_CTL.FLASH_ERR_SILENT.</description>
+              <description>N/A</description>
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_UNCORRECTABLE</name>
-              <description>An Uncorrectable Read error occurred when accessing a Flash Macro.
-
-SW clears this field to '0'. HW sets this field to '1' on a FLASH macro uncorrectable error. Typically, SW reads this field after a code section to detect the occurrence of an error.
-
-Note: this field is independent of FLASH_CTL.FLASH_ERR_SILENT.</description>
+              <description>N/A</description>
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_MEMORY_HOLE</name>
-              <description>An access to a non-existent Flash Address occurred. 
-
-SW clears this field to '0'. HW sets this field to '1' on a FLASH macro access to a non-existent address. Typically, SW reads this field after a code section to detect the occurrence of an error.
-
-Note: this field is independent of FLASH_CTL.FLASH_ERR_SILENT.</description>
+              <description>N/A</description>
               <bitRange>[2:2]</bitRange>
               <access>read-write</access>
             </field>
             <field>
               <name>FLASH_PROT_VIO</name>
-              <description>A M0S8 protection violation occurred in Flash Controller.
+              <description>A protection violation occurred in Flash Controller.
 
-SW clears this field to '0'. HW sets this field to '1' on a M0S8 protection violation occurred in Flash Controllers. Typically, SW reads this field after a code section to detect the occurrence of an error.
+SW clears this field to '0'. HW sets this field to '1' on a protection violation occurred in Flash Controllers. Typically, SW reads this field after a code section to detect the occurrence of an error.
 
 Note: this field is independent of FLASH_CTL.FLASH_ERR_SILENT.</description>
               <bitRange>[3:3]</bitRange>

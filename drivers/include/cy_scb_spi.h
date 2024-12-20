@@ -279,7 +279,7 @@
 * \snippet scb_spi_snippet.c SPI_DS_CLOCK_CONFIG_CALLBACK
 *
 * \note
-* Not applicable for PSoC 4100S Max and PSoC 4000T.
+* Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 * \defgroup group_scb_spi_macros Macros
 * \defgroup group_scb_spi_functions Functions
@@ -388,7 +388,7 @@ typedef enum
 
 /**
 * SPI Parity
-* \note Only applicable for PSoC 4100S Max.
+* \note Only applicable for PSOC 4100S Max.
 */
 typedef enum
 {
@@ -400,7 +400,7 @@ typedef enum
 /**
 * Setup delay, between select activation and SCLK clock edge to
 * sample the first MISO bit.
-* \note Only applicable for PSoC 4100S Max.
+* \note Only applicable for PSOC 4100S Max.
 */
 typedef enum
 {
@@ -411,7 +411,7 @@ typedef enum
 /**
 * Hold delay, between SPI clock edge to sample the last MISO bit,
 * and SELECT deactivation.
-* \note Only applicable for PSoC 4100S Max.
+* \note Only applicable for PSOC 4100S Max.
 */
 typedef enum
 {
@@ -422,7 +422,7 @@ typedef enum
 /**
 * Inter-dataframe delay, between SELECT activation and SCLK clock
 * edge to sample the first MISO bit.
-* \note Only applicable for PSoC 4100S Max.
+* \note Only applicable for PSOC 4100S Max.
 */
 typedef enum
 {
@@ -476,13 +476,13 @@ typedef struct cy_stc_scb_spi_config
     /**
     * Sets the SPI parity. The parity can be disabled or set to even or odd.
     * When the parity is set to even or odd the parity is enabled.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     cy_en_scb_spi_parity_t       parity;
 
     /**
     * Sets if  the SPI will drop data when there is a parity error.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     bool        dropOnParityError;
 
@@ -548,19 +548,19 @@ typedef struct cy_stc_scb_spi_config
 
     /**
     * Sets the SPI Select setup delay.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     cy_en_scb_spi_ss_setup_delay_t ssSetupDelay;
 
     /**
     * Sets the SPI Select hold delay.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     cy_en_scb_spi_ss_hold_delay_t ssHoldDelay;
 
     /**
     * Sets the SPI Select inter-dataframe delay.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     cy_en_scb_spi_ss_interframe_delay_t ssInterDataframeDelay;
 
@@ -574,7 +574,7 @@ typedef struct cy_stc_scb_spi_config
 
     /**
     * Sets if the the MOSI line stays high when not in use.
-    * \note Only applicable for PSoC 4100S Max.
+    * \note Only applicable for PSOC 4100S Max.
     */
     bool        mosiIdleHigh;
 
@@ -650,7 +650,7 @@ typedef struct cy_stc_scb_spi_context
     * The pointer to a deep sleep callback that is called when any of
     * \ref group_scb_spi_macros_deep_sleep_callback_events occurs (applicable only
     * for the slave)
-    * \note Not applicable for PSoC 4100S Max and PSoC 4000T.
+    * \note Not applicable for PSOC 4100S Max and PSOC 4000T.
     */
     cy_cb_scb_spi_handle_deep_sleep_mode_t cbDeepSleep;
 #endif /* CY_IP_M0S8SCB */
@@ -788,7 +788,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base, cy
 * Applicable only for the slave mode. The master tried to read more
 * data elements than available.
 *
-* \note For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S series,
+* \note For the PSOC 4000S, PSOC 4100S, PSOC 4100S Plus, and PSOC 4500S series,
 * the SPI in the Motorola mode generates the spare
 * \ref CY_SCB_TX_INTR_UNDERFLOW interrupt at the end of the transmission
 * (the TX FIFO buffer is empty and no additional data is requested by the Master)
@@ -879,7 +879,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base, cy
 * Applicable only for the slave mode. The master tried to read more
 * data elements than available in the TX FIFO.
 *
-* \note For the PSoC 4000S, PSoC 4100S, PSoC 4100S Plus, and PSoC 4500S series,
+* \note For the PSOC 4000S, PSOC 4100S, PSOC 4100S Plus, and PSOC 4500S series,
 * the SPI in the Motorola mode generates the spare
 * \ref CY_SCB_TX_INTR_UNDERFLOW interrupt at the end of the transmission
 * (the TX FIFO buffer is empty and no additional data is requested by the Master)
@@ -923,7 +923,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base, cy
 * \defgroup group_scb_spi_macros_deep_sleep_callback_events SPI Deep Sleep Callback Events
 * Macros to check deep sleep event by \ref cy_cb_scb_spi_handle_deep_sleep_mode_t
 * callback.
-* \note Not applicable for PSoC 4100S Max and PSoC 4000T.
+* \note Not applicable for PSOC 4100S Max and PSOC 4000T.
 * \{
 */
 /**
@@ -1092,7 +1092,7 @@ __STATIC_INLINE bool Cy_SCB_SPI_IsBusBusy(CySCB_Type const *base)
 * The SCB must be idle or disabled before calling this function.
 *
 * \note
-* For devices other than PSoC 4100S Max: SS1, SS2, SS3 are applicable only in
+* For devices other than PSOC 4100S Max: SS1, SS2, SS3 are applicable only in
 * Master mode.
 *
 *******************************************************************************/
@@ -1740,7 +1740,7 @@ __STATIC_INLINE void Cy_SCB_SPI_RegisterCallback(CySCB_Type const *base,
 * To remove the callback, pass NULL as the pointer to the callback function.
 *
 * \note
-* Not applicable for PSoC 4100S Max and PSoC 4000T.
+* Not applicable for PSOC 4100S Max and PSOC 4000T.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_SPI_RegisterDSClockConfig(CySCB_Type const *base,

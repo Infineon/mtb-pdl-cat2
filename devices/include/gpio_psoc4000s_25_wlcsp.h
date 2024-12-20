@@ -2,7 +2,7 @@
 * \file gpio_psoc4000s_25_wlcsp.h
 *
 * \brief
-* PSoC4000S device GPIO header for 25-WLCSP package
+* PSOC4000S device GPIO header for 25-WLCSP package
 *
 ********************************************************************************
 * \copyright

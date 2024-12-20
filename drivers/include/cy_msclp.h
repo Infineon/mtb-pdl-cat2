@@ -39,7 +39,7 @@
 *
 * The MSCLP HW block represents the low power family of the fifth-generation CAPSENSE&trade;
 * devices.
-* It enables multiple sensing capabilities on PSoC&trade; devices,
+* It enables multiple sensing capabilities on PSOC&trade; devices,
 * including the self-cap and mutual-cap capacitive touch-sense solutions and flyback
 * inductive sensing solution.
 *

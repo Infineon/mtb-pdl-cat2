@@ -2,7 +2,7 @@
 * \file gpio_psoc4100smax_100_tqfp.h
 *
 * \brief
-* PSoC4100Smax device GPIO header for 100-TQFP package
+* PSOC4100Smax device GPIO header for 100-TQFP package
 *
 ********************************************************************************
 * \copyright

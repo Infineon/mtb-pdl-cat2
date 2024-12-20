@@ -2,7 +2,7 @@
 * \file psoc4100s_config.h
 *
 * \brief
-* PSoC4100S device configuration header
+* PSOC4100S device configuration header
 *
 ********************************************************************************
 * \copyright

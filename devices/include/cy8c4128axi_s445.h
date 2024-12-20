@@ -148,7 +148,7 @@ typedef enum {
 #define CY_IP_M0S8PASS4A_SAR_INSTANCES  1u
 #define CY_IP_M0S8PASS4A_SAR_VERSION    2u
 #define CY_IP_M0S8PASS4A_CTB            1u
-#define CY_IP_M0S8PASS4A_CTB_INSTANCES  2u
+#define CY_IP_M0S8PASS4A_CTB_INSTANCES  1u
 #define CY_IP_M0S8PASS4A_CTB_VERSION    2u
 #define CY_IP_M0S8PERI                  1u
 #define CY_IP_M0S8PERI_INSTANCES        1u
@@ -175,7 +175,7 @@ typedef enum {
 #define CY_HF_CLK_MAX_FREQ              24000000UL
 
 
-#include "system_cat2.h"                        /*!< Category 2 System */
+#include "system_cat2.h"
 
 #include "psoc4100sp256kb_config.h"
 #include "gpio_psoc4100sp256kb_64_tqfp.h"
@@ -353,9 +353,7 @@ typedef enum {
 *******************************************************************************/
 
 #define CTBM0_BASE                              0x40300000UL
-#define CTBM1_BASE                              0x40400000UL
 #define CTBM0                                   ((CTBM_Type*) CTBM0_BASE)                                         /* 0x40300000 */
-#define CTBM1                                   ((CTBM_Type*) CTBM1_BASE)                                         /* 0x40400000 */
 
 /*******************************************************************************
 *                                     SAR

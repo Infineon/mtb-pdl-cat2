@@ -2,7 +2,7 @@
 * \file gpio_psoc4000s_20_ssop.h
 *
 * \brief
-* PSoC4000S device GPIO header for 20-SSOP package
+* PSOC4000S device GPIO header for 20-SSOP package
 *
 ********************************************************************************
 * \copyright

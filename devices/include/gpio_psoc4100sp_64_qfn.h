@@ -2,7 +2,7 @@
 * \file gpio_psoc4100sp_64_qfn.h
 *
 * \brief
-* PSoC4100Sp device GPIO header for 64-QFN package
+* PSOC4100Sp device GPIO header for 64-QFN package
 *
 ********************************************************************************
 * \copyright

@@ -2,7 +2,7 @@
 * \file gpio_psoc4100s_32_qfn.h
 *
 * \brief
-* PSoC4100S device GPIO header for 32-QFN package
+* PSOC4100S device GPIO header for 32-QFN package
 *
 ********************************************************************************
 * \copyright

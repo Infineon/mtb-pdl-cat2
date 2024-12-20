@@ -107,6 +107,18 @@ Functions</h2></td></tr>
 <tr class="memitem:gae6ea974c81b7c31e52fb7db3c4dddb61"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__switches.html#gae6ea974c81b7c31e52fb7db3c4dddb61">Cy_SAR_SetVssaSarSeqCtrl</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, bool ctrl)</td></tr>
 <tr class="memdesc:gae6ea974c81b7c31e52fb7db3c4dddb61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable SARSEQ control of the switch between VSSA and Vminus of the SARADC.  <a href="#gae6ea974c81b7c31e52fb7db3c4dddb61">More...</a><br /></td></tr>
 <tr class="separator:gae6ea974c81b7c31e52fb7db3c4dddb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b25b0a61db4d0c1021c06e0fe492122"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__switches.html#ga4b25b0a61db4d0c1021c06e0fe492122">Cy_SAR_SetDiagSwitch</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t mask, bool setSwitch)</td></tr>
+<tr class="memdesc:ga4b25b0a61db4d0c1021c06e0fe492122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Firmware control for EXPMUX and DIAGMUX switches to connect analog signals to the SAR.  <a href="#ga4b25b0a61db4d0c1021c06e0fe492122">More...</a><br /></td></tr>
+<tr class="separator:ga4b25b0a61db4d0c1021c06e0fe492122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga299b0bf1ad0d0983bc1499b91759eed8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__switches.html#ga299b0bf1ad0d0983bc1499b91759eed8">Cy_SAR_GetDiagSwitch</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base)</td></tr>
+<tr class="memdesc:ga299b0bf1ad0d0983bc1499b91759eed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get control state for EXPMUX and DIAGMUX switches.  <a href="#ga299b0bf1ad0d0983bc1499b91759eed8">More...</a><br /></td></tr>
+<tr class="separator:ga299b0bf1ad0d0983bc1499b91759eed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad4701f0729e010062d52a62da2a16f45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__switches.html#gad4701f0729e010062d52a62da2a16f45">Cy_SAR_SetDiagHwCtrl</a> (volatile <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t mask)</td></tr>
+<tr class="memdesc:gad4701f0729e010062d52a62da2a16f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set MUX_SWITCH_HW_CTRL2 register value.  <a href="#gad4701f0729e010062d52a62da2a16f45">More...</a><br /></td></tr>
+<tr class="separator:gad4701f0729e010062d52a62da2a16f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga428b3d82194e27fb9199bcc9b032bd2a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__switches.html#ga428b3d82194e27fb9199bcc9b032bd2a">Cy_SAR_GetDiagHwCtrl</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base)</td></tr>
+<tr class="memdesc:ga428b3d82194e27fb9199bcc9b032bd2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get MUX_SWITCH_HW_CTRL2 register value.  <a href="#ga428b3d82194e27fb9199bcc9b032bd2a">More...</a><br /></td></tr>
+<tr class="separator:ga428b3d82194e27fb9199bcc9b032bd2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>This set of functions is for controlling/querying the SARMUX switches. </p>
@@ -315,6 +327,147 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This is an advanced function used for the low-level hardware control of the switches. This function is not required for a typical SAR sequencer-based application.</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Easily enable SARSEQ control of the switch between Vminus of the SARADC and VSSA. */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__switches.html#gae6ea974c81b7c31e52fb7db3c4dddb61">Cy_SAR_SetVssaSarSeqCtrl</a>(SAR0, <span class="keyword">true</span>);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="ga4b25b0a61db4d0c1021c06e0fe492122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4b25b0a61db4d0c1021c06e0fe492122">&#9670;&nbsp;</a></span>Cy_SAR_SetDiagSwitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_SAR_SetDiagSwitch </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>setSwitch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Firmware control for EXPMUX and DIAGMUX switches to connect analog signals to the SAR. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">mask</td><td>MUX_SWITCH2 mask value The mask to open or close switches. Select one or more values from the <a class="el" href="group__group__sar__diag__exp__mux__switch.html">EXPMUX/DIAGMUX Switch Control Register Masks</a> and "OR" them together.</td></tr>
+    <tr><td class="paramname">setSwitch</td><td>Mode (false: Clear mask pattern, true:Set mask pattern)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
+
+</div>
+</div>
+<a id="ga299b0bf1ad0d0983bc1499b91759eed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga299b0bf1ad0d0983bc1499b91759eed8">&#9670;&nbsp;</a></span>Cy_SAR_GetDiagSwitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_SAR_GetDiagSwitch </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get control state for EXPMUX and DIAGMUX switches. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Mask which represent DiagSwitches return 0 if no valid switch2 present</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
+
+</div>
+</div>
+<a id="gad4701f0729e010062d52a62da2a16f45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad4701f0729e010062d52a62da2a16f45">&#9670;&nbsp;</a></span>Cy_SAR_SetDiagHwCtrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_SAR_SetDiagHwCtrl </td>
+          <td>(</td>
+          <td class="paramtype">volatile <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set MUX_SWITCH_HW_CTRL2 register value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">mask</td><td>The mask of the MUX_SWITCH_HW_CTRL2 switches to allow SARSEQ control. Select one or more values from the <a class="el" href="group__group__sar__diag__exp__mux__switch.html">EXPMUX/DIAGMUX Switch Control Register Masks</a> and "OR" them together.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
+
+</div>
+</div>
+<a id="ga428b3d82194e27fb9199bcc9b032bd2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga428b3d82194e27fb9199bcc9b032bd2a">&#9670;&nbsp;</a></span>Cy_SAR_GetDiagHwCtrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_SAR_GetDiagHwCtrl </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get MUX_SWITCH_HW_CTRL2 register value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The mask which represents MUX_SWITCH_HW_CTRL2 Switches.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS/PA only. </dd></dl>
 
 </div>
 </div>

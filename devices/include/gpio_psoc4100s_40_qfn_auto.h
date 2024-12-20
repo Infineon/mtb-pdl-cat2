@@ -2,7 +2,7 @@
 * \file gpio_psoc4100s_40_qfn_auto.h
 *
 * \brief
-* PSoC4100S device GPIO header for 40-QFN-AUTO package
+* PSOC4100S device GPIO header for 40-QFN-AUTO package
 *
 ********************************************************************************
 * \copyright

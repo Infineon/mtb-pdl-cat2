@@ -79,5 +79,5 @@ var searchData=
   ['irqn_5ftype',['IRQn_Type',['../group__group__sysint__enums.html#ga7e1129cd8a196f4284d41db3e82ad5c8',1,'irqn_type.h']]],
   ['is_5factive',['is_active',['../structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15',1,'cy_stc_usbpd_legacy_charging_state_t']]],
   ['infineon_20resources',['Infineon Resources',['../page_infineon_resources.html',1,'']]],
-  ['introducing_20psoc™_204_20mcu',['Introducing PSoC™ 4 MCU',['../page_introducing_psoc_4.html',1,'']]]
+  ['introducing_20psoc™_204_20mcu',['Introducing PSOC™ 4 MCU',['../page_introducing_psoc_4.html',1,'']]]
 ];

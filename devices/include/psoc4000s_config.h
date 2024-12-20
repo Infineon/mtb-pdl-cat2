@@ -2,7 +2,7 @@
 * \file psoc4000s_config.h
 *
 * \brief
-* PSoC4000S device configuration header
+* PSOC4000S device configuration header
 *
 ********************************************************************************
 * \copyright

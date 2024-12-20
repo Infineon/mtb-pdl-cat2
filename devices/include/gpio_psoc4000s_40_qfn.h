@@ -2,7 +2,7 @@
 * \file gpio_psoc4000s_40_qfn.h
 *
 * \brief
-* PSoC4000S device GPIO header for 40-QFN package
+* PSOC4000S device GPIO header for 40-QFN package
 *
 ********************************************************************************
 * \copyright
