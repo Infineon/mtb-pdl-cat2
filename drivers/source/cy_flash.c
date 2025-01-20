@@ -212,6 +212,7 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
         CPUSS_SYSARG = (uint32_t) &parameters[0U];
         CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_LOAD;
         __NOP();
+        __NOP();
 
         result = ProcessStatusCode();
         if(CY_FLASH_DRV_SUCCESS == result)
@@ -241,6 +242,7 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
                         parameters[0U] |= (uint32_t)(rowNum << 16U);
                         CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_WRITE_ROW;
                     }
+                    __NOP();
                     __NOP();
 
                     result = ProcessStatusCode();
@@ -371,6 +373,7 @@ cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* da
         CPUSS_SYSARG = (uint32_t) &parameters[0U];
         CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_LOAD;
         __NOP();
+        __NOP();
         result = ProcessStatusCode();
 
         if(result == CY_FLASH_DRV_SUCCESS)
@@ -399,6 +402,7 @@ cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* da
 
                 CPUSS_SYSARG = (uint32_t) &parameters[0U];
                 CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_NON_BLOCKING_WRITE_ROW;
+                __NOP();
                 __NOP();
                 result = ProcessStatusCode();
             }
@@ -444,6 +448,7 @@ cy_en_flashdrv_status_t Cy_Flash_ResumeWrite(void)
     CPUSS_SYSARG = (uint32_t) &parameters[0U];
     CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_RESUME_NON_BLOCKING;
 
+    __NOP();
     __NOP();
     result = ProcessStatusCode();
 
@@ -553,6 +558,7 @@ cy_en_flashdrv_status_t Cy_Flash_RowChecksum(uint32_t rowAddr, uint32_t* checksu
 
         CPUSS_SYSARG = (uint32_t) parameters[0U];
         CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_CHECKSUM;
+        __NOP();
         __NOP();
         result = ProcessStatusCode();
         if (CY_FLASH_DRV_SUCCESS == result)
@@ -760,6 +766,7 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockBackup(void)
     CPUSS_SYSARG = (uint32_t) &parameters[0U];
     CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_CLK_BACKUP;
     __NOP();
+    __NOP();
     result = ProcessStatusCode();
 
     /* Enabling IMO after backup completion as required by hardware.
@@ -790,6 +797,7 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockConfig(void)
     CPUSS_SYSARG =(uint32_t) ((CY_FLASH_KEY_TWO(CY_FLASH_API_OPCODE_CLK_CONFIG) <<  CY_FLASH_PARAM_KEY_TWO_OFFSET) |
                     CY_FLASH_KEY_ONE);
     CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_CLK_CONFIG;
+    __NOP();
     __NOP();
     result = ProcessStatusCode();
 #if defined(CY_IP_M0S8SRSSHV)
@@ -823,6 +831,7 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockRestore(void)
     CPUSS_SYSARG = (uint32_t) &parameters[0U];
     CPUSS_SYSREQ = CY_FLASH_CPUSS_REQ_START | CY_FLASH_API_OPCODE_CLK_RESTORE;
 
+    __NOP();
     __NOP();
     result = ProcessStatusCode();
 #if defined(CY_IP_M0S8SRSSHV)
