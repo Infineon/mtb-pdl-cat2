@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.20
+* \version 3.30
 *
 * Provides an API implementation of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -486,6 +486,92 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
     return(retVal);
 }
 #endif /* (CY_IP_M0S8WCO) */
+
+#if defined (SFLASH_HAS_DYNAMIC_IMO)
+
+/** \cond */
+#define CY_SYSCLK_IMO_TRIM2_SIZE            (0x03uL)
+#define CY_SYSCLK_IMO_TRIM1_MSK             (0xFFuL)
+#define CY_SYSCLK_IMO_TRIM2_MSK             (0x07uL)
+#define CY_SYSCLK_IMO_TRIM_MAX_VALUE        (0x07FF)
+#define CY_SYSCLK_IMO_TRIM_SCALING          (100)
+/** \endcond */
+
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_ImoTempTrim
+****************************************************************************//**
+*
+* Trims the IMO based on tens of degree Celsius.
+* For example, 12.3C must pass in as 123.
+* Supported only on specific PSOC 4 with additional calibration data in SFLASH.
+*
+* \param tenthDegreeC - The die temperature in tens of degrees Celsius.
+*
+*******************************************************************************/
+void Cy_SysClk_ImoTempTrim(int16_t tenthDegreeC)
+{
+    uint32_t imoSel = SRSSLT->CLK_IMO_SELECT;
+    int32_t tempStart, tempEnd;
+    uint32_t trimStart, trimEnd;
+    int32_t trimTarget;
+
+    if (tenthDegreeC < CY_SAR_TEMP_RC_TENTH_DEGREE)
+    {
+        /* Less than Cold till Room-Cold point */
+        tempStart = CY_SAR_TEMP_C_TENTH_DEGREE;
+        tempEnd = CY_SAR_TEMP_RC_TENTH_DEGREE;
+        trimStart = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_COLD[imoSel] +
+                (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_OFFSET_COLD[imoSel];
+        trimEnd = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM_COLD[imoSel];
+    }
+    else if (tenthDegreeC < CY_SAR_TEMP_R_TENTH_DEGREE)
+    {
+        /* From Room-Cold point till Room point */
+        tempStart = CY_SAR_TEMP_RC_TENTH_DEGREE;
+        tempEnd = CY_SAR_TEMP_R_TENTH_DEGREE;
+        trimStart = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM_COLD[imoSel];
+        trimEnd = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM[imoSel];
+    }
+    else if (tenthDegreeC < CY_SAR_TEMP_RH_TENTH_DEGREE)
+    {
+        /* From Room point till Room-Hot point */
+        tempStart = CY_SAR_TEMP_R_TENTH_DEGREE;
+        tempEnd = CY_SAR_TEMP_RH_TENTH_DEGREE;
+        trimStart = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM[imoSel];
+        trimEnd = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM_HOT[imoSel];
+    }
+    else
+    {
+        /* From Room-Hot point till above Hot point */
+        tempStart = CY_SAR_TEMP_RH_TENTH_DEGREE;
+        tempEnd = CY_SAR_TEMP_H_TENTH_DEGREE;
+        trimStart = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_ROOM_HOT[imoSel];
+        trimEnd = (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_HOT[imoSel] +
+                (uint32_t)CY_SFLASH_IMO_CAL_TRIM->CY_SYSCLK_IMO_TRIM_OFFSET_HOT[imoSel];
+    }
+    /* Scales trim values to operate in concatenation TRIM1 | TRIM2 */
+    trimStart <<= CY_SYSCLK_IMO_TRIM2_SIZE;
+    trimEnd <<= CY_SYSCLK_IMO_TRIM2_SIZE;
+    /* Calculates percentage in the desired temperature region */
+    trimTarget = (((int32_t)tenthDegreeC - tempStart) * CY_SYSCLK_IMO_TRIM_SCALING) / (tempEnd - tempStart);
+    trimTarget *= (int32_t)trimEnd - (int32_t)trimStart;
+    /* Calculates trim value with rounding */
+    trimTarget = ((trimTarget + (CY_SYSCLK_IMO_TRIM_SCALING / 2)) / CY_SYSCLK_IMO_TRIM_SCALING) + ((int32_t)trimStart);
+    /* Avoids overflow */
+    if (0 > trimTarget)
+    {
+        trimTarget = 0;
+    }
+    if (CY_SYSCLK_IMO_TRIM_MAX_VALUE < trimTarget)
+    {
+        trimTarget = CY_SYSCLK_IMO_TRIM_MAX_VALUE;
+    }
+    /* Stores calculated trim value into target registers */
+    SRSSLT->CLK_IMO_TRIM1 = ((uint32_t)trimTarget >> CY_SYSCLK_IMO_TRIM2_SIZE) & CY_SYSCLK_IMO_TRIM1_MSK;
+    SRSSLT->CLK_IMO_TRIM2 = ((uint32_t)trimTarget) & CY_SYSCLK_IMO_TRIM2_MSK;
+}
+#endif
 
 
 /* ========================================================================== */

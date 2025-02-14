@@ -1448,7 +1448,7 @@ This is a high-voltage cause detection, this bit blocks recording of other high-
             </field>
             <field>
               <name>RESET_BODVDDD</name>
-              <description>External VDDD supply crossed brown-out limit.  Note that this cause will only be observable as long as the VDDD supply does not go below the POR (power on reset) detection limit.  Below this limit it is not possible to reliably retain information in the device.  This is a high-voltage cause bit that blocks recording of other high-voltage cause bits, except RESET_PORVDDD and RESET_XRES.  Hardware clears this bit during POR.</description>
+              <description>Internal VDDD supply crossed brown-out limit. Note that this cause will only be observable as long as the VDDD supply does not go below the POR (power on reset) detection limit. Below this limit it is not possible to reliably retain information in the device. This is a high-voltage cause bit that blocks recording of other high-voltage cause bits, except RESET_PORVDDD and RESET_XRES. Hardware clears this bit during POR.</description>
               <bitRange>[17:17]</bitRange>
               <access>read-write</access>
             </field>
@@ -1472,7 +1472,7 @@ This is a high-voltage cause detection, this bit blocks recording of other high-
             </field>
             <field>
               <name>RESET_BODHVSS</name>
-              <description>External VDDD supply crossed brown-out limit.  Note that this cause will only be observable as long as the VDDD supply does not go below the POR (power on reset) detection limit.  Below this limit it is not possible to reliably retain information in the device.  This is a high-voltage cause bit that blocks recording of other high-voltage cause bits, except RESET_PORVDDD and RESET_XRES.  Hardware clears this bit during POR.</description>
+              <description>Internal VDDD supply crossed brown-out limit. Note that this cause will only be observable as long as the VDDD supply does not go below the POR (power on reset) detection limit. Below this limit it is not possible to reliably retain information in the device. This is a high-voltage cause bit that blocks recording of other high-voltage cause bits, except RESET_PORVDDD and RESET_XRES. Hardware clears this bit during POR.  This detector is a backup detector in the high voltage sub-system that is on even in deep sleep.  This detector is used for engineering debug purposes only.</description>
               <bitRange>[24:24]</bitRange>
               <access>read-write</access>
             </field>

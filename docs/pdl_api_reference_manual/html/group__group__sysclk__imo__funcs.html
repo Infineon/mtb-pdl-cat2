@@ -101,6 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8ed6e4a309d18ec7ebb2c8a028118138"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__sysclk__imo__enums.html#ga98c5de12c8fb777be65114eb28deb613">cy_en_sysclk_imo_lock_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__imo__funcs.html#ga8ed6e4a309d18ec7ebb2c8a028118138">Cy_SysClk_ImoGetLockStatus</a> (void)</td></tr>
 <tr class="memdesc:ga8ed6e4a309d18ec7ebb2c8a028118138"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns IMO lock status.  <a href="#ga8ed6e4a309d18ec7ebb2c8a028118138">More...</a><br /></td></tr>
 <tr class="separator:ga8ed6e4a309d18ec7ebb2c8a028118138"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac2e9c788ddd16928d8faadf28feb75b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__imo__funcs.html#gaac2e9c788ddd16928d8faadf28feb75b">Cy_SysClk_ImoTempTrim</a> (int16_t tenthDegreeC)</td></tr>
+<tr class="memdesc:gaac2e9c788ddd16928d8faadf28feb75b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trims the IMO based on tens of degree Celsius.  <a href="#gaac2e9c788ddd16928d8faadf28feb75b">More...</a><br /></td></tr>
+<tr class="separator:gaac2e9c788ddd16928d8faadf28feb75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga48113d9e52470ce15d750e948aefb44d"><td class="memItemLeft" align="right" valign="top"><a id="ga48113d9e52470ce15d750e948aefb44d"></a>
 __STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sysclk__imo__funcs.html#ga48113d9e52470ce15d750e948aefb44d">Cy_SysClk_ImoEnable</a> (void)</td></tr>
 <tr class="memdesc:ga48113d9e52470ce15d750e948aefb44d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables IMO. <br /></td></tr>
@@ -223,6 +226,33 @@ Call <a class="el" href="group__group__syslib__functions.html#gab328c5f1c9577b2c
 <p>Returns IMO lock status. </p>
 <dl class="section return"><dt>Returns</dt><dd>IMO lock state <a class="el" href="group__group__sysclk__imo__enums.html#ga98c5de12c8fb777be65114eb28deb613">cy_en_sysclk_imo_lock_t</a>.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Not applicable for PSOC4 HVMS/PA. </dd></dl>
+
+</div>
+</div>
+<a id="gaac2e9c788ddd16928d8faadf28feb75b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac2e9c788ddd16928d8faadf28feb75b">&#9670;&nbsp;</a></span>Cy_SysClk_ImoTempTrim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_SysClk_ImoTempTrim </td>
+          <td>(</td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>tenthDegreeC</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trims the IMO based on tens of degree Celsius. </p>
+<p>For example, 12.3C must pass in as 123. Supported only on specific PSOC 4 with additional calibration data in SFLASH.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tenthDegreeC</td><td>- The die temperature in tens of degrees Celsius. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

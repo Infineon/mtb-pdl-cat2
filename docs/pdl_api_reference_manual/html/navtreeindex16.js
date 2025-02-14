@@ -1,5 +1,7 @@
 var NAVTREEINDEX16 =
 {
+"group__group__usbpd__legacy__functions.html#ga1c223cb78622395d5c07468cb75aeacf":[2,31,2,2,29],
+"group__group__usbpd__legacy__functions.html#ga1c41249a71733a5699cb5bcde0451472":[2,31,2,2,24],
 "group__group__usbpd__legacy__functions.html#ga1dd394deb574cf30296b95d485633db9":[2,31,2,2,37],
 "group__group__usbpd__legacy__functions.html#ga3335f4e3a41d2194b653f541118fac3a":[2,31,2,2,18],
 "group__group__usbpd__legacy__functions.html#ga33ff474e2be8d1bf02b4bdf6b9acdeef":[2,31,2,2,26],
@@ -247,7 +249,5 @@ var NAVTREEINDEX16 =
 "group__group__usbpd__vbus__ctrl.html#ga484b5cd21d9b6f005bb22245a1a6cdfa":[2,31,6,9],
 "group__group__usbpd__vbus__ctrl.html#ga5e940e48429d59e5f2501a9c2d9ed873":[2,31,6,6],
 "group__group__usbpd__vbus__ctrl.html#ga746dee5aaf7ceb964ed4ef18393de082":[2,31,6,4],
-"group__group__usbpd__vbus__ctrl.html#ga7c7639f13519ca57da9eb492b28988a8":[2,31,6,12],
-"group__group__usbpd__vbus__ctrl.html#ga7fda9d8aadfec3f8f9fe9d3585f8aac9":[2,31,6,17],
-"group__group__usbpd__vbus__ctrl.html#ga9c9d5cfdf137c2f709c73b762973d733":[2,31,6,14]
+"group__group__usbpd__vbus__ctrl.html#ga7c7639f13519ca57da9eb492b28988a8":[2,31,6,12]
 };

@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -47,7 +47,7 @@
 
     <!-- MSC instance name -->
     <ParamString id="mscInstanceName" name="MSC Instance Name" group="Internal" default="`${INST_NAME}`"
-                 visible="false" editable="true" desc="Instance name set by CapSense Configurator" />
+                 visible="false" editable="true" desc="Instance name set by CAPSENSE™ Configurator" />
 
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
@@ -93,12 +93,12 @@
     <ParamBool id="cpuClkOk" name="HFCLK Valid" group="System" default="`${isBlockUsed(cpuClkRsc)}`"
                visible="false" editable="false" desc="Checks whether HFCLK is enabled" />
 
-    <!-- CapSense -->
-    <ParamBool id="CapSenseEnable" name="Enable CapSense" group="CapSense" default="true"
-               visible="false" editable="false" desc="Enables CapSense function of CSD hardware block" />
+    <!-- CAPSENSE™ -->
+    <ParamBool id="CapSenseEnable" name="Enable CAPSENSE™" group="CapSense" default="true"
+               visible="false" editable="false" desc="Enables CAPSENSE™ function of CSD hardware block" />
 
-    <ParamString id="operationMode" name="CapSense Operation Mode" group="CapSense" default="`${&quot;CPU&quot;}`"
-                 visible="false" editable="true" desc="Configures the CapSense operation mode" />
+    <ParamString id="operationMode" name="CAPSENSE™ Operation Mode" group="CapSense" default="`${&quot;CPU&quot;}`"
+                 visible="false" editable="true" desc="Configures the CAPSENSE™ operation mode" />
 
     <ParamBool id="isDmaModeEnabled" name="CS DMA Mode selected" group="DMA selection"
                default="`${(operationMode eq &quot;CS_DMA&quot;)}`"
@@ -165,7 +165,7 @@
 
     <!-- Sensor/Capacitor assign -->
     <ParamBool id="isConnectionLegacy" name="Legacy Connection Enable" group="CapSense" default="true"
-               visible="false" editable="true" desc="Indicates that AMUXBUS is used to make connection between pins and CapSense HW" />
+               visible="false" editable="true" desc="Indicates that AMUXBUS is used to make connection between pins and CAPSENSE™ HW" />
 
     <ParamRange id="SensorCount" name="Sensor count" group="CapSense" default="0" min="0"
                 max="`${isConnectionLegacy ? 256 : lookupExpression(&quot;SENSE_PAD_NR&quot;)}`" resolution="1"
@@ -176,7 +176,7 @@
     <ParamRange id="AmuxCapacitorCount" name="Amux Capacitor count" group="CapSense" default="`${isConnectionLegacy ? CapacitorCount : 0}`" min="0"
                 max="4" resolution="1" visible="false" editable="false" desc="Capacitor count to be connected to the AMUXBUS" />
     <ParamRange id="AmuxSensorCount" name="Amux Sensor count" group="CapSense" default="`${isConnectionLegacy ? (SensorCount + AmuxCapacitorCount) : 0}`"
-                min="0" max="256" resolution="1" visible="false" editable="false" desc="Sensor count to be connected to the AMUXBUS" />
+                min="0" max="260" resolution="1" visible="false" editable="false" desc="Sensor count to be connected to the AMUXBUS" />
 
     <ParamRange id="PadCapacitorCount" name="Pad Capacitor count" group="CapSense" default="`${!isConnectionLegacy ? CapacitorCount : 0}`" min="0"
                 max="4" resolution="1" visible="false" editable="false" desc="Capacitor count to be connected to the Dedicated Pad" />
@@ -206,7 +206,7 @@
         desc="`${&quot;Pin connection for sense[$idx] signal&quot;}`"
         visible="`${(($idx &lt; AmuxSensorCount))}`"
         canBeEmpty="`${!(($idx &lt; AmuxSensorCount))}`"
-        group="`${( ($idx &lt; AmuxCapacitorCount) ? &quot;External Capacitors&quot; : &quot;CapSense Sensors&quot; )}`"
+        group="`${( ($idx &lt; AmuxCapacitorCount) ? &quot;External Capacitors&quot; : &quot;CAPSENSE™ Sensors&quot; )}`"
                 repeatCount="260"/> <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
     </ParamMux>
     <!-- The Repeat Count is 260 to provide possibility to place 256 sensors and 4 external capacitors. -->
@@ -245,7 +245,7 @@
         </ParamSignal>
 
         <Repeat count="32">
-          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="CapSense Sensors"
+          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="CAPSENSE™ Sensors"
                        visible="`${($idx &lt; PadSensorCount)}`"
                        desc="`${&quot;Pin connection for s_pad[$idx] virtual pad&quot;}`"
                        canBeEmpty="`${!($idx &lt; PadSensorCount)}`"
@@ -268,14 +268,14 @@
         condition="`${(isDmaModeEnabled &amp;&amp; !allDmaChAssignmentValid)}`" >
     </DRC>
     <DRC type="WARNING"
-      text="CapSense's Scan Mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Write/Chain Write DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(wrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainWrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
+      text="CAPSENSE™ scan mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Write/Chain Write DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(wrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainWrDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
       condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(wrDmaChBlockNum eq chainWrDmaChTrOut)}`"
          paramId="tr_in[0]"
          location="`${wrDmaChBlockNum}`">
       <FixIt action="SET_PARAM" target="`${wrDmaChBlockNum . &quot;.tr_in[0]&quot;}`" value="`${chainWrDmaChBlockNum . &quot;.tr_out[0]&quot;}`" valid="true"/>
     </DRC>
     <DRC type="WARNING"
-      text="CapSense's Scan Mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Read/Chain Read DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(rdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainRdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
+      text="CAPSENSE™ scan mode being set to CS-DMA requires that the DMA channels connected to MSC `${InstNumber}` Read/Chain Read DMA triggers be connected to each other. DMAC Channel `${getInstFromLocation(rdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Input] needs be connected to DMAC Channel `${getInstFromLocation(chainRdDmaChBlockNum, &quot;chan&quot;)}` [Trigger Output]."
       condition="`${isDmaModeEnabled &amp;&amp; allDmaChannelsAssigned &amp;&amp; allDmaChAssignmentValid &amp;&amp; !(rdDmaChBlockNum eq chainRdDmaChTrOut)}`"
          paramId="tr_in[0]"
          location="`${rdDmaChBlockNum}`">

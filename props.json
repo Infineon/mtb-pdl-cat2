@@ -20,7 +20,8 @@
             "COMPONENT_PSOC4100S": "devices/svd/psoc4100s.svd",
             "COMPONENT_PSOC4100SMAX": "devices/svd/psoc4100smax.svd",
             "COMPONENT_PSOC4100SP": "devices/svd/psoc4100sp.svd",
-            "COMPONENT_PSOC4100SP256KB":"devices/svd/psoc4100sp256kb.svd"
+            "COMPONENT_PSOC4100SP256KB":"devices/svd/psoc4100sp256kb.svd",
+            "COMPONENT_PSOC4NEXT":"devices/svd/psoc4100tp.svd"
         }
     }
 }

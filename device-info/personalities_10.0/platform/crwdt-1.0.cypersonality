@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file crwdt.cypersonality
+* \version 1.0
+*
+* \brief
+* CRWDT personality description file.
+*
+********************************************************************************
+* \copyright
+* Copyright (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8crwdt" name="CRWDT" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8srsshv" />
+    <Resource name="srss\.crwdt" />
+  </Dependencies>
+  
+  <ExposedMembers>
+  </ExposedMembers>
+
+  <Parameters>
+    <!-- PDL documentation TODO: FIX IT!-->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
+    default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__crwdt.html"
+    linkText="Open Watchdog Timer Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- Check DRSc -->
+    <ParamString id="sourceClockRsc" name="Source Clock" group="Internal" default="srss[0].clock[0].lfclk[0]" visible="false" editable="false" desc="" />
+    <ParamBool id="srcNotUsed" name="Clock Source Enabled" group="Internal" default="`${!isBlockUsed(sourceClockRsc)}`" visible="false" editable="false" desc="" />
+
+    <!-- Early Action and Limit -->
+    <ParamChoice id="earlyAction" name="Early Action" group="General" default="CY_CRWDT_NO_ACTION" visible="`${CRWDT_PRESENT}`" editable="true" desc="Action will take when early limits were violated.">
+      <Entry name="None" value="CY_CRWDT_NO_ACTION" visible="true"/>
+      <Entry name="Trigger Fault and Interrupt" value="CY_CRWDT_EARLY_ACTION" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnEarlyAction" name="isEnEarlyAction" group="" default="`${(&quot;CY_CRWDT_EARLY_ACTION&quot; eq earlyAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="userEarlyLimit" name="Early Limit" group="General" default="0" min="0" max="16777215" resolution="1" visible="`${isEnEarlyAction}`" editable="true" desc="The Early limit for the watchdog" />
+    <ParamRange id="earlyLimit" name="earlyLimit" group="" default="`${isEnEarlyAction? userEarlyLimit : 0}`" min="0" max="16777215" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Warn Action and Limit -->
+    <ParamChoice id="warnAction" name="Warn Action" group="General" default="CY_CRWDT_NO_ACTION" visible="`${CRWDT_PRESENT}`" editable="true" desc="Action will take when warning limits were violated.">
+      <Entry name="None" value="CY_CRWDT_NO_ACTION" visible="true"/>
+      <Entry name="Trigger Fault and Interrupt" value="CY_CRWDT_WARN_ACTION" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnWarnAction" name="isEnWarnAction" group="" default="`${(&quot;CY_CRWDT_WARN_ACTION&quot; eq warnAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="userWarnLimit" name="Warn Limit" group="General" default="0" min="0" max="16777215" resolution="1" visible="`${isEnWarnAction}`" editable="true" desc="The Warning limit for the watchdog" />
+    <ParamRange id="warnLimit" name="warnLimit" group="" default="`${isEnWarnAction? userWarnLimit : 0}`" min="0" max="16777215" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Late Action and Limit -->
+    <ParamChoice id="lateAction" name="Late Action" group="General" default="CY_CRWDT_LATE_ACTION" visible="`${CRWDT_PRESENT}`" editable="true" desc="Action will take when late limits were violated.">
+      <Entry name="None" value="CY_CRWDT_NO_ACTION" visible="true"/>
+      <Entry name="Trigger Fault then Reset" value="CY_CRWDT_LATE_ACTION" visible="true"/>
+    </ParamChoice>
+    <ParamBool id="isEnLateAction" name="isEnLateAction" group="" default="`${(&quot;CY_CRWDT_LATE_ACTION&quot; eq lateAction)}`" visible="false" editable="false" desc="" />
+    <ParamRange id="userLateLimit" name="Late Limit" group="General" default="0" min="0" max="16777215" resolution="1" visible="`${isEnLateAction}`" editable="true" desc="The Late limit for the watchdog" />
+    <ParamRange id="lateLimit" name="lateLimit" group="" default="`${isEnLateAction? userLateLimit : 0}`" min="0" max="16777215" resolution="1" visible="false" editable="false" desc="" />
+
+    <!-- Fail Action -->
+    <ParamChoice id="failAction" name="Fail Action" group="General" default="CY_CRWDT_FAIL_ACTION" visible="`${CRWDT_PRESENT}`" editable="true" desc="Action taken when a failed response occurs.">
+      <Entry name="None" value="CY_CRWDT_NO_ACTION" visible="true"/>
+      <Entry name="Trigger Reset" value="CY_CRWDT_FAIL_ACTION" visible="true"/>
+    </ParamChoice>
+
+    <!-- Debug Action -->
+    <ParamBool id="debugRun" name="Debug Run" group="General" default="false" visible="`${CRWDT_PRESENT}`" editable="true" desc="Pauses/runs the counter while a debugger is connected." />
+    <ParamString id="debugAction" name="debugAction" group="General" default="`${debugRun? &quot;CY_CRWDT_DEBUG_ACTION&quot; : &quot;CY_CRWDT_NO_ACTION&quot;}`" visible="false" editable="false" desc="" />
+
+  </Parameters>	
+
+  <DRCs>
+    <DRC type="ERROR" text="Source clock for CRWDT is not enabled" condition="`${srcNotUsed}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_crwdt.h" include="`${CRWDT_PRESENT}`" />
+    <!-- The next symbols are HTML entities in Unicode used for representing certain characters in HTML documents.
+      `&#xA;` is an entity for the newline character, equivalent to the `\n` symbol.
+      `&#9;` is an entity for the tabulation character, equivalent to the `\t` symbol.
+      `&#13;` is an entity for the carriage return character, equivalent to the `\r` symbol. -->
+    <ConfigFunction signature="__STATIC_INLINE void Cy_CRWDT_Config(void)" body="
+   Cy_CRWDT_Disable();&#13;
+   Cy_CRWDT_SetEarlyLimit(`${toHex(earlyLimit)}`UL);&#13;
+   Cy_CRWDT_SetWarnLimit(`${toHex(warnLimit)}`UL);&#13;
+   Cy_CRWDT_SetLateLimit(`${toHex(lateLimit)}`UL);&#13;
+   Cy_CRWDT_SetAction(`${earlyAction}` |&#13;
+                      `${warnAction}` |&#13;
+                      `${lateAction}` |&#13;
+                      `${failAction}` |&#13;
+                      `${debugAction}`);&#13;
+   Cy_CRWDT_Enable();&#xA;" public="false" include="`${CRWDT_PRESENT}`" />
+
+  <ConfigInstruction value="Cy_CRWDT_Config();" include="`${CRWDT_PRESENT}`" />
+  </ConfigFirmware>
+</Personality>

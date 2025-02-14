@@ -63,6 +63,6 @@
   <ConfigFirmware>
     <ConfigInclude value="cy_sysclk.h" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_CLKPUMP_ENABLED" value="1" public="false" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ClkPumpInit()" body="    (void)Cy_SysClk_ClkPumpSetSource(`${sourceClockRscName}`);" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ClkPumpInit(void)" body="    (void)Cy_SysClk_ClkPumpSetSource(`${sourceClockRscName}`);" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

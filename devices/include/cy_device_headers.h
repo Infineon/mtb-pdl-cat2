@@ -875,6 +875,36 @@
     #include "cy8c4147lde_s463.h"
 #elif defined (CY8C4147LDE_S473)
     #include "cy8c4147lde_s473.h"
+#elif defined (CY8C4724FNI_S402)
+    #include "cy8c4724fni_s402.h"
+#elif defined (CY8C4724LQI_S401)
+    #include "cy8c4724lqi_s401.h"
+#elif defined (CY8C4725FNI_S402)
+    #include "cy8c4725fni_s402.h"
+#elif defined (CY8C4725LQI_S401)
+    #include "cy8c4725lqi_s401.h"
+#elif defined (CY8C4744FNI_S402)
+    #include "cy8c4744fni_s402.h"
+#elif defined (CY8C4744LQI_S401)
+    #include "cy8c4744lqi_s401.h"
+#elif defined (CY8C4744AZI_S403)
+    #include "cy8c4744azi_s403.h"
+#elif defined (CY8C4745FNI_S402)
+    #include "cy8c4745fni_s402.h"
+#elif defined (CY8C4745LQI_S401)
+    #include "cy8c4745lqi_s401.h"
+#elif defined (CY8C4745AZI_S403)
+    #include "cy8c4745azi_s403.h"
+#elif defined (CY8C4745FNI_S412)
+    #include "cy8c4745fni_s412.h"
+#elif defined (CY8C4745LQI_S411)
+    #include "cy8c4745lqi_s411.h"
+#elif defined (CY8C4745AZI_S413)
+    #include "cy8c4745azi_s413.h"
+#elif defined (CY8C4746LQS_S263)
+    #include "cy8c4746lqs_s263.h"
+#elif defined (CY8C4747LQS_S453)
+    #include "cy8c4747lqs_s453.h"
 #elif defined (CY8C4546AZI_S473)
     #include "cy8c4546azi_s473.h"
 #elif defined (CY8C4546AZI_S475)
@@ -1363,36 +1393,6 @@
     #include "cy8c4149lds_s593.h"
 #elif defined (CY8C4149LDE_S593)
     #include "cy8c4149lde_s593.h"
-#elif defined (CY8C4724FNI_S402)
-    #include "cy8c4724fni_s402.h"
-#elif defined (CY8C4724LQI_S401)
-    #include "cy8c4724lqi_s401.h"
-#elif defined (CY8C4725FNI_S402)
-    #include "cy8c4725fni_s402.h"
-#elif defined (CY8C4725LQI_S401)
-    #include "cy8c4725lqi_s401.h"
-#elif defined (CY8C4744FNI_S402)
-    #include "cy8c4744fni_s402.h"
-#elif defined (CY8C4744LQI_S401)
-    #include "cy8c4744lqi_s401.h"
-#elif defined (CY8C4744AZI_S403)
-    #include "cy8c4744azi_s403.h"
-#elif defined (CY8C4745FNI_S402)
-    #include "cy8c4745fni_s402.h"
-#elif defined (CY8C4745LQI_S401)
-    #include "cy8c4745lqi_s401.h"
-#elif defined (CY8C4745AZI_S403)
-    #include "cy8c4745azi_s403.h"
-#elif defined (CY8C4745FNI_S412)
-    #include "cy8c4745fni_s412.h"
-#elif defined (CY8C4745LQI_S411)
-    #include "cy8c4745lqi_s411.h"
-#elif defined (CY8C4745AZI_S413)
-    #include "cy8c4745azi_s413.h"
-#elif defined (CY8C4746LQS_S263)
-    #include "cy8c4746lqs_s263.h"
-#elif defined (CY8C4747LQS_S453)
-    #include "cy8c4747lqs_s453.h"
 #elif defined (CY8C4025LQI_T412)
     #include "cy8c4025lqi_t412.h"
 #elif defined (CY8C4025LQI_T411)
@@ -1531,6 +1531,14 @@
     #include "cy8c4147azq_t493.h"
 #elif defined (CY8C4147AZQ_T495)
     #include "cy8c4147azq_t495.h"
+#elif defined (CY8C4146AZQ_T413)
+    #include "cy8c4146azq_t413.h"
+#elif defined (CY8C4146AZQ_T453)
+    #include "cy8c4146azq_t453.h"
+#elif defined (CY8C4147AZQ_T415)
+    #include "cy8c4147azq_t415.h"
+#elif defined (CY8C4147AZQ_T455)
+    #include "cy8c4147azq_t455.h"
 #elif defined (CYPM1011_24LQXI)
     #include "cypm1011_24lqxi.h"
 #elif defined (CYPM1111_40LQXIT)
@@ -1577,6 +1585,12 @@
     #include "cypd7172_39bfxq.h"
 #elif defined (CYPD7173_39BFXQ)
     #include "cypd7173_39bfxq.h"
+#elif defined (CYPD7198_39BFXS)
+    #include "cypd7198_39bfxs.h"
+#elif defined (CYPD8225_97BZXIT)
+    #include "cypd8225_97bzxit.h"
+#elif defined (CYPD8125_48LDXI)
+    #include "cypd8125_48ldxi.h"
 #elif defined (WLC1115_68LQXQ)
     #include "wlc1115_68lqxq.h"
 #elif defined (WLC1150_68LQXQ)
@@ -1585,10 +1599,6 @@
     #include "wlc1250_68lqxq.h"
 #elif defined (WLC1515_68LDXS)
     #include "wlc1515_68ldxs.h"
-#elif defined (CYPD8225_97BZXIT)
-    #include "cypd8225_97bzxit.h"
-#elif defined (CYPD8125_48LDXI)
-    #include "cypd8125_48ldxi.h"
 #elif defined (CYPAS213_24SXQ)
     #include "cypas213_24sxq.h"
 #elif defined (CYPAS211_32LQXQ)

@@ -94,10 +94,6 @@ typedef enum
 #define P1_3_PIN                        3u
 #define P1_3_NUM                        3u
 #define P1_3_AMUXSEGMENT                AMUXBUS_GPIO
-#define P1_6_PORT                       GPIO_PRT1
-#define P1_6_PIN                        6u
-#define P1_6_NUM                        6u
-#define P1_6_AMUXSEGMENT                AMUXBUS_GPIO
 
 /* PORT 2 (GPIO) */
 #define P2_1_PORT                       GPIO_PRT2
@@ -204,8 +200,6 @@ typedef enum
 #define CSD_VREF_EXT_HSCOMP_PIN         3u
 #define LPCOMP_IN_N1_PORT               1u
 #define LPCOMP_IN_N1_PIN                2u
-#define LPCOMP_IN_P0_PORT               1u
-#define LPCOMP_IN_P0_PIN                6u
 #define LPCOMP_IN_P1_PORT               1u
 #define LPCOMP_IN_P1_PIN                1u
 #define PASS0_CTB0_OA0_OUT_10X_PORT     3u
@@ -333,16 +327,6 @@ typedef enum
     P1_3_TCPWM_TR_IN4               = 11,       /* Digital Active - tcpwm.tr_in[4] */
     P1_3_USBPD0_ADC_CMP_OUT_GPIO0   = 13,       /* Digital Deep Sleep - usbpd[0].adc_cmp_out_gpio[0] */
     P1_3_SCB3_SPI_MOSI              = 14,       /* Digital Deep Sleep - scb[3].spi_mosi:0 */
-
-    /* P1.6 */
-    P1_6_GPIO                       =  0,       /* SW controlled GPIO. */
-    P1_6_CSD_SENSE                  =  4,       /* csd.sense:35 */
-    P1_6_CSD_SHIELD                 =  5,       /* csd.shield:35 */
-    P1_6_AMUXA                      =  6,       /* AMUXBUS A connection. */
-    P1_6_AMUXB                      =  7,       /* AMUXBUS B connection. */
-    P1_6_SRSS_EXT_CLK               =  8,       /* Digital Active - srss.ext_clk:0 */
-    P1_6_SCB1_SPI_CLK               = 14,       /* Digital Deep Sleep - scb[1].spi_clk:0 */
-    P1_6_SCB1_I2C_SCL               = 15,       /* Digital Deep Sleep - scb[1].i2c_scl:0 */
 
     /* P2.1 */
     P2_1_GPIO                       =  0,       /* SW controlled GPIO. */

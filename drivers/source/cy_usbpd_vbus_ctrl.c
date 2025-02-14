@@ -3798,7 +3798,6 @@ void Cy_USBPD_Vbus_GdrvCfetOn(cy_stc_usbpd_context_t *context, bool turnOnSeq)
 
 #else
 
-    /* TBD: Implement for PMG1-S3. */
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(turnOnSeq);
 
@@ -3921,7 +3920,6 @@ void Cy_USBPD_Vbus_GdrvCfetOff(cy_stc_usbpd_context_t *context, bool turnOffSeq)
 
 #else
 
-    /* TBD: Implement for PMG1-S3. */
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(turnOffSeq);
 
@@ -6560,7 +6558,6 @@ static const uint8_t csa_tab[] =
 void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t current, cy_cb_vbus_fault_t cb)
 {
 #if ((PDL_VBUS_OCP_ENABLE) && (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)))
-    /*TODO_CFP: VBUS OCP is not enabled for CFP.*/
     PPDSS_REGS_T pd = context->base;
     uint32_t vsense = 0;
     uint32_t vrefSel = 0;
@@ -7252,7 +7249,6 @@ void Cy_USBPD_Fault_Vbus_OcpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 {
 #if (defined(PDL_VBUS_OCP_ENABLE))
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
-    /*TODO_CFP: need update for CFP. */
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
 

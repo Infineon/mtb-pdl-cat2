@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"group__group__scb__ezi2c__enums.html#gae75ed91d83e89dd9a13c9a832a138ffb":[2,18,1,3,0],
 "group__group__scb__ezi2c__enums.html#gga2a4845448404203987f881e2e907feffa313bce9b46a4ce11f0d2891842e98ee6":[2,18,1,3,2,0],
 "group__group__scb__ezi2c__enums.html#gga2a4845448404203987f881e2e907feffadbf7f1cb8eb4c344521eda48d442c53e":[2,18,1,3,2,1],
 "group__group__scb__ezi2c__enums.html#gga5e20e1c00a75b3467305aa839271697aa0e0061a8dc7c485afe7fe7589568dcc7":[2,18,1,3,1,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "group__group__scb__spi__macros__deep__sleep__callback__events.html":[2,18,3,0,5],
 "group__group__scb__spi__macros__deep__sleep__callback__events.html#ga812da237948c8b68ef52a1301b423e3d":[2,18,3,0,5,1],
 "group__group__scb__spi__macros__deep__sleep__callback__events.html#gaf7fb606980d28e9238fefbc226759f8b":[2,18,3,0,5,0],
-"group__group__scb__spi__macros__master__slave__status.html":[2,18,3,0,2],
-"group__group__scb__spi__macros__master__slave__status.html#ga7068175339ba4505b7e81e2c1647953e":[2,18,3,0,2,0]
+"group__group__scb__spi__macros__master__slave__status.html":[2,18,3,0,2]
 };

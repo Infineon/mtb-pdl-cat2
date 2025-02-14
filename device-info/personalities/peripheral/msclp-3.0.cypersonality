@@ -8,7 +8,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -49,7 +49,7 @@
 
     <!-- MSCLP instance name -->
     <ParamString id="mscInstanceName" name="MSCLP Instance Name" group="Internal" default="`${INST_NAME}`"
-                 visible="`${debug}`" editable="true" desc="Instance name set by CapSense Configurator" />
+                 visible="`${debug}`" editable="true" desc="Instance name set by CAPSENSE™ Configurator" />
 
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
@@ -75,9 +75,9 @@
     <ParamBool id="clkLfOk" name="CLK_LF Valid" group="System" default="`${isBlockUsed(clkLfRsc)}`"
                visible="`${debug}`" editable="false" desc="Checks whether CLK_LF is enabled" />
 
-    <!-- CapSense -->
-    <ParamBool id="CapSenseEnable" name="Enable CapSense" group="CapSense" default="true"
-               visible="false" editable="false" desc="Enables CapSense function of sensing hardware block" />
+    <!-- CAPSENSE™ -->
+    <ParamBool id="CapSenseEnable" name="Enable CAPSENSE™" group="CapSense" default="true"
+               visible="false" editable="false" desc="Enables CAPSENSE™ function of sensing hardware block" />
 
     <!-- External Frame Start Signal Pin Assignment -->
     <ParamBool id="extFrmStartEn" name="External Frame Start Sync Enable" group="System" default="false"
@@ -150,7 +150,7 @@
            desc=""
            visible="`${$idx &lt; SensorCount}`"
            canBeEmpty="`${!($idx &lt; SensorCount)}`"
-           group="CAPSENSE Sensors"
+           group="CAPSENSE™ Sensors"
            repeatCount="32"/>
     </ParamMux>
 

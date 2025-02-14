@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.40
+* \version 2.50
 *
 * Provides the functions for the API for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -396,7 +396,7 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
 
     #if defined(SAR_CTRL_DSI_SYNC_CONFIG_Msk) && defined(SAR_CTRL_DSI_MODE_Msk)
         SAR_CTRL(base) &= SAR_CTRL_DSI_SYNC_CONFIG_Msk | SAR_CTRL_DSI_MODE_Msk; /* preserve the DSI_SYNC_CONFIG and DSI_MODE fields (and BTW disable the block)  */
-    #endif /*defined(SAR_CTRL_DSI_SYNC_CONFIG_Msk) && defined(SAR_CTRL_DSI_MODE_Msk)*/    
+    #endif /*defined(SAR_CTRL_DSI_SYNC_CONFIG_Msk) && defined(SAR_CTRL_DSI_MODE_Msk)*/
         SAR_CTRL(base) |= _VAL2FLD(SAR_CTRL_VREF_SEL, config->vrefSel) |
                          _BOOL2FLD(SAR_CTRL_VREF_BYP_CAP_EN, config->vrefBypCapEn) |
                           _VAL2FLD(SAR_CTRL_NEG_SEL, config->negSel) |
@@ -708,8 +708,9 @@ void Cy_SAR_DeepSleep(SAR_Type * base)
 
     if (Cy_SAR_IsBaseAddrValid(base) && (0UL != (ctrlReg & SAR_CTRL_ENABLED_Msk)))
     {
-        Cy_SAR_backup[CY_SAR_INSTANCE(base)] = CY_SAR_BACKUP_ENABLED | ((0UL != (SAR_SAMPLE_CTRL(base) & SAR_SAMPLE_CTRL_CONTINUOUS_Msk)) ? CY_SAR_BACKUP_STARTED : 0UL);
-
+        Cy_SAR_backup[CY_SAR_INSTANCE(base)] = CY_SAR_BACKUP_ENABLED |
+                                               ((0UL != (SAR_SAMPLE_CTRL(base) & SAR_SAMPLE_CTRL_CONTINUOUS_Msk)) ? CY_SAR_BACKUP_STARTED : 0UL) |
+                                               (base->DFT_CTRL & SAR_DFT_CTRL_DCEN_Msk);
         Cy_SAR_StopConvert(base);
 
         Cy_SAR_WaitWhileBusy(base); /* Wait for SAR to stop conversions before entering low power */
@@ -754,11 +755,15 @@ void Cy_SAR_Wakeup(SAR_Type * base)
 {
     if (Cy_SAR_IsBaseAddrValid(base))
     {
-        if (0UL != (CY_SAR_BACKUP_ENABLED & Cy_SAR_backup[CY_SAR_INSTANCE(base)]))
+        uint32_t locBackup = Cy_SAR_backup[CY_SAR_INSTANCE(base)];
+
+        if (0UL != (CY_SAR_BACKUP_ENABLED & locBackup))
         {
             Cy_SAR_Enable(base);
 
-            if (0UL != (CY_SAR_BACKUP_STARTED & Cy_SAR_backup[CY_SAR_INSTANCE(base)]))
+            base->DFT_CTRL |= locBackup & SAR_DFT_CTRL_DCEN_Msk;
+
+            if (0UL != (CY_SAR_BACKUP_STARTED & locBackup))
             {
                 Cy_SAR_StartConvert(base, CY_SAR_START_CONVERT_CONTINUOUS);
             }
@@ -1619,7 +1624,7 @@ int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adc
 #define CY_TEMP_DIV               (0x10000L)  /* 1 in Q16.16 format */
 #define CY_TEMP_HALF              (0x8000L)   /* 0.5 in Q16.16 format */
 
-#ifndef CY_TEMP_VREF                          
+#ifndef CY_TEMP_VREF
 #define CY_TEMP_VREF              (1200L)     /* DieTemp reference voltage */
 #endif/*CY_TEMP_VREF*/
 
@@ -1830,6 +1835,101 @@ uint32_t Cy_SAR_GetDiagHwCtrl(const SAR_Type * base)
 }
 #endif /* (CY_IP_M0S8PASS4A_SAR_VERSION >= 4u) */
 
+
+#if defined (SFLASH_HAS_DYNAMIC_IMO)
+/*******************************************************************************
+* Function Name: Cy_SAR_CountsTo_tenthDegreeC
+****************************************************************************//**
+*
+* Converts the ADC output to tens of degrees Celsius.
+* For example, converts 12.3C to 123.
+* This is used for converting data from the dietemp sensor.
+*
+* \param base
+* The pointer to the structure, which describes registers.
+*
+* \param chan
+* The channel number, between 0 and \ref CY_SAR_INJ_CHANNEL
+*
+* \param adcCounts
+* Conversion result from \ref Cy_SAR_GetResult16
+*
+\note If ADC Vref does not match the DieTemp sensor Vref, this function
+*       automatically adjusts adcCounts to match DieTemp Vref.
+*
+* \return The die temperature in tens of degrees Celsius.
+*         If any base or channel parameter is valid, 0 is returned.
+*
+* \funcusage \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
+* Also please refer the \ref group_sar_sarmux_dietemp
+*
+*******************************************************************************/
+int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_t adcCounts)
+{
+    CY_ASSERT_L2(CY_SAR_CHAN_NUM(chan));
+
+    int32_t retVal = 0;
+    int32_t t0, t1;
+    int32_t c0, c1;
+    int32_t temp;
+    if (Cy_SAR_IsBaseAddrValid(base) && (chan < CY_SAR_NUM_CHANNELS))
+    {
+        /* Calculate the Vref back from defaultGain */
+        temp = (int32_t)(uint16_t)CY_SYSLIB_DIV_ROUND(CY_SAR_WRK_MAX_12BIT * CY_SAR_10MV_COUNTS / 2UL, (uint32_t)Cy_SAR_countsPer10Volt[chan][CY_SAR_INSTANCE(base)]);
+
+        /* Correct the ADC counts depending on the ADC Vref */
+        if (CY_TEMP_VREF != temp)
+        {
+            temp *= (int32_t)adcCounts;
+            temp /= CY_TEMP_VREF;
+        }
+        else
+        {
+            temp = (int32_t)adcCounts;
+        }
+
+        /* Get interpolation points */
+        if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_C_COUNTS) &&
+           (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS))
+        {
+            t0 = CY_SAR_TEMP_C_TENTH_DEGREE;
+            t1 = CY_SAR_TEMP_RC_TENTH_DEGREE;
+            c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_C_COUNTS;
+            c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS;
+        }
+        else if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS) &&
+                (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS))
+        {
+            t0 = CY_SAR_TEMP_RC_TENTH_DEGREE;
+            t1 = CY_SAR_TEMP_R_TENTH_DEGREE;
+            c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS;
+            c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS;
+        }
+        else if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS) &&
+                (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RH_COUNTS))
+        {
+            t0 = CY_SAR_TEMP_R_TENTH_DEGREE;
+            t1 = CY_SAR_TEMP_RH_TENTH_DEGREE;
+            c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS;
+            c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RH_COUNTS;
+        }
+        else
+        {
+            t0 = CY_SAR_TEMP_RH_TENTH_DEGREE;
+            t1 = CY_SAR_TEMP_H_TENTH_DEGREE;
+            c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RH_COUNTS;
+            c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_H_COUNTS;
+        }
+
+        retVal = (t0 - t1);
+        retVal /= (c0 - c1);
+        retVal *= (temp - c0);
+        retVal += t0;
+    }
+
+    return (int16_t)retVal;
+}
+#endif
 
 
 /*******************************************************************************

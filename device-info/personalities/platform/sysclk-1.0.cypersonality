@@ -71,6 +71,6 @@
     <ConfigDefine name="CY_CFG_SYSCLK_CLKSYS_ENABLED" value="1" public="false" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_CLKSYS_DIVIDER" value="CY_SYSCLK_`${divider == 1 ? &quot;NO_DIV&quot; : ((&quot;DIV_&quot;) . divider)}`" public="false" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_CLKSYS_FREQ_MHZ" public="false" value="`${frequency / 1000000}`UL" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ClkSysInit()" body="    Cy_SysClk_ClkSysSetDivider(CY_CFG_SYSCLK_CLKSYS_DIVIDER);" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_ClkSysInit(void)" body="    Cy_SysClk_ClkSysSetDivider(CY_CFG_SYSCLK_CLKSYS_DIVIDER);" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

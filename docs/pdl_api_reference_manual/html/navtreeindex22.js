@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"structcy__stc__sar__channel__config__t.html#a0ba8fc3d1b06a2d80ae5ffb744148529":[2,17,2,1,9],
+"structcy__stc__sar__channel__config__t.html#a1647ee3d1f9393f71876a4c961ec884a":[2,17,2,1,6],
 "structcy__stc__sar__channel__config__t.html#a448db99f099eb108ca34b8ca0e7012fd":[2,17,2,1,1],
 "structcy__stc__sar__channel__config__t.html#a67d3ddbfcad287244787c09d676c9c44":[2,17,2,1,5],
 "structcy__stc__sar__channel__config__t.html#a6b89a7597d5d259795c563c268fb9189":[2,17,2,1,8],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "structcy__stc__tcpwm__pwm__config__t.html#a51d03c2a00498ce0b1b5fa6db7ea3e00":[2,28,2,2,0,4],
 "structcy__stc__tcpwm__pwm__config__t.html#a54e92c1a3430ac9eec906f281f55e71e":[2,28,2,2,0,15],
 "structcy__stc__tcpwm__pwm__config__t.html#a5d9f0c06f0bffd08b4edb01ce0d7524b":[2,28,2,2,0,3],
-"structcy__stc__tcpwm__pwm__config__t.html#a5e74fc5810a9a76dcd22b96974f181f8":[2,28,2,2,0,17],
-"structcy__stc__tcpwm__pwm__config__t.html#a62e50e17cdcbeafb5af318149ca91312":[2,28,2,2,0,21],
-"structcy__stc__tcpwm__pwm__config__t.html#a6e07285f605e430e0e0237a45fc44111":[2,28,2,2,0,23]
+"structcy__stc__tcpwm__pwm__config__t.html#a5e74fc5810a9a76dcd22b96974f181f8":[2,28,2,2,0,17]
 };

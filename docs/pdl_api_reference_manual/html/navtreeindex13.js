@@ -1,5 +1,7 @@
 var NAVTREEINDEX13 =
 {
+"group__group__tcpwm__pwm__run__modes.html#ga537b61bf0f4aa10ccd90ca0adf51d625":[2,28,2,0,0,0],
+"group__group__tcpwm__pwm__run__modes.html#gae979ff949eef746fe7c44905897f43f9":[2,28,2,0,0,1],
 "group__group__tcpwm__pwm__status.html":[2,28,2,0,6],
 "group__group__tcpwm__pwm__status.html#ga30aa30ef821418b4e8f6df4bc8cead91":[2,28,2,0,6,2],
 "group__group__tcpwm__pwm__status.html#gac28b67391ec51fe3b8f4fbecd1b85508":[2,28,2,0,6,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "group__group__usbpd__common__enums.html#ga8e68d9ddd7c6f827722fdcfb967b6d52":[2,31,0,1,18],
 "group__group__usbpd__common__enums.html#gaa87d53e8b6807004a933167a06b08b56":[2,31,0,1,24],
 "group__group__usbpd__common__enums.html#gab5eedaa8b79973285c63aeb2111eccba":[2,31,0,1,8],
-"group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb":[2,31,0,1,31],
-"group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6":[2,31,0,1,6],
-"group__group__usbpd__common__enums.html#gad1bfc9aa0e323959ba55b681c5bd4806":[2,31,0,1,26]
+"group__group__usbpd__common__enums.html#gac148f7e4cf23c7c5174091e66607a5bb":[2,31,0,1,31]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX12 =
 {
+"group__group__syslib__macros__status__codes.html#ga0ba3882d87b982ff4358b6f0b7a95556":[2,25,0,0,3],
+"group__group__syslib__macros__status__codes.html#ga45c44ce91d1e20c64430f00fd8ad9b0e":[2,25,0,0,7],
 "group__group__syslib__macros__status__codes.html#ga50909cf27bac74dae5f45ae1a1b8da24":[2,25,0,0,8],
 "group__group__syslib__macros__status__codes.html#ga67d88f3788828ddcba018324c25924ad":[2,25,0,0,2],
 "group__group__syslib__macros__status__codes.html#gaa58a2f0e42403136f010e7982e6e5b7f":[2,25,0,0,4],
@@ -247,7 +249,5 @@ var NAVTREEINDEX12 =
 "group__group__tcpwm__pwm__output__invert.html":[2,28,2,0,5],
 "group__group__tcpwm__pwm__output__invert.html#ga3d7948ab80b95049ffe5d4d30c01982a":[2,28,2,0,5,0],
 "group__group__tcpwm__pwm__output__invert.html#ga9e44dc0ce557261fd446ba4787b96d27":[2,28,2,0,5,1],
-"group__group__tcpwm__pwm__run__modes.html":[2,28,2,0,0],
-"group__group__tcpwm__pwm__run__modes.html#ga537b61bf0f4aa10ccd90ca0adf51d625":[2,28,2,0,0,0],
-"group__group__tcpwm__pwm__run__modes.html#gae979ff949eef746fe7c44905897f43f9":[2,28,2,0,0,1]
+"group__group__tcpwm__pwm__run__modes.html":[2,28,2,0,0]
 };

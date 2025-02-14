@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.14.0
+# mtb-pdl-cat2 peripheral driver library v2.15.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,38 +7,15 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Added Support for PSOC&trade; 4 HVMS 64K and PSOC&trade; 4 HVMS 128K device families.
-- Added new drivers for the PSOC&trade; 4 HVMS devices.
-Please refer to the [New drivers](#new-drivers) section below for details.
-- Updated the SAR driver to incorporate PSOC&trade; 4 HVMS platform configuration.
-- Updated the Flash driver with protection control support and ECC support.
-- Updated the WDT driver to incorporate PSOC&trade; 4 HVMS platform configuration.
-- Updated the SysPm driver with BOD and OVD support.
-- Updated the SysClk driver to incorporate PSOC&trade; 4 HVMS platform configuration.
-- Updated the SysLib driver with Boot status support.
+- Support of new MPNs with inductive sensing method only.
 
 ### Updated personalities
-- Enabled multiple personalities on PSOC&trade; 4 HVMS Platform:
-Comparator, CTBm, DieTemp, Follower, OpAmp, Programmable Analog, UART, DMAC, eeprom, EXTCLK,
-HFCLK, ILO-Intrinsic, ILO, IMO, LFCLK, Power Settings, PUMPCLK, SYSCLK, SysClocks, SYSTICK, WDT.
-- Added new personalities for PSOC&trade; 4 HVMS Platform:
-HVSS, LIN, SAR, diagmux, CRWDT, HPOSC, Lifetime Counter, PILO.
+- MSCLP: Added multi-pin support - assign several pins to a single CAPSENSE&trade; sensor.
 
 ### Updated drivers
-- [SAR 2.40](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
-- [Flash 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html)
-- [WDT 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__wdt.html)
-- [SysPm 3.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syspm.html)
-- [SysClk 3.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
-- [SysLib 3.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
+- [SAR 2.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [SysClk 3.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
 
-### New drivers
-- [RAM 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ram.html)
-- [LTC 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ltc.html)
-- [CRWDT 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__crwdt.html)
-- [SysFault 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysfault.html)
-- [LIN 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__lin.html)
-- [HVSS 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__hvss.html)
 
 ## Known Issues
 * PDL flash write APIs are not supported when using ARM C6 Compiler in debug mode. Please use ARM C6 Compiler in release mode if flash write is needed.
@@ -53,13 +30,13 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| ModusToolbox&trade;                                                           |  3.2.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.4.3       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.20.0      |
+| ModusToolbox&trade;                                                           |  3.4.0       |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.4.2       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.21.0      |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  |  11.3.1      |
-| IAR compiler                                                                  |  9.30.1      |
-| Arm&reg; compiler 6                                                           |  6.16        |
+| IAR compiler                                                                  |  9.50.2      |
+| Arm&reg; compiler 6                                                           |  6.22.0      |
 
 ## More information
 
@@ -82,4 +59,4 @@ This version of PDL was validated for compatibility with the following software 
 - [CCGxF_CFP device family](https://www.infineon.com/cms/en/product/universal-serial-bus/usb-c-power-delivery-controllers)
 
 ---
-© 2020-2024, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© 2020-2025, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.

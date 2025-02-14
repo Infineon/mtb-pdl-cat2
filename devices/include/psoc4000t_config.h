@@ -69,7 +69,7 @@ typedef enum
 } en_trig_output_grp0_t;
 
 /* Include IP definitions */
-#include "ip/cyip_sflash_64.h"
+#include "ip/cyip_sflash_128.h"
 #include "ip/cyip_peri.h"
 #include "ip/cyip_hsiom.h"
 #include "ip/cyip_srsslt.h"

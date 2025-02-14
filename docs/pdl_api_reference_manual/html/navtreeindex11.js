@@ -1,5 +1,6 @@
 var NAVTREEINDEX11 =
 {
+"group__group__sysclk__ilo__funcs.html#gacc9d037c4d20e66f03f89f51596d4a55":[2,22,7,0,2],
 "group__group__sysclk__imo.html":[2,22,2],
 "group__group__sysclk__imo__enums.html":[2,22,2,1],
 "group__group__sysclk__imo__enums.html#ga98c5de12c8fb777be65114eb28deb613":[2,22,2,1,1],
@@ -15,12 +16,13 @@ var NAVTREEINDEX11 =
 "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319a75ffcde4468d6fc8ea8188a43b5892b1":[2,22,2,1,0,2],
 "group__group__sysclk__imo__enums.html#ggaab25ed49e61773bb8261422f24582319ab5e0272ed52d425fa63d27e54b201bb6":[2,22,2,1,0,5],
 "group__group__sysclk__imo__funcs.html":[2,22,2,0],
-"group__group__sysclk__imo__funcs.html#ga34ad8ac82ac5430904e19274c75c8715":[2,22,2,0,5],
+"group__group__sysclk__imo__funcs.html#ga34ad8ac82ac5430904e19274c75c8715":[2,22,2,0,6],
 "group__group__sysclk__imo__funcs.html#ga426046c189fdaf10954e928b76dd8db5":[2,22,2,0,1],
-"group__group__sysclk__imo__funcs.html#ga48113d9e52470ce15d750e948aefb44d":[2,22,2,0,4],
+"group__group__sysclk__imo__funcs.html#ga48113d9e52470ce15d750e948aefb44d":[2,22,2,0,5],
 "group__group__sysclk__imo__funcs.html#ga7d2be0cd7cb4d706bd0dedaa99e647ec":[2,22,2,0,2],
 "group__group__sysclk__imo__funcs.html#ga8ed6e4a309d18ec7ebb2c8a028118138":[2,22,2,0,3],
-"group__group__sysclk__imo__funcs.html#gaa65e3bf496c875549391df95f826820c":[2,22,2,0,6],
+"group__group__sysclk__imo__funcs.html#gaa65e3bf496c875549391df95f826820c":[2,22,2,0,7],
+"group__group__sysclk__imo__funcs.html#gaac2e9c788ddd16928d8faadf28feb75b":[2,22,2,0,4],
 "group__group__sysclk__imo__funcs.html#gaed4d77267abf710e0cbc0b036787d73d":[2,22,2,0,0],
 "group__group__sysclk__int.html":[2,22,20],
 "group__group__sysclk__int__funcs.html":[2,22,20,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX11 =
 "group__group__syslib__macros__reset__cause.html#gad5f2544aa19111ecd3159a97d7dd69cf":[2,25,0,2,6],
 "group__group__syslib__macros__reset__cause.html#gaf98e87e2c0964035aa2098762724b30b":[2,25,0,2,3],
 "group__group__syslib__macros__status__codes.html":[2,25,0,0],
-"group__group__syslib__macros__status__codes.html#ga089fd41c90ad2abcf6908c752b334e10":[2,25,0,0,1],
-"group__group__syslib__macros__status__codes.html#ga0ba3882d87b982ff4358b6f0b7a95556":[2,25,0,0,3],
-"group__group__syslib__macros__status__codes.html#ga45c44ce91d1e20c64430f00fd8ad9b0e":[2,25,0,0,7]
+"group__group__syslib__macros__status__codes.html#ga089fd41c90ad2abcf6908c752b334e10":[2,25,0,0,1]
 };

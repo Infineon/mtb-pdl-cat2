@@ -1,5 +1,7 @@
 var NAVTREEINDEX17 =
 {
+"group__group__usbpd__vbus__ctrl.html#ga7fda9d8aadfec3f8f9fe9d3585f8aac9":[2,31,6,17],
+"group__group__usbpd__vbus__ctrl.html#ga9c9d5cfdf137c2f709c73b762973d733":[2,31,6,14],
 "group__group__usbpd__vbus__ctrl.html#ga9e9411c611351b741174e61746828958":[2,31,6,13],
 "group__group__usbpd__vbus__ctrl.html#gaa545ddea3631d6d2c4cd61807e7b8c5f":[2,31,6,16],
 "group__group__usbpd__vbus__ctrl.html#gab7bfd57f472c638fe1a3304d7603afa6":[2,31,6,21],
@@ -247,7 +249,5 @@ var NAVTREEINDEX17 =
 "struct_s_a_r___type.html":[2,17,2,0],
 "struct_t_c_p_w_m___type.html":[2,28,0,2,0],
 "structcy__en__canfd__fifo__config__t.html":[2,0,2,15],
-"structcy__en__canfd__fifo__config__t.html#a182249c9eb66def21e9163229580be84":[2,0,2,15,2],
-"structcy__en__canfd__fifo__config__t.html#aaba082750410c1baed2f939fe0dacf89":[2,0,2,15,1],
-"structcy__en__canfd__fifo__config__t.html#acf2f42d5327a4bd343d0b5bb0a80d444":[2,0,2,15,3]
+"structcy__en__canfd__fifo__config__t.html#a182249c9eb66def21e9163229580be84":[2,0,2,15,2]
 };

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.40
+* \version 2.50
 *
 * Header file for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -366,6 +366,15 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">2.50</td>
+*     <td>Added the \ref Cy_SAR_CountsTo_degreeC function</td>
+*     <td>API improvement</td>
+*   </tr>
+*   <tr>
+*     <td>The configuration restoring during DeepSleep cycle is updated in the \ref Cy_SAR_DeepSleepCallback function</td>
+*     <td>Bug fix</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="1">2.40</td>
 *     <td>Added support for a new version of SAR.\n
 *     Added support for PSOC4 HVMS/PA platform.\n
@@ -490,7 +499,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        40
+#define CY_SAR_DRV_VERSION_MINOR        50
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -1141,6 +1150,9 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
+#if defined (SFLASH_HAS_DYNAMIC_IMO)
+int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_t adcCounts);
+#endif
 cy_en_sar_status_t Cy_SAR_SetChannelOffset(const SAR_Type * base, uint32_t chan, int16_t offsetCount);
 cy_en_sar_status_t Cy_SAR_SetChannelGain(const SAR_Type * base, uint32_t chan, int32_t adcGain);
 /** \} */

@@ -63,6 +63,6 @@
   <ConfigFirmware>
     <ConfigInclude value="cy_systick.h" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_SYSTICK_ENABLED" value="1" public="false" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_SysTickInit()" body="    Cy_SysTick_Init(CY_SYSTICK_CLOCK_SOURCE_CLK_`${sourceClockRscName}`, `${Reload}`UL);" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_SysTickInit(void)" body="    Cy_SysTick_Init(CY_SYSTICK_CLOCK_SOURCE_CLK_`${sourceClockRscName}`, `${Reload}`UL);" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

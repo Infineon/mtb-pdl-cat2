@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_device.h
-* \version 1.40
+* \version 1.50
 *
 * This file specifies the structure for core and peripheral block HW base
 * addresses, versions, and parameters.
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -207,6 +207,54 @@
     #define SFLASH_MSCLP0_CLK_IMO_TRIM1_25_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM1_25))
     #define SFLASH_MSCLP0_CLK_IMO_TRIM3_25_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_25))
 #endif /* CY_IP_M0S8MSCV3LP */
+
+#if defined (SFLASH_HAS_DYNAMIC_IMO)
+
+#define CY_SAR_TEMP_H_TENTH_DEGREE           (1000)             /**< Hot temperature in tens of degrees Celsius (100C) */
+#define CY_SAR_TEMP_RH_TENTH_DEGREE          (625)              /**< Room hot temperature in tens of degrees Celsius (62.5C) */
+#define CY_SAR_TEMP_R_TENTH_DEGREE           (250)              /**< Room temperature in tens of degrees Celsius (25C) */
+#define CY_SAR_TEMP_RC_TENTH_DEGREE          (-70)              /**< Room cold temperature in tens of degrees Celsius (-7C) */
+#define CY_SAR_TEMP_C_TENTH_DEGREE           (-400)             /**< Cold temperature in tens of degrees Celsius (-40C) */
+
+/**
+  * \brief Die temperature in SAR counts
+  */
+typedef struct {
+    volatile const uint16_t CY_SAR_TEMP_H_COUNTS;               /*!< SAR counts for dietemp at 100C */
+    volatile const uint16_t CY_SAR_TEMP_C_COUNTS;               /*!< SAR counts for dietemp at 62.5C */
+    volatile const uint16_t CY_SAR_TEMP_R_COUNTS;               /*!< SAR counts for dietemp at 25C */
+    volatile const uint16_t CY_SAR_TEMP_RH_COUNTS;              /*!< SAR counts for dietemp at -7C */
+    volatile const uint16_t CY_SAR_TEMP_RC_COUNTS;              /*!< SAR counts for dietemp at -40C */
+}SFLASH_IMO_CAL_TEMP_Type;
+
+
+#define CY_SFLASH_REG_OFFSET_ADC_DIODE_100C_LSB                 (offsetof(SFLASH_Type, DYN_IMO_ADC_DIODE_100C_LSB))  /**< The register offset */
+#ifndef CY_SFLASH_IMO_CAL_TEMP_BASE
+    #define CY_SFLASH_IMO_CAL_TEMP_BASE                         (SFLASH_BASE + CY_SFLASH_REG_OFFSET_ADC_DIODE_100C_LSB)
+#endif
+#define CY_SFLASH_IMO_CAL_TEMP                                  ((SFLASH_IMO_CAL_TEMP_Type *) CY_SFLASH_IMO_CAL_TEMP_BASE)
+
+/**
+  * \brief IMO Trim values
+  */
+typedef struct {
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_HOT[7];           /*!<Trim value at 100C for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_COLD[7];          /*!<Trim value at -40C for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM[7];          /*!<Trim value at 25C for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM_HOT[7];      /*!<Trim value at between Room and Hot for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM_COLD[7];     /*!<Trim value at between Room and Cold for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_OFFSET_HOT[7];    /*!<Offset trim value for Hot for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_OFFSET_COLD[7];   /*!<Offset trim value for Cold for 24Mhz, 28Mhz, ... 48Mhz */
+}SFLASH_IMO_CAL_TRIM_Type;
+
+#define CY_SFLASH_REG_OFFSET_IMO_24MHZ_TRIM_100C                (offsetof(SFLASH_Type, DYN_IMO_24MHZ_TRIM_100C))  /**< The register offset */
+#ifndef CY_SFLASH_IMO_CAL_TRIM_BASE
+    #define CY_SFLASH_IMO_CAL_TRIM_BASE                         (SFLASH_BASE + CY_SFLASH_REG_OFFSET_IMO_24MHZ_TRIM_100C)
+#endif
+#define CY_SFLASH_IMO_CAL_TRIM                                  ((SFLASH_IMO_CAL_TRIM_Type *) CY_SFLASH_IMO_CAL_TRIM_BASE)
+
+
+#endif /* SFLASH_HAS_DYNAMIC_IMO */
 
 #if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
 #define SFLASH_USER_AREA                    (((SFLASH_Type *) SFLASH)->USER_SFLASH_AREA[0U])

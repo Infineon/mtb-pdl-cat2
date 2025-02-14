@@ -107,6 +107,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7f77eecc3a287304c89c9e064f416a0d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t adcCounts)</td></tr>
 <tr class="memdesc:ga7f77eecc3a287304c89c9e064f416a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the ADC output to degrees Celsius.  <a href="#ga7f77eecc3a287304c89c9e064f416a0d">More...</a><br /></td></tr>
 <tr class="separator:ga7f77eecc3a287304c89c9e064f416a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99915d83cb58a5e9a6889bddc8114a5a"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#ga99915d83cb58a5e9a6889bddc8114a5a">Cy_SAR_CountsTo_tenthDegreeC</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t adcCounts)</td></tr>
+<tr class="memdesc:ga99915d83cb58a5e9a6889bddc8114a5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the ADC output to tens of degrees Celsius.  <a href="#ga99915d83cb58a5e9a6889bddc8114a5a">More...</a><br /></td></tr>
+<tr class="separator:ga99915d83cb58a5e9a6889bddc8114a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__sar__enums.html#ga4061024a91b0f2e3aca4716fce722b57">cy_en_sar_status_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__countsto.html#gaf8617e3aa90b4069b0b6605802a3ac08">Cy_SAR_SetChannelOffset</a> (const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chan, int16_t offsetCount)</td></tr>
 <tr class="memdesc:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store the channel offset for the voltage conversion functions.  <a href="#gaf8617e3aa90b4069b0b6605802a3ac08">More...</a><br /></td></tr>
 <tr class="separator:gaf8617e3aa90b4069b0b6605802a3ac08"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -410,6 +413,54 @@ uV = V * 1000000
 <dl class="section note"><dt>Note</dt><dd>In case of ADC Vref doesn't match the DieTemp sensor Vref this function automatically corrects the adcCounts to match the DieTemp Vref.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The die temperature in degrees Celsius. If any of base or chan parameters is valid, 0 is returned.</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    int16_t temp = <a class="code" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a>(SAR0, <a class="code" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a>, injResult);</div><div class="line">    <span class="comment">/* now temp contains the die temperature is degrees Celsius */</span></div></div><!-- fragment -->Also please refer the <a class="el" href="group__group__sar.html#group_sar_sarmux_dietemp">Die temperature measurement</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga99915d83cb58a5e9a6889bddc8114a5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga99915d83cb58a5e9a6889bddc8114a5a">&#9670;&nbsp;</a></span>Cy_SAR_CountsTo_tenthDegreeC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t Cy_SAR_CountsTo_tenthDegreeC </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>chan</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>adcCounts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts the ADC output to tens of degrees Celsius. </p>
+<p>For example, converts 12.3C to 123. This is used for converting data from the dietemp sensor.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the structure, which describes registers.</td></tr>
+    <tr><td class="paramname">chan</td><td>The channel number, between 0 and <a class="el" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a></td></tr>
+    <tr><td class="paramname">adcCounts</td><td>Conversion result from <a class="el" href="group__group__sar__functions__basic.html#ga5d7a3489629382b1e46477c034bbb2d0">Cy_SAR_GetResult16</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>If ADC Vref does not match the DieTemp sensor Vref, this function automatically adjusts adcCounts to match DieTemp Vref.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The die temperature in tens of degrees Celsius. If any base or channel parameter is valid, 0 is returned.</dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    int16_t temp = <a class="code" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a>(SAR0, <a class="code" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a>, injResult);</div><div class="line">    <span class="comment">/* now temp contains the die temperature is degrees Celsius */</span></div></div><!-- fragment --> Also please refer the <a class="el" href="group__group__sar.html#group_sar_sarmux_dietemp">Die temperature measurement</a> </dd></dl>
 
 </div>
 </div>

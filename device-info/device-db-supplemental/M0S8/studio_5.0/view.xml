@@ -8,6 +8,10 @@
     <ExposedParamKey id="VDD_MIN" param_name="Vddmin_volts" />
     <ExposedParamKey id="VDD_MAX" param_name="Vddmax_volts" />
     <ExposedParamKey id="VDDD_Mv" param_name="VdddMv" />
+    <ExposedParamKey id="INDUCTIVE_SENSING" param_name="Inductive Sensing" />
+    <ExposedParamKey id="MULTISENSE" param_name="MultiSense" />
+    <ExposedParamKey id="MSCLP" param_name="MSCLP" />
+    <ExposedParamKey id="CAPSENSE" param_name="CapSense" />
   </ExposedParameterKeys>
   <Connectivity location="connectivity" />
   <Wounding location="chipresourcewoundings.xml" />

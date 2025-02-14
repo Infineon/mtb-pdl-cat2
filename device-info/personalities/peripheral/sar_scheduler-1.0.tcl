@@ -26,7 +26,7 @@ const MIN_SAMPLE_TIME_NS 167.0
 const OTHER_ADC_CLOCKS 2
 
 # Actual sample time is 1/2 clock less than specified
-# for PSoC4 and 1 clock less for PSoC 6.
+# for PSOC4 and 1 clock less for PSOC 6.
 # See SAR_v2 SAMPLE_TIME01 register description.
 const ADC_CLOCKS_NOT_SAMPLING 1
 

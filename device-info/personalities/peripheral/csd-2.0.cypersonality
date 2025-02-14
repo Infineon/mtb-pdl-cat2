@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2022), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -81,8 +81,8 @@
 
     <!-- Inputs -->
     <ParamSignal port="clock[0]" name="Clock" group="Inputs" visible="true"
-                 desc="Peripheral clock divider. CAPSENSE middleware changes its value in run-time.
-                       Consider that while sharing the same Peripheral Clock between CAPSENSE and
+                 desc="Peripheral clock divider. CAPSENSE™ middleware changes its value in run-time.
+                       Consider that while sharing the same Peripheral Clock between CAPSENSE™ and
                        other peripherals like TCPWM, SCB, etc."
                  canBeEmpty="false" />
 
@@ -223,7 +223,7 @@
         desc="Pin connection for sense[$idx] signal"
         visible="`${(CapSenseEnable &amp;&amp; ($idx &lt; SensorCount))}`"
         canBeEmpty="`${!(CapSenseEnable &amp;&amp; ($idx &lt; SensorCount))}`"
-        group="`${($idx &lt; CapacitorCount) ? &quot;CAPSENSE Capacitors&quot; : &quot;CAPSENSE Sensors&quot;}`"
+        group="`${($idx &lt; CapacitorCount) ? &quot;CAPSENSE™ Capacitors&quot; : &quot;CAPSENSE™ Sensors&quot;}`"
                 repeatCount="256"/>
     </ParamMux>
 

@@ -20,11 +20,10 @@
     <Block name="csd.capsense"/>
     <Block name="msc.msc"/>
     <Block name="msc.msc_superblock"/>
+  </BooleanWounding>
+  <BooleanWounding name="MSCLP">
     <Block name="msclp.msclp"/>
     <Block name="msclp.msclp_superblock"/>
-  </BooleanWounding>
-  <BooleanWounding name="INDUCTIVE SENSING">
-    <Block name="msclp.isx"/>
   </BooleanWounding>
   <BooleanWounding name="DIRDRIVELCD">
     <Block name="lcd"/>

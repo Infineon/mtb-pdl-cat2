@@ -10,7 +10,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -89,8 +89,8 @@
     <ParamRange  id="intDivider" name="`${isFractional ? &quot;Integer Divider&quot; : &quot;Divider&quot;}`"
                  group="General" default="`${calc eq auto ? (div / 32) + intRound : 1}`"
                  min="1" max="`${pow(2, width)}`" resolution="1" visible="true" editable="`${calc eq man}`"
-                 desc="If the clock divider assigned to CAPSENSE HW then CAPSENSE middleware changes it in run-time.
-                       Consider that while sharing the same CAPSENSE-assigned Peripheral Clock Divider with other
+                 desc="If the clock divider assigned to CAPSENSE™ HW then CAPSENSE™ middleware changes it in run-time.
+                       Consider that while sharing the same CAPSENSE™-assigned Peripheral Clock Divider with other
                        peripherals like TCPWM, SCB, etc." />
     <ParamRange  id="fracDivider" name="Fractional Divider" group="General" default="`${calc eq auto ? div &amp; 0x1F : 0}`" min="0" max="31" resolution="1" visible="`${isFractional}`" editable="`${calc eq man}`" desc="" />
     <ParamRange  id="divider" name="Divider" group="Internal" default="`${isFractional ? intDivider + fracDivider / 32.0 : intDivider}`" min="1" max="`${pow(2, width) + 31.0/32.0}`" resolution="0.00001" visible="false" editable="false" desc="" />
@@ -110,8 +110,8 @@
     <ParamString id="clockSel" name="clockSel" group="Internal" default="`${typeApiConst}`, `${number}`U" visible="false" editable="false" desc="Divider type and number" />
 
     <ParamSignal port="clk[0]" name="Peripherals" group="General" visible="true"
-                 desc="This signal can be used to drive peripherals. If the clock divider assigned to CAPSENSE HW then CAPSENSE middleware changes it in run-time.
-                       Consider that while sharing the same CAPSENSE-assigned Peripheral Clock Divider with other
+                 desc="This signal can be used to drive peripherals. If the clock divider assigned to CAPSENSE™ HW then CAPSENSE™ middleware changes it in run-time.
+                       Consider that while sharing the same CAPSENSE™-assigned Peripheral Clock Divider with other
                        peripherals like TCPWM, SCB, etc."
                  canBeEmpty="true" />
   </Parameters>

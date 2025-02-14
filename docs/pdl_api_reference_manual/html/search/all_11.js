@@ -80,6 +80,8 @@ var searchData=
   ['sfec',['sfec',['../structcy__stc__id__filter__t.html#ae49aa325f209d5b23cd03b49f5161b23',1,'cy_stc_id_filter_t']]],
   ['sfid1',['sfid1',['../structcy__stc__id__filter__t.html#a6f030ff362c3380842a2577f0072feec',1,'cy_stc_id_filter_t']]],
   ['sfid2',['sfid2',['../structcy__stc__id__filter__t.html#a177c81285fdaca0fb49a5f33a2c0abcf',1,'cy_stc_id_filter_t']]],
+  ['sflash_5fimo_5fcal_5ftemp_5ftype',['SFLASH_IMO_CAL_TEMP_Type',['../struct_s_f_l_a_s_h___i_m_o___c_a_l___t_e_m_p___type.html',1,'']]],
+  ['sflash_5fimo_5fcal_5ftrim_5ftype',['SFLASH_IMO_CAL_TRIM_Type',['../struct_s_f_l_a_s_h___i_m_o___c_a_l___t_r_i_m___type.html',1,'']]],
   ['sft',['sft',['../structcy__stc__id__filter__t.html#aeda974289f105fa951021d4d5ae5cc44',1,'cy_stc_id_filter_t']]],
   ['shutdowntemp',['shutdownTemp',['../structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o__2.html#adfac63174e8990be1712915435e41c3e',1,'cy_pd_pd_do_t::ACT_CBL_VDO_2']]],
   ['sidfilter',['sidFilter',['../structcy__stc__canfd__sid__filter__config__t.html#a92e7899d38016cae127bf55e6796da3b',1,'cy_stc_canfd_sid_filter_config_t']]],

@@ -4,11 +4,11 @@
 * \version 1.0
 *
 * \brief
-* CapSense common personality description file.
+* CAPSENSE™ common personality description file.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -26,7 +26,7 @@
 * limitations under the License.
 *****************************************************************************-->
 
-<Personality id="m0s8mscv3lpsuperblock" name="CapSense" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+<Personality id="m0s8mscv3lpsuperblock" name="CAPSENSE™" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
     <IpBlock name="m0s8mscv3lp" />
     <Resource name="msclp\.msclp_superblock" />
@@ -36,12 +36,12 @@
   </ExposedMembers>
 
   <Parameters>
-    <!-- CapSense Middleware Documentation -->
+    <!-- CAPSENSE™ Middleware Documentation -->
     <ParamDoc id="capSenseDoc"
-              name="CapSense Middleware" group="Peripheral Documentation"
+              name="CAPSENSE™ Middleware" group="Peripheral Documentation"
               default="https://infineon.github.io/capsense/capsense_api_reference_manual/html/index.html"
-              linkText="Open CapSense Middleware Documentation" visible="true"
-              desc="Opens the CapSense Middleware Library Documentation" />
+              linkText="Open CAPSENSE™ Middleware Documentation" visible="true"
+              desc="Opens the CAPSENSE™ Middleware Library Documentation" />
     <!-- MSCLP Driver Documentation -->
     <ParamDoc id="pdlDoc"
               name="Configuration Help" group="Peripheral Documentation"
@@ -105,7 +105,7 @@
                default="false" visible="false" editable="true" desc="" />
     <ParamBool id="commMaster" name="Is this chip a dedicated for the communication with Tuner" group="System"
                default="false" visible="false" editable="true" desc="" />
-    <ParamBool id="liteConfig" name="The current chip has Lite CapSense Data Structure" group="System"
+    <ParamBool id="liteConfig" name="The current chip has Lite CAPSENSE™ Data Structure" group="System"
                default="false" visible="false" editable="true" desc="" />
     <ParamRange id="chipId" name="The current chip Identifier" group="System"
                 default="0" min="0" max="0" resolution="1" visible="false" editable="true" desc="" />
@@ -182,7 +182,7 @@
                     resolution="1" 
                     visible="false" 
                     editable="false" 
-                    desc="Per CapSense switch sensor (CSW) Function? A CSW is an individual physical MSCLP capable GPIO pad with associated control switches. If 0, only global functions are usable and must have CSW_GLOBAL_FUNC_NR > 0. (0=No, 1=Yes)" />
+                    desc="Per CAPSENSE™ switch sensor (CSW) Function? A CSW is an individual physical MSCLP capable GPIO pad with associated control switches. If 0, only global functions are usable and must have CSW_GLOBAL_FUNC_NR > 0. (0=No, 1=Yes)" />
     <ParamRange     id="lpAosPresent" 
                     name="LpAosPresent" 
                     group="MSCLP HW Parameters" 
@@ -312,17 +312,17 @@
     <ParamString id="cfgFilePath" name="cfgFilePath" group="External Tools"
                  default="`${cy_design_path() . &quot;/&quot; . cfgFileName}`"
                  visible="false" editable="false" desc="" />
-    <ParamCustom id="CapSenseConfigurator" name="CapSense Configurator" group="External Tools" default="0"
+    <ParamCustom id="CapSenseConfigurator" name="CAPSENSE™ Configurator" group="External Tools" default="0"
                  path="`${cy_tools_path(&quot;capsense-configurator&quot;) . &quot;/capsense-configurator&quot;}`"
-                 modal="true" visible="true" editable="true" desc="Launch CapSense Configurator">
+                 modal="true" visible="true" editable="true" desc="Launch CAPSENSE™ Configurator">
       <Arg value="`${&quot;--config=&quot; . cfgFilePath}`" />
       <Arg value="`${&quot;--output-dir=&quot; . cy_codegen_path()}`" />
       <Arg value="`${&quot;--design=&quot; . cy_design_file()}`" />
       <Arg value="`${&quot;--library=&quot; . cy_libs_file()}`" />
     </ParamCustom>
-    <ParamCustom id="CapSenseTuner" name="CapSense Tuner" group="External Tools" default="0"
+    <ParamCustom id="CapSenseTuner" name="CAPSENSE™ Tuner" group="External Tools" default="0"
                  path="`${cy_tools_path(&quot;capsense-configurator&quot;) . &quot;/capsense-tuner&quot;}`"
-                 modal="false" visible="true" editable="true" desc="Launch CapSense Tuner">
+                 modal="false" visible="true" editable="true" desc="Launch CAPSENSE™ Tuner">
       <Arg value="`${&quot;--config=&quot; . cfgFilePath}`" />
       <Arg value="`${&quot;--output-dir=&quot; . cy_codegen_path()}`" />
     </ParamCustom>

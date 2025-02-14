@@ -14,11 +14,12 @@ var NAVTREEINDEX7 =
 "group__group__sar__functions__config.html#gaff69993327b0aba19490c7ac9708138c":[2,17,1,2,3],
 "group__group__sar__functions__countsto.html":[2,17,1,3],
 "group__group__sar__functions__countsto.html#ga0950546e50604fc6daa33b2bdb155e5d":[2,17,1,3,3],
-"group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635":[2,17,1,3,6],
+"group__group__sar__functions__countsto.html#ga39cd1ae1f2f7101812199b012f22b635":[2,17,1,3,7],
 "group__group__sar__functions__countsto.html#ga5c070458f491389cab67bacb0beff85b":[2,17,1,3,0],
 "group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d":[2,17,1,3,4],
 "group__group__sar__functions__countsto.html#ga8f1189056459a76c4b9f9917dc3a9e6e":[2,17,1,3,2],
-"group__group__sar__functions__countsto.html#gaf8617e3aa90b4069b0b6605802a3ac08":[2,17,1,3,5],
+"group__group__sar__functions__countsto.html#ga99915d83cb58a5e9a6889bddc8114a5a":[2,17,1,3,5],
+"group__group__sar__functions__countsto.html#gaf8617e3aa90b4069b0b6605802a3ac08":[2,17,1,3,6],
 "group__group__sar__functions__countsto.html#gaf9e34e8b68020602396686ec699314a1":[2,17,1,3,1],
 "group__group__sar__functions__helper.html":[2,17,1,6],
 "group__group__sar__functions__helper.html#ga006244ce427ed95401a74e43214c77df":[2,17,1,6,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "group__group__scb__ezi2c__data__structures.html#ga9e8d3c0b9215890a66cfe43b74eca2d3":[2,18,1,2,2],
 "group__group__scb__ezi2c__enums.html":[2,18,1,3],
 "group__group__scb__ezi2c__enums.html#ga2a4845448404203987f881e2e907feff":[2,18,1,3,2],
-"group__group__scb__ezi2c__enums.html#ga5e20e1c00a75b3467305aa839271697a":[2,18,1,3,1],
-"group__group__scb__ezi2c__enums.html#gae75ed91d83e89dd9a13c9a832a138ffb":[2,18,1,3,0]
+"group__group__scb__ezi2c__enums.html#ga5e20e1c00a75b3467305aa839271697a":[2,18,1,3,1]
 };

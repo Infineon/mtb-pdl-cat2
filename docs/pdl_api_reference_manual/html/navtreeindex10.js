@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"group__group__smartio__enums.html#gga057185e00625a60b6ee8f788b55f6413aa4b26744f29bb85d852cfc956f93b154":[2,20,3,5,5],
 "group__group__smartio__enums.html#gga057185e00625a60b6ee8f788b55f6413ab930f82921553f171b934df68434f5a9":[2,20,3,5,8],
 "group__group__smartio__enums.html#gga057185e00625a60b6ee8f788b55f6413ab9ec5d0a02df6560fe3de151260561dd":[2,20,3,5,23],
 "group__group__smartio__enums.html#gga057185e00625a60b6ee8f788b55f6413ab9f1374b4b8b1770eadc89887c19e0cc":[2,20,3,5,17],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "group__group__sysclk__ilo__funcs.html#ga4a20a6f49379cd9baf1c0bf11bd5abd7":[2,22,7,0,4],
 "group__group__sysclk__ilo__funcs.html#ga544c284171c68dc5ef48bd24d2575952":[2,22,7,0,1],
 "group__group__sysclk__ilo__funcs.html#ga84ab8632f6ca5c941e170aa40ff402e4":[2,22,7,0,3],
-"group__group__sysclk__ilo__funcs.html#gaabb2612adc103562da7d6dc451a33caa":[2,22,7,0,0],
-"group__group__sysclk__ilo__funcs.html#gacc9d037c4d20e66f03f89f51596d4a55":[2,22,7,0,2]
+"group__group__sysclk__ilo__funcs.html#gaabb2612adc103562da7d6dc451a33caa":[2,22,7,0,0]
 };

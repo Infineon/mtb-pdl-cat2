@@ -84,6 +84,6 @@
     <ConfigInclude value="cy_gpio.h" include="true" />
     <ConfigInclude value="cy_sysclk.h" include="true" />
     <ConfigDefine name="CY_CFG_SYSCLK_WCO_ENABLED" value="1" public="false" include="true" />
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_WcoInit()" body="    `${gpio_in_init}`&#xA;    `${gpio_out_init}`&#xA;    `${bypass ? &quot;Cy_SysClk_WcoBypass(true);&quot; : &quot;Cy_SysClk_WcoBypass(false);&quot;}`&#xA;    Cy_SysClk_WcoEnable(`${WCOstartUpDelayResult}`);" public="false" include="true" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_WcoInit(void)" body="    `${gpio_in_init}`&#xA;    `${gpio_out_init}`&#xA;    `${bypass ? &quot;Cy_SysClk_WcoBypass(true);&quot; : &quot;Cy_SysClk_WcoBypass(false);&quot;}`&#xA;    Cy_SysClk_WcoEnable(`${WCOstartUpDelayResult}`);" public="false" include="true" />
   </ConfigFirmware>
 </Personality>

@@ -1,5 +1,7 @@
 var NAVTREEINDEX23 =
 {
+"structcy__stc__tcpwm__pwm__config__t.html#a62e50e17cdcbeafb5af318149ca91312":[2,28,2,2,0,21],
+"structcy__stc__tcpwm__pwm__config__t.html#a6e07285f605e430e0e0237a45fc44111":[2,28,2,2,0,23],
 "structcy__stc__tcpwm__pwm__config__t.html#a877ff8bc42b17e292f6ae99e1b872cbc":[2,28,2,2,0,1],
 "structcy__stc__tcpwm__pwm__config__t.html#a8c931214b10404070b4fc713ba1ac339":[2,28,2,2,0,20],
 "structcy__stc__tcpwm__pwm__config__t.html#a9bf7f3c7133ff0c6e1d51c6b52d05997":[2,28,2,2,0,12],

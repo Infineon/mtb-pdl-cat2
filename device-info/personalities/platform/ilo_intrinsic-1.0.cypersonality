@@ -39,6 +39,6 @@
   </Parameters>
   <DRCs />  
   <ConfigFirmware>
-    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_IloInit()" body="    Cy_SysClk_IloDisable();" public="false" include="`${!iloUsed}`" />
+    <ConfigFunction signature="__STATIC_INLINE void Cy_SysClk_IloInit(void)" body="    Cy_SysClk_IloDisable();" public="false" include="`${!iloUsed}`" />
   </ConfigFirmware>
 </Personality>

@@ -29,9 +29,12 @@
 
 <Personality id="m0s8sysanalog" name="Programmable Analog" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
-    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2" />
+    <IpBlock name="m0s8pass4a,m0s8pass4a_ver2,m0s8pass4a_ver3" />
     <Resource name="pass" />
-    <DependentResource name="pass.ctb.oa" />
+    <DependentResource name="">
+      <AlternateResource name="pass.ctb.oa" />
+      <AlternateResource name="pass.sar" />
+    </DependentResource>
   </Dependencies>
   <ExposedMembers>
     <ExposedMember key="frequency" paramId="frequency" />
