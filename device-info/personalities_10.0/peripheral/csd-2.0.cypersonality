@@ -223,7 +223,7 @@
         desc="Pin connection for sense[$idx] signal"
         visible="`${(CapSenseEnable &amp;&amp; ($idx &lt; SensorCount))}`"
         canBeEmpty="`${!(CapSenseEnable &amp;&amp; ($idx &lt; SensorCount))}`"
-        group="`${($idx &lt; CapacitorCount) ? &quot;CAPSENSE Capacitors&quot; : &quot;CAPSENSE Sensors&quot;}`"
+        group="`${($idx &lt; CapacitorCount) ? &quot;CAPSENSE™ Capacitors&quot; : &quot;CAPSENSE™ Sensors&quot;}`"
                 repeatCount="256"/>
     </ParamMux>
 

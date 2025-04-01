@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.50
+* \version 2.60
 *
 * Header file for the SAR driver.
 *
@@ -61,14 +61,14 @@
 *
 * \section group_sar_configuration Configuration Considerations
 * As an example, following SAR configuration will be used:
-* - Three channels: 
+* - Three channels:
 *   - Single-ended channel on Pin 0
 *   - Single-ended channel on Pin 1
 *   - Differential channel between Pin 0 (positive input) and Pin 1 (negative input)
 * - 12-bit resolution for all three channels
 * - No sample averaging for all three channels
 * - Trigger SAR from TCPWM-based timer.
-* 
+*
 * The high level steps to use SAR driver are:
 *
 *   - \ref group_sar_config_structure
@@ -81,10 +81,10 @@
 * \section group_sar_config_structure Configuration structure
 *
 * To configure the SAR subsystem, call \ref Cy_SAR_Init. This function requires two pointers:
-* a pointer to the \ref SAR_Type structure for the base hardware register address 
+* a pointer to the \ref SAR_Type structure for the base hardware register address
 * and pointer to the configuration structure \ref cy_stc_sar_config_t.
 *
-* Configuration structure \ref cy_stc_sar_config_t includes two substructures: 
+* Configuration structure \ref cy_stc_sar_config_t includes two substructures:
 * \ref cy_stc_sar_config_t::channelConfig and \ref cy_stc_sar_config_t::routingConfig.
 *
 * \ref cy_stc_sar_channel_config_t is used to configure individual channels.
@@ -92,7 +92,7 @@
 *
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_CHAN_STRUCT
 *
-* \ref cy_stc_sar_routing_config_t is used to define SARMUX configuration. 
+* \ref cy_stc_sar_routing_config_t is used to define SARMUX configuration.
 * Use one or more values from the \ref group_sar_mux_switch and "OR" them together.
 * Firmware control can be changed at run-time by calling \ref Cy_SAR_SetAnalogSwitch the desired switch states
 * SARSEQ control can be changed at run-time by calling \ref Cy_SAR_SetSwitchSarSeqCtrl.
@@ -104,7 +104,7 @@
 *
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_DIAG_SWITCH
 *
-* In order to complete SAR configuration structure, all remaining fields of 
+* In order to complete SAR configuration structure, all remaining fields of
 * \ref cy_stc_sar_config_t should be filled:
 *
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_INIT_STRUCT
@@ -344,7 +344,7 @@
 * Then the retrieved injection channel result can be transformed into the temperature value:
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_INJ
 * \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
-* 
+*
 * \section group_sar_low_power Low Power Support
 * This SAR driver provides a callback function to handle power mode transitions.
 * The \ref Cy_SAR_DeepSleepCallback function ensures that SAR conversions are stopped
@@ -365,6 +365,23 @@
 * \section group_sar_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="4">2.60</td>
+*     <td>Added support of PSOC 4100T Plus device family.</td>
+*     <td>New device support.</td>
+*   </tr>
+*   <tr>
+*     <td>Re-defined settings of the SAR_DFT_CTRL_DCEN bit in the Cy_SAR_Init() and Cy_SAR_SetVref() functions.</td>
+*     <td>Bug fixing.</td>
+*   </tr>
+*   <tr>
+*     <td>Temperature ranges are updated in the Cy_SAR_CountsTo_degreeC() function.</td>
+*     <td>Bug fixing.</td>
+*   </tr>
+*   <tr>
+*     <td>The \ref cy_stc_sar_config_t::sampleTime0 description is updated.</td>
+*     <td>Documentation improvement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">2.50</td>
 *     <td>Added the \ref Cy_SAR_CountsTo_degreeC function</td>
@@ -417,7 +434,7 @@
 *                     \ref Cy_SAR_CountsTo_Volts functions so that
 *                 they now support sub-resolutions</td>
 *     <td>Bug fixing</td>
-*   </tr>    
+*   </tr>
 *   <tr>
 *     <td rowspan="4">2.0</td>
 *     <td>Added the \ref Cy_SAR_CountsTo_degreeC function</td>
@@ -432,7 +449,7 @@
 *     <td>\ref group_ctb support</td>
 *   </tr>
 *   <tr>
-*     <td>The type of \ref cy_stc_sar_channel_config_t::sampleTimeSel is changed 
+*     <td>The type of \ref cy_stc_sar_channel_config_t::sampleTimeSel is changed
 *         from uint32_t to \ref cy_en_sar_channel_sampletime_t</td>
 *     <td>Improved the API error proofness</td>
 *   </tr>
@@ -499,7 +516,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        50
+#define CY_SAR_DRV_VERSION_MINOR        60
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -1056,16 +1073,16 @@ typedef struct
                                                            */
     cy_en_sar_sample_ctrl_trigger_mode_t trigMode;        /**< Trigger Mode: FW only, edge or level sensitive */
     bool eosEn;                                           /**< Enable to output EOS_INTR to trigger output. When enabled each time EOS_INTR is set by the hardware also a pulse is send on the trigger signal. */
-    uint32_t sampleTime0;                                 /**< Sample time in ADC clocks for Sample Time 0. 
+    uint32_t sampleTime0;                                 /**< Sample time in ADC clocks for Sample Time 0.
                                                            *   For all the sampleTimeX fields, valid range is 2 - 1023 cycles.
-                                                           *   The minimum aperture time is 167 ns. With an 18 MHz ADC clock, this is
-                                                           *   equal to 3 cycles or a value of 4 in this field.
-                                                           *   The actual aperture time is one cycle less than the value stored in this field.
+                                                           *   The minimum aperture time is 194 ns. With an 18 MHz ADC clock, this is
+                                                           *   equal to 3.5 cycles or a value of 4 in this field.
+                                                           *   The actual aperture time is half cycle less than the value stored in this field.
                                                            */
     uint32_t sampleTime1;                                 /**< Sample time in ADC clocks for Sample Time 1 */
     uint32_t sampleTime2;                                 /**< Sample time in ADC clocks for Sample Time 2 */
     uint32_t sampleTime3;                                 /**< Sample time in ADC clocks for Sample Time 3 */
-    uint32_t rangeThresLow;                               /**< Range detect low threshold for all channels. Used to generate range interrupt. 
+    uint32_t rangeThresLow;                               /**< Range detect low threshold for all channels. Used to generate range interrupt.
                                                            *   Range detection for both rangeThresLow and rangeThresHigh is done after averaging, alignment, and sign extension (if applicable),
                                                            *   i.e. threshold values need to have the same data format as the result data.
                                                            *   The values are interpreted as signed or unsigned according to each channel's configuration */
@@ -1923,7 +1940,7 @@ __STATIC_INLINE bool Cy_SAR_IsChannelDifferential(const SAR_Type * base, uint32_
 ****************************************************************************//**
 *
 * Open or close the switch between VSSA and Vminus of the SARADC through firmware.
-* This function calls \ref Cy_SAR_SetAnalogSwitch with 
+* This function calls \ref Cy_SAR_SetAnalogSwitch with
 * switchMask set to SAR_MUX_SWITCH0_MUX_FW_VSSA_VMINUS_Msk.
 *
 * \param base

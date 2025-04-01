@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_rsa.c
-* \version 1.30
+* \version 1.40
 *
 * \brief
 * This file implements various RSA functionalities such as
@@ -9,7 +9,7 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -33,9 +33,10 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
+#include <string.h>
 #include "cy_cryptolite_rsa.h"
 #include "cy_cryptolite_vu.h"
+#include "cy_cryptolite_sha.h"
 
 /*******************************************************************************
 * Function Name: Cy_Cryptolite_Rsa_TestEven (for internal use)
@@ -515,6 +516,462 @@ ATTRIBUTES_CRYPTOLITE_RSA void Cy_Cryptolite_Rsa_Coeff (CRYPTOLITE_Type *base, c
 }
 #endif /*(!CY_CRYPTOLITE_RSA_PRE_CALC_COEFF_ENABLE) */
 
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Rsa_ChangeEndian
+********************************************************************************
+*
+* This function is used to change the endian order of the given order.
+*
+* \param ptrData
+* data buffer which requires endian order change.
+*
+* \param size
+* data length.
+*
+* \param ptrTempBuf
+* Temporary buffer to be used to change the endian order.
+*
+* \return
+* None
+*******************************************************************************/
+ATTRIBUTES_CRYPTOLITE_RSA static void Cy_Cryptolite_Rsa_ChangeEndian(uint8_t *ptrData, uint32_t size, uint8_t *ptrTempBuf)
+{
+    uint32_t index = 0u;
+
+    (void)memset(ptrTempBuf, 0x00, size);
+    /* Copy data in reverse order from ptrData. */
+    for(index = 0u; index < size; index++)
+    {
+        ptrTempBuf[index] = ptrData[size - 1u - index];
+    }
+
+    /* Copy back the reversed data to source. */
+    for(index = 0u; index < size; index++)
+    {
+        ptrData[index] = ptrTempBuf[index];
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Rsa_MgfMask
+********************************************************************************
+*
+* Generate and apply the MGF1 operation (from PKCS#1 v2.1) to a buffer.
+*
+* \param base
+* cryptolite base address.
+*
+* \param dst
+* buffer to mask (destination buffer).
+*
+* \param dlen
+* length of destination buffer.
+*
+* \param src
+* source of the mask generation.
+*
+* \param slen
+* length of the source buffer.
+*
+* \param shaMode
+* SHA selection mode(SHA256, SHA384, SHA512).
+*
+* \param digestLength
+* digest length for given SHA mode.
+*
+* \param ptrIntBuf
+* Internal buffer pointer.
+*
+* \return
+* cy_en_cryptolite_status_t Cryptolite operation status
+*******************************************************************************/
+ATTRIBUTES_CRYPTOLITE_RSA static cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_MgfMask(
+                        CRYPTOLITE_Type *base,
+                        uint8_t *dst, int32_t dlen,
+                        uint8_t *src, int32_t slen,
+                        cy_en_cryptolite_sha_mode_t shaMode,
+                        int32_t digestLength, uint8_t *ptrIntBuf
+#if SW_HASHING_ALG
+                        ,cy_stc_cryptolite_rsa_sw_sha_cbk_t *ptrSwShaCbk
+#endif /* SW_HASHING_ALG */
+                        )
+{
+    uint8_t counter[4] = {0u};
+    uint8_t *ptrBuf;
+    int32_t index, useLength;
+    cy_en_cryptolite_status_t cryptoStatus = CY_CRYPTOLITE_UNKNOWN;
+#if !SW_HASHING_ALG
+    /* Coverity warning deviation. */
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 11.3', 1, 'Intentional type conversion.');
+    cy_stc_cryptolite_sha_context_t *ptrShaContext = (cy_stc_cryptolite_sha_context_t *)ptrIntBuf;
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 11.3');
+#endif /* !SW_HASHING_ALG */
+    uint8_t mask[CY_CRYPTOLITE_SHA512_HASH_SIZE] = {0u};
+
+    /* Generate and apply dbMask */
+    ptrBuf = dst;
+    while (dlen > 0)
+    {
+        /* Update the length to be used for hash calculation. */
+        useLength = digestLength;
+        /* Check whether remaining destination buffer length is less than actual digest length.
+         * Update the useLength with remaining length if it is less than digest length. */
+        if (dlen < digestLength)
+        {
+            useLength = dlen;
+        }
+
+#if !SW_HASHING_ALG
+        /* Reset the intermediate buffer data to zero. */
+        (void)memset((uint8_t *)ptrShaContext, 0x00, sizeof(cy_stc_cryptolite_sha_context_t));
+
+        /* Set SHA mode. */
+        cryptoStatus  = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_SetMode)(shaMode, ptrShaContext);
+
+        /* SHA block initialization. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Init) (base, ptrShaContext);
+        }
+
+        /* Start SHA calculation process. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Start) (base, ptrShaContext);
+        }
+
+        /* Calculate the hash for source data. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base,
+                                                                            src,
+                                                                            (uint32_t)slen,
+                                                                            ptrShaContext);
+        }
+
+        /* Calculate the hash for counter data. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base,
+                                                                            counter,
+                                                                            4u,
+                                                                            ptrShaContext);
+        }
+
+        /* Finish the SHA calculation process. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Finish) (base, mask,
+                                                                            ptrShaContext);
+        }
+        /* Reset internal buffers in SHA context. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Free) (base, ptrShaContext);
+        }
+#else /* SW_HASHING_ALG */
+        /* Initialize SHA Block and Start SHA Operation. */
+        ptrSwShaCbk->sw_sha_init (ptrIntBuf);
+
+        /* Calculate the hash for source data. */
+        ptrSwShaCbk->sw_sha_update (ptrIntBuf, src, (uint32_t)slen);
+
+        /* Calculate the hash for counter data. */
+        ptrSwShaCbk->sw_sha_update (ptrIntBuf, counter, 4u);
+
+        /* Finish SHA Calculation process and Reset internal buffers in SHA context. */
+        ptrSwShaCbk->sw_sha_finish (ptrIntBuf, mask);
+
+        /* Update Status Variable */
+        cryptoStatus = CY_CRYPTOLITE_SUCCESS;
+#endif /* !SW_HASHING_ALG */
+
+        /* Update the destination buffer with MGF data. */
+        if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+        {
+            for (index = 0; index < useLength; ++index)
+            {
+                *ptrBuf++ ^= mask[index];
+            }
+
+            /* Increment the counter. */
+            counter[3]++;
+            /* Decrease the destination length by utilized length in previous hash calculation. */
+            dlen -= useLength;
+        }
+        /* Stop the process if Cryptolite operation is failed. */
+        else
+        {
+            break;
+        }
+    }
+
+    /* Return Cryptolite status */
+    return cryptoStatus;
+}
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Rsa_HashMprime
+********************************************************************************
+*
+* Generate Hash(M') as in RFC 8017 page 43 points 5 and 6.
+*
+* \param base
+* cryptolite base address.
+*
+* \param hash
+* the input hash.
+*
+* \param hlen
+* length of the input hash.
+*
+* \param salt
+* the input salt.
+*
+* \param slen
+* length of the input salt.
+*
+* \param hashOutput
+* output buffer to copy calculated hash value.
+*
+* \param shaMode
+* SHA selection mode(SHA256, SHA384, SHA512).
+*
+* \param ptrIntBuf
+* Internal buffer pointer.
+*
+* \return
+* cy_en_cryptolite_status_t Cryptolite operation status
+*******************************************************************************/
+ATTRIBUTES_CRYPTOLITE_RSA static cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_HashMprime(
+                        CRYPTOLITE_Type *base,
+                        const uint8_t *hash, uint32_t hlen,
+                        const uint8_t *salt, uint32_t slen,
+                        uint8_t *hashOutput, cy_en_cryptolite_sha_mode_t shaMode,
+                        uint8_t *ptrIntBuf
+#if SW_HASHING_ALG
+                        ,cy_stc_cryptolite_rsa_sw_sha_cbk_t *ptrSwShaCbk
+#endif /* SW_HASHING_ALG */
+                        )
+{
+    const uint8_t zeros[8] = { 0u };
+    cy_en_cryptolite_status_t cryptoStatus;
+#if !SW_HASHING_ALG
+    /* Coverity warning deviation. */
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 11.3', 1, 'Intentional type conversion.');
+    cy_stc_cryptolite_sha_context_t *ptrShaContext = (cy_stc_cryptolite_sha_context_t *)ptrIntBuf;
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 11.3');
+    
+    /* Reset the intermediate buffer data to zero. */
+    (void)memset((uint8_t *)ptrShaContext, 0x00, sizeof(cy_stc_cryptolite_sha_context_t));
+
+    /* Set SHA mode. */
+    cryptoStatus  = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_SetMode)(shaMode, ptrShaContext);
+
+    /* SHA block initialization. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Init) (base, ptrShaContext);
+    }
+
+    /* Start SHA calculation process. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Start) (base, ptrShaContext);
+    }
+
+    /* Calculate the hash for zero data. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base,
+                                                                        zeros,
+                                                                        (uint32_t)sizeof(zeros),
+                                                                        ptrShaContext);
+    }
+    /* Calculate the hash for hash input data. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base,
+                                                                        hash,
+                                                                        hlen,
+                                                                        ptrShaContext);
+    }
+    /* Calculate the hash for salt. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Update) (base,
+                                                                        salt,
+                                                                        slen,
+                                                                        ptrShaContext);
+    }
+    /* Finish the SHA calculation process. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Finish) (CRYPTOLITE, hashOutput, ptrShaContext);
+    }
+    
+    /* Reset internal buffers in SHA context. */
+    if(CY_CRYPTOLITE_SUCCESS == cryptoStatus)
+    {
+        cryptoStatus = CRYPTOLITE_SHA_CALL_MAP(Cy_Cryptolite_Sha_Free) (CRYPTOLITE, ptrShaContext);
+    }
+#else /* SW_HASHING_ALG */
+
+    /* Initialize SHA Block and Start SHA Operation. */
+    ptrSwShaCbk->sw_sha_init (ptrIntBuf);
+
+    /* Calculate the hash for zero data. */
+    ptrSwShaCbk->sw_sha_update (ptrIntBuf, zeros, (uint32_t)sizeof(zeros));
+
+    /* Calculate the hash for hash input data. */
+    ptrSwShaCbk->sw_sha_update (ptrIntBuf, hash, hlen);
+
+    /* Calculate the hash for salt. */
+    ptrSwShaCbk->sw_sha_update (ptrIntBuf, salt, slen);
+
+    /* Finish SHA Calculation process and Reset internal buffers in SHA context. */
+    ptrSwShaCbk->sw_sha_finish (ptrIntBuf, hashOutput);
+
+    /* Update Status Variable */
+    cryptoStatus = CY_CRYPTOLITE_SUCCESS;
+
+#endif /* !SW_HASHING_ALG */
+    
+    /* Return Cryptolite status */
+    return cryptoStatus;
+}
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Rsa_PssVerifyExt
+********************************************************************************
+*
+* This function is an extension to do RSA signature verification using
+* EMSA-PSS Encoding method (RSASSA-PSS). This function requires the processed 
+* RSA signature using public key.
+*
+* Reference: RFC 8017 (https://www.rfc-editor.org/rfc/rfc8017)
+*
+* \param base
+* cryptolite base address.
+*
+* \param digestLength
+* digest length for given SHA mode.
+*
+* \param digest
+* digest buffer pointer.
+*
+* \param rsaLength
+* RSA Signature length.
+*
+* \param key
+* Pointer to Public key and RSA coefficients.
+*
+* \param processedDigest
+* Processed RSA signature using public key.
+*
+* \return
+* cy_en_cryptolite_status_t Cryptolite operation status
+*******************************************************************************/
+ATTRIBUTES_CRYPTOLITE_RSA cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_PssVerifyExt(
+        CRYPTOLITE_Type *base,
+        uint16_t digestLength,
+        uint8_t *digest,
+        uint16_t rsaLength,
+        cy_stc_cryptolite_rsa_pub_key_t *key,
+        uint8_t *processedDigest
+    )
+{
+    uint8_t *ptrBuf;
+    uint16_t bitIndex;
+    uint8_t *hashStart;
+    uint8_t result[CY_CRYPTOLITE_SHA512_HASH_SIZE] = {0u};
+
+    /* Change the endian back to Little-endian. */
+    Cy_Cryptolite_Rsa_ChangeEndian(processedDigest, rsaLength, key->privateBuffer);
+
+    /* Assign the RSA verified data to local pointer. */
+    ptrBuf = processedDigest;
+
+    /* Verify padding scheme. */
+    if (0xBCu != processedDigest[rsaLength - 1u])
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+
+    /* EMSA-PSS verification is over the length of N - 1 bits */
+    bitIndex = (uint16_t)(key->moduloLength - 1u);
+    /* Check the non-zero value. */
+    if (0u != (processedDigest[0] >> (8u - rsaLength * 8u + bitIndex)))
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+    /* Compensate for boundary condition when applying mask. */
+    if (bitIndex % 8u == 0u)
+    {
+        ptrBuf++;
+        rsaLength = rsaLength - 1u;
+    }
+    /* RSA Length and digest length boundary check. */
+    if (rsaLength < (digestLength + 2u))
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+
+    /* Address of the RSA verified data to be used for MGF. */
+    hashStart = ptrBuf + rsaLength - digestLength - 1u;
+    /* Coverity warning deviation. */
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 1, 'Intentional type conversion.');
+    /* Generate and Apply MGF1 operation. */
+    if(CY_CRYPTOLITE_SUCCESS != Cy_Cryptolite_Rsa_MgfMask(base, ptrBuf, (int32_t)(rsaLength - digestLength - 1u), hashStart,
+            (int32_t)digestLength, (cy_en_cryptolite_sha_mode_t)key->shaAlgorithm , (int32_t)digestLength, key->privateBuffer
+#if SW_HASHING_ALG
+             , key->ptrSwShaCbk
+#endif /* SW_HASHING_ALG */
+            ))
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
+    
+    processedDigest[0] &= 0xFFu >> (rsaLength * 8u - bitIndex);
+
+    /* Adjust the local pointer to skip zero data. */
+    while (ptrBuf < hashStart - 1u && *ptrBuf  == 0u){
+        ptrBuf++;
+    }
+
+    /* After zero data, the next byte should be 0x01. */
+    if (*ptrBuf++ != 0x01u)
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+
+    /* Determine the observed salt length. Note that current implementation only supports 
+     * salt length argument as -1 during RSA signature generation. */
+    int32_t observedSaltLen = (hashStart - ptrBuf);
+    if (observedSaltLen < 0)
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+    
+    /* Generate H = Hash( M' ) */
+    if (CY_CRYPTOLITE_SUCCESS != Cy_Cryptolite_Rsa_HashMprime(base, digest, digestLength, ptrBuf, (uint32_t)observedSaltLen,
+                      result, (cy_en_cryptolite_sha_mode_t)key->shaAlgorithm, key->privateBuffer
+#if SW_HASHING_ALG
+                      , key->ptrSwShaCbk
+#endif /* SW_HASHING_ALG */
+                      ))
+    {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+
+    if (memcmp(hashStart, result, digestLength) != 0) {
+        return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+    }
+    return CY_CRYPTOLITE_SUCCESS;
+}
+
 /*
  * This function is called from the boot loader to verify if the given signature
  * matches with the input hash (SHA digest) or not. RSA coefficient are first calculated
@@ -533,14 +990,23 @@ ATTRIBUTES_CRYPTOLITE_RSA cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_Verify (
 {
     uint32_t index;
 
-    if ((NULL == base) || (NULL == digest) || (NULL == rsaSignature) || (NULL == key) || (NULL == processedDigest))
+    if ((NULL == base) || (NULL == digest) || (NULL == rsaSignature) || (NULL == key) || (NULL == processedDigest)
+    #if SW_HASHING_ALG
+        || (NULL == key->ptrSwShaCbk)
+    #endif /* SW_HASHING_ALG */ 
+    )
     {
         return CY_CRYPTOLITE_BAD_PARAMS;
     }
 
     if ((NULL == key->pubExpPtr) || (NULL == key->barretCoefPtr) || (NULL == key->inverseModuloPtr) ||
         (NULL == key->rBarPtr) || (NULL == key->moduloPtr) || (NULL == key->privateBuffer) ||
-        (0UL == key->pubExpLength) || (0UL == key->moduloLength))
+        (0UL == key->pubExpLength) || (0UL == key->moduloLength)
+#if SW_HASHING_ALG
+        || (NULL == key->ptrSwShaCbk->sw_sha_init) || (NULL == key->ptrSwShaCbk->sw_sha_update)
+        || (NULL == key->ptrSwShaCbk->sw_sha_finish)
+#endif /* SW_HASHING_ALG */
+        )
     {
         return CY_CRYPTOLITE_BAD_PARAMS;
     }
@@ -564,17 +1030,29 @@ ATTRIBUTES_CRYPTOLITE_RSA cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_Verify (
     /* Modular exponent calculation using coefficients */
     Cy_Cryptolite_Rsa_Exp (base, processedDigest, rsaSignature, key);
 
-    /*
-     * Perform digest verification to validate the decrypted digest from RSA signature.
-     * The output digest from SHA calculation is in BE format and output digest from
-     * RSA decryption is in LE format. Hence, the processed digest is compared in reverse order
-     * with input digest.
-     */
-    for(index = 0UL; index < digestLength; index++)
+#if RSA_PADDING_PKCS1_PSS_SIG_SCHEME
+    if ((uint8_t)CY_CRYPTOLITE_RSA_SSA_PSS == key->rsaSigScheme)
     {
-        if(processedDigest[index] != (digest[digestLength - 1UL - index]))
+        /* Handle rest of PKCS#1 V2.2 implementation. */
+
+        return Cy_Cryptolite_Rsa_PssVerifyExt(base, digestLength, digest,
+                    rsaLength, key, processedDigest);
+    }
+    else
+#endif /* RSA_PADDING_PKCS1_PSS_SIG_SCHEME */
+    {
+        /*
+         * Perform digest verification to validate the decrypted digest from RSA signature.
+         * The output digest from SHA calculation is in BE format and output digest from
+         * RSA decryption is in LE format. Hence, the processed digest is compared in reverse order
+         * with input digest.
+         */
+        for(index = 0UL; index < digestLength; index++)
         {
-            return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+            if(processedDigest[index] != (digest[digestLength - 1UL - index]))
+            {
+                return CY_CRYPTOLITE_RSA_VERIFY_FAILURE;
+            }
         }
     }
     return CY_CRYPTOLITE_SUCCESS;

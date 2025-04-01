@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.50
+* \version 2.60
 *
 * Provides the functions for the API for the SAR driver.
 *
@@ -552,11 +552,7 @@ cy_en_sar_status_t Cy_SAR_Init(SAR_Type * base, const cy_stc_sar_config_t * conf
 
         SAR_PUMP_CTRL(base) = (config->boostPump) ? SAR_PUMP_CTRL_ENABLED_Msk : CY_SAR_DEINIT;
 
-        /* DRIVERS-7100 */
-        if (CY_SAR_VREF_SEL_BGR != config->vrefSel)
-        {
-            base->DFT_CTRL |= SAR_DFT_CTRL_DCEN_Msk;
-        }
+        base->DFT_CTRL |= SAR_DFT_CTRL_DCEN_Msk; /* DRIVERS-7100, DRIVERS-21118, DRIVERS-21596 */
 
         result = CY_SAR_SUCCESS;
     }
@@ -1227,10 +1223,6 @@ void Cy_SAR_SetVref(SAR_Type *base, cy_en_sar_ctrl_vref_sel_t vrefSel)
     CY_ASSERT_L2(CY_SAR_VREF(vrefSel));
 
     CY_REG32_CLR_SET(SAR_CTRL(base), SAR_CTRL_VREF_SEL, vrefSel);
-    if (CY_SAR_VREF_SEL_BGR != vrefSel)
-    {
-        CY_REG32_CLR_SET(base->DFT_CTRL, SAR_DFT_CTRL_DCEN, 1U);
-    }
 }
 
 
@@ -1858,7 +1850,7 @@ uint32_t Cy_SAR_GetDiagHwCtrl(const SAR_Type * base)
 *       automatically adjusts adcCounts to match DieTemp Vref.
 *
 * \return The die temperature in tens of degrees Celsius.
-*         If any base or channel parameter is valid, 0 is returned.
+*         If any base or channel parameter is invalid, 0 is returned.
 *
 * \funcusage \snippet sar/snippet/sar_snippet.c SNIPPET_SAR_TEMP
 * Also please refer the \ref group_sar_sarmux_dietemp
@@ -1889,24 +1881,23 @@ int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_
         }
 
         /* Get interpolation points */
-        if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_C_COUNTS) &&
-           (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS))
+        if (temp > (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS)
         {
             t0 = CY_SAR_TEMP_C_TENTH_DEGREE;
             t1 = CY_SAR_TEMP_RC_TENTH_DEGREE;
             c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_C_COUNTS;
             c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS;
         }
-        else if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS) &&
-                (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS))
+        else if((temp <= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS) &&
+                (temp > (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS))
         {
             t0 = CY_SAR_TEMP_RC_TENTH_DEGREE;
             t1 = CY_SAR_TEMP_R_TENTH_DEGREE;
             c0 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RC_COUNTS;
             c1 = (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS;
         }
-        else if((temp >= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS) &&
-                (temp < (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RH_COUNTS))
+        else if((temp <= (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_R_COUNTS) &&
+                (temp > (int32_t)CY_SFLASH_IMO_CAL_TEMP->CY_SAR_TEMP_RH_COUNTS))
         {
             t0 = CY_SAR_TEMP_R_TENTH_DEGREE;
             t1 = CY_SAR_TEMP_RH_TENTH_DEGREE;
@@ -1922,9 +1913,17 @@ int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_
         }
 
         retVal = (t0 - t1);
-        retVal /= (c0 - c1);
         retVal *= (temp - c0);
-        retVal += t0;
+        temp = (c0 - c1);
+        if (0 == temp)
+        {
+            retVal = 0;
+        }
+        else
+        {
+            retVal /= temp;
+            retVal += t0;
+        }
     }
 
     return (int16_t)retVal;

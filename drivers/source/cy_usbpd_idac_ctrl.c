@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.c
-* \version 2.100
+* \version 2.110
 *
 * The source file of the USBPD IDAC Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -2002,7 +2002,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOnProcess(cy_stc_usbpd_context_t *context)
 #endif /* VBUS_IN_DISCHARGE_EN */
         )
     {
-        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER), VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
+        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER, VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
     }
     else
     {
@@ -2066,7 +2066,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOnProcess(cy_stc_usbpd_context_t *context)
 #endif /* VBUS_IN_DISCHARGE_EN */
         )
     {
-        context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER), VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
+        context->timerStartcbk(context, context, CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER, VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
     }
     else
     {
@@ -2154,7 +2154,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOffProcess(cy_stc_usbpd_context_t *context)
 #endif /* VBUS_IN_DISCHARGE_EN */
         )
     {
-        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER), VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
+        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER, VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
     }
     else
     {
@@ -2228,7 +2228,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOffProcess(cy_stc_usbpd_context_t *context)
 #endif /* VBUS_IN_DISCHARGE_EN */
         )
     {
-        context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER), VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
+        context->timerStartcbk(context, context, CY_USBPD_VBUS_DISCHARGE_SCHEDULE_TIMER, VBUS_SLOW_DISCHARGE_TIME_MS, Cy_USBPD_Vbus_Slow_DischargeCbk);
     }
     else
     {
@@ -2252,7 +2252,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOffProcess(cy_stc_usbpd_context_t *context)
 #endif /* !VBUS_SLOW_DISCHARGE_EN */
 }
 
-void Cy_USBPD_Vbus_Slow_DischargeCbk(cy_en_usbpd_timer_id_t id, void *callbackContext)
+void Cy_USBPD_Vbus_Slow_DischargeCbk(uint16_t id, void *callbackContext)
 {
 #if VBUS_SLOW_DISCHARGE_EN
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;

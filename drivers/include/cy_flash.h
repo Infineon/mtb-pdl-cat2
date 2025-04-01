@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_flash.h
-* \version 1.10
+* \version 1.20
 *
 * Provides the API declarations of the Flash driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -88,6 +88,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="1">1.20</td>
+*     <td>Enabled flash non-blocking write operations for devices with 1 flash array.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="3">1.10</td>
 *     <td>Added Flash protection control support, Added ECC support.</td>
 *     <td>New feature support.</td>
@@ -145,7 +150,7 @@ extern "C" {
 #define CY_FLASH_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_FLASH_DRV_VERSION_MINOR       10
+#define CY_FLASH_DRV_VERSION_MINOR       20
 
 #define CY_FLASH_ID               (CY_PDL_DRV_ID(0x14UL))                          /**< FLASH PDL ID */
 
@@ -263,11 +268,9 @@ typedef enum cy_en_flashdrv_status
 * \{
 */
 cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data);
-#if (CY_FLASH_NON_BLOCKING_SUPPORTED) || defined (CY_DOXYGEN)
-    cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* data);
-    cy_en_flashdrv_status_t Cy_Flash_ResumeWrite(void);
-    cy_en_flashdrv_status_t Cy_Flash_IsOperationComplete(void);
-#endif /* (CY_FLASH_NON_BLOCKING_SUPPORTED) || defined (CY_DOXYGEN) */
+cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* data);
+cy_en_flashdrv_status_t Cy_Flash_ResumeWrite(void);
+cy_en_flashdrv_status_t Cy_Flash_IsOperationComplete(void);
 cy_en_flashdrv_status_t Cy_Flash_RowChecksum(uint32_t rowAddr, uint32_t* checksumPtr);
 #if defined(CPUSS_SPCIF_FLASH_S8FS_VER2) || defined (CY_DOXYGEN)
 cy_en_flashdrv_status_t Cy_Flash_SetProtection(const uint32_t bitField);

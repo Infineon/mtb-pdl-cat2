@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_sha.c
-* \version 1.30
+* \version 1.40
 *
 * \brief
 * Provides API implementation of the Cryptolite PDL driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -581,13 +581,16 @@ ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRY
 
     /* This implementation uses little endian ordering and SHA uses big endian,
        reverse all the bytes in 32bit word for SHA256 and 64bit word for
-       SHA384/SHA512 when copying the final output hash. */
-    idx = (uint32_t)(shaContext->digestSize / 4UL);
+       SHA384/SHA512 when copying the final output hash.
+       For SHA256, word size is: 32/8 = 4 (32bit)
+       For SHA384/512, word size is: 64/8 = 8 (64bit) */
     hashPtr = (uint8_t*)shaContext->hash;
-    wordSize = (uint32_t)(shaContext->hashSize / 8UL);
+    wordSize = (uint32_t)(shaContext->hashSize >> 3u);
 
-    for( ; idx != 0U; idx--)
+    /* Update the calculated digest value to the output buffer as per actual digest size. */
+    for (idx = 0U; idx < shaContext->digestSize; idx += wordSize)
     {
+        /* Changing endian ordering for for given word size. */
         for(byteIdx=0; byteIdx < wordSize; byteIdx++)
         {
             *(digest + byteIdx) = *(hashPtr + (wordSize - (byteIdx + 1UL)));
@@ -595,6 +598,12 @@ ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Finish(CRY
 
         digest  += wordSize;
         hashPtr += wordSize;
+    }
+
+    /* Protection check for unaligned digest size with word size. */
+    if (idx != shaContext->digestSize)
+    {
+        return CY_CRYPTOLITE_INVALID_OPERATION;
     }
 
     shaContext->processState = CY_CRYPTOLITE_SHA_PROCESS_FINISHED;
@@ -675,6 +684,8 @@ ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPT
 * return
 * cy_en_cryptolite_status_t
 *
+* Note: Don't use this function in CCGx_CFP as the code is in ROM needs update.
+* Hence, it is requested to use same flow defined in this function.
 *******************************************************************************/
 ATTRIBUTES_CRYPTOLITE_SHA cy_en_cryptolite_status_t Cy_Cryptolite_Sha(CRYPTOLITE_Type *base,
                                         uint8_t const *message,

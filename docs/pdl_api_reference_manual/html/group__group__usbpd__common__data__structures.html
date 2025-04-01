@@ -356,12 +356,12 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr class="memitem:ga0983608a262274879abd9c6a85ec161a"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga0983608a262274879abd9c6a85ec161a">cy_pd_cmp_cbk_t</a>) (void *context, bool state)</td></tr>
 <tr class="memdesc:ga0983608a262274879abd9c6a85ec161a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comparator interrupt callback function.  <a href="#ga0983608a262274879abd9c6a85ec161a">More...</a><br /></td></tr>
 <tr class="separator:ga0983608a262274879abd9c6a85ec161a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0602fd17082834541c195042a928626d"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga0602fd17082834541c195042a928626d">cy_timer_cbk_t</a>) (<a class="el" href="group__group__usbpd__common__enums.html#gae21a3e8eee0088f55a06e6fad2b0b7f3">cy_en_usbpd_timer_id_t</a> id, void *callbackContext)</td></tr>
-<tr class="memdesc:ga0602fd17082834541c195042a928626d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback function.  <a href="#ga0602fd17082834541c195042a928626d">More...</a><br /></td></tr>
-<tr class="separator:ga0602fd17082834541c195042a928626d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1b8b9984e7a22ba18a909b3e19dbbf9e"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga1b8b9984e7a22ba18a909b3e19dbbf9e">cy_timer_start_t</a>) (struct cy_stc_usbpd_context_t_ *context, void *callbackContext, <a class="el" href="group__group__usbpd__common__enums.html#gae21a3e8eee0088f55a06e6fad2b0b7f3">cy_en_usbpd_timer_id_t</a> id, uint16_t period, <a class="el" href="group__group__usbpd__common__data__structures.html#ga0602fd17082834541c195042a928626d">cy_timer_cbk_t</a> cbk)</td></tr>
-<tr class="memdesc:ga1b8b9984e7a22ba18a909b3e19dbbf9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer Start callback function.  <a href="#ga1b8b9984e7a22ba18a909b3e19dbbf9e">More...</a><br /></td></tr>
-<tr class="separator:ga1b8b9984e7a22ba18a909b3e19dbbf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0ccc5643ae10a48605b9d2fd4ffb7628"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga0ccc5643ae10a48605b9d2fd4ffb7628">cy_timer_cbk_t</a>) (uint16_t id, void *callbackContext)</td></tr>
+<tr class="memdesc:ga0ccc5643ae10a48605b9d2fd4ffb7628"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer callback function.  <a href="#ga0ccc5643ae10a48605b9d2fd4ffb7628">More...</a><br /></td></tr>
+<tr class="separator:ga0ccc5643ae10a48605b9d2fd4ffb7628"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6857b72c881cb5097f58d44ef75b0f68"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga6857b72c881cb5097f58d44ef75b0f68">cy_timer_start_t</a>) (struct cy_stc_usbpd_context_t_ *context, void *callbackContext, uint16_t id, uint16_t period, <a class="el" href="group__group__usbpd__common__data__structures.html#ga0ccc5643ae10a48605b9d2fd4ffb7628">cy_timer_cbk_t</a> cbk)</td></tr>
+<tr class="memdesc:ga6857b72c881cb5097f58d44ef75b0f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer Start callback function.  <a href="#ga6857b72c881cb5097f58d44ef75b0f68">More...</a><br /></td></tr>
+<tr class="separator:ga6857b72c881cb5097f58d44ef75b0f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga81f4fc39bdfcd53ab9d746d58ae10d36"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__common__data__structures.html#ga81f4fc39bdfcd53ab9d746d58ae10d36">cy_timer_stop_t</a>) (struct cy_stc_usbpd_context_t_ *context, <a class="el" href="group__group__usbpd__common__enums.html#gae21a3e8eee0088f55a06e6fad2b0b7f3">cy_en_usbpd_timer_id_t</a> id)</td></tr>
 <tr class="memdesc:ga81f4fc39bdfcd53ab9d746d58ae10d36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timer Stop callback function.  <a href="#ga81f4fc39bdfcd53ab9d746d58ae10d36">More...</a><br /></td></tr>
 <tr class="separator:ga81f4fc39bdfcd53ab9d746d58ae10d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -592,8 +592,8 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 </div>
 </div>
-<a id="ga0602fd17082834541c195042a928626d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga0602fd17082834541c195042a928626d">&#9670;&nbsp;</a></span>cy_timer_cbk_t</h2>
+<a id="ga0ccc5643ae10a48605b9d2fd4ffb7628"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ccc5643ae10a48605b9d2fd4ffb7628">&#9670;&nbsp;</a></span>cy_timer_cbk_t</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -609,8 +609,8 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 </div>
 </div>
-<a id="ga1b8b9984e7a22ba18a909b3e19dbbf9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1b8b9984e7a22ba18a909b3e19dbbf9e">&#9670;&nbsp;</a></span>cy_timer_start_t</h2>
+<a id="ga6857b72c881cb5097f58d44ef75b0f68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6857b72c881cb5097f58d44ef75b0f68">&#9670;&nbsp;</a></span>cy_timer_start_t</h2>
 
 <div class="memitem">
 <div class="memproto">

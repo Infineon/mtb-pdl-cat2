@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_phy.c
-* \version 2.100
+* \version 2.110
 *
 * The source file of the USBPD Transceiver driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1497,6 +1497,23 @@ PDL_ATTRIBUTES void Cy_USBPD_Intr0RxTxHandler(cy_stc_usbpd_context_t *context)
                  ) == 0u)
             {
                 pd->intr0_set = PDSS_INTR0_CC_NO_VALID_DATA_DETECTED;
+            }
+
+
+            /* The DUT sends a message, which triggers the PHY to start a GOOD_CRC
+             * timer for 1 ms. However, instead of sending a GOOD_CRC message, the
+             * port partner sends a different message aprx. ~470us after the DUT has
+             * sent the message. As a result, both RX packet received and TX retry
+             * events are triggered simultaneously, leading to a collision. In this
+             * scenario, the PHY's TX state machine is stuck in the SENDING_GOOD_CRC
+             * state and fails to send the GOOD_CRC message. Resetting the TX state
+             * machine to resolve this issue.
+             */
+            if ((intr_msk & PDSS_INTR0_COLLISION_TYPE2) != 0u)
+            {
+                pd->debug_ctrl |= (PDSS_DEBUG_CTRL_RESET_TX);
+                CALL_MAP(Cy_SysLib_DelayUs)(5);
+                pd->debug_ctrl &= ~(PDSS_DEBUG_CTRL_RESET_TX);
             }
 
             /*

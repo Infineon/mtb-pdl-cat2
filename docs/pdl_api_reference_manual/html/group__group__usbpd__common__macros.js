@@ -37,6 +37,8 @@ var group__group__usbpd__common__macros =
     [ "CY_PD_VSAFE_15V", "group__group__usbpd__common__macros.html#ga0da3352233fd54ee633e2edd20158734", null ],
     [ "CY_PD_VSAFE_19V", "group__group__usbpd__common__macros.html#ga79ad80f5ec20e502505bb4ae196f499c", null ],
     [ "CY_PD_VSAFE_20V", "group__group__usbpd__common__macros.html#ga9f481a8b846a9375c5f2195235871b65", null ],
+    [ "CY_PD_VSAFE_21V", "group__group__usbpd__common__macros.html#ga1cc8184184f4e8887404f64be1e78972", null ],
+    [ "CY_PD_VSAFE_27V", "group__group__usbpd__common__macros.html#ga8073d6fbec1f14ced29a653a7b281057", null ],
     [ "CY_PD_VSAFE_28V", "group__group__usbpd__common__macros.html#ga2f82e8ccb5aa33276db983983da17ac7", null ],
     [ "CY_PD_VSAFE_36V", "group__group__usbpd__common__macros.html#ga060eb09a33c2c663d5e39dc3bdd82773", null ],
     [ "CY_PD_VSAFE_48V", "group__group__usbpd__common__macros.html#gae58b56121904679cf4ea0f9eab07d7ec", null ],

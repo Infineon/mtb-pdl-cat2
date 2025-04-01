@@ -82,7 +82,7 @@
     <!-- Inputs -->
     <ParamSignal port="clock[0]" name="Clock" group="Inputs" visible="true"
                  desc="Peripheral clock divider. CAPSENSE™ middleware changes its value in run-time.
-                       Consider that while sharing the same Peripheral Clock between CAPSENSE and
+                       Consider that while sharing the same Peripheral Clock between CAPSENSE™ and
                        other peripherals like TCPWM, SCB, etc."
                  canBeEmpty="false" />
 

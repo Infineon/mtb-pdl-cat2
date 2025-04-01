@@ -26,6 +26,7 @@ var searchData=
   ['frrxenlive',['frRxEnLive',['../structcy__stc__pd__dpm__config__t.html#aefbe53a39ba4f3c53a8aa9212778b0aa',1,'cy_stc_pd_dpm_config_t']]],
   ['frswap',['frSwap',['../structcy__pd__pd__do__t_1_1_f_i_x_e_d___s_n_k.html#a4a06503e2c9228268b9e6404d1b9b35b',1,'cy_pd_pd_do_t::FIXED_SNK']]],
   ['frtxenlive',['frTxEnLive',['../structcy__stc__pd__dpm__config__t.html#a994811b7c6ea615694a7d1448066efce',1,'cy_stc_pd_dpm_config_t']]],
+  ['functions',['Functions',['../group__group__can__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__canfd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__crwdt__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__crypto__functions.html',1,'']]],

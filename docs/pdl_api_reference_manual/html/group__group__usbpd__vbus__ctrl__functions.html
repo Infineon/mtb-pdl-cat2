@@ -116,6 +116,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga89f91bf2bed42b862bd472fe0f33dd62"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga89f91bf2bed42b862bd472fe0f33dd62">Cy_USBPD_Adc_Sample</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input)</td></tr>
 <tr class="memdesc:ga89f91bf2bed42b862bd472fe0f33dd62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples the ADC.  <a href="#ga89f91bf2bed42b862bd472fe0f33dd62">More...</a><br /></td></tr>
 <tr class="separator:ga89f91bf2bed42b862bd472fe0f33dd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64769b4aae952d21b3c9346c44e27b71"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga64769b4aae952d21b3c9346c44e27b71">Cy_USBPD_Adc_SampleInput</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId, <a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a> input, uint32_t amux_nhv_ctrl_clr, uint32_t amux_nhv_ctrl_set, <a class="el" href="group__group__usbpd__common__enums.html#ga52dd7869fd9de64d41ab46eaa5f0ecd3">cy_en_usbpd_adc_vref_t</a> adc_vref)</td></tr>
+<tr class="memdesc:ga64769b4aae952d21b3c9346c44e27b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples the ADC.  <a href="#ga64769b4aae952d21b3c9346c44e27b71">More...</a><br /></td></tr>
+<tr class="separator:ga64769b4aae952d21b3c9346c44e27b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga22609ff77e29a44d6aad36685dbe3aeb"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga22609ff77e29a44d6aad36685dbe3aeb">Cy_USBPD_Adc_Calibrate</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a> adcId)</td></tr>
 <tr class="memdesc:ga22609ff77e29a44d6aad36685dbe3aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrates the specified ADC for operation.  <a href="#ga22609ff77e29a44d6aad36685dbe3aeb">More...</a><br /></td></tr>
 <tr class="separator:ga22609ff77e29a44d6aad36685dbe3aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,6 +242,15 @@ Functions</h2></td></tr>
 <tr class="memitem:gae148d5e48bfa256a251f420de3e74a7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gae148d5e48bfa256a251f420de3e74a7f">Cy_USBPD_Vbus_Mon_SetDivider</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint8_t divider)</td></tr>
 <tr class="memdesc:gae148d5e48bfa256a251f420de3e74a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify the voltage division ratio between the voltage applied on VBUS_MON and the actual VBus voltage.  <a href="#gae148d5e48bfa256a251f420de3e74a7f">More...</a><br /></td></tr>
 <tr class="separator:gae148d5e48bfa256a251f420de3e74a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga494e015aee80b93ff9d31e74642d1b8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga494e015aee80b93ff9d31e74642d1b8d">Cy_USBPD_Fault_Vbus_IlimConfigUpdate</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint32_t current)</td></tr>
+<tr class="memdesc:ga494e015aee80b93ff9d31e74642d1b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the Ilimit config value.  <a href="#ga494e015aee80b93ff9d31e74642d1b8d">More...</a><br /></td></tr>
+<tr class="separator:ga494e015aee80b93ff9d31e74642d1b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9eb24f834d77ad8e5c1a637986fc65ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9eb24f834d77ad8e5c1a637986fc65ef">Cy_USBPD_Fault_Vbus_IlimEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, uint32_t current)</td></tr>
+<tr class="memdesc:ga9eb24f834d77ad8e5c1a637986fc65ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables Ilimit Block.  <a href="#ga9eb24f834d77ad8e5c1a637986fc65ef">More...</a><br /></td></tr>
+<tr class="separator:ga9eb24f834d77ad8e5c1a637986fc65ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab4dec6df117d7d33c521aefbef846a83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gab4dec6df117d7d33c521aefbef846a83">Cy_USBPD_Fault_Vbus_IlimDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:gab4dec6df117d7d33c521aefbef846a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables Ilimit Block.  <a href="#gab4dec6df117d7d33c521aefbef846a83">More...</a><br /></td></tr>
+<tr class="separator:gab4dec6df117d7d33c521aefbef846a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga7b63df251bf74bc9dc84f301d593ffaf">Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes internal feedback res divider.  <a href="#ga7b63df251bf74bc9dc84f301d593ffaf">More...</a><br /></td></tr>
 <tr class="separator:ga7b63df251bf74bc9dc84f301d593ffaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -835,6 +847,73 @@ Functions</h2></td></tr>
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
     <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t Returns the ADC sampled value in counts. </dd></dl>
+
+</div>
+</div>
+<a id="ga64769b4aae952d21b3c9346c44e27b71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga64769b4aae952d21b3c9346c44e27b71">&#9670;&nbsp;</a></span>Cy_USBPD_Adc_SampleInput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Cy_USBPD_Adc_SampleInput </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#gac5253f2c9d3b8e1b45dab0c8ef068ff6">cy_en_usbpd_adc_id_t</a>&#160;</td>
+          <td class="paramname"><em>adcId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#ga4105aa97dae9440dc28a54573a052185">cy_en_usbpd_adc_input_t</a>&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>amux_nhv_ctrl_clr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>amux_nhv_ctrl_set</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__usbpd__common__enums.html#ga52dd7869fd9de64d41ab46eaa5f0ecd3">cy_en_usbpd_adc_vref_t</a>&#160;</td>
+          <td class="paramname"><em>adc_vref</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Samples the ADC. </p>
+<p>This function enables the ADC block to function as an ADC and returns the sample value in ADC units. This function disables any previously configured comparator interrupts / settings before sampling and restores them after the sampling is done. AMUX settings can additionally be changed to select different input the ADC. Also ADC reference can be selected in cases where VREF shall be used for temperature measurement. If any interrupt scenario happens across the sampling, the information is lost.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">adcId</td><td>ADC ID.</td></tr>
+    <tr><td class="paramname">input</td><td>ADC input source.</td></tr>
+    <tr><td class="paramname">amux_nhv_ctrl_clr</td><td>Bit mask to clear fields in amux_nhv_ctrl register.</td></tr>
+    <tr><td class="paramname">amux_nhv_ctrl_set</td><td>Bit mask to set fields in amux_nhv_ctrl register.</td></tr>
+    <tr><td class="paramname">adc_vref</td><td>ADC reference voltage selection.</td></tr>
   </table>
   </dd>
 </dl>
@@ -2258,6 +2337,106 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">divider</td><td>Divider Ratio between VBUS_MON voltage and VBus voltage. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga494e015aee80b93ff9d31e74642d1b8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga494e015aee80b93ff9d31e74642d1b8d">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vbus_IlimConfigUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vbus_IlimConfigUpdate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>current</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates the Ilimit config value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">current</td><td>Load Current value in 10mA </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9eb24f834d77ad8e5c1a637986fc65ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9eb24f834d77ad8e5c1a637986fc65ef">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vbus_IlimEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vbus_IlimEnable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>current</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables Ilimit Block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
+    <tr><td class="paramname">current</td><td>Load Current value in 10mA </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gab4dec6df117d7d33c521aefbef846a83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab4dec6df117d7d33c521aefbef846a83">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vbus_IlimDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vbus_IlimDisable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables Ilimit Block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
   </table>
   </dd>
 </dl>

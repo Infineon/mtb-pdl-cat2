@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file can.cypersonality
+* \version 1.0
+*
+* \brief
+* CAN personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) 2025, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+
+<Personality id="m0s8can" name="CAN" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
+  <Dependencies>
+    <IpBlock name="m0s8can" />
+    <Resource name="can" />
+  </Dependencies>
+  <ExposedMembers />
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__can.html" linkText="Open CAN Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+
+    <!-- General -->
+    <ParamString id="txCallback" name="TxCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for transmit completed." />
+    <ParamString id="rxCallback" name="RxCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for receive completed." />
+    <ParamString id="errorCallback" name="ErrorCallback Function" group="Callback functions" default="NULL" visible="true" editable="true" desc="The Callback function for CAN related errors." />
+
+    <ParamChoice id="arbitration" name="Transmit Buffer Arbitration" group="General" default="CY_CAN_ROUND_ROBIN" visible="true" editable="true" desc="The message transmission arbitration scheme.">
+      <Entry name="Round Robin"             value="CY_CAN_ROUND_ROBIN" visible="true" />
+      <Entry name="Fixed priority"          value="CY_CAN_FIXED_PRIORITY" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="busOffRestart" name="Bus-off restart" group="General" default="CY_CAN_MANUAL" visible="true" editable="true" desc="Used to configure the reset type.">
+      <Entry name="Manual"             value="CY_CAN_MANUAL" visible="true" />
+      <Entry name="Automatic"          value="CY_CAN_AUTOMATIC" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="edgeSync" name="CAN bus synchronization logic" group="General" default="CY_CAN_EDGE_R_TO_D" visible="true" editable="true" desc="Used to configure edge synchronization.">
+      <Entry name="Edge from R to D"   value="CY_CAN_EDGE_R_TO_D" visible="true" />
+      <Entry name="Both edges"         value="CY_CAN_BOTH_EDGE" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="endianType" name="Data byte endianness" group="General" default="CY_CAN_BIG_ENDIAN" visible="true" editable="true" desc="The byte position of the CAN receive and transmit data field endianness can be modified using this setting.">
+      <Entry name="Big endian"     value="CY_CAN_BIG_ENDIAN" visible="true" />
+      <Entry name="Little endian"  value="CY_CAN_LITTLE_ENDIAN" visible="true" />
+    </ParamChoice>
+
+    <!-- Connections -->
+    <ParamRange  id="canClkHz" name="CAN Clk in Hz" group="Connections" default="`${getExposedMember(&quot;srss[0].clock[0].sysclk[0]&quot;, &quot;frequency&quot;)}`" min="1" max="48000000" resolution="1" visible="false" editable="false" desc="CAN clock frequency in Hz" />
+    <ParamString id="ClkFreq" name="Clock Frequency" group="Connections" default="`${(canClkHz &lt; 1000000) ? (canClkHz / 1000.0) . &quot; kHz&quot; : (canClkHz / 1000000.0) . &quot; MHz&quot;}`" visible="true" editable="false" desc="Frequency of the connected clock" />
+
+    <ParamSignal port="can_rx[0]" name="CAN_RX Pin" group="Connections" visible="true" desc="Reserve the can_rx[0]." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_HIGHZ" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <ParamSignal port="can_tx[0]" name="CAN_TX Pin" group="Connections" visible="true" desc="can_tx[0]" canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    
+    <ParamSignal port="can_tx_enb_n[0]" name="CAN_TX Enable Pin" group="Connections" visible="true" desc="Enable the transceiver." canBeEmpty="true" >
+      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+          <Fixed value="CY_GPIO_DM_STRONG" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+
+    <!-- Bitrate Setting -->
+    <ParamRange id="bitRatePrescaler" name="Bitrate Prescaler" group="Bitrate Setting" default="16" min="1" max="32768" resolution="1" visible="true" editable="true" desc="Bit Rate Prescaler." />
+    <ParamRange id="timeSegment1" name="Time Segment 1 (TQ)" group="Bitrate Setting" default="5" min="2" max="16" resolution="1" visible="true" editable="true" desc="Time segment before sample point." />
+    <ParamRange id="timeSegment2" name="Time Segment 2 (TQ)" group="Bitrate Setting" default="6" min="2" max="8" resolution="1" visible="true" editable="true" desc="Time segment after sample point." />
+    <ParamRange id="syncJumpWidth" name="Synchronization Jump Width" group="Bitrate Setting" default="2" min="1" max="4" resolution="1" visible="true" editable="true" desc="Nominal Synchronization Jump Width." />
+    <ParamChoice id="samplingPoint" name="Sampling Point" group="Bitrate Setting" default="CY_CAN_SAMPLING_MODE_1" visible="true" editable="true" desc="Sampling Point.">
+      <Entry name="1 sampling point" value="CY_CAN_SAMPLING_MODE_1" visible="true" />
+      <Entry name="3 sampling point" value="CY_CAN_SAMPLING_MODE_3" visible="true" />
+    </ParamChoice>
+    <ParamRange id="baudRateBps" name="Bit Rate" group="Bitrate Setting" default="`${canClkHz / ((bitRatePrescaler) * (1 + timeSegment1 + timeSegment2))}`" min="0" max="100000000" resolution="1" visible="false" editable="false" desc="Nominal baud rate in bps." />
+    <ParamString id="baudRateKbps" name="Bit Rate" group="Bitrate Setting" default="`${(baudRateBps / 1000) . &quot; kbps&quot; }`" visible="true" editable="false" desc="Baud rate in kbps. Maximum baud rate is 1 Mbps." />
+
+    <!-- RX Buffers Setting -->
+    <ParamRange id="noOfRxBuffers" name="Number of Rx Buffers" group="RX Buffers Setting" default="1" min="0" max="16" resolution="1" visible="true" editable="true" desc="Number of Rx Buffers." />
+    
+    <!-- RX Buffer -->
+    <Repeat count="16">      
+      <ParamBool id="config$idx_editable" name="Filter Configuration $idx is Editable" group="Internal" default="`${($idx == 0) ? true : getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? false : true}`" visible="false" editable="false" desc="" />
+      <ParamChoice id="rx_ide_$idx" name="IDE Format" group="RX Buffer #$idx" default="`${($idx == 0) ? (CY_CAN_IDE_STANDARD_ID) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_ide_&quot;.($idx-1)) : CY_CAN_IDE_STANDARD_ID)}`" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="IDE Format (RX Buffer #$idx).">
+        <Entry name="11-bit Standard Identifier"             value="CY_CAN_IDE_STANDARD_ID" visible="true" />
+        <Entry name="29-bit Extended Identifier"             value="CY_CAN_IDE_EXTENDED_ID" visible="true" />
+      </ParamChoice>
+      <ParamChoice id="rx_rtr_$idx" name="RTR" group="RX Buffer #$idx" default="`${($idx == 0) ? (CY_CAN_RTR_DATA_FRAME) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_rtr_&quot;.($idx-1)) : CY_CAN_RTR_DATA_FRAME)}`" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Remote Receive Request (RX Buffer #$idx).">
+        <Entry name="Data Frame"               value="CY_CAN_RTR_DATA_FRAME" visible="true" />
+        <Entry name="Remote Frame"             value="CY_CAN_RTR_REMOTE_FRAME" visible="true" />
+      </ParamChoice>
+      <ParamBool id="rx_rtr_reply_$idx" name="RTR Reply" group="RX Buffer #$idx" default="`${($idx == 0) ? (false) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_rtr_reply_&quot;.($idx-1)) : false)}`" visible="`${(noOfRxBuffers &gt; $idx)}`" editable="`${($idx == 0) ? (getParamValue(&quot;rx_rtr_&quot;.($idx)) eq CY_CAN_RTR_REMOTE_FRAME) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? false : getParamValue(&quot;rx_rtr_&quot;.($idx)) eq CY_CAN_RTR_REMOTE_FRAME)}`" desc="Automatic message reply of an RTR message (RX Buffer #$idx)." />
+      <ParamBool id="rx_interrupt_enable_$idx" name="Interrupt Enable" group="RX Buffer #$idx" default="`${($idx == 0) ? (false) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_interrupt_enable_&quot;.($idx-1)) : false)}`" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Receive Interrupt Enable (RX Buffer #$idx)." />
+      <ParamBool id="rx_linking_$idx" name="Linking" group="RX Buffer #$idx" default="false" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${(noOfRxBuffers - 1 &gt; $idx)}`" desc="Linking of several sequential to create an array of receive. (RX Buffer #$idx)." />
+      <ParamRange id="rx_rtr_acr_$idx" name="RTR Acceptance Code" group="RX Buffer #$idx" default="`${($idx == 0) ? (getParamValue(&quot;rx_rtr_&quot;.($idx)) eq CY_CAN_RTR_REMOTE_FRAME ? 1 : 0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_rtr_acr_&quot;.($idx-1)) : (getParamValue(&quot;rx_rtr_&quot;.($idx)) eq CY_CAN_RTR_REMOTE_FRAME ? 1 : 0))}`" min="0" max="1" resolution="1" visible="`${(noOfRxBuffers &gt; $idx)}`" editable="false" desc="RTR Acceptance Code (RX Buffer #$idx)." />                                                                       
+      <ParamRange id="rx_rtr_amr_$idx" name="RTR Acceptance Mask" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_rtr_amr_&quot;.($idx-1)) : 0)}`" min="0" max="1" resolution="1" visible="`${(noOfRxBuffers &gt; $idx)}`" editable="`${config$idx_editable}`" desc="RTR Acceptance Mask (RX Buffer #$idx)." />
+      <ParamRange id="rx_ide_acr_$idx" name="IDE Acceptance Code" group="RX Buffer #$idx" default="`${($idx == 0) ? (getParamValue(&quot;rx_ide_&quot;.($idx)) eq CY_CAN_IDE_EXTENDED_ID ? 1 : 0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_ide_acr_&quot;.($idx-1)) : (getParamValue(&quot;rx_ide_&quot;.($idx)) eq CY_CAN_IDE_EXTENDED_ID ? 1 : 0))}`" min="0" max="1" resolution="1" visible="`${(noOfRxBuffers &gt; $idx)}`" editable="false" desc="IDE Acceptance Code (RX Buffer #$idx)." />
+      <ParamRange id="rx_ide_amr_$idx" name="IDE Acceptance Mask" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_ide_amr_&quot;.($idx-1)) : 0)}`" min="0" max="1" resolution="1" visible="`${(noOfRxBuffers &gt; $idx)}`" editable="`${config$idx_editable}`" desc="IDE Acceptance Mask (RX Buffer #$idx)." />
+      <ParamRange id="rx_id_acr_$idx" name="Identifier Acceptance Code" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_id_acr_&quot;.($idx-1)) : 0)}`" min="0" max="`${getParamValue(&quot;rx_ide_&quot;.($idx)) eq CY_CAN_IDE_STANDARD_ID ? 2047 : 536870911}`" resolution="1" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Identifier Acceptance Code (RX Buffer #$idx)." />                                                                                                
+      <ParamRange id="rx_id_amr_$idx" name="Identifier Acceptance Mask" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_id_amr_&quot;.($idx-1)) : 0)}`" min="0" max="`${getParamValue(&quot;rx_ide_&quot;.($idx)) eq CY_CAN_IDE_STANDARD_ID ? 2047 : 536870911}`" resolution="1" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Identifier Acceptance Mask (RX Buffer #$idx)." />
+      <ParamRange id="rx_data_acr_$idx" name="Data Acceptance Code" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_data_acr_&quot;.($idx-1)) : 0)}`" min="0" max="65535" resolution="1" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Data Acceptance Code (RX Buffer #$idx)." />
+      <ParamRange id="rx_data_amr_$idx" name="Data Acceptance Mask" group="RX Buffer #$idx" default="`${($idx == 0) ? (0) : (getParamValue(&quot;rx_linking_&quot;.($idx-1)) eq true ? getParamValue(&quot;rx_data_amr_&quot;.($idx-1)) : 0)}`" min="0" max="65535" resolution="1" visible="`${noOfRxBuffers &gt; $idx}`" editable="`${config$idx_editable}`" desc="Data Acceptance Mask (RX Buffer #$idx)." />
+    </Repeat>
+
+    <!-- CAN instance number -->
+    <ParamString id="instNumber" name="Instance number" group="Internal" default="`${getInstNumber(&quot;can&quot;)}`" visible="false" editable="false" desc="CAN Instance name number." />
+
+    <!-- Other -->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+    
+    <!-- DRC internal calc for debug -->
+    <ParamRange id="drcbitRatePrescalValFix" name="drcbitRatePrescalValFix" group="Internal" default="`${(canClkHz / (1000000 * (1 + timeSegment1 + timeSegment2))) + 1}`" min="1" max="1000000" resolution="1" visible="false" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <!--Bit Rate DRCs -->
+    <DRC type="ERROR" text="Synchronization Jump Width must be less than Time Segment 1." condition="`${(syncJumpWidth &gt; timeSegment1) ? true : false}`"/>
+    <DRC type="ERROR" text="Synchronization Jump Width must be less than Time Segment 2." condition="`${(syncJumpWidth &gt; timeSegment2) ? true : false}`"/>
+
+    <!--Callback Name Check-->
+    <DRC type="ERROR" text="The TxCallback Function name should not be empty. Enter name or NULL." condition="`${(txCallback eq &quot;&quot;) ? true : false}`"
+          paramId="txCallback">
+          <FixIt action="SET_PARAM" target="txCallback" value="NULL" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="The RxCallback Function name should not be empty. Enter name or NULL." condition="`${(rxCallback eq &quot;&quot;) ? true : false}`"
+          paramId="rxCallback">
+          <FixIt action="SET_PARAM" target="rxCallback" value="NULL" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="The ErrorCallback Function name should not be empty. Enter name or NULL." condition="`${(errorCallback eq &quot;&quot;) ? true : false}`"
+          paramId="errorCallback">
+          <FixIt action="SET_PARAM" target="errorCallback" value="NULL" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="Bitrate is too hight! Maximum baud rate is 1 Mbps." condition="`${baudRateBps &gt; 1000000}`">
+          <FixIt action="SET_PARAM" target="bitRatePrescaler" value="`${drcbitRatePrescalValFix}`" valid="true" />
+    </DRC>    
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_can.h" include="true" />
+    <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="CAN" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ_0" value="can_interrupts_can_IRQn" public="true" include="true" />
+
+    <ConfigDefine name="RX_BUFFER_CONFIG_$idx" public="false"
+    include="`${noOfRxBuffers &gt; $idx}`" repeatCount="16" value="\&#xA;{\&#xA;
+   .acceptanceMask =
+    {
+      .id = `${rx_id_amr_$idx}`U,
+      .idType = `${rx_ide_$idx}`,
+      .data = `${rx_data_amr_$idx}`U,
+      .rtr = `${rx_rtr_amr_$idx}`U,
+      .ide = `${rx_ide_amr_$idx}`U,
+    },
+    .acceptanceCode =
+    {
+      .id = `${rx_id_acr_$idx}`U,
+      .idType = `${rx_ide_$idx}`,
+      .data = `${rx_data_acr_$idx}`U,
+      .rtr = `${rx_rtr_acr_$idx}`U,
+      .ide = `${rx_ide_acr_$idx}`U,
+    },
+    .linked = `${rx_linking_$idx}`,
+    .interruptEnabled = `${rx_interrupt_enable_$idx}`,
+    .autoReplyRtr = `${rx_rtr_reply_$idx}`,
+    .enable = `${true}`,
+}" />
+
+    <ConfigStruct name="`${txCallback . &quot;(void)&quot;}`" type="void" const="false" public="true" include="`${txCallback ne &quot;NULL&quot;}`" isArray="false" >
+    </ConfigStruct>
+    <ConfigStruct name="`${rxCallback . &quot;(uint8_t index, cy_stc_can_message_frame_t *rxMsg)&quot;}`" type="void" const="false" public="true" include="`${rxCallback ne &quot;NULL&quot;}`" isArray="false" >
+    </ConfigStruct>
+    <ConfigStruct name="`${errorCallback . &quot;(uint32_t errorMask)&quot;}`" type="void" const="false" public="true" include="`${errorCallback ne &quot;NULL&quot;}`" isArray="false" >
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME . &quot;_bitrateConfig&quot;}`" type="cy_stc_can_bitrate_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="prescaler" value="`${bitRatePrescaler}`U - 1U" />
+      <Member name="timeSegment1" value="`${timeSegment1}`U - 1U" />
+      <Member name="timeSegment2" value="`${timeSegment2}`U - 1U" />
+      <Member name="syncJumpWidth" value="`${syncJumpWidth}`U - 1U" />
+      <Member name="samplingMode" value="`${samplingPoint}`" />
+      <Member name="edgeMode" value="`${edgeSync}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME . &quot;_rxConfig&quot;}`" type="cy_stc_can_rx_buffer_config_t"  isArray="true" const="`${inFlash}`" public="true" include="true">
+      <Member name="`${##}`" value="RX_BUFFER_CONFIG_`${##}`" include="`${noOfRxBuffers &gt; ##}`"  count="16"/>
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME . &quot;_config&quot;}`" type="cy_stc_can_config_t" const="`${inFlash}`" public="true" include="true">
+      <Member name="txCallback" value="`${txCallback}`" />
+      <Member name="rxCallback" value="`${rxCallback}`" />
+      <Member name="errorCallback" value="`${errorCallback}`" />
+      <Member name="arbiter" value="`${arbitration}`" />
+      <Member name="swapEndian" value="`${endianType}`" />
+      <Member name="busOffRestart" value="`${busOffRestart}`" />
+      <Member name="bitrate" value="&amp;`${INST_NAME . &quot;_bitrateConfig&quot;}`" />
+      <Member name="rxBuffer" value="`${noOfRxBuffers &gt; 0 ? (&quot;&amp;&quot; . INST_NAME . &quot;_rxConfig[0]&quot;) : &quot;NULL&quot;}`" />
+      <Member name="numOfRxBuffers" value="`${noOfRxBuffers}`" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${INST_NAME}`_obj" type="cyhal_resource_inst_t" const="true" public="true" include="true" guard="defined (CY_USING_HAL)">
+      <Member name="type" value="CYHAL_RSC_CAN" />
+      <Member name="block_num" value="`${getInstNumber(&quot;can&quot;)}`U" />
+      <Member name="channel_num" value="0U" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
+
+  </ConfigFirmware>
+
+</Personality>

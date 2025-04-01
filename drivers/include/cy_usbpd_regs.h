@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_regs.h
-* \version 2.100
+* \version 2.110
 *
 * Generic device specific USBPD register header definition.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.100
+* \version 2.110
 *
 * Provides API declarations of the USBPD Type C driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -96,6 +96,15 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="2">2.110</td>
+*     <td>Added new APIs to enable/disable the ilimit block for CFP devices.</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
+*     <td>Updated the USBPD driver with bug fixes related to Fault Protection and SBU MUX for CFP devices.</td>
+*     <td>Defect Fix</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="2">2.100</td>
 *     <td>Added new APIs to enable or disable the SBU ADFT block.</td>
@@ -370,7 +379,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       100
+#define CY_USBPD_DRV_VERSION_MINOR                       110
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

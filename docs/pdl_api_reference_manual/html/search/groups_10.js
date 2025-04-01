@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['tx_20interrupt_20masks',['TX Interrupt masks',['../group__group__can__tx__interrupt__masks.html',1,'']]],
   ['tx_20interrupt_20masks',['TX Interrupt masks',['../group__group__canfd__tx__interrupt__masks.html',1,'']]],
   ['trng',['TRNG',['../group__group__cryptolite__trng.html',1,'']]],
   ['tx_20interrupt_20statuses',['TX Interrupt Statuses',['../group__group__scb__common__macros__tx__intr.html',1,'']]],

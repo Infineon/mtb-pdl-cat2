@@ -79,7 +79,7 @@ var searchData=
   ['pps_5fsrc',['PPS_SRC',['../structcy__pd__pd__do__t_1_1_p_p_s___s_r_c.html',1,'cy_pd_pd_do_t::PPS_SRC'],['../unioncy__pd__pd__do__t.html#accd0920a9a7dcd7b3fb2ed96c536e164',1,'cy_pd_pd_do_t::pps_src()']]],
   ['ppspwrlimited',['ppsPwrLimited',['../structcy__pd__pd__do__t_1_1_p_p_s___s_r_c.html#ab3fc56494b0be7677d01d1223121b244',1,'cy_pd_pd_do_t::PPS_SRC']]],
   ['preemptable',['preemptable',['../structcy__stc__dmac__descriptor__config__t.html#a917cb3d05706ef5fb1cb712de8371bdb',1,'cy_stc_dmac_descriptor_config_t']]],
-  ['prescaler',['prescaler',['../structcy__stc__canfd__bitrate__t.html#a799cba48b1e361b3c36d0e6c45bbde9b',1,'cy_stc_canfd_bitrate_t']]],
+  ['prescaler',['prescaler',['../structcy__stc__can__bitrate__t.html#a6aa1b1e674df6fdb73332ee10f519f9a',1,'cy_stc_can_bitrate_t::prescaler()'],['../structcy__stc__canfd__bitrate__t.html#a799cba48b1e361b3c36d0e6c45bbde9b',1,'cy_stc_canfd_bitrate_t::prescaler()']]],
   ['previtm',['prevItm',['../structcy__stc__syspm__callback__t.html#ac4dd0cc8f5d4e92eefae3d10df920a56',1,'cy_stc_syspm_callback_t']]],
   ['prim_5fsec_5fturns_5fratio',['prim_sec_turns_ratio',['../structcy__stc__buck__boost__cfg__t.html#abfff9ef1c683d7ac10bf0a9f95c7219c',1,'cy_stc_buck_boost_cfg_t']]],
   ['priority',['priority',['../structcy__stc__dmac__channel__config__t.html#a7691072c2bdd9072cf34bc6fcc3d4808',1,'cy_stc_dmac_channel_config_t']]],

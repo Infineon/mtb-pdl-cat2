@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.h
-* \version 2.100
+* \version 2.110
 *
 * Provides API declarations of the USBPD IDAC Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -134,7 +134,7 @@ void Cy_USBPD_Vbus_Slow_DischargeOnProcess(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Vbus_Slow_DischargeOffProcess(cy_stc_usbpd_context_t *context);
 
-void Cy_USBPD_Vbus_Slow_DischargeCbk(cy_en_usbpd_timer_id_t id, void *callbackContext);
+void Cy_USBPD_Vbus_Slow_DischargeCbk(uint16_t id, void *callbackContext);
 #endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3PA2) || defined(CY_DEVICE_PAG1S)) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
 
 void Cy_USBPD_VBTR_Start(cy_stc_usbpd_context_t *context);

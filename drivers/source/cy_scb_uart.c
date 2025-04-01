@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_uart.c
-* \version 4.50
+* \version 4.60
 *
 * Provides UART API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -171,7 +171,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
         CY_REG32_CLR_SET(SCB_CTRL(base), SCB_CTRL_MEM_WIDTH, (config->dataWidth > CY_SCB_BYTE_WIDTH));
 #endif /* CY_IP_M0S8SCB */
 
-        /* Configure SCB_CTRL.MEM_WIDTH for PSoC 4100S Max or
+        /* Configure SCB_CTRL.MEM_WIDTH for PSOC 4100S Max or
         *  SCB_CTRL.BYTE_MODE for other and then verify levels
         */
         CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, config->rxFifoTriggerLevel));

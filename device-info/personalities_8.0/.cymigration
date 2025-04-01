@@ -26,13 +26,19 @@
     </Destination>
   </Source>
   <Source id="m0s8sar-1.0">
-    <Destination id="m0s8sar-2.0" valid="true" message="Migration is successful" defaultMapping="true"/>
-  </Source>
-  <Source id="m0s8sar-1.0">
-    <Destination id="m0s8sar-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+    <Destination id="m0s8sar-4.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="ch$idx_min_acq_time" value="`${(194 &gt; value(&quot;ch$idx_min_acq_time&quot;,0)) ? 194 : value(&quot;ch$idx_min_acq_time&quot;,0)}`" repeatCount="16" />
+    </Destination>
   </Source>
   <Source id="m0s8sar-2.0">
-    <Destination id="m0s8sar-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
+    <Destination id="m0s8sar-4.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="ch$idx_min_acq_time" value="`${(194 &gt; value(&quot;ch$idx_min_acq_time&quot;,0)) ? 194 : value(&quot;ch$idx_min_acq_time&quot;,0)}`" repeatCount="16" />
+    </Destination>
+  </Source>
+  <Source id="m0s8sar-3.0">
+    <Destination id="m0s8sar-4.0" valid="true" message="Migration is successful" defaultMapping="true">
+      <Parameter param="ch$idx_min_acq_time" value="`${(194 &gt; value(&quot;ch$idx_min_acq_time&quot;,0)) ? 194 : value(&quot;ch$idx_min_acq_time&quot;,0)}`" repeatCount="16" />
+    </Destination>
   </Source>
   <Source id="m0s8hfclk-1.0">
     <Destination id="m0s8hfclk-3.0" valid="true" message="Migration is successful" defaultMapping="true">

@@ -213,7 +213,7 @@
 #define CY_SAR_TEMP_H_TENTH_DEGREE           (1000)             /**< Hot temperature in tens of degrees Celsius (100C) */
 #define CY_SAR_TEMP_RH_TENTH_DEGREE          (625)              /**< Room hot temperature in tens of degrees Celsius (62.5C) */
 #define CY_SAR_TEMP_R_TENTH_DEGREE           (250)              /**< Room temperature in tens of degrees Celsius (25C) */
-#define CY_SAR_TEMP_RC_TENTH_DEGREE          (-70)              /**< Room cold temperature in tens of degrees Celsius (-7C) */
+#define CY_SAR_TEMP_RC_TENTH_DEGREE          (-75)              /**< Room cold temperature in tens of degrees Celsius (-7.5C) */
 #define CY_SAR_TEMP_C_TENTH_DEGREE           (-400)             /**< Cold temperature in tens of degrees Celsius (-40C) */
 
 /**
@@ -223,7 +223,7 @@ typedef struct {
     volatile const uint16_t CY_SAR_TEMP_H_COUNTS;               /*!< SAR counts for dietemp at 100C */
     volatile const uint16_t CY_SAR_TEMP_C_COUNTS;               /*!< SAR counts for dietemp at 62.5C */
     volatile const uint16_t CY_SAR_TEMP_R_COUNTS;               /*!< SAR counts for dietemp at 25C */
-    volatile const uint16_t CY_SAR_TEMP_RH_COUNTS;              /*!< SAR counts for dietemp at -7C */
+    volatile const uint16_t CY_SAR_TEMP_RH_COUNTS;              /*!< SAR counts for dietemp at -7.5C */
     volatile const uint16_t CY_SAR_TEMP_RC_COUNTS;              /*!< SAR counts for dietemp at -40C */
 }SFLASH_IMO_CAL_TEMP_Type;
 
@@ -682,7 +682,6 @@ typedef struct {
 #define EXCO_RSTDLY_CTL                          (((EXCO_Type *) EXCO)->RSTDLY_CTL)
 #define EXCO_RSTDLY                              (((EXCO_Type *) EXCO)->RSTDLY)
 #define EXCO_RSTDLY_COUNT_VAL                    (((EXCO_Type *) EXCO)->RSTDLY_COUNT_VAL)
-
 
 /*******************************************************************************
 *                CANFD

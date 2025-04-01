@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.50
+* \version 4.60
 *
 * Provides common API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -58,6 +58,12 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>4.60</td>
+*     <td>I2C: In SlaveHandleStop, discard the data in RxFifo, if address match
+*         Interrupt is not set.</td>
+*     <td>Functionality improvement.</td>
+*   </tr>
 *   <tr>
 *     <td>4.50</td>
 *     <td>I2C: Interrupt logic updated to handle the slave not ready condition.
@@ -408,7 +414,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (50)
+#define CY_SCB_DRV_VERSION_MINOR    (60)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

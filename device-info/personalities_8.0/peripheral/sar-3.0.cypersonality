@@ -169,17 +169,17 @@
     </Repeat>
 
     <Repeat count="16">
-      <ParamChoice id="ch$idx_input" name="Input Mode" group="Channel $idx" default="CY_SAR_CHAN_SINGLE_ENDED" visible="`${ch$idx_en}`" editable="true" desc="Set Channel $idx as single-ended or differential" >
+      <ParamChoice id="ch$idx_input" name="Input Mode" group="Channel $idx" default="CY_SAR_CHAN_SINGLE_ENDED" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Set Channel $idx as single-ended or differential" >
         <Entry name="Single-ended" value="CY_SAR_CHAN_SINGLE_ENDED" visible="true" />
         <Entry name="Differential" value="CY_SAR_CHAN_DIFFERENTIAL" visible="true" />
       </ParamChoice>
       <ParamBool id="ch$idx_se" name="ch$idx_se" group="Channel $idx" default="`${ch$idx_input eq CY_SAR_CHAN_SINGLE_ENDED}`" visible="`${debug}`" editable="false" desc=""/>
-      <ParamBool id="ch$idx_avg" name="Averaging" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable averaging for Channel $idx" />
-      <ParamBool id="ch$idx_range_intr" name="Range Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the range interrupt for Channel $idx" />
-      <ParamBool id="ch$idx_sat_intr" name="Saturation Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="true" desc="Enable the saturation interrupt for Channel $idx" />
-      <ParamRange id="ch$idx_min_acq_time" name="Minimum Acquisition Time (ns)" group="Channel $idx" default="`${MIN_SAMPLE_TIME_NS}`" min="`${MIN_SAMPLE_TIME_NS}`" max="1000000" resolution="1" visible="`${ch$idx_en}`" editable="true" desc="Set the minimum acquisition time for Channel $idx" />
+      <ParamBool id="ch$idx_avg" name="Averaging" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Enable averaging for Channel $idx" />
+      <ParamBool id="ch$idx_range_intr" name="Range Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Enable the range interrupt for Channel $idx" />
+      <ParamBool id="ch$idx_sat_intr" name="Saturation Interrupt Enable" group="Channel $idx" default="false" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Enable the saturation interrupt for Channel $idx" />
+      <ParamRange id="ch$idx_min_acq_time" name="Minimum Acquisition Time (ns)" group="Channel $idx" default="`${MIN_SAMPLE_TIME_NS}`" min="`${MIN_SAMPLE_TIME_NS}`" max="1000000" resolution="1" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Set the minimum acquisition time for Channel $idx" />
       <ParamString id="ch$idx_samples_per_scan" name="ch$idx_samples_per_scan" group="Channel $idx" default="`${ch$idx_en ? (ch$idx_avg ? avg_cnt : 1) : 0}`" visible="`${debug}`" editable="false" desc="" />
-      <ParamChoice id="ch$idx_res" name="Resolution" group="Channel $idx" default="CY_SAR_MAX_RES" visible="`${ch$idx_en}`" editable="true" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
+      <ParamChoice id="ch$idx_res" name="Resolution" group="Channel $idx" default="CY_SAR_MAX_RES" visible="`${ch$idx_en}`" editable="`${ch$idx_en}`" desc="Resolution for this channel. The Sub Resolution value depends on the Sub Resolution Sampling parameter." >
         <Entry name="Full Resolution 12 bit" value="CY_SAR_MAX_RES" visible="true" />
         <Entry name="Sub Resolution `${(subRes eq CY_SAR_SUB_RESOLUTION_8B) ? &quot;8 bit&quot; : &quot;10 bit&quot;}`" value="CY_SAR_SUB_RES" visible="true"/>
       </ParamChoice>

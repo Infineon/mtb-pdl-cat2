@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_rsa.h
-* \version 1.30
+* \version 1.40
 *
 * \brief
 *  This file defines function prototypes for the RSA functionality.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -47,6 +47,9 @@ extern "C" {
 #define CY_CRYPTOLITE_RSA_PRE_CALC_COEFF_ENABLE             (0u)
 #endif /* CY_CRYPTOLITE_RSA_PRE_CALC_COEFF_ENABLE */
 
+#ifndef RSA_PADDING_PKCS1_PSS_SIG_SCHEME
+#define RSA_PADDING_PKCS1_PSS_SIG_SCHEME                    (0u)
+#endif /* RSA_PADDING_PKCS1_PSS_SIG_SCHEME */
 /**
 * \addtogroup group_cryptolite_rsa
 * \{
@@ -78,7 +81,7 @@ extern "C" {
 * The pointer to the CRYPTOLITE instance.
 *
 * \param digestLength
-* SHA digest length.
+* SHA digest length (in bytes).
 *
 * \param digest
 * The pointer to the hash of the message or the message whose signature is to be verified.
@@ -128,6 +131,48 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_Verify(CRYPTOLITE_Type *base,
 * \snippet cryptolite_sut.c snippet_myCryptoliteRsaCoeffCalculation
 *******************************************************************************/
 void Cy_Cryptolite_Rsa_Coeff (CRYPTOLITE_Type *base, cy_stc_cryptolite_rsa_pub_key_t *key);
+
+/*******************************************************************************
+* Function Name: Cy_Cryptolite_Rsa_PssVerifyExt
+****************************************************************************//**
+*
+* This function is an extension to do RSA signature verification using
+* EMSA-PSS Encoding method (RSASSA-PSS). This function requires the processed
+* RSA signature using public key.
+*
+* Reference: RFC 8017 (https://www.rfc-editor.org/rfc/rfc8017)
+*
+* \param base
+* cryptolite base address.
+*
+* \param digestLength
+* SHA digest length (in bytes).
+*
+* \param digest
+* digest buffer pointer.
+*
+* \param rsaLength
+* RSA Signature length (in bytes).
+*
+* \param key
+* Pointer to Public key and RSA coefficients.
+*
+* \param processedDigest
+* Processed RSA signature using public key.
+*
+* \return
+* cy_en_cryptolite_status_t Cryptolite operation status
+*
+* \funcusage
+* \snippet cryptolite_sut.c snippet_myCryptoliteRsaPssVerifyExt
+*******************************************************************************/
+cy_en_cryptolite_status_t Cy_Cryptolite_Rsa_PssVerifyExt(
+                            CRYPTOLITE_Type *base,
+                            uint16_t digestLength,
+                            uint8_t *digest,
+                            uint16_t rsaLength,
+                            cy_stc_cryptolite_rsa_pub_key_t *key,
+                            uint8_t *processedDigest);
 
 /** \} group_cryptolite_rsa_functions */      
 /** \} group_cryptolite_rsa */      

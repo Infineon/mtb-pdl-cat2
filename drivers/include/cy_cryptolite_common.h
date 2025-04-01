@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_common.h
-* \version 1.30
+* \version 1.40
 *
 * \brief
 *  This file provides common constants and parameters for the Cryptolite driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -73,6 +73,10 @@ extern "C" {
 #ifndef CRYPTOLITE_RSA_CALL_MAP
 #define CRYPTOLITE_RSA_CALL_MAP(func_name)  func_name
 #endif /* CRYPTOLITE_RSA_CALL_MAP */
+
+#ifndef SW_HASHING_ALG
+#define SW_HASHING_ALG                 (0u)
+#endif /* SW_HASHING_ALG */
 /** @endcond */
 
 /**
@@ -84,7 +88,7 @@ extern "C" {
 #define CY_CRYPTOLITE_DRV_VERSION_MAJOR         1
 
 /** Driver minor version */
-#define CY_CRYPTOLITE_DRV_VERSION_MINOR         30
+#define CY_CRYPTOLITE_DRV_VERSION_MINOR         40
 
 /** \} group_cryptolite_common_macros */
 
@@ -340,6 +344,13 @@ typedef enum
 /** \} group_cryptolite_sha_enums */
 #endif /* (CRYPTOLITE_SHA_PRESENT) || defined (CY_DOXYGEN) */
 
+/** RSA PKCS#1 signature scheme encoding selection */
+typedef enum
+{
+    CY_CRYPTOLITE_RSA_SSA_PKCS1_V15         = 0x00U,   /**< RSA SSA with PKCS#1 V1.5 Encoding */
+    CY_CRYPTOLITE_RSA_SSA_PSS               = 0x01U,   /**< RSA SSA with PSS Encoding */
+} cy_en_cryptolite_rsa_ssa_encoding_t;
+
 #if defined (CRYPTOLITE_AES_PRESENT) || defined (CY_DOXYGEN)
 /**
 * \addtogroup group_cryptolite_aes_data_structures
@@ -481,6 +492,31 @@ typedef struct {
 * \{
 */
 
+#if SW_HASHING_ALG
+/** Structure to hold the Callback Structure for SW Based Hashing Functions.
+ * The application is expected to fill the structure with pointers to functions
+ * that are needed to for Software Based Hash Computation Process
+ *
+ */
+typedef struct
+{
+    void (*sw_sha_init) (
+            uint8_t *ptrIntBuf          /**< Internal buffer pointer. */
+            ); /**< The function to initialize the SHA384 operation and initial Hash vector. */
+
+    void (*sw_sha_update) (
+            uint8_t *ptrIntBuf,         /**< Internal buffer pointer. */
+            uint8_t const *input,       /**< The pointer to the message whose Hash is being computed. */
+            uint32_t ilen               /**< The size of the message whose Hash is being computed. */
+            ); /**< Performs the SHA calculation on one message. */
+
+    void (*sw_sha_finish) (
+            uint8_t *ptrIntBuf,         /**< Internal buffer pointer. */
+            uint8_t output[64]          /**< The pointer to the calculated Hash digest. */
+            ); /**< Completes the SHA calculation and Clears the used memory and context data. */
+}cy_stc_cryptolite_rsa_sw_sha_cbk_t;
+#endif /* SW_HASHING_ALG */
+
 /**
 * All fields for the context structure are internal. Firmware never reads or
 * writes these values. Firmware allocates the structure and provides the
@@ -538,6 +574,19 @@ typedef struct
     /** when set to 'false', pre-calculated coefficients must be provided in 'barretCoefPtr, 'inverseModuloPtr' and 'rBarPtr'.
         When set to 'true', all the acceleration step coefficients will be calculated as part of \ref Cy_Cryptolite_Rsa_Verify */
     bool calculateCoeff;
+
+    /** RSA Padding scheme selection. */
+    uint8_t rsaSigScheme;
+
+    /** SHA Algorithm used. */
+    uint8_t shaAlgorithm;
+
+#if SW_HASHING_ALG
+
+    /** SW SHA Function Pointer */
+    cy_stc_cryptolite_rsa_sw_sha_cbk_t *ptrSwShaCbk;
+
+#endif /* SW_HASHING_ALG */
 } cy_stc_cryptolite_rsa_pub_key_t;
 
 /** \} group_cryptolite_rsa_data_structures */

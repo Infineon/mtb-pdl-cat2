@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.c
-* \version 2.100
+* \version 2.110
 *
 * Provides implementation of legacy battery charging support functions using
 * the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -3579,7 +3579,7 @@ bool Cy_USBPD_Bch_CdpSm(cy_stc_usbpd_context_t *context)
                     context->cdpState.vdmsrcLvCnt = 0;
 
                     /* Make sure the first D- voltage check is done 15 ms later. */
-                    context->timerStopcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1));
+                    context->timerStopcbk(context, CY_USBPD_APP_BC_GENERIC_TIMER1);
                 }
             }
             else
@@ -3726,15 +3726,15 @@ bool Cy_USBPD_Bch_Is_Cdp_SmBusy(cy_stc_usbpd_context_t *context)
         }
 
         /* Wake periodically to check voltage while the CDP state machine is running. */
-        if (!context->timerIsRunningcbk(context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1)))
+        if (!context->timerIsRunningcbk(context, CY_USBPD_APP_BC_GENERIC_TIMER1))
         {
             if (context->cdpState.vdmsrcLvCnt != 0u)
             {
-                (void)context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1), CDP_VDMSRC_FAULT_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
+                (void)context->timerStartcbk(context, context, CY_USBPD_APP_BC_GENERIC_TIMER1, CDP_VDMSRC_FAULT_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
             }
             else
             {
-                (void)context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_BC_GENERIC_TIMER1), CDP_DX_VOLTAGE_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
+                (void)context->timerStartcbk(context, context, CY_USBPD_APP_BC_GENERIC_TIMER1, CDP_DX_VOLTAGE_CHECK_PERIOD, Cy_USBPD_Cdp_Cbk_Wrapper);
             }
         }
     }

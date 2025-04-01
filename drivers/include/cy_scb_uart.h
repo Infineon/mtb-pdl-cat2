@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 4.50
+* \version 4.60
 *
 * Provides UART API declarations of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -953,16 +953,16 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 #define CY_SCB_UART_IS_DATA_WIDTH_VALID(width)      ( ((width) >= 5UL) && ((width) <= 9UL) )
 #define CY_SCB_UART_IS_OVERSAMPLE_VALID(ovs, mode, lpRx)    ( ((CY_SCB_UART_STANDARD  == (mode)) || (CY_SCB_UART_SMARTCARD == (mode))) ? \
                                                               (((ovs) >= 8UL) && ((ovs) <= 16UL)) :                                      \
-                                                              ((lpRx) ? ((bool) CY_SCB_UART_IS_IRDA_LP_OVS_VALID(ovs)) : ((bool)true)) )
+                                                              ((lpRx) ? (CY_SCB_UART_IS_IRDA_LP_OVS_VALID(ovs)) : (0U == 0U)) )
 
 #define CY_SCB_UART_IS_RX_BREAK_WIDTH_VALID(base, width)    ( ((width) >= (_FLD2VAL(SCB_RX_CTRL_DATA_WIDTH, (base)->RX_CTRL) + 3UL)) && \
                                                               ((width) <= 16UL) )
 #define CY_SCB_UART_IS_TX_BREAK_WIDTH_VALID(width)          ( ((width) >= 4UL) && ((width) <= 16UL) )
 
 #define CY_SCB_UART_IS_MUTLI_PROC_VALID(mp, mode, width, parity)    ( (mp) ? ((CY_SCB_UART_STANDARD  == (mode)) && ((width) == 9UL) && \
-                                                                              (CY_SCB_UART_PARITY_NONE == (parity))) : true)
+                                                                              (CY_SCB_UART_PARITY_NONE == (parity))) : (0U == 0U))
 
-#define CY_SCB_UART_IS_LIN_MODE_VALID(enableLinMode, mode)        ( (enableLinMode) ? (CY_SCB_UART_STANDARD  == (mode)) : true)
+#define CY_SCB_UART_IS_LIN_MODE_VALID(enableLinMode, mode)        ( (enableLinMode) ? (CY_SCB_UART_STANDARD  == (mode)) : (0U == 0U))
 /** \endcond */
 
 /** \} group_scb_uart_macros */

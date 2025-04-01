@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.c
-* \version 2.100
+* \version 2.110
 *
 * This file specifies helper functions to retrieve Configuration table data
 * present in flash for various supported devices.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -558,6 +558,16 @@ amd_cfg_settings_t* pd_get_ptr_amd_config_tbl(cy_stc_usbpd_context_t *context)
 #endif
 }
 
+mtk_cfg_settings_t* pd_get_ptr_mtk_config_tbl(cy_stc_usbpd_context_t *context)
+{
+#if  (defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
+    return ((mtk_cfg_settings_t *)((uint32_t)(const uint8_t *)(get_host_config (context)) +
+                get_pd_port_config(context)->mtk_config_table_offset));
+#else
+    CY_UNUSED_PARAMETER(context);
+    return NULL;
+#endif
+}
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context)
 {
 #if (defined(CY_DEVICE_CCG7D))

@@ -1,5 +1,6 @@
 var modules =
 [
+    [ "CAN          (Controller Area Network)", "group__group__can.html", "group__group__can" ],
     [ "CAN FD       (CAN with Flexible Data-Rate)", "group__group__canfd.html", "group__group__canfd" ],
     [ "Crypto       (Cryptography)", "group__group__crypto.html", "group__group__crypto" ],
     [ "CryptoLite   (Cryptography)", "group__group__cryptolite.html", "group__group__cryptolite" ],

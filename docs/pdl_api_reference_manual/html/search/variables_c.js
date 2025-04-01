@@ -14,5 +14,6 @@ var searchData=
   ['numberofaddresses',['numberOfAddresses',['../structcy__stc__scb__ezi2c__config__t.html#aa3405d940eb60a40f7de1580eb391c71',1,'cy_stc_scb_ezi2c_config_t']]],
   ['numberofextidfilters',['numberOfEXTIDFilters',['../structcy__stc__canfd__extid__filter__config__t.html#a64ec8d1f72eaa08c9ac9bdc033e75691',1,'cy_stc_canfd_extid_filter_config_t']]],
   ['numberoffifoelements',['numberOfFIFOElements',['../structcy__en__canfd__fifo__config__t.html#a182249c9eb66def21e9163229580be84',1,'cy_en_canfd_fifo_config_t']]],
-  ['numberofsidfilters',['numberOfSIDFilters',['../structcy__stc__canfd__sid__filter__config__t.html#a5bfcbd161c4c00c2bb84049e60b16f06',1,'cy_stc_canfd_sid_filter_config_t']]]
+  ['numberofsidfilters',['numberOfSIDFilters',['../structcy__stc__canfd__sid__filter__config__t.html#a5bfcbd161c4c00c2bb84049e60b16f06',1,'cy_stc_canfd_sid_filter_config_t']]],
+  ['numofrxbuffers',['numOfRxBuffers',['../structcy__stc__can__config__t.html#ab66d050b60a3745cf63e534f02d8cfe1',1,'cy_stc_can_config_t']]]
 ];

@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_flash.c
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * Provides the public functions for the API for the Flash driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -123,9 +123,8 @@ static cy_en_flashdrv_status_t Cy_Flash_ClockBackup(void);
 static cy_en_flashdrv_status_t Cy_Flash_ClockConfig(void);
 static cy_en_flashdrv_status_t Cy_Flash_ClockRestore(void);
 static bool Cy_Flash_ValidAddr(uint32_t flashAddr);
-#if (CY_FLASH_NON_BLOCKING_SUPPORTED)
-    static bool Cy_Flash_ValidFlashAddr(uint32_t flashAddr);
-#endif /* (CY_FLASH_NON_BLOCKING_SUPPORTED) */
+static bool Cy_Flash_ValidFlashAddr(uint32_t flashAddr);
+
 
 #if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
 /******************************************************************************
@@ -285,7 +284,6 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
 }
 
 
-#if (CY_FLASH_NON_BLOCKING_SUPPORTED) || defined (CY_DOXYGEN)
 /*******************************************************************************
 * Function Name: Cy_Flash_StartWrite
 ****************************************************************************//**
@@ -347,6 +345,13 @@ cy_en_flashdrv_status_t Cy_Flash_WriteRow(uint32_t rowAddr, const uint32_t* data
 * \snippet flash_snippet.c SNIPPET_FLASH_INIT
 * \snippet flash_snippet.c SNIPPET_FLASH_NONBLOCKING_INIT
 * \snippet flash_snippet.c SNIPPET_FLASH_NONBLOCKING
+* \note This function can be called when code is executed only from different
+* flash array or from the RAM till the end of flash write. The information
+* regarding flash architecture you can find in the device TRM.
+* Alternatively you can see macro \ref CY_FLASH_NON_BLOCKING_SUPPORTED return 
+* value: if it returns 'true' this means the device you are using has other
+* flash array to use, if not - the only way is to use RAM memory for both flash
+* driver and the code that will be executed during flash write.
 *
 *******************************************************************************/
 cy_en_flashdrv_status_t Cy_Flash_StartWrite(uint32_t rowAddr, const uint32_t* data)
@@ -518,8 +523,6 @@ static bool Cy_Flash_ValidFlashAddr(uint32_t flashAddr)
 
     return (valid);
 }
-
-#endif /* (CY_FLASH_NON_BLOCKING_SUPPORTED) || defined (CY_DOXYGEN) */
 
 
 /*******************************************************************************

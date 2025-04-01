@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite.h
-* \version 1.30
+* \version 1.40
 *
 * \brief
 *  This file provides an API declaration of the Cryptolite driver
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -152,6 +152,15 @@
 * \section group_cryptolite_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">1.40</td>
+*     <td>Added RSA signature verification using RSA PSS signature scheme.</td>
+*     <td>New feature support</td>
+*   </tr>
+*   <tr>
+*     <td>Fixed endianness conversion issue in hash calculation for SHA-384 and SHA-512.</td>
+*     <td>Defect fix</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">1.30</td>
 *     <td>Added support for SHA-384 and SHA-512.</td>

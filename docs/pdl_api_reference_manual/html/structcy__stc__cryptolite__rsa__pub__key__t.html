@@ -130,6 +130,12 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memitem:a141b22ffc89af68c1ae368ef09c2449c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__cryptolite__rsa__pub__key__t.html#a141b22ffc89af68c1ae368ef09c2449c">calculateCoeff</a></td></tr>
 <tr class="memdesc:a141b22ffc89af68c1ae368ef09c2449c"><td class="mdescLeft">&#160;</td><td class="mdescRight">when set to 'false', pre-calculated coefficients must be provided in 'barretCoefPtr, 'inverseModuloPtr' and 'rBarPtr'.  <a href="#a141b22ffc89af68c1ae368ef09c2449c">More...</a><br /></td></tr>
 <tr class="separator:a141b22ffc89af68c1ae368ef09c2449c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a802acb8bbaf12bc207d67b7eca703f6c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__cryptolite__rsa__pub__key__t.html#a802acb8bbaf12bc207d67b7eca703f6c">rsaSigScheme</a></td></tr>
+<tr class="memdesc:a802acb8bbaf12bc207d67b7eca703f6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">RSA Padding scheme selection.  <a href="#a802acb8bbaf12bc207d67b7eca703f6c">More...</a><br /></td></tr>
+<tr class="separator:a802acb8bbaf12bc207d67b7eca703f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab122b8b5fa92652d21591f3e7283977d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcy__stc__cryptolite__rsa__pub__key__t.html#ab122b8b5fa92652d21591f3e7283977d">shaAlgorithm</a></td></tr>
+<tr class="memdesc:ab122b8b5fa92652d21591f3e7283977d"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHA Algorithm used.  <a href="#ab122b8b5fa92652d21591f3e7283977d">More...</a><br /></td></tr>
+<tr class="separator:ab122b8b5fa92652d21591f3e7283977d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
 <a id="af693adcbc706181816a873bf82107f87"></a>
@@ -233,6 +239,38 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 
 <p>when set to 'false', pre-calculated coefficients must be provided in 'barretCoefPtr, 'inverseModuloPtr' and 'rBarPtr'. </p>
 <p>When set to 'true', all the acceleration step coefficients will be calculated as part of <a class="el" href="group__group__cryptolite__rsa__functions.html#ga2ecaab3d1da62e2215a3101ca7fb2ed8">Cy_Cryptolite_Rsa_Verify</a> </p>
+
+</div>
+</div>
+<a id="a802acb8bbaf12bc207d67b7eca703f6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a802acb8bbaf12bc207d67b7eca703f6c">&#9670;&nbsp;</a></span>rsaSigScheme</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t cy_stc_cryptolite_rsa_pub_key_t::rsaSigScheme</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>RSA Padding scheme selection. </p>
+
+</div>
+</div>
+<a id="ab122b8b5fa92652d21591f3e7283977d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab122b8b5fa92652d21591f3e7283977d">&#9670;&nbsp;</a></span>shaAlgorithm</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t cy_stc_cryptolite_rsa_pub_key_t::shaAlgorithm</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>SHA Algorithm used. </p>
 
 </div>
 </div>

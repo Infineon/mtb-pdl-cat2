@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.100
+* \version 2.110
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -95,13 +95,25 @@
 #define CY_PD_VBUS_CF_EN                (0u)
 #endif /* CY_PD_VBUS_CF_EN */
 
+#ifndef VBUS_ILIM_ENABLE
+#define VBUS_ILIM_ENABLE                 (0u)
+#endif /* VBUS_ILIM_ENABLE */
+
+#if VBUS_ILIM_ENABLE
+#define PDL_VBUS_ILIM_ENABLE             (1u)
+#endif /* VBUS_ILIM_ENABLE */
+
+#ifndef PDL_VBUS_ILIM_ENABLE
+#define PDL_VBUS_ILIM_ENABLE             (0u)
+#endif /* PDL_VBUS_ILIM_ENABLE */
+
 #ifndef VBUS_UVP_ENABLE
 #define VBUS_UVP_ENABLE                 (0u)
 #endif /* VBUS_UVP_ENABLE */
 
-#if VBUS_UVP_ENABLE
+#if (VBUS_UVP_ENABLE || VBUS_ILIM_ENABLE)
 #define PDL_VBUS_UVP_ENABLE             (1u)
-#endif /* VBUS_UVP_ENABLE */
+#endif /* (VBUS_UVP_ENABLE || VBUS_ILIM_ENABLE) */
 
 #ifndef PDL_VBUS_UVP_ENABLE
 #define PDL_VBUS_UVP_ENABLE             (0u)
@@ -210,6 +222,32 @@
 #if VBUS_RCP_ENABLE
 #define PDL_VBUS_RCP_ENABLE             (1u)
 #endif /* VBUS_RCP_ENABLE */
+
+/* Enable CC OVP by default as the macro introduce newly. */
+#ifndef CC_OVP_ENABLE
+#define CC_OVP_ENABLE                 (1u)
+#endif /* CC_OVP_ENABLE */
+
+#if CC_OVP_ENABLE
+#define PDL_CC_OVP_ENABLE             (1u)
+#endif /* CC_OVP_ENABLE */
+
+#ifndef PDL_CC_OVP_ENABLE
+#define PDL_CC_OVP_ENABLE             (0u)
+#endif /* PDL_CC_OVP_ENABLE */
+
+/* Enable SBU OVP by default as the macro introduce newly. */
+#ifndef SBU_OVP_ENABLE
+#define SBU_OVP_ENABLE                 (1u)
+#endif /* SBU_OVP_ENABLE */
+
+#if SBU_OVP_ENABLE
+#define PDL_SBU_OVP_ENABLE             (1u)
+#endif /* SBU_OVP_ENABLE */
+
+#ifndef PDL_SBU_OVP_ENABLE
+#define PDL_SBU_OVP_ENABLE             (0u)
+#endif /* PDL_SBU_OVP_ENABLE */
 
 #ifndef PDL_VBUS_RCP_ENABLE
 #define PDL_VBUS_RCP_ENABLE             (0u)
@@ -344,6 +382,9 @@
 #define CCG_TEMP_BASED_VOLTAGE_THROTTLING   (0u)
 #endif /* CCG_TEMP_BASED_VOLTAGE_THROTTLING */
 
+#ifndef OTP_ENABLE
+#define OTP_ENABLE                      (0u)
+#endif /* OTP_ENABLE */
 #ifndef ADFT_DDFT_EN
 #define ADFT_DDFT_EN                    (0u)
 #endif /* ADFT_DDFT_EN */
@@ -360,15 +401,25 @@
 #define GENERATE_SROM_CODE              (0u)
 #endif /* GENERATE_SROM_CODE */
 
+#if (defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_PMG1S3))
 #if !CCG_SROM_CODE_ENABLE
 #ifndef PDL_ATTRIBUTES
 #define PDL_ATTRIBUTES
 #endif /* PDL_ATTRIBUTES */
-
 #ifndef ROM_CONSTANT
 #define ROM_CONSTANT
 #endif /* ROM_CONSTANT */
+#endif /* !CCG_SROM_CODE_ENABLE */
+#else
+#ifndef PDL_ATTRIBUTES
+#define PDL_ATTRIBUTES
+#endif /* PDL_ATTRIBUTES */
+#ifndef ROM_CONSTANT
+#define ROM_CONSTANT
+#endif /* ROM_CONSTANT */
+#endif /* (defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_PMG1S3)) */
 
+#if !CCG_SROM_CODE_ENABLE
 #ifndef CALL_MAP
 #define CALL_MAP(func)                (func)
 #endif /* CALL_MAP */
@@ -501,6 +552,7 @@
 #define VBUS_DEFINE_SOLN_MAX_CURRENT_EN         (0u)
 #endif /* VBUS_DEFINE_SOLN_MAX_CURRENT_EN */
 
+#ifndef VBUS_MAX_CURRENT
 #if VBUS_DEFINE_SOLN_MAX_CURRENT_EN
 /*
  * Solution specific Maximum limit on the VBUS current (in 10mA units).
@@ -508,6 +560,7 @@
  */
 #define VBUS_MAX_CURRENT                            (530u)
 #endif /* VBUS_DEFINE_SOLN_MAX_CURRENT_EN */
+#endif /* VBUS_MAX_CURRENT */
 
 #ifndef QC_PPS_ENABLE
 #define QC_PPS_ENABLE                               (0u)
@@ -525,6 +578,26 @@
 #ifndef SBU_LEVEL_DETECT_EN
 #define SBU_LEVEL_DETECT_EN                         (0u)
 #endif /* SBU_LEVEL_DETECT_EN */
+
+#ifndef TERM_AUX_LS_ENABLE
+#define TERM_AUX_LS_ENABLE                          (0u)
+#endif /* TERM_AUX_LS_ENABLE */
+
+#if TERM_AUX_LS_ENABLE
+#define PDL_TERM_AUX_LS_ENABLE                      (1u)
+#endif /* TERM_AUX_LS_ENABLE */
+
+#ifndef PDL_TERM_AUX_LS_ENABLE
+#define PDL_TERM_AUX_LS_ENABLE                      (0u)
+#endif /* PDL_TERM_AUX_LS_ENABLE */
+
+#ifndef CY_USBPD_PDS_SSC_ENABLE
+#define CY_USBPD_PDS_SSC_ENABLE                     (0u)
+#endif /* CY_USBPD_PDS_SSC_ENABLE */
+
+#ifndef PD_CTRL_INF_PRESENT
+#define PD_CTRL_INF_PRESENT                         (0u)
+#endif /* PD_CTRL_INF_PRESENT */
 
 #ifndef HFCLK_CHANGE_OVER_SLEEP
 #if SYS_DEEPSLEEP_ENABLE
@@ -546,6 +619,9 @@
 #define CY_PD_EPR_36V_SUPP_EN           (0u)
 #endif /* CY_PD_EPR_36V_SUPP_EN */
 
+#ifndef CCG_PASC_LP_ENABLE
+#define CCG_PASC_LP_ENABLE                          (0u)
+#endif /*CCG_PASC_LP_ENABLE*/
 
 /*******************************************************************************
  * MACRO Definitions
@@ -575,16 +651,22 @@
 #define NO_OF_TYPEC_PORTS               (2u)
 #endif /*NO_OF_TYPEC_PORTS*/
 
+#ifndef PMG1_PD_DUALPORT_ENABLE
 /** Two USB-C ports supported on CYPM1322-97BZXIT part/CYPD7291-68LDXS part. */
 #define PMG1_PD_DUALPORT_ENABLE         (1u)
+#endif /* PMG1_PD_DUALPORT_ENABLE */
 
 #else
 
+#ifndef NO_OF_TYPEC_PORTS
 /** Single USB-C port supported. */
 #define NO_OF_TYPEC_PORTS               (1u)
+#endif /*NO_OF_TYPEC_PORTS*/
 
+#ifndef PMG1_PD_DUALPORT_ENABLE
 /** Single USB-C port supported. */
 #define PMG1_PD_DUALPORT_ENABLE         (0u)
+#endif /* PMG1_PD_DUALPORT_ENABLE */
 
 #endif /* CY_DEVICE */
 
@@ -619,6 +701,12 @@
 
 /** Vbus voltage = 20.0 V */
 #define CY_PD_VSAFE_20V                           (20000u)
+
+/** Vbus voltage = 21.0 V */
+#define CY_PD_VSAFE_21V                           (21000u)
+
+/** Vbus voltage = 27.0 V */
+#define CY_PD_VSAFE_27V                           (27000u)
 
 /** Vbus voltage = 28.0 V */
 #define CY_PD_VSAFE_28V                           (28000u)
@@ -760,7 +848,7 @@ typedef enum
     CY_PD_DEV_SNK = 1,                        /**< Power sink device is attached. */
     CY_PD_DEV_SRC,                            /**< Power source device is attached. */
     CY_PD_DEV_DBG_ACC,                        /**< Debug accessory is attached. */
-    CY_PD_DEV_AUD_ACC,                        /**< Audio accessory is attached. */
+    CY_PD_DEV_RA_RA,                          /**< RA_RA is attached. */
     CY_PD_DEV_PWRD_ACC,                       /**< Powered accessory is attached. */
     CY_PD_DEV_VPD,                            /**< Vconn powered device is attached. */
     CY_PD_DEV_UNSUPORTED_ACC                  /**< Unsupported device type is attached. */

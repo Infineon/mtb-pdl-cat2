@@ -1,7 +1,7 @@
 var searchData=
 [
   ['dat',['dat',['../structcy__stc__pd__packet__extd__t.html#a982f7ea99fe456c33db26e638c81d63f',1,'cy_stc_pd_packet_extd_t']]],
-  ['data',['data',['../structcy__pd__pd__do__t_1_1_e_p_r_m_o_d_e___d_o.html#af10ed63778377d9ceacc8c6c164080a7',1,'cy_pd_pd_do_t::EPRMODE_DO']]],
+  ['data',['data',['../structcy__stc__can__rx__filter__element__t.html#ad582ee2f97298e8da6bd0e25c34abdb1',1,'cy_stc_can_rx_filter_element_t::data()'],['../structcy__stc__can__message__frame__t.html#a24e4b01f8553d0236c1098ab02293681',1,'cy_stc_can_message_frame_t::data()'],['../structcy__pd__pd__do__t_1_1_e_p_r_m_o_d_e___d_o.html#af10ed63778377d9ceacc8c6c164080a7',1,'cy_pd_pd_do_t::EPRMODE_DO::data()']]],
   ['data0',['data0',['../structcy__stc__cryptolite__vu__desc__t.html#a8f79bd247672474316556de681e55eef',1,'cy_stc_cryptolite_vu_desc_t::data0()'],['../structcy__stc__smartio__ducfg__t.html#aaf8bfe52c9e7b52a1095c39dfe6d50ef',1,'cy_stc_smartio_ducfg_t::data0()'],['../structcy__pd__pd__do__t_1_1_q_c___p_p_s___d_a_t_a___v_d_o.html#a2831e814eb01a0ac35deb35887356b64',1,'cy_pd_pd_do_t::QC_PPS_DATA_VDO::data0()']]],
   ['data1',['data1',['../structcy__stc__cryptolite__vu__desc__t.html#a2414e568ab5fc4d5362cc91d9a7146ff',1,'cy_stc_cryptolite_vu_desc_t::data1()'],['../structcy__stc__smartio__ducfg__t.html#a5e8a7354a6e2cb155d5403046e3f3f3c',1,'cy_stc_smartio_ducfg_t::data1()'],['../structcy__pd__pd__do__t_1_1_q_c___p_p_s___d_a_t_a___v_d_o.html#a15fc3f5e099ccbf1f4e9fc06f599dca8',1,'cy_pd_pd_do_t::QC_PPS_DATA_VDO::data1()']]],
   ['data2',['data2',['../structcy__stc__cryptolite__vu__desc__t.html#a22883fafba5b114c84e21c282f98245a',1,'cy_stc_cryptolite_vu_desc_t::data2()'],['../structcy__pd__pd__do__t_1_1_q_c___p_p_s___d_a_t_a___v_d_o.html#ac6f734342baeb2463446c075472f9b19',1,'cy_pd_pd_do_t::QC_PPS_DATA_VDO::data2()']]],
@@ -51,6 +51,7 @@ var searchData=
   ['dsttransfersize',['dstTransferSize',['../structcy__stc__dmac__descriptor__config__t.html#aba58d5dad537ee08cfbf5f3df32aad5a',1,'cy_stc_dmac_descriptor_config_t']]],
   ['dualrolepower',['dualRolePower',['../structcy__pd__pd__do__t_1_1_f_i_x_e_d___s_r_c.html#a9d1d03a6f9c94b77461be52a01b96530',1,'cy_pd_pd_do_t::FIXED_SRC::dualRolePower()'],['../structcy__pd__pd__do__t_1_1_f_i_x_e_d___s_n_k.html#ac61ec3fa47059b029634dae121d2044e',1,'cy_pd_pd_do_t::FIXED_SNK::dualRolePower()']]],
   ['ducfg',['duCfg',['../structcy__stc__smartio__config__t.html#aa0f8f1f60e5713c1af42d01ace046f04',1,'cy_stc_smartio_config_t']]],
+  ['data_20structures',['Data Structures',['../group__group__can__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__canfd__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__csd__data__structures.html',1,'']]],
   ['data_20structures',['Data Structures',['../group__group__ctb__data__structures.html',1,'']]],

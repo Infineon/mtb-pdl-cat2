@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.100
+* \version 2.110
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -71,8 +71,13 @@
 /** Default reference voltage on M0S8-USBPD IP. */
 #define PD_ADC_DEFAULT_VDDD_VOLT_MV             (3300u)
 
+#if defined(CY_DEVICE_CCG6DF_CFP)
+/** Reference voltage in CCG6DF_CFP is 2.2 V */
+#define MX_PD_ADC_REF_VOLT_MV                   (2200u)
+#else
 /** Reference voltage in MX_PD IP (2.0 V) */
 #define MX_PD_ADC_REF_VOLT_MV                   (2000u)
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
 /** Bandgap voltage in millivolt. */
 #define PD_ADC_BAND_GAP_VOLT_MV                 (1200u)
@@ -98,6 +103,24 @@
 /** Loop timeout count for ADC. */
 #define PD_ADC_TIMEOUT_COUNT                    (200UL)
 
+/** VBus current usage = 0.9 A. */
+#define CY_USBPD_I_0P9A                         (90u)
+
+/** VBus current usage = 1.0 A. */
+#define CY_USBPD_I_1A                           (100u)
+
+/** VBus current usage = 2.0 A. */
+#define CY_USBPD_I_2A                           (200u)
+
+/** VBus current usage = 3.0 A. */
+#define CY_USBPD_I_3A                           (300u)
+
+/** VBus current usage = 4.0 A. */
+#define CY_USBPD_I_4A                           (400u)
+
+/** VBus current usage = 5.0 A. */
+#define CY_USBPD_I_5A                           (500u)
+
 /** Multiplied by 2. */
 #define VBUS_MON_DIV_20P_VAL                    (10u)
 
@@ -112,6 +135,9 @@
 
 /** Multiplied by 2. */
 #define VBUS_MON_DIV_6P_VAL                     (33u)
+
+/** Multiplied by 2. */
+#define VBUS_MON_DIV_5P_VAL                     (40u)
 
 /** Multiplied by 2. */
 #define VBAT_MON_DIV_8P_VAL                     (25u)
@@ -163,10 +189,6 @@
 /* CCG7D VOUT_CBL gain selection */
 #define CSA_VOUT_CBL_GAIN_SEL_LOW               ((uint32_t)0u << 6u)
 #define CSA_VOUT_CBL_GAIN_SEL_HIGH              ((uint32_t)1u << 6u)
-
-/* USBPD load current in 10mA unites */
-#define CY_PD_I_0P9A                    (90u)
-#define CY_PD_I_3A                      (300u)
 
 #if (VBUS_CTRL_TRIM_ADJUST_ENABLE)
 
@@ -299,6 +321,9 @@ bool Cy_USBPD_Adc_GetCompStatus(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc
 
 uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId, cy_en_usbpd_adc_input_t input);
 
+uint8_t Cy_USBPD_Adc_SampleInput(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId, cy_en_usbpd_adc_input_t input, 
+        uint32_t amux_nhv_ctrl_clr, uint32_t amux_nhv_ctrl_set, cy_en_usbpd_adc_vref_t adc_vref);
+
 uint16_t Cy_USBPD_Adc_Calibrate(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId);
 
 cy_en_usbpd_status_t Cy_USBPD_Adc_SelectVref(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t adcId, cy_en_usbpd_adc_vref_t vrefSel);
@@ -405,6 +430,12 @@ void Cy_USBPD_Vbus_Mon_SetDivider(cy_stc_usbpd_context_t *context, uint8_t divid
 * \addtogroup group_usbpd_vbus_ctrl_functions
 * \{
 */
+
+void Cy_USBPD_Fault_Vbus_IlimConfigUpdate (cy_stc_usbpd_context_t *context, uint32_t current);
+
+void Cy_USBPD_Fault_Vbus_IlimEnable (cy_stc_usbpd_context_t *context, uint32_t current);
+
+void Cy_USBPD_Fault_Vbus_IlimDisable (cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Hal_Remove_Internal_Fb_Res_Div(cy_stc_usbpd_context_t *context);
 

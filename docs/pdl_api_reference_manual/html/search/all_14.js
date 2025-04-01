@@ -34,6 +34,7 @@ var searchData=
   ['vbus_5fmin_5fvolt',['vbus_min_volt',['../structcy__stc__buck__boost__cfg__t.html#a4a43481ad08f52dcebc1169d88edd2f0',1,'cy_stc_buck_boost_cfg_t']]],
   ['vbus_5fmon_5fdiv_5f10p_5fval',['VBUS_MON_DIV_10P_VAL',['../group__group__usbpd__vbus__ctrl.html#ga7fda9d8aadfec3f8f9fe9d3585f8aac9',1,'cy_usbpd_vbus_ctrl.h']]],
   ['vbus_5fmon_5fdiv_5f20p_5fval',['VBUS_MON_DIV_20P_VAL',['../group__group__usbpd__vbus__ctrl.html#gaa545ddea3631d6d2c4cd61807e7b8c5f',1,'cy_usbpd_vbus_ctrl.h']]],
+  ['vbus_5fmon_5fdiv_5f5p_5fval',['VBUS_MON_DIV_5P_VAL',['../group__group__usbpd__vbus__ctrl.html#gae3b537ad73b14b39a626a9ea50eeb89e',1,'cy_usbpd_vbus_ctrl.h']]],
   ['vbus_5fmon_5fdiv_5f6p_5fval',['VBUS_MON_DIV_6P_VAL',['../group__group__usbpd__vbus__ctrl.html#ga0f86608f76d8f2e85484189f9abdd4e9',1,'cy_usbpd_vbus_ctrl.h']]],
   ['vbus_5fmon_5fdiv_5f8p_5fval',['VBUS_MON_DIV_8P_VAL',['../group__group__usbpd__vbus__ctrl.html#ga2fd71055b8e333b56bf0309a856f8c03',1,'cy_usbpd_vbus_ctrl.h']]],
   ['vbus_5fmon_5fdiv_5f9p_5fval',['VBUS_MON_DIV_9P_VAL',['../group__group__usbpd__vbus__ctrl.html#gacccad501d261e6579411e1da566b6a9e',1,'cy_usbpd_vbus_ctrl.h']]],

@@ -7694,28 +7694,28 @@ typedef struct {
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_0_SWAP_1_MASK                       (0x000000e0UL) /* <5:7> R:RW:0: */
 #define PDSS_SWAP_CNTRL_0_SWAP_1_POS                        (5UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_0_SWAP_2_MASK                       (0x0000ff00UL) /* <8:15> R:RW:0: */
 #define PDSS_SWAP_CNTRL_0_SWAP_2_POS                        (8UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_0_SWAP_3_MASK                       (0x00ff0000UL) /* <16:23> R:RW:0: */
 #define PDSS_SWAP_CNTRL_0_SWAP_3_POS                        (16UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_0_SWAP_4_MASK                       (0xff000000UL) /* <24:31> R:RW:0: */
 #define PDSS_SWAP_CNTRL_0_SWAP_4_POS                        (24UL)
@@ -7729,28 +7729,28 @@ typedef struct {
 #define PDSS_SWAP_CNTRL_1_DEFAULT                           (0x00000000UL)
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_1_SWAP_5_MASK                       (0x000000ffUL) /* <0:7> R:RW:0: */
 #define PDSS_SWAP_CNTRL_1_SWAP_5_POS                        (0UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_1_SWAP_6_MASK                       (0x0000ff00UL) /* <8:15> R:RW:0: */
 #define PDSS_SWAP_CNTRL_1_SWAP_6_POS                        (8UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_1_SWAP_7_MASK                       (0x00ff0000UL) /* <16:23> R:RW:0: */
 #define PDSS_SWAP_CNTRL_1_SWAP_7_POS                        (16UL)
 
 
 /*
- * TBD
+ * PDSS SWAP Control registers
  */
 #define PDSS_SWAP_CNTRL_1_SWAP_8_MASK                       (0xff000000UL) /* <24:31> R:RW:0: */
 #define PDSS_SWAP_CNTRL_1_SWAP_8_POS                        (24UL)

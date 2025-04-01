@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.30
+* \version 3.40
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -75,6 +75,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.40</td>
+*     <td> \ref CY_SYSCLK_PERI_DIV_NUM_Pos and \ref CY_SYSCLK_PERI_DIV_NUM_Msk implementation is updated.</td>
+*     <td>Bug fixing.</td>
+*   </tr>
 *   <tr>
 *     <td>3.30</td>
 *     <td>Added the Cy_SysClk_ImoTempTrim() function.</td>
@@ -600,7 +605,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   3
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   30
+#define  CY_SYSCLK_DRV_VERSION_MINOR   40
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -2581,8 +2586,8 @@ typedef enum
 /** Mask and position definitions to be used with \ref Cy_SysClk_PeriphGetAssignedDivider return value. */
 #define CY_SYSCLK_PERI_DIV_TYPE_Pos (PERI_DIV_CMD_SEL_TYPE_Pos) /**< The PERI divider type value position */
 #define CY_SYSCLK_PERI_DIV_TYPE_Msk (PERI_DIV_CMD_SEL_TYPE_Msk) /**< The PERI divider type value mask */
-#define CY_SYSCLK_PERI_DIV_NUM_Pos (PERI_DIV_CMD_SEL_TYPE_Pos)  /**< The PERI divider number value position */
-#define CY_SYSCLK_PERI_DIV_NUM_Msk (PERI_DIV_CMD_SEL_TYPE_Msk)  /**< The PERI divider number value mask */
+#define CY_SYSCLK_PERI_DIV_NUM_Pos (PERI_DIV_CMD_SEL_DIV_Pos)  /**< The PERI divider number value position */
+#define CY_SYSCLK_PERI_DIV_NUM_Msk (PERI_DIV_CMD_SEL_DIV_Msk)  /**< The PERI divider number value mask */
 /** \} group_sysclk_clk_peripheral_macros */
 
 /**

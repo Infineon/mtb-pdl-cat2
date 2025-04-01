@@ -29,6 +29,7 @@
 #include "cy_device.h"
 #include "cy_device_headers.h"
 
+#include "cy_can.h"
 #include "cy_canfd.h"
 #include "cy_crypto.h"
 #include "cy_cryptolite.h"

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_cryptolite_vu.h
-* \version 1.30
+* \version 1.40
 *
 * \brief
 * This file provides common constants and parameters for the Cryptolite Vector 
@@ -8,7 +8,7 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

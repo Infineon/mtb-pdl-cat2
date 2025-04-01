@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['enumerated_20types',['Enumerated Types',['../group__group__can__enums.html',1,'']]],
+  ['error_20capture_20register_20_28ecr_29_20masks',['Error Capture Register (ECR) masks',['../group__group__can__error__capture__masks.html',1,'']]],
+  ['error_20interrupt_20masks',['Error Interrupt masks',['../group__group__can__error__interrupt__masks.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__canfd__enums.html',1,'']]],
   ['error_20interrupt_20masks',['Error Interrupt masks',['../group__group__canfd__error__interrupt__masks.html',1,'']]],
   ['enums',['Enums',['../group__group__crypto__enums.html',1,'']]],

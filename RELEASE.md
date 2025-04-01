@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.15.0
+# mtb-pdl-cat2 peripheral driver library v2.16.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,15 +7,25 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Support of new MPNs with inductive sensing method only.
+- Added CAN2.0B driver for the PSOC&trade; 4100S Plus devices.
+Please refer to the [New drivers](#new-drivers) section below for details.
+- Added support of PSOC&trade; 4100T Plus device family.
+- Updated the USBPD driver to provide APIs to Enable/Disable the ilimit block for CFP devices.
 
 ### Updated personalities
-- MSCLP: Added multi-pin support - assign several pins to a single CAPSENSE&trade; sensor.
+- SAR 4.0: The 'Minimum Acquisition Time' parameter range is fixed: now the minimal valid value is 194ns.
+- Added new CAN 1.0 personalities for PSOC&trade; 4100S Plus Platform.
 
 ### Updated drivers
-- [SAR 2.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
-- [SysClk 3.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [SAR 2.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [SysClk 3.40](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [Cy_Flash 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html) - Enabled flash non-blocking write operations for devices with 1 flash array.
+- [SCB 4.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__scb.html)
+- [Cryptolite 1.40](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__cryptolite.html)
+- [USBPD 2.110](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
+### New drivers
+- [CAN 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__can.html)
 
 ## Known Issues
 * PDL flash write APIs are not supported when using ARM C6 Compiler in debug mode. Please use ARM C6 Compiler in release mode if flash write is needed.
@@ -31,7 +41,7 @@ This version of PDL was validated for compatibility with the following software 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.4.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.4.2       |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.4.3       |
 | [device-db](https://github.com/Infineon/device-db)                            |  4.21.0      |
 | CMSIS-Core(M)                                                                 |  5.8.0       |
 | GCC compiler                                                                  |  11.3.1      |

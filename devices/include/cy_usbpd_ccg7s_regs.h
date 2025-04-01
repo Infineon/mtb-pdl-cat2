@@ -13654,14 +13654,14 @@ typedef struct {
 
 
 /*
- *  Generic testmode bits for vbus_in regulator (TBD)
+ *  Generic testmode bits for vbus_in regulator:
  */
 #define PDSS_BB_40VREGLD_CTRL_BB_40VREG_T_VBUSIN_REG_MASK    (0x0000ff00UL) /* <8:15> R:RW:0: */
 #define PDSS_BB_40VREGLD_CTRL_BB_40VREG_T_VBUSIN_REG_POS    (8UL)
 
 
 /*
- *  Generic testmode bits for vin regulator (TBD)
+ *  Generic testmode bits for vin regulator:
  */
 #define PDSS_BB_40VREGLD_CTRL_BB_40VREG_T_VIN_REG_MASK      (0x00fc0000UL) /* <18:23> R:RW:0: */
 #define PDSS_BB_40VREGLD_CTRL_BB_40VREG_T_VIN_REG_POS       (18UL)

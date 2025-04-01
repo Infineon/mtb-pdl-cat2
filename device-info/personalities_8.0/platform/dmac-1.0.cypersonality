@@ -137,7 +137,7 @@
   <ConfigFirmware>
     <ConfigInclude value="cy_dmac.h" include="true" />
     <ConfigInclude value="cyhal_hwmgr.h" include="true" guard="defined (CY_USING_HAL)" />
-    
+
     <ConfigDefine name="`${INST_NAME . &quot;_HW&quot;}`" value="`${HWbase}`" public="true" include="true" />
     <ConfigDefine name="`${INST_NAME . &quot;_CHANNEL&quot;}`" value="`${channel}`UL" public="true" include="true" />
 

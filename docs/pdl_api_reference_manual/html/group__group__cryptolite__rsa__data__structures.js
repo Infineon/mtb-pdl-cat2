@@ -9,6 +9,8 @@ var group__group__cryptolite__rsa__data__structures =
       [ "inverseModuloPtr", "structcy__stc__cryptolite__rsa__pub__key__t.html#a627a3acc79a455458d3648ee618159fe", null ],
       [ "rBarPtr", "structcy__stc__cryptolite__rsa__pub__key__t.html#a5706ee614586b82fe6395a4c16223445", null ],
       [ "privateBuffer", "structcy__stc__cryptolite__rsa__pub__key__t.html#a34c0f4a50d1cd886d27b6349ccd96fc9", null ],
-      [ "calculateCoeff", "structcy__stc__cryptolite__rsa__pub__key__t.html#a141b22ffc89af68c1ae368ef09c2449c", null ]
+      [ "calculateCoeff", "structcy__stc__cryptolite__rsa__pub__key__t.html#a141b22ffc89af68c1ae368ef09c2449c", null ],
+      [ "rsaSigScheme", "structcy__stc__cryptolite__rsa__pub__key__t.html#a802acb8bbaf12bc207d67b7eca703f6c", null ],
+      [ "shaAlgorithm", "structcy__stc__cryptolite__rsa__pub__key__t.html#ab122b8b5fa92652d21591f3e7283977d", null ]
     ] ]
 ];

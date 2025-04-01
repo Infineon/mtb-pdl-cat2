@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_bch.h
-* \version 2.100
+* \version 2.110
 *
 * Header file for legacy charging feature of USBPD PDL.
 *
 ********************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

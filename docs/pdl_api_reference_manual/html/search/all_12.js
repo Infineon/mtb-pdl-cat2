@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['tx_20interrupt_20masks',['TX Interrupt masks',['../group__group__can__tx__interrupt__masks.html',1,'']]],
   ['tx_20interrupt_20masks',['TX Interrupt masks',['../group__group__canfd__tx__interrupt__masks.html',1,'']]],
   ['trng',['TRNG',['../group__group__cryptolite__trng.html',1,'']]],
   ['tx_20interrupt_20statuses',['TX Interrupt Statuses',['../group__group__scb__common__macros__tx__intr.html',1,'']]],
@@ -24,8 +25,8 @@ var searchData=
   ['timerisrunningcbk',['timerIsRunningcbk',['../structcy__stc__usbpd__context__t.html#a400672d3389636183951166e440eeaf6',1,'cy_stc_usbpd_context_t']]],
   ['timerstartcbk',['timerStartcbk',['../structcy__stc__usbpd__context__t.html#ae2b3adfc0a38f79a632ee9afbd51939d',1,'cy_stc_usbpd_context_t']]],
   ['timerstopcbk',['timerStopcbk',['../structcy__stc__usbpd__context__t.html#a1b33ce73079f257368b873472570ebd2',1,'cy_stc_usbpd_context_t']]],
-  ['timesegment1',['timeSegment1',['../structcy__stc__canfd__bitrate__t.html#a523057c64beba065109a9e1ddde61026',1,'cy_stc_canfd_bitrate_t']]],
-  ['timesegment2',['timeSegment2',['../structcy__stc__canfd__bitrate__t.html#ae64d325646d076fddcd642b675fd69fb',1,'cy_stc_canfd_bitrate_t']]],
+  ['timesegment1',['timeSegment1',['../structcy__stc__can__bitrate__t.html#ac1e1e1902627a9554c3723adb8695c4b',1,'cy_stc_can_bitrate_t::timeSegment1()'],['../structcy__stc__canfd__bitrate__t.html#a523057c64beba065109a9e1ddde61026',1,'cy_stc_canfd_bitrate_t::timeSegment1()']]],
+  ['timesegment2',['timeSegment2',['../structcy__stc__can__bitrate__t.html#aacf37ef69fd9a7f489ddb9429e4e7814',1,'cy_stc_can_bitrate_t::timeSegment2()'],['../structcy__stc__canfd__bitrate__t.html#ae64d325646d076fddcd642b675fd69fb',1,'cy_stc_canfd_bitrate_t::timeSegment2()']]],
   ['toggle',['toggle',['../structcy__stc__pd__dpm__config__t.html#a7029eda73b3ea1445ec258286a08b8a6',1,'cy_stc_pd_dpm_config_t']]],
   ['toppointerlogicenabled',['topPointerLogicEnabled',['../structcy__en__canfd__fifo__config__t.html#acf2f42d5327a4bd343d0b5bb0a80d444',1,'cy_en_canfd_fifo_config_t']]],
   ['tr0',['tr0',['../structcy__stc__smartio__lutcfg__t.html#a86cb486d9b0ae98f1266170edd8a04da',1,'cy_stc_smartio_lutcfg_t::tr0()'],['../structcy__stc__smartio__ducfg__t.html#a9e23ee4909072147ba5591bfd811ee52',1,'cy_stc_smartio_ducfg_t::tr0()']]],
@@ -38,7 +39,7 @@ var searchData=
   ['trimsbase',['trimsBase',['../structcy__stc__usbpd__context__t.html#ab4e76d9defd17b9b53694524973124be',1,'cy_stc_usbpd_context_t']]],
   ['txalignment',['txAlignment',['../structcy__stc__i2s__config__t.html#a5f3d11cd3e68da381d548c3a98b52e36',1,'cy_stc_i2s_config_t']]],
   ['txbufferdatasize',['txBufferDataSize',['../structcy__stc__canfd__config__t.html#a69ecb6951bb6266be8cc50a578eda4ef',1,'cy_stc_canfd_config_t']]],
-  ['txcallback',['txCallback',['../structcy__stc__canfd__config__t.html#ad1e96688270897e1705ca7b66e8844ae',1,'cy_stc_canfd_config_t']]],
+  ['txcallback',['txCallback',['../structcy__stc__can__config__t.html#a75f50adc5245ed77ef90f050920b2f03',1,'cy_stc_can_config_t::txCallback()'],['../structcy__stc__canfd__config__t.html#ad1e96688270897e1705ca7b66e8844ae',1,'cy_stc_canfd_config_t::txCallback()']]],
   ['txchannellength',['txChannelLength',['../structcy__stc__i2s__config__t.html#a703d047350ed1d0f1f953afc3a865ee6',1,'cy_stc_i2s_config_t']]],
   ['txchannels',['txChannels',['../structcy__stc__i2s__config__t.html#ad805d382b09d9bdb91c923f874ae0b37',1,'cy_stc_i2s_config_t']]],
   ['txchecksum_5ferror',['txChecksum_error',['../structcy__stc__lin__test__error__config__t.html#a53ad35075e509fea7c2ef6a5f412acdc',1,'cy_stc_lin_test_error_config_t']]],

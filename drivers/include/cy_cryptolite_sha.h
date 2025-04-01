@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_cryptolite_sha.h
-* \version 1.30
+* \version 1.40
 *
 * \brief
 *  This file provides an API declaration of the Cryptolite SHA driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2021-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2021-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -252,6 +252,9 @@ cy_en_cryptolite_status_t Cy_Cryptolite_Sha_Free(CRYPTOLITE_Type *base,
 *
 * \funcusage
 * \snippet cryptolite_sut.c snippet_myCryptoliteShaUse
+*
+* Note: Don't use this function in CCGx_CFP as the code is in ROM needs update.
+* Hence, it is requested to use same flow defined in this function.
 *******************************************************************************/
 cy_en_cryptolite_status_t Cy_Cryptolite_Sha(CRYPTOLITE_Type *base,
                                         uint8_t const *message,

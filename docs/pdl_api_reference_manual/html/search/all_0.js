@@ -1,6 +1,8 @@
 var searchData=
 [
   ['acceptaddrinfifo',['acceptAddrInFifo',['../structcy__stc__scb__i2c__config__t.html#a9074db87cce95b20f6adbaf905e05f98',1,'cy_stc_scb_i2c_config_t::acceptAddrInFifo()'],['../structcy__stc__scb__uart__config__t.html#a74ad4d501763b438b7903fb04e9df1b1',1,'cy_stc_scb_uart_config_t::acceptAddrInFifo()']]],
+  ['acceptancecode',['acceptanceCode',['../structcy__stc__can__rx__buffer__config__t.html#ad7c3cb8eb542ad1c84a8c0707d948224',1,'cy_stc_can_rx_buffer_config_t']]],
+  ['acceptancemask',['acceptanceMask',['../structcy__stc__can__rx__buffer__config__t.html#a7f2f276143dddeb5b09d59d026b7c660',1,'cy_stc_can_rx_buffer_config_t']]],
   ['ackgeneraladdr',['ackGeneralAddr',['../structcy__stc__scb__i2c__config__t.html#a7a705499e24c5dade7143d1c339389af',1,'cy_stc_scb_i2c_config_t']]],
   ['act_5fcbl_5fvdo',['ACT_CBL_VDO',['../structcy__pd__pd__do__t_1_1_a_c_t___c_b_l___v_d_o.html',1,'cy_pd_pd_do_t::ACT_CBL_VDO'],['../unioncy__pd__pd__do__t.html#aeafc54f5e84ade4981762045813d8253',1,'cy_pd_pd_do_t::act_cbl_vdo()']]],
   ['act_5fcbl_5fvdo1',['act_cbl_vdo1',['../unioncy__pd__pd__do__t.html#ae92db2c8f75c6257a25e3a0506d6dede',1,'cy_pd_pd_do_t']]],
@@ -50,11 +52,13 @@ var searchData=
   ['apple_5famp_5f2_5f4a',['APPLE_AMP_2_4A',['../group__group__usbpd__legacy__macros.html#gac24a361f0070e432edf5b883a13b4f85',1,'cy_usbpd_bch.h']]],
   ['apple_5famp_5f3a',['APPLE_AMP_3A',['../group__group__usbpd__legacy__macros.html#gab359d0ceede9e3b2d8885c82e7557506',1,'cy_usbpd_bch.h']]],
   ['applesrcid',['appleSrcId',['../structcy__stc__legacy__charging__cfg__t.html#af943a720def6dcfd26b875d00947b28c',1,'cy_stc_legacy_charging_cfg_t']]],
+  ['arbiter',['arbiter',['../structcy__stc__can__config__t.html#a53e59ef9695a373b905b848d0f2eefd7',1,'cy_stc_can_config_t']]],
   ['ascii',['ascii',['../structcy__stc__seglcd__font__t.html#a128a4b366ab894415a75d0635fb368f7',1,'cy_stc_seglcd_font_t']]],
   ['attach',['attach',['../structcy__stc__pd__dpm__config__t.html#a17f5bccfa131424cee079d1947dadeaf',1,'cy_stc_pd_dpm_config_t']]],
   ['attacheddev',['attachedDev',['../structcy__stc__pd__dpm__config__t.html#a7ff5dcb7752e0a88ff20e1fc6357e9c9',1,'cy_stc_pd_dpm_config_t']]],
   ['attributes',['attributes',['../structcy__stc__usb__dev__ep__config__t.html#ad2e3a63c90c484593d678b995de6c6a9',1,'cy_stc_usb_dev_ep_config_t']]],
   ['autoconfig',['autoConfig',['../structcy__stc__usbpd__config__t.html#a0c29cd21401194c21eb8829053722504',1,'cy_stc_usbpd_config_t']]],
+  ['autoreplyrtr',['autoReplyRtr',['../structcy__stc__can__rx__buffer__config__t.html#ae055dddf82274e2eeda977c954c8ee09',1,'cy_stc_can_rx_buffer_config_t']]],
   ['autotoggleact',['autoToggleAct',['../structcy__stc__usbpd__context__t.html#ac45f55b391c17c04678cdd88ee2cb180',1,'cy_stc_usbpd_context_t']]],
   ['autotoggleen',['autoToggleEn',['../structcy__stc__usbpd__context__t.html#ae8ed9def83a9424e09f35bd989e9e486',1,'cy_stc_usbpd_context_t']]],
   ['aux1config',['aux1Config',['../structcy__stc__usbpd__context__t.html#a118b7852f4facb4737177fb3ab9f2644',1,'cy_stc_usbpd_context_t']]],

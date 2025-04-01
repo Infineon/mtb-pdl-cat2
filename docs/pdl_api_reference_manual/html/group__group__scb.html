@@ -121,6 +121,8 @@ Changelog</h1>
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
 <tr>
+<td>4.60 </td><td>I2C: In SlaveHandleStop, discard the data in RxFifo, if address match Interrupt is not set. </td><td>Functionality improvement.  </td></tr>
+<tr>
 <td>4.50 </td><td>I2C: Interrupt logic updated to handle the slave not ready condition. Provided new function <a class="el" href="group__group__scb__i2c__slave__functions.html#gab7e88573e17c2c1a939e0f560e239b5d">Cy_SCB_I2C_SlaveSendAckNack()</a> that the user application can send ACK/NACK and configure buffer. </td><td>Functionality improvement.  </td></tr>
 <tr>
 <td rowspan="3">4.40 </td><td>SPI: Provided new functions to define a custom value of the default TX value when no TX buffer is defined: <a class="el" href="group__group__scb__spi__high__level__functions.html#ga95eabb5cdc6d1e5fe75cd8d7c592ef07">Cy_SCB_SPI_SetTxDefaultValue()</a>, <a class="el" href="group__group__scb__spi__high__level__functions.html#ga27b575f11ff947ee79dae138b80aa18a">Cy_SCB_SPI_GetTxDefaultValue()</a>. </td><td>High-Level API improvement.  </td></tr>

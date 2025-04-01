@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.100
+* \version 2.110
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1199,7 +1199,8 @@ typedef struct
    uint16_t custom_host_config_table_len;       /**< Size of the Custom host configuration table in bytes */
    uint16_t amd_config_table_offset;            /**< Offset of the AMD configuration table */
    uint16_t amd_config_table_len;               /**< Size of the AMD configuration table in bytes */
-   uint8_t reserved[4];                         /**< Reserved for future use */
+   uint16_t mtk_config_table_offset;            /**< Offset of the MTK configuration table */
+   uint16_t mtk_config_table_len;               /**< Size of the MTK configuration table in bytes */
 
 } pd_port_config_t;
 
@@ -1291,6 +1292,30 @@ typedef struct
     uint8_t usb3_support;               /**< USB 3.2 roles supported by the host design. */
     uint8_t reserved[2];                /**< Reserved for future */
 } amd_cfg_settings_t;
+
+/* @struct mtk_cfg_settings_t
+* @brief Struct to hold the MTK SoC USB4 MUX related config settings.
+*/
+typedef struct
+{
+   uint8_t mtk_platform_type;          /**< Type SoC USB4 MUX used in the design. */
+   uint8_t soc_u4mux_mode;             /**< SoC USB4 MUX Polling or Interrupt based mode */
+   uint16_t pd_controller_id;          /**< Configuring PD controller 2-byte id */
+   uint8_t soc_u4mux_address;          /**< Configuring I2C slave address */
+   uint8_t ipmux_offset;               /**< IPMUX Offset */
+   uint8_t sideband_offset;            /**< SideBand Offset */
+   uint8_t retimer_type;               /**< Retimer IC type which used in design. */
+   uint8_t i2c_retimer_address;        /**< Configuring I2C Retimer address */
+   uint8_t usb4_support;               /**< Indicates whether design supports USB4 handling */
+   uint8_t host_support;               /**< Protocol capabilities (TBT, DP, PCIe) of the host controller. */
+   uint8_t usb4_data_role;             /**< USB4 roles supported by the host design. */
+   uint8_t usb3_data_role;             /**< USB 3.2 roles supported by the host design. */
+   uint8_t sbu_conf;                   /**< SBU MUX configuration to be used:
+                                          * 0 -> Full SBU MUX Configuration
+                                          * 1 -> SBU MUX without polarity change
+                                          * 2 -> SBU MUX pass-through */
+   uint8_t reserved[2];                /**< Reserved for future */
+} mtk_cfg_settings_t;
 
 typedef struct
 {
@@ -1741,6 +1766,8 @@ cy_stc_pdaltmode_dp_cfg_settings_t* pd_get_ptr_dp_config_tbl(cy_stc_usbpd_contex
 intel_soc_cfg_settings_t* pd_get_ptr_intel_soc_config_tbl(cy_stc_usbpd_context_t *context);
 
 amd_cfg_settings_t* pd_get_ptr_amd_config_tbl(cy_stc_usbpd_context_t *context);
+
+mtk_cfg_settings_t* pd_get_ptr_mtk_config_tbl(cy_stc_usbpd_context_t *context);
 
 cy_stc_bb_settings_t* pd_get_ptr_bb_tbl(cy_stc_usbpd_context_t *context);
 

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.h
-* \version 2.100
+* \version 2.110
 *
 * Provides API declarations of the USBPD MUX Control driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -54,6 +54,10 @@
 */
 #if defined(CY_DEVICE_CCG6DF_CFP)
 cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context, bool enable);
+
+void Cy_USBPD_Mux_SetLsTxDir(cy_stc_usbpd_context_t *context, bool tx_mode);
+
+cy_en_usbpd_status_t Cy_USBPD_Mux_LsTermConfigure(cy_stc_usbpd_context_t *context, bool lsTxTermEn, bool lsRxTermEn);
 #endif /* CY_DEVICE_CCG6DF_CFP */
 
 cy_en_usbpd_status_t Cy_USBPD_Mux_ConfigDpDm(cy_stc_usbpd_context_t *context, cy_en_usbpd_dpdm_mux_cfg_t conf);

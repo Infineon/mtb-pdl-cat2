@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['global_20interrupt_20masks',['Global Interrupt masks',['../group__group__can__global__interrupt__masks.html',1,'']]],
   ['gpio_20_20_20_20_20_20_20_20_20_28general_20purpose_20input_20output_29',['GPIO         (General Purpose Input Output)',['../group__group__gpio.html',1,'']]],
   ['gpio_20functions',['GPIO Functions',['../group__group__gpio__functions__gpio.html',1,'']]],
   ['general',['General',['../group__group__scb__ezi2c__general__functions.html',1,'']]],

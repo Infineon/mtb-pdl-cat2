@@ -1,6 +1,18 @@
 var searchData=
 [
   ['cy_5fen_5faccept_5fnon_5fmatching_5fframes_5ft',['cy_en_accept_non_matching_frames_t',['../group__group__canfd__enums.html#ga5ce2c01ca9806831dc539727d173e59c',1,'cy_canfd.h']]],
+  ['cy_5fen_5fcan_5farbiter_5ft',['cy_en_can_arbiter_t',['../group__group__can__enums.html#gafd43b28eb2dfde61f163fedcc8402d3e',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fbusoff_5frestart_5ft',['cy_en_can_busoff_restart_t',['../group__group__can__enums.html#gaac868830ab0411acfeb3f79a5eb7194a',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fedgemode_5ft',['cy_en_can_edgemode_t',['../group__group__can__enums.html#gaca2f2d02d6cf608e9d2aafb6b792191a',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fendian_5ft',['cy_en_can_endian_t',['../group__group__can__enums.html#ga94775a60d0545fa261bcaa6dc1a040ba',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fide_5ft',['cy_en_can_ide_t',['../group__group__can__enums.html#gac2bce989dc8f2941c3a7956c7d8b84ed',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5flec_5ft',['cy_en_can_lec_t',['../group__group__can__enums.html#ga4cd222ee051c5e928799f9ae0c0dd7da',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5frtr_5ft',['cy_en_can_rtr_t',['../group__group__can__enums.html#ga91786d9b251d8ced177ddcf0a9f53a81',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5frx_5fbuffer_5fstatus_5ft',['cy_en_can_rx_buffer_status_t',['../group__group__can__enums.html#gaa2a6843308ad28e49e8dabf301ef4980',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fsampling_5ft',['cy_en_can_sampling_t',['../group__group__can__enums.html#gab4c2c7a4fe96499105914fd1cd32b5e4',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5fstatus_5ft',['cy_en_can_status_t',['../group__group__can__enums.html#ga487cbc7e67c181bd6668fac32026a1ea',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5ftest_5fmode_5ft',['cy_en_can_test_mode_t',['../group__group__can__enums.html#gab79b96b04361b35ff2ab4cf0cff71b1b',1,'cy_can.h']]],
+  ['cy_5fen_5fcan_5ftx_5fbuffer_5fstatus_5ft',['cy_en_can_tx_buffer_status_t',['../group__group__can__enums.html#ga890be85960c3b322fa43b0a17530dc6d',1,'cy_can.h']]],
   ['cy_5fen_5fcanfd_5fanmf_5ft',['cy_en_canfd_anmf_t',['../group__group__canfd__enums.html#ga53b444c143bea1570c083fd63289e2e1',1,'cy_canfd.h']]],
   ['cy_5fen_5fcanfd_5fbuffer_5fdata_5fsize_5ft',['cy_en_canfd_buffer_data_size_t',['../group__group__canfd__enums.html#ga597fe2f69a8484277fd481ac5384ca7c',1,'cy_canfd.h']]],
   ['cy_5fen_5fcanfd_5fefec_5ft',['cy_en_canfd_efec_t',['../group__group__canfd__enums.html#ga54cac9dc6e3b4b0ad9f833420dcd0d85',1,'cy_canfd.h']]],

@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_buck_boost.c
-* \version 2.100
+* \version 2.110
 *
 * The source file of the USBPD Buck Boost Driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -672,7 +672,7 @@ static void Cy_USBPD_BB_SetMode(cy_stc_usbpd_context_t *context, uint8_t mode)
 #if PDL_VREG_INRUSH_DET_ENABLE
 
 /* Function to enable Vreg inrush detection fault after a delay. */
-static void Cy_USBPD_BB_VregInrushDetEnCb( cy_en_usbpd_timer_id_t id, void *context)
+static void Cy_USBPD_BB_VregInrushDetEnCb( uint16_t id, void *context)
 {
     cy_stc_usbpd_context_t *usbpd_ctx = (cy_stc_usbpd_context_t *)context;
     bool inrush_en;
@@ -715,14 +715,12 @@ static void Cy_USBPD_BB_VregInrushDetEnCb( cy_en_usbpd_timer_id_t id, void *cont
     {
 
         /* Start a timer to check buck-boost enable status */
-        usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx,
-            (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx, CY_USBPD_APP_HAL_VREG_TIMER),
-            PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
+        usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx, CY_USBPD_APP_HAL_VREG_TIMER, PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
     }
 }
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 
-static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdContext)
+static void Cy_USBPD_BB_SoftStartDoneCbk(uint16_t id, void *usbpdContext)
 {
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)usbpdContext;
 #if (PMG1B1_USB_CHARGER == 0)
@@ -763,12 +761,11 @@ static void Cy_USBPD_BB_SoftStartDoneCbk(cy_en_usbpd_timer_id_t id, void *usbpdC
     context->bbEnableDoneStatus = true;
 
     /* Stop the regulator startup monitor timer */
-    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
+    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER);
 
 #if PDL_VREG_INRUSH_DET_ENABLE
     /* Re-enable VREG Inrush fault detection as Buck-Boost is up */
-    context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER),
-        PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
+    context->timerStartcbk(context, context, CY_USBPD_APP_HAL_VREG_TIMER, PD_VREG_INRUSH_DET_EN_DELAY_MS, Cy_USBPD_BB_VregInrushDetEnCb);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 }
 
@@ -783,7 +780,7 @@ static void Cy_USBPD_BB_SetVsafe5vDone(void *context, bool stat)
      * switch to configured switching mode.
      */
 
-    (void)usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx, CY_USBPD_APP_HAL_GENERIC_TIMER), BB_STARTUP_DONE_TIMER_PERIOD_MS, Cy_USBPD_BB_SoftStartDoneCbk);
+    (void)usbpd_ctx->timerStartcbk(usbpd_ctx, usbpd_ctx, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER, BB_STARTUP_DONE_TIMER_PERIOD_MS, Cy_USBPD_BB_SoftStartDoneCbk);
 }
 
 
@@ -859,7 +856,7 @@ static bool bb_en_vbus_ovp_cbk(void *context, bool comp_out)
 
 #if APP_VBUS_SRC_FET_BYPASS_EN
     /* Make sure soft start monitoring timer is stopped. */
-    usbpd_ctx->timerStopcbk(usbpd_ctx, CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx,CY_USBPD_APP_HAL_GENERIC_TIMER));
+    usbpd_ctx->timerStopcbk(usbpd_ctx, CY_USBPD_APP_HAL_GENERIC_TIMER);
 #endif /* APP_VBUS_SRC_FET_BYPASS_EN */
 
     if (comp_out == true)
@@ -877,7 +874,7 @@ static bool bb_en_vbus_ovp_cbk(void *context, bool comp_out)
 #endif /* PMG1B1_USB_CHARGER */
 
         /* Enable EA mode */
-        bb_soft_start_to_ea_cb((cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(usbpd_ctx,CY_USBPD_APP_HAL_GENERIC_TIMER), usbpd_ctx);
+        bb_soft_start_to_ea_cb((cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER, usbpd_ctx);
     }
 
     return true;
@@ -899,7 +896,7 @@ static void pd_internal_revert_vbus_in_ds(cy_stc_usbpd_context_t *context)
 }
 
 #if BB_SAFE_VBUS_IN_EN
-static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
+static void bb_safe_vbus_in_cb(uint16_t id, void *callbackContext)
 {
     uint16_t vbus_in_volt;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
@@ -922,13 +919,13 @@ static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
         Cy_USBPD_VbusIn_DischargeOn(context);
 #endif /* PMG1B1_USB_CHARGER */
         /* VBUS_IN is not in safe range */
-        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
+        (void)context->timerStartcbk(context, context, CY_USBPD_APP_HAL_GENERIC_TIMER,
             BB_SAFE_VBUS_IN_TIMER_MS, bb_safe_vbus_in_cb);
     }
     else
     {
         /* Make sure that timeout timer is off. */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER);
         /* Disable VBUS_IN discharge. */
 #if PMG1B1_USB_CHARGER
         pd->dischg_shv_ctrl[1] = ((pd->dischg_shv_ctrl[1] & ~PDSS_DISCHG_SHV_CTRL_DISCHG_EN) | PDSS_DISCHG_SHV_CTRL_DISCHG_EN_CFG);
@@ -946,7 +943,7 @@ static void bb_safe_vbus_in_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
 #endif /* BB_SAFE_VBUS_IN_EN */
 
 #if APP_VBUS_SRC_FET_BYPASS_EN
-static void bb_soft_start_mon_cb(cy_en_usbpd_timer_id_t id, void *callbackContext)
+static void bb_soft_start_mon_cb(uint16_t id, void *callbackContext)
 {
     (void)id;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
@@ -962,12 +959,11 @@ static void bb_soft_start_mon_cb(cy_en_usbpd_timer_id_t id, void *callbackContex
         PDSS_BBCTRL_BUCK_SW_CTRL_BBCTRL_SS_PW_HS1, 
         (bb_ss_per_to_clk(context, context->bbSsPwmDuty) - 1));
     /* Enable timer to keep monitor the VBUS soft start */
-    context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
-    BB_SOFT_START_MON_TIMER_MS, bb_soft_start_mon_cb);
+    context->timerStartcbk(context, context, CY_USBPD_APP_HAL_GENERIC_TIMER, BB_SOFT_START_MON_TIMER_MS, bb_soft_start_mon_cb);
 }
 #endif /* APP_VBUS_SRC_FET_BYPASS_EN */
 
-static void bb_startup_monitor_cbk(cy_en_usbpd_timer_id_t id , void *callbackContext)
+static void bb_startup_monitor_cbk(uint16_t id , void *callbackContext)
 {
     (void)id;
     cy_stc_usbpd_context_t *context = (cy_stc_usbpd_context_t *)callbackContext;
@@ -1013,7 +1009,7 @@ static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context)
      * restrict Inrush current.
      */
 
-    context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+    context->timerStopcbk(context, CY_USBPD_APP_HAL_VREG_TIMER);
 
     Cy_USBPD_Fault_VregInrushDetDis(context);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
@@ -1090,8 +1086,7 @@ static void Cy_USBPD_BB_SoftStartEnable(cy_stc_usbpd_context_t *context)
      * cut off is reached. 
      */
 
-    context->timerStartcbk(context, context, CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
-    BB_SOFT_START_MON_TIMER_MS, bb_soft_start_mon_cb);
+    context->timerStartcbk(context, context, CY_USBPD_APP_HAL_GENERIC_TIMER, BB_SOFT_START_MON_TIMER_MS, bb_soft_start_mon_cb);
 
 #endif /* APP_VBUS_SRC_FET_BYPASS_EN */
 
@@ -1156,9 +1151,9 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
 #endif /* !PSVP_FPGA_ENABLE */
 
         /* Stop the timer to ensure that we do not get re-entry. */
-        context->timerStopcbk(context,(cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context, CY_USBPD_APP_HAL_GENERIC_TIMER));
+        context->timerStopcbk(context,(cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER);
         
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER);
 
 #if BB_SAFE_VBUS_IN_EN
         /* Don't turn on the BB if Vbus-in voltage is not in safe range. */
@@ -1203,7 +1198,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
             /* CCG7D is VIN powered, so non comparator based discharge can be enabled */
             Cy_USBPD_VbusIn_DischargeOn(context);
 #endif /* PMG1B1_USB_CHARGER */
-            (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER),
+            (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER,
                 BB_SAFE_VBUS_IN_TIMER_MS, bb_safe_vbus_in_cb);
         }
 #endif /* BB_SAFE_VBUS_IN_EN */
@@ -1217,7 +1212,7 @@ void Cy_USBPD_BB_Enable(cy_stc_usbpd_context_t *context)
                 BB_STARTUP_MONITOR_TIMER_PERIOD * 10u, bb_startup_monitor_cbk);
 #else /* !PMG1B1_USB_CHARGER */
         /* Start buck-boost startup monitor timer */
-        (void)context->timerStartcbk(context, context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER),
+        (void)context->timerStartcbk(context, context, CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER,
                 BB_STARTUP_MONITOR_TIMER_PERIOD, bb_startup_monitor_cbk);
 #endif /* PMG1B1_USB_CHARGER */
     }
@@ -1241,14 +1236,14 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
         /* For PMG1B1 stop BB quickly and later stop timers.This need to avoid BB VOUT spike when load is removed. */
 #if !defined(CY_DEVICE_SERIES_PMG1B1)
         /* Stop the regulator startup monitor timer */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER);
     
         /* Stop OVP, discharge and timers used for bb_enable. */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER);
 
 #if PDL_VREG_INRUSH_DET_ENABLE
         /* Disable vreg fault timer */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+        context->timerStopcbk(context, CY_USBPD_APP_HAL_VREG_TIMER);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 #endif /* #if !defined(CY_DEVICE_SERIES_PMG1B1) */
         /* 
@@ -1324,14 +1319,14 @@ void Cy_USBPD_BB_Disable(cy_stc_usbpd_context_t *context)
 
 #if defined(CY_DEVICE_SERIES_PMG1B1)
         /* Stop the regulator startup monitor timer */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_REGULATOR_STARTUP_MONITOR_TIMER);
 
         /* Stop OVP, discharge and timers used for bb_enable. */
-        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_GENERIC_TIMER));
+        context->timerStopcbk(context, (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_GENERIC_TIMER);
 
 #if PDL_VREG_INRUSH_DET_ENABLE
         /* Disable vreg fault timer */
-        context->timerStopcbk(context,  (cy_en_usbpd_timer_id_t)CY_USBPD_GET_APP_TIMER_ID(context,CY_USBPD_APP_HAL_VREG_TIMER));
+        context->timerStopcbk(context,  (cy_en_usbpd_timer_id_t)CY_USBPD_APP_HAL_VREG_TIMER);
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 #endif /* #if defined(CY_DEVICE_SERIES_PMG1B1) */
 

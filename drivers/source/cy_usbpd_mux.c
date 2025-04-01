@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.100
+* \version 2.110
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
 ********************************************************************************
 * \copyright
-* (c) (2022 - 2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2022 - 2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -177,18 +177,18 @@ static void Cy_USBPD_Mux_ConfigDebugGpio(uint8_t port, cy_en_usbpd_sbu_switch_st
 cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context, bool enable)
 {
     cy_en_usbpd_status_t ret = CY_USBPD_STAT_NOT_READY;
-    uint32_t intstate;
-    uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
+    uint32_t intstate, regIndexDbg, sbuClipperCtrl, siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
     PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pdDbg = pd;
 
-    /* Workaround for CCG6DF CFP silicon to use registers for port 1 to control SBU. */
+    /* Workaround for CCG6SF_CFP and CCG8SF_CFP silicon to use registers for port 1 to control SBU. */
     if (
            (siliconId == 0x3E00UL) ||
            (siliconId == 0x3E01UL) ||
            (siliconId == 0x3E80UL)
        )
     {
-        pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
+        pdDbg = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
     }
 
     /*
@@ -198,8 +198,8 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context,
      * 0x07 - indicates that SBU sequencer FSM is in connected state
      */
     if (
-           (((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL) && (enable == false)) ||
-           (((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL) && (enable))
+           (((pdDbg->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL) && (enable == false)) ||
+           (((pdDbg->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL) && (enable))
         )
     {
         return CY_USBPD_STAT_INVALID_ARGUMENT;
@@ -207,21 +207,136 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_FuncModeEnDis(cy_stc_usbpd_context_t *context,
 
     intstate = Cy_SysLib_EnterCriticalSection();
 
-    /* Enable SBU<->DBG connection if disabled */
-    if ((enable) && ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL))
+    /* Change OVP threshold before disable */
+    if (enable == false)
     {
-        pd->hw_sbu_ctrl_1 |= PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
+        /* OVP set to 3.3V then SBU-DBG connection has to be disabled */
+        regIndexDbg = pdDbg->pd_sbu_hres_ctrl;
+        regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN |
+             PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
+        pdDbg->pd_sbu_hres_ctrl = regIndexDbg;
+
+        /* Set 3.3 volt OVP threshold for AUXP/AUXN/LSTX/LSRX/None connection */
+        sbuClipperCtrl = pd->pd_30sbu_clipper_ctrl;
+        sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
+
+        /* Set SBU clipper */
+        pd->pd_30sbu_clipper_ctrl     = sbuClipperCtrl;
+        /* Wait to apply new OVP threshold */
+        Cy_SysLib_DelayUs(2);
+    }
+
+    /* Enable SBU<->DBG connection if disabled */
+    if ((enable) && ((pdDbg->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x00UL))
+    {
+        pdDbg->hw_sbu_ctrl_1 |= PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
         ret = CY_USBPD_STAT_SUCCESS;
     }
-    else if ((!enable) && ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL))
+    else if ((!enable) && ((pdDbg->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL))
     {
-        pd->hw_sbu_ctrl_1 &= ~PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
+        pdDbg->hw_sbu_ctrl_1 &= ~PDSS_HW_SBU_CTRL_1_SBU_DBG_EN;
         ret = CY_USBPD_STAT_SUCCESS;
     }
 
     Cy_SysLib_ExitCriticalSection(intstate);
 
     return ret;
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_SetLsTxDir
+****************************************************************************//**
+*
+* This function configures LSTX direction.
+*
+* \param context
+* USBPD PDL Context pointer.
+*
+* \param tx_mode
+* True - transmitter mode (Data from SBU1/2 to LXTX)
+* False - receiver mode (Data from LSTX to SBU1/2).
+*
+* \return
+*  None
+*
+*******************************************************************************/
+void Cy_USBPD_Mux_SetLsTxDir(cy_stc_usbpd_context_t *context, bool tx_mode)
+{
+    uint32_t intstate, regIndexLs;
+    PPDSS_REGS_T pd = context->base;
+
+    intstate = Cy_SysLib_EnterCriticalSection();
+
+    regIndexLs = pd->pd_sbu_ls_ctrl_0;
+
+    /* Set receiver mode by default.  */
+    regIndexLs &= ~PDSS_PD_SBU_LS_CTRL_0_DIR_LSTX;
+    /* Set transmitter mode if required.  */
+    if (tx_mode)
+    {
+        regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_DIR_LSTX;
+    }
+
+    /* Set LSTX direction. */
+    pd->pd_sbu_ls_ctrl_0 = regIndexLs;
+
+    Cy_SysLib_ExitCriticalSection(intstate);
+}
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Mux_LsTermConfigure
+****************************************************************************//**
+*
+* This function enables/disables 10KOhm Pullup resistor for LSTX and
+* 1M0hm Pulldown resistor for LSRX
+*
+* \param context
+* USBPD PDL Context pointer.
+*
+* \param lsTxTermEn
+* Enable/disable LSTX 10KOhm Pullup resistor.
+*
+* \param lsRxTermEn
+* Enable/disable LSRX 1M0hm Pulldown resistor.
+*
+* \return
+*  cy_en_usbpd_status_t
+*
+*******************************************************************************/
+cy_en_usbpd_status_t Cy_USBPD_Mux_LsTermConfigure(cy_stc_usbpd_context_t *context, bool lsTxTermEn, bool lsRxTermEn)
+{
+    PPDSS_REGS_T pd = context->base;
+
+    uint32_t intstate  = Cy_SysLib_EnterCriticalSection();
+    uint32_t regIndexLs = pd->pd_sbu_ls_ctrl_0;
+
+    if (lsTxTermEn != false)
+    {
+        /* Enable 10KOhm Pullup resistor for LSTX. */
+        regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_LSTX_PURES_10K;
+    }
+    else
+    {
+        /* Remove termination resistors for LSTX */
+        regIndexLs &= ~ PDSS_PD_SBU_LS_CTRL_0_EN_LSTX_PURES_10K;
+    }
+
+    if (lsRxTermEn != false)
+    {
+        /* Enable 1M0hm Pulldown resistor for LSRX. */
+        regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_LSRX_PDRES_1MEG;
+    }
+    else
+    {
+        /* Remove termination resistors for LSRX */
+        regIndexLs &= ~ PDSS_PD_SBU_LS_CTRL_0_EN_LSRX_PDRES_1MEG;
+    }
+
+    /* Update SBU connections configuration */
+    pd->pd_sbu_ls_ctrl_0 = regIndexLs;
+
+    Cy_SysLib_ExitCriticalSection(intstate);
+    return CY_USBPD_STAT_SUCCESS;
 }
 #endif /* CY_DEVICE_CCG6DF_CFP */
 
@@ -636,13 +751,17 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     return CY_USBPD_STAT_SUCCESS;
 #elif defined(CY_DEVICE_CCG6DF_CFP)
     PPDSS_REGS_T pd = context->base;
+    PPDSS_REGS_T pdDbg = pd;
     uint32_t siliconId = SFLASH_SILICON_ID & 0xFFFFUL;
-    uint32_t regIndexLs = 0u;
-    uint32_t regIndexAux = 0u;
-    uint32_t regIndexDbg = 0u;
-    uint32_t sbuClipperCtrl = 0u;
+    uint32_t regIndexLs;
+    uint32_t regIndexAux;
+    uint32_t regIndexDbg;
+    uint32_t sbuClipperCtrl, sbuClipperCtrlDbg;
     uint32_t switchCtrl = 0u;
     uint32_t intstate;
+    const uint32_t auxPathEnMask = (PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+    const uint32_t lsPathEnMask = (PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
+    const uint32_t dbgPathEnMask = (PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
 
     /* Check that state values are within allowed range without cross-connections */
     if (
@@ -664,76 +783,187 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
      * OUT2 - LSRX/AUX2(AUXN)/DBG2
      * */
 
-    /* Workaround for CCG6DF CFP silicon to use registers for port 1 to control SBU. */
+    /*
+     * Workaround for CCG6SF_CFP and CCG8SF_CFP silicon to use registers
+     * for port 1 to control SBU-DBG connection.
+     * */
     if (
            (siliconId == 0x3E00UL) ||
            (siliconId == 0x3E01UL) ||
            (siliconId == 0x3E80UL)
        )
     {
-        pd = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
+        pdDbg = (PPDSS_REGS_T)PDSS1_BASE_ADDR;
     }
 
     /* HW DBG<->SBU connection is already established and functional mode can not be proceed */
-    if ((pd->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL)
+    if ((pdDbg->hw_sbu_status & PDSS_HW_SBU_STATUS_FSM_CURR_STATE_MASK) == 0x07UL)
     {
         return CY_USBPD_STAT_NOT_READY;
     }
 
+    intstate = Cy_SysLib_EnterCriticalSection();
+
+    regIndexLs  = pd->pd_sbu_ls_ctrl_0;
+    regIndexAux = pd->pd_sbu_lres_ctrl;
+    regIndexDbg = pdDbg->pd_sbu_hres_ctrl;
+
+    sbuClipperCtrl = pd->pd_30sbu_clipper_ctrl;
+    /* Clear the bits which needs to be configured. */
+    sbuClipperCtrl &= ~(PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN |
+            PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN);
+
     if (sbu1State > CY_USBPD_SBU_NOT_CONNECTED)
     {
         /* Set SBU1 clipper */
-        sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN | PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ISO_N;
+        sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN;
     }
     if (sbu2State > CY_USBPD_SBU_NOT_CONNECTED)
     {
        /* Set SBU2 clipper */
-       sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN | PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ISO_N;
+       sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN;
     }
 
     if (
-           ((sbu1State >= CY_USBPD_SBU_CONNECT_AUX1) && (sbu1State <= CY_USBPD_SBU_CONNECT_LSRX)) ||
-           ((sbu2State >= CY_USBPD_SBU_CONNECT_AUX1) && (sbu2State <= CY_USBPD_SBU_CONNECT_LSRX))
+           ((sbu1State >= CY_USBPD_SBU_CONNECT_DBG1) && (sbu1State <= CY_USBPD_SBU_CONNECT_DBG2)) ||
+           ((sbu2State >= CY_USBPD_SBU_CONNECT_DBG1) && (sbu2State <= CY_USBPD_SBU_CONNECT_DBG2))
        )
     {
-        /* Set 3.3 volt OVP threshold for AUXP/AUXN/LSTX/LSRX connection */
+        /* Set 1.8 volt OVP threshold for DBG1/DBG2 connection */
+        sbuClipperCtrl &= ~PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
+    }
+    else
+    {
+        /* Set 3.3 volt OVP threshold for AUXP/AUXN/LSTX/LSRX/None connection */
         sbuClipperCtrl |= PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
     }
 
-    intstate = Cy_SysLib_EnterCriticalSection();
+    /* Reset port-1 SBU clipper for single port devices. */
+    if (
+           (siliconId == 0x3E00UL) ||
+           (siliconId == 0x3E01UL) ||
+           (siliconId == 0x3E80UL)
+       )
+    {
+        if ((sbu1State < CY_USBPD_SBU_CONNECT_DBG1) && (sbu2State < CY_USBPD_SBU_CONNECT_DBG1))
+        {
+            /* Enable OVP functionality port-0 registers. */
+            sbuClipperCtrl |= (PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_VTP | PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP | PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP_OUT);
+            pd->pd_30sbu_clipper_ctrl = sbuClipperCtrl;
 
-    /* Set SBU clipper */
-    pd->pd_30sbu_clipper_ctrl  = sbuClipperCtrl;
+            /* Clear port-1 clipper register SBU connection and OVP settings for non debug connection. */
+            sbuClipperCtrlDbg = pdDbg->pd_30sbu_clipper_ctrl;
+            sbuClipperCtrlDbg &= ~(PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN | PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN |
+                                       PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_VTP | PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP |
+                                           PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP_OUT);
+            /* Enable port-1 clipper 3.3V OVP limit to avoid pull down SBU lines. */
+            sbuClipperCtrlDbg |= PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
+            pdDbg->pd_30sbu_clipper_ctrl = sbuClipperCtrlDbg;
+        }
+        else
+        {
+            /* Enable OVP functionality port-1 registers. */
+            sbuClipperCtrlDbg = pdDbg->pd_30sbu_clipper_ctrl;
+            sbuClipperCtrlDbg &= ~PDSS_PD_30SBU_CLIPPER_CTRL_DET_LEVEL_CTRL;
+            sbuClipperCtrlDbg |= PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN | PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN |
+                                       PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_VTP | PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP |
+                                           PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP_OUT;
+            pdDbg->pd_30sbu_clipper_ctrl = sbuClipperCtrlDbg;
+
+            /* Clear port-0 clipper register SBU connection and OVP settings for non debug connection. */
+            sbuClipperCtrl &= ~(PDSS_PD_30SBU_CLIPPER_CTRL_SBU1_EN | PDSS_PD_30SBU_CLIPPER_CTRL_SBU2_EN |
+                                       PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_VTP | PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP |
+                                           PDSS_PD_30SBU_CLIPPER_CTRL_EN_OVP_COMP_OUT);
+            pd->pd_30sbu_clipper_ctrl = sbuClipperCtrl;
+        }
+    }
+    else
+    {
+        /* Set SBU clipper for 2-port devices as regular */
+        pd->pd_30sbu_clipper_ctrl = sbuClipperCtrl;
+    }
 
     switch (sbu1State)
     {
         case CY_USBPD_SBU_CONNECT_AUX1:
             /* SBU1 shall be connected to AUX1 and not to AUX2. */
             regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN;
+            regIndexAux &= ~PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN;
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
+
+            /* Clear the DBG connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_AUX2:
+            /* SBU1 shall be connected to AUX2 and not to AUX1. */
             regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN;
+            regIndexAux &= ~PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN;
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
+
+            /* Clear the DBG connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_LSTX:
+            /* SBU1 shall be connected to LSTX and not to LSRX. */
             regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX;
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
+
+            /* Clear the Aux connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN);
+
+            /* Clear the DBG connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_LSRX:
+            /* SBU1 shall be connected to LSRX and not to LSTX. */
             regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX;
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX);
+
+            /* Clear the Aux connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN);
+
+            /* Clear the DBG connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_DBG1:
+            /* SBU1 shall be connected to DBG1 and not to DBG2. */
             regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN;
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
+
+            /* Clear the Aux connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_DBG2:
+            /* SBU1 shall be connected to DBG2 and not to DBG1. */
             regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN;
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
+
+            /* Clear the Aux connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN);
             break;
 
         default:
-            /* Do Nothing */
+            /* Clear the Aux connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN1_OUT2_EN);
+            /* Clear the DBG connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN1_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN1_OUT2_EN);
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU1_LSRX);
             break;
     }
 
@@ -742,37 +972,123 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
         case CY_USBPD_SBU_CONNECT_AUX1:
             /* SBU2 shall be connected to AUX1 and not to AUX2. */
             regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN;
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
+
+            /* Clear the Debug connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_AUX2:
+            /* SBU2 shall be connected to AUX2 and not to AUX1. */
             regIndexAux |= PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN;
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
+
+            /* Clear the Debug connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_LSTX:
+            /* SBU2 shall be connected to LSTX and not to LSRX. */
             regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX;
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
+
+            /* Clear the AUX connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the Debug connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_LSRX:
+            /* SBU2 shall be connected to LSRX and not to LSTX. */
             regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX;
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX);
+
+            /* Clear the AUX connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the Debug connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
             break;
 
         case CY_USBPD_SBU_CONNECT_DBG1:
+            /* SBU2 shall be connected to DBG1 and not to DBG2 */
             regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN;
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the AUX connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
             break;
 
         case CY_USBPD_SBU_CONNECT_DBG2:
+            /* SBU2 shall be connected to DBG2 and not to DBG1 */
             regIndexDbg |= PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN;
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN);
+
+            /* Clear the AUX connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
             break;
 
         default:
-            /* Do Nothing */
+            /* Clear the AUX connections if any */
+            regIndexAux &= ~(PDSS_PD_SBU_LRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_LRES_CTRL_IN2_OUT2_EN);
+            /* Clear the Debug connections if any */
+            regIndexDbg &= ~(PDSS_PD_SBU_HRES_CTRL_IN2_OUT1_EN | PDSS_PD_SBU_HRES_CTRL_IN2_OUT2_EN);
+            /* Clear the LS connections if any */
+            regIndexLs &= ~(PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSTX | PDSS_PD_SBU_LS_CTRL_0_EN_SBU2_LSRX);
             break;
     }
+
+#if PDL_TERM_AUX_LS_ENABLE
+    /* Set AUX termination resistors if required */
+    if (
+           ((sbu1State == CY_USBPD_SBU_CONNECT_AUX1) || (sbu1State == CY_USBPD_SBU_CONNECT_AUX2)) &&
+           ((sbu2State == CY_USBPD_SBU_CONNECT_AUX1) || (sbu2State == CY_USBPD_SBU_CONNECT_AUX2))
+       )
+    {
+        /* Set AUX1 100KOhm Pulldown and AUX2 100KOhm Pullup resistors. */
+        Cy_USBPD_Mux_AuxTermConfigure(context, CY_USBPD_AUX_1_100K_PD_RESISTOR, CY_USBPD_AUX_2_100K_PU_RESISTOR);
+    }
+    else
+    {
+        /* Remove termination resistors connection if any */
+        Cy_USBPD_Mux_AuxTermConfigure(context, CY_USBPD_AUX_NO_RESISTOR, CY_USBPD_AUX_NO_RESISTOR);
+    }
+
+    /* Set LS termination resistors if required. */
+    if (
+           ((sbu1State == CY_USBPD_SBU_CONNECT_LSTX) || (sbu1State == CY_USBPD_SBU_CONNECT_LSRX)) &&
+           ((sbu2State == CY_USBPD_SBU_CONNECT_LSTX) || (sbu2State == CY_USBPD_SBU_CONNECT_LSRX))
+       )
+    {
+        /* Enable 10KOhm Pullup resistor for LSTX. */
+        regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_LSTX_PURES_10K;
+        /* Enable 1M0hm Pulldown resistor for LSRX. */
+        regIndexLs |= PDSS_PD_SBU_LS_CTRL_0_EN_LSRX_PDRES_1MEG;
+    }
+    else
+    {
+        /* Remove termination resistors connections if any */
+        regIndexLs &= ~ (PDSS_PD_SBU_LS_CTRL_0_EN_LSTX_PURES_10K | PDSS_PD_SBU_LS_CTRL_0_EN_LSRX_PDRES_1MEG);
+    }
+#endif /* PDL_TERM_AUX_LS_ENABLE */
 
     /* Update SBU connections configuration */
     pd->pd_sbu_lres_ctrl = regIndexAux;
     pd->pd_sbu_ls_ctrl_0 = regIndexLs;
-    pd->pd_sbu_hres_ctrl = regIndexDbg;
+    pdDbg->pd_sbu_hres_ctrl = regIndexDbg;
 
     /* Set HW control of the gate drivers */
     switchCtrl = PDSS_SWITCH_CTRL_00_AUTO_MODE | PDSS_SWITCH_CTRL_00_SEL_ON_OFF | PDSS_SWITCH_CTRL_00_EN_SWITCH_ON_VALUE;
@@ -788,18 +1104,35 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
         switchCtrl |= (0x02UL << PDSS_SWITCH_CTRL_00_SEL_FAULT_EN_POS);
     }
 
+    /* Clear current gates configuration */
+    pd->switch_ctrl_00 = PDSS_SWITCH_CTRL_00_DEFAULT;
+    pd->switch_ctrl_02 = PDSS_SWITCH_CTRL_02_DEFAULT;
+
+    if ((regIndexDbg & dbgPathEnMask)!= 0u)
+    {
+        /*
+         * Reset the edge detector in the switch controller before setting SBU-DBG connection
+         * to make sure SBU-DBG connection works after SBU OVP triggering.
+         */
+        pdDbg->switch_ctrl_01 = PDSS_SWITCH_CTRL_01_DEFAULT | PDSS_SWITCH_CTRL_01_RST_EDGE_DET;
+    }
+    else
+    {
+        pdDbg->switch_ctrl_01 = PDSS_SWITCH_CTRL_01_DEFAULT;
+    }
+
     /* Configure gate drivers depending on current SBU configuration */
-    if (regIndexAux != 0u)
+    if ((regIndexAux & auxPathEnMask)!= 0u)
     {
         /* SBU<->AUX connection */
         pd->switch_ctrl_00 = switchCtrl;
     }
-    if (regIndexDbg != 0u)
+    if ((regIndexDbg & dbgPathEnMask)!= 0u)
     {
         /* SBU<->DBG connection */
-        pd->switch_ctrl_01 = switchCtrl;
+        pdDbg->switch_ctrl_01 = switchCtrl;
     }
-    if (regIndexLs != 0u)
+    if ((regIndexLs & lsPathEnMask) != 0u)
     {
         /* SBU<->LS connection */
         pd->switch_ctrl_02 = switchCtrl;
@@ -890,6 +1223,82 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_AuxTermConfigure(cy_stc_usbpd_context_t *conte
     /* Update the resistor. */
     pd->sbu_ctrl = regval;
     return CY_USBPD_STAT_SUCCESS;
+#elif defined(CY_DEVICE_CCG6DF_CFP)
+    PPDSS_REGS_T pd = context->base;
+    uint32_t intstate, regval = 0u;
+
+    /* Return if required configuration is already configured. */
+    if ((aux1Config == context->aux1Config) && (aux2Config == context->aux2Config))
+    {
+        return CY_USBPD_STAT_SUCCESS;
+    }
+
+    /* Check if resistor values passed are correct. */
+    if ((aux1Config > CY_USBPD_AUX_1_470K_PD_RESISTOR) ||
+            (((aux2Config < CY_USBPD_AUX_2_100K_PU_RESISTOR) && (aux2Config != CY_USBPD_AUX_NO_RESISTOR))
+             || (aux2Config > CY_USBPD_AUX_MAX_RESISTOR_CONFIG)))
+    {
+        /* Wrong configuration. */
+        return CY_USBPD_STAT_INVALID_ARGUMENT;
+    }
+
+    /* Set termination for AUX1. */
+    switch (aux1Config)
+    {
+        case CY_USBPD_AUX_1_1MEG_PU_RESISTOR:
+            /* AUX1 1M0hm Pullup resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT1_1MEG_EN_PU;
+            break;
+
+        case CY_USBPD_AUX_1_100K_PD_RESISTOR:
+            /* AUX1 100KOhm Pulldown resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT1_100K_EN_PD;
+            break;
+
+        case CY_USBPD_AUX_1_470K_PD_RESISTOR:
+            /* AUX1 470KOhm Pulldown resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT1_470K_EN_PD;
+            break;
+
+        default:
+            /* Do Nothing */
+            break;
+    }
+
+    /* Set termination for AUX2. */
+    switch (aux2Config)
+    {
+        case CY_USBPD_AUX_2_100K_PU_RESISTOR:
+            /* AUX2 100KOhm Pullup resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT2_100K_EN_PU;
+            break;
+
+        case CY_USBPD_AUX_2_4P7MEG_PD_RESISTOR:
+            /* AUX2 4.7M0hm Pulldown resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT2_4P7MEG_EN_PD;
+            break;
+
+        case CY_USBPD_AUX_2_1MEG_PD_RESISTOR:
+            /* AUX2 1M0hm Pulldown resistor. */
+            regval |= PDSS_PD_SBU_TERM_CTRL_OUT2_1MEG_EN_PD;
+            break;
+
+        default:
+            /* Do Nothing */
+            break;
+    }
+
+    /* Store the configuration. */
+    context->aux1Config = aux1Config;
+    context->aux2Config = aux2Config;
+
+    intstate = Cy_SysLib_EnterCriticalSection();
+
+    /* Update the register. */
+    pd->pd_sbu_term_ctrl = regval;
+
+    Cy_SysLib_ExitCriticalSection(intstate);
+    return CY_USBPD_STAT_SUCCESS;
 #else
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(aux1Config);
@@ -967,6 +1376,23 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuAdftEnable(cy_stc_usbpd_context_t *context,
         pd->sbu_ctrl = regval;
         status = CY_USBPD_STAT_SUCCESS;
     }
+#elif defined(CY_DEVICE_CCG6DF_CFP)
+    PPDSS_REGS_T pd = context->base;
+    uint32_t sbuClipperCtrl = pd->pd_30sbu_clipper_ctrl;
+
+    /* Enable CC Pump, this is required to measure SBU voltage */
+    Cy_USBPD_Pump_Enable (context, (uint8_t)(0U));
+
+    /* Enable ADFT block of SBU */
+    sbuClipperCtrl &= ~PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ADFT_CTRL_MASK;
+    sbuClipperCtrl |= (PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ADFT_EN | (adftInput << PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ADFT_CTRL_POS));
+    pd->pd_30sbu_clipper_ctrl = sbuClipperCtrl;
+
+    /* Provide some delay and turn on SBU pump */
+    Cy_SysLib_DelayUs (5);
+    Cy_USBPD_Pump_Enable (context, (uint8_t)(1U));
+
+    status = CY_USBPD_STAT_SUCCESS;
 #else
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(adftInput);
@@ -1001,6 +1427,10 @@ void Cy_USBPD_Mux_SbuAdftDisable(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
     /* Disable the ADFT block of SBU */
     pd->sbu_ctrl &= ~(PDSS_SBU_CTRL_SBU_ADFT_EN | PDSS_SBU_CTRL_SBU_ADFT_SEL_MASK);
+#elif defined(CY_DEVICE_CCG6DF_CFP)
+    PPDSS_REGS_T pd = context->base;
+    /* Disable the ADFT block of SBU */
+    pd->pd_30sbu_clipper_ctrl &= ~(PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ADFT_EN | PDSS_PD_30SBU_CLIPPER_CTRL_CLIPPER_ADFT_CTRL_MASK);
 #else
     CY_UNUSED_PARAMETER(context);
 #endif /* (defined(CY_DEVICE_PMG1S3)) */

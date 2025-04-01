@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_scb_i2c.c
-* \version 4.50
+* \version 4.60
 *
 * Provides I2C API implementation of the SCB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2023), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -2898,8 +2898,10 @@ static void SlaveHandleStop(CySCB_Type *base, bool slaveAddrInFifo, cy_stc_scb_i
             }
             else
             {
-                /* Process data in FIFO in case if there is no address */
-                if(!slaveAddrInFifo)
+                /* Process data in FIFO when slaveAddrInFifo is not set and address match is not set */
+                if((!slaveAddrInFifo) &&
+                   (0UL == (CY_SCB_SLAVE_INTR_I2C_ADDR_MATCH &
+                    Cy_SCB_GetSlaveInterruptStatusMasked(base))))
                 {
                     context->slaveStatus |= CY_SCB_I2C_SLAVE_WR_OVRFL;
                     (void) Cy_SCB_ReadRxFifo(base);

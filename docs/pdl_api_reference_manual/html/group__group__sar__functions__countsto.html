@@ -459,7 +459,7 @@ uV = V * 1000000
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>If ADC Vref does not match the DieTemp sensor Vref, this function automatically adjusts adcCounts to match DieTemp Vref.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>The die temperature in tens of degrees Celsius. If any base or channel parameter is valid, 0 is returned.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The die temperature in tens of degrees Celsius. If any base or channel parameter is invalid, 0 is returned.</dd></dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    int16_t temp = <a class="code" href="group__group__sar__functions__countsto.html#ga7f77eecc3a287304c89c9e064f416a0d">Cy_SAR_CountsTo_degreeC</a>(SAR0, <a class="code" href="group__group__sar__macros.html#ga92cec01d80f386f95916cc4f0ef238af">CY_SAR_INJ_CHANNEL</a>, injResult);</div><div class="line">    <span class="comment">/* now temp contains the die temperature is degrees Celsius */</span></div></div><!-- fragment --> Also please refer the <a class="el" href="group__group__sar.html#group_sar_sarmux_dietemp">Die temperature measurement</a> </dd></dl>
 
 </div>
