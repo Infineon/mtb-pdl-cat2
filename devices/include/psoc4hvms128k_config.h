@@ -1528,6 +1528,8 @@ typedef enum
 #define SFLASH_SRSSHV                   1u
 /* Does this product include PACSS (m0s8pacss) ? */
 #define SFLASH_HAS_PACSS                0u
+/* Does this product include PACSS + OCD (m0s8pacss + s8panatk) ? */
+#define SFLASH_HAS_OCD                  0u
 /* Does this product include SAR (m0s8sar) ? */
 #define SFLASH_HAS_SAR                  1u
 /* SRSSHV will use the NOESD version when set to 1 */

@@ -48,7 +48,9 @@ typedef struct {
   __IOM uint32_t USER_SFLASH_AREA[2];           /*!< 0x00000040 Pointer to between 0 and 2 customer usable SFLASH regions */
    __IM uint32_t RESERVED2[2];
   __IOM uint32_t DIE_UNIQUE_ID[6];              /*!< 0x00000050 Uses manufacturing identity to create a unique die ID */
-   __IM uint32_t RESERVED3[102];
+   __IM uint32_t RESERVED3[93];
+  __IOM uint8_t  PACSS_CHAN0_OCD_VTH_TRIM[18];  /*!< 0x000001DC Channel 0 OCD threshold voltage trim */
+  __IOM uint8_t  PACSS_CHAN1_OCD_VTH_TRIM[18];  /*!< 0x000001EE Channel 1 OCD threshold voltage trim */
   __IOM uint8_t  IMO_TRIM_LT[8];                /*!< 0x00000200 IMO Frequency Trim Register (SRSS-Lite) - From 24 to 48 MHz in
                                                                 steps of 4 MHz */
   __IOM uint8_t  IMO_TCTRIM_LT[8];              /*!< 0x00000208 IMO Temperature Compensation Trim - From 24 to 48 MHz in steps
@@ -106,6 +108,12 @@ typedef struct {
 /* SFLASH.DIE_UNIQUE_ID */
 #define SFLASH_DIE_UNIQUE_ID_ID_Pos             0UL
 #define SFLASH_DIE_UNIQUE_ID_ID_Msk             0xFFFFFFFFUL
+/* SFLASH.PACSS_CHAN0_OCD_VTH_TRIM */
+#define SFLASH_PACSS_CHAN0_OCD_VTH_TRIM_OCD0_VTH_TRIM_Pos 0UL
+#define SFLASH_PACSS_CHAN0_OCD_VTH_TRIM_OCD0_VTH_TRIM_Msk 0xFFUL
+/* SFLASH.PACSS_CHAN1_OCD_VTH_TRIM */
+#define SFLASH_PACSS_CHAN1_OCD_VTH_TRIM_OCD1_VTH_TRIM_Pos 0UL
+#define SFLASH_PACSS_CHAN1_OCD_VTH_TRIM_OCD1_VTH_TRIM_Msk 0xFFUL
 /* SFLASH.IMO_TRIM_LT */
 #define SFLASH_IMO_TRIM_LT_OFFSET_Pos           0UL
 #define SFLASH_IMO_TRIM_LT_OFFSET_Msk           0xFFUL
