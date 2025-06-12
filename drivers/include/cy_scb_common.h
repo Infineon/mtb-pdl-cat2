@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 4.60
+* \version 4.70
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -58,6 +58,14 @@
 *******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>4.70</td>
+*     <td>EZI2C: Fixed issue with the address being interpreted as a data byte if
+*         the interrupt is not handled in time, particularly when the transfer has
+*         a Repeated Start or when several transfers are initiated one-by-one with
+*         the minimal time interval. Applicable only if two addresses are enabled.</td>
+*     <td>Bug fix.</td>
+*   </tr>
 *   <tr>
 *     <td>4.60</td>
 *     <td>I2C: In SlaveHandleStop, discard the data in RxFifo, if address match
@@ -414,7 +422,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (4)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (60)
+#define CY_SCB_DRV_VERSION_MINOR    (70)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)

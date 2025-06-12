@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.16.1
+# mtb-pdl-cat2 peripheral driver library v2.16.2
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,8 +6,8 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
-### New Features
-- Added support of new devices for CCG7S and PSOC&trade; 4000T device families.
+### Updated Drivers
+- [SCB 4.70](./drivers/include/cy_scb_common.h) - Fixed the issue with incorrect data interpretation.
 
 ## Known Issues
 * PDL flash write APIs are not supported when using ARM C6 Compiler in debug mode. Please use ARM C6 Compiler in release mode if flash write is needed.
