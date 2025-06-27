@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.c
-* \version 3.30
+* \version 3.30.1
 *
 *  Description:
 *   Provides system API implementation for the SysLib driver.
 *
 ********************************************************************************
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0

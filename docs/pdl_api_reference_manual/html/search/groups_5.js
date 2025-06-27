@@ -12,6 +12,7 @@ var searchData=
   ['functions',['Functions',['../group__group__csd__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__ctb__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__dmac__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__dsadc__functions.html',1,'']]],
   ['flash_20_20_20_20_20_20_20_20_28flash_20system_20routine_29',['Flash        (Flash System Routine)',['../group__group__flash.html',1,'']]],
   ['flash_20configuration',['Flash Configuration',['../group__group__flash__config__macros.html',1,'']]],
   ['functions',['Functions',['../group__group__flash__functions.html',1,'']]],

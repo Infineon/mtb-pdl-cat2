@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-hpbgr-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS ground refference personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-hpbgr" name="HPBGR" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss\.hpbgr" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <ParamChoice id="hpbgrChopDiv" name="Chopping clock divider" group="High-Precision BandGap Reference" default="CY_DSADC_CHOPPING_CLOCK_DIVIDER_4" visible="true" editable="true" desc="High Precision Bandgap Reference Chopping Clock Frequency selection." >
+      <Entry name="2" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_2" visible="true" />
+      <Entry name="4" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_4" visible="true" />
+      <Entry name="8" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_8" visible="true" />
+      <Entry name="16" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_16" visible="true" />
+      <Entry name="32" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_32" visible="true" />
+      <Entry name="64" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_64" visible="true" />
+      <Entry name="128" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_128" visible="true" />
+      <Entry name="256" value="CY_DSADC_CHOPPING_CLOCK_DIVIDER_256" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="hpbgrChopPhase" name="Chopping clock phase" group="High-Precision BandGap Reference" default="CY_DSADC_HPBGR_CHOPPING_PHASE_NORMAL" visible="true" editable="true" desc="BGR core chopping phase select input." >
+      <Entry name="Regular clock phase" value="CY_DSADC_HPBGR_CHOPPING_PHASE_NORMAL" visible="true" />
+      <Entry name="Opposite clock phase" value="CY_DSADC_HPBGR_CHOPPING_PHASE_REVERSE" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="hpbgrExtCap" name="Buffer phase compensation" group="High-Precision BandGap Reference" default="CY_DSADC_HPBGR_EXTERNAL_CAPACITOR_PRESENT" visible="true" editable="true" desc="Buffer phase compensation option for external capacitor." >
+      <Entry name="External Capacitor Present" value="CY_DSADC_HPBGR_EXTERNAL_CAPACITOR_PRESENT" visible="true" />
+      <Entry name="External Capacitor Absent" value="CY_DSADC_HPBGR_EXTERNAL_CAPACITOR_ABSENT" visible="true" />
+    </ParamChoice>
+    <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME}`_hpbgr_config" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamSignal port="vref_0p8v_hpbgr[0]" name="vref_0p8v_hpbgr" group="Connections" visible="true" desc="0.8 V VREF (HPBGR)" canBeEmpty="true" />
+    <ParamSignal port="vref_0p7v_hpbgr[0]" name="vref_0p7v_hpbgr" group="Connections" visible="true" desc="0.7 V VREF (HPBGR)" canBeEmpty="true" />
+    <ParamSignal port="vref_1p2v_hpbgr[0]" name="vref_1p2v_hpbgr"  group="Connections" visible="true" desc="1.2 V VREF (HPBGR)" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vref_1p2v_srss[0]" name="vref_1p2v_srss"  group="Connections" visible="true" desc="1.2 V VREF (SRSSHV)" canBeEmpty="true" multiSelect="true" />
+  </Parameters>
+  <DRCs/>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_dsadc_hpbgr_config_t" const="false" public="true" include="true"  >
+      <Member name="hpbgrChoppingDivider" value="`${hpbgrChopDiv}`" />
+      <Member name="hpbgrChoppingPhase" value="`${hpbgrChopPhase}`" />
+      <Member name="enableExternalCapacitor" value="`${hpbgrExtCap}`" />
+    </ConfigStruct>
+
+  </ConfigFirmware>
+</PersonalityTemplate>

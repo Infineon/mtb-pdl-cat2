@@ -1,12 +1,12 @@
 /***************************************************************************//**
 * \file cy_syslib.h
-* \version 3.30
+* \version 3.30.1
 *
 * Provides an API declaration of the SysLib driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -110,6 +110,11 @@
 * \section group_syslib_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.30.1</td>
+*     <td>Updated \ref group_syslib_macros_reset_cause macros description.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="3">3.30</td>
 *     <td>Added support for PSOC4 HVMS/PA platform.</td>
@@ -429,7 +434,7 @@ typedef double   float64_t; /**< Specific-length typedef for the basic numerical
     /** External XRES pin was asserted.
      * \note Only applicable for PSOC 4 HVMS/PA devices. */
     #define CY_SYSLIB_RESET_XRES            SRSSHV_RES_CAUSE_RESET_XRES_Msk
-    /** External VDDD supply crossed brown-out limit.
+    /** Internal VDDD supply crossed brown-out limit.
      * \note Only applicable for PSOC 4 HVMS/PA devices. */
     #define CY_SYSLIB_RESET_BODVDDD         SRSSHV_RES_CAUSE_RESET_BODVDDD_Msk
     /** Internal VCCD core supply crossed the brown-out limit.
@@ -441,7 +446,9 @@ typedef double   float64_t; /**< Specific-length typedef for the basic numerical
     /** Overvoltage detection on the internal core VCCD supply.
      * \note Only applicable for PSOC 4 HVMS/PA devices. */
     #define CY_SYSLIB_RESET_OVDVCCD         SRSSHV_RES_CAUSE_RESET_OVDVCCD_Msk
-    /** External VDDD supply crossed brown-out limit.
+    /** Internal VDDD supply crossed brown-out limit.
+     * This detector is a backup detector in the high voltage sub-system that is
+     * on even in deep sleep. This detector is used for engineering debug purposes only.
      * \note Only applicable for PSOC 4 HVMS/PA devices. */
     #define CY_SYSLIB_RESET_BODHVSS         SRSSHV_RES_CAUSE_RESET_BODHVSS_Msk
     /** Indicator that a POR occurred.

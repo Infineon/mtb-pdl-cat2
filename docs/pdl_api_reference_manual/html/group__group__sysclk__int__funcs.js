@@ -10,5 +10,10 @@ var group__group__sysclk__int__funcs =
     [ "Cy_SysClk_CalibClearInterrupt", "group__group__sysclk__int__funcs.html#ga07a3ce24d979fa572fea52b1259720c0", null ],
     [ "Cy_SysClk_CalibGetInterruptStatus", "group__group__sysclk__int__funcs.html#ga6b1203bee33ada6b0e95e36268eb8e22", null ],
     [ "Cy_SysClk_CalibGetInterruptStatusMasked", "group__group__sysclk__int__funcs.html#ga45842990ba95b1e713a185cfe06f0115", null ],
-    [ "Cy_SysClk_CalibSetInterruptMask", "group__group__sysclk__int__funcs.html#ga29ee53d25e4c5cbac8898dd84cfa0ee8", null ]
+    [ "Cy_SysClk_CalibSetInterruptMask", "group__group__sysclk__int__funcs.html#ga29ee53d25e4c5cbac8898dd84cfa0ee8", null ],
+    [ "Cy_SysClk_OverTempSetInterrupt", "group__group__sysclk__int__funcs.html#ga234ebd462d7fb38f28b52e242d619a2a", null ],
+    [ "Cy_SysClk_OverTempClearInterrupt", "group__group__sysclk__int__funcs.html#gabde2adf5eefbe1bc8c830d0dcd1385e7", null ],
+    [ "Cy_SysClk_OverTempGetInterruptStatus", "group__group__sysclk__int__funcs.html#ga101e90de600d2a7b4d9d1f5300c739f6", null ],
+    [ "Cy_SysClk_OverTempGetInterruptStatusMasked", "group__group__sysclk__int__funcs.html#ga598c1b96ca79a6edcf613253f97e5798", null ],
+    [ "Cy_SysClk_OverTempSetInterruptMask", "group__group__sysclk__int__funcs.html#ga048b41656fae959a9c3b68746deb0eec", null ]
 ];

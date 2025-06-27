@@ -13,5 +13,7 @@ var group__group__sysfault__functions =
     [ "Cy_SysFault_SetInterruptMask", "group__group__sysfault__functions.html#ga9d781658d09b01527e3553805087dc01", null ],
     [ "Cy_SysFault_ClearInterruptMask", "group__group__sysfault__functions.html#ga5085c59a0e5a2f6da85e4de22a3e4399", null ],
     [ "Cy_SysFault_GetInterruptMask", "group__group__sysfault__functions.html#ga1aa43aa6d150c397082338fd6d3ed213", null ],
-    [ "Cy_SysFault_GetInterruptStatusMasked", "group__group__sysfault__functions.html#ga8fb0c91781ca571c5104573b6bd9bf41", null ]
+    [ "Cy_SysFault_GetInterruptStatusMasked", "group__group__sysfault__functions.html#ga8fb0c91781ca571c5104573b6bd9bf41", null ],
+    [ "Cy_SysFault_SetFaultSource", "group__group__sysfault__functions.html#gaeb06169f3c70b3fc66c12f5e1c3e79c0", null ],
+    [ "Cy_SysFault_SetFaultData", "group__group__sysfault__functions.html#ga7c804ede58f9f0fd8e337392930e1a2e", null ]
 ];

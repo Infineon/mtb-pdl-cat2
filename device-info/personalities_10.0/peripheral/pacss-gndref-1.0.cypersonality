@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-gndref-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS ground refference personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-gndref" name="GNDREF" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss\.gndref" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <ParamChoice id="gndRef" name="Ground Reference" group="General" default="VSSA0" visible="true" editable="true" desc="High Voltage Divider Ground Reference Mux Select." >
+      <Entry name="VSSA0" value="CY_DSADC_GROUND_REFERENCE_VSSA0" visible="true" />
+      <Entry name="VSSA1" value="CY_DSADC_GROUND_REFERENCE_VSSA1" visible="true" />
+      <Entry name="RSH" value="CY_DSADC_GROUND_REFERENCE_RSH" visible="true" />
+      <Entry name="RSL" value="CY_DSADC_GROUND_REFERENCE_RSL" visible="true" />
+    </ParamChoice>
+
+    <ParamSignal port="vssa[0]"            name="vssa"            group="Connections" visible="true" desc="Analog GND (VSSA)" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vg1_vssd[0]"        name="vssd"            group="Connections" visible="true" desc="Digital GND (VSSD)" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vssl[0]"            name="vssl"            group="Connections" visible="true" desc="LIN GND (VSSL)" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="srss_vss[0]"        name="srss_vss"        group="Connections" visible="true" desc="SRSS GND" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vrefl[0]"           name="vrefl"           group="Connections" visible="true" desc="VREFL" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vts_ret_k[0]"       name="vts_ret_k"       group="Connections" visible="true" desc="External temperature sense reference GND" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vsub[0]"            name="vsub (vssa_k2)"  group="Connections" visible="true" desc="Kelvin ground for offset calibration" canBeEmpty="true" multiSelect="true" />
+  </Parameters>
+  <DRCs/>
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+
+    <ConfigVariable type="cy_en_dsadc_ground_reference_t" name="`${INST_NAME}`_gndref_config" value="`${gndRef}`" const="false" public="true" include="true" />
+
+  </ConfigFirmware>
+</PersonalityTemplate>

@@ -1,0 +1,77 @@
+var group__group__data__digital__chan =
+[
+    [ "cy_stc_dsadc_gain_mod_cap_config_t", "structcy__stc__dsadc__gain__mod__cap__config__t.html", [
+      [ "fCap1", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a3eca8affc84cfa83250514b6aaba9f38", null ],
+      [ "fCap2", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a6146c9fd469848e1f03ef2bd3a0f7929", null ],
+      [ "fCap3", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a9cf6c57185bbb64926eb6f4bd0edf3ad", null ],
+      [ "dacCap", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a2aeedae105467bc80d3127b94301e39f", null ],
+      [ "ipCap1", "structcy__stc__dsadc__gain__mod__cap__config__t.html#aeeb8530cad6872e748adb14506e73e5b", null ],
+      [ "ipCap2", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a243051e6c86df99cc62c9995f1b5335b", null ],
+      [ "ipCap3", "structcy__stc__dsadc__gain__mod__cap__config__t.html#af90af0c8cec767e66e50ca3f123a8ea7", null ],
+      [ "sumCapIn", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a50853073815fd84b31c97e3c64240f30", null ],
+      [ "sumCap1", "structcy__stc__dsadc__gain__mod__cap__config__t.html#ac0e42d42d61a310f7545e9faedaf3b7e", null ],
+      [ "sumCap2", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a5975fdcec85a7dd32ee23c6b581c7674", null ],
+      [ "sumCap3", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a4a1f92682e857b097d4688bdd20396c4", null ],
+      [ "sumCapFb", "structcy__stc__dsadc__gain__mod__cap__config__t.html#a2d9c9556729e13e10daa4bfe7eca8e5a", null ]
+    ] ],
+    [ "cy_stc_dsadc_gain_level_config_t", "structcy__stc__dsadc__gain__level__config__t.html", [
+      [ "offsetCorrection", "structcy__stc__dsadc__gain__level__config__t.html#aed959329dc27971c24ef01b0a29cef14", null ],
+      [ "gainCorrection", "structcy__stc__dsadc__gain__level__config__t.html#ab152a8415a68a1a33290e619a18026d5", null ],
+      [ "pgaGain", "structcy__stc__dsadc__gain__level__config__t.html#a11ac2b9cda7151362f226082cace8362", null ],
+      [ "leftShift", "structcy__stc__dsadc__gain__level__config__t.html#ad977994ff188d7bd2f98973b5aae7cff", null ],
+      [ "modCapConfig", "structcy__stc__dsadc__gain__level__config__t.html#afb6c8fce905ad1a60a50f13f175fceb8", null ]
+    ] ],
+    [ "cy_stc_dsadc_agc_config_t", "structcy__stc__dsadc__agc__config__t.html", [
+      [ "gainLevels", "structcy__stc__dsadc__agc__config__t.html#a099c7ae4fba45e3f9de793d531b6b06d", null ],
+      [ "lowerFilterCount", "structcy__stc__dsadc__agc__config__t.html#acc3974fd71c53679bc7f065c38a2a909", null ],
+      [ "upperFilterCount", "structcy__stc__dsadc__agc__config__t.html#a71a6f8113bd420eee345f72c1d85fba6", null ],
+      [ "decimationScaler", "structcy__stc__dsadc__agc__config__t.html#ad8e38d66c53646ce61793df859154fb3", null ],
+      [ "lowerFilterMode", "structcy__stc__dsadc__agc__config__t.html#a80fde53f1025c0f8c51d13910765b291", null ],
+      [ "upperFilterMode", "structcy__stc__dsadc__agc__config__t.html#ac41ed16ed48ec7775b1a487ef15cb1a3", null ],
+      [ "aafBlankMode", "structcy__stc__dsadc__agc__config__t.html#a659266930145aa223e4b574527664cab", null ],
+      [ "minGainLevel", "structcy__stc__dsadc__agc__config__t.html#a027f8bf5dacd6f5920e1be7fc76fb35f", null ],
+      [ "initialGainLevel", "structcy__stc__dsadc__agc__config__t.html#a592e5b605ed1e91f6a75c2d7893d5be2", null ],
+      [ "maxGainLevel", "structcy__stc__dsadc__agc__config__t.html#a5e45febdbe7f80be65fd905ec9c35bd1", null ],
+      [ "decimationRatio", "structcy__stc__dsadc__agc__config__t.html#af8e11ed6cc0914a2b99cd2b9bad03ddc", null ],
+      [ "decimatorBlankCount", "structcy__stc__dsadc__agc__config__t.html#a97387ad0a7929ae5380929450cb3ebf6", null ],
+      [ "lowerThreshold", "structcy__stc__dsadc__agc__config__t.html#a6f7e69b38e83988ab3ec0b12c1b45fc0", null ],
+      [ "upperThreshold", "structcy__stc__dsadc__agc__config__t.html#aee2c769d37d40b9abc1b3542278d3536", null ],
+      [ "aafBlankCount", "structcy__stc__dsadc__agc__config__t.html#ad1be57eb451d5d0a28a91a98861d536a", null ],
+      [ "gainScalerBlankCount", "structcy__stc__dsadc__agc__config__t.html#ad512be343a44a0c1c6ed827b890cdf42", null ],
+      [ "numGainLevels", "structcy__stc__dsadc__agc__config__t.html#ae6029e10b11c9b7384251760e2817e5b", null ]
+    ] ],
+    [ "cy_stc_dsadc_fir_config_t", "structcy__stc__dsadc__fir__config__t.html", [
+      [ "coefficients", "structcy__stc__dsadc__fir__config__t.html#a55e89229c96bcb0fccf030e1d49440d0", null ],
+      [ "numTaps", "structcy__stc__dsadc__fir__config__t.html#aa718d9cc94ff61e834467b1c16f10ca5", null ]
+    ] ],
+    [ "cy_stc_dsadc_dchan_config_t", "structcy__stc__dsadc__dchan__config__t.html", [
+      [ "gain", "structcy__stc__dsadc__dchan__config__t.html#ab3b0e538fb223f2345d5f6ad88bd7496", null ],
+      [ "fir", "structcy__stc__dsadc__dchan__config__t.html#ad284db656ec99a6376f31d5187f4481c", null ],
+      [ "rangeLowerThreshold", "structcy__stc__dsadc__dchan__config__t.html#a4772b5ca80be2c73966a9df4f5d52ac2", null ],
+      [ "rangeUpperThreshold", "structcy__stc__dsadc__dchan__config__t.html#af20cab5d8b3fa0fea0fba8bd9e3de9e3", null ],
+      [ "achan", "structcy__stc__dsadc__dchan__config__t.html#aad702db48289a6dbd86faefdbd1f3d8e", null ],
+      [ "conversionMode", "structcy__stc__dsadc__dchan__config__t.html#a8b0b5e8852db5a005627941bccea5371", null ],
+      [ "priority", "structcy__stc__dsadc__dchan__config__t.html#a3992f8388a155231a86fe7036dddd362", null ],
+      [ "vrefhSelect", "structcy__stc__dsadc__dchan__config__t.html#a01e255ee6d46f06877558e2b077eabaa", null ],
+      [ "vreflSelect", "structcy__stc__dsadc__dchan__config__t.html#ae62b9ab754a7d4925fbfa473e9728bb1", null ],
+      [ "pinPositive", "structcy__stc__dsadc__dchan__config__t.html#a3fd7e06a5b1643b6cc1db7fa602d3d6d", null ],
+      [ "pinNegative", "structcy__stc__dsadc__dchan__config__t.html#a77c387e1e3e7a5409c5244600c823917", null ],
+      [ "aafMode", "structcy__stc__dsadc__dchan__config__t.html#a84ca6b90bd37c499783960702e4e8901", null ],
+      [ "averagingMode", "structcy__stc__dsadc__dchan__config__t.html#ae8cbab04ee1fc3e0812132ea79fc3369", null ],
+      [ "averagingSamples", "structcy__stc__dsadc__dchan__config__t.html#ae49a40f089ca3baea96e85d091ff1fba", null ],
+      [ "rangeMode", "structcy__stc__dsadc__dchan__config__t.html#afaf04866f460ea336eebe82834f77334", null ],
+      [ "rangeConditional", "structcy__stc__dsadc__dchan__config__t.html#a744492137f708cd9b39da2cc43f56215", null ],
+      [ "sincMode", "structcy__stc__dsadc__dchan__config__t.html#a1711d75c69c598218b1f114b615b9681", null ],
+      [ "ppRightShift", "structcy__stc__dsadc__dchan__config__t.html#ab4684c9b4fbfa1d1690932ffd69234c3", null ],
+      [ "stage1DecimationRatio", "structcy__stc__dsadc__dchan__config__t.html#acaa7439fcc19e4541521f89fddfb998e", null ],
+      [ "stage2DecimationRatio", "structcy__stc__dsadc__dchan__config__t.html#ae68d2dc113fcf0a9e0903a6b5ac59eed", null ],
+      [ "rightShift", "structcy__stc__dsadc__dchan__config__t.html#a2a74d10dc883dd40a158e1a4f9c27d10", null ],
+      [ "rateReducerRightShift", "structcy__stc__dsadc__dchan__config__t.html#af8bae353bc172e21312bfeb5352f15b8", null ],
+      [ "channelSelectDelay", "structcy__stc__dsadc__dchan__config__t.html#a5c7a9ebf8efb10367a232412d778bb12", null ],
+      [ "validGcorBits", "structcy__stc__dsadc__dchan__config__t.html#aaa66ac0a9b5de661c23f4aee654c1ad6", null ],
+      [ "rangeCount", "structcy__stc__dsadc__dchan__config__t.html#a25585784964bc2b3ad51b671760812c8", null ],
+      [ "useAgc", "structcy__stc__dsadc__dchan__config__t.html#a705fb938544c6e145634d15b2fbffb45", null ],
+      [ "enableGainCorrection", "structcy__stc__dsadc__dchan__config__t.html#ae408cc637dd567d71edc61d48f723ddf", null ],
+      [ "enableOffsetCorrection", "structcy__stc__dsadc__dchan__config__t.html#a6b30f2eb4ba4cf42f2b7c85a6f0cc596", null ]
+    ] ]
+];

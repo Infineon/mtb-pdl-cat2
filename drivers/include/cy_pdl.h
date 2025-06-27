@@ -5,7 +5,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2018-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -37,6 +37,7 @@
 #include "cy_ctb.h"
 #include "cy_crwdt.h"
 #include "cy_dmac.h"
+#include "cy_dsadc.h"
 #include "cy_flash.h"
 #include "cy_gpio.h"
 #include "cy_hvss.h"

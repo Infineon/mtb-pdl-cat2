@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_flash.h
-* \version 1.20
+* \version 1.30
 *
 * Provides the API declarations of the Flash driver.
 *
@@ -88,6 +88,15 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">1.30</td>
+*     <td>Added check for syscall completion .</td>
+*     <td>Bug fix.</td>
+*   </tr>
+*   <tr>
+*     <td>Improved FLASH Macro number calculation.</td>
+*     <td>Minor enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="1">1.20</td>
 *     <td>Enabled flash non-blocking write operations for devices with 1 flash array.</td>
 *     <td>Minor enhancement.</td>
@@ -150,7 +159,7 @@ extern "C" {
 #define CY_FLASH_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_FLASH_DRV_VERSION_MINOR       20
+#define CY_FLASH_DRV_VERSION_MINOR       30
 
 #define CY_FLASH_ID               (CY_PDL_DRV_ID(0x14UL))                          /**< FLASH PDL ID */
 

@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -1821,6 +1821,24 @@
     #include "cy8c4147lqe_hvs126x.h"
 #elif defined (CY8C4147LQE_HVS136X)
     #include "cy8c4147lqe_hvs136x.h"
+#elif defined (CY8C4126LCE_HV403)
+    #include "cy8c4126lce_hv403.h"
+#elif defined (CY8C4126LCE_HV413)
+    #include "cy8c4126lce_hv413.h"
+#elif defined (CY8C4126LCE_HV423)
+    #include "cy8c4126lce_hv423.h"
+#elif defined (CY8C4127LCE_HV403)
+    #include "cy8c4127lce_hv403.h"
+#elif defined (CY8C4127LCE_HV413)
+    #include "cy8c4127lce_hv413.h"
+#elif defined (CY8C4127LCE_HV423)
+    #include "cy8c4127lce_hv423.h"
+#elif defined (CY8C4147LCE_HV403)
+    #include "cy8c4147lce_hv403.h"
+#elif defined (CY8C4147LCE_HV413)
+    #include "cy8c4147lce_hv413.h"
+#elif defined (CY8C4147LCE_HV423)
+    #include "cy8c4147lce_hv423.h"
 #else
     #error Undefined part number. Consider updating PDL via ModusToolbox Library Manager to resolve the issue.
 #endif

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.40
+* \version 3.50
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -48,7 +48,7 @@
 * The availability of clock functions depend on the availability of the chip
 * resources that support those functions. Consult the device TRM before
 * attempting to use these functions.
-* 
+*
 * Usually the default clock configuration is IMO (24 MHz) -> ClkHf (24 MHz) -> SysClk (24 MHz)
 *
 * The example of ECO -> HFCLK clock initialization:
@@ -75,6 +75,12 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.50</td>
+*     <td>Added overtemperature interrupt support. See \ref Cy_SysClk_OverTempSetInterrupt, \ref Cy_SysClk_OverTempClearInterrupt,
+*       \ref Cy_SysClk_OverTempGetInterruptStatus, \ref Cy_SysClk_OverTempGetInterruptStatusMasked and \ref Cy_SysClk_OverTempSetInterruptMask.</td>
+*     <td>API improvement.</td>
+*   </tr>
 *   <tr>
 *     <td>3.40</td>
 *     <td> \ref CY_SYSCLK_PERI_DIV_NUM_Pos and \ref CY_SYSCLK_PERI_DIV_NUM_Msk implementation is updated.</td>
@@ -605,7 +611,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   3
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   40
+#define  CY_SYSCLK_DRV_VERSION_MINOR   50
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -2438,6 +2444,129 @@ __STATIC_INLINE void Cy_SysClk_CalibSetInterruptMask(bool enable)
     else
     {
         SRSS_SRSS_INTR_MASK &= ~SRSSHV_SRSS_INTR_MASK_CLK_CAL_Msk;
+    }
+}
+/** \} group_sysclk_int_funcs */
+
+
+/* ========================================================================== */
+/* =====================    OVERTEMPERATURE SECTION    ====================== */
+/* ========================================================================== */
+/**
+* \addtogroup group_sysclk_int_funcs
+* \{
+*/
+
+__STATIC_INLINE void  Cy_SysClk_OverTempSetInterrupt(void);
+__STATIC_INLINE void  Cy_SysClk_OverTempClearInterrupt(void);
+__STATIC_INLINE bool  Cy_SysClk_OverTempGetInterruptStatus(void);
+__STATIC_INLINE bool  Cy_SysClk_OverTempGetInterruptStatusMasked(void);
+__STATIC_INLINE void  Cy_SysClk_OverTempSetInterruptMask(bool enable);
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_OverTempSetInterrupt
+****************************************************************************//**
+*
+* Sets interrupt for overheating issue.
+* Can be used to set interrupts for firmware testing.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_OverTempInterrupt
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_OverTempSetInterrupt(void)
+{
+    /* Write a "1" to Set the SRSS_INTR_SET_TEMP_HIGH bit */
+    SRSS_SRSS_INTR_SET = SRSSHV_SRSS_INTR_SET_TEMP_HIGH_Msk;
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_OverTempClearInterrupt
+****************************************************************************//**
+*
+* Clears the interrupt status.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_OverTempInterrupt
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_OverTempClearInterrupt(void)
+{
+    /* Write a "1" to Clear the SRSS_INTR_TEMP_HIGH bit */
+    SRSS_SRSS_INTR = SRSSHV_SRSS_INTR_TEMP_HIGH_Msk;
+    /* Read the interrupt register to ensure that the initial clearing write has
+    * been flushed out to the hardware.
+    */
+    (void) SRSS_SRSS_INTR;
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_OverTempGetInterruptStatus
+****************************************************************************//**
+*
+* Returns the interrupt status.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_OverTempInterrupt
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_SysClk_OverTempGetInterruptStatus(void)
+{
+    return _FLD2BOOL(SRSSHV_SRSS_INTR_TEMP_HIGH, SRSS_SRSS_INTR);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_OverTempGetInterruptStatusMasked
+****************************************************************************//**
+*
+* Returns an interrupt request register masked by an interrupt mask.
+* Returns the result of the bitwise AND operation between the corresponding
+* interrupt request and mask bits.
+*
+* \return
+* The masked interrupt status.
+* true  : Masked interrupt occurs.
+* false : No Masked interrupt occurs.
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+* \funcusage
+* \snippet sysclk_snippet.c snippet_Cy_SysClk_OverTempInterrupt
+*
+*******************************************************************************/
+__STATIC_INLINE bool Cy_SysClk_OverTempGetInterruptStatusMasked(void)
+{
+    return _FLD2BOOL(SRSSHV_SRSS_MASKED_TEMP_HIGH, SRSS->SRSS_MASKED);
+}
+
+/*******************************************************************************
+* Function Name: Cy_SysClk_OverTempSetInterruptMask
+****************************************************************************//**
+*
+* Sets the overtemperature interrupt mask.
+*
+* \param enable
+* - true - to masking interrupt
+* - false - to reset masking interrupt
+*
+* \note Applicable to PSOC4 HVMS/PA only.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysClk_OverTempSetInterruptMask(bool enable)
+{
+    if (!enable)
+    {
+        SRSS_SRSS_INTR_MASK |= SRSSHV_SRSS_INTR_MASK_TEMP_HIGH_Msk;
+    }
+    else
+    {
+        SRSS_SRSS_INTR_MASK &= ~SRSSHV_SRSS_INTR_MASK_TEMP_HIGH_Msk;
     }
 }
 /** \} group_sysclk_int_funcs */

@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sysfault.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API implementation of the SysFault driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2024-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -64,12 +64,12 @@ uint32_t Cy_SysFault_GetPendingFault(FAULT_STRUCT_Type *base, cy_en_sysfault_set
 {
     CY_ASSERT_L3(CY_SYSFAULT_IS_FAULT_SET_VALID(pendingFault));
     uint32_t retVal = 0;
-    
+
     if(CY_SYSFAULT_SET0 == pendingFault)
     {
         retVal = _FLD2VAL(FAULT_STRUCT_PENDING0_SOURCE, FAULT_PENDING0(base));
     }
-    
+
     return retVal;
 }
 

@@ -23,6 +23,7 @@ var searchData=
   ['bcphycbk',['bcPhyCbk',['../structcy__stc__usbpd__context__t.html#af179c27691ea546da33bcaa1726ae369',1,'cy_stc_usbpd_context_t']]],
   ['bcqcpulsecount',['bcQcPulseCount',['../structcy__stc__usbpd__context__t.html#a7625c9f9e1519aef0c951ca60c2ad0f3',1,'cy_stc_usbpd_context_t']]],
   ['bias',['bias',['../structcy__stc__seglcd__config__t.html#ab3f79d01165e2a5f3926ab943d01a789',1,'cy_stc_seglcd_config_t']]],
+  ['bipolar',['bipolar',['../structcy__stc__dsadc__temperature__config__t.html#ae06800467c45da314201a577e68fda65',1,'cy_stc_dsadc_temperature_config_t']]],
   ['bist_5fdo',['bist_do',['../unioncy__pd__pd__do__t.html#a208a3229675514011c3652b46ec44357',1,'cy_pd_pd_do_t']]],
   ['bitrate',['bitrate',['../structcy__stc__can__config__t.html#a2c81b233c76ee19279a98e7316e234f7',1,'cy_stc_can_config_t::bitrate()'],['../structcy__stc__canfd__config__t.html#a4f9e70770fabc4e2f30fe3afb1e5bdbc',1,'cy_stc_canfd_config_t::bitrate()']]],
   ['bodcbk',['bodCbk',['../structcy__stc__usbpd__context__t.html#afef0bb35019bdaa41351bd36f90d5543',1,'cy_stc_usbpd_context_t']]],
@@ -36,6 +37,7 @@ var searchData=
   ['buck_5fboost_5foperating_5fmode',['buck_boost_operating_mode',['../structcy__stc__buck__boost__cfg__t.html#a4e04942f1d6ad6615e691cfd00451c2d',1,'cy_stc_buck_boost_cfg_t']]],
   ['buckboostconfig',['buckBoostConfig',['../structcy__stc__usbpd__config__t.html#af6493319490a407f6cab886e451b34ac',1,'cy_stc_usbpd_config_t']]],
   ['buffer',['buffer',['../structcy__stc__scb__i2c__master__xfer__config__t.html#a17fa9b9a817e002381f07c4982abaffa',1,'cy_stc_scb_i2c_master_xfer_config_t']]],
+  ['bufferpowerlevel',['bufferPowerLevel',['../structcy__stc__dsadc__achan__config__t.html#a045da892304681fe77c85303cd233f2a',1,'cy_stc_dsadc_achan_config_t']]],
   ['buffersize',['bufferSize',['../structcy__stc__scb__i2c__master__xfer__config__t.html#a4afeea04f622380e0c1113cc4bfbdea6',1,'cy_stc_scb_i2c_master_xfer_config_t::bufferSize()'],['../structcy__stc__usb__dev__ep__config__t.html#a55bbd3ae04492a97a780b06b2740b835',1,'cy_stc_usb_dev_ep_config_t::bufferSize()']]],
   ['busoffrestart',['busOffRestart',['../structcy__stc__can__config__t.html#af463d666dbfe689c4a9b5d4849f187e3',1,'cy_stc_can_config_t']]],
   ['bypassmask',['bypassMask',['../structcy__stc__smartio__config__t.html#a4b9c0b1f5a84c0e4e078235901cf982d',1,'cy_stc_smartio_config_t']]]

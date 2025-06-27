@@ -9,7 +9,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright (c) (2024*2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -36,6 +36,7 @@
     <ExposedMember key="linPhyEn" paramId="linPhyEn" />
   </ExposedMembers>
   <Parameters>
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Overview" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__hvss.html" linkText="Open HVSS Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
     <ParamString id="INSTANCE" name="INSTANCE" group="Internal" default="`${toUpper(INST_NAME)}`" visible="false" editable="false" desc="" />
@@ -49,21 +50,36 @@
     <ParamBool id="ipHVSSVer2" name="ipHVSSVer2" group="Internal" default="`${(&quot;m0s8hvss_ver2&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
 
     <!-- Clamp Mode -->
-    <ParamChoice id="clampMode" name="Clamp Mode" group="HV regulator" default="CY_HVSS_HVREG_DIS_CLAMP_DIS_DIODE" visible="`${ipHVSSVer2}`" editable="true" desc="Zener and diode mode.">
+    <ParamChoice id="clampMode" name="Clamp Mode" group="HV regulator" default="CY_HVSS_HVREG_DIS_CLAMP_DIS_DIODE" visible="`${ipHVSSVer2 | debug}`" editable="`${ipHVSSVer2}`" desc="Zener and diode mode.">
       <Entry name="Zener clamp disable, diode disable" value="CY_HVSS_HVREG_DIS_CLAMP_DIS_DIODE" visible="true" />
       <Entry name="Zener clamp disable, diode enable" value="CY_HVSS_HVREG_DIS_CLAMP_EN_DIODE" visible="true" />
       <Entry name="Zener clamp enable, diode disable" value="CY_HVSS_HVREG_EN_CLAMP_DIS_DIODE" visible="true" />
       <Entry name="Zener clamp enable, diode enable" value="CY_HVSS_HVREG_EN_CLAMP_EN_DIODE" visible="true" />
     </ParamChoice>
-    
-    <!-- Thermal Shutdown actions -->    
-    <ParamChoice id="tsdMode" name="Thermal Shutdown (TSD)" group="HV regulator" default="CY_HVSS_HVREG_REG_ON_FOR_TSD" visible="`${ipHVSSVer2}`" editable="true" desc="Specifies an action on TSD event.">
+
+    <!-- Thermal Shutdown actions -->
+    <ParamChoice id="tsdMode" name="Thermal Shutdown (TSD)" group="HV regulator" default="CY_HVSS_HVREG_REG_ON_FOR_TSD" visible="`${ipHVSSVer2 | debug}`" editable="`${ipHVSSVer2}`" desc="Specifies an action on TSD event.">
       <Entry name="Keep Vdd on for TSD event (LIN turns off)" value="CY_HVSS_HVREG_REG_ON_FOR_TSD" visible="true" />
       <Entry name="Turn off Vdd and LIN on TSD event" value="CY_HVSS_HVREG_REG_OFF_FOR_TSD" visible="true" />
       <Entry name="Turn off TSD circuit" value="CY_HVSS_HVREG_OFF_TSD_CKT" visible="true" />
     </ParamChoice>
 
-    <ParamBool id="vbatDivEn" name="Vbat Divider Enable" group="HV regulator" default="false" visible="true" editable="true" desc="Enables VBAT voltage divider." />
+    <ParamBool id="vbatDivEn" name="Vbat Divider Enable" group="HV regulator" default="false" visible="`${ipHVSSVer2 | debug}`" editable="`${ipHVSSVer2}`" desc="Enables VBAT voltage divider." />
+
+    <!-- RDIV configurations -->
+    <ParamBool id="rdivActiveEn" name="RDIV Active Enable" group="HV regulator" default="false" visible="`${ipHVSSVer1 | debug}`" editable="`${ipHVSSVer1}`" desc="Specifies the enabled power modes of VDIVIDER." />
+    <!-- RDIV0 configurations -->
+    <ParamBool id="rdiv0En" name="RDIV0 Enable" group="HV regulator" default="false" visible="`${ipHVSSVer1 | debug}`" editable="`${ipHVSSVer1}`" desc="Enables resistor attenuator control Vsense." />
+    <ParamChoice id="rdiv0Scale" name="RDIV0 Scale" group="HV regulator" default="CY_HVSS_RDIV_ATTENUATION_16X" visible="`${rdiv0En | debug}`" editable="`${ipHVSSVer1}`" desc="Specifies the VS0 attenuation ratio.">
+      <Entry name="16X Attenuation" value="CY_HVSS_RDIV_ATTENUATION_16X" visible="true" />
+      <Entry name="24X Attenuation" value="CY_HVSS_RDIV_ATTENUATION_24X" visible="true" />
+    </ParamChoice>
+    <!-- RDIV1 configurations -->
+    <ParamBool id="rdiv1En" name="RDIV1 Enable" group="HV regulator" default="false" visible="`${ipHVSSVer1 | debug}`" editable="`${ipHVSSVer1}`" desc="Enables resistor attenuator control Vdiag." />
+    <ParamChoice id="rdiv1Scale" name="RDIV1 Scale" group="HV regulator" default="CY_HVSS_RDIV_ATTENUATION_16X" visible="`${rdiv1En | debug}`" editable="`${ipHVSSVer1}`" desc="Specifies the VS1 attenuation ratio.">
+      <Entry name="16X Attenuation" value="CY_HVSS_RDIV_ATTENUATION_16X" visible="true" />
+      <Entry name="24X Attenuation" value="CY_HVSS_RDIV_ATTENUATION_24X" visible="true" />
+    </ParamChoice>
 
     <!-- LIN PHY configurations -->
     <ParamBool id="linPhyEn" name="Lin PHY Enable" group="LIN PHY" default="false" visible="true" editable="true" desc="Enables LIN interface." />
@@ -117,7 +133,9 @@
     <ConfigInclude value="cy_gpio.h" include="true" />
 
     <ConfigDefine name="`${INSTANCE}`_HW" value="(HVSS)" public="true" include="true" />
-    <ConfigDefine name="`${INSTANCE}`_IRQ_0" value="(hvss_interrupt_hvss_IRQn)" public="true" include="true" />
+    <ConfigDefine name="`${INSTANCE}`_IRQ_0" value="(hvss_interrupt_hvss_IRQn)" public="true" include="`${ipHVSSVer2}`" />
+
+    <ConfigDefine name="`${INSTANCE}`_IRQ_0" value="(hvss_interrupt_lin_IRQn)" public="true" include="`${ipHVSSVer1}`" />
 
     <!-- Internal pins defines -->
     <ConfigDefine name="INTERNAL_LIN_PORT_PORT" value="(GPIO_PRT2)" public="true" include="`${linPhyEn}`" />
@@ -141,6 +159,12 @@
       <Member name="hvregTsdMode" value="`${tsdMode}`" include="`${ipHVSSVer2}`"/>
       <Member name="vbatDivEnable" value="`${vbatDivEn}`" include="`${ipHVSSVer2}`"/>
       <Member name="phyInterfaceSel" value="`${linPhyInt}`" include="`${ipHVSSVer2}`"/>
+      <!-- IP block ver1 fields only -->
+      <Member name="rdivActiveEnable" value="`${rdivActiveEn}`" include="`${ipHVSSVer1}`"/>
+      <Member name="rdiv0Enable" value="`${rdiv0En}`" include="`${ipHVSSVer1}`"/>
+      <Member name="rdiv0Scale" value="`${rdiv0Scale}`" include="`${ipHVSSVer1}`"/>
+      <Member name="rdiv1Enable" value="`${rdiv1En}`" include="`${ipHVSSVer1}`"/>
+      <Member name="rdiv1Scale" value="`${rdiv1Scale}`" include="`${ipHVSSVer1}`"/>
     </ConfigStruct>
 
     <!-- Internal pin default configuration -->

@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_lin.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API declaration of the LIN driver
 *
 ********************************************************************************
 * \copyright
-* Copyright 2024 Cypress Semiconductor Corporation
+* Copyright (2024-2025) Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -178,6 +178,21 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*   <td rowspan="4">1.10</td>
+*     <td>Updated LIN break/wakeup field length in the function \ref Cy_LIN_SetBreakWakeupFieldLength.</td>
+*     <td rowspan="3">Bug fix.</td>
+*   </tr>
+*   <tr>
+*     <td>Updated LIN response field data length in the function \ref Cy_LIN_SetDataLength.</td>
+*   </tr>
+*   <tr>
+*     <td>Updated LIN checksum type setting in the function \ref Cy_LIN_SetChecksumType.</td>
+*   </tr>
+*   <tr>
+*     <td> \ref Cy_LIN_SetBreakWakeupFieldLength description update.</td>
+*     <td>Documentation enhancement.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -225,7 +240,7 @@ extern "C" {
 #define CY_LIN_DRV_VERSION_MAJOR    1
 
 /** Driver minor version */
-#define CY_LIN_DRV_VERSION_MINOR    0
+#define CY_LIN_DRV_VERSION_MINOR    10
 
 /** LIN driver ID */
 #define CY_LIN_ID CY_PDL_DRV_ID(0x37U)
@@ -427,14 +442,14 @@ typedef struct {
 /**
  *****************************************************************************
  ** \brief LIN Test configuration.
- **        This testing functionality simplifies SW development, 
+ **        This testing functionality simplifies SW development,
  **        but may also be used in the field to verify correct channel functionality.
  *****************************************************************************/
 typedef struct {
     uint8_t chidx;                        /**< Specifies the channel index of the channel to which the test applies.
                                              The test mode allows BOTH of the two connected channels to be tested. */
     bool mode;                            /**< When set FALSE, it is partial disconnect from IOSS. Used to observe messages outside of device.
-                                             When Set TRUE, it is full disconnect from IOSS. Used for device test without effecting 
+                                             When Set TRUE, it is full disconnect from IOSS. Used for device test without effecting
                                              operational LIN cluster. */
 }cy_stc_lin_test_config_t;
 
@@ -442,7 +457,7 @@ typedef struct {
  *****************************************************************************
  ** \brief LIN Error CTL configuration.
  **        Used only for software testing.
- **        It enables HW injected channel transmitter errors. 
+ **        It enables HW injected channel transmitter errors.
  **        The receiver should detect these errors and report these errors through activation of corresponding interrupt causes.
  *****************************************************************************/
 typedef struct cy_stc_lin_test_error_config

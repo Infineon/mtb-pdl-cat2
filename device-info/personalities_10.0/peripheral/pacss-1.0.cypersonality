@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS main personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss" name="DSADC" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+      <ExposedMember key="Clock" paramId="Clock" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <ParamSignal name="Clock" port="clock_dsm[0]" group="Connections" visible="true" desc="Clock that operates this block" canBeEmpty="false">
+      <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="true" >
+      </Constraint>
+    </ParamSignal>
+
+    <ParamString id="pclk" name="pclk" group="Internal" default="`${getBlockFromSignal(&quot;clock_dsm[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="pclkOk" name="pclkOk" group="Internal" default="`${hasConnection(&quot;clock_dsm&quot;, 0) &amp;&amp; isBlockUsed(pclk)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pclkDst" name="pclkDst" group="Internal" default="PCLK_PACSS_CLOCK_DSM" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pHWName" name="pHWName" group="Internal" default="PACSS" visible="`${debug}`" editable="false" desc="HW name of PACSS instance." />
+
+    <ParamString id="blockPath" name="blockPath" group="Internal" default="`${&quot;pacss[0].dchan&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <Repeat count="4">
+      <ParamString id="blockPath$idxDchan" name="blockPath$idxDchan" group="Internal" default="`${blockPath . &quot;[$idx]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="isDchan$idxBlockUsed" name="is$idxBlockUsed" group="Internal"
+      default="`${isBlockUsed(blockPath$idxDchan)}`" visible="`${debug}`" editable="false" desc="" />
+    </Repeat>
+
+  </Parameters>
+  <DRCs>
+    <DRC type="ERROR" text="Only one DCHAN can be Primary if more than 2 DCHAN are connected to the same ACHAN"
+    condition="`${(((((isDchan0BlockUsed ? getExposedMember(blockPath0Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan0BlockUsed ? getExposedMember(blockPath0Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;))) &gt; 1) ||
+                  (((((isDchan0BlockUsed ? getExposedMember(blockPath0Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 1) &amp;&amp; ((isDchan0BlockUsed ? getExposedMember(blockPath0Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 1) &amp;&amp; ((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 1) &amp;&amp; ((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) +
+                    (((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 1) &amp;&amp; ((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;))) &gt; 1)
+        }`" repeatCount="1" >
+    </DRC>
+    <DRC type="ERROR" text="Primary channels should always have a lower digital channel index than secondary channels when assigned to the same sequencer."
+    condition="`${((((isDchan0BlockUsed ? getExposedMember(blockPath0Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) ||
+                   (((isDchan1BlockUsed ? getExposedMember(blockPath1Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)) ||
+                   (((isDchan2BlockUsed ? getExposedMember(blockPath2Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;achanSel&quot;) : &quot;&quot;) eq 0) &amp;&amp; ((isDchan3BlockUsed ? getExposedMember(blockPath3Dchan, &quot;chPriority&quot;) : &quot;&quot;)  eq &quot;PRIMARY&quot;)))
+           &amp;&amp;
+                  1
+           }`" repeatCount="1" >
+    </DRC>
+  </DRCs>
+
+  <!-- Generated firmware -->
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="`${pHWName}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="pacss_interrupt_IRQHandler" public="true" include="true" />
+
+    <ConfigDefine name="CY_DSADC_GAIN_LEVEL_CONFIG_LENGTH" value="(9U)" public="true" include="true" />
+    <ConfigDefine name="CY_DSADC_GAIN_CORRECTION_DEFAULT" value="(0x924AU)" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_dsadc_config_t" const="false" public="true" include="true"  >
+
+      <Member name="ACHAN`${&quot;[0]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dsm[0]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dsm[0]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="ACHAN`${&quot;[1]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dsm[1]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dsm[1]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+
+      <Member name="DCHAN`${&quot;[0]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dchan[0]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dchan[0]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="DCHAN`${&quot;[1]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dchan[1]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dchan[1]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="DCHAN`${&quot;[2]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dchan[2]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dchan[2]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="DCHAN`${&quot;[3]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dchan[3]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dchan[3]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+
+      <Member name="ACHAN_CHOPPING`${&quot;[0]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dsm[0]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dsm[0]&quot;, &quot;cfgChopStrName&quot;) : &quot;NULL&quot;}`" />
+      <Member name="ACHAN_CHOPPING`${&quot;[1]&quot;}`" value="`${isBlockUsed(&quot;pacss[0].dsm[1]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].dsm[1]&quot;, &quot;cfgChopStrName&quot;) : &quot;NULL&quot;}`" />
+
+      <Member name="AGC" value="`${isBlockUsed(&quot;pacss[0].agc[0]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].agc[0]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+
+      <Member name="HPBGR" value="`${isBlockUsed(&quot;pacss[0].hpbgr[0]&quot;) ? &quot;&amp;&quot; . getExposedMember(&quot;pacss[0].hpbgr[0]&quot;, &quot;cfgStrName&quot;) : &quot;NULL&quot;}`" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_DSADC_Init(`${INST_NAME}`_HW, &amp;`${INST_NAME}`_config);" include="true" purpose="INITIALIZE" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(pclk, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" purpose="INITIALIZE" />
+
+  </ConfigFirmware>
+</PersonalityTemplate>

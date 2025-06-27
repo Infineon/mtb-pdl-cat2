@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_lin.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides the public functions for the API for the LIN driver.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2024 Cypress Semiconductor Corporation
+* Copyright (2024-2025) Cypress Semiconductor Corporation
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -361,12 +361,13 @@ cy_en_lin_status_t Cy_LIN_Disable(LIN_CH_Type* base)
 * \param base
 *  Pointer to LIN instance channel register
 * \param  length
-*  Bit length of the break/wakeup field.
+*  Bit length of the break/wakeup field. Value should be [1:31].
+*  Zero and values bigger then 31 is incorrect.
+*
+*  \note To comply LIN standard wakeup length must be between
+*  \ref LIN_MASTER_BREAK_FILED_LENGTH_MIN and \ref LIN_BREAK_WAKEUP_LENGTH_BITS_MAX
 *
 * \return Refer \ref cy_en_lin_status_t
-*
-* \funcusage
-* \snippet lin_snippet.c
 *
 *******************************************************************************/
 cy_en_lin_status_t Cy_LIN_SetBreakWakeupFieldLength(LIN_CH_Type* base, uint8_t length)
@@ -377,13 +378,13 @@ cy_en_lin_status_t Cy_LIN_SetBreakWakeupFieldLength(LIN_CH_Type* base, uint8_t l
     {
         ret = CY_LIN_BAD_PARAM;
     }
-    else if (LIN_BREAK_WAKEUP_LENGTH_BITS_MAX < length)
+    else if ((LIN_BREAK_WAKEUP_LENGTH_BITS_MAX < length) || (0U == length))
     {
         ret = CY_LIN_BAD_PARAM;
     }
     else
     {
-        LIN_CH_CTL0(base) |= _VAL2FLD(LIN_CH_CTL0_BREAK_WAKEUP_LENGTH, (((uint32_t)length) - 1U));
+        CY_REG32_CLR_SET(LIN_CH_CTL0(base), LIN_CH_CTL0_BREAK_WAKEUP_LENGTH, (((uint32_t)length) - 1U));
     }
 
     return ret;
@@ -421,7 +422,7 @@ cy_en_lin_status_t Cy_LIN_SetDataLength(LIN_CH_Type* base, uint8_t length)
     }
     else
     {
-        LIN_CH_CTL1(base) |= _VAL2FLD(LIN_CH_CTL1_DATA_NR, (((uint32_t)length) - 1U));
+        CY_REG32_CLR_SET(LIN_CH_CTL1(base), LIN_CH_CTL1_DATA_NR, (((uint32_t)length) - 1U));
     }
 
     return ret;
@@ -456,7 +457,7 @@ cy_en_lin_status_t Cy_LIN_SetChecksumType(LIN_CH_Type* base, cy_en_lin_checksum_
     }
     else
     {
-        LIN_CH_CTL1(base) |= _VAL2FLD(LIN_CH_CTL1_CHECKSUM_ENHANCED, type);
+        CY_REG32_CLR_SET(LIN_CH_CTL1(base), LIN_CH_CTL1_CHECKSUM_ENHANCED, type);
     }
 
     return ret;

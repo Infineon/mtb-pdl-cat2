@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-dchan-voltage-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS digital channel voltage measurement type personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-dchan-voltage" name="Voltage" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss\.dchan" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+    <ExposedMember key="achanSel" paramId="achanSel" />
+    <ExposedMember key="chPriority" paramId="chPriority" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+      <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+      <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <!-- Internal parameters -->
+      <ParamString id="INSTANCE" name="INSTANCE" group="Internal" default="`${toUpper(INST_NAME)}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="dchanInstNum" name="dchanInstNum" group="Internal" default="`${getInstNumber(&quot;dchan&quot;)}`" min="0" max="3" resolution="1" visible="`${debug}`" editable="false" desc="" />
+
+      <ParamString id="measureType" name="measureType" group="Internal" default="Voltage" visible="`${debug}`" editable="false" desc="" />
+
+      <ParamBool id="isCurrent" name="isCurrent" group="Internal" default="`${measureType eq &quot;Current&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="isVoltage" name="isVoltage" group="Internal" default="`${measureType eq &quot;Voltage&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="isExtTemp" name="isExtTemp" group="Internal" default="`${measureType eq &quot;ExternalTemperature&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="isIntTemp" name="isIntTemp" group="Internal" default="`${measureType eq &quot;OnDieTemperature&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="isManual" name="isManual" group="Internal" default="`${measureType eq &quot;Manual&quot;}`" visible="`${debug}`" editable="false" desc="" />
+
+    <!-- General group -->
+      <ParamChoice id="achanSel" name="ACHAN selection" group="General" default="" visible="true" editable="true" desc="Select which analog channel to use with this digital channel. It is recommended to use ACHAN0 for current measurement with DCHAN0." >
+        <Entry name="ACHAN0" value="0" visible="true" />
+        <Entry name="ACHAN1" value="1" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="convMode" name="Conversion Mode" group="General" default="`${(isCurrent || isVoltage) ? CONTINUOUS : ((isExtTemp || isIntTemp) ? SINGLE_SHOT : &quot;&quot;)}`" visible="true" editable="true" desc="Expected use case: Primary channels should be set to Continuous, while secondary channels should be set to Single Shot." >
+        <Entry name="Single Shot" value="SINGLE_SHOT" visible="true" />
+        <Entry name="Continuous" value="CONTINUOUS" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="chPriority" name="Channel Priority" group="General" default="`${dchanInstNum eq 0 ? PRIMARY : &quot;&quot;}`" visible="true" editable="true" desc="When a DCHAN is set as secondary and it is triggered by a secondary trigger, the conversion of the channel pends until the next primary conversion completes. Primary channels should always have a lower digital channel index than secondary channels when assigned to the same sequencer." >
+        <Entry name="Primary"   value="PRIMARY"   visible="true" />
+        <Entry name="Secondary" value="SECONDARY" visible="true" />
+      </ParamChoice>
+
+      <!-- Internal parameters for Achan FW Primary/Secondary Trigger Input -->
+      <ParamString id="aChanBlockPath" name="aChanBlockPath" group="Internal" default="`${&quot;pacss[0].dsm[&quot; . achanSel . &quot;]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="enFwTrigger" name="enFwTrigger" group="Internal" default="`${isBlockUsed(aChanBlockPath) ? (getExposedMember(aChanBlockPath, chPriority) eq &quot;FW&quot;) : 0}`" visible="`${debug}`" editable="false" desc="" />
+
+      <ParamChoice id="vrefh" name="VREFH Selection" group="General" default="`${(isCurrent || isVoltage || isIntTemp) ? DIRECT : ((isExtTemp) ? VTS_REF : &quot;&quot;)}`" visible="true" editable="true" desc="VREFH Selection." >
+        <Entry name="VREFH Direct"   value="DIRECT"     visible="true" />
+        <Entry name="VREFH Buffered" value="BUFFERED"   visible="true" />
+        <Entry name="VREF SRSS"      value="SRSS"       visible="true" />
+        <Entry name="VTS_REF"        value="VTS_REF"    visible="true" />
+        <Entry name="VDDA/4"         value="VDDA_DIV_4" visible="true" />
+        <Entry name="VDDA/3"         value="VDDA_DIV_3" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="vrefl" name="VREFL Selection" group="General" default="`${(isCurrent || isVoltage || isIntTemp) ? VREFL : ((isExtTemp) ? VTS_RET : &quot;&quot;)}`" visible="true" editable="true" desc="VREFL Selection." >
+        <Entry name="VREFL"       value="VREFL"       visible="true" />
+        <Entry name="VSSA_SRSS"   value="VSSA_SRSS"   visible="true" />
+        <Entry name="VSSA_KELVIN" value="VSSA_KELVIN" visible="true" />
+        <Entry name="VTS_RET"     value="VTS_RET"     visible="true" />
+      </ParamChoice>
+
+      <!-- hidden start -->
+      <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="vdda" name="vdda" group="Internal" default="`${isPowerEnabled ? getExposedMember(&quot;srss[0].power[0]&quot;, &quot;vddaMv&quot;) : 3600}`" min="0" max="10000" resolution="1" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="vddaV" name="vddaV" group="Internal" default="`${vdda / 1000.0}`" min="0" max="10" resolution="0.001" visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="vref_voltage" name="External Vref Voltage (V)" group="General" default="1.2" min="0.85" max="`${vddaV}`" resolution="0.001" visible="`${isVrefExternal || debug}`" editable="true" desc="Enter the value of external Vref voltage in volts" />
+      <ParamRange id="vref_voltage_mv" name="vref_voltage_mv" group="Internal" default="`${((vrefh eq DIRECT) ? 1.2 :
+                                                                                            (vrefh eq BUFFERED) ? 0.7 :
+                                                                                            (vrefh eq SRSS) ? 1.2 :
+                                                                                            (vrefh eq VTS_REF) ? 0.8 :
+                                                                                            (vrefh eq VDDA_DIV_3) ? vdda / 3 :
+                                                                                            (vrefh eq VDDA_DIV_4)) ? vdda / 4 : vref_voltage * 1000}`" min="0" max="`${vdda}`" resolution="1" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="vref_voltage_display" name="Vref Voltage (V)" group="General" default="`${vref_voltage_mv / 1000.0}`" visible="`${!isVrefExternal || debug}`" editable="false" desc="Value of the internal Vref voltage in volts" />
+      <!-- hidden end -->
+
+      <ParamSignal name="Positive Pin" port="vplus[0]" group="General" visible="true" desc="Positive Pin Select." multiSelect="false" canBeEmpty="false" >
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.voltage_in\[\d+\]\.hvdiv.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.pwr\[\d+\]\.vs0_vccd2_2\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.pwr\[\d+\]\.vs1_vcca_dsm_2\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.pwr\[\d+\]\.vs2_vdda_4\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.pwr\[\d+\]\.vs3_vddd_4\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.srss_vss\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vg1_vssd\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vssl\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vsub\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vrefl\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vssa\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.hpbgr\[\d+\]\.vref_1p2v_hpbgr.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.hpbgr\[\d+\]\.vref_1p2v_srss.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.hpbgr\[\d+\]\.vref_0p8v_hpbgr.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.hpbgr\[\d+\]\.vref_0p7v_hpbgr.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[0]\.pin.*" valid="true" />
+      </ParamSignal>
+
+      <ParamSignal name="Negative Pin" port="vminus[0]"  group="General" visible="true" desc="Negative Pin Select." multiSelect="false" canBeEmpty="false" >
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vrefl\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vssa\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.srss_vss\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.gndref\[\d+\]\.vg1_vssd\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="pacss\[\d+\]\.voltage_in\[\d+\]\.vdiv_ret\[.*" valid="true" />
+          <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[0]\.pin.*" valid="true" />
+      </ParamSignal>
+
+      <ParamChoice id="aafMode" name="AAF Mode" group="General" default="`${isCurrent ? ENABLE : (isVoltage || isExtTemp) ? SHORT_ON_SELECT : isIntTemp ? BYPASS : &quot;&quot; }`" visible="true" editable="true" desc="Bypassed: Bypass the Anti-Aliasing Filter. Enable: The AAF will be used continually. Enable and Auto Short: The AAF will be shorted and pre-charged during the channel selection delay. The expectation is that his will decrease the required settling time." >
+        <Entry name="Bypassed"              value="BYPASS"          visible="true" />
+        <Entry name="Enable"                value="ENABLE"          visible="true" />
+        <Entry name="Enable and Auto Short" value="SHORT_ON_SELECT" visible="true" />
+      </ParamChoice>
+
+      <ParamBool id="enableAGC" name="Enable AGC" group="General" default="`${(dchanInstNum eq 0) &amp;&amp; !isVoltage &amp;&amp; !isIntTemp ? true : false}`" visible="true" editable="true" desc="Basically it is recommended to use AGC only for DCHAN0." />
+      <ParamBool id="enableGainCor" name="Enable Gain Correction" group="General" default="`${(isIntTemp) ? false : true}`" visible="true" editable="true" desc="This bit controls the gain correction feature of the Decimator filter." />
+      <ParamBool id="enableOffsetCor" name="Enable Offset Correction" group="General" default="`${(isIntTemp) ? false : true}`" visible="true" editable="true" desc="This bit controls the offset correction feature of the Decimator filter." />
+
+      <ParamRange id="chSelDelay" name="Channel Select Delay" group="General" default="`${(isIntTemp || isExtTemp || isManual) ? 18 : 17}`" min="1" max="256" resolution="1" visible="true" editable="true" desc="Channel Selection Delay. Valid range: from 1 to 256. Step: 1" />
+      <ParamRange id="validBitOfGainCor" name="Valid bits of Gain Correction" group="General" default="15" min="1" max="16" resolution="1" visible="true" editable="true" desc="The valid bits of the gain correction value. Valid range: from 1 to 16. Step: 1" />
+    <!-- End General group -->
+
+    <!-- Signals -->
+      <ParamSignal port="tr_start[0]" name="Trigger Input" group="Connections" visible="`${!enFwTrigger}`" desc="Sets up the trigger input signal for the DCHAN start." canBeEmpty="false" />
+      <ParamSignal port="tr_data_val[0]" name="Trigger Output" group="Connections" visible="true" desc="Sets up the trigger output signal for the DCHAN completion." canBeEmpty="true" />
+
+    <!-- Finite Impulse Response (FIR) group -->
+      <ParamBool id="enFIR" name="Enable FIR" group="Finite Impulse Response (FIR)" default="`${dchanInstNum le 1 &amp;&amp; !isIntTemp}`" visible="`${dchanInstNum le 1}`" editable="`${dchanInstNum le 1}`" desc="Available only for DCHAN0, 1" />
+
+      <ParamRange id="tapNum" name="Tap number" group="Finite Impulse Response (FIR)" default="16" min="1" max="64" resolution="1" visible="`${enFIR}`" editable="true" desc="Available only for DCHAN0, 1 16 is recommended value. Valid range: from 1 to 64. Step: 1" />
+      <ParamRange id="firCoefConvScaleFactor" name="firCoefConvScaleFactor" group="Internal" default="`${(32767 - (-32767)) / (1.0 - (-1.0))}`" min="-32768.0000000000000000" max="32768.0000000000000000" resolution="0.000000000001" visible="`${debug}`" editable="false" desc="" />
+      <Repeat count="64">
+        <ParamRange id="firCoef$idx" name="FIR Coefficient $idx" group="Finite Impulse Response (FIR)" default="`${((tapNum eq 16) &amp;&amp; ($idx &lt; 16)) ? (($idx eq 0)  ? -0.00414 :
+                                                                                                                                                                ($idx eq 1)  ? -0.01741 :
+                                                                                                                                                                ($idx eq 2)  ? -0.02674 :
+                                                                                                                                                                ($idx eq 3)  ? -0.0151 :
+                                                                                                                                                                ($idx eq 4)  ? 0.02896 :
+                                                                                                                                                                ($idx eq 5)  ? 0.1049 :
+                                                                                                                                                                ($idx eq 6)  ? 0.18756 :
+                                                                                                                                                                ($idx eq 7)  ? 0.24197 :
+                                                                                                                                                                ($idx eq 8)  ? 0.24197 :
+                                                                                                                                                                ($idx eq 9)  ? 0.18756 :
+                                                                                                                                                                ($idx eq 10) ? 0.1049 :
+                                                                                                                                                                ($idx eq 11) ? 0.02896 :
+                                                                                                                                                                ($idx eq 12) ? -0.0151 :
+                                                                                                                                                                ($idx eq 13) ? -0.02674 :
+                                                                                                                                                                ($idx eq 14) ? -0.01741 :
+                                                                                                                                                                ($idx eq 15) ? -0.00414 : 0.0) : 0.0}`" min="`${-1.0+1.0/(pow(2,15))}`" max="`${1.0-1.0/pow(2,15)}`" resolution="0.00001" visible="`${(enFIR &amp;&amp; ($idx &lt; tapNum)) || debug}`" editable="`${(tapNum ne 16) &amp;&amp; ($idx &lt; tapNum)}`" desc="Available only for DCHAN0, 1 It is recommended that summing of all the FIR coefficients = 1. Valid range: from -1+1/(2^15) to 1-1/(2^15). Step: 1/(2^15)" />
+
+        <ParamRange id="firCoef$idxConv" name="FIR Coefficient $idx converted" group="Internal" default="`${ceil((firCoef$idx + 1.0) * firCoefConvScaleFactor - 32767)}`" min="-32767" max="32767" resolution="1" visible="`${debug}`" editable="false" desc="" />
+      </Repeat>
+    <!-- Finite Impulse Response (FIR) group -->
+
+    <!-- Range detection group -->
+      <ParamChoice id="rangeDetMode" name="Range Detection Mode" group="Range Detection" default="DISABLE" visible="true" editable="true" desc="Range Detection Mode." >
+        <Entry name="Disabled"                 value="DISABLE"     visible="true" />
+        <Entry name="Enabled"                  value="SIMPLE"      visible="true" />
+        <Entry name="Enabled with Event Count" value="EVENT_COUNT" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="rangeDetCond" name="Range Detection Condition" group="Range Detection" default="LESS_THAN" visible="`${rangeDetMode ne DISABLE}`" editable="true" desc="Range Condition Select." >
+        <Entry name="Less than lower threshold"                                  value="LESS_THAN"    visible="true" />
+        <Entry name="Between lower and upper thresholds"                         value="BETWEEN"      visible="true" />
+        <Entry name="Greater than upper threshold"                               value="GREATER_THAN" visible="true" />
+        <Entry name="Lower than lower threshold or greater than upper threshold" value="OUTSIDE"      visible="true" />
+      </ParamChoice>
+
+      <ParamRange id="rangeDetLowThresh" name="Range Detect Low Threshold" group="Range Detection" default="0" min="-2147483648" max="2147483647" resolution="1" visible="`${rangeDetMode ne DISABLE}`" editable="true" desc="Low threshold for range detection. Valid range: from -2147483648 to 2147483647. Step: 1" />
+      <ParamRange id="rangeDetHiThresh" name="Range Detect High Threshold" group="Range Detection" default="0" min="-2147483648" max="2147483647" resolution="1" visible="`${rangeDetMode ne DISABLE}`" editable="true" desc="High threshold for range detection. Valid range: from -2147483648 to 2147483647. Step: 1" />
+      <ParamRange id="rangeDetCnt" name="Range Detection Count" group="Range Detection" default="1" min="0" max="255" resolution="1" visible="`${rangeDetMode eq EVENT_COUNT}`" editable="true" desc="Range Detection Count Value. When the range detection counter matches this value, the range interrupt is asserted. Valid range: from 0 to 255. Step: 1" />
+    <!-- End Range detection group -->
+
+    <!-- Gain Control group -->
+      <ParamChoice id="pgaGain" name="PGA Gain" group="Gain Control" default="1" visible="true" editable="`${!enableAGC}`" desc="Gain of PGA." >
+        <Entry name="1X" value="1" visible="true" />
+        <Entry name="2X" value="2" visible="true" />
+        <Entry name="4X" value="4" visible="true" />
+        <Entry name="8X" value="8" visible="true" />
+        <Entry name="16X" value="16" visible="true" />
+        <Entry name="32X" value="32" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="modulatorGain" name="Modulator Gain" group="Gain Control" default="`${enableAGC ? 0.5 : 1}`" visible="true" editable="`${!enableAGC}`" desc="Gain of Modulator." >
+        <Entry name="0.5X" value="0.5" visible="true" />
+        <Entry name="1X" value="1" visible="true" />
+        <Entry name="2X" value="2" visible="true" />
+        <Entry name="4X" value="4" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="movingAvgU" name="Moving Average (U)" group="Gain Control" default="`${enableAGC ? 4 : 1}`" visible="true" editable="`${!enableAGC}`" desc="The moving average of sinc3/sinc4 decimator output." >
+        <Entry name="1" value="1" visible="true" />
+        <Entry name="2" value="2" visible="true" />
+        <Entry name="4" value="4" visible="true" />
+      </ParamChoice>
+      <ParamRange id="shiftL" name="Left Shift" group="Gain Control" default="`${enableAGC ? 8 : (isIntTemp ? 3 : 0)}`" min="0" max="9" resolution="1" visible="true" editable="`${!enableAGC}`" desc="Left Shift. Value for left shift amount of modulator input data. Supported values are 0 - 9. Using values 10-15 may result in a loss of data. Valid range: from 0 to 9. Step: 1" />
+
+      <ParamRange id="analogGain" name="Analog Gain" group="Gain Control" default="`${(pgaGain * modulatorGain)}`" min="0" max="128" resolution="0.5" visible="true" editable="false" desc="Analog Gain = PGA Gain * Modulator Gain"/>
+      <ParamChoice id="totalGain" name="Total Gain" group="Gain Control" default="`${(pgaGain * modulatorGain * movingAvgU)}`" visible="true" editable="false" desc="Total Gain = PGA Gain * Modulator Gain * Moving Average (U)" >
+        <Entry name="0.5" value="0.5" visible="true" />
+        <Entry name="1"   value="1"   visible="true" />
+        <Entry name="2"   value="2"   visible="true" />
+        <Entry name="4"   value="4"   visible="true" />
+        <Entry name="8"   value="8"   visible="true" />
+        <Entry name="16"  value="16"  visible="true" />
+        <Entry name="32"  value="32"  visible="true" />
+        <Entry name="64"  value="64"  visible="true" />
+        <Entry name="128" value="128" visible="true" />
+        <Entry name="256" value="256" visible="true" />
+        <Entry name="512" value="512" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="sincMode" name="sinc Mode" group="Gain Control" default="3" visible="true" editable="true" desc="Sinc 3 is 3-state CIC decimation filter. Sinc 4 is 4-state CIC decimation filter." >
+        <Entry name="sinc 3" value="3" visible="true" />
+        <Entry name="sinc 4" value="4" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="decRatio1" name="Decimation Ratio 1" group="Gain Control" default="`${isVoltage ? 128 : 64}`" visible="true" editable="true" desc="Changing this field during a conversion will disrupt the output value." >
+        <Entry name="64" value="64" visible="true" />
+        <Entry name="128" value="128" visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="decRatio2" name="Decimation Ratio 2" group="Gain Control" default="`${(isCurrent || isVoltage) ? 6 : 1}`" visible="true" editable="true" desc="Changing this field during a conversion will disrupt the output value. Decimation Ratio 2 must be greater than 1 if Moving Average (U) is not 1." >
+        <Entry name="32" value="32" visible="true" />
+        <Entry name="24" value="24" visible="true" />
+        <Entry name="16" value="16" visible="true" />
+        <Entry name="12" value="12" visible="true" />
+        <Entry name="6"  value="6" visible="true" />
+        <Entry name="1"  value="1" visible="true" />
+      </ParamChoice>
+
+      <ParamRange id="decShiftRDef" name="decShiftRDef" group="Gain Control" default="`${ceil(log10(9)/log10(2)) + shiftL + sincMode * log10(decRatio1)/log10(2) + log10(movingAvgU)/log10(2) - 32.0}`" min="-1500000000000.0" max="1500000000000.0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="decShiftR" name="Decimator Right Shift" group="Gain Control" default="`${decShiftRDef &gt;= 0 ? decShiftRDef : 0}`" min="0" max="15.0" resolution="1" visible="true" editable="false" desc="The maximum data path of the sinc4 filter is 42-bits. This shift register is used to align the resolution down to 32-bits, otherwise the MSB bits will be truncated." />
+      <ParamRange id="rrShiftRDef" name="rrShiftRDef" group="Gain Control" default="`${ceil(log10(9)/log10(2) + shiftL + sincMode * log10(decRatio1)/log10(2) + log10(movingAvgU)/log10(2) - decShiftR + 2.0 * log10(decRatio2)/log10(2)) - 32.0}`" min="-15.0" max="15.0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="rrShiftR" name="Rate Reducer Right Shift" group="Gain Control" default="`${rrShiftRDef &gt;= 0 ? rrShiftRDef : 0}`" min="0.0" max="15.0" resolution="1" visible="true" editable="false" desc="The maximum data path of the sinc2 rate reducer filter is 42-bits. This shift register is used to align the resolution down to 32-bits, otherwise the MSB bits will be truncated." />
+
+      <ParamRange id="DP_BW" name="DP_BW" group="Gain Control" default="`${log10(9)/log10(2) + shiftL + sincMode * log10(decRatio2) / log10(2) - decShiftR - rrShiftR}`" min="-1000000" max="1000000" resolution="0.00000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
+      <ParamRange id="firSum" name="FIR_SUM" group="Gain Control" default="`${firCoef0 + firCoef1 + firCoef2 + firCoef3 + firCoef4 + firCoef5 + firCoef6 + firCoef7 + firCoef8 + firCoef9 + firCoef10 + firCoef11 + firCoef12 + firCoef13 + firCoef14 + firCoef15 + firCoef16 + firCoef17 + firCoef18 + firCoef19 + firCoef20 + firCoef21 + firCoef22 + firCoef23 + firCoef24 + firCoef25 + firCoef26 + firCoef27 + firCoef28 + firCoef29 + firCoef30 + firCoef31 + firCoef32 + firCoef33 + firCoef34 + firCoef35 + firCoef36 + firCoef37 + firCoef38 + firCoef39 + firCoef40 + firCoef41 + firCoef42 + firCoef43 + firCoef44 + firCoef45 + firCoef46 + firCoef47 + firCoef48 + firCoef49 + firCoef50 + firCoef51 + firCoef52 + firCoef53 + firCoef54 + firCoef55 + firCoef56 + firCoef57 + firCoef58 + firCoef59 + firCoef60 + firCoef61 + firCoef62 + firCoef63}`" min="-1" max="1" resolution="0.000000000001" visible="`${debug}`" editable="false" desc="" />
+      <ParamRange id="FIR_DP_ADJ" name="FIR_DP_ADJ" group="Gain Control" default="`${log10(firSum)/log10(2)}`" min="-15" max="0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
+      <ParamRange id="ppShiftR" name="Post Processor Right Shift" group="Gain Control" default="`${(DP_BW + FIR_DP_ADJ - 32) &gt;= 0 ? (DP_BW + FIR_DP_ADJ - 32) : 0}`" min="0" max="15" resolution="1" visible="`${!enableAGC &amp;&amp; enFIR}`" editable="false" desc="Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
+
+      <ParamRange id="maxCnt" name="Max Count" group="Gain Control" default="`${(4 * movingAvgU) * pow(2, (shiftL + (sincMode * (log10(decRatio1) / log10(2))) - decShiftR + 2 * (log10(decRatio2) / log10(2)) - rrShiftR))}`" min="-2147483648" max="2147483647" resolution="1" visible="`${!enableAGC}`" editable="false" desc="The maximum output value. It can be used to convert counts to volt." />
+      <ParamRange id="lsbV" name="LSB [V]" group="Gain Control" default="`${vref_voltage_mv / (pgaGain * modulatorGain * maxCnt)}`" min="-2147483648" max="2147483647" resolution="0.000000001" visible="`${!enableAGC}`" editable="false" desc="Least Significant Bit." />
+    <!-- End Gain Control group -->
+
+    <!-- Accumulator Result Threshold group -->
+      <ParamRange id="accuResThresh" name="Accumulator Result Threshold" group="Accumulator Result Threshold" default="2147483647" min="-2147483648" max="2147483647" resolution="1" visible="true" editable="true" desc="Sets the accumulated threshold. Valid range: from -2147483648 to 2147483647 Step: 1" />
+
+      <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <!-- Internal group. For DRC depencies checking -->
+      <ParamString id="pacssAGCInstance" name="AGC block name" group="Internal" default="`${&quot;pacss[0].agc[0]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="pacssAchanBlockName" name="Source Clock Resource" group="Internal" default="`${&quot;pacss[0].dsm&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="pacssAchanBlockName1" name="Source Clock Resource1" group="Internal" default="`${pacssAchanBlockName . &quot;[0]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="pacssAchanBlockName2" name="Source Clock Resource2" group="Internal" default="`${pacssAchanBlockName . &quot;[1]&quot;}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="achan0NotUsed" name="achan0NotUsed" group="Internal" default="`${!isBlockUsed(pacssAchanBlockName . &quot;[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="achan1NotUsed" name="achan1NotUsed" group="Internal" default="`${!isBlockUsed(pacssAchanBlockName . &quot;[1]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="agcNotUsed" name="agcNotUsed" group="Internal" default="`${!isBlockUsed(&quot;pacss[0].agc[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+      <ParamBool id="hvssNotUsed" name="hvssNotUsed" group="Internal" default="`${!isBlockUsed(&quot;hvss[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+
+      <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+      <ParamString id="pHWName" name="pHWName" group="Internal" default="PACSS" visible="`${debug}`" editable="false" desc="HW name of PACSS instance." />
+
+      <ParamString id="firConfig" name="firConfig" group="Internal" default="&amp;`${INST_NAME}`_channel_fir_config" visible="`${debug}`" editable="false" desc="Fir Config pointer" />
+      <ParamString id="gainConfig" name="gainConfig" group="Internal" default="&amp;`${INST_NAME}`_channel_gain_lvl_config" visible="`${debug}`" editable="false" desc="Gain Config pointer" />
+      <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME}`_channel_config" visible="`${debug}`" editable="false" desc="" />
+    <!-- End Internal group. For DRC depencies checking -->
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="ACHAN$idx source for DCHAN is not enabled." condition="`${(achanSel eq $idx) &amp;&amp; (achan$idxNotUsed)}`" repeatCount="2" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pacss[0].dsm[$idx]&quot;}`" value="" valid="true" />
+    </DRC>
+
+    <DRC type="ERROR" text="HPBGR is not enabled but used as reference" condition="`${!isBlockUsed(&quot;pacss[0].hpbgr[0]&quot;) &amp;&amp; ((vrefh eq DIRECT) || (vrefh eq BUFFERED))}`">
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pacss[0].hpbgr[0]&quot;}`" value="" valid="true" />
+    </DRC>
+
+    <DRC type="ERROR" text="AGC is not enabled but used." condition="`${enableAGC &amp;&amp; agcNotUsed}`">
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pacss[0].agc[0]&quot;}`" value="" valid="true" />
+    </DRC>
+
+    <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vrefh eq &quot;VDDA_DIV_4&quot;) ||
+                                                                                        (vrefh eq &quot;VDDA_DIV_3&quot;)) &amp;&amp; !isPowerEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="" valid="true" />
+    </DRC>
+
+    <!-- Check hvss -->
+    <DRC type="ERROR" text="HVSS is not enabled." condition="`${hvssNotUsed}`" repeatCount="2" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;hvss[0]&quot;}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+    <ConfigInclude value="cycfg_routing.h" include="true" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="`${pHWName}`" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="pacss_interrupts_dch_`${pacssInst}`_IRQHandler" public="true" include="true" />
+
+    <ConfigDefine name="`${INST_NAME}`_ACC_THRESH" value="(`${accuResThresh}`)" public="true" include="true" />
+
+    <ConfigDefine name="CY_DSADC_ANALOG_GAIN_DCHAN`${dchanInstNum}`" value="`${analogGain}`" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME}`_channel_gain_lvl_config" type="cy_stc_dsadc_gain_level_config_t" const="true" public="true" include="`${!enableAGC}`"  >
+      <Member name="modCapConfig" value="CY_DSADC_CONFIG_MOD_GAIN_`${(modulatorGain eq 0.5) ? &quot;0P5&quot; : modulatorGain}`X"/>
+      <Member name="leftShift" value="`${shiftL}`" />
+      <Member name="offsetCorrection" value="0" />
+      <Member name="gainCorrection" value="CY_DSADC_GAIN_CORRECTION_DEFAULT" />
+      <Member name="pgaGain" value="CY_DSADC_DCHAN_PGA_GAIN_`${pgaGain}`X" />
+    </ConfigStruct>
+
+    <ConfigArray name="`${INST_NAME}`_fir_coefficients" type="int16_t" const="true" public="true" include="`${enFIR}`">
+      <ArrayElement value="`${firCoef$idx{0}Conv}`" include="`${enFIR &amp;&amp; ($idx{0} &lt; tapNum)}`" count="64"/>
+    </ConfigArray>
+
+    <ConfigStruct name="`${INST_NAME}`_channel_fir_config" type="cy_stc_dsadc_fir_config_t" const="true" public="true" include="`${enFIR}`"  >
+      <Member name="numTaps" value="`${tapNum}`U-1U" />
+      <Member name="coefficients" value="&amp;`${INST_NAME}`_fir_coefficients[0u]" />
+    </ConfigStruct>
+
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_dsadc_dchan_config_t" const="`${inFlash}`" public="true" include="true" >
+      <Member name="achan" value="CY_DSADC_DCHAN_SELECT_ACHAN`${achanSel}`" />
+      <Member name="conversionMode" value="CY_DSADC_DCHAN_SAMPLE_MODE_`${convMode}`" />
+      <Member name="priority" value="CY_DSADC_DCHAN_PRIORITY_`${chPriority}`" />
+      <Member name="vrefhSelect" value="CY_DSADC_DCHAN_REFERENCE_VREFH_`${vrefh}`" />
+      <Member name="vreflSelect" value="CY_DSADC_DCHAN_REFERENCE_VREFL_`${vrefl}`" />
+      <Member name="stage1DecimationRatio" value="`${decRatio1}`U-1U" />
+      <Member name="stage2DecimationRatio" value="`${decRatio2}`U-1U" />
+      <Member name="ppRightShift" value="`${!enableAGC ? ppShiftR : 0}`" include="true" />
+      <Member name="useAgc" value="`${enableAGC}`" />
+      <Member name="rightShift" value="`${decShiftR}`" include="true" />
+      <Member name="rateReducerRightShift" value="`${rrShiftR}`" include="true"/>
+      <Member name="pinPositive" value="PACSS_INMUX`${dchanInstNum}`_POS_SEL" />
+      <Member name="pinNegative" value="PACSS_INMUX`${dchanInstNum}`_NEG_SEL" />
+      <Member name="channelSelectDelay" value="`${chSelDelay}`U-1U" />
+      <Member name="aafMode" value="CY_DSADC_AAF_`${aafMode}`" />
+      <Member name="enableGainCorrection" value="`${enableGainCor}`" />
+      <Member name="validGcorBits" value="`${validBitOfGainCor}`" />
+      <Member name="enableOffsetCorrection" value="`${enableOffsetCor}`" />
+      <Member name="sincMode" value="CY_DSADC_DCHAN_DECIMATOR_SINC_MODE_SINC`${sincMode}`" />
+      <Member name="averagingMode" value="CY_DSADC_AVERAGING_MODE_`${enableAGC ?  &quot;ACCUMULATE&quot; : ((movingAvgU eq 4) || (movingAvgU eq 2)) ? &quot;AVERAGE&quot; : &quot;ACCUMULATE&quot; }`" />
+      <Member name="averagingSamples" value="CY_DSADC_AVERAGING_SAMPLES_`${(movingAvgU eq 4) || (movingAvgU eq 2) ? movingAvgU : &quot;NONE&quot; }`" />
+      <Member name="rangeMode" value="CY_DSADC_DCHAN_RANGE_MODE_`${rangeDetMode}`" />
+      <Member name="rangeConditional" value="CY_DSADC_DCHAN_RANGE_CONDITIONAL_`${rangeDetCond}`" />
+      <Member name="rangeLowerThreshold" value="`${rangeDetLowThresh}`" />
+      <Member name="rangeUpperThreshold" value="`${rangeDetHiThresh}`" />
+      <Member name="rangeCount" value="`${(rangeDetMode eq EVENT_COUNT) ? rangeDetCnt : &quot;0&quot;}`" />
+      <Member name="gain" value="`${!enableAGC ? gainConfig : &quot;&amp;&quot; . getExposedMember(pacssAGCInstance, &quot;cfgGainStrName&quot;) . &quot;[0]&quot;}`" />
+      <Member name="fir" value="`${enFIR ? firConfig : &quot;NULL&quot;}`" />
+    </ConfigStruct>
+
+  </ConfigFirmware>
+</PersonalityTemplate>

@@ -17,6 +17,7 @@ var searchData=
   ['initctl2',['initCtl2',['../structcy__stc__msc__base__config__t.html#ac658be21e7a48748278cce3f44cc5080',1,'cy_stc_msc_base_config_t::initCtl2()'],['../structcy__stc__msclp__base__config__t.html#a2e24c328455c44dd34e1fe6f5be3da8d',1,'cy_stc_msclp_base_config_t::initCtl2()']]],
   ['initctl3',['initCtl3',['../structcy__stc__msc__base__config__t.html#af1439dc541f9013ceef0c5b16e32e99f',1,'cy_stc_msc_base_config_t::initCtl3()'],['../structcy__stc__msclp__base__config__t.html#a14d7c93b9933f79bc8aa41693c17ad16',1,'cy_stc_msclp_base_config_t::initCtl3()']]],
   ['initctl4',['initCtl4',['../structcy__stc__msc__base__config__t.html#aef5782828e1f22e1fe66e759e89d7328',1,'cy_stc_msc_base_config_t::initCtl4()'],['../structcy__stc__msclp__base__config__t.html#a79f8fe77397f99a548a693de53982a9f',1,'cy_stc_msclp_base_config_t::initCtl4()']]],
+  ['initialgainlevel',['initialGainLevel',['../structcy__stc__dsadc__agc__config__t.html#a592e5b605ed1e91f6a75c2d7893d5be2',1,'cy_stc_dsadc_agc_config_t']]],
   ['inputfreq',['inputFreq',['../structcy__stc__sysclk__pll__config__t.html#a56a32915a8b74c510bd7fc64f34991b0',1,'cy_stc_sysclk_pll_config_t']]],
   ['intedge',['intEdge',['../structcy__stc__gpio__pin__config__t.html#a224590619198ad520a196319b618deda',1,'cy_stc_gpio_pin_config_t']]],
   ['intelmode',['intelMode',['../structcy__pd__pd__do__t_1_1_t_b_t___u_f_p___v_d_o.html#a7ae539995942fb396630cc50cd8a6b7b',1,'cy_pd_pd_do_t::TBT_UFP_VDO::intelMode()'],['../structcy__pd__pd__do__t_1_1_t_b_t___v_d_o.html#aca336ef99b11b78993332491b9df8ec8',1,'cy_pd_pd_do_t::TBT_VDO::intelMode()'],['../structcy__pd__pd__do__t_1_1_t_b_t___c_b_l___v_d_o.html#a33d7b5a400acb1c1d45f6a1b6c4cc71a',1,'cy_pd_pd_do_t::TBT_CBL_VDO::intelMode()']]],
@@ -43,6 +44,9 @@ var searchData=
   ['invertpwmoutn',['invertPWMOutN',['../structcy__stc__tcpwm__pwm__config__t.html#a3eb0cc962444244b8200dafa2e8e856b',1,'cy_stc_tcpwm_pwm_config_t']]],
   ['iosel',['ioSel',['../structcy__stc__csd__config__t.html#a8886f31c0cdab0b78d6739c04c70f0ae',1,'cy_stc_csd_config_t']]],
   ['iosyncen',['ioSyncEn',['../structcy__stc__smartio__config__t.html#a9281b4458eb13d8e8e0f57ff028b5d6c',1,'cy_stc_smartio_config_t']]],
+  ['ipcap1',['ipCap1',['../structcy__stc__dsadc__gain__mod__cap__config__t.html#aeeb8530cad6872e748adb14506e73e5b',1,'cy_stc_dsadc_gain_mod_cap_config_t']]],
+  ['ipcap2',['ipCap2',['../structcy__stc__dsadc__gain__mod__cap__config__t.html#a243051e6c86df99cc62c9995f1b5335b',1,'cy_stc_dsadc_gain_mod_cap_config_t']]],
+  ['ipcap3',['ipCap3',['../structcy__stc__dsadc__gain__mod__cap__config__t.html#af90af0c8cec767e66e50ca3f123a8ea7',1,'cy_stc_dsadc_gain_mod_cap_config_t']]],
   ['irdaenablelowpowerreceiver',['irdaEnableLowPowerReceiver',['../structcy__stc__scb__uart__config__t.html#a2f927424c73f317022e884169583e65d',1,'cy_stc_scb_uart_config_t']]],
   ['irdainvertrx',['irdaInvertRx',['../structcy__stc__scb__uart__config__t.html#a1c4cd968ea7897497e93dcb2ae3ad39c',1,'cy_stc_scb_uart_config_t']]],
   ['is_5factive',['is_active',['../structcy__stc__usbpd__legacy__charging__state__t.html#aef53e7df0ca498483b7ba844fd921b15',1,'cy_stc_usbpd_legacy_charging_state_t']]]

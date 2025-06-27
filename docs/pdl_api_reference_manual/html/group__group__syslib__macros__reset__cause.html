@@ -112,7 +112,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga8b0202d78f26968d02757e0b10249799"><td class="mdescLeft">&#160;</td><td class="mdescRight">External XRES pin was asserted.  <a href="#ga8b0202d78f26968d02757e0b10249799">More...</a><br /></td></tr>
 <tr class="separator:ga8b0202d78f26968d02757e0b10249799"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gad5f2544aa19111ecd3159a97d7dd69cf">CY_SYSLIB_RESET_BODVDDD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVDDD_Msk</td></tr>
-<tr class="memdesc:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">External VDDD supply crossed brown-out limit.  <a href="#gad5f2544aa19111ecd3159a97d7dd69cf">More...</a><br /></td></tr>
+<tr class="memdesc:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal VDDD supply crossed brown-out limit.  <a href="#gad5f2544aa19111ecd3159a97d7dd69cf">More...</a><br /></td></tr>
 <tr class="separator:gad5f2544aa19111ecd3159a97d7dd69cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac7798cd7ad74e8e3dc85d8d37cdb09e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gac7798cd7ad74e8e3dc85d8d37cdb09e1">CY_SYSLIB_RESET_BODVCCD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODVCCD_Msk</td></tr>
 <tr class="memdesc:gac7798cd7ad74e8e3dc85d8d37cdb09e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal VCCD core supply crossed the brown-out limit.  <a href="#gac7798cd7ad74e8e3dc85d8d37cdb09e1">More...</a><br /></td></tr>
@@ -124,7 +124,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:gaa2928ea39085b5e38fb05ed1c62d9655"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overvoltage detection on the internal core VCCD supply.  <a href="#gaa2928ea39085b5e38fb05ed1c62d9655">More...</a><br /></td></tr>
 <tr class="separator:gaa2928ea39085b5e38fb05ed1c62d9655"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa039e8b654226f19625c39ff36551293"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#gaa039e8b654226f19625c39ff36551293">CY_SYSLIB_RESET_BODHVSS</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_BODHVSS_Msk</td></tr>
-<tr class="memdesc:gaa039e8b654226f19625c39ff36551293"><td class="mdescLeft">&#160;</td><td class="mdescRight">External VDDD supply crossed brown-out limit.  <a href="#gaa039e8b654226f19625c39ff36551293">More...</a><br /></td></tr>
+<tr class="memdesc:gaa039e8b654226f19625c39ff36551293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal VDDD supply crossed brown-out limit.  <a href="#gaa039e8b654226f19625c39ff36551293">More...</a><br /></td></tr>
 <tr class="separator:gaa039e8b654226f19625c39ff36551293"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga35546f2d5563315369a1b7378245bb70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__syslib__macros__reset__cause.html#ga35546f2d5563315369a1b7378245bb70">CY_SYSLIB_RESET_PORVDDD</a>&#160;&#160;&#160;SRSSHV_RES_CAUSE_RESET_PORVDDD_Msk</td></tr>
 <tr class="memdesc:ga35546f2d5563315369a1b7378245bb70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicator that a POR occurred.  <a href="#ga35546f2d5563315369a1b7378245bb70">More...</a><br /></td></tr>
@@ -229,7 +229,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>External VDDD supply crossed brown-out limit. </p>
+<p>Internal VDDD supply crossed brown-out limit. </p>
 <dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
 
 </div>
@@ -297,8 +297,8 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>External VDDD supply crossed brown-out limit. </p>
-<dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
+<p>Internal VDDD supply crossed brown-out limit. </p>
+<p>This detector is a backup detector in the high voltage sub-system that is on even in deep sleep. This detector is used for engineering debug purposes only. </p><dl class="section note"><dt>Note</dt><dd>Only applicable for PSOC 4 HVMS/PA devices. </dd></dl>
 
 </div>
 </div>

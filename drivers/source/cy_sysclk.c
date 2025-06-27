@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.40
+* \version 3.50
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -261,7 +261,7 @@ cy_en_sysclk_status_t Cy_SysClk_ImoSetFrequency(cy_en_sysclk_imo_freq_t freq)
 
                 Cy_SysClk_LockProtReg();
 
-                /* 
+                /*
                  * For SRSSHV, the IMO TRIM frequency is in multiples of 4
                  * So shifting by 4 here to avoid the divide by 4 done for other platforms.
                  */
@@ -608,7 +608,7 @@ static bool preventIloMeasurment = false;
 * Function Name: Cy_SysClk_IloStartMeasurement
 ***************************************************************************//**
 *
-* \brief 
+* \brief
 * Prepares the DFT hardware to perform the ILO accuracy measurement.
 *
 * This function is non-blocking and needs to be called before using the
@@ -671,7 +671,7 @@ void Cy_SysClk_IloStartMeasurement(void)
 * Call this function before placing the device to deepsleep, if
 * \ref Cy_SysClk_IloStartMeasurement() API was called before.
 *
-* \note This function is not allowed to call immediately 
+* \note This function is not allowed to call immediately
 *       after the \ref Cy_SysClk_IloStartMeasurement.
 *
 * \funcusage
@@ -729,11 +729,11 @@ void Cy_SysClk_IloStopMeasurement(void)
 * The compensated ILO cycles can then be used to define the WDT period value,
 * effectively compensating for the ILO inaccuracy and allowing a more
 * accurate WDT interrupt generation.
-* This function starts timers, and if they are already running, their status 
-* is checked. If the timer has reached 0, then it is considered that it has 
-* already measured and calculated, how many cycles are 
+* This function starts timers, and if they are already running, their status
+* is checked. If the timer has reached 0, then it is considered that it has
+* already measured and calculated, how many cycles are
 * needed for DesiredDelay and returns "success".
-* The Cy_SysClk_IloCompensate function execution time is always ~ 1ms. 
+* The Cy_SysClk_IloCompensate function execution time is always ~ 1ms.
 *
 * \ref Cy_SysClk_IloStartMeasurement() function should be called prior to calling this function.
 *
@@ -818,7 +818,7 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
                 {
                     /* Calculate required number of ILO cycles for given delay */
                     desiredDelayInCounts = CY_SYSLIB_DIV_ROUND(desiredDelay * COEF_PHUNDRED, ILO_PERIOD_PPH);
-                    
+
                     if ((SRSSLT_TST_TRIM_CNTR2 * desiredDelayInCounts) > (0xFFFFFFFFu >> SYS_CLK_DIVIDER))
                     {
                         iloCompensatedCycles = (((SRSSLT_TST_TRIM_CNTR2 * SystemCoreClock) /
@@ -2103,7 +2103,7 @@ uint32_t Cy_SysClk_ClkHfGetFrequency(void)
 * \note  It takes about (3 + 1) LF clock cycles of the new selected clock to switch away
 * from the old clock to the new clock. Do not disable the original clock during this time.
 *
-* \note  If a clock source is disabled while selected, then the clock merely stops to all sources that receive it. 
+* \note  If a clock source is disabled while selected, then the clock merely stops to all sources that receive it.
 * In such a scenario, the disabled clock must be re-enabled, prior to switching FROM this clock source.
 *
 * \note This function is not re-entrant.

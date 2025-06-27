@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -36,7 +36,7 @@
 #define SFLASH_SECTION_SIZE                     0x00000400UL
 
 /**
-  * \brief Supervisory Flash Area (Cypress Trim & Wounding Info) (SFLASH)
+  * \brief Supervisory Flash Area (Infineon Trim & Wounding Info) (SFLASH)
   */
 typedef struct {
   __IOM uint16_t SILICON_ID;                    /*!< 0x00000000 Silicon ID */

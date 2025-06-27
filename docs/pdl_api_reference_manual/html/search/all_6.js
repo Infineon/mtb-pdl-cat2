@@ -1,5 +1,9 @@
 var searchData=
 [
+  ['gain',['gain',['../structcy__stc__dsadc__dchan__config__t.html#ab3b0e538fb223f2345d5f6ad88bd7496',1,'cy_stc_dsadc_dchan_config_t']]],
+  ['gaincorrection',['gainCorrection',['../structcy__stc__dsadc__gain__level__config__t.html#ab152a8415a68a1a33290e619a18026d5',1,'cy_stc_dsadc_gain_level_config_t']]],
+  ['gainlevels',['gainLevels',['../structcy__stc__dsadc__agc__config__t.html#a099c7ae4fba45e3f9de793d531b6b06d',1,'cy_stc_dsadc_agc_config_t']]],
+  ['gainscalerblankcount',['gainScalerBlankCount',['../structcy__stc__dsadc__agc__config__t.html#ad512be343a44a0c1c6ed827b890cdf42',1,'cy_stc_dsadc_agc_config_t']]],
   ['get_5fvbus_5focp_5ftable',['GET_VBUS_OCP_TABLE',['../group__group__usbpd__vbus__ctrl.html#ga26dc39ec3fc71c95b8e3772a02dad8e7',1,'cy_usbpd_vbus_ctrl.h']]],
   ['get_5fvbus_5fovp_5ftable',['GET_VBUS_OVP_TABLE',['../group__group__usbpd__vbus__ctrl.html#gac31303aa9981da3d1bfbc5f718f6fec7',1,'cy_usbpd_vbus_ctrl.h']]],
   ['get_5fvbus_5frcp_5ftable',['GET_VBUS_RCP_TABLE',['../group__group__usbpd__vbus__ctrl.html#ga746dee5aaf7ceb964ed4ef18393de082',1,'cy_usbpd_vbus_ctrl.h']]],

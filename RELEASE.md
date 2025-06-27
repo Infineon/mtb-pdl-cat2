@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.16.2
+# mtb-pdl-cat2 peripheral driver library v2.17.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,11 +6,26 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
-### Updated Drivers
-- [SCB 4.70](./drivers/include/cy_scb_common.h) - Fixed the issue with incorrect data interpretation.
+### New Features
+- Added support for PSOC&trade; 4 HVPA 144K device family.
+- Added new drivers for the PSOC&trade; 4 HVPA devices.
+- Added the mtb_stdlib_stubs.c file with weak stub implementations for GCC_ARM nosys library.
+Please refer to the [New drivers](#new-drivers) section below for details.
 
-## Known Issues
-* PDL flash write APIs are not supported when using ARM C6 Compiler in debug mode. Please use ARM C6 Compiler in release mode if flash write is needed.
+### Updated personalities
+- Enabled multiple personalities on PSOC&trade; 4 HVPA Platform: PUMPCLK, HVSS, SYSTICK.
+- Added new personalities for PSOC&trade; 4 HVPA Platform: PACSS, AGC, Current, Voltage, On-Die temperature,
+External temperature, GNDREF, HPBGR, Input multiplexor, Temp.
+
+### Updated drivers
+- [Cy_Flash 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html)
+- [SysLib 3.30.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
+- [LIN 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__lin.html)
+- [SysClk 3.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [SysFault 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysfault.html)
+
+### New drivers
+- [DSADC 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dsadc.html)
 
 ## Defect fixes
 
@@ -22,11 +37,11 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| ModusToolbox&trade;                                                           |  3.4.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.4.3       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.22.0      |
-| CMSIS-Core(M)                                                                 |  5.8.0       |
-| GCC compiler                                                                  |  11.3.1      |
+| ModusToolbox&trade;                                                           |  3.5.0       |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.4.4       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.26.0      |
+| CMSIS-Core(M)                                                                 |  5.8.2       |
+| GCC compiler                                                                  |  14.2.1      |
 | IAR compiler                                                                  |  9.50.2      |
 | Arm&reg; compiler 6                                                           |  6.22.0      |
 

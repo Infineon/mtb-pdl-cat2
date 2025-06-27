@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Woundings xml_version="1" xmlns="http://cypress.com/xsd/cychipresourcewoundings_v1">
-  <MemoryWounding name="SRAM_KB" memoryId="SRAM"/>
-  <MemoryWounding name="FLASH_KB" memoryId="FLASH"/>
-  <!--<MemoryWounding name="FLASH_KB" memoryId="FLASH1"/>-->
-  
+  <MemoryWounding name="SRAM_KB" memoryId="SRAM" />
+  <MemoryWounding name="FLASH_KB" memoryId="FLASH" />
   <BooleanWounding name="WCO">
-    <Block name="wco"/>
+    <Block name="wco" />
   </BooleanWounding>
   <BooleanWounding name="UDB_COUNT">
-    <Block name="udb"/>
+    <Block name="udb" />
   </BooleanWounding>
   <BooleanWounding name="UAB_COUNT">
-    <Block name="pass.uab"/>
+    <Block name="pass.uab" />
   </BooleanWounding>
   <BooleanWounding name="CAPSENSEADC">
-    <Block name="csd.csd"/>
+    <Block name="csd.csd" />
   </BooleanWounding>
   <BooleanWounding name="CAPSENSE">
-    <Block name="csd.capsense"/>
-    <Block name="msc.msc"/>
-    <Block name="msc.msc_superblock"/>
+    <Block name="csd.capsense" />
+    <Block name="msc.msc" />
+    <Block name="msc.msc_superblock" />
   </BooleanWounding>
   <BooleanWounding name="MSCLP">
-    <Block name="msclp.msclp"/>
-    <Block name="msclp.msclp_superblock"/>
+    <Block name="msclp.msclp" />
+    <Block name="msclp.msclp_superblock" />
   </BooleanWounding>
   <BooleanWounding name="DIRDRIVELCD">
-    <Block name="lcd"/>
+    <Block name="lcd" />
   </BooleanWounding>
   <BooleanWounding name="I2S">
-    <Block name="audioss.i2s"/>
+    <Block name="audioss.i2s" />
   </BooleanWounding>
   <BooleanWounding name="CRYPTO">
-    <Block name="crypto"/>
+    <Block name="crypto" />
   </BooleanWounding>
   <NaWounding name="USB_TYPE">
-    <Block name="usb"/>
+    <Block name="usb" />
   </NaWounding>
   <RemoveListWounding name="COMP_REMOVED">
-    <Block name="csd.comp"/>
+    <Block name="csd.comp" />
   </RemoveListWounding>
   <RemoveListWounding name="CAN20B_REMOVED">
-    <Block name="can"/>
-    <Block name="canfd.chan"/>
+    <Block name="can" />
+    <Block name="canfd.chan" />
   </RemoveListWounding>
   <RemoveListWounding name="SCB_REMOVED">
-    <Block name="scb"/>
+    <Block name="scb" />
   </RemoveListWounding>
   <RemoveListWounding name="TIMERCOUNTERPWM_REMOVED">
-    <Block name="tcpwm.cnt"/>
+    <Block name="tcpwm.cnt" />
   </RemoveListWounding>
   <RemoveListWounding name="USBPD_REMOVED">
-    <Block name="usbpd"/>
+    <Block name="usbpd" />
   </RemoveListWounding>
   <IndexResourceWounding name="LPCOMP_REMOVED">
     <ResourceIndex index="0">
-      <Block name="lpcomp[0].comp[0]"/>
+      <Block name="lpcomp[0].comp[0]" />
     </ResourceIndex>
     <ResourceIndex index="1">
-      <Block name="lpcomp[0].comp[1]"/>
+      <Block name="lpcomp[0].comp[1]" />
     </ResourceIndex>
     <ResourceIndex index="2">
-      <Block name="lpcomp[1].comp[0]"/>
+      <Block name="lpcomp[1].comp[0]" />
     </ResourceIndex>
     <ResourceIndex index="3">
-      <Block name="lpcomp[1].comp[1]"/>
+      <Block name="lpcomp[1].comp[1]" />
     </ResourceIndex>
   </IndexResourceWounding>
   <IndexResourceWounding name="OPAMP_REMOVED">
@@ -92,7 +90,7 @@
       <Block name="pass[1].sar[0]" />
       <Block name="pass[1].sarmux[0].tempsensor[0]" />
     </ResourceIndex>
-  </IndexResourceWounding> 
+  </IndexResourceWounding>
   <IndexResourceWounding name="ADC_REMOVED">
     <ResourceIndex index="0">
       <Block name="usbpd[0].pass[0].sar[0]" />

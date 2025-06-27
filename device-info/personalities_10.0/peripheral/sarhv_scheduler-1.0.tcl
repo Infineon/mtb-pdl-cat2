@@ -1,4 +1,4 @@
-# (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+# (c) (2024-2025), Cypress Semiconductor Corporation (an Infineon company) or
 # an affiliate of Cypress Semiconductor Corporation.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -22,13 +22,13 @@ proc const {name value} {
 }
 
 const DEFAULT_RESOLUTION 12
-const MIN_SAMPLE_TIME_NS 167.0
+const MIN_SAMPLE_TIME_NS 194.0
 const OTHER_ADC_CLOCKS 2
 
 # Actual sample time is 1/2 clock less than specified
 # for PSoC4 and 1 clock less for PSoC 6.
 # See SAR_v2 SAMPLE_TIME01 register description.
-const ADC_CLOCKS_NOT_SAMPLING 1
+const ADC_CLOCKS_NOT_SAMPLING 0.5
 
 const APERTURE_TIMER_COUNT 4     ;# There are four timers in the SAR
 const APERTURE_TIMER_MIN 2       ;# The minimum value for each timer is 2 clocks
@@ -213,8 +213,8 @@ is not a floating-point number."
     set ::achievedScanPeriod_us [expr {1e6 / $::achievedSampleRate}]
     for {set chanNum 0} {$chanNum < [llength $::channels]} {incr chanNum} {
         set adcClocks [expr {[lindex $::channels $chanNum $::CHAN_MAPPED_ACQ_ADC_CLOCKS] - $::ADC_CLOCKS_NOT_SAMPLING}]
-        lset ::channels $chanNum $::CHAN_ACHIEVED_ACQ_TIME_NS [expr {round(1e9 * $adcClocks / $adcClockRate)}]
-        lset ::channels $chanNum $::CHAN_ACHIEVED_SAMPLE_TIME_NS [expr {round(1e9 * [lindex $::channels $chanNum $::CHAN_MAPPED_TOTAL_ADC_CLOCKS] / $adcClockRate)}]
+        lset ::channels $chanNum $::CHAN_ACHIEVED_ACQ_TIME_NS [expr {ceil(1e9 * $adcClocks / $adcClockRate)}]
+        lset ::channels $chanNum $::CHAN_ACHIEVED_SAMPLE_TIME_NS [expr {ceil(1e9 * [lindex $::channels $chanNum $::CHAN_MAPPED_TOTAL_ADC_CLOCKS] / $adcClockRate)}]
     }
     write_output
     return $::SUCCESS
@@ -253,7 +253,7 @@ proc write_output {} {
     set min_aperture $::APERTURE_TIMER_MAX
     set min_sample_time_sel 0
     set inj_sample_time_sel ""
-    
+
     for {set sampleTime 0} {$sampleTime < [llength $::aperturesAdcClock]} {incr sampleTime} {
         set aperture [lindex $::aperturesAdcClock $sampleTime]
         if {$aperture == 0} {

@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sysfault.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API declaration of the SysFault driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
+* (c) (2024-2025), Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -38,10 +38,10 @@
 * The fault subsystem captures only faults and does not take any action to correct them.
 * The subsystem can cause a reset, give a pulse indication, or trigger another peripheral.
 * HVMS 64/128K, PSOC 4 HVPA 144K, and PAG2S devices use a centralized fault report structure.
-* The centralized nature allows for a system-wide consistent handling of faults, 
+* The centralized nature allows for a system-wide consistent handling of faults,
 * which simplifies software development. Only a single fault interrupt handler is required.
 * The fault report structure provides the fault source and additional
-* fault-specific information from a single set of memory mapped input/output (MMIO) registers, 
+* fault-specific information from a single set of memory mapped input/output (MMIO) registers,
 * no iterative search is required for the fault source and fault information.
 * All pending faults are available from a single set of MMIO registers. Below is the block
 * diagram.
@@ -99,6 +99,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10</td>
+*     <td> Added the \ref Cy_SysFault_SetFaultSource and \ref Cy_SysFault_SetFaultData functions.</td>
+*     <td>API improvement.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -138,7 +143,7 @@ extern "C" {
 #define CY_SYSFAULT_DRV_VERSION_MAJOR    1
 
 /** Driver minor version */
-#define CY_SYSFAULT_DRV_VERSION_MINOR    0
+#define CY_SYSFAULT_DRV_VERSION_MINOR    10
 
 /** Driver ID */
 #define CY_SYSFAULT_ID CY_PDL_DRV_ID     (0x76U)
@@ -194,7 +199,7 @@ typedef enum
 /**
 * Instances of Fault data register.
 */
-typedef enum 
+typedef enum
 {
     CY_SYSFAULT_DATA0 = 0UL, /**< Used to get the Fault data for DATA0 register */
     CY_SYSFAULT_DATA1 = 1UL, /**< Used to get the Fault data for DATA1 register */
@@ -312,7 +317,7 @@ __STATIC_INLINE void Cy_SysFault_ClearStatus(FAULT_STRUCT_Type *base)
 * \param  base
 * The pointer to a Fault structure instance.
 *
-* \return 
+* \return
 * Fault source.
 *
 * \funcusage
@@ -385,7 +390,7 @@ uint32_t Cy_SysFault_GetPendingFault(FAULT_STRUCT_Type *base, cy_en_sysfault_set
 * The pointer to a Fault structure instance.
 *
 * \param sourceIdx
-* The Fault id to be set in the mask register. 
+* The Fault id to be set in the mask register.
 * Only members of \ref cy_en_sysfault_source_t are expected to be used.
 *
 * \return
@@ -402,7 +407,7 @@ __STATIC_INLINE void Cy_SysFault_SetMaskByIdx(FAULT_STRUCT_Type *base, cy_en_sys
         FAULT_MASK0(base) |= (1UL << (uint32_t)sourceIdx);
     }
     else
-    {   
+    {
         /* The sourceIdx is not valid */
         CY_ASSERT_L2(false);
     }
@@ -437,7 +442,7 @@ __STATIC_INLINE void Cy_SysFault_ClearMaskByIdx(FAULT_STRUCT_Type *base, cy_en_s
         FAULT_MASK0(base) &= ~(1UL << (uint32_t)sourceIdx);
     }
     else
-    {   
+    {
         /* The sourceIdx is not valid */
         CY_ASSERT_L2(false);
     }
@@ -604,6 +609,74 @@ __STATIC_INLINE uint32_t Cy_SysFault_GetInterruptMask(FAULT_STRUCT_Type *base)
 __STATIC_INLINE uint32_t Cy_SysFault_GetInterruptStatusMasked(FAULT_STRUCT_Type *base)
 {
     return(FAULT_INTR_MASKED(base));
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysFault_SetFaultSource
+****************************************************************************//**
+*
+* \brief
+* Simulate rising up of hardware error.
+*
+* \param base
+* The pointer to a Fault structure instance.
+*
+* \param faultSource
+* The Fault id to set the error source.
+* Only members of \ref cy_en_sysfault_source_t are expected to be used.
+*
+* \return
+* Fault status. Refer \ref cy_en_sysfault_status_t
+*
+* \funcusage
+* \snippet sysfault_snippet.c snippet_Cy_SysFault_Set_Fault
+*
+*******************************************************************************/
+__STATIC_INLINE cy_en_sysfault_status_t Cy_SysFault_SetFaultSource(FAULT_STRUCT_Type *base, cy_en_sysfault_source_t faultSource)
+{
+    cy_en_sysfault_status_t status = CY_SYSFAULT_BAD_PARAM;
+
+    if (CY_SYSFAULT_IS_FAULT_SOURCE_VALID(faultSource))
+    {
+        CY_REG32_CLR_SET(FAULT_STATUS(base), FAULT_STRUCT_STATUS_IDX, faultSource);
+        FAULT_STATUS(base) |= FAULT_STRUCT_STATUS_VALID_Msk;
+
+        status = CY_SYSFAULT_SUCCESS;
+    }
+
+    return(status);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_SysFault_SetFaultData
+****************************************************************************//**
+*
+* \brief
+* Set the Fault information for the provided dataSet.
+*
+* \param base
+* The pointer to a Fault structure instance.
+*
+* \param dataSet
+* Instance of data register \ref cy_en_sysfault_data_t.
+*
+* \param data
+* Set the Fault information.
+*
+* \return
+* None.
+*
+* \funcusage
+* \snippet sysfault_snippet.c snippet_Cy_SysFault_Set_Fault
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SysFault_SetFaultData(FAULT_STRUCT_Type *base, cy_en_sysfault_data_t dataSet, uint32_t data)
+{
+    CY_ASSERT_L3(CY_SYSFAULT_IS_DATA_SET_VALID(dataSet));
+
+    FAULT_DATA(base)[dataSet] = data;
 }
 
 /** \} group_sysfault_functions */

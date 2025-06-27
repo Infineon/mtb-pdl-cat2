@@ -12,6 +12,8 @@ var searchData=
   ['macros',['Macros',['../group__group__csd__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__ctb__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__dmac__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__dsadc__macro.html',1,'']]],
+  ['modulator_20gain_20masks',['Modulator Gain Masks',['../group__group__dsadc__macros__modulator__gain.html',1,'']]],
   ['macros',['Macros',['../group__group__flash__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__gpio__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__hvss__macros.html',1,'']]],

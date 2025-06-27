@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-achan-ext-temp-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS analog channel external temperature measurement type personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-achan-ext-temp" name="External temperature" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss.dsm" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+    <ExposedMember key="cfgChopStrName" paramId="cfgChopStrName" />
+    <ExposedMember key="PRIMARY" paramId="primaryTrigger" />
+    <ExposedMember key="SECONDARY" paramId="secondaryTrigger" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <ParamString id="measureType" name="measureType" group="Internal" default="ExternalTemperature" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamBool id="isCurrent" name="isCurrent" group="Internal" default="`${measureType eq &quot;Current&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isVoltage" name="isVoltage" group="Internal" default="`${measureType eq &quot;Voltage&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isExtTemp" name="isExtTemp" group="Internal" default="`${measureType eq &quot;ExternalTemperature&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isIntTemp" name="isIntTemp" group="Internal" default="`${measureType eq &quot;OnDieTemperature&quot;}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="isManual" name="isManual" group="Internal" default="`${measureType eq &quot;Manual&quot;}`" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamChoice id="aafCutOffFreq" name="AAF Cut Off Frequency" group="General" default="30" visible="true" editable="true" desc="Anti-Aliasing Filter Cut-off Frequency." >
+      <Entry name="30kHz" value="30" visible="true" />
+      <Entry name="20kHz" value="20" visible="true" />
+      <Entry name="10kHz" value="10" visible="true" />
+    </ParamChoice>
+
+    <!-- hidden start-->
+    <ParamString id="aafDisconnectCount" name="Circuit Chopping" group="General" default="CY_DSADC_ACHAN_CIRCUIT_CHOPPING_CYCLE_2" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="bufferPowerLevel" name="Buffer Power Level" group="General" default="CY_DSADC_BUFFER_POWER_LEVEL_78_PERCENT" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="compPower" name="Modulator Comp Power" group="General" default="CY_DSADC_ACHAN_MODULATOR_COMP_POWER_100" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="datapathChoppingDivider" name="Datapath Chopping Divider" group="General" default="CY_DSADC_CHOPPING_CLOCK_DIVIDER_32" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamString id="demMode" name="DEM Mode" group="General" default="CY_DSADC_DEM_MODE_DWA" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="firstStagePower" name="First Stage Power Level" group="General" default="CY_DSADC_ACHAN_MODULATOR_FIRST_STAGE_POWER_88" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="modulatorChoppingDivider" name="Modulator Chopping Divider" group="General" default="CY_DSADC_CHOPPING_CLOCK_DIVIDER_32" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="nonOverlapDelay" name="Non-Overlap Delay" group="General" default="CY_DSADC_ACHAN_MODULATOR_NON_OVERLAP_DELAY_LOW" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pgaPowerLevel" name="PGA Power Level" group="General" default="CY_DSADC_PGA_POWER_LEVEL_58_PERCENT" visible="`${debug}`" editable="false" desc="" />
+    <!-- hidden end-->
+
+    <ParamChoice id="primaryTrigger" name="Primary Trigger Select" group="General" default="FW" visible="true" editable="true" desc="Select for Primary Trigger. Triggers starts conversion on all primary digital channels linked to this analog channel." >
+      <Entry name="DCHAN0 trigger input" value="HW_IN0" visible="true" />
+      <Entry name="DCHAN1 trigger input" value="HW_IN1" visible="true" />
+      <Entry name="DCHAN2 trigger input" value="HW_IN2" visible="true" />
+      <Entry name="DCHAN3 trigger input" value="HW_IN3" visible="true" />
+      <Entry name="FW trigger" value="FW" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="secondaryTrigger" name="Secondary Trigger Select" group="General" default="`${isCurrent ? HW_IN0 : FW}`" visible="true" editable="true" desc="Select for Trigger that pends secondary digital channels linked to this analog channel to convert on the next primary trigger." >
+      <Entry name="DCHAN0 trigger input" value="HW_IN0" visible="true" />
+      <Entry name="DCHAN1 trigger input" value="HW_IN1" visible="true" />
+      <Entry name="DCHAN2 trigger input" value="HW_IN2" visible="true" />
+      <Entry name="DCHAN3 trigger input" value="HW_IN3" visible="true" />
+      <Entry name="FW trigger" value="FW" visible="true" />
+    </ParamChoice>
+
+    <!-- hidden start-->
+    <ParamString id="secondThirdStagePower" name="Second Third Stage Power" group="General" default="CY_DSADC_ACHAN_MODULATOR_SECOND_THIRD_STAGE_POWER_100" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="summerPower" name="Summer Power" group="General" default="CY_DSADC_ACHAN_MODULATOR_SUMMER_POWER_100" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="syncPrimaryTrigger" name="Primary Trigger Synchronization" group="General" default="UNSYNCHRONIZED" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamChoice id="syncSecondaryTrigger" name="Secondary Trigger Synchronization" group="General" default="`${isCurrent ? UNSYNCHRONIZED : SYNCHRONIZED}`" visible="`${debug}`" editable="`${isExtTemp}`" desc="Select for Trigger that pends secondary digital channels linked to this analog channel to convert on the next primary trigger." >
+      <Entry name="Unsynchronized" value="UNSYNCHRONIZED" visible="true" />
+      <Entry name="Synchronized" value="SYNCHRONIZED" visible="true" />
+    </ParamChoice>
+    <!-- hidden end-->
+
+    <ParamChoice id="pumpClock" name="Pump Clock" group="General" default="24MHZ" visible="true" editable="true" desc="Negative Pump Clock selection." >
+      <Entry name="48MHz" value="48MHZ" visible="true" />
+      <Entry name="24MHz" value="24MHZ" visible="true" />
+      <Entry name="48MHz High Frequency" value="HFCLK_48MHZ" visible="true" />
+      <Entry name="24MHz High Frequency" value="HFCLK_24MHZ" visible="true" />
+    </ParamChoice>
+
+    <!-- hidden start-->
+    <ParamString id="vcmPowerLevel" name="VCM Power Level" group="General" default="CY_DSADC_VCM_POWER_LEVEL_HIGH" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="vrefPower" name="VREF Power Level" group="General" default="CY_DSADC_VREF_POWER_LEVEL_HIGH" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="overloadDetectThreshold" name="Overload Threshold" group="General" default="21" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="enableDem" name="DEM" group="General" default="true" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="enableReset1" name="Reset 1" group="General" default="false" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="enableReset2" name="Reset 2" group="General" default="false" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="enableReset3" name="Reset 3" group="General" default="true" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="enableSecondIntegratorChopping" name="Second Integrator Chopping" group="General" default="true" visible="`${debug}`" editable="false" desc="" />
+    <ParamBool id="useOverloadDetection" name="Overload Detection" group="General" default="true" visible="`${debug}`" editable="false" desc="" />
+    <!-- hidden end-->
+
+    <ParamChoice id="choppingType" name="Chopping Mode" group="Channel Chopping" default="`${isCurrent ? CROSS : OFF}`" visible="true" editable="true" desc="Channel chopping is between the inmux and the modulator output using the modbit while buffer cross chopping is on the input and output of the buffer using the modbit. Both modes toggle the modbit when the SMP_CNT value is reached." >
+      <Entry name="Off" value="OFF" visible="true" />
+      <Entry name="Channel" value="CHANNEL" visible="true" />
+      <Entry name="Cross" value="CROSS" visible="true" />
+    </ParamChoice>
+    <ParamRange id="modbitSampleCount" name="Modbit Count" group="Channel Chopping" default="`${isCurrent ? 3 : 1}`" min="1" max="3" resolution="1" visible="true" editable="true" desc="Modbit Count represents number of samples to count before toggling modbit." />
+    <ParamRange id="aafShortCount" name="AAF Short Count" group="Channel Chopping" default="0" min="0" max="255" resolution="1" visible="true" editable="true" desc="Anti-Aliasing Filter Short Resistor Count." />
+    <ParamRange id="decimatorBlankCount" name="Decimator Blank Count" group="Channel Chopping" default="0" min="0" max="255" resolution="1" visible="true" editable="true" desc="Decimator Blanking Count." />
+
+    <!-- Advanced -->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+    <!-- Internal: HW name of the PACSS instance -->
+    <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+
+    <ParamString id="pHWName" name="pHWName" group="Internal" default="PACSS" visible="`${debug}`" editable="false" desc="HW name of PACSS instance." />
+
+    <ParamBool id="isClkPumpEnabled" name="Is Pump Clock Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].clock[0].pumpclk[0]&quot;)}`" visible="false" editable="false" desc="Pump clock enabling state" />
+    <ParamBool id="isPacssEnabled" name="Is Pacss Enabled" group="Internal" default="`${isBlockUsed(&quot;pacss[0]&quot;)}`" visible="false" editable="false" desc="" />
+
+    <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME}`_channel_config" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="cfgChopStrName" name="cfgChopStrName" group="Internal" default="`${INST_NAME}`_channel_chop_config" visible="`${debug}`" editable="false" desc="" />
+  </Parameters>
+
+  <DRCs>
+    <DRC type="ERROR" text="Pump clock (CLK_PUMP) resource must be enabled when the AMUXBUS charge pump is enabled." condition="`${!isClkPumpEnabled}`"  location="srss[0].clock[0].pumpclk[0]">
+      <FixIt action="ENABLE_BLOCK" target="srss[0].clock[0].pumpclk[0]" value="" valid="true" />
+    </DRC>
+    <DRC type="ERROR" text="PACSS is not enabled" condition="`${!isPacssEnabled}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pacss[&quot; . pacssInst . &quot;]&quot;}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="`${pHWName}`" public="true" include="true" />
+
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_dsadc_achan_config_t" const="`${inFlash}`" public="true" include="true"  >
+      <Member name="aafCutoffFreq" value="CY_DSADC_ACHAN_AAF_CUTOFF_FREQ_`${aafCutOffFreq}`KHZ" />
+
+      <!-- hidden start -->
+      <Member name="aafDisconnectCount" value="`${aafDisconnectCount}`" />
+      <Member name="bufferPowerLevel" value="`${bufferPowerLevel}`" />
+      <Member name="compPower" value="`${compPower}`" />
+      <Member name="datapathChoppingDivider" value="`${datapathChoppingDivider}`" />
+      <Member name="demMode" value="`${demMode}`" />
+      <Member name="firstStagePower" value="`${firstStagePower}`" />
+      <Member name="modulatorChoppingDivider" value="`${modulatorChoppingDivider}`" />
+      <Member name="nonOverlapDelay" value="`${nonOverlapDelay}`" />
+      <Member name="pgaPowerLevel" value="`${pgaPowerLevel}`" />
+      <!-- hidden end -->
+      <Member name="primaryTrigger" value="CY_DSADC_ACHAN_TRIGGER_`${primaryTrigger}`" />
+      <Member name="secondaryTrigger" value="CY_DSADC_ACHAN_TRIGGER_`${secondaryTrigger}`" />
+
+      <!-- hidden start -->
+      <Member name="secondThirdStagePower" value="`${secondThirdStagePower}`" />
+      <Member name="summerPower" value="`${summerPower}`" />
+      <Member name="syncPrimaryTrigger" value="CY_DSADC_ACHAN_TRIGGER_`${syncPrimaryTrigger}`" />
+      <Member name="syncSecondaryTrigger" value="CY_DSADC_ACHAN_TRIGGER_`${syncSecondaryTrigger}`" />
+      <!-- hidden end -->
+
+      <Member name="pumpClock" value="CY_DSADC_ACHAN_PUMP_CLOCK_SOURCE_`${pumpClock}`" />
+
+      <!-- hidden start -->
+      <Member name="vcmPowerLevel" value="`${vcmPowerLevel}`" />
+      <Member name="vrefPower" value="`${vrefPower}`" />
+      <Member name="overloadDetectThr" value="`${overloadDetectThreshold}`" />
+      <Member name="enableDem" value="`${enableDem}`" />
+      <Member name="enableReset1" value="`${enableReset1}`" />
+      <Member name="enableReset2" value="`${enableReset2}`" />
+      <Member name="enableReset3" value="`${enableReset3}`" />
+      <Member name="enableSecIntegrChopping" value="`${enableSecondIntegratorChopping}`" />
+      <Member name="useOverloadDetection" value="`${useOverloadDetection}`" />
+      <!-- hidden end -->
+    </ConfigStruct>
+
+    <ConfigStruct name="`${cfgChopStrName}`" type="cy_stc_dsadc_achan_channel_chopping_config_t" const="`${inFlash}`" public="true" include="true"  >
+      <Member name="choppingType" value="CY_DSADC_ACHAN_CHOPPING_`${choppingType}`" />
+      <Member name="modbitSampleCount" value="`${modbitSampleCount}`U-1U" />
+      <Member name="aafShortCount" value="`${aafShortCount}`" />
+      <Member name="decimatorBlankCount" value="`${decimatorBlankCount}`" />
+    </ConfigStruct>
+
+  </ConfigFirmware>
+</PersonalityTemplate>

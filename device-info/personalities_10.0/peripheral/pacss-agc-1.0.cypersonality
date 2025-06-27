@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-agc-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS auto gain control personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-agc" name="AGC" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss\.agc" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+    <ExposedMember key="cfgGainStrName" paramId="cfgGainStrName" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+
+    <!-- Auto Gain Control group -->
+    <!-- hidden start-->
+    <ParamRange id="offsetCorrection" name="Offset Correction" group="Auto Gain Control" default="0" min="-32768" max="32767" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="gainCorrection" name="Gain Correction" group="Auto Gain Control" default="37450" min="0" max="65535" resolution="1" visible="`${debug}`" editable="true" desc="" />
+
+    <ParamRange id="dacCap" name="DACCAP" group="Auto Gain Control" default="31" min="0" max="63" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="ipCap1" name="IPCAP1" group="Auto Gain Control" default="27" min="0" max="63" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="sumCapIn" name="SUMCAPIN" group="Auto Gain Control" default="3" min="0" max="31" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="sumCap1" name="SUMCAP1" group="Auto Gain Control" default="3" min="0" max="7" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="sumCap2" name="SUMCAP2" group="Auto Gain Control" default="3" min="0" max="7" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="sumCap3" name="SUMCAP3" group="Auto Gain Control" default="3" min="0" max="7" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="sumCapFb" name="SUMCAPFB" group="Auto Gain Control" default="7" min="0" max="15" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="lowerFilterCount" name="Lower Filter Threshold Count" group="Auto Gain Control" default="0" min="0" max="65535" resolution="1" visible="`${debug}`" editable="true" desc="" />
+    <ParamRange id="upperFilterCount" name="Upper Filter Threshold Count" group="Auto Gain Control" default="0" min="0" max="65535" resolution="1" visible="`${debug}`" editable="true" desc="" />
+
+    <ParamChoice id="decimationScaler" name="Decimation Scaler" group="Auto Gain Control" default="1" visible="`${debug}`" editable="false" desc="" >
+      <Entry name="1"   value="1"   visible="true" />
+      <Entry name="2"   value="2"   visible="true" />
+      <Entry name="4"   value="4"   visible="true" />
+      <Entry name="8"   value="8"   visible="true" />
+    </ParamChoice>
+
+    <ParamString id="lowerFilterMode" name="Lower Filter Mode" group="Auto Gain Control" default="CY_DSADC_AGC_THRESHOLD_FILTER_MODE_COUNTER" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="upperFilterMode" name="Upper Filter Modee" group="Auto Gain Control" default="CY_DSADC_AGC_THRESHOLD_FILTER_MODE_COUNTER" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="aafBlankMode" name="AAF Blank Mode" group="Auto Gain Control" default="CY_DSADC_AGC_AAF_BLANK_MODE_SHORT" visible="`${debug}`" editable="false" desc="" />
+    <!-- hidden end-->
+
+    <ParamRange id="minGainLevel" name="Min Gain Level" group="Auto Gain Control" default="0" min="0" max="8" resolution="1" visible="true" editable="true" desc="The minimum gain level the AGC is allowed to reach when decrementing. Valid range: from 0 to 8 Step: 1" />
+    <ParamRange id="initialGainLevel" name="Initial Gain Level" group="Auto Gain Control" default="`${minGainLevel}`" min="0" max="8" resolution="1" visible="true" editable="false" desc="The gain level that the AGC is initialized to once a conversion starts. This value must be same as Min Gain Level." />
+    <ParamRange id="maxGainLevel" name="Max Gain Level" group="Auto Gain Control" default="8" min="0" max="8" resolution="1" visible="true" editable="true" desc="The maximum gain level that the AGC is allowed to reach when incrementing. Valid range: from 0 to 8 Step: 1" />
+
+    <ParamChoice id="decimationRatio" name="Fast Decimation Ratio" group="Auto Gain Control" default="32" visible="true" editable="true" desc="Fast Decimation Ratio sets the decimation ratio for the AGC's Fast Decimator." >
+      <Entry name="32" value="32" visible="true" />
+      <Entry name="16" value="16" visible="true" />
+    </ParamChoice>
+
+    <!-- hidden start-->
+    <ParamRange id="decimatorBlankCount" name="Decimator Blank Count" group="Auto Gain Control" default="7" min="0" max="255" resolution="1" visible="`${debug}`" editable="false" desc="The maximum gain level that the AGC is allowed to reach when incrementing. Valid range: from 0 to 9 Step: 1" />
+    <!-- hidden end-->
+
+    <ParamRange id="lowerThreshold" name="AGC Lower Threshold" group="Auto Gain Control" default="`${decimationRatio}`" min="0" max="255" resolution="1" visible="true" editable="false" desc="Magnitude of lower threshold value. This is an absolute value comparison. If the fast decimator result is lower than this threshold value, the gain level will be incremented. Gain levels must be configured from lowest to highest gain." />
+    <ParamRange id="upperThreshold" name="AGC Upper Threshold" group="Auto Gain Control" default="`${3 * decimationRatio}`" min="0" max="255" resolution="1" visible="true" editable="false" desc="Magnitude of high threshold value. This is an absolute value comparison. If the fast decimator result is higher than this threshold value, the gain level will be decremented. Gain levels must be configured from lowest to highest gain." />
+
+    <!-- AAF Blank Count -->
+    <!-- hidden start-->
+    <ParamRange id="aafBlankCount" name="AAF Blank Count" group="Auto Gain Control" default="7" min="0" max="255" resolution="1" visible="`${debug}`" editable="`${debug}`" desc="" />
+    <ParamRange id="gainScalerBlankCount" name="Gain Scaler Blank Count" group="Auto Gain Control" default="10" min="0" max="255" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="numGainLevels" name="Gain Level Number" group="Auto Gain Control" default="9" min="1" max="9" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <!-- hidden end-->
+
+    <!-- Gain Level Y group -->
+    <Repeat count="9">
+      <ParamString id="yTotalGain$idx" name="Total Gain" group="Gain Level $idx" default="`${pow(2, ($idx+1))}`" visible="true" editable="false" desc="Total Gain = PGA Gain * Modulator Gain * Moving Average (U)" />
+
+      <ParamChoice id="yPgaGain$idx" name="PGA Gain" group="Gain Level $idx" visible="true" editable="false" desc="As gain is increased or decreased, a table of PGA and modulator gain parameters is indexed to set overall gain as desired." 
+                   default="`${($idx le 2) ? &quot;CY_DSADC_DCHAN_PGA_GAIN_1X&quot; :
+                               ($idx le 3) ? &quot;CY_DSADC_DCHAN_PGA_GAIN_2X&quot; :
+                               ($idx le 4) ? &quot;CY_DSADC_DCHAN_PGA_GAIN_4X&quot; :
+                               ($idx le 5) ? &quot;CY_DSADC_DCHAN_PGA_GAIN_8X&quot; :
+                               ($idx le 6) ? &quot;CY_DSADC_DCHAN_PGA_GAIN_16X&quot; : &quot;CY_DSADC_DCHAN_PGA_GAIN_32X&quot;}`" >
+        <Entry name="1"    value="CY_DSADC_DCHAN_PGA_GAIN_1X"   visible="true" />
+        <Entry name="2"    value="CY_DSADC_DCHAN_PGA_GAIN_2X"   visible="true" />
+        <Entry name="4"    value="CY_DSADC_DCHAN_PGA_GAIN_4X"   visible="true" />
+        <Entry name="8"    value="CY_DSADC_DCHAN_PGA_GAIN_8X"   visible="true" />
+        <Entry name="16"   value="CY_DSADC_DCHAN_PGA_GAIN_16X"   visible="true" />
+        <Entry name="32"   value="CY_DSADC_DCHAN_PGA_GAIN_32X"   visible="true" />
+      </ParamChoice>
+
+      <ParamChoice id="yModGain$idx" name="Modulator Gain" group="Gain Level $idx"  visible="true" editable="false" desc="As gain is increased or decreased, a table of PGA and modulator gain parameters is indexed to set overall gain as desired." 
+                   default="`${($idx le 0) ? &quot;CY_DSADC_CONFIG_MOD_GAIN_0P5X&quot; :
+                               ($idx le 1) ? &quot;CY_DSADC_CONFIG_MOD_GAIN_1X&quot; :
+                               ($idx le 7) ? &quot;CY_DSADC_CONFIG_MOD_GAIN_2X&quot; : &quot;CY_DSADC_CONFIG_MOD_GAIN_4X&quot;}`">
+        <Entry name="0.5"   value="CY_DSADC_CONFIG_MOD_GAIN_0P5X"   visible="true" />
+        <Entry name="1"   value="CY_DSADC_CONFIG_MOD_GAIN_1X"   visible="true" />
+        <Entry name="2"   value="CY_DSADC_CONFIG_MOD_GAIN_2X"   visible="true" />
+        <Entry name="4"   value="CY_DSADC_CONFIG_MOD_GAIN_4X"   visible="true" />
+      </ParamChoice>
+
+      <ParamString id="yMovingAvg$idx" name="Moving Average (U)" group="Gain Level $idx" default="4" visible="true" editable="false" desc="It is fixed to Moving Sum 4 (MS-4) for AGC." />
+      <ParamString id="yLeftShift$idx" name="Left Shift" group="Gain Level $idx" default="`${8-$idx}`" visible="true" editable="false" desc="SHIFTL. The left shift scaler is used to normalize results so the LSB always has the same weight, which is accomplished by multiplying the modulator output by the scaler value." />
+    </Repeat>
+
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+
+    <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="pHWName" name="pHWName" group="Internal" default="PACSS" visible="`${debug}`" editable="false" desc="HW name of DSADC instance." />
+    <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME}`_config" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="cfgGainStrName" name="cfgGainStrName" group="Internal" default="`${INST_NAME}`_gain_levels" visible="`${debug}`" editable="false" desc="" />
+
+  </Parameters>
+  <DRCs/>
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="pacss_interrupt_mmio_IRQHandler" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_HW" value="`${pHWName}`" public="true" include="true" />
+
+    <ConfigArray name="`${cfgGainStrName}`" type="cy_stc_dsadc_gain_level_config_t" const="true" public="true" include="true">
+      <ConfigStruct name="empty" type="cy_stc_dsadc_gain_level_config_t" const="true" public="true" include="true" repeatCount="9" >
+        <Member name="pgaGain" value="`${yPgaGain$idx{1}}`"/>
+        <Member name="leftShift" value="`${yLeftShift$idx{1}}`"/>
+        <Member name="offsetCorrection" value="0" />
+        <Member name="gainCorrection"  value="CY_DSADC_GAIN_CORRECTION_DEFAULT" />
+        <Member name="modCapConfig"  value="`${yModGain$idx{1}}`"/>
+      </ConfigStruct>
+    </ConfigArray>
+
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_dsadc_agc_config_t" const="true" public="true" include="true"  >
+      <!-- hidden start -->
+      <Member name="lowerFilterCount" value="`${lowerFilterCount}`" />
+      <Member name="upperFilterCount" value="`${upperFilterCount}`" />
+      <Member name="decimationScaler" value="CY_DSADC_AGC_FAST_DECIMATOR_SCALER_`${decimationScaler}`" />
+      <Member name="lowerFilterMode"  value="`${lowerFilterMode}`" />
+      <Member name="upperFilterMode"  value="`${upperFilterMode}`" />
+      <Member name="aafBlankMode"     value="`${aafBlankMode}`" />
+      <!-- hidden end -->
+
+      <Member name="minGainLevel"     value="`${minGainLevel}`" />
+      <Member name="initialGainLevel" value="`${initialGainLevel}`" />
+      <Member name="maxGainLevel"     value="`${maxGainLevel}`" />
+      <Member name="decimationRatio"  value="`${decimationRatio}`U-1U" />
+      <!-- hidden start -->
+      <Member name="decimatorBlankCount" value="`${decimatorBlankCount}`" />
+      <!-- hidden end -->
+      <Member name="lowerThreshold" value="`${lowerThreshold}`" />
+      <Member name="upperThreshold" value="`${upperThreshold}`" />
+
+      <!-- hidden start -->
+      <Member name="aafBlankCount" value="`${aafBlankCount}`" />
+      <Member name="gainScalerBlankCount" value="`${gainScalerBlankCount}`" />
+      <Member name="numGainLevels" value="`${numGainLevels}`" />
+      <!-- hidden end -->
+
+      <Member name="gainLevels" value="&amp;`${INST_NAME}`_gain_levels[0]" />
+
+    </ConfigStruct>
+  </ConfigFirmware>
+</PersonalityTemplate>

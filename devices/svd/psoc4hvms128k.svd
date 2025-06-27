@@ -6,7 +6,7 @@
   <series>PSOC4HVMS128K</series>
   <version>1.0</version>
   <description>PSOC4HVMS128K</description>
-  <licenseText>(c) (2016-2024), Cypress Semiconductor Corporation (an Infineon company)\n
+  <licenseText>(c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company)\n
     or an affiliate of Cypress Semiconductor Corporation.\n
 \n
     SPDX-License-Identifier: Apache-2.0\n
@@ -2444,7 +2444,7 @@ Due to internal synchronization, it takes up to 8 SYSCLK cycles to read from thi
             </field>
             <field>
               <name>TCTRIM</name>
-              <description>IMO temperature compensation trim.  These bits are determined at manufacturing time to adjust for temperature dependence. This bits are dependent on frequency and need to be changed using the Cypress provided frequency change algorithm.</description>
+              <description>IMO temperature compensation trim.  These bits are determined at manufacturing time to adjust for temperature dependence. This bits are dependent on frequency and need to be changed using the Infineon provided frequency change algorithm.</description>
               <bitRange>[7:4]</bitRange>
               <access>read-write</access>
             </field>
@@ -5462,7 +5462,7 @@ Note that this field defaults to '0' on reset, ensuring actual reset vector fetc
             </field>
             <field>
               <name>PRIVILEGED</name>
-              <description>Indicates whether the system is in privileged ('1') or user mode ('0'). Only CPU SW executing from ROM can set this field to '1' when ROM_ACCESS_EN is '1' (the CPU is executing a SystemCall NMI interrupt handler). Any other write to this field sets is to '0'. This field is used as the AHB-Lite hprot[1] signal to implement Cypress proprietary user/privileged modes. These modes are used to enable/disable access to specific MMIO registers and memory regions.</description>
+              <description>Indicates whether the system is in privileged ('1') or user mode ('0'). Only CPU SW executing from ROM can set this field to '1' when ROM_ACCESS_EN is '1' (the CPU is executing a SystemCall NMI interrupt handler). Any other write to this field sets is to '0'. This field is used as the AHB-Lite hprot[1] signal to implement Infineon proprietary user/privileged modes. These modes are used to enable/disable access to specific MMIO registers and memory regions.</description>
               <bitRange>[28:28]</bitRange>
               <access>read-write</access>
             </field>

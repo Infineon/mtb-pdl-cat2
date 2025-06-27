@@ -11,6 +11,8 @@ var searchData=
   ['enumerated_20types',['Enumerated Types',['../group__group__csd__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__ctb__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__dmac__enums.html',1,'']]],
+  ['enumerated_20types',['Enumerated Types',['../group__group__dsadc__enums.html',1,'']]],
+  ['extended_20functions',['Extended Functions',['../group__group__dsadc__extended__functions.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__flash__enumerated__types.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__gpio__enums.html',1,'']]],
   ['enumerated_20types',['Enumerated Types',['../group__group__hvss__enumerated__types.html',1,'']]],

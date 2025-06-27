@@ -6,6 +6,7 @@ var searchData=
   ['obsctl',['obsCtl',['../structcy__stc__msc__base__config__t.html#a4145b8d94556130c1ea17cf26f930e6d',1,'cy_stc_msc_base_config_t::obsCtl()'],['../structcy__stc__msclp__base__config__t.html#a4dfb0778ea705755cfe14aff4e6e45da',1,'cy_stc_msclp_base_config_t::obsCtl()']]],
   ['ocp',['ocp',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a49d15f7721072388971766f32f073e9e',1,'cy_pd_pd_do_t::ADO_ALERT']]],
   ['offset_5f20csa',['offset_20csa',['../structcy__stc__trims__cfg__t.html#a268cc38db2ef18bd9d49a5ef449d5274',1,'cy_stc_trims_cfg_t']]],
+  ['offsetcorrection',['offsetCorrection',['../structcy__stc__dsadc__gain__level__config__t.html#aed959329dc27971c24ef01b0a29cef14',1,'cy_stc_dsadc_gain_level_config_t']]],
   ['opcode',['opcode',['../structcy__stc__smartio__lutcfg__t.html#a287e2d703c0edf6b3a7f93e9823dc8a6',1,'cy_stc_smartio_lutcfg_t::opcode()'],['../structcy__stc__smartio__ducfg__t.html#a59a970ac12e4c3adcbc7420514efc1b1',1,'cy_stc_smartio_ducfg_t::opcode()']]],
   ['opcondchange',['opCondChange',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#af43cb738a6ae80efd0679a7ba0fafe61',1,'cy_pd_pd_do_t::ADO_ALERT']]],
   ['opcur',['opCur',['../structcy__pd__pd__do__t_1_1_p_p_s___s_n_k.html#adef1b01f7ee65301862e8490af28534a',1,'cy_pd_pd_do_t::PPS_SNK::opCur()'],['../structcy__pd__pd__do__t_1_1_r_d_o___p_p_s.html#a0a0b37b8d7657d77addc5193e49339af',1,'cy_pd_pd_do_t::RDO_PPS::opCur()'],['../structcy__pd__pd__do__t_1_1_r_d_o___e_p_r___a_v_s.html#a546d741982c17dca05158e18525bba51',1,'cy_pd_pd_do_t::RDO_EPR_AVS::opCur()'],['../structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a8753d91be4f5a980e599c2fa5fcc6102',1,'cy_pd_pd_do_t::RDO_SPR_AVS::opCur()']]],
@@ -21,6 +22,7 @@ var searchData=
   ['outputmode',['outputMode',['../structcy__stc__ctb__opamp__config__t.html#aa164f8dff25db585633064953ce5aab5',1,'cy_stc_ctb_opamp_config_t::outputMode()'],['../structcy__stc__lpcomp__config__t.html#a480331bf074a8da85d644604ccbd4be1',1,'cy_stc_lpcomp_config_t::outputMode()']]],
   ['outval',['outVal',['../structcy__stc__gpio__pin__config__t.html#ae39ff5dc65ffef2808a0183f23691389',1,'cy_stc_gpio_pin_config_t']]],
   ['outvolt',['outVolt',['../structcy__pd__pd__do__t_1_1_r_d_o___p_p_s.html#a518cb2eeec6672422b58e1415b9e9a96',1,'cy_pd_pd_do_t::RDO_PPS::outVolt()'],['../structcy__pd__pd__do__t_1_1_r_d_o___e_p_r___a_v_s.html#adc349ebc4494886bbde9d5a25a1a8083',1,'cy_pd_pd_do_t::RDO_EPR_AVS::outVolt()'],['../structcy__pd__pd__do__t_1_1_r_d_o___s_p_r___a_v_s.html#a953a315c6ea8c9ebbd3010894be54921',1,'cy_pd_pd_do_t::RDO_SPR_AVS::outVolt()']]],
+  ['overloaddetectthr',['overloadDetectThr',['../structcy__stc__dsadc__achan__config__t.html#ad72a4b2f8c7e67bc409bbebad2b3cb1c',1,'cy_stc_dsadc_achan_config_t']]],
   ['oversample',['oversample',['../structcy__stc__scb__spi__config__t.html#ac6a475cbca4d11fc3c339007694e33c4',1,'cy_stc_scb_spi_config_t::oversample()'],['../structcy__stc__scb__uart__config__t.html#a3174ca2a227f57bf9682c2dee729b2ff',1,'cy_stc_scb_uart_config_t::oversample()']]],
   ['ovp',['ovp',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html#a9892ff0d9edae731c825e332cb707d3a',1,'cy_pd_pd_do_t::ADO_ALERT']]]
 ];

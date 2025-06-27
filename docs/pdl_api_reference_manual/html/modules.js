@@ -8,6 +8,7 @@ var modules =
     [ "CSD          (CAPSENSE™ Sigma Delta)", "group__group__csd.html", "group__group__csd" ],
     [ "CTB          (Continuous Time Block)", "group__group__ctb.html", "group__group__ctb" ],
     [ "DMAC         (Direct Memory Access Controller)", "group__group__dmac.html", "group__group__dmac" ],
+    [ "DSADC        (Delta-Sigma ADC)", "group__group__dsadc.html", "group__group__dsadc" ],
     [ "Flash        (Flash System Routine)", "group__group__flash.html", "group__group__flash" ],
     [ "GPIO         (General Purpose Input Output)", "group__group__gpio.html", "group__group__gpio" ],
     [ "I2S          (Inter-IC Sound)", "group__group__i2s.html", "group__group__i2s" ],

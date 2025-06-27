@@ -1,8 +1,16 @@
 var searchData=
 [
+  ['aafblankcount',['aafBlankCount',['../structcy__stc__dsadc__agc__config__t.html#ad1be57eb451d5d0a28a91a98861d536a',1,'cy_stc_dsadc_agc_config_t']]],
+  ['aafblankmode',['aafBlankMode',['../structcy__stc__dsadc__agc__config__t.html#a659266930145aa223e4b574527664cab',1,'cy_stc_dsadc_agc_config_t']]],
+  ['aafcutofffreq',['aafCutoffFreq',['../structcy__stc__dsadc__achan__config__t.html#a351d2f1923c4d227b185c5307dfa4b93',1,'cy_stc_dsadc_achan_config_t']]],
+  ['aafdisconnectcount',['aafDisconnectCount',['../structcy__stc__dsadc__achan__config__t.html#a18d94c7b082e44924bbe2b6c15dddf8b',1,'cy_stc_dsadc_achan_config_t']]],
+  ['aafmode',['aafMode',['../structcy__stc__dsadc__dchan__config__t.html#a84ca6b90bd37c499783960702e4e8901',1,'cy_stc_dsadc_dchan_config_t']]],
+  ['aafshortcount',['aafShortCount',['../structcy__stc__dsadc__achan__channel__chopping__config__t.html#a0ba74db07f983e6593f3a87f646d870c',1,'cy_stc_dsadc_achan_channel_chopping_config_t']]],
   ['acceptaddrinfifo',['acceptAddrInFifo',['../structcy__stc__scb__i2c__config__t.html#a9074db87cce95b20f6adbaf905e05f98',1,'cy_stc_scb_i2c_config_t::acceptAddrInFifo()'],['../structcy__stc__scb__uart__config__t.html#a74ad4d501763b438b7903fb04e9df1b1',1,'cy_stc_scb_uart_config_t::acceptAddrInFifo()']]],
   ['acceptancecode',['acceptanceCode',['../structcy__stc__can__rx__buffer__config__t.html#ad7c3cb8eb542ad1c84a8c0707d948224',1,'cy_stc_can_rx_buffer_config_t']]],
   ['acceptancemask',['acceptanceMask',['../structcy__stc__can__rx__buffer__config__t.html#a7f2f276143dddeb5b09d59d026b7c660',1,'cy_stc_can_rx_buffer_config_t']]],
+  ['achan',['achan',['../structcy__stc__dsadc__dchan__config__t.html#aad702db48289a6dbd86faefdbd1f3d8e',1,'cy_stc_dsadc_dchan_config_t::achan()'],['../structcy__stc__dsadc__config__t.html#a287334859bf743e4274ce063a639562b',1,'cy_stc_dsadc_config_t::ACHAN()']]],
+  ['achan_5fchopping',['ACHAN_CHOPPING',['../structcy__stc__dsadc__config__t.html#ad3d78833e177d8c59a2b891e959e46a1',1,'cy_stc_dsadc_config_t']]],
   ['ackgeneraladdr',['ackGeneralAddr',['../structcy__stc__scb__i2c__config__t.html#a7a705499e24c5dade7143d1c339389af',1,'cy_stc_scb_i2c_config_t']]],
   ['act_5fcbl_5fvdo',['act_cbl_vdo',['../unioncy__pd__pd__do__t.html#aeafc54f5e84ade4981762045813d8253',1,'cy_pd_pd_do_t']]],
   ['act_5fcbl_5fvdo1',['act_cbl_vdo1',['../unioncy__pd__pd__do__t.html#ae92db2c8f75c6257a25e3a0506d6dede',1,'cy_pd_pd_do_t']]],
@@ -20,6 +28,7 @@ var searchData=
   ['ado_5falert',['ado_alert',['../unioncy__pd__pd__do__t.html#a4e78cc3e87bd47cc596f95d8bb5ebb4e',1,'cy_pd_pd_do_t']]],
   ['afcsrccapcnt',['afcSrcCapCnt',['../structcy__stc__legacy__charging__cfg__t.html#a7752afda67c05759431c7ee9c5102a93',1,'cy_stc_legacy_charging_cfg_t']]],
   ['afcsrccaps',['afcSrcCaps',['../structcy__stc__legacy__charging__cfg__t.html#a4192d304cd34cc627646f25e676ec653',1,'cy_stc_legacy_charging_cfg_t']]],
+  ['agc',['AGC',['../structcy__stc__dsadc__config__t.html#a3f57ec536d1e847abf14e60f7cc27595',1,'cy_stc_dsadc_config_t']]],
   ['allocbuffer',['allocBuffer',['../structcy__stc__usb__dev__ep__config__t.html#a5ba21ba730ec10df131e46e469b4aee9',1,'cy_stc_usb_dev_ep_config_t']]],
   ['altmodes',['altModes',['../structcy__pd__pd__do__t_1_1_u_f_p___v_d_o__1.html#a71fa020ee91e09a6bf7d435d576e94b2',1,'cy_pd_pd_do_t::UFP_VDO_1']]],
   ['altportusbpdctx',['altPortUsbPdCtx',['../structcy__stc__usbpd__context__t.html#a07a01a1cc2e540a1714905ad3fc43438',1,'cy_stc_usbpd_context_t']]],
@@ -41,6 +50,8 @@ var searchData=
   ['autotoggleen',['autoToggleEn',['../structcy__stc__usbpd__context__t.html#ae8ed9def83a9424e09f35bd989e9e486',1,'cy_stc_usbpd_context_t']]],
   ['aux1config',['aux1Config',['../structcy__stc__usbpd__context__t.html#a118b7852f4facb4737177fb3ab9f2644',1,'cy_stc_usbpd_context_t']]],
   ['aux2config',['aux2Config',['../structcy__stc__usbpd__context__t.html#ac335fd06df4dd7423dbc89812d4c45c0',1,'cy_stc_usbpd_context_t']]],
+  ['averagingmode',['averagingMode',['../structcy__stc__dsadc__dchan__config__t.html#ae8cbab04ee1fc3e0812132ea79fc3369',1,'cy_stc_dsadc_dchan_config_t']]],
+  ['averagingsamples',['averagingSamples',['../structcy__stc__dsadc__dchan__config__t.html#ae49a40f089ca3baea96e85d091ff1fba',1,'cy_stc_dsadc_dchan_config_t']]],
   ['avgcnt',['avgCnt',['../structcy__stc__sar__config__t.html#ad582d301264cfa88b80404d0bcdb7932',1,'cy_stc_sar_config_t']]],
   ['avgen',['avgEn',['../structcy__stc__sar__channel__config__t.html#af6393b0df19a16d1b6618d4a715eeca5',1,'cy_stc_sar_channel_config_t']]],
   ['avgshift',['avgShift',['../structcy__stc__sar__config__t.html#ab641e5e78c2970abc9907082f4a68f33',1,'cy_stc_sar_config_t']]]
