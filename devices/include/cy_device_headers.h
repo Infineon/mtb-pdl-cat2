@@ -1461,6 +1461,16 @@
     #include "cy8c4026lqi_t441.h"
 #elif defined (CY8C4046LQQ_T412)
     #include "cy8c4046lqq_t412.h"
+#elif defined (CY8C4046ZZI_T451)
+    #include "cy8c4046zzi_t451.h"
+#elif defined (CY8C4045LQE_T1)
+    #include "cy8c4045lqe_t1.h"
+#elif defined (CY8C4046LQE_T1)
+    #include "cy8c4046lqe_t1.h"
+#elif defined (CY8C4045LQS_T1)
+    #include "cy8c4045lqs_t1.h"
+#elif defined (CY8C4046LQS_T1)
+    #include "cy8c4046lqs_t1.h"
 #elif defined (CY8C4146LQI_T403)
     #include "cy8c4146lqi_t403.h"
 #elif defined (CY8C4146AXI_T403)
@@ -1629,6 +1639,14 @@
     #include "cypd8129_52lqxit.h"
 #elif defined (CYPD8229_52LQXIT)
     #include "cypd8229_52lqxit.h"
+#elif defined (CYPD6139_52LQXIT)
+    #include "cypd6139_52lqxit.h"
+#elif defined (CYPD6239_52LQXIT)
+    #include "cypd6239_52lqxit.h"
+#elif defined (CYPD8139_52LQXIT)
+    #include "cypd8139_52lqxit.h"
+#elif defined (CYPD8239_52LQXIT)
+    #include "cypd8239_52lqxit.h"
 #elif defined (CY8C4125LCE_HVS003)
     #include "cy8c4125lce_hvs003.h"
 #elif defined (CY8C4125LCE_HVS013)
@@ -1821,6 +1839,38 @@
     #include "cy8c4147lqe_hvs126x.h"
 #elif defined (CY8C4147LQE_HVS136X)
     #include "cy8c4147lqe_hvs136x.h"
+#elif defined (CY8C4127LCE_HVS003)
+    #include "cy8c4127lce_hvs003.h"
+#elif defined (CY8C4127LCE_HVS013)
+    #include "cy8c4127lce_hvs013.h"
+#elif defined (CY8C4127LCE_HVS103)
+    #include "cy8c4127lce_hvs103.h"
+#elif defined (CY8C4127LCE_HVS113)
+    #include "cy8c4127lce_hvs113.h"
+#elif defined (CY8C4147LCE_HVS003)
+    #include "cy8c4147lce_hvs003.h"
+#elif defined (CY8C4147LCE_HVS013)
+    #include "cy8c4147lce_hvs013.h"
+#elif defined (CY8C4147LCE_HVS023)
+    #include "cy8c4147lce_hvs023.h"
+#elif defined (CY8C4147LCE_HVS023X)
+    #include "cy8c4147lce_hvs023x.h"
+#elif defined (CY8C4147LCE_HVS033)
+    #include "cy8c4147lce_hvs033.h"
+#elif defined (CY8C4147LCE_HVS033X)
+    #include "cy8c4147lce_hvs033x.h"
+#elif defined (CY8C4147LCE_HVS103)
+    #include "cy8c4147lce_hvs103.h"
+#elif defined (CY8C4147LCE_HVS113)
+    #include "cy8c4147lce_hvs113.h"
+#elif defined (CY8C4147LCE_HVS123)
+    #include "cy8c4147lce_hvs123.h"
+#elif defined (CY8C4147LCE_HVS123X)
+    #include "cy8c4147lce_hvs123x.h"
+#elif defined (CY8C4147LCE_HVS133)
+    #include "cy8c4147lce_hvs133.h"
+#elif defined (CY8C4147LCE_HVS133X)
+    #include "cy8c4147lce_hvs133x.h"
 #elif defined (CY8C4126LCE_HV403)
     #include "cy8c4126lce_hv403.h"
 #elif defined (CY8C4126LCE_HV413)

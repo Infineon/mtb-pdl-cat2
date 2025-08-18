@@ -7,6 +7,7 @@ var group__group__sar__functions__config =
     [ "Cy_SAR_SetHighLimit", "group__group__sar__functions__config.html#ga1010c3aa3528648ac3715481c0339e28", null ],
     [ "Cy_SAR_SetVref", "group__group__sar__functions__config.html#gabf0640c66ae40e74d7c65545d2b017ed", null ],
     [ "Cy_SAR_SetRangeCond", "group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8", null ],
+    [ "Cy_SAR_SetAveragingMode", "group__group__sar__functions__config.html#gaec26d071ef53ff55e556a931cdc8f53c", null ],
     [ "Cy_SAR_EnableChannels", "group__group__sar__functions__config.html#ga32066ec770ec802855b3ca2b48d259e7", null ],
     [ "Cy_SAR_DisableChannels", "group__group__sar__functions__config.html#gaf83a95fb4e6064e7a3a43e95203896da", null ]
 ];

@@ -113,6 +113,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, <a class="el" href="group__group__sar__range__thres__register__enums.html#gaccf649d65a86e17939c3d20a684cd9cd">cy_en_sar_range_detect_condition_t</a> cond)</td></tr>
 <tr class="memdesc:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the condition in which range detection interrupts are triggered.  <a href="#ga7fc7fe5bfdf2f43c218f839592f3afa8">More...</a><br /></td></tr>
 <tr class="separator:ga7fc7fe5bfdf2f43c218f839592f3afa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec26d071ef53ff55e556a931cdc8f53c"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#gaec26d071ef53ff55e556a931cdc8f53c">Cy_SAR_SetAveragingMode</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, <a class="el" href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">cy_en_sar_sample_ctrl_avg_mode_t</a> mode)</td></tr>
+<tr class="memdesc:gaec26d071ef53ff55e556a931cdc8f53c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the averaging mode.  <a href="#gaec26d071ef53ff55e556a931cdc8f53c">More...</a><br /></td></tr>
+<tr class="separator:gaec26d071ef53ff55e556a931cdc8f53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga32066ec770ec802855b3ca2b48d259e7"><td class="memItemLeft" align="right" valign="top">__STATIC_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__functions__config.html#ga32066ec770ec802855b3ca2b48d259e7">Cy_SAR_EnableChannels</a> (<a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *base, uint32_t chanMask)</td></tr>
 <tr class="memdesc:ga32066ec770ec802855b3ca2b48d259e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the specified channels.  <a href="#ga32066ec770ec802855b3ca2b48d259e7">More...</a><br /></td></tr>
 <tr class="separator:ga32066ec770ec802855b3ca2b48d259e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -398,6 +401,44 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: Range detection interrupts have been enabled for all unsigned channels.</span></div><div class="line"><span class="comment">     * Set the range condition to be outside; a range interrupt is detected</span></div><div class="line"><span class="comment">     * when (result &lt; lowLimit) || (highLimit &lt;= result). */</span></div><div class="line">    <a class="code" href="group__group__sar__functions__config.html#ga7fc7fe5bfdf2f43c218f839592f3afa8">Cy_SAR_SetRangeCond</a>(SAR0, <a class="code" href="group__group__sar__range__thres__register__enums.html#ggaccf649d65a86e17939c3d20a684cd9cda05ef1644deb92e634e163532a3b2179e">CY_SAR_RANGE_COND_OUTSIDE</a>);</div></div><!-- fragment --></dd></dl>
+
+</div>
+</div>
+<a id="gaec26d071ef53ff55e556a931cdc8f53c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaec26d071ef53ff55e556a931cdc8f53c">&#9670;&nbsp;</a></span>Cy_SAR_SetAveragingMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__STATIC_INLINE void Cy_SAR_SetAveragingMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_s_a_r___type.html">SAR_Type</a> *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">cy_en_sar_sample_ctrl_avg_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the averaging mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>Pointer to structure describing registers</td></tr>
+    <tr><td class="paramname">mode</td><td>A value of the enum <a class="el" href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">cy_en_sar_sample_ctrl_avg_mode_t</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVMS only. </dd></dl>
 
 </div>
 </div>

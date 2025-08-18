@@ -1,5 +1,9 @@
 var NAVTREEINDEX16 =
 {
+"group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c":[2,33,0,2,92],
+"group__group__usbpd__common__data__structures.html#gae58b0ccfcfcf1d53adf0d3abd157ef46":[2,33,0,2,84],
+"group__group__usbpd__common__data__structures.html#gaf91f2bc9107fe79dea47e1f24f5cc246":[2,33,0,2,93],
+"group__group__usbpd__common__enums.html":[2,33,0,1],
 "group__group__usbpd__common__enums.html#ga07d345ebd78ee59e02d2dede5695ccec":[2,33,0,1,0],
 "group__group__usbpd__common__enums.html#ga1031515bbe496c2bdc370fd32455d8b0":[2,33,0,1,23],
 "group__group__usbpd__common__enums.html#ga186a7582e79dd8de856494bb61cfbf9d":[2,33,0,1,13],
@@ -245,9 +249,5 @@ var NAVTREEINDEX16 =
 "group__group__usbpd__common__macros.html#ga7a4ba4f2dbc3879306d8518c2670dd77":[2,33,0,0,46],
 "group__group__usbpd__common__macros.html#ga7bc97e36f43d6410084dbda0a8fab483":[2,33,0,0,5],
 "group__group__usbpd__common__macros.html#ga8073d6fbec1f14ced29a653a7b281057":[2,33,0,0,38],
-"group__group__usbpd__common__macros.html#ga82f1aa35d27a2ee2220ffebb7d24d3f6":[2,33,0,0,48],
-"group__group__usbpd__common__macros.html#ga855840dcebe7635d8f4fbd05f0577018":[2,33,0,0,19],
-"group__group__usbpd__common__macros.html#ga91538545d05abf066df4d4d7b8e0b27d":[2,33,0,0,45],
-"group__group__usbpd__common__macros.html#ga97ec6ce0e7638988eedbff68cd31c6b3":[2,33,0,0,13],
-"group__group__usbpd__common__macros.html#ga9b0d5f89961b82e7c20b6f7609d76096":[2,33,0,0,4]
+"group__group__usbpd__common__macros.html#ga82f1aa35d27a2ee2220ffebb7d24d3f6":[2,33,0,0,48]
 };

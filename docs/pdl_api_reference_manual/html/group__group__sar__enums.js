@@ -61,6 +61,10 @@ var group__group__sar__enums =
       [ "CY_SAR_AVG_CNT_128", "group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfabc474cf397abf63d7d69b9f5e5a65f58", null ],
       [ "CY_SAR_AVG_CNT_256", "group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfabdae96477f89a03e9279fc84a9ba1170", null ]
     ] ],
+    [ "cy_en_sar_sample_ctrl_avg_mode_t", "group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331", [
+      [ "CY_SAR_AVG_MODE_ACCUNDUMP", "group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331ae1fbcdacff0a1ef5bc5e16f7f3aa10c9", null ],
+      [ "CY_SAR_AVG_MODE_INTERLEAVED", "group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331a89d83498d39e5e049cb2b33c18145095", null ]
+    ] ],
     [ "cy_en_sar_sample_ctrl_trigger_mode_t", "group__group__sar__enums.html#ga62ecb4e368dcea23cfbfc41bd0497fc6", [
       [ "CY_SAR_TRIGGER_MODE_FW_ONLY", "group__group__sar__enums.html#gga62ecb4e368dcea23cfbfc41bd0497fc6a55a26ca93dcfd68c8b9b120416bc1b32", null ],
       [ "CY_SAR_TRIGGER_MODE_FW_AND_HWEDGE", "group__group__sar__enums.html#gga62ecb4e368dcea23cfbfc41bd0497fc6a7eed8528ba801da55b7727c170d361e1", null ],

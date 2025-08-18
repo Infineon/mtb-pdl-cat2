@@ -686,6 +686,8 @@ var searchData=
   ['cy_5fsar_5favg_5fcnt_5f4',['CY_SAR_AVG_CNT_4',['../group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfa48e1e031e90721d806c21744c44a4790',1,'cy_sar.h']]],
   ['cy_5fsar_5favg_5fcnt_5f64',['CY_SAR_AVG_CNT_64',['../group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfa3f789fdae0b0f4e48d67a5089baeace4',1,'cy_sar.h']]],
   ['cy_5fsar_5favg_5fcnt_5f8',['CY_SAR_AVG_CNT_8',['../group__group__sar__enums.html#ggaed912a3edfab12b4ebea94fedf289ecfa0f4902d7434267911198f50aa41847d9',1,'cy_sar.h']]],
+  ['cy_5fsar_5favg_5fmode_5faccundump',['CY_SAR_AVG_MODE_ACCUNDUMP',['../group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331ae1fbcdacff0a1ef5bc5e16f7f3aa10c9',1,'cy_sar.h']]],
+  ['cy_5fsar_5favg_5fmode_5finterleaved',['CY_SAR_AVG_MODE_INTERLEAVED',['../group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331a89d83498d39e5e049cb2b33c18145095',1,'cy_sar.h']]],
   ['cy_5fsar_5fbad_5fparam',['CY_SAR_BAD_PARAM',['../group__group__sar__enums.html#gga4061024a91b0f2e3aca4716fce722b57a57b9a5eff2273406f83163b1327d90a3',1,'cy_sar.h']]],
   ['cy_5fsar_5fconversion_5fnot_5fcomplete',['CY_SAR_CONVERSION_NOT_COMPLETE',['../group__group__sar__enums.html#gga4061024a91b0f2e3aca4716fce722b57a2f9bf37990569d42668c00e88de46f45',1,'cy_sar.h']]],
   ['cy_5fsar_5fdsi_5fmode_5fignored',['CY_SAR_DSI_MODE_IGNORED',['../group__group__sar__enums.html#gga170619b36c531063dd781711bfaaf879a8e2440b050c41f94904fba5aaae428a2',1,'cy_sar.h']]],

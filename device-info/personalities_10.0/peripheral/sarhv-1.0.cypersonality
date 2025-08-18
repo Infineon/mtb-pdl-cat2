@@ -146,10 +146,12 @@
       <Entry name="256" value="CY_SAR_AVG_CNT_256" visible="true" />
     </ParamChoice>
 
-    <ParamChoice id="avg_mode" name="Averaging Mode" group="Sampling" default="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" editable="true" desc="Averaging mode for all channels with averaging enabled" >
+    <ParamChoice id="avg_mode" name="Averaging Mode" group="Sampling" default="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" editable="true" desc="Averaging mode for all channels with averaging enabled. Need to configure to Fixed when set to Averaging in channel x" >
       <Entry name="Summing" value="CY_SAR_AVG_MODE_SEQUENTIAL_ACCUM" visible="true" />
       <Entry name="Fixed" value="CY_SAR_AVG_MODE_SEQUENTIAL_FIXED" visible="true" />
     </ParamChoice>
+
+    <ParamBool id="interleaved_en" name="Interleaved" group="Sampling" default="false" visible="`${!soc_en}`" editable="true" desc="Select Interleaved Averaging method. On each scan (trigger) one sample is taken per channel and averaged over several scans." />
 
     <ParamChoice id="range_cond" name="Compare Mode" group="Range Interrupt" default="CY_SAR_RANGE_COND_BELOW" visible="true" editable="true" desc="The condition in which a range interrupt is triggered" >
         <Entry name="Result &lt; Low" value="CY_SAR_RANGE_COND_BELOW" visible="true" />
@@ -383,6 +385,11 @@
     <DRC type="ERROR" text="Source clock for SAR ADC is not enabled" condition="`${error}`" >
       <FixIt action="ENABLE_BLOCK" target="`${sourceClockRsc}`" value="" valid="true" />
     </DRC>
+    <DRC type="ERROR" text="If interleaved averaging mode is used, the Differential Result Format should be the same as the Single-Ended Result Format." condition="`${interleaved_en &amp;&amp; (((!diff_format) &amp;&amp; (se_format)) || ((diff_format) &amp;&amp; (!se_format)))}`" paramId="interleaved_result"/>
+    <DRC type="ERROR" text="If interleaved averaging mode is used, the Samples Averaged should be in range from 2 to 16." condition="`${interleaved_en &amp;&amp; !((avg_cnt eq CY_SAR_AVG_CNT_2) ||
+                                                                                                                                                                    (avg_cnt eq CY_SAR_AVG_CNT_4) ||
+                                                                                                                                                                    (avg_cnt eq CY_SAR_AVG_CNT_8) ||
+                                                                                                                                                                    (avg_cnt eq CY_SAR_AVG_CNT_16))}`" paramId="interleaved_avg_cnt"/>
     <DRC type="WARNING" text="Noise and offset can cause unsigned results to underflow (wrap-around to +ve full scale) when Vneg is set to Vssa or External." condition="`${!se_format &amp;&amp; vneg_select ne CY_SAR_NEG_SEL_VREF}`" />
     <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vref_select eq &quot;CY_SAR_VREF_SEL_VDDA&quot;) || 
                                                                                         (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2_BYP&quot;) ||
@@ -540,6 +547,7 @@
     <ConfigInstruction value="SAR_MUX_SWITCH0(`${pHWName}`) = CY_SAR_MUX_FW_VSSA_VMINUS;" include="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN &amp;&amp; single_ended_exists}`"/>
     <ConfigInstruction value="SAR_MUX_SWITCH_HW_CTRL(`${pHWName}`) |= CY_SAR_MUX_HW_CTRL_VSSA;" include="`${vneg_select eq CY_SAR_NEG_SEL_VSSA_KELVIN &amp;&amp; single_ended_exists}`"/>
     <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(pclk, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" />
+    <ConfigInstruction value="Cy_SAR_SetAveragingMode(`${pHWName}`, CY_SAR_AVG_MODE_INTERLEAVED);" include="`${interleaved_en}`" />
     <ConfigInstruction value="cyhal_hwmgr_reserve(&amp;`${INST_NAME}`_obj);" include="true" guard="defined (CY_USING_HAL)" />
   </ConfigFirmware>
 </Personality>

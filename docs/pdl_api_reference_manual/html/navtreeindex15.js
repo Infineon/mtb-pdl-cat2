@@ -1,5 +1,9 @@
 var NAVTREEINDEX15 =
 {
+"group__group__tcpwm__macros__counter.html":[2,30,1,0],
+"group__group__tcpwm__macros__pwm.html":[2,30,2,0],
+"group__group__tcpwm__macros__quaddec.html":[2,30,3,0],
+"group__group__tcpwm__pwm.html":[2,30,2],
 "group__group__tcpwm__pwm__alignment.html":[2,30,2,0,2],
 "group__group__tcpwm__pwm__alignment.html#ga11be53f7e2d3b141f52d6ed2d7ef8c6a":[2,30,2,0,2,0],
 "group__group__tcpwm__pwm__alignment.html#ga12990254691acf4cee5508739afd663c":[2,30,2,0,2,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX15 =
 "group__group__usbpd__common__data__structures.html#gacf5bc005dcdda02862517ef412a25c9e":[2,33,0,2,85],
 "group__group__usbpd__common__data__structures.html#gad0bed33779f8bd033d56a7994afca81f":[2,33,0,2,77],
 "group__group__usbpd__common__data__structures.html#gad99623cda55411b6527f976f497f0fd9":[2,33,0,2,83],
-"group__group__usbpd__common__data__structures.html#gadc447ae7e24c0967635812d84d9e64d5":[2,33,0,2,81],
-"group__group__usbpd__common__data__structures.html#gae1b3d79433bd819ea403e392f247229c":[2,33,0,2,92],
-"group__group__usbpd__common__data__structures.html#gae58b0ccfcfcf1d53adf0d3abd157ef46":[2,33,0,2,84],
-"group__group__usbpd__common__data__structures.html#gaf91f2bc9107fe79dea47e1f24f5cc246":[2,33,0,2,93],
-"group__group__usbpd__common__enums.html":[2,33,0,1]
+"group__group__usbpd__common__data__structures.html#gadc447ae7e24c0967635812d84d9e64d5":[2,33,0,2,81]
 };

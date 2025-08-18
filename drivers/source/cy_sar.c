@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.60
+* \version 2.70
 *
 * Provides the functions for the API for the SAR driver.
 *

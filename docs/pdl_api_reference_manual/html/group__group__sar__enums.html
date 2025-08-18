@@ -225,6 +225,14 @@ Enumerations</h2></td></tr>
  }<tr class="memdesc:gaed912a3edfab12b4ebea94fedf289ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure number of samples for averaging.  <a href="group__group__sar__enums.html#gaed912a3edfab12b4ebea94fedf289ecf">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:gaed912a3edfab12b4ebea94fedf289ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9632ebe875d036e34a15d7c8df57e331"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">cy_en_sar_sample_ctrl_avg_mode_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331ae1fbcdacff0a1ef5bc5e16f7f3aa10c9">CY_SAR_AVG_MODE_ACCUNDUMP</a> = 0UL, 
+<br />
+&#160;&#160;<a class="el" href="group__group__sar__enums.html#gga9632ebe875d036e34a15d7c8df57e331a89d83498d39e5e049cb2b33c18145095">CY_SAR_AVG_MODE_INTERLEAVED</a> = 1UL
+<br />
+ }<tr class="memdesc:ga9632ebe875d036e34a15d7c8df57e331"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the averaging mode.  <a href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:ga9632ebe875d036e34a15d7c8df57e331"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga62ecb4e368dcea23cfbfc41bd0497fc6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__sar__enums.html#ga62ecb4e368dcea23cfbfc41bd0497fc6">cy_en_sar_sample_ctrl_trigger_mode_t</a> { <br />
 &#160;&#160;<a class="el" href="group__group__sar__enums.html#gga62ecb4e368dcea23cfbfc41bd0497fc6a55a26ca93dcfd68c8b9b120416bc1b32">CY_SAR_TRIGGER_MODE_FW_ONLY</a> = 0UL, 
 <br />
@@ -474,6 +482,29 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="ggaed912a3edfab12b4ebea94fedf289ecfabc474cf397abf63d7d69b9f5e5a65f58"></a>CY_SAR_AVG_CNT_128&#160;</td><td class="fielddoc"><p>Set samples averaged to 128. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaed912a3edfab12b4ebea94fedf289ecfabdae96477f89a03e9279fc84a9ba1170"></a>CY_SAR_AVG_CNT_256&#160;</td><td class="fielddoc"><p>Set samples averaged to 256. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga9632ebe875d036e34a15d7c8df57e331"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9632ebe875d036e34a15d7c8df57e331">&#9670;&nbsp;</a></span>cy_en_sar_sample_ctrl_avg_mode_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__sar__enums.html#ga9632ebe875d036e34a15d7c8df57e331">cy_en_sar_sample_ctrl_avg_mode_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure the averaging mode. </p>
+<dl class="section note"><dt>Note</dt><dd>This applies only to the PSoC HV device family. </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga9632ebe875d036e34a15d7c8df57e331ae1fbcdacff0a1ef5bc5e16f7f3aa10c9"></a>CY_SAR_AVG_MODE_ACCUNDUMP&#160;</td><td class="fielddoc"><p>Accumulate and Dump (1st order accumulate and dump filter): a channel will be sampled back to back and averaged. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9632ebe875d036e34a15d7c8df57e331a89d83498d39e5e049cb2b33c18145095"></a>CY_SAR_AVG_MODE_INTERLEAVED&#160;</td><td class="fielddoc"><p>Interleaved: On each scan (trigger) one sample is taken per channel and averaged over several scans. </p>
 </td></tr>
 </table>
 

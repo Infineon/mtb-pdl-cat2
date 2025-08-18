@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.60
+* \version 2.70
 *
 * Header file for the SAR driver.
 *
@@ -366,6 +366,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="1">2.70</td>
+*     <td>Added the \ref Cy_SAR_SetAveragingMode function.</td>
+*     <td>API improvement</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="4">2.60</td>
 *     <td>Added support of PSOC 4100T Plus device family.</td>
 *     <td>New device support.</td>
@@ -581,6 +586,8 @@ extern "C" {
                                         (CY_SAR_RANGE_COND_INSIDE   == (cond)) || \
                                         (CY_SAR_RANGE_COND_ABOVE    == (cond)) || \
                                         (CY_SAR_RANGE_COND_OUTSIDE  == (cond)))
+#define CY_SAR_AVG_MODE(mode)          ((CY_SAR_AVG_MODE_ACCUNDUMP   == (mode)) || \
+                                        (CY_SAR_AVG_MODE_INTERLEAVED == (mode)))
 /** \endcond */
 
 
@@ -839,6 +846,16 @@ typedef enum
     CY_SAR_AVG_CNT_256        = 7UL     /**< Set samples averaged to 256 */
 } cy_en_sar_sample_ctrl_avg_cnt_t;
 
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)) || defined (CY_DOXYGEN)
+/** Configure the averaging mode.
+* \note This applies only to the PSoC HV device family.
+*/
+typedef enum
+{
+    CY_SAR_AVG_MODE_ACCUNDUMP          = 0UL,   /**< Accumulate and Dump (1st order accumulate and dump filter): a channel will be sampled back to back and averaged  */
+    CY_SAR_AVG_MODE_INTERLEAVED        = 1UL    /**< Interleaved: On each scan (trigger) one sample is taken per channel and averaged over several scans.  */
+} cy_en_sar_sample_ctrl_avg_mode_t;
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 
 /** Configure the trigger mode.
 *
@@ -1156,6 +1173,9 @@ void Cy_SAR_SetLowLimit(SAR_Type * base, uint32_t lowLimit);
 void Cy_SAR_SetHighLimit(SAR_Type * base, uint32_t highLimit);
 void Cy_SAR_SetVref(SAR_Type *base, cy_en_sar_ctrl_vref_sel_t vrefSel);
 __STATIC_INLINE void Cy_SAR_SetRangeCond(SAR_Type * base, cy_en_sar_range_detect_condition_t cond);
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)) || defined (CY_DOXYGEN)
+__STATIC_INLINE void Cy_SAR_SetAveragingMode(SAR_Type * base, cy_en_sar_sample_ctrl_avg_mode_t mode);
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 /** \} */
 
 /** \addtogroup group_sar_functions_countsto
@@ -1405,6 +1425,30 @@ __STATIC_INLINE void Cy_SAR_SetRangeCond(SAR_Type * base, cy_en_sar_range_detect
     SAR_RANGE_COND(base) = (uint32_t)cond << SAR_RANGE_COND_RANGE_COND_Pos;
 }
 
+
+#if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)) || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_SAR_SetAveragingMode
+****************************************************************************//**
+*
+* Set the averaging mode.
+*
+* \param base
+* Pointer to structure describing registers
+*
+* \param mode
+* A value of the enum \ref cy_en_sar_sample_ctrl_avg_mode_t.
+*
+* \note Applicable to PSOC4 HVMS only.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_SAR_SetAveragingMode(SAR_Type * base, cy_en_sar_sample_ctrl_avg_mode_t mode)
+{
+    CY_ASSERT_L3(CY_SAR_AVG_MODE(mode));
+
+    CY_REG32_CLR_SET(SAR_SAMPLE_CTRL(base), SAR_SAMPLE_CTRL_AVG_MODE, mode);
+}
+#endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 /** \} */
 
 /** \addtogroup group_sar_functions_interrupt

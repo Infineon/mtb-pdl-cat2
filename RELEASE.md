@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.17.0
+# mtb-pdl-cat2 peripheral driver library v2.18.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,25 +7,16 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Added support for PSOC&trade; 4 HVPA 144K device family.
-- Added new drivers for the PSOC&trade; 4 HVPA devices.
-- Added the mtb_stdlib_stubs.c file with weak stub implementations for GCC_ARM nosys library.
-Please refer to the [New drivers](#new-drivers) section below for details.
+- Added support for new PSOC&trade; 4000T TSSOP-20 package device.
+- Added new MPNs for CCG6_CFP & CCG8_CFP device families.
+- Introduced the SAR Interleaved feature for PSOC&trade; 4 HVMS device families.
+- Added new MPNs for PSOC&trade; 4 HVMS 128K 32QFN device family.
 
 ### Updated personalities
-- Enabled multiple personalities on PSOC&trade; 4 HVPA Platform: PUMPCLK, HVSS, SYSTICK.
-- Added new personalities for PSOC&trade; 4 HVPA Platform: PACSS, AGC, Current, Voltage, On-Die temperature,
-External temperature, GNDREF, HPBGR, Input multiplexor, Temp.
+- The SAR personality for PSOC&trade; 4 HVMS Platform updated to support the Interleaved feature.
 
 ### Updated drivers
-- [Cy_Flash 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__flash.html)
-- [SysLib 3.30.1](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__syslib.html)
-- [LIN 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__lin.html)
-- [SysClk 3.50](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
-- [SysFault 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysfault.html)
-
-### New drivers
-- [DSADC 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dsadc.html)
+- [SAR 2.70](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
 
 ## Defect fixes
 
@@ -39,7 +30,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.5.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.4.4       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.26.0      |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.28.0      |
 | CMSIS-Core(M)                                                                 |  5.8.2       |
 | GCC compiler                                                                  |  14.2.1      |
 | IAR compiler                                                                  |  9.50.2      |
