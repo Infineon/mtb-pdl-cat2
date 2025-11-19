@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_common.h
-* \version 2.110
+* \version 2.120
 *
 * Provides Common Header File of the USBPD driver.
 *
@@ -1005,9 +1005,18 @@ typedef struct
      *  0 - Disable */
     uint8_t enable;
 
+#if defined(CY_DEVICE_CCG6DF_CFP)
+
+    /** VCONN OCP Configurable Value in 50 mA */
+    uint8_t configurable_value;
+
+#else /* !defined(CY_DEVICE_CCG6DF_CFP) */
+
     /** Current threshold percentage (0-100) above the contract current to
      * trigger fault. */
     uint8_t threshold;
+    
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
     /** Fault event debounce period in ms (0-255) */
     uint8_t debounce;

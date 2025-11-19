@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.c
-* \version 2.110
+* \version 2.120
 *
 * The source file of the USBPD TypeC driver.
 *
@@ -1031,9 +1031,11 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
         {
             /* Deep sleep reference has to be disabled on PD0 block. */
 #if defined(CY_DEVICE_CCG6DF_CFP)
-            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->pd_ref_gen_ctrl |= PDSS_PD_REF_GEN_CTRL_PD;
+            /* Reset PDSS_PD_REF_GEN_CTRL_PD bit to ensure proper functionality of REFGEN block */
+            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
 #else
-            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+            /* Reset PDSS_DPSLP_REF_CTRL_PD_DPSLP bit to ensure proper functionality of REFGEN block */
+            context->altPortUsbPdCtx[TYPEC_PORT_0_IDX]->base->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 #endif /* defined(CY_DEVICE_CCG6DF_CFP) */
         }
     }
@@ -1042,9 +1044,11 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
     {
         /* Deep sleep reference has to be disabled on current PD block. */
 #if defined(CY_DEVICE_CCG6DF_CFP)
-        pd->pd_ref_gen_ctrl |= PDSS_PD_REF_GEN_CTRL_PD;
+        /* Reset PDSS_PD_REF_GEN_CTRL_PD bit to ensure proper functionality of REFGEN block */
+        pd->pd_ref_gen_ctrl &= ~PDSS_PD_REF_GEN_CTRL_PD;
 #else
-        pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+        /* Reset PDSS_DPSLP_REF_CTRL_PD_DPSLP bit to ensure proper functionality of REFGEN block */
+        pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 #endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     }
 #endif /* !CCG_PD_BLOCK_ALWAYS_ON */
@@ -1061,7 +1065,8 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
     pd->pump_ctrl |= (PDSS_PUMP_CTRL_PD_PUMP  | PDSS_PUMP_CTRL_BYPASS_LV);
 
     /* Turn off references. */
-    pd->dpslp_ref_ctrl |= PDSS_DPSLP_REF_CTRL_PD_DPSLP;
+    /* Reset PDSS_DPSLP_REF_CTRL_PD_DPSLP bit to ensure proper functionality of REFGEN block */
+    pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 
     /* Turn off comparators. */
     pd->cc_ctrl_0 &= ~(PDSS_CC_CTRL_0_CMP_EN | PDSS_CC_CTRL_0_RX_EN);
@@ -2266,20 +2271,60 @@ bool Cy_USBPD_IsVsysUp (
 
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     if(context->pollForVsys == (uint8_t) CY_USBPD_POLL_VSYS_IDLE)
-    {
-    
+    {    
         if ((pd->vreg_vsys_ctrl & PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH) == 0U)
         {
             /* Enable the VSYS detect comparator. */
-            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
             pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
 
-            /* Wait for a maximum of 200 us to allow VSYS detection to be completed. */
-            Cy_SysLib_DelayUs (200);
+            /* Comparator settling time to reach valid logic level w.r.t input signal level. */
+            Cy_SysLib_DelayUs(50);
 
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
+            
             /* Disable interrupts while checking for status to prevent race conditions. */
-            state = Cy_SysLib_EnterCriticalSection();           
-            /* Check if VSYS up interrupt occurred after enabling the comparator. */
+            state = Cy_SysLib_EnterCriticalSection();
+
+#if defined(CY_DEVICE_CCG6DF_CFP)
+            /* If VSYS comparator output status is high, enable the vddd switch 
+             * and update the vsys polling status to vsys up. */
+            if ((pd->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) != 0U)
+#else
+            if ((pd->intr7_status & (CLK_LF_FILT_NUM << PDSS_INTR7_STATUS_FILT_8_POS)) != 0U)
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+            {
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                /* Clear VSYS edge triggered interrupt. */
+                pd->intr7 = PDSS_INTR7_CLK_LF_EDGE_CHANGED;
+#else
+                /* Clear VSYS edge triggered interrupt. */
+                pd->intr7 = (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+
+                /* is auto switch enabled @compile time */
+#if (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE)
+                /* is auto switch delay disabled @compile time */
+#if (!CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS)
+                 Cy_USBPD_EnableSwitch(context);
+#endif /* (!CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_DELAY_MS) */
+                /* update vsys polling status */
+                context->pollForVsys |= (uint8_t) CY_USBPD_POLL_VSYS_INT_UP;
+#endif /* (CY_USBPD_AUTO_SWITCH_VDDD_TO_VSYS_ENABLE) */
+                /* Notify application about presence of VSYS supply. */
+                if (context->supplyChangeCbk != NULL)
+                {
+                      context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
+                }
+#if defined(CY_DEVICE_CCG6DF_CFP)
+                /* Enable interrupt for VSYS detection. */
+                pd->intr7_mask |= (PDSS_INTR7_CLK_LF_EDGE_CHANGED);
+#else 
+                pd->intr7_mask |= (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+#endif
+                retVal = true; 
+            }
+
+            /* If VSYS is not up yet, disable the vsys comparator. */
             if (context->pollForVsys == (uint8_t) CY_USBPD_POLL_VSYS_IDLE)
             {
                 /* VSYS still not detected. Turn off the comparator again. */
@@ -2770,6 +2815,10 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
     uint8_t vref = 0u;
 #endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
 
+#if defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) 
+    uint32_t intr7_state = 0;
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6) */
+
 #if ((defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG3PA)) && PMG1_FLIPPED_FET_CTRL)
 #if VBUS_SLOW_DISCHARGE_EN
     cy_stc_usbpd_context_t *usbpd_ctx_temp=context;
@@ -2912,24 +2961,38 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         if (context->port == TYPEC_PORT_0_IDX)
         {
             /* Enable interrupt on either positive or negative edge from the VSYS_DET comparator. */
-            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
             pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
-            pd->intr7_filter_cfg = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
-                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
-                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+            
+            /* Comparator settling time to reach valid logic level w.r.t input signal level. */
+            Cy_SysLib_DelayUs(50u);
+
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
+            
+            /* Enable the bypass filter and edge detect interrupt configuration */
+            pd->intr7_filter_cfg = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS);
+            pd->intr7_filter_cfg |= ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
 
             /* Need to disable the bypass on VSYS good comparator. */
             pd->pd_reg_ctrl |= PDSS_PD_REG_CTRL_BYPASS_VSYS_GOOD_ACCB;
 
             /* Wait for some time and check VSYS status. */
             Cy_SysLib_Delay (1);
-#if defined(PSVP_FPGA_ENABLE)
+#if PSVP_FPGA_ENABLE
             /* Force notify application about presence of VSYS supply for PSVP. */
             if (context->supplyChangeCbk != NULL)
             {
                 context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
             }
+
+            (void)intr7_state;
 #else
+            /* Enter critical section */
+            intr7_state = Cy_SysLib_EnterCriticalSection();
+
+            /* Clear VSYS edge triggered interrupt. */
+            pd->intr7 = PDSS_INTR7_CLK_LF_EDGE_CHANGED;
+
+            /* Check the vsys comparator output status. */
             if ((pd->intr7_status & (PDSS_INTR7_STATUS_FILT_8)) == 0U)
             {
                 /* Notify application layer about absence of VSYS supply. */
@@ -2942,6 +3005,9 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 /* VSYS is not present, disable VSYS switch. */
                 pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
 
+                /* Disable interrupt for VSYS detection. */
+                pd->intr7_mask &= ~(PDSS_INTR7_CLK_LF_EDGE_CHANGED);
+                
                 /* Leave the VSYS detect comparator disabled. We will enable this periodically to check for VSYS up. */
                 pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
             }
@@ -2952,11 +3018,13 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 {
                     context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
                 }
+                    
+                /* Enable interrupt for VSYS detection. */
+                pd->intr7_mask |= (PDSS_INTR7_CLK_LF_EDGE_CHANGED);
             }
+            /* Exit critical section */
+            Cy_SysLib_ExitCriticalSection(intr7_state);
 #endif /* PSVP_FPGA_ENABLE */
-
-            /* Enable interrupt for VSYS detection. */
-            pd->intr7_mask |= (PDSS_INTR7_CLK_LF_EDGE_CHANGED);
             /* Enable polling for VSYS status change. */
             context->pollForVsys = (uint8_t) CY_USBPD_POLL_VSYS_IDLE;
         }
@@ -3022,17 +3090,21 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         if (context->port == TYPEC_PORT_0_IDX)
         {
             /* Enable interrupt on either positive or negative edge from the VSYS_DET comparator. */
-            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
             pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] &= ~PDSS_COMP_CTRL_COMP_PD;
+            
+            /* Comparator settling time to reach valid logic level w.r.t input signal level. */
+            Cy_SysLib_DelayUs(50u);
+
+            pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_ISO_N;
+            
 #if defined(CY_DEVICE_CCG6)
-            pd->intr7_filter_cfg[1] = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
-                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
-                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+            pd->intr7_filter_cfg[1] = PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS;            
+            pd->intr7_filter_cfg[1] |= ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
 #endif /* defined(CY_DEVICE_CCG6) */
+
 #if defined(CY_DEVICE_PMG1S3)
-            pd->intr7_filter_cfg[2] = (PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS |
-                    PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_RESET |
-                    ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_EN_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS));
+            pd->intr7_filter_cfg[2] = PDSS_INTR7_FILTER_CFG_CLK_LF_FILT_BYPASS;            
+            pd->intr7_filter_cfg[2] |= ((uint32_t)CY_USBPD_VBUS_FILTER_CFG_POS_DIS_NEG_EN << PDSS_INTR7_FILTER_CFG_FILT_CFG_POS);
 #endif /* defined(CY_DEVICE_PMG1S3) */
 
             /* Need to disable the bypass on VSYS good comparator. */
@@ -3040,6 +3112,14 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 
             /* Wait for some time and check VSYS status. */
             Cy_SysLib_Delay (1);
+            
+            /* Enter critical section */
+            intr7_state = Cy_SysLib_EnterCriticalSection();
+
+            /* Clear VSYS edge triggered interrupt. */
+            pd->intr7 = (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+            
+            /* Check the vsys comparator output status. */
             if ((pd->intr7_status & (CLK_LF_FILT_NUM << PDSS_INTR7_STATUS_FILT_8_POS)) == 0U)
             {
                 /* Notify application layer about absence of VSYS supply. */
@@ -3052,6 +3132,9 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 /* VSYS is not present, disable VSYS switch. */
                 pd->vreg_vsys_ctrl &= ~PDSS_VREG_VSYS_CTRL_ENABLE_VDDD_SWITCH;
 
+                /* Disable interrupt for VSYS detection. */
+                pd->intr7_mask &= ~(CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+          
                 /* Leave the VSYS detect comparator disabled. We will enable this periodically to check for VSYS up. */
                 pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_VSYS_DET] |= PDSS_COMP_CTRL_COMP_PD;
             }
@@ -3062,10 +3145,14 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
                 {
                     context->supplyChangeCbk (context, CY_USBPD_SUPPLY_VSYS, true);
                 }
+                
+                /* Enable interrupt for VSYS detection. */
+                pd->intr7_mask |= (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
             }
 
-            /* Enable interrupt for VSYS detection. */
-            pd->intr7_mask |= (CLK_LF_FILT_NUM << PDSS_INTR7_CLK_LF_EDGE_CHANGED_POS);
+            /* Exit critical section */
+            Cy_SysLib_ExitCriticalSection(intr7_state);
+
             /* Enable polling for VSYS status change. */
             context->pollForVsys = (uint8_t) CY_USBPD_POLL_VSYS_IDLE;
         }
@@ -3093,7 +3180,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 
         /* Disable RCP comparator which are enabled by default */
         pd->csa_rcp_1_ctrl &= ~((1UL<<7) | (1UL<<0)) ;
-#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
+#endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3)) */
 
 #if defined(CY_DEVICE_CCG3PA)
 
@@ -4404,14 +4491,14 @@ void Cy_USBPD_Intr1Handler (
 #if defined(CY_IP_MXUSBPD)
     if (pd->intr5_masked != 0U)
     {
-#if PDL_VBUS_OVP_ENABLE
+#if (PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE)
         if ((pd->intr5_masked & (1u << CY_USBPD_VBUS_FILTER_ID_OV)) != 0U)
         {
             Cy_USBPD_Fault_Vbus_OvpIntrHandler(context);
             pd->intr5_mask &= ~(1u << CY_USBPD_VBUS_FILTER_ID_OV);
             pd->intr5 = (1u << CY_USBPD_VBUS_FILTER_ID_OV);
         }
-#endif /* PDL_VBUS_OVP_ENABLE */
+#endif /* (PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE) */
 #if (PDL_VBUS_UVP_ENABLE || CCG_PASC_LP_ENABLE)
         if ((pd->intr5_masked & (1UL << CY_USBPD_VBUS_FILTER_ID_UV)) != 0U)
         {
@@ -4525,6 +4612,7 @@ void Cy_USBPD_Intr1Handler (
             pd->intr1_mask &= ~(PDSS_INTR1_CC1_OCP_CHANGED | PDSS_INTR1_CC2_OCP_CHANGED);
             pd->intr1 = (PDSS_INTR1_CC1_OCP_CHANGED | PDSS_INTR1_CC2_OCP_CHANGED);
             Cy_USBPD_Fault_Vconn_OcpIntrHandler(context);
+            intrCause &= (~(PDSS_INTR1_CC1_OCP_CHANGED | PDSS_INTR1_CC2_OCP_CHANGED));
         }
 #endif /* PDL_VCONN_OCP_ENABLE */
 

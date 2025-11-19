@@ -1,5 +1,6 @@
 var NAVTREEINDEX25 =
 {
+"structcy__stc__smartio__lutcfg__t.html#acb99f9000ed1fa480f22177c49611145":[2,22,2,0,4],
 "structcy__stc__sysclk__context__t.html":[2,24,21,1,0],
 "structcy__stc__sysclk__csv__config__t.html":[2,24,18,1,0],
 "structcy__stc__sysclk__csv__config__t.html#a22e714e485424978ed19ca190e6e40e8":[2,24,18,1,0,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX25 =
 "structsensor__data__t.html#aa6063343487cbf832084b417214d4384":[2,33,0,2,15,2],
 "structsensor__data__t.html#ada60f867afe0d2d160d04c15486a1922":[2,33,0,2,15,0],
 "unioncy__pd__cc__state__t.html":[2,33,0,2,73],
-"unioncy__pd__cc__state__t.html#a0c7f182352a43592614afb3192d20a57":[2,33,0,2,73,1],
-"unioncy__pd__cc__state__t.html#a872819f94fbabb270c41b050ababbd8e":[2,33,0,2,73,0]
+"unioncy__pd__cc__state__t.html#a0c7f182352a43592614afb3192d20a57":[2,33,0,2,73,1]
 };

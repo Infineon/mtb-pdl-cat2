@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.c
-* \version 2.110
+* \version 2.120
 *
 * The source file of the USBPD VBUS Control driver.
 *
@@ -291,6 +291,21 @@ static uint16_t system_get_clk_filt_sel(uint8_t port, uint16_t filt_debounce)
 #define ILIM_THRESHOLD (10u)
 
 #endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+
+#if defined(PDL_VCONN_OCP_ENABLE)
+#if defined(CY_DEVICE_CCG6DF_CFP)
+
+/* Offset value to substract from VCONN OCP Configuration Value. */
+#define VCONN_OCP_CONFIG_VALUE_ADJUST   (6u)
+
+/* VCONN OCP Configuration Value Mask. */
+#define VCONN_OCP_CONFIG_VALUE_MASK     (0xFFFFFF0Fu)
+
+/* VCONN OCP Configuration Value Position. */
+#define VCONN_OCP_CONFIG_VALUE_POS      (4u)
+
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+#endif /* PDL_VCONN_OCP_ENABLE */
 
 #define MAX_OCP_DEBOUNCE_CYCLES         (0x20U)
 
@@ -5595,6 +5610,57 @@ void Cy_USBPD_Fault_Vconn_OcpDisable(cy_stc_usbpd_context_t *context)
     CY_UNUSED_PARAMETER(context);
 }
 
+/*******************************************************************************
+* Function Name: Cy_USBPD_Fault_Vconn_OcpConfigure
+****************************************************************************//**
+*
+* Configure the VConn power source Over-Current detection trip value.
+*
+* \param context
+* The pointer to the context structure \ref cy_stc_usbpd_context_t allocated
+* by the user. The structure is used during the USBPD operation for internal
+* configuration and data retention. The user must not modify anything
+* in this structure.
+*
+*******************************************************************************/
+void Cy_USBPD_Fault_Vconn_OcpConfigure(cy_stc_usbpd_context_t *context)
+{
+#if defined(PDL_VCONN_OCP_ENABLE)
+#if defined(CY_DEVICE_CCG6DF_CFP)
+
+    if (GET_VCONN_OCP_TABLE(context)->enable)
+    {
+        PPDSS_TRIMS_REGS_T pd_trims = (PPDSS_TRIMS_REGS_T)context->trimsBase;
+
+        uint32_t reg_val;
+        uint16_t configurable_value = (uint16_t)GET_VCONN_OCP_TABLE(context)->configurable_value;
+
+        /** 
+         * For Vconn OCP programmility, TRIM_OCP_30VCONN[7:4] bits in TRIM_30VCONN_2 register must be adjusted.
+         * The total OCP trip point is determined by the formula :  
+         * Vconn OCP Trip Point = (TRIM_OCP_30VCONN[7:4]*47.6mA) + (TRIM_OCP_30VCONN[3:0]*25.9mA) + (~157mA)
+         * The lower bits, TRIM_OCP_30VCONN[3:0], are fixed trim bits and should not be changed. 
+         * The default trip point is 650mA, corresponding to TRIM_OCP_30VCONN = 0x76.
+         * Since the configuration table uses a 50mA step size, and the lower-order bits and the constant term are fixed, 
+         * subtract 6 from the configuration value to get the correct setting for the TRIM_OCP_30VCONN[7:4] register with an accuracy of ±20mA.
+         */
+        configurable_value -= VCONN_OCP_CONFIG_VALUE_ADJUST;
+        configurable_value = (uint16_t)(configurable_value << VCONN_OCP_CONFIG_VALUE_POS);
+
+        reg_val = pd_trims->trim_30vconn_2;
+        reg_val &= VCONN_OCP_CONFIG_VALUE_MASK;
+        reg_val |= configurable_value;
+
+        pd_trims->trim_30vconn_2 = reg_val;
+    }
+    
+#else /* !defined(CY_DEVICE_CCG6DF_CFP) */
+    /* Avoid compiler warnings about unused arguments. */
+    CY_UNUSED_PARAMETER(context);
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+#endif /* defined(PDL_VCONN_OCP_ENABLE) */
+}
+
 #if PDL_VCONN_OCP_ENABLE
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 /*******************************************************************************
@@ -6045,6 +6111,15 @@ void Cy_USBPD_SetRefgenVoltage(cy_stc_usbpd_context_t *context, uint8_t vrefSel,
 * Flag indicating the type of gate driver to be controlled, true for
 * P_CTRL and false for C_CTRL.
 *
+* \note
+* In the CY_DEVICE_CCG6DF_CFP device, the RCP block does not have a dedicated OV
+* detection comparator. The RCP OV fault detection is implemented by leveraging
+* the OV block comparator instead. Due to this shared usage of the OV comparator,
+* RCP and OVP cannot be enabled simultaneously if the VBUS_RCP_OV_ENABLE macro
+* is configured to 1.
+* When the VBUS_RCP_OV_ENABLE macro is configured to 1, then the solution
+* layer should ensure that both \ref Cy_USBPD_Fault_Vbus_OvpEnable and
+* \ref Cy_USBPD_Fault_Vbus_RcpEnable are not called at the same time.
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl)
 {
@@ -6155,6 +6230,11 @@ void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 
     /* Calculate the actual reference voltage. Cap the value to the max. supported. */
 #if defined(CY_DEVICE_CCG6DF_CFP)
+    /* VBUS_C connection to OVP comparator through AMUX are different for Port 0 and Port 1.
+     * Port 0 - VBUS_C -> AMUX_NHV[8].0 -> OV Comparator.
+     * Port 1 - VBUS_C -> AMUX_NHV[7].0 -> OV Comparator. */
+    pd->amux_nhv_ctrl &= ~(1u << (8U - context->port));
+
     /* OV reference voltage min is 130mV for CFP. */
     vref = ((vref - OVP_REF8_VOLT_MIN) / OVP_REF_VOLT_STEP);
 #else
@@ -6420,7 +6500,7 @@ void Cy_USBPD_Fault_Vbus_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 {
-#if PDL_VBUS_OVP_ENABLE
+#if (PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE)
     PPDSS_REGS_T pd = context->base;
 
 #if defined(CY_IP_MXUSBPD)
@@ -6428,11 +6508,26 @@ void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context)
     pd->intr5_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_OV);
     pd->intr5 = 1U << CY_USBPD_VBUS_FILTER_ID_OV;
 
+#if PDL_VBUS_OVP_ENABLE
     /* Invoke OVP callback. */
     if (context->vbusOvpCbk != NULL)
     {
         context->vbusOvpCbk(context, true);
     }
+#endif /* PDL_VBUS_OVP_ENABLE */
+
+#if ((PDL_VBUS_RCP_OV_ENABLE) && (defined(CY_DEVICE_CCG6DF_CFP)))
+    /* CCGx_CFP device shares the common OVP comparator for the OVP and RCP OV 
+     * detection, allowing anyone can be configured at a time. The selection 
+     * between OVP and RCP OV should be handled at the solution layer.
+     */
+    /* Invoke RCP callback. */
+    if (context->vbusRcpCbk != NULL)
+    {
+        context->vbusRcpCbk(context, true);
+    }
+#endif /* ((PDL_VBUS_RCP_OV_ENABLE) && (defined(CY_DEVICE_CCG6DF_CFP))) */
+
 #elif defined(CY_IP_M0S8USBPD)
     /* Disable and clear UVOV interrupts. */
     pd->intr3_mask &= ~PDSS_INTR3_POS_OV_CHANGED;
@@ -6446,7 +6541,7 @@ void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 #endif /* CY_IP */
 #else
     CY_UNUSED_PARAMETER(context);
-#endif /* PDL_VBUS_OVP_ENABLE */
+#endif /* (PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE)*/
 }
 
 
@@ -8393,6 +8488,11 @@ void Cy_USBPD_Vbus_LoadChangeISR_En(cy_stc_usbpd_context_t *context, uint32_t cu
 #define SFLASH_RCP_TRIM_VBUS_OV_5P4V_COLD   (0x0FFFF47Au)
 #endif /* PDL_VBUS_RCP_ENABLE */
 
+#if PDL_VBUS_RCP_OV_ENABLE
+#define SFLASH_RCP_VBUS_OV_5P4_TRIM         (0x0FFFF432u)
+#endif /* PDL_VBUS_RCP_OV_ENABLE */
+
+
 /*******************************************************************************
 * Function Name: Cy_USBPD_Fault_Vbus_RcpEnable
 ****************************************************************************//**
@@ -8757,7 +8857,6 @@ void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
     pd->intr13 = (PDSS_INTR13_CSA_OUT_CHANGED | PDSS_INTR13_CSA_COMP_OUT_CHANGED | PDSS_INTR13_CSA_VBUS_OVP_CHANGED);
     pd->intr13_mask |= (PDSS_INTR13_MASK_CSA_OUT_CHANGED_MASK | PDSS_INTR13_MASK_CSA_COMP_OUT_CHANGED_MASK | PDSS_INTR13_MASK_CSA_VBUS_OVP_CHANGED_MASK);
 #elif defined (CY_DEVICE_CCG6DF_CFP)
-    CY_UNUSED_PARAMETER(vref);
     /* Disable FET automode */
     Cy_USBPD_Fault_FetAutoModeDisable (context, true, CY_USBPD_VBUS_FILTER_ID_HSCSA_RCP);
 
@@ -8786,6 +8885,50 @@ void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
     /* Clear and enable the RCP Detect interrupt. */
     pd->intr13 = PDSS_INTR13_CSA_COMP_OUT_CHANGED;
     pd->intr13_mask |= PDSS_INTR13_MASK_CSA_COMP_OUT_CHANGED_MASK;
+
+#if PDL_VBUS_RCP_OV_ENABLE
+    /**** RCP detection configuration based on VBUS OV detect ***/
+
+    /* Disable the comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] &= ~PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] |= PDSS_COMP_CTRL_COMP_PD;
+    
+    /* VBUS_P connection to OVP comparator through AMUX are different for Port 0 and Port 1.
+     * Port 0 - VBUS_P -> AMUX_NHV[8].1 -> OV Comparator.
+     * Port 1 - VBUS_P -> AMUX_NHV[7].1 -> OV Comparator. */
+    pd->amux_nhv_ctrl |= (1u << (8u - context->port));
+
+    /* Calculate the vref for the comparator using SFLASH data. */
+    vref = (uint32_t)(*((const uint8_t *)(SFLASH_RCP_VBUS_OV_5P4_TRIM + (((uint32_t)context->port) << 8))));
+    
+    /* Program reference voltage for OV comparator. */
+    Cy_USBPD_SetRefgenVoltage (context, vref, CY_USBPD_VREF_VBUS_OV);
+    
+    /* Turn on comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] |= PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] &= ~PDSS_COMP_CTRL_COMP_PD;
+    Cy_SysLib_DelayUs(10);
+    
+    /* Filter configuration. */
+    pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] &= ~PDSS_INTR5_FILTER_CFG_FILT_EN;
+
+    regval = pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] &
+            ~(PDSS_INTR5_FILTER_CFG_FILT_CFG_MASK | PDSS_INTR5_FILTER_CFG_FILT_SEL_MASK |
+              PDSS_INTR5_FILTER_CFG_DPSLP_MODE | PDSS_INTR5_FILTER_CFG_FILT_RESET);
+    
+    /* Bypass filter configuration */
+    regval |= PDSS_INTR5_FILTER_CFG_FILT_BYPASS;
+    
+    pd->intr5_filter_cfg[CY_USBPD_VBUS_FILTER_ID_OV] = regval;
+    
+    /* Clear interrupt. */
+    pd->intr5 = (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+
+    /* Enable Interrupt. */
+    pd->intr5_mask |= (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+#else
+    CY_UNUSED_PARAMETER(vref);
+#endif /* PDL_VBUS_RCP_OV_ENABLE */
 #endif /* CY_DEVICE */
 
     /* Auto FET turn off mode. */
@@ -8858,6 +9001,20 @@ void Cy_USBPD_Fault_Vbus_RcpDisable(cy_stc_usbpd_context_t *context)
 
     /* Clear the interrupts. */
     pd->intr13 = PDSS_INTR13_CSA_COMP_OUT_CHANGED;
+
+#if PDL_VBUS_RCP_OV_ENABLE
+    /****** Disable OV based RCP detection. *********/
+
+    /* Disable the comparator. */
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] &= ~PDSS_COMP_CTRL_COMP_ISO_N;
+    pd->comp_ctrl[CY_USBPD_VBUS_COMP_ID_OV] |= PDSS_COMP_CTRL_COMP_PD;
+
+    /* Clear interrupt. */
+    pd->intr5 = (1U << CY_USBPD_VBUS_FILTER_ID_OV);
+
+    /* Disable interrupt. */
+    pd->intr5_mask &= ~(1U << CY_USBPD_VBUS_FILTER_ID_OV);
+#endif /* PDL_VBUS_RCP_OV_ENABLE */
 #endif /* CY_DEVICE */
 
     /* Remove RCP as source. */

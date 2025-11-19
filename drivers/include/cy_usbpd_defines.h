@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_defines.h
-* \version 2.110
+* \version 2.120
 *
 * Provides Common Header File of the USBPD specification related structures.
 *
@@ -252,6 +252,18 @@
 #ifndef PDL_VBUS_RCP_ENABLE
 #define PDL_VBUS_RCP_ENABLE             (0u)
 #endif /* PDL_VBUS_RCP_ENABLE */
+
+#ifndef VBUS_RCP_OV_ENABLE
+#define VBUS_RCP_OV_ENABLE             (0u)
+#endif /* VBUS_RCP_OV_ENABLE */
+
+#if VBUS_RCP_OV_ENABLE
+#define PDL_VBUS_RCP_OV_ENABLE         (1u)
+#endif /* VBUS_RCP_OV_ENABLE */
+
+#ifndef PDL_VBUS_RCP_OV_ENABLE
+#define PDL_VBUS_RCP_OV_ENABLE         (0u)
+#endif /* PDL_VBUS_RCP_OV_ENABLE */
 
 #ifndef PMG1_V5V_CHANGE_DETECT
 #define PMG1_V5V_CHANGE_DETECT          (0u)

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_mux.c
-* \version 2.110
+* \version 2.120
 *
 * Provides implementation of MUX control functions for the USBPD IP.
 *
@@ -1090,8 +1090,9 @@ cy_en_usbpd_status_t Cy_USBPD_Mux_SbuSwitchConfigure(cy_stc_usbpd_context_t *con
     pd->pd_sbu_ls_ctrl_0 = regIndexLs;
     pdDbg->pd_sbu_hres_ctrl = regIndexDbg;
 
-    /* Set HW control of the gate drivers */
-    switchCtrl = PDSS_SWITCH_CTRL_00_AUTO_MODE | PDSS_SWITCH_CTRL_00_SEL_ON_OFF | PDSS_SWITCH_CTRL_00_EN_SWITCH_ON_VALUE;
+    /* Set HW control of the gate drivers and reset edge detectors to restore connection after SBU OVP. */
+    switchCtrl = PDSS_SWITCH_CTRL_00_AUTO_MODE | PDSS_SWITCH_CTRL_00_SEL_ON_OFF   | 
+        PDSS_SWITCH_CTRL_00_EN_SWITCH_ON_VALUE | PDSS_SWITCH_CTRL_00_RST_EDGE_DET | PDSS_SWITCH_CTRL_01_RST_EDGE_DET;
 
     /* Enable SBU1 OVP Fault */
     if (sbu1State > CY_USBPD_SBU_NOT_CONNECTED)

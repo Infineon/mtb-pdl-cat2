@@ -91,6 +91,7 @@ var group__group__usbpd__vbus__ctrl__functions =
     [ "Cy_USBPD_Fault_Voutbb_RcpDisable", "group__group__usbpd__vbus__ctrl__functions.html#ga7fa862adc451cbc25267c45f99f952f7", null ],
     [ "Cy_USBPD_Fault_Vconn_OcpEnable", "group__group__usbpd__vbus__ctrl__functions.html#gac58b1521f38837e6c5d411b189b8a77c", null ],
     [ "Cy_USBPD_Fault_Vconn_OcpDisable", "group__group__usbpd__vbus__ctrl__functions.html#gae2238029622f4cbac2ee4a9d288309e4", null ],
+    [ "Cy_USBPD_Fault_Vconn_OcpConfigure", "group__group__usbpd__vbus__ctrl__functions.html#ga9208eda31020e06ce83fd21f3416ddbe", null ],
     [ "Cy_USBPD_Fault_Vconn_ScpEnable", "group__group__usbpd__vbus__ctrl__functions.html#gaca3f1accf22804ef71a6afdbee102e54", null ],
     [ "Cy_USBPD_Fault_Vconn_ScpDisable", "group__group__usbpd__vbus__ctrl__functions.html#gaaac59f290228f1c1df66bc5cc06022c6", null ],
     [ "Cy_USBPD_Fault_Vbus_ScpEnable", "group__group__usbpd__vbus__ctrl__functions.html#ga4230213e2c61ae6d094460836d438a3f", null ],

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_vbus_ctrl.h
-* \version 2.110
+* \version 2.120
 *
 * Provides API declarations of the USBPD VBUS Control driver.
 *
@@ -510,6 +510,8 @@ void Cy_USBPD_Fault_Voutbb_RcpDisable(cy_stc_usbpd_context_t *context);
 void Cy_USBPD_Fault_Vconn_OcpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 
 void Cy_USBPD_Fault_Vconn_OcpDisable(cy_stc_usbpd_context_t *context);
+
+void Cy_USBPD_Fault_Vconn_OcpConfigure(cy_stc_usbpd_context_t *context);
 
 void Cy_USBPD_Fault_Vconn_ScpEnable(cy_stc_usbpd_context_t *context, cy_cb_vbus_fault_t cb);
 

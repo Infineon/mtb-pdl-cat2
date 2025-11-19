@@ -1,5 +1,6 @@
 var NAVTREEINDEX24 =
 {
+"structcy__stc__msclp__base__config__t.html#a3fb30bc83cc346e244dbf0bae13ebb45":[2,17,2,1,16],
 "structcy__stc__msclp__base__config__t.html#a412eb72c76d18c298204b3d75c6bfd1f":[2,17,2,1,19],
 "structcy__stc__msclp__base__config__t.html#a43b5eebbac96b8c00c0862da746d137d":[2,17,2,1,27],
 "structcy__stc__msclp__base__config__t.html#a4dfb0778ea705755cfe14aff4e6e45da":[2,17,2,1,13],
@@ -248,6 +249,5 @@ var NAVTREEINDEX24 =
 "structcy__stc__smartio__lutcfg__t.html#a0a11f0a8a3247e083c1b66e798420110":[2,22,2,0,2],
 "structcy__stc__smartio__lutcfg__t.html#a199369923edc7a284997b2937ea0ba2b":[2,22,2,0,1],
 "structcy__stc__smartio__lutcfg__t.html#a287e2d703c0edf6b3a7f93e9823dc8a6":[2,22,2,0,3],
-"structcy__stc__smartio__lutcfg__t.html#a86cb486d9b0ae98f1266170edd8a04da":[2,22,2,0,0],
-"structcy__stc__smartio__lutcfg__t.html#acb99f9000ed1fa480f22177c49611145":[2,22,2,0,4]
+"structcy__stc__smartio__lutcfg__t.html#a86cb486d9b0ae98f1266170edd8a04da":[2,22,2,0,0]
 };

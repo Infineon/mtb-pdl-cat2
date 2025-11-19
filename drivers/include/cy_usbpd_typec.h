@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_typec.h
-* \version 2.110
+* \version 2.120
 *
 * Provides API declarations of the USBPD Type C driver.
 *
@@ -96,6 +96,19 @@
 * \section group_usbpd_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*    <tr>
+*     <td rowspan="3">2.120</td>
+*     <td>Added Vconn threshold configuration parameter in the configuration table for CCG6xF_CFP devices.</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
+*     <td>Updated the USBPD driver to support RCP-OV fault protection for the CCG6xF_CFP devices.</td>
+*     <td>New feature support</td>
+*    </tr>
+*    <tr>
+*     <td>Updated the USBPD driver with bug fixes related to Vsys and SBU interrupt handling for CCG6xF_CFP and PMG1S3 devices.</td>
+*     <td>Defect Fix</td>
+*    </tr>
 *    <tr>
 *     <td rowspan="2">2.110</td>
 *     <td>Added new APIs to enable/disable the ilimit block for CFP devices.</td>
@@ -379,7 +392,7 @@
 #define CY_USBPD_DRV_VERSION_MAJOR                       2
 
 /** The USBPD driver minor version */
-#define CY_USBPD_DRV_VERSION_MINOR                       110
+#define CY_USBPD_DRV_VERSION_MINOR                       120
 
 /** The USBPD driver identifier */
 #define CY_USBPD_ID                                      CY_PDL_DRV_ID(0x48U)

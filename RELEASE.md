@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.18.0
+# mtb-pdl-cat2 peripheral driver library v2.19.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,17 +6,8 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
-### New Features
-- Added support for new PSOC&trade; 4000T TSSOP-20 package device.
-- Added new MPNs for CCG6_CFP & CCG8_CFP device families.
-- Introduced the SAR Interleaved feature for PSOC&trade; 4 HVMS device families.
-- Added new MPNs for PSOC&trade; 4 HVMS 128K 32QFN device family.
-
-### Updated personalities
-- The SAR personality for PSOC&trade; 4 HVMS Platform updated to support the Interleaved feature.
-
 ### Updated drivers
-- [SAR 2.70](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [USBPD 2.120](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
 
 ## Defect fixes
 
@@ -29,7 +20,7 @@ This version of PDL was validated for compatibility with the following software 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.5.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.4.4       |
+| [core library](https://github.com/Infineon/core-lib)                          |  1.6.0       |
 | [device-db](https://github.com/Infineon/device-db)                            |  4.28.0      |
 | CMSIS-Core(M)                                                                 |  5.8.2       |
 | GCC compiler                                                                  |  14.2.1      |

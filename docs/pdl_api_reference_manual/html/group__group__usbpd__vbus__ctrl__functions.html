@@ -361,6 +361,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae2238029622f4cbac2ee4a9d288309e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gae2238029622f4cbac2ee4a9d288309e4">Cy_USBPD_Fault_Vconn_OcpDisable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
 <tr class="memdesc:gae2238029622f4cbac2ee4a9d288309e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable Over-Current detection on the VConn power source.  <a href="#gae2238029622f4cbac2ee4a9d288309e4">More...</a><br /></td></tr>
 <tr class="separator:gae2238029622f4cbac2ee4a9d288309e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9208eda31020e06ce83fd21f3416ddbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga9208eda31020e06ce83fd21f3416ddbe">Cy_USBPD_Fault_Vconn_OcpConfigure</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context)</td></tr>
+<tr class="memdesc:ga9208eda31020e06ce83fd21f3416ddbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the VConn power source Over-Current detection trip value.  <a href="#ga9208eda31020e06ce83fd21f3416ddbe">More...</a><br /></td></tr>
+<tr class="separator:ga9208eda31020e06ce83fd21f3416ddbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaca3f1accf22804ef71a6afdbee102e54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaca3f1accf22804ef71a6afdbee102e54">Cy_USBPD_Fault_Vconn_ScpEnable</a> (<a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *context, <a class="el" href="group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e">cy_cb_vbus_fault_t</a> cb)</td></tr>
 <tr class="memdesc:gaca3f1accf22804ef71a6afdbee102e54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable short circuit detection on the VConn power source.  <a href="#gaca3f1accf22804ef71a6afdbee102e54">More...</a><br /></td></tr>
 <tr class="separator:gaca3f1accf22804ef71a6afdbee102e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3170,10 +3173,11 @@ Functions</h2></td></tr>
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure.</td></tr>
     <tr><td class="paramname">volt</td><td>Contract Voltage in mV units.</td></tr>
     <tr><td class="paramname">cb</td><td>Callback function to be called on fault detection.</td></tr>
-    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL. </td></tr>
+    <tr><td class="paramname">pctrl</td><td>Flag indicating the type of gate driver to be controlled, true for P_CTRL and false for C_CTRL.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>In the CY_DEVICE_CCG6DF_CFP device, the RCP block does not have a dedicated OV detection comparator. The RCP OV fault detection is implemented by leveraging the OV block comparator instead. Due to this shared usage of the OV comparator, RCP and OVP cannot be enabled simultaneously if the VBUS_RCP_OV_ENABLE macro is configured to 1. When the VBUS_RCP_OV_ENABLE macro is configured to 1, then the solution layer should ensure that both <a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#gaebfeb7286316635b24e8985deaa6027b">Cy_USBPD_Fault_Vbus_OvpEnable</a> and <a class="el" href="group__group__usbpd__vbus__ctrl__functions.html#ga43871749dbcddbb4ed412e2ee04b93e7">Cy_USBPD_Fault_Vbus_RcpEnable</a> are not called at the same time. </dd></dl>
 <p>DONOT APPLY THRESHOLD FOR WLC1 DEVICE SERIES </p>
 
 </div>
@@ -3698,6 +3702,32 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Disable Over-Current detection on the VConn power source. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga9208eda31020e06ce83fd21f3416ddbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9208eda31020e06ce83fd21f3416ddbe">&#9670;&nbsp;</a></span>Cy_USBPD_Fault_Vconn_OcpConfigure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_USBPD_Fault_Vconn_OcpConfigure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> *&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure the VConn power source Over-Current detection trip value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>The pointer to the context structure <a class="el" href="structcy__stc__usbpd__context__t.html">cy_stc_usbpd_context_t</a> allocated by the user. The structure is used during the USBPD operation for internal configuration and data retention. The user must not modify anything in this structure. </td></tr>

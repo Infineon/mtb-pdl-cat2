@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_lf_counter.c
-* \version 2.110
+* \version 2.120
 *
 * The source file of the USBPD LF Counter Driver.
 *

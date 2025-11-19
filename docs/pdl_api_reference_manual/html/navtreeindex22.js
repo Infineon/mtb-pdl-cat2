@@ -1,5 +1,6 @@
 var NAVTREEINDEX22 =
 {
+"structcy__stc__can__rx__buffer__config__t.html#a82d972ef138ef836bcb96a805f451b91":[2,0,2,2,5],
 "structcy__stc__can__rx__buffer__config__t.html#ad7c3cb8eb542ad1c84a8c0707d948224":[2,0,2,2,1],
 "structcy__stc__can__rx__buffer__config__t.html#ae055dddf82274e2eeda977c954c8ee09":[2,0,2,2,4],
 "structcy__stc__can__rx__filter__element__t.html":[2,0,2,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX22 =
 "structcy__stc__dsadc__config__t.html#a287334859bf743e4274ce063a639562b":[2,8,2,0,2,1],
 "structcy__stc__dsadc__config__t.html#a3974d1c44fb8c48fed3d8f32edb691d7":[2,8,2,0,2,0],
 "structcy__stc__dsadc__config__t.html#a3f57ec536d1e847abf14e60f7cc27595":[2,8,2,0,2,3],
-"structcy__stc__dsadc__config__t.html#a9e839e0fbf233c673f298cb6a5446185":[2,8,2,0,2,4],
-"structcy__stc__dsadc__config__t.html#ad3d78833e177d8c59a2b891e959e46a1":[2,8,2,0,2,2]
+"structcy__stc__dsadc__config__t.html#a9e839e0fbf233c673f298cb6a5446185":[2,8,2,0,2,4]
 };

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_config_table.h
-* \version 2.110
+* \version 2.120
 *
 * This file specifies the structure and helper functions for Configuration table
 * present in flash for various supported devices.
@@ -244,10 +244,14 @@ typedef struct
  */
 typedef struct
 {
-    uint8_t enable;             /**< Whether to enable/disable VCONN OCP */
-    uint8_t threshold;          /**< Max. Vconn current allowed in 10 mA units. */
-    uint8_t debounce;           /**< Vconn OCP debounce period in ms. */
-    uint8_t retryCount;         /**< Number of consecutive OCP events allowed before the port is suspended by CCG firmware. */
+    uint8_t enable;               /**< Whether to enable/disable VCONN OCP */
+#if defined(CY_DEVICE_CCG6DF_CFP)
+    uint8_t configurable_value;   /**< Vconn OCP Configurable Value in 50 mA units. */
+#else /* !defined(CY_DEVICE_CCG6DF_CFP) */
+    uint8_t threshold;            /**< Max. Vconn current allowed in 10 mA units. */
+#endif /* defined(CY_DEVICE_CCG6DF_CFP) */
+    uint8_t debounce;             /**< Vconn OCP debounce period in ms. */
+    uint8_t retryCount;           /**< Number of consecutive OCP events allowed before the port is suspended by CCG firmware. */
 } vconn_ocp_settings_t;
 
 /**

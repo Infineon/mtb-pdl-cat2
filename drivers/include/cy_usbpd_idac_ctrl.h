@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_usbpd_idac_ctrl.h
-* \version 2.110
+* \version 2.120
 *
 * Provides API declarations of the USBPD IDAC Control driver.
 *
