@@ -1,7 +1,4 @@
 /***************************************************************************//**
-* \file cy_device_headers.h
-*
-* \brief
 * Common header file to be included by the drivers.
 *
 ********************************************************************************
@@ -1463,6 +1460,14 @@
     #include "cy8c4046lqq_t412.h"
 #elif defined (CY8C4046ZZI_T451)
     #include "cy8c4046zzi_t451.h"
+#elif defined (CY8C4046ZZQ_T451)
+    #include "cy8c4046zzq_t451.h"
+#elif defined (CY8C4046ZZQ_T411)
+    #include "cy8c4046zzq_t411.h"
+#elif defined (CY8C4046ZZI_T411)
+    #include "cy8c4046zzi_t411.h"
+#elif defined (CY8C4046FNI_T412B)
+    #include "cy8c4046fni_t412b.h"
 #elif defined (CY8C4045LQE_T1)
     #include "cy8c4045lqe_t1.h"
 #elif defined (CY8C4046LQE_T1)
@@ -1551,6 +1556,12 @@
     #include "cy8c4147azq_t415.h"
 #elif defined (CY8C4147AZQ_T455)
     #include "cy8c4147azq_t455.h"
+#elif defined (CY8C4147AZQ_T413)
+    #include "cy8c4147azq_t413.h"
+#elif defined (CY8C4148AZQ_T513)
+    #include "cy8c4148azq_t513.h"
+#elif defined (CY8C4148AZQ_T515)
+    #include "cy8c4148azq_t515.h"
 #elif defined (CYPM1011_24LQXI)
     #include "cypm1011_24lqxi.h"
 #elif defined (CYPM1111_40LQXIT)

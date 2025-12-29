@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.19.0
+# mtb-pdl-cat2 peripheral driver library v2.19.1
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,8 +6,9 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
-### Updated drivers
-- [USBPD 2.120](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__usbpd.html)
+## New Features
+- Added support for PSOC 4100T Plus 256KB device family.
+- Added new MPNs for PSOC 4100T Plus and PSOC 4000T device families.
 
 ## Defect fixes
 
@@ -19,10 +20,10 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| ModusToolbox&trade;                                                           |  3.5.0       |
+| ModusToolbox&trade;                                                           |  3.6.0       |
 | [core library](https://github.com/Infineon/core-lib)                          |  1.6.0       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.28.0      |
-| CMSIS-Core(M)                                                                 |  5.8.2       |
+| [device-db](https://github.com/Infineon/device-db)                            |  4.34.0      |
+| CMSIS-Core(M)                                                                 |  6.1.0       |
 | GCC compiler                                                                  |  14.2.1      |
 | IAR compiler                                                                  |  9.50.2      |
 | Arm&reg; compiler 6                                                           |  6.22.0      |
