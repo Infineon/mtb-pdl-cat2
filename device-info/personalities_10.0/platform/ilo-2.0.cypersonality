@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2020-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -46,7 +46,7 @@
     <ParamBool id="isSRSSLTAvailable" name="isSRSSLTAvailable" group="" default="`${(&quot;s8srsslt&quot; eq getIpBlockName())}`" visible="false" editable="false" desc="" />
 
     <ParamRange id="frequency" name="Frequency (MHz)" group="Internal" default="40000" min="20000" max="80000" resolution="1" visible="false" editable="false" desc="The nominal output frequency" />
-    <ParamRange id="accuracy" name="Accuracy (&#177;%)" group="Internal" default="50" min="50" max="100" resolution="1" visible="false" editable="false" desc="Clock accuracy in %" />
+    <ParamRange id="accuracy" name="Accuracy (&#177;%)" group="Internal" default="`${isSRSSHVAvailable ? 0 : 50}`" min="0" max="100" resolution="1" visible="false" editable="false" desc="Clock accuracy in %" />
     <ParamBool id="error" name="Clock Error" group="Internal" default="false" visible="false" editable="false" desc="" />
 
     <ParamString id="frequencyInfo" name="Frequency" group="General" default="`${formatFrequency(frequency, accuracy)}`" visible="true" editable="false" desc="The nominal output frequency" />

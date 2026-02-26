@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.70
+* \version 2.80
 *
 * Header file for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2020-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -366,6 +366,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>2.80</td>
+*     <td>Fixed an issue related to using EXPMUX.</td>
+*     <td>Bug fixing.</td>
+*   </tr>
+*   <tr>
 *     <td rowspan="1">2.70</td>
 *     <td>Added the \ref Cy_SAR_SetAveragingMode function.</td>
 *     <td>API improvement</td>
@@ -521,7 +526,7 @@ extern "C" {
 #define CY_SAR_DRV_VERSION_MAJOR        2
 
 /** Driver minor version */
-#define CY_SAR_DRV_VERSION_MINOR        60
+#define CY_SAR_DRV_VERSION_MINOR        80
 
 /** SAR driver identifier */
 #define CY_SAR_ID                       CY_PDL_DRV_ID(0x01U)
@@ -661,11 +666,11 @@ extern "C" {
 * Mask definitions of EXPMUX/DIAGMUX switches that can be controlled by the SARSEQ.
 * To enable the sequencer control of multiple switches, "OR" the values together.
 *
-* \note Applicable to PSOC4 HVMS/PA only.
+* \note EXPMUX switches are applicable to PSOC4 HVMS only.
 */
 
 #if (defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)) || defined (CY_DOXYGEN)
-#if (defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
+#if (defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
 #define CY_SAR_EXPMUX_HW_CTRL_P0       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P0_Msk)   /**< Enable SARSEQ control of Pin 0 switches (for Vplus and Vminus) of EXPMUX dedicated port */
 #define CY_SAR_EXPMUX_HW_CTRL_P1       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P1_Msk)   /**< Enable SARSEQ control of Pin 1 switches (for Vplus and Vminus) of EXPMUX dedicated port */
 #define CY_SAR_EXPMUX_HW_CTRL_P2       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P2_Msk)   /**< Enable SARSEQ control of Pin 2 switches (for Vplus and Vminus) of EXPMUX dedicated port */
@@ -674,7 +679,7 @@ extern "C" {
 #define CY_SAR_EXPMUX_HW_CTRL_P5       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P5_Msk)   /**< Enable SARSEQ control of Pin 5 switches (for Vplus and Vminus) of EXPMUX dedicated port */
 #define CY_SAR_EXPMUX_HW_CTRL_P6       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P6_Msk)   /**< Enable SARSEQ control of Pin 6 switches (for Vplus and Vminus) of EXPMUX dedicated port */
 #define CY_SAR_EXPMUX_HW_CTRL_P7       (SAR_MUX_SWITCH_HW_CTRL2_MUX_HW_CTRL_EXP_P7_Msk)   /**< Enable SARSEQ control of Pin 7 switches (for Vplus and Vminus) of EXPMUX dedicated port */
-#endif /* 1U == CY_PASS0_SAR_EXPMUX_PRESENT */
+#endif /* 1U == PASS0_SAR_EXPMUX_PRESENT */
 #define CY_SAR_DIAGMUX_HW_CTRL_V0      (SAR_MUX_SWITCH_HW_CTRL2_MUX_FW_VD0_VG0_Msk)       /**< Enable SARSEQ control of Pin 0 switches (for Vdiag and Vgnd) of DIAGMUX dedicated port */
 #define CY_SAR_DIAGMUX_HW_CTRL_V1      (SAR_MUX_SWITCH_HW_CTRL2_MUX_FW_VD1_VG1_Msk)       /**< Enable SARSEQ control of Pin 1 switches (for Vdiag and Vgnd) of DIAGMUX dedicated port */
 #define CY_SAR_DIAGMUX_HW_CTRL_V2      (SAR_MUX_SWITCH_HW_CTRL2_MUX_FW_VD2_VG2_Msk)       /**< Enable SARSEQ control of Pin 2 switches (for Vdiag and Vgnd) of DIAGMUX dedicated port */
@@ -690,7 +695,7 @@ extern "C" {
 #define CY_SAR_HW_CTRL_CSINK_VMINUS    (SAR_MUX_SWITCH_HW_CTRL2_MUX_FW_CSRC_VMINUS_Msk)   /**< Enable SARSEQ control of sink current connected to vminus */
 
 /* EXPMUX/DIAG pins to Vplus */
-#if (defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
+#if (defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
 #define CY_SAR_EXPMUX_FW_P0_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P0_VPLUS_Msk)    /**< Switch between Pin 0 of EXPMUX and Vplus of SARADC */
 #define CY_SAR_EXPMUX_FW_P1_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P1_VPLUS_Msk)    /**< Switch between Pin 1 of EXPMUX and Vplus of SARADC */
 #define CY_SAR_EXPMUX_FW_P2_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P2_VPLUS_Msk)    /**< Switch between Pin 2 of EXPMUX and Vplus of SARADC */
@@ -699,7 +704,7 @@ extern "C" {
 #define CY_SAR_EXPMUX_FW_P5_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P5_VPLUS_Msk)    /**< Switch between Pin 5 of EXPMUX and Vplus of SARADC */
 #define CY_SAR_EXPMUX_FW_P6_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P6_VPLUS_Msk)    /**< Switch between Pin 6 of EXPMUX and Vplus of SARADC */
 #define CY_SAR_EXPMUX_FW_P7_VPLUS      (SAR_MUX_SWITCH2_MUX_FW_EXP_P7_VPLUS_Msk)    /**< Switch between Pin 7 of EXPMUX and Vplus of SARADC */
-#endif /* 1U == CY_PASS0_SAR_EXPMUX_PRESENT */
+#endif /* 1U == PASS0_SAR_EXPMUX_PRESENT */
 #define CY_SAR_DIAGMUX_FW_VD0_VPLUS    (SAR_MUX_SWITCH2_MUX_FW_VD0_VPLUS_Msk)       /**< Switch between internal Vdiag.0 and vplus of SARADC */
 #define CY_SAR_DIAGMUX_FW_VD1_VPLUS    (SAR_MUX_SWITCH2_MUX_FW_VD1_VPLUS_Msk)       /**< Switch between internal Vdiag.1 and vplus of SARADC */
 #define CY_SAR_DIAGMUX_FW_VD2_VPLUS    (SAR_MUX_SWITCH2_MUX_FW_VD2_VPLUS_Msk)       /**< Switch between internal Vdiag.2 and vplus of SARADC */
@@ -710,7 +715,7 @@ extern "C" {
 #define CY_SAR_DIAGMUX_FW_VD7_VPLUS    (SAR_MUX_SWITCH2_MUX_FW_VD7_VPLUS_Msk)       /**< Switch between internal Vdiag.7 and vplus of SARADC */
 
 /* EXPMUX/DIAG pins to Vminus */
-#if (defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
+#if (defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
 #define CY_SAR_EXPMUX_FW_P0_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P0_VMINUS_Msk) /**< Switch between Pin 0 of EXPMUX and Vminus of SARADC */
 #define CY_SAR_EXPMUX_FW_P1_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P1_VMINUS_Msk) /**< Switch between Pin 1 of EXPMUX and Vminus of SARADC */
 #define CY_SAR_EXPMUX_FW_P2_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P2_VMINUS_Msk) /**< Switch between Pin 2 of EXPMUX and Vminus of SARADC */
@@ -719,7 +724,7 @@ extern "C" {
 #define CY_SAR_EXPMUX_FW_P5_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P5_VMINUS_Msk) /**< Switch between Pin 5 of EXPMUX and Vminus of SARADC */
 #define CY_SAR_EXPMUX_FW_P6_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P6_VMINUS_Msk) /**< Switch between Pin 6 of EXPMUX and Vminus of SARADC */
 #define CY_SAR_EXPMUX_FW_P7_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_EXP_P7_VMINUS_Msk) /**< Switch between Pin 7 of EXPMUX and Vminus of SARADC */
-#endif /* 1U == CY_PASS0_SAR_EXPMUX_PRESENT */
+#endif /* 1U == PASS0_SAR_EXPMUX_PRESENT */
 #define CY_SAR_DIAGMUX_FW_VG0_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_VG0_VMINUS_Msk)  /**< Switch between internal Vdiag.0 and Vminus of SARADC */
 #define CY_SAR_DIAGMUX_FW_VG1_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_VG1_VMINUS_Msk)  /**< Switch between internal Vdiag.1 and Vminus of SARADC */
 #define CY_SAR_DIAGMUX_FW_VG2_VMINUS    (SAR_MUX_SWITCH2_MUX_FW_VG2_VMINUS_Msk)  /**< Switch between internal Vdiag.2 and Vminus of SARADC */
@@ -976,7 +981,7 @@ typedef enum
     CY_SAR_NEG_ADDR_SARMUX_5            = 0x5UL,  /**< Dedicated SARMUX pin 5 */
     CY_SAR_NEG_ADDR_SARMUX_6            = 0x6UL,  /**< Dedicated SARMUX pin 6 */
     CY_SAR_NEG_ADDR_SARMUX_7            = 0x7UL,  /**< Dedicated SARMUX pin 7 */
-#if (defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
+#if (defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)) || defined (CY_DOXYGEN)
     CY_SAR_NEG_ADDR_EXPMUX_0            = 0x50UL,  /**< GPIO Expansion Mux pin 0, if present */
     CY_SAR_NEG_ADDR_EXPMUX_1            = 0x51UL,  /**< GPIO Expansion Mux pin 1, if present */
     CY_SAR_NEG_ADDR_EXPMUX_2            = 0x52UL,  /**< GPIO Expansion Mux pin 2, if present */
@@ -985,7 +990,7 @@ typedef enum
     CY_SAR_NEG_ADDR_EXPMUX_5            = 0x55UL,  /**< GPIO Expansion Mux pin 5, if present */
     CY_SAR_NEG_ADDR_EXPMUX_6            = 0x56UL,  /**< GPIO Expansion Mux pin 6, if present */
     CY_SAR_NEG_ADDR_EXPMUX_7            = 0x57UL,  /**< GPIO Expansion Mux pin 7, if present */
-#endif /* (#if(1U == CY_PASS0_SAR_EXPMUX_PRESENT)) */
+#endif /* (#if(1U == PASS0_SAR_EXPMUX_PRESENT)) */
     CY_SAR_NEG_ADDR_DIAG_VSSA           = 0x60UL,  /**< Diagnostic Mux VSSA */
     CY_SAR_NEG_ADDR_DIAG_VSSD           = 0x61UL,  /**< Diagnostic Mux VSSD */
     CY_SAR_NEG_ADDR_SARMUX_AMUXBUS_A    = 0x72UL,  /**< SARMUX virtual port for AMUXBUS-A */

@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +20,8 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CYIP_SFLASH_256_H_
-#define _CYIP_SFLASH_256_H_
+#ifndef _CYIP_SFLASH_PSOC4100SMAX_H_
+#define _CYIP_SFLASH_PSOC4100SMAX_H_
 
 #include "cyip_headers.h"
 
@@ -30,7 +29,7 @@
 *                                    SFLASH
 *******************************************************************************/
 
-#define SFLASH_SECTION_SIZE                     0x00000800UL
+#define SFLASH_SECTION_SIZE                     0x00001800UL
 
 /**
   * \brief Supervisory Flash Area (Cypress Trim & Wounding Info) (SFLASH)
@@ -41,18 +40,16 @@ typedef struct {
    __IM uint32_t RESERVED1[2];
   __IOM uint16_t HIB_KEY_DELAY;                 /*!< 0x00000250 Hibernate wakeup value for PWR_KEY_DELAY */
   __IOM uint16_t DPSLP_KEY_DELAY;               /*!< 0x00000252 DeepSleep wakeup value for PWR_KEY_DELAY */
-   __IM uint32_t RESERVED2;
+  __IOM uint8_t  SWD_CONFIG;                    /*!< 0x00000254 SWD pinout selector (not present in TSG4/TSG5-M) */
+   __IM uint8_t  RESERVED2;
+  __IOM uint8_t  INITIAL_SPCIF_TRIM_M2_DAC0;    /*!< 0x00000256 FLASH IDAC trim used during boot */
+   __IM uint8_t  RESERVED3;
   __IOM uint32_t SWD_LISTEN;                    /*!< 0x00000258 Listen Window Length */
   __IOM uint32_t FLASH_START;                   /*!< 0x0000025C Flash Image Start Address */
-  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM1;          /*!< 0x00000260 CSDV2 CSD0 ADC TRIM 1 */
-  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM2;          /*!< 0x00000261 CSDV2 CSD0 ADC TRIM2 */
-   __IM uint16_t RESERVED3;
+   __IM uint32_t RESERVED4;
   __IOM uint16_t SAR_TEMP_MULTIPLIER;           /*!< 0x00000264 SAR Temperature Sensor Multiplication Factor */
   __IOM uint16_t SAR_TEMP_OFFSET;               /*!< 0x00000266 SAR Temperature Sensor Offset */
-   __IM uint32_t RESERVED4[6];
-  __IOM uint8_t  CSDV2_CSD1_ADC_TRIM1;          /*!< 0x00000280 CSDV2 CSD1 ADC TRIM 1 */
-  __IOM uint8_t  CSDV2_CSD1_ADC_TRIM2;          /*!< 0x00000281 CSDV2 CSD1 ADC TRIM2 */
-   __IM uint16_t RESERVED5[94];
+   __IM uint16_t RESERVED5[107];
   __IOM uint8_t  IMO_TRIM_USBMODE_24;           /*!< 0x0000033E USB IMO TRIM 24MHz */
   __IOM uint8_t  IMO_TRIM_USBMODE_48;           /*!< 0x0000033F USB IMO TRIM 48MHz */
    __IM uint32_t RESERVED6[3];
@@ -70,34 +67,26 @@ typedef struct {
 /* SFLASH.DPSLP_KEY_DELAY */
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Pos 0UL
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Msk 0x3FFUL
+/* SFLASH.SWD_CONFIG */
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Pos        0UL
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Msk        0x1UL
+/* SFLASH.INITIAL_SPCIF_TRIM_M2_DAC0 */
+#define SFLASH_INITIAL_SPCIF_TRIM_M2_DAC0_IDAC_Pos 0UL
+#define SFLASH_INITIAL_SPCIF_TRIM_M2_DAC0_IDAC_Msk 0x1FUL
+#define SFLASH_INITIAL_SPCIF_TRIM_M2_DAC0_SLOPE_Pos 5UL
+#define SFLASH_INITIAL_SPCIF_TRIM_M2_DAC0_SLOPE_Msk 0xE0UL
 /* SFLASH.SWD_LISTEN */
 #define SFLASH_SWD_LISTEN_CYCLES_Pos            0UL
 #define SFLASH_SWD_LISTEN_CYCLES_Msk            0xFFFFFFFFUL
 /* SFLASH.FLASH_START */
 #define SFLASH_FLASH_START_ADDRESS_Pos          0UL
 #define SFLASH_FLASH_START_ADDRESS_Msk          0xFFFFFFFFUL
-/* SFLASH.CSDV2_CSD0_ADC_TRIM1 */
-#define SFLASH_CSDV2_CSD0_ADC_TRIM1_CSD_ADC_CAL_LSB_Pos 0UL
-#define SFLASH_CSDV2_CSD0_ADC_TRIM1_CSD_ADC_CAL_LSB_Msk 0xFFUL
-/* SFLASH.CSDV2_CSD0_ADC_TRIM2 */
-#define SFLASH_CSDV2_CSD0_ADC_TRIM2_CSD_ADC_CAL_MSB_Pos 0UL
-#define SFLASH_CSDV2_CSD0_ADC_TRIM2_CSD_ADC_CAL_MSB_Msk 0xFFUL
 /* SFLASH.SAR_TEMP_MULTIPLIER */
 #define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Pos 0UL
 #define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Msk 0xFFFFUL
 /* SFLASH.SAR_TEMP_OFFSET */
 #define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Pos  0UL
 #define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Msk  0xFFFFUL
-/* SFLASH.CSDV2_CSD1_ADC_TRIM1 */
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_1P2V_Pos 0UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_1P2V_Msk 0x1FUL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_2P4V_2_0_Pos 5UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_2P4V_2_0_Msk 0xE0UL
-/* SFLASH.CSDV2_CSD1_ADC_TRIM2 */
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_3P84V_2_0_Pos 0UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_3P84V_2_0_Msk 0x1FUL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_2P4V_5_4_Pos 5UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_2P4V_5_4_Msk 0x60UL
 /* SFLASH.IMO_TRIM_USBMODE_24 */
 #define SFLASH_IMO_TRIM_USBMODE_24_TRIM_24_Pos  0UL
 #define SFLASH_IMO_TRIM_USBMODE_24_TRIM_24_Msk  0xFFUL
@@ -114,7 +103,7 @@ typedef struct {
 #define SFLASH_IMO_TRIM_LT_OFFSET_Msk           0xFFUL
 
 
-#endif /* _CYIP_SFLASH_256_H_ */
+#endif /* _CYIP_SFLASH_PSOC4100SMAX_H_ */
 
 
 /* [] END OF FILE */

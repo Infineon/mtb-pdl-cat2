@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +20,8 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CYIP_SFLASH_128_H_
-#define _CYIP_SFLASH_128_H_
+#ifndef _CYIP_SFLASH_PSOC4000T_H_
+#define _CYIP_SFLASH_PSOC4000T_H_
 
 #include "cyip_headers.h"
 
@@ -56,26 +55,19 @@ typedef struct {
   __IOM uint8_t  CREF_COEFF1;                   /*!< 0x000000BC CREF_COEFF1 */
   __IOM uint8_t  CFINE_COEFF0;                  /*!< 0x000000BD CFINE_COEFF0 */
   __IOM uint8_t  CFINE_COEFF1;                  /*!< 0x000000BE CFINE_COEFF1 */
-   __IM uint8_t  RESERVED4[21];
-  __IOM uint8_t  CSDV2_CSD1_ADC_TRIM1;          /*!< 0x000000D4 CSDV2 CSD1 ADC TRIM 1 */
-  __IOM uint8_t  CSDV2_CSD1_ADC_TRIM2;          /*!< 0x000000D5 CSDV2 CSD1 ADC TRIM2 */
-   __IM uint16_t RESERVED5[55];
+   __IM uint8_t  RESERVED4[133];
   __IOM uint32_t SILICON_ID;                    /*!< 0x00000144 Silicon ID */
-   __IM uint32_t RESERVED6[2];
+   __IM uint32_t RESERVED5[2];
   __IOM uint16_t HIB_KEY_DELAY;                 /*!< 0x00000150 Hibernate wakeup value for PWR_KEY_DELAY */
   __IOM uint16_t DPSLP_KEY_DELAY;               /*!< 0x00000152 DeepSleep wakeup value for PWR_KEY_DELAY */
-   __IM uint32_t RESERVED7;
+  __IOM uint8_t  SWD_CONFIG;                    /*!< 0x00000154 SWD pinout selector (not present in TSG4/TSG5-M) */
+   __IM uint8_t  RESERVED6[3];
   __IOM uint32_t SWD_LISTEN;                    /*!< 0x00000158 Listen Window Length */
   __IOM uint32_t FLASH_START;                   /*!< 0x0000015C Flash Image Start Address */
-  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM1;          /*!< 0x00000160 Low byte of CSDv2 Calibration */
-  __IOM uint8_t  CSDV2_CSD0_ADC_TRIM2;          /*!< 0x00000161 CSDV2 CSD0 ADC TRIM2 */
-   __IM uint16_t RESERVED8;
-  __IOM uint16_t SAR_TEMP_MULTIPLIER;           /*!< 0x00000164 SAR Temperature Sensor Multiplication Factor */
-  __IOM uint16_t SAR_TEMP_OFFSET;               /*!< 0x00000166 SAR Temperature Sensor Offset */
-   __IM uint16_t RESERVED9[43];
+   __IM uint16_t RESERVED7[47];
   __IOM uint8_t  IMO_TRIM_USBMODE_24;           /*!< 0x000001BE USB IMO TRIM 24MHz */
   __IOM uint8_t  IMO_TRIM_USBMODE_48;           /*!< 0x000001BF USB IMO TRIM 48MHz */
-   __IM uint32_t RESERVED10[3];
+   __IM uint32_t RESERVED8[3];
   __IOM uint8_t  IMO_TCTRIM_LT[25];             /*!< 0x000001CC IMO TempCo Trim Register (SRSS-Lite) */
   __IOM uint8_t  IMO_TRIM_LT[25];               /*!< 0x000001E5 IMO Frequency Trim Register (SRSS-Lite) */
 } SFLASH_Type;                                  /*!< Size = 510 (0x1FE) */
@@ -129,16 +121,6 @@ typedef struct {
 /* SFLASH.CFINE_COEFF1 */
 #define SFLASH_CFINE_COEFF1_MSC_CFINE_COEFF1_Pos 0UL
 #define SFLASH_CFINE_COEFF1_MSC_CFINE_COEFF1_Msk 0xFFUL
-/* SFLASH.CSDV2_CSD1_ADC_TRIM1 */
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_1P2V_Pos 0UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_1P2V_Msk 0x1FUL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_2P4V_2_0_Pos 5UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM1_ADCTRIM_2P4V_2_0_Msk 0xE0UL
-/* SFLASH.CSDV2_CSD1_ADC_TRIM2 */
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_3P84V_2_0_Pos 0UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_3P84V_2_0_Msk 0x1FUL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_2P4V_5_4_Pos 5UL
-#define SFLASH_CSDV2_CSD1_ADC_TRIM2_ADCTRIM_2P4V_5_4_Msk 0x60UL
 /* SFLASH.SILICON_ID */
 #define SFLASH_SILICON_ID_ID_Pos                0UL
 #define SFLASH_SILICON_ID_ID_Msk                0xFFFFUL
@@ -148,24 +130,15 @@ typedef struct {
 /* SFLASH.DPSLP_KEY_DELAY */
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Pos 0UL
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Msk 0x3FFUL
+/* SFLASH.SWD_CONFIG */
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Pos        0UL
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Msk        0x1UL
 /* SFLASH.SWD_LISTEN */
 #define SFLASH_SWD_LISTEN_CYCLES_Pos            0UL
 #define SFLASH_SWD_LISTEN_CYCLES_Msk            0xFFFFFFFFUL
 /* SFLASH.FLASH_START */
 #define SFLASH_FLASH_START_ADDRESS_Pos          0UL
 #define SFLASH_FLASH_START_ADDRESS_Msk          0xFFFFFFFFUL
-/* SFLASH.CSDV2_CSD0_ADC_TRIM1 */
-#define SFLASH_CSDV2_CSD0_ADC_TRIM1_CSD_ADC_CAL_LSB_Pos 0UL
-#define SFLASH_CSDV2_CSD0_ADC_TRIM1_CSD_ADC_CAL_LSB_Msk 0xFFUL
-/* SFLASH.CSDV2_CSD0_ADC_TRIM2 */
-#define SFLASH_CSDV2_CSD0_ADC_TRIM2_CSD_ADC_CAL_MSB_Pos 0UL
-#define SFLASH_CSDV2_CSD0_ADC_TRIM2_CSD_ADC_CAL_MSB_Msk 0xFFUL
-/* SFLASH.SAR_TEMP_MULTIPLIER */
-#define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Pos 0UL
-#define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Msk 0xFFFFUL
-/* SFLASH.SAR_TEMP_OFFSET */
-#define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Pos  0UL
-#define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Msk  0xFFFFUL
 /* SFLASH.IMO_TRIM_USBMODE_24 */
 #define SFLASH_IMO_TRIM_USBMODE_24_TRIM_24_Pos  0UL
 #define SFLASH_IMO_TRIM_USBMODE_24_TRIM_24_Msk  0xFFUL
@@ -182,7 +155,7 @@ typedef struct {
 #define SFLASH_IMO_TRIM_LT_OFFSET_Msk           0xFFUL
 
 
-#endif /* _CYIP_SFLASH_128_H_ */
+#endif /* _CYIP_SFLASH_PSOC4000T_H_ */
 
 
 /* [] END OF FILE */

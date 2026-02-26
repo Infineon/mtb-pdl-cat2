@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -243,7 +242,7 @@ typedef enum
 } en_trig_output_grp3_t;
 
 /* Include IP definitions */
-#include "ip/cyip_sflash_256.h"
+#include "ip/cyip_sflash_psoc4100sp.h"
 #include "ip/cyip_peri.h"
 #include "ip/cyip_hsiom.h"
 #include "ip/cyip_srsslt.h"

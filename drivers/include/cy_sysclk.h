@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.50
+* \version 3.60
 *
 * Provides an API declaration of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -75,6 +75,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.60</td>
+*     <td>Added support of PSOC4 HVPA SPM 1.0 device.</td>
+*     <td>New device support.</td>
+*   </tr>
 *   <tr>
 *     <td>3.50</td>
 *     <td>Added overtemperature interrupt support. See \ref Cy_SysClk_OverTempSetInterrupt, \ref Cy_SysClk_OverTempClearInterrupt,
@@ -288,7 +293,7 @@
 *   connected to this crystal must be configured to operate in analog
 *   drive mode with HSIOM connection set to GPIO control (HSIOM_SEL_GPIO).
 *
-*   \note Not applicable for PSOC4 HVMS/PA.
+*   \note Not applicable for the PSOC4 HVMS 64K/128K and PSOC4 HVPA 144K devices.
 *
 *   \defgroup group_sysclk_eco_funcs       Functions
 *   \defgroup group_sysclk_eco_enums       Enumerated Types
@@ -528,7 +533,7 @@
 *   The clock supervision block uses a reference clock (IMO clock) to check that a monitored
 *   clock (clk_exco) is within an allowed frequency window.
 *
-*   This feature is available on devices with the EXCO_ver2 (i.e. PSOC 4500S and 4100S Max).
+*   This feature is available on devices with EXCO_ver2 (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *   Refer to the Device Datasheet to check the CSV feature support.
 *   Also see the TRM for more details about CSV itself.
 *
@@ -540,7 +545,7 @@
 *   The PGM_DELAY block is a 16-bit down counter
 *   clocked by IMO clock and being triggered by the CSV.
 *
-*   This feature is available on devices with the EXCO_ver2 (i.e. PSOC 4500S and 4100S Max).
+*   This feature is available on devices with EXCO_ver2 (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *   Refer to the Device Datasheet to check the PGM_DELAY feature support.
 *   Also see the TRM for more details about PGM_DELAY itself.
 *
@@ -551,7 +556,7 @@
 *   This API is to manage a few interrupt sources
 *
 *   Supported interrupt sources can be within
-*   - the EXCO block on devices with the EXCO_ver2 (i.e. PSOC 4500S and 4100S Max)
+*   - the EXCO block on devices with EXCO_ver2 (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM)
 *   - the clock calibration block on PSOC4 HVMS/PA devices.
 *
 *   Refer to the Device Datasheet to check the detailed set of interrupts support.
@@ -611,7 +616,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   3
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   50
+#define  CY_SYSCLK_DRV_VERSION_MINOR   60
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -659,6 +664,7 @@ uint32_t Cy_SysClk_ExtClkGetFrequency(void);
 /* ========================================================================== */
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
 #if (CY_IP_M0S8EXCO_VERSION == 2U)
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
 /**
 * \addtogroup group_sysclk_ext_ref_funcs
 * \{
@@ -666,6 +672,7 @@ uint32_t Cy_SysClk_ExtClkGetFrequency(void);
     void Cy_SysClk_ExtRefSetFrequency(uint32_t freq);
 uint32_t Cy_SysClk_ExtRefGetFrequency(void);
 /** \} group_sysclk_ext_ref_funcs */
+#endif /* EXCO_PLL_PRESENT */
 #endif /* CY_IP_M0S8EXCO_VERSION == 2U */
 #endif /* CY_IP_M0S8EXCO */
 
@@ -876,7 +883,7 @@ __STATIC_INLINE void Cy_SysClk_ImoDisable(void)
 /** \} group_sysclk_imo_funcs */
 
 
-#if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u)) || defined(CY_DOXYGEN)
+#if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
 /* ========================================================================== */
 /* ===========================    ECO SECTION    ============================ */
 /* ========================================================================== */
@@ -918,7 +925,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs);
 *
 * Returns the ECO enable/disable state.
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for the PSOC4 HVMS 64K/128K and PSOC4 HVPA 144K devices.
 *
 * \return
 * false = disabled \n
@@ -941,7 +948,7 @@ __STATIC_INLINE bool Cy_SysClk_EcoIsEnabled(void)
 * Disables the external crystal oscillator (ECO). This function should not be
 * called if the ECO is sourcing other resources.
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for the PSOC4 HVMS 64K/128K and PSOC4 HVPA 144K devices.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_EcoDisable
@@ -959,7 +966,7 @@ __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
 *
 * Reports the current status of the external crystal oscillator (ECO).
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for the PSOC4 HVMS 64K/128K and PSOC4 HVPA 144K devices.
 *
 * \note This function returns just a register value, for example,
 * \ref CY_SYSCLK_ECO_STABLE can be returned even when ECO is not enabled.
@@ -1310,7 +1317,7 @@ __STATIC_INLINE cy_en_sysclk_pll_bypass_t Cy_SysClk_PllGetBypassState(uint32_t p
 }
 
 /** \} group_sysclk_pll_funcs */
-
+#endif /* EXCO_PLL_PRESENT */
 
 #if (CY_IP_M0S8EXCO_VERSION == 2U)
 /* ========================================================================== */
@@ -1372,7 +1379,7 @@ void Cy_SysClk_CsvInit(cy_stc_sysclk_csv_config_t * config);
 *
 * Enables the Clock Supervision block.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \funcusage
@@ -1394,7 +1401,7 @@ __STATIC_INLINE void Cy_SysClk_CsvEnable(void)
 *
 * Checks the Clock Supervision block enable/disable state.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \funcusage
@@ -1413,7 +1420,7 @@ __STATIC_INLINE bool Cy_SysClk_CsvIsEnabled(void)
 *
 * Disables clock supervision.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \funcusage
@@ -1438,7 +1445,7 @@ __STATIC_INLINE void Cy_SysClk_CsvDisable(void)
 *
 * Initializes the programmable delay (PGM_DELAY) counter reload value.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \param delayCount:
@@ -1470,7 +1477,7 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterInit(uint16_t delayCount)
 * Also for the PGM_DELAY counter proper starting the \ref Cy_SysClk_DelayCounterReload()
 * function should be called before this function.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \funcusage \snippet sysclk/snippet/sysclk_snippet.c SNIPPET_SYSCLK_PGM_DLY_EN
@@ -1488,7 +1495,7 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterEnable(void)
 *
 * Checks the PGM_DELAY block enable/disable state.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device TRM to check the CSV feature support.
 *
 * \funcusage
@@ -1507,7 +1514,7 @@ __STATIC_INLINE bool Cy_SysClk_DelayCounterIsEnabled(void)
 *
 * Disables the PGM_DELAY block.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 *******************************************************************************/
@@ -1523,7 +1530,7 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterDisable(void)
 *
 * Reloads the PGM_DELAY counter with the delay count value.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * For the PGM_DELAY counter proper functioning, this function should be called
@@ -1543,15 +1550,21 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterReload(void)
 /**
 * \addtogroup group_sysclk_int_macros
 * \{
-* \note This macro is available only for PSOC 4500S and 4100S Max devices.
+* \note This macro is available only for PSOC 4500S, 4100S Max and PSOC4 HVPA SPM devices.
 */
-#define CY_SYSCLK_INTR_PLL_LOCK (EXCO_INTR_PLL_LOCK_Msk)   /**< PLL lock interrupt mask */
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
+    #define CY_SYSCLK_INTR_PLL_LOCK (EXCO_INTR_PLL_LOCK_Msk)   /**< PLL lock interrupt mask (Not available on PSOC4 HVPA SPM device) */
+#endif /* EXCO_PLL_PRESENT */
 #define CY_SYSCLK_INTR_WD_ERR   (EXCO_INTR_WD_ERR_Msk)     /**< WatchDog error interrupt mask */
 #define CY_SYSCLK_INTR_SW_IMO   (EXCO_INTR_CSV_CLK_SW_Msk) /**< Clock Supervisor Switched Clock Source to IMO interrupt mask */
 /** \} group_sysclk_int_macros */
 
 /** \cond internal */
-#define CY_SYSCLK_INTR          (CY_SYSCLK_INTR_PLL_LOCK | CY_SYSCLK_INTR_WD_ERR | CY_SYSCLK_INTR_SW_IMO)
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
+    #define CY_SYSCLK_INTR          (CY_SYSCLK_INTR_PLL_LOCK | CY_SYSCLK_INTR_WD_ERR | CY_SYSCLK_INTR_SW_IMO)
+#else
+    #define CY_SYSCLK_INTR          (CY_SYSCLK_INTR_WD_ERR | CY_SYSCLK_INTR_SW_IMO)
+#endif /* EXCO_PLL_PRESENT */
 /** \endcond */
 
 
@@ -1566,11 +1579,11 @@ __STATIC_INLINE void Cy_SysClk_DelayCounterReload(void)
 *
 * Returns the interrupt status.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \return
 * The interrupt status, see \ref group_sysclk_int_macros :
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1588,11 +1601,11 @@ __STATIC_INLINE uint32_t Cy_SysClk_GetInterruptStatus(void)
 * Returns the logical AND of the corresponding INTR and INTR_MASK registers
 * in a single-load operation.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \return
 * The masked interrupt status, see \ref group_sysclk_int_macros :
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1613,13 +1626,13 @@ __STATIC_INLINE uint32_t Cy_SysClk_GetInterruptStatusMasked(void)
 *
 * Clears the interrupt status.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \param intrMask
 * The mask of interrupts to clear. Typically this is the value returned
 * by \ref Cy_SysClk_GetInterruptStatusMasked or \ref Cy_SysClk_GetInterruptStatus.
 * Alternately, select one or more values from \ref group_sysclk_int_macros and "OR" them together.
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1642,12 +1655,12 @@ __STATIC_INLINE void Cy_SysClk_ClearInterrupt(uint32_t intrMask)
 * Sets the specified interrupt status.
 * Intended mostly for debugging.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \param intrMask
 * The mask of interrupts to set.
 * Select one or more values from \ref group_sysclk_int_macros and "OR" them together.
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1664,11 +1677,11 @@ __STATIC_INLINE void Cy_SysClk_SetInterrupt(uint32_t intrMask)
 *
 * Returns the interrupt mask value.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \return
 * The interrupt mask value, see \ref group_sysclk_int_macros :
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1687,12 +1700,12 @@ __STATIC_INLINE uint32_t Cy_SysClk_GetInterruptMask(void)
 *
 * Sets the specified interrupt mask value.
 *
-* \note This API is available only for PSOC 4500S and 4100S Max devices.
+* \note This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 *
 * \param intrMask
 * The mask of interrupts.
 * Select one or more values from \ref group_sysclk_int_macros and "OR" them together.
-* - \ref CY_SYSCLK_INTR_PLL_LOCK
+* - \ref CY_SYSCLK_INTR_PLL_LOCK (Not available on PSOC4 HVPA SPM device)
 * - \ref CY_SYSCLK_INTR_WD_ERR
 * - \ref CY_SYSCLK_INTR_SW_IMO
 *
@@ -1708,7 +1721,6 @@ __STATIC_INLINE void Cy_SysClk_SetInterruptMask(uint32_t intrMask)
 
 /** \} group_sysclk_int_funcs */
 #endif /* CY_IP_M0S8EXCO_VERSION == 2U */
-#endif /* EXCO_PLL_PRESENT */
 #endif /* CY_IP_M0S8EXCO */
 
 
@@ -1974,7 +1986,10 @@ typedef enum
                                       *   Note that there may be HW collisions with the ECO connection (if supported)
                                       */
 #if defined (CY_IP_M0S8EXCO)
-    CY_SYSCLK_CLKHF_IN_EXCO   = 2U,  /**< EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them */
+    CY_SYSCLK_CLKHF_IN_EXCO   = 2U,  /**< EXCO block output, normally ECO or PLL (use \ref Cy_SysClk_PllBypass to select between them).
+                                      *   As part of the Clock Supervisor (CSV) failover strategy, when a fault is detected, the EXCO block output
+                                      *   will be automatically switched to IMO and the \ref CY_SYSCLK_INTR_SW_IMO interrupt will be generated. \n
+                                      */
     /** \cond */
     CY_SYSCLK_CLKHF_IN_ECO   = 10U,  /* Deprecated, BWC for HAL 2.0.0 only,
                                       * use CY_SYSCLK_CLKHF_IN_EXCO and

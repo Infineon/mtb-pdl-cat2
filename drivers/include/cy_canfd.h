@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_canfd.h
-* \version 1.20
+* \version 1.30
 *
 *  This file provides constants and parameter values for
 *  the CAN FD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2019-2023), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2019-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -125,7 +125,8 @@
 * The following code configures an 16-bit clock divider. The default peripheral
 * clock frequency is 24 MHz. The desired divider value minus one must be passed.
 * \snippet canfd_snippet.c snippet_Cy_CANFD_Assign_Clock_Divider
-* The CAN FD block uses the Port 6 pins for receive (P6[1]) and transmit (P6[2]).
+* The CAN FD block requires dedicated pins for receive (RX) and transmit (TX) functionality.
+* Pin assignments vary by device - refer to the device datasheet for specific pin mappings.
 * - Connect the specified High-Speed Input Output Multiplexer (HSIOM) selection
 * to the pin.
 * - Set the pins drive mode for RX and TX.
@@ -214,6 +215,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.30</td>
+*     <td>Added support of PSOC4 HVPA SPM device.</td>
+*     <td>New device support.</td>
+*   </tr>
+*   <tr>
 *     <td>1.20</td>
 *     <td>Updated APIs Cy_CANFD_Init(), Cy_CANFD_CalcRxBufAdrs(),
 *         Cy_CANFD_CalcTxBufAdrs(), Cy_CANFD_CalcRxFifoAdrs(),
@@ -270,7 +276,7 @@
 #include "cy_syslib.h"
 #include "cy_device_headers.h"
 
-#ifdef CY_IP_MXTTCANFD
+#if defined (CY_IP_MXTTCANFD) || defined (CY_IP_M0S8TTCANFD)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -287,7 +293,7 @@ extern "C" {
 #define CY_CANFD_DRV_VERSION_MAJOR       1U
 
 /** Driver minor version */
-#define CY_CANFD_DRV_VERSION_MINOR       20U
+#define CY_CANFD_DRV_VERSION_MINOR       30U
 
 /** CAN FD driver ID */
 #define CY_CANFD_ID CY_PDL_DRV_ID        (0x45U)
@@ -1821,7 +1827,7 @@ __STATIC_INLINE void Cy_CANFD_EnableInterruptLine(CANFD_Type *base, uint32_t cha
 }
 #endif
 
-#endif /* CY_IP_MXTTCANFD */
+#endif /* defined (CY_IP_MXTTCANFD) || defined (CY_IP_M0S8TTCANFD) */
 
 #endif /* CY_CANFD_H */
 

@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2024-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -99,45 +99,47 @@
     <ParamRange id="lin1ClkHz" name="lin1ClkHz" group="Internal" default="`${baudRate1 * oversampleRate}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
 
     <!-- Connections -->
-    <ParamSignal port="lin_en[0]" name="LIN EN0" group="Outputs" visible="`${node1En}`" desc="LIN output signal to signal the transceiver." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
-    </ParamSignal>
-    <ParamSignal port="lin_rx[0]" name="LIN RX0" group="Inputs" visible="`${node1En}`" desc="LIN input signal Can be connected to digital input pin." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
-          <Fixed value="CY_GPIO_DM_HIGHZ" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
-    </ParamSignal>
-    <ParamSignal port="lin_tx[0]" name="LIN TX0" group="Outputs" visible="`${node1En}`" desc="Output signal for LIN. Can be connected to digital output pin." canBeEmpty="true" >
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="DEFAULT" reason="">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
-        <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
-          <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
-        </Parameter>
-      </Constraint>
-      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
-    </ParamSignal>
+    <Repeat count="2">
+      <ParamSignal port="lin_en[$idx]" name="LIN EN$idx" group="Outputs" visible="`${hasVisibleOption(&quot;lin_en[$idx]&quot;) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" desc="LIN output signal to signal the transceiver." canBeEmpty="true" >
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="DEFAULT" reason="">
+            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+      </ParamSignal>
+      <ParamSignal port="lin_rx[$idx]" name="LIN RX$idx" group="Inputs" visible="`${hasVisibleOption(&quot;lin_rx[$idx]&quot;) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" desc="LIN input signal Can be connected to digital input pin." canBeEmpty="true" >
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="DEFAULT" reason="">
+            <Fixed value="CY_GPIO_DM_HIGHZ" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+            <Fixed value="CY_GPIO_DM_HIGHZ" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+      </ParamSignal>
+      <ParamSignal port="lin_tx[$idx]" name="LIN TX$idx" group="Outputs" visible="`${hasVisibleOption(&quot;lin_tx[$idx]&quot;) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" desc="Output signal for LIN. Can be connected to digital output pin." canBeEmpty="true" >
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="DEFAULT" reason="">
+            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+          <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+          </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+      </ParamSignal>
+    </Repeat>
 
     <!-- Clock for channel 0 -->
     <ParamSignal port="clock_ch_en[0]" name="Interface Clock Ch0" group="Inputs" visible="`${node1En}`" desc="Clock input signal for LIN Channel0." canBeEmpty="true" >
@@ -218,10 +220,18 @@
     <ParamRange id="baudRate1Accuracy" name="Baud Rate Accuracy (%)" group="Node2" default="`${(abs(baudRate1 - actualbaudRate1) / baudRate1) * 100}`" min="0" max="200000000" resolution="0.001" visible="`${node2En}`" editable="false" desc="Deviation of actual baud rate from desired baud rate (does not include Clk_Peri accuracy)." />
   </Parameters>
   <DRCs>
-    <DRC type="ERROR" text="LIN TX has to be connected for node 1." condition="`${!hasConnection(&quot;lin_tx&quot;, 0) &amp;&amp; node1En}`" />
-    <DRC type="ERROR" text="LIN RX has to be connected for node 1." condition="`${!hasConnection(&quot;lin_rx&quot;, 0) &amp;&amp; node1En}`" />  
-    <DRC type="ERROR" text="Interface Clock has to be connected for node 1." condition="`${!hasConnection(&quot;clock_ch_en&quot;, 0) &amp;&amp; node1En}`" />  
-    <DRC type="ERROR" text="Interface Clock has to be connected for node 2." condition="`${!hasConnection(&quot;clock_ch_en&quot;, 1) &amp;&amp; node2En}`" />  
+    <DRC condition="`${hasVisibleOption(&quot;lin_tx[$idx]&quot;) &amp;&amp; !hasConnection(&quot;lin_tx&quot;, $idx) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" type="ERROR"
+         text="LIN TX has to be connected for node `${$idx+1}`."
+         repeatCount="2" paramId="$idx" >
+    </DRC>
+    <DRC condition="`${hasVisibleOption(&quot;lin_rx[$idx]&quot;) &amp;&amp; !hasConnection(&quot;lin_rx&quot;, $idx) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" type="ERROR"
+         text="LIN RX has to be connected for node `${$idx+1}`."
+         repeatCount="2" paramId="$idx" >
+    </DRC>
+    <DRC condition="`${hasVisibleOption(&quot;clock_ch_en[$idx]&quot;) &amp;&amp; !hasConnection(&quot;clock_ch_en&quot;, $idx) &amp;&amp; getParamValue(&quot;node&quot; . ($idx+1) . &quot;En&quot;)}`" type="ERROR"
+         text="Interface Clock has to be connected for node `${$idx+1}`."
+         repeatCount="2" paramId="$idx" >
+    </DRC>
 
     <DRC type="ERROR" text="Channel 1 is used but LIN interface mode is not enabled" condition="`${node2En &amp;&amp; !linphyIntEn}`" >
       <FixIt action="SET_PARAM" target="`${hvssBlockName}`.linPhyLinInt" value="0" valid="true" />

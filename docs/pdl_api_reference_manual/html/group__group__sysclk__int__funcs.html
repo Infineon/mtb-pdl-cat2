@@ -157,9 +157,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the interrupt status. </p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The interrupt status, see <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> :<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a> </li>
 </ul>
@@ -184,9 +184,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the logical AND of the corresponding INTR and INTR_MASK registers in a single-load operation. </p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The masked interrupt status, see <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> :<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a></li>
 </ul>
@@ -212,11 +212,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Clears the interrupt status. </p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">intrMask</td><td>The mask of interrupts to clear. Typically this is the value returned by <a class="el" href="group__group__sysclk__int__funcs.html#ga52b6eb3bd5bd8690da4b92247088f8bb">Cy_SysClk_GetInterruptStatusMasked</a> or <a class="el" href="group__group__sysclk__int__funcs.html#ga80818781dd81c3bd2236bca02793b53c">Cy_SysClk_GetInterruptStatus</a>. Alternately, select one or more values from <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> and "OR" them together.<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a></li>
 </ul>
@@ -246,11 +246,11 @@ Functions</h2></td></tr>
 
 <p>Sets the specified interrupt status. </p>
 <p>Intended mostly for debugging.</p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">intrMask</td><td>The mask of interrupts to set. Select one or more values from <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> and "OR" them together.<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a> </li>
 </ul>
@@ -278,9 +278,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the interrupt mask value. </p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The interrupt mask value, see <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> :<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a></li>
 </ul>
@@ -306,11 +306,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the specified interrupt mask value. </p>
-<dl class="section note"><dt>Note</dt><dd>This API is available only for PSOC 4500S and 4100S Max devices.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">intrMask</td><td>The mask of interrupts. Select one or more values from <a class="el" href="group__group__sysclk__int__macros.html">Interrupt Masks</a> and "OR" them together.<ul>
-<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a></li>
+<li><a class="el" href="group__group__sysclk__int__macros.html#gad87e1294a71d819a7a0ac8f5a523be60">CY_SYSCLK_INTR_PLL_LOCK</a> (Not available on PSOC4 HVPA SPM device)</li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#ga421229add66d5b7fc414fef856b2fe56">CY_SYSCLK_INTR_WD_ERR</a></li>
 <li><a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a></li>
 </ul>

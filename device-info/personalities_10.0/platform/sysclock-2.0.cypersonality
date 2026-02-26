@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2024), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2020-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -75,8 +75,10 @@
     <ConfigInstruction value="SystemCoreClockUpdate();" include="true" />
     <ConfigInstruction value="(void)Cy_SysClk_ClkPumpSetSource(CY_SYSCLK_PUMP_IN_GND);" include="true" />
 
-    <ConfigInstruction value="#ifdef CY_IP_M0S8EXCO" include="true" />
+    <ConfigInstruction value="#if (defined(CY_IP_M0S8EXCO) &amp;&amp; (CY_IP_M0S8EXCO > 0u))" include="true" />
+    <ConfigInstruction value="#if (defined(EXCO_PLL_PRESENT) &amp;&amp; (EXCO_PLL_PRESENT > 0u))" include="true" />
     <ConfigInstruction value="(void)Cy_SysClk_PllDisable(0U);" include="true" />
+    <ConfigInstruction value="#endif /* EXCO_PLL_PRESENT */" include="true" />
     <ConfigInstruction value="#endif /* CY_IP_M0S8EXCO */" include="true" />
     <ConfigInstruction value="" include="true" />
 
@@ -84,7 +86,7 @@
     <ConfigInstruction value="/* Init all source clocks */" include="true" />
     <ConfigInstruction value="Cy_SysClk_IloInit();" include="true" />
     <ConfigInstruction value="" include="true" />
-    
+
     <ConfigInstruction value="#ifdef CY_CFG_SYSCLK_PILO_ENABLED" include="true" />
     <ConfigInstruction value="Cy_SysClk_PiloInit();" include="true" />
     <ConfigInstruction value="#endif" include="true" />
@@ -94,7 +96,7 @@
     <ConfigInstruction value="Cy_SysClk_HposcInit();" include="true" />
     <ConfigInstruction value="#endif" include="true" />
     <ConfigInstruction value="" include="true" />
-    
+
     <ConfigInstruction value="#ifdef CY_CFG_SYSCLK_WCO_ENABLED" include="true" />
     <ConfigInstruction value="Cy_SysClk_WcoInit();" include="true" />
     <ConfigInstruction value="#endif" include="true" />
@@ -130,7 +132,7 @@
     <ConfigInstruction value="Cy_SysClk_ClkHfInit();" include="true" />
     <ConfigInstruction value="#endif" include="true" />
     <ConfigInstruction value="" include="true" />
-    
+
     <!-- Configure LF clock -->
     <ConfigInstruction value="#ifdef CY_CFG_SYSCLK_LFCLK_ENABLED" include="`${(isSRSSHVAvailable)}`" />
     <ConfigInstruction value="Cy_SysClk_ClkLfInit();" include="`${(isSRSSHVAvailable)}`" />

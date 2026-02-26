@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -34,17 +34,23 @@
     <MappingRules>
       <IpBlock name="m0s8pacss" />
       <Resource name="pacss\.voltage_in" />
+      <DependentResource name="hvss.vdiv"/>
     </MappingRules>
   </FittingRules>
   <ExposedMembers>
   </ExposedMembers>
   <Parameters>
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
-
-    <ParamSignal port="hvdiv0[0]"   name="vs_div0"  group="Connections" visible="true" desc="High-voltage Divider 0 (Vsense)" canBeEmpty="true" multiSelect="true" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamBool id="hvssNotUsed" name="hvssNotUsed" group="Internal" default="`${!isBlockUsed(&quot;hvss[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamSignal port="hvdiv0[0]"   name="vs_div0"  group="Connections" visible="true" desc="High-voltage Divider 0 (Vsense)" canBeEmpty="true" multiSelect="true"/>
     <ParamSignal port="hvdiv1[0]"   name="vs_div1"  group="Connections" visible="true" desc="High-voltage Divider 1 (Vdiag)" canBeEmpty="true" multiSelect="true" />
-    <ParamSignal port="vdiv_ret[0]" name="vdiv_ret" group="Connections" visible="true" desc="HV divider GND" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vdiv_ret[0]" name="vdiv_ret" group="Connections" visible="true" desc="High-voltage Divider GND" canBeEmpty="true" multiSelect="true" />
   </Parameters>
-  <DRCs/>
-  <ConfigFirmware/>
+
+  <DRCs>
+    <DRC type="ERROR" text="HVSS is not enabled." condition="`${hvssNotUsed}`">
+      <FixIt action="ENABLE_BLOCK" target="`${hvssBlockName}`" value="" valid="true" />
+    </DRC>
+  </DRCs>
 </PersonalityTemplate>

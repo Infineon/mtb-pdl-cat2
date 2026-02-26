@@ -51,6 +51,7 @@ var searchData=
   ['functions',['Functions',['../group__group__gpio__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__hvss__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__i2s__functions.html',1,'']]],
+  ['functions',['Functions',['../group__group__isouart__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__lin__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__lpcomp__functions.html',1,'']]],
   ['functions',['Functions',['../group__group__ltc__functions.html',1,'']]],

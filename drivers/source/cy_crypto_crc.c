@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_crypto_crc.c
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 *  This file provides the source code for the API for the CRC methods
@@ -8,8 +8,8 @@
 *
 *******************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *

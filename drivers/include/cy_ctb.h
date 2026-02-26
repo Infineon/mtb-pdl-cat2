@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_ctb.h
-* \version 1.0.1
+* \version 1.10
 *
 * The header file for the CTB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2017-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2017-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -130,20 +130,20 @@
 * \subsection group_ctb_dependencies_charge_pump Charge Pump Configuration
 *
 * Each opamp of the CTB has a charge pump that when enabled increases the
-* input range to the supply rails. Call the \ref Cy_CTB_SetPumpClkSource
-* function to set the clock source for all CTBs. This clock can come from one of
-* three sources:
+* input range to the supply rails. Call the \ref Cy_PASS_SetPumpClkSource
+* function to set the clock source for all CTBs and SAR ADC. This clock can 
+* come from one of three sources:
 *
 *   -# The dedicated clock from the SRSS
 *
 *      Call the following functions to configure the pump clock from the SRSS:
 *       - \ref Cy_SysClk_ClkPumpSetSource
 *
-*      \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
+*      \snippet ctb_snippet.c PASS_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
 *
 *   -# The high frequency clock
 *
-*      \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
+*      \snippet ctb_snippet.c PASS_SNIPPET_SET_CLK_PUMP_SOURCE_HF
 *
 *   -# The high frequency clock divided by 2
 *
@@ -167,6 +167,11 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td>1.10</td>
+*     <td>Added Cy_PASS_ClkPumpSetSource() to set source of pump clock for PASS block</td>
+*     <td>Defect fixes</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Update the paths to the code snippets.</td>
 *     <td>PDL structure update.</td>
@@ -187,6 +192,7 @@
 * \{
 *     \defgroup group_ctb_functions_init          Initialization Functions
 *     \defgroup group_ctb_functions_basic         Basic Configuration Functions
+*     \defgroup group_pass_functions_basic        PASS Configuration Functions
 *     \defgroup group_ctb_functions_comparator    Comparator Functions
 *     \defgroup group_ctb_functions_interrupts    Interrupt Functions
 *     \defgroup group_ctb_functions_switches      Switch Control Functions
@@ -194,6 +200,7 @@
 * \}
 * \defgroup group_ctb_data_structures Data Structures
 * \defgroup group_ctb_enums Enumerated Types
+* \defgroup group_pass_enums Enumerated Types
 */
 
 #if !defined(CY_CTB_H)
@@ -201,16 +208,58 @@
 
 #include "cy_device.h"
 
-#ifdef CY_IP_M0S8PASS4A_CTB
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+#ifdef CY_IP_M0S8PASS4A
 
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include "cy_syslib.h"
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#if (3u != CY_IP_M0S8PASS4A_VERSION)
+
+/**
+* \addtogroup group_pass_enums
+* \{
+*/
+/** PASS charge pump clock sources */
+typedef enum
+{
+    /** Use the high frequency clock divided by 2. See \ref group_sysclk_clk_hf. */
+    CY_PASS_CLK_PUMP_HF_DIV_2    = 0UL,
+
+    /** Use the high frequency clock. See \ref group_sysclk_clk_hf. */
+    CY_PASS_CLK_PUMP_HF          = 1UL,
+
+    /** Use a dedicated pump clock from SRSS \ref group_sysclk_clk_pump.
+    *   Call the \ref Cy_SysClk_ClkPumpSetSource()  to configure the pump clock.
+    */
+    CY_PASS_CLK_PUMP_SRSS        = 3UL
+}cy_en_pass_clk_pump_source_t;
+/** \} group_pass_enums */
+
+/** \cond INTERNAL */
+/**< Macros for the conditions used by CY_ASSERT calls */
+#define CY_PASS_CLKPUMP(clkPump)     (((clkPump) == CY_PASS_CLK_PUMP_HF  ) || \
+                                     ((clkPump) == CY_PASS_CLK_PUMP_SRSS ) || \
+                                     ((clkPump) == CY_PASS_CLK_PUMP_HF_DIV_2))
+/** \endcond */
+
+/**
+* \addtogroup group_pass_functions_basic
+* This function is for configuring the PUMP Clock Source in the PASS IP block.
+* \{
+*/
+void Cy_PASS_SetPumpClkSource(PASS_Type * base, cy_en_pass_clk_pump_source_t pumpClk);
+/** \} */
+
+#endif /* (3u != CY_IP_M0S8PASS4A_VERSION) */
+
+#ifdef CY_IP_M0S8PASS4A_CTB
+
 
 /** \addtogroup group_ctb_macros
 * \{
@@ -220,7 +269,7 @@ extern "C" {
 #define CY_CTB_DRV_VERSION_MAJOR            1
 
 /** Driver minor version */
-#define CY_CTB_DRV_VERSION_MINOR            0
+#define CY_CTB_DRV_VERSION_MINOR            10
 
 /** CTB driver identifier*/
 #define CY_CTB_ID                           CY_PDL_DRV_ID(0x0Bu)
@@ -869,11 +918,11 @@ __STATIC_INLINE uint32_t Cy_CTB_GetInterruptStatusMasked(const CTBM_Type * base,
 /** \} */
 /** \} group_ctb_functions */
 
+#endif /* CY_IP_M0S8PASS4A_CTB */
+#endif /* CY_IP_M0S8PASS4A */
 #if defined(__cplusplus)
 }
 #endif
-
-#endif /* CY_IP_M0S8PASS4A_CTB */
 #endif /** !defined(CY_CTB_H) */
 
 /** \} group_ctb */

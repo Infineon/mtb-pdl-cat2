@@ -2,9 +2,11 @@ var searchData=
 [
   ['neg_5faddr',['neg_addr',['../structcy__stc__sar__channel__config__t.html#aacea474742a1139ad72de4b0a42e129f',1,'cy_stc_sar_channel_config_t']]],
   ['negaddren',['negAddrEn',['../structcy__stc__sar__channel__config__t.html#a6b89a7597d5d259795c563c268fb9189',1,'cy_stc_sar_channel_config_t']]],
+  ['negativelimit',['negativeLimit',['../structcy__stc__dsadc__ocd__config__t.html#a9b85d20ebbfed8504be48e8f0004ef19',1,'cy_stc_dsadc_ocd_config_t']]],
   ['negsel',['negSel',['../structcy__stc__sar__config__t.html#a4691f394f7e8086d35dcc1d1975af345',1,'cy_stc_sar_config_t']]],
   ['negvref',['negVref',['../structcy__stc__sar__config__t.html#a413d545a2e73f4cde796ec9c12b59c0a',1,'cy_stc_sar_config_t']]],
   ['nextitm',['nextItm',['../structcy__stc__syspm__callback__t.html#a491e913ae8b54d0a61f2ac6959abf8ab',1,'cy_stc_syspm_callback_t']]],
+  ['nodeid',['nodeId',['../structcy__stc__isouart__raw__frame__t.html#ae967a2380179e4c71e86719837904f83',1,'cy_stc_isouart_raw_frame_t::nodeId()'],['../structcy__stc__isouart__node__interface__config__t.html#ad9c787955d16a0666088604f0610cb38',1,'cy_stc_isouart_node_interface_config_t::nodeId()']]],
   ['nodpsuspend',['noDpSuspend',['../structcy__pd__pd__do__t_1_1_d_p___s_t_a_t_u_s___v_d_o.html#a3fb5ee48b115c133650dc57709e06fbf',1,'cy_pd_pd_do_t::DP_STATUS_VDO']]],
   ['nonmatchingframesextended',['nonMatchingFramesExtended',['../structcy__stc__canfd__global__filter__config__t.html#a7c90e10439cb1881407990c66e521fd3',1,'cy_stc_canfd_global_filter_config_t']]],
   ['nonmatchingframesstandard',['nonMatchingFramesStandard',['../structcy__stc__canfd__global__filter__config__t.html#abbd6e30ca429e9f46a03593f3a234042',1,'cy_stc_canfd_global_filter_config_t']]],

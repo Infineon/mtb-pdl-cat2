@@ -6,9 +6,8 @@
   <series>PAG2S</series>
   <version>1.0</version>
   <description>PAG2S</description>
-  <licenseText>(c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company)\n
-    or an affiliate of Cypress Semiconductor Corporation.\n
-\n
+  <licenseText>(c) 2016-2026, Infineon Technologies AG or an affiliate of\n
+    Infineon Technologies AG.\n
     SPDX-License-Identifier: Apache-2.0\n
 \n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -611,8 +610,8 @@ Note that this field is retained. However, the counter that is used to implement
             <field>
               <name>OVER_TEMP_THRESH</name>
               <description>Over-temperature threshold.   
-0: TEMP_HIGH condition occurs between 120C and 125C.
-1: TEMP_HIGH condition occurs between 60C and 75C (used for testing).</description>
+0: TEMP_HIGH condition occurs between 110C and 145C.
+1: TEMP_HIGH condition occurs between 50C and 90C (used for testing).</description>
               <bitRange>[17:17]</bitRange>
             </field>
             <field>

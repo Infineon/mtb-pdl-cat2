@@ -1,14 +1,15 @@
 /***************************************************************************//**
-* \file cy_dsadc.c
-* \version 1.0
+* \file cy_dsadc_achan.c
+* \version 1.10
 *
 * \brief
 * Provides an API implementation of the analog channels of the Delta-Sigma ADC
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,8 +63,8 @@ extern "C" {
 static void Cy_DSADC_Achan_ConfigBuffer(PACSS_ACHAN_Type* base, const cy_stc_dsadc_achan_config_t* config)
 {
     base->BUF_CTL = (_VAL2FLD(PACSS_ACHAN_BUF_CTL_BUF_PWR_LEVELS, config->bufferPowerLevel) | \
-                     _VAL2FLD(PACSS_ACHAN_BUF_CTL_BUF_CHOP_EN, config->bufferPowerLevel) | \
-                     _VAL2FLD(PACSS_ACHAN_BUF_CTL_BUF_IDAC_EN, config->bufferPowerLevel));
+                     PACSS_ACHAN_BUF_CTL_BUF_CHOP_EN_Msk | \
+                     PACSS_ACHAN_BUF_CTL_BUF_IDAC_EN_Msk);
     /* Enable buffer */
     base->ACHAN_CTL |= PACSS_ACHAN_ACHAN_CTL_BUF_EN_Msk;
 }
@@ -95,14 +96,14 @@ static void Cy_DSADC_Achan_ConfigModulator(PACSS_ACHAN_Type* base, const cy_stc_
 
     /* Set DPATH_CTL (except overload detection) register */
     base->DPATH_CTL = (_VAL2FLD(PACSS_ACHAN_DPATH_CTL_QLEV, CY_DSADC_ACHAN_DPATH_CTL_QLEV_VALUE) | \
-                     _VAL2FLD(PACSS_ACHAN_DPATH_CTL_NONOV, config->nonOverlapDelay) | \
-                     _VAL2FLD(PACSS_ACHAN_DPATH_CTL_MX_DIN, CY_DSADC_ACHAN_DPATH_CTL_MX_DIN_VALUE) | \
-                     _VAL2FLD(PACSS_ACHAN_DPATH_CTL_MX_DOUT, CY_DSADC_ACHAN_DPATH_CTL_MX_DOUT_VALUE) | \
-                     _VAL2FLD(PACSS_ACHAN_DPATH_CTL_BUF_PGA_FCHOP, config->datapathChoppingDivider) | \
-                     PACSS_ACHAN_DPATH_CTL_BUF_PGA_CHOP_CLK_EN_Msk);
+                       _VAL2FLD(PACSS_ACHAN_DPATH_CTL_NONOV, config->nonOverlapDelay) | \
+                       _VAL2FLD(PACSS_ACHAN_DPATH_CTL_MX_DIN, CY_DSADC_ACHAN_DPATH_CTL_MX_DIN_VALUE) | \
+                       _VAL2FLD(PACSS_ACHAN_DPATH_CTL_MX_DOUT, CY_DSADC_ACHAN_DPATH_CTL_MX_DOUT_VALUE) | \
+                       _VAL2FLD(PACSS_ACHAN_DPATH_CTL_BUF_PGA_FCHOP, config->datapathChoppingDivider) | \
+                       PACSS_ACHAN_DPATH_CTL_BUF_PGA_CHOP_CLK_EN_Msk);
 
     /* Set CHOP_CTL register */
-    CY_REG32_CLR_SET(base->CHOP_CTL,PACSS_ACHAN_CHOP_CTL_CIRCUIT_CHOP,config->aafDisconnectCount);
+    CY_REG32_CLR_SET(base->CHOP_CTL, PACSS_ACHAN_CHOP_CTL_CIRCUIT_CHOP, config->aafDisconnectCount);
     if (false != config->enableSecIntegrChopping)
     {
         base->CHOP_CTL |= PACSS_ACHAN_CHOP_CTL_CIRCUIT_2ND_EN_Msk;
@@ -173,14 +174,14 @@ static void Cy_DSADC_Achan_ConfigPrmTrigger(PACSS_ACHAN_Type* base, const cy_stc
     if(CY_DSADC_ACHAN_TRIGGER_FW == config->primaryTrigger)
     {
         /* Disable HW trigger */
-        base->TR_CTL &= PACSS_ACHAN_TR_CTL_PRIM_TR_EN_Msk;
+        base->TR_CTL &= ~PACSS_ACHAN_TR_CTL_PRIM_TR_EN_Msk;
     }
     else
     {
         /* Set HW trigger */
-        base->TR_CTL = (_VAL2FLD(PACSS_ACHAN_TR_CTL_PRIM_TR_SEL, config->primaryTrigger) | \
-                        _VAL2FLD(PACSS_ACHAN_TR_CTL_SYNC_PRIM_TR, config->syncPrimaryTrigger) | \
-                        PACSS_ACHAN_TR_CTL_PRIM_TR_EN_Msk);
+        CY_REG32_CLR_SET(base->TR_CTL, PACSS_ACHAN_TR_CTL_PRIM_TR_SEL, config->primaryTrigger);
+        CY_REG32_CLR_SET(base->TR_CTL, PACSS_ACHAN_TR_CTL_SYNC_PRIM_TR, config->syncPrimaryTrigger);
+        base->TR_CTL |= PACSS_ACHAN_TR_CTL_PRIM_TR_EN_Msk;
     }
 }
 
@@ -205,19 +206,19 @@ static void Cy_DSADC_Achan_ConfigRef(PACSS_ACHAN_Type* base, const cy_stc_dsadc_
     base->REF_CTL = (_VAL2FLD(PACSS_ACHAN_REF_CTL_VREF_PWR, config->vrefPower) | \
                      _VAL2FLD(PACSS_ACHAN_REF_CTL_VCM_SEL, CY_DSADC_ACHAN_REF_CTL_VCM_SEL_VALUE) | \
                      _VAL2FLD(PACSS_ACHAN_REF_CTL_VCM_PWR, config->vcmPowerLevel));
-    base->REF_CTL &= PACSS_ACHAN_REF_CTL_VREF_QTZ_SEL_Msk;
+    base->REF_CTL &= ~PACSS_ACHAN_REF_CTL_VREF_QTZ_SEL_Msk;
     /* Set ACHAN_CTL (reference) register */
-    base->ACHAN_CTL = (PACSS_ACHAN_ACHAN_CTL_VCCA_RES_EN_Msk | \
-                       PACSS_ACHAN_ACHAN_CTL_VDDA_RES_EN_Msk | \
-                       PACSS_ACHAN_ACHAN_CTL_VCM_BUF_EN_Msk | \
-                       PACSS_ACHAN_ACHAN_CTL_REF_EN_Msk);
+    base->ACHAN_CTL |= (PACSS_ACHAN_ACHAN_CTL_VCCA_RES_EN_Msk | \
+                        PACSS_ACHAN_ACHAN_CTL_VDDA_RES_EN_Msk | \
+                        PACSS_ACHAN_ACHAN_CTL_VCM_BUF_EN_Msk | \
+                        PACSS_ACHAN_ACHAN_CTL_REF_EN_Msk);
 }
 
 /*******************************************************************************
 * Function Name: Cy_DSADC_Achan_ConfigSecTrigger
 ****************************************************************************//**
 *
-* \brief Configure the Analog Channel Reference.
+* \brief Configure the Analog Channel Secondary Trigger.
 *
 * \note Applicable to PSOC4 HVPA only.
 *
@@ -233,14 +234,14 @@ static void Cy_DSADC_Achan_ConfigSecTrigger(PACSS_ACHAN_Type* base, const cy_stc
     if(CY_DSADC_ACHAN_TRIGGER_FW == config->secondaryTrigger)
     {
         /* Disable HW trigger */
-        base->TR_CTL &= PACSS_ACHAN_TR_CTL_PEND_SEC_TR_EN_Msk;
+        base->TR_CTL &= ~PACSS_ACHAN_TR_CTL_PEND_SEC_TR_EN_Msk;
     }
     else
     {
         /* Set HW trigger */
-        base->TR_CTL = (_VAL2FLD(PACSS_ACHAN_TR_CTL_PEND_SEC_TR_SEL, config->secondaryTrigger) | \
-                        _VAL2FLD(PACSS_ACHAN_TR_CTL_SYNC_SEC_TR, config->syncSecondaryTrigger) | \
-                        PACSS_ACHAN_TR_CTL_PEND_SEC_TR_EN_Msk);
+        CY_REG32_CLR_SET(base->TR_CTL, PACSS_ACHAN_TR_CTL_PEND_SEC_TR_SEL, config->secondaryTrigger);
+        CY_REG32_CLR_SET(base->TR_CTL, PACSS_ACHAN_TR_CTL_SYNC_SEC_TR, config->syncSecondaryTrigger);
+        base->TR_CTL |= PACSS_ACHAN_TR_CTL_PEND_SEC_TR_EN_Msk;
     }
 }
 
@@ -370,10 +371,10 @@ void Cy_DSADC_InitAchan(PACSS_ACHAN_Type* base, const cy_stc_dsadc_achan_config_
                       _VAL2FLD(PACSS_ACHAN_PUMP_CTL_VNEG_PWR_MODE, CY_DSADC_ACHAN_PUMP_CTL_VNEG_PWR_MODE_VALUE));
     /* Configure reference */
     Cy_DSADC_Achan_ConfigRef(base, config);
-    /* Configure over load detection */
-    Cy_DSADC_Achan_EnOverDet(base, config);
     /* Configure modulator */
     Cy_DSADC_Achan_ConfigModulator(base, config);
+    /* Configure over load detection */
+    Cy_DSADC_Achan_EnOverDet(base, config);
     /* Configure buffer */
     Cy_DSADC_Achan_ConfigBuffer(base, config);
     /* Configure PGA */
@@ -384,7 +385,7 @@ void Cy_DSADC_InitAchan(PACSS_ACHAN_Type* base, const cy_stc_dsadc_achan_config_
 * Function Name: Cy_DSADC_PendSecondConvAchan
 ****************************************************************************//**
 *
-* \brief Enable the Analog Channel.
+* \brief Trigger pending conversion of the secondary channel.
 *
 * \note Applicable to PSOC4 HVPA only.
 *
@@ -395,7 +396,7 @@ void Cy_DSADC_InitAchan(PACSS_ACHAN_Type* base, const cy_stc_dsadc_achan_config_
 void Cy_DSADC_PendSecondConvAchan(PACSS_ACHAN_Type* base)
 {
     CY_ASSERT_L1(NULL != base);
-    /* Trigger pend conversion of secondary channel */
+    /* Trigger pending conversion of secondary channel */
     base->START |= PACSS_ACHAN_START_PEND_SEC_Msk;
 }
 
@@ -403,7 +404,7 @@ void Cy_DSADC_PendSecondConvAchan(PACSS_ACHAN_Type* base)
 * Function Name: Cy_DSADC_StartConversionAchan
 ****************************************************************************//**
 *
-* \brief Enable the Analog Channel.
+* \brief Trigger conversion start of the primary channel.
 *
 * \note Applicable to PSOC4 HVPA only.
 *
@@ -435,10 +436,10 @@ void Cy_DSADC_InitAchanChannelChopping(PACSS_ACHAN_Type* base, const cy_stc_dsad
     CY_ASSERT_L1(NULL != base);
     CY_ASSERT_L1(NULL != config);
     /* Set CHOP_CTL register */
-    base->CHOP_CTL = (_VAL2FLD(PACSS_ACHAN_CHOP_CTL_SMP_CNT, config->modbitSampleCount) | \
-                      _VAL2FLD(PACSS_ACHAN_CHOP_CTL_AAF_SHORT_R_CNT, config->aafShortCount) | \
-                      _VAL2FLD(PACSS_ACHAN_CHOP_CTL_DEC_BLANK_CNT, config->decimatorBlankCount) | \
-                      _VAL2FLD(PACSS_ACHAN_CHOP_CTL_CHOP_MODE, config->choppingType));
+    CY_REG32_CLR_SET(base->CHOP_CTL, PACSS_ACHAN_CHOP_CTL_SMP_CNT, config->modbitSampleCount);
+    CY_REG32_CLR_SET(base->CHOP_CTL, PACSS_ACHAN_CHOP_CTL_AAF_SHORT_R_CNT, config->aafShortCount);
+    CY_REG32_CLR_SET(base->CHOP_CTL, PACSS_ACHAN_CHOP_CTL_DEC_BLANK_CNT, config->decimatorBlankCount);
+    CY_REG32_CLR_SET(base->CHOP_CTL, PACSS_ACHAN_CHOP_CTL_CHOP_MODE, config->choppingType);
 }
 
 #if defined(__cplusplus)

@@ -26,7 +26,7 @@ var searchData=
   ['adcrefvddd',['adcRefVddd',['../structcy__stc__usbpd__context__t.html#a26a4a682da9deef00480a138783402b2',1,'cy_stc_usbpd_context_t']]],
   ['adcres',['adcRes',['../structcy__stc__csd__config__t.html#a2d0daac77be320ca004a77d0e95f09b7',1,'cy_stc_csd_config_t']]],
   ['adcvdddmv',['adcVdddMv',['../structcy__stc__usbpd__context__t.html#a178bc18bc68a72da9bef14c5da619bd1',1,'cy_stc_usbpd_context_t']]],
-  ['addr',['addr',['../structcy__stc__sar__channel__config__t.html#a88b297659ac0f5232102ec8b04eee323',1,'cy_stc_sar_channel_config_t']]],
+  ['addr',['addr',['../structcy__stc__isouart__raw__frame__t.html#ab023ed583d85a8c8f22cf83271ce32da',1,'cy_stc_isouart_raw_frame_t::addr()'],['../structcy__stc__sar__channel__config__t.html#a88b297659ac0f5232102ec8b04eee323',1,'cy_stc_sar_channel_config_t::addr()']]],
   ['ado_5falert',['ADO_ALERT',['../structcy__pd__pd__do__t_1_1_a_d_o___a_l_e_r_t.html',1,'cy_pd_pd_do_t::ADO_ALERT'],['../unioncy__pd__pd__do__t.html#a4e78cc3e87bd47cc596f95d8bb5ebb4e',1,'cy_pd_pd_do_t::ado_alert()']]],
   ['afc_5famp_5fstep',['AFC_AMP_STEP',['../group__group__usbpd__legacy__macros.html#gab21b3a7bd72101f0a194f3f13d13b2b3',1,'cy_usbpd_bch.h']]],
   ['afc_5fbase_5famp',['AFC_BASE_AMP',['../group__group__usbpd__legacy__macros.html#gafffe4655c1471133a62b5a803f3cc2ae',1,'cy_usbpd_bch.h']]],

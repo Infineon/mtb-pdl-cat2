@@ -18,6 +18,7 @@ var searchData=
   ['common_20functions',['Common Functions',['../group__group__dsadc__ext__common__functions.html',1,'']]],
   ['common_20enumerated_20types',['COMMON Enumerated Types',['../group__group__enum__common.html',1,'']]],
   ['current_20state',['Current State',['../group__group__i2s__macros__current__state.html',1,'']]],
+  ['common_20functions',['Common Functions',['../group__group__isouart__common__functions.html',1,'']]],
   ['channel_20configuration_20register_20enums',['Channel Configuration Register Enums',['../group__group__sar__chan__config__register__enums.html',1,'']]],
   ['control_20register_20enums',['Control Register Enums',['../group__group__sar__ctrl__register__enums.html',1,'']]],
   ['counts_20conversion_20functions',['Counts Conversion Functions',['../group__group__sar__functions__countsto.html',1,'']]],

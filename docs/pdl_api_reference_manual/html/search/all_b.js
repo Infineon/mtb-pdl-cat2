@@ -18,6 +18,7 @@ var searchData=
   ['macros',['Macros',['../group__group__gpio__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__hvss__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__i2s__macros.html',1,'']]],
+  ['macros',['Macros',['../group__group__isouart__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__lin__macro.html',1,'']]],
   ['macros',['Macros',['../group__group__lpcomp__macros.html',1,'']]],
   ['macros',['Macros',['../group__group__ltc__macros.html',1,'']]],

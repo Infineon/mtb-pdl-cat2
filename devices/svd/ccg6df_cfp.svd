@@ -6,9 +6,8 @@
   <series>CCG6DF_CFP</series>
   <version>1.0</version>
   <description>CCG6DF_CFP</description>
-  <licenseText>(c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company)\n
-    or an affiliate of Cypress Semiconductor Corporation.\n
-\n
+  <licenseText>(c) 2016-2026, Infineon Technologies AG or an affiliate of\n
+    Infineon Technologies AG.\n
     SPDX-License-Identifier: Apache-2.0\n
 \n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -2489,8 +2488,8 @@ Note: The upper value on Voh is limited to Vddio - 400mV</description>
                 <name>PORT_GPIO_DVC_VTRIP_SEL</name>
                 <description>There is no 1.2V supply range for GPIO_DVC developed for NEO
                        For GPIO_DVC:
-                vtrip_sel = 0 =&gt; CMOS mode
-                vtrip_sel = 1 =&gt; TTL mode</description>
+vtrip_sel = 0 =&gt; CMOS mode
+vtrip_sel = 1 =&gt; TTL mode</description>
                 <bitRange>[24:24]</bitRange>
               </field>
             </fields>

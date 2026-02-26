@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file pacss-ocd-1.0.cypersonality
+* \version 1.0
+*
+* \brief
+* PACSS overcurrent detection personality description file.
+*
+********************************************************************************
+* \copyright
+* (c) 2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="m0s8pacss-ocd" name="OCD" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8pacss" />
+      <Resource name="pacss\.ocd" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+    <ExposedMember key="cfgStrName" paramId="cfgStrName" />
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <!-- Internal parameters -->
+    <ParamString id="cfgStrName" name="cfgStrName" group="Internal" default="`${INST_NAME}`_config" visible="`${debug}`" editable="false" desc="" />
+    <ParamRange id="ocdInstNum" name="ocdInstNum" group="Internal" default="`${getInstNumber(&quot;ocd&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
+    <!-- General -->
+    <ParamBool id="ocdEnableNegComp" name="Enable Negative Comparator" group="General" default="false" visible="true" editable="true" desc="Enable negative comparator." />
+
+    <ParamRange id="ocdNegativeLimit" name="Negative Limit" group="General" default="0" min="0" max="32767" resolution="1" visible="`${ocdEnableNegComp}`" editable="true" desc="Selects the glitch filter counter value limit for the negative OCD. Must be a negative number in two's complement notation. If glitch filter counter = NEG_LIMIT, the OCD output will be asserted." />
+
+    <ParamBool id="ocdEnablePosComp" name="Enable Positive Comparator" group="General" default="false" visible="true" editable="true" desc="Enable positive comparator." />
+
+    <ParamRange id="ocdPositiveLimit" name="Positive Limit" group="General" default="0" min="0" max="32767" resolution="1" visible="`${ocdEnablePosComp}`" editable="true" desc="Selects the glitch filter counter value limit for the positive OCD. Must be a positive number in two's complement notation. If glitch filter counter = POS_LIMIT, the OCD output will be asserted." />
+
+    <ParamChoice id="ocdThreshold" name="OCD Threshold" group="General" default="CY_DSADC_OCD_THRESH_37_5MV" visible="true" editable="true" desc="The threshold for the overcurrent. A positive/negative violation of the threshold results in incrementing/decrementing the Glitch Filter count in every clk_ocd cycle.">
+      <Entry name="37.5 mV" value="CY_DSADC_OCD_THRESH_37_5MV" visible="true" />
+      <Entry name="40.0 mV" value="CY_DSADC_OCD_THRESH_40_0MV" visible="true" />
+      <Entry name="42.5 mV" value="CY_DSADC_OCD_THRESH_42_5MV" visible="true" />
+      <Entry name="45.0 mV" value="CY_DSADC_OCD_THRESH_45_0MV" visible="true" />
+      <Entry name="47.5 mV" value="CY_DSADC_OCD_THRESH_47_5MV" visible="true" />
+      <Entry name="50.0 mV" value="CY_DSADC_OCD_THRESH_50_0MV" visible="true" />
+      <Entry name="75.0 mV" value="CY_DSADC_OCD_THRESH_75_0MV" visible="true" />
+      <Entry name="80.0 mV" value="CY_DSADC_OCD_THRESH_80_0MV" visible="true" />
+      <Entry name="85.0 mV" value="CY_DSADC_OCD_THRESH_85_0MV" visible="true" />
+      <Entry name="90.0 mV" value="CY_DSADC_OCD_THRESH_90_0MV" visible="true" />
+      <Entry name="95.0 mV" value="CY_DSADC_OCD_THRESH_95_0MV" visible="true" />
+      <Entry name="100.0 mV" value="CY_DSADC_OCD_THRESH_100MV" visible="true" />
+      <Entry name="150.0 mV" value="CY_DSADC_OCD_THRESH_150MV" visible="true" />
+      <Entry name="160.0 mV" value="CY_DSADC_OCD_THRESH_160MV" visible="true" />
+      <Entry name="170.0 mV" value="CY_DSADC_OCD_THRESH_170MV" visible="true" />
+      <Entry name="180.0 mV" value="CY_DSADC_OCD_THRESH_180MV" visible="true" />
+      <Entry name="190.0 mV" value="CY_DSADC_OCD_THRESH_190MV" visible="true" />
+      <Entry name="200.0 mV" value="CY_DSADC_OCD_THRESH_200MV" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="ocdClkDiv" name="Clock Divider" group="General" default="CY_DSADC_OCD_CLOCK_DIVIDER_2" visible="true" editable="true" desc="Uses the dsm clock (clk_dsm) to create OCD clock using the following formula: Fclk_ocd = Fclk_dsm / Clock Divider." >
+      <Entry name="2" value="CY_DSADC_OCD_CLOCK_DIVIDER_2" visible="true" />
+      <Entry name="4" value="CY_DSADC_OCD_CLOCK_DIVIDER_4" visible="true" />
+      <Entry name="6" value="CY_DSADC_OCD_CLOCK_DIVIDER_6" visible="true" />
+      <Entry name="8" value="CY_DSADC_OCD_CLOCK_DIVIDER_8" visible="true" />
+      <Entry name="10" value="CY_DSADC_OCD_CLOCK_DIVIDER_10" visible="true" />
+      <Entry name="12" value="CY_DSADC_OCD_CLOCK_DIVIDER_12" visible="true" />
+      <Entry name="14" value="CY_DSADC_OCD_CLOCK_DIVIDER_14" visible="true" />
+      <Entry name="16" value="CY_DSADC_OCD_CLOCK_DIVIDER_16" visible="true" />
+      <Entry name="18" value="CY_DSADC_OCD_CLOCK_DIVIDER_18" visible="true" />
+      <Entry name="20" value="CY_DSADC_OCD_CLOCK_DIVIDER_20" visible="true" />
+      <Entry name="22" value="CY_DSADC_OCD_CLOCK_DIVIDER_22" visible="true" />
+      <Entry name="24" value="CY_DSADC_OCD_CLOCK_DIVIDER_24" visible="true" />
+      <Entry name="26" value="CY_DSADC_OCD_CLOCK_DIVIDER_26" visible="true" />
+      <Entry name="28" value="CY_DSADC_OCD_CLOCK_DIVIDER_28" visible="true" />
+      <Entry name="30" value="CY_DSADC_OCD_CLOCK_DIVIDER_30" visible="true" />
+      <Entry name="32" value="CY_DSADC_OCD_CLOCK_DIVIDER_32" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="ocdClkEdge" name="Clock Edge" group="General" default="CY_DSADC_CLOCK_EDGE_NEGATIVE" visible="true" editable="true" desc="Select positive or negative clock edge." >
+      <Entry name="Negative Clock Edge" value="CY_DSADC_CLOCK_EDGE_NEGATIVE" visible="true" />
+      <Entry name="Positive Clock Edge" value="CY_DSADC_CLOCK_EDGE_POSITIVE" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="ocdGlitchFilterMode" name="Glitch Filter Mode" group="General" default="CY_DSADC_GLITCH_FILTER_MODE_CONTINUOUS" visible="true" editable="true" desc="For both modes, the Glitch Filter counts up/down if the OCD threshold is violated in the positive/negative direction. The mode difference exists when the OCD threshold is NOT violated. Continuous: The count resets to 0 if the OCD threshold is NOT violated. Up and Down: The count decrements/increments towards 0 if the OCD threshold is NOT violated and the count value is a positive/negative number." >
+      <Entry name="Continuous" value="CY_DSADC_GLITCH_FILTER_MODE_CONTINUOUS" visible="true" />
+      <Entry name="Up and Down" value="CY_DSADC_GLITCH_FILTER_MODE_UPDOWN" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="ocdIOPolarity" name="IO Polarity of OCD output" group="General" default="CY_DSADC_IO_POLARITY_LOW" visible="true" editable="true" desc="Selects the assertion polarity of the GPIO OCD output." >
+      <Entry name="Assert Low" value="CY_DSADC_IO_POLARITY_LOW" visible="true" />
+      <Entry name="Assert High" value="CY_DSADC_IO_POLARITY_HIGH" visible="true" />
+    </ParamChoice>
+
+    <ParamChoice id="ocdOutputMode" name="OCD Output Mode" group="General" default="CY_DSADC_OCD_OUTPUT_MODE_DEFAULT" visible="`${1 != ocdInstNum}`" editable="true" desc="Selects the condition at which OCD0 asserts the output to GPIO. Default: Asserts when an OCD0 event occurs. OCD0 AND OCD1: Asserts when both events occur. OCD0 OR OCD1: Asserts when either event occurs." >
+      <Entry name="Default" value="CY_DSADC_OCD_OUTPUT_MODE_DEFAULT" visible="true" />
+      <Entry name="OCD0 AND OCD1" value="CY_DSADC_OCD_OUTPUT_MODE_AND" visible="true" />
+      <Entry name="OCD0 OR OCD1" value="CY_DSADC_OCD_OUTPUT_MODE_OR" visible="true" />
+    </ParamChoice>
+    <!-- Signals -->
+    <ParamSignal port="ocd_out[0]" name="OCD Output" group="Connections" visible="true" desc="Determines the GPIO pin on which the OCD output asserts if the Glitch Filter count exceeds the positive/negative limits." canBeEmpty="true" >
+        <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
+            <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
+                <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+            </Parameter>
+        </Constraint>
+        <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamSignal port="tr_ocd[0]" name="Trigger Output" group="Connections" visible="true" desc="Sets up the trigger output for OCD output assertion." canBeEmpty="true" />
+
+  </Parameters>
+  <DRCs/>
+
+  <!-- Generated firmware -->
+  <ConfigFirmware>
+    <ConfigInclude value="cy_dsadc.h" include="true" />
+
+    <ConfigStruct name="`${cfgStrName}`" type="cy_stc_dsadc_ocd_config_t" const="false" public="true" include="true"  >
+      <Member name="negativeLimit" value="`${ocdNegativeLimit}`" />
+      <Member name="positiveLimit" value="`${ocdPositiveLimit}`" />
+      <Member name="ocdThreshold" value="`${ocdThreshold}`" />
+      <Member name="clockDivision" value="`${ocdClkDiv}`" />
+      <Member name="clockEdge" value="`${ocdClkEdge}`" />
+      <Member name="glitchFilterMode" value="`${ocdGlitchFilterMode}`" />
+      <Member name="ioPolarity" value="`${ocdIOPolarity}`" />
+      <Member name="enableNegativeComparator" value="`${ocdEnableNegComp}`" />
+      <Member name="enablePositiveComparator" value="`${ocdEnablePosComp}`" />
+    </ConfigStruct>
+    <ConfigInstruction value="Cy_DSADC_OcdSetOutputMode(PACSS_MMIO, `${ocdOutputMode}`);" include="`${1 != ocdInstNum}`" purpose="INITIALIZE" />
+  </ConfigFirmware>
+</PersonalityTemplate>

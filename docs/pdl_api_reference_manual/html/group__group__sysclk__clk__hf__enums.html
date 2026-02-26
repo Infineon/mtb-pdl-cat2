@@ -136,7 +136,9 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a1d3267050409929b2d5d03398d55aa93"></a>CY_SYSCLK_CLKHF_IN_EXTCLK&#160;</td><td class="fielddoc"><p>EXTCLK - External Clock Pin. </p>
 <p>Note that there may be HW collisions with the ECO connection (if supported) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a645544438f8fcf88242d1fda034b3dd2"></a>CY_SYSCLK_CLKHF_IN_EXCO&#160;</td><td class="fielddoc"><p>EXCO block output, ECO or PLL, use <a class="el" href="group__group__sysclk__pll__funcs.html#ga0606938498facb002409c69b60ac2317">Cy_SysClk_PllBypass</a> to select between them. </p>
+<tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125a645544438f8fcf88242d1fda034b3dd2"></a>CY_SYSCLK_CLKHF_IN_EXCO&#160;</td><td class="fielddoc"><p>EXCO block output, normally ECO or PLL (use <a class="el" href="group__group__sysclk__pll__funcs.html#ga0606938498facb002409c69b60ac2317">Cy_SysClk_PllBypass</a> to select between them). </p>
+<p>As part of the Clock Supervisor (CSV) failover strategy, when a fault is detected, the EXCO block output will be automatically switched to IMO and the <a class="el" href="group__group__sysclk__int__macros.html#gadf0bb4b81379cbc675adfeb264735bf8">CY_SYSCLK_INTR_SW_IMO</a> interrupt will be generated. <br />
+</p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga8eb50d7b30cd3bddaad51c73e0da3125ab40af8e6cc1bbfafbd20dfdb25807677"></a>CY_SYSCLK_CLKHF_IN_HPOSC&#160;</td><td class="fielddoc"><p>HPOSC - High Precision Oscillator. </p>
 </td></tr>

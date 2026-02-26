@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -42,11 +42,29 @@
   <Parameters>
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <!-- Internal -->
     <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
-
+    <ParamRange id="pacssClkMHzDiv16bit" name="pacssClkMHzDiv16bit" group="Internal" default="3000000" min="0" max="400000000" resolution="1" visible="`${debug}`" editable="false" desc="pacssClkMHzDiv16bit" />
+    <ParamRange id="pacssClkMHzDiv16_5bit" name="pacssClkMHzDiv16_5bit" group="Internal" default="3072000" min="0" max="400000000" resolution="1" visible="`${debug}`" editable="false" desc="pacssClkMHzDiv16_5bit" />
+    <!-- Connections -->
     <ParamSignal name="Clock" port="clock_dsm[0]" group="Connections" visible="true" desc="Clock that operates this block" canBeEmpty="false">
-      <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="true" >
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Clock frequency does not match desired `${pacssClkMHzDiv16bit / 1000000.0}`MHz." >
+          <Fixed
+            value="`${((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16bit) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16bit) >= 0.5) ? ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16bit) : floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16bit)}`" />
+        </Parameter>
       </Constraint>
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_(16.5|24.5).*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Update integer divider. Clock frequency does not match desired `${pacssClkMHzDiv16_5bit / 1000000.0}`MHz." >
+          <Fixed
+            value="`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / cast(float, pacssClkMHzDiv16_5bit))}`" />
+        </Parameter>
+        <Parameter id="fracDivider" severity="ERROR" reason="Update fractional divider. Clock frequency does not match desired `${pacssClkMHzDiv16_5bit / 1000000.0}`MHz." >
+          <Fixed
+            value="`${((((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit)) * 32.0) - floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit)) * 32.0) >= 0.5) ? ceil(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit)) * 32.0) : floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / pacssClkMHzDiv16_5bit)) * 32.0)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
     </ParamSignal>
 
     <ParamString id="pclk" name="pclk" group="Internal" default="`${getBlockFromSignal(&quot;clock_dsm[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />

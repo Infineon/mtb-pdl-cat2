@@ -5,6 +5,7 @@ var searchData=
   ['hvss_20general_20parameters',['HVSS general parameters',['../group__group__hvss__general__macros.html',1,'']]],
   ['hv_20regulator_20status',['HV regulator status',['../group__group__hvss__hvreg__status__macros.html',1,'']]],
   ['hvss_20interrupts',['HVSS interrupts',['../group__group__hvss__lin__interrupt__macros.html',1,'']]],
+  ['host_20functions',['Host Functions',['../group__group__isouart__host__functions.html',1,'']]],
   ['high_2dlevel',['High-Level',['../group__group__scb__spi__high__level__functions.html',1,'']]],
   ['high_2dlevel',['High-Level',['../group__group__scb__uart__high__level__functions.html',1,'']]],
   ['high_2dfrequency_20clock',['High-Frequency Clock',['../group__group__sysclk__clk__hf.html',1,'']]],

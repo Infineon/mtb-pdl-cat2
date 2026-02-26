@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.19.1
+# mtb-pdl-cat2 peripheral driver library v2.20.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -6,9 +6,36 @@ for a complete description of the Peripheral driver library.
 
 ## What's included?
 
-## New Features
-- Added support for PSOC 4100T Plus 256KB device family.
-- Added new MPNs for PSOC 4100T Plus and PSOC 4000T device families.
+### New Features
+- Added support for new PSOC&trade; 4 HVPA SPM 1.0 device family.
+- Added new drivers for the PSOC&trade; 4 HVPA SPM 1.0 devices.
+Please refer to the [New drivers](#new-drivers) section below for details.
+- Updated the CANFD driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform configuration.
+- Updated the Crypto driver with improved error handling in Cy_Crypto_Sha_Partial function.
+- Updated the SysFault driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform support.
+- Updated the SysClk driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform configuration.
+- Updated the SAR driver with enhanced EXPMUX functionality.
+- Updated the DSADC driver with OCD feature support for PSOC&trade; 4 HVPA SPM 1.0 devices.
+- Updated the CTB driver with new function for PSOC&trade; 4 devices.
+
+### Updated drivers
+- [CANFD 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
+- [Crypto 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__crypto.html)
+- [SysFault 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysfault.html)
+- [SysClk 3.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [SAR 2.80](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
+- [DSADC 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dsadc.html)
+- [CTB 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ctb.html)
+
+### New drivers
+- [ISOUART 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__isouart.html)
+
+### Updated personalities
+- The SAR personality for PSOC&trade; 4 HVMS Platform improved to clarify functionality of "Boost Pump" field.
+- The ILO clock diagram for PSOC™ 4 HVMS/PA Platform improved to display accurate clock tolerance specification.
+- Enabled multiple personalities on PSOC&trade; 4 HVPA SPM 1.0 device family: SysClocks, ECO, DSADC, CANFD, LIN.
+- Added new personalities for PSOC&trade; 4 HVPA SPM 1.0 device family: ISOUART, OCD.
+- The sysanalog personality for PSOC&trade; 4 Platform improved to choose clock source of the Pump.
 
 ## Defect fixes
 
@@ -20,9 +47,9 @@ This version of PDL was validated for compatibility with the following software 
 
 | Software and tools                                                            | Version      |
 | :---                                                                          | :----        |
-| ModusToolbox&trade;                                                           |  3.6.0       |
-| [core library](https://github.com/Infineon/core-lib)                          |  1.6.0       |
-| [device-db](https://github.com/Infineon/device-db)                            |  4.34.0      |
+| ModusToolbox&trade;                                                           |  3.7.0       |
+| [Infineon Core Library](https://github.com/Infineon/core-lib)                 |  1.7.0       |
+| [Device Database](https://github.com/Infineon/device-db)                      |  4.35.0      |
 | CMSIS-Core(M)                                                                 |  6.1.0       |
 | GCC compiler                                                                  |  14.2.1      |
 | IAR compiler                                                                  |  9.50.2      |
@@ -46,7 +73,7 @@ This version of PDL was validated for compatibility with the following software 
 
 - [PMG1 device family](https://www.infineon.com/cms/en/product/universal-serial-bus-usb-power-delivery-controller/usb-c-and-power-delivery/ez-pd-pmg1-portfolio-high-voltage-mcus-usb-c-power-delivery/?utm_source=cypress&utm_medium=referral&utm_campaign=202110_globe_en_all_integration-product_families)
 
-- [CCGxF_CFP device family](https://www.infineon.com/cms/en/product/universal-serial-bus/usb-c-power-delivery-controllers)
+- [CCGxF_CFP device family](https://www.infineon.com/products/universal-serial-bus/usb-c-power-delivery-controllers)
 
 ---
-© 2020-2025, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© Infineon Technologies AG or an affiliate of Infineon Technologies AG, 2020-2026.

@@ -11,8 +11,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2024), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2024-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -48,7 +48,7 @@
     <ParamRange id="channels" name="channels" group="Internal" default="`${lookupExpression(&quot;SAR.SAR_CHANNELS&quot;)}`" min="1" max="24" resolution="1" visible="`${debug}`" editable="false" desc="" />
     <ParamBool id="chan16" name="chan16" desc="" group="Internal" default="`${channels eq 16}`" visible="`${debug}`" editable="false" />
     <ParamBool id="chan24" name="chan24" desc="" group="Internal" default="`${channels eq 24}`" visible="`${debug}`" editable="false" />
-    
+
     <ParamString id="diagmuxBlkName" name="Diag mux block name" group="Internal" default="`${&quot;pass[0].sarmux[0].diagmux[0]&quot;}`" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="diagmuxBlkNameConstraint" name="Diag mux block name constraint" group="Internal" default="`${&quot;pass\\[\\d+\\]\\.sarmux\\[\\d+\\]\\.diagmux\\[\\d+\\]\\&quot;}`" visible="`${debug}`" editable="false" desc="" />
     <ParamBool id="isDiagMuxEnabled" name="Is Diagmux Enabled" group="Internal" default="`${isBlockUsed(diagmuxBlkName)}`" visible="false" editable="false" desc="" />
@@ -56,7 +56,7 @@
     <!-- Internal : HF clock query info -->
     <ParamBool id="isHFClkEnabled" name="Is Power Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].clock[0].hfclk[0]&quot;)}`" visible="false" editable="false" desc="" />
     <ParamRange id="hfClkFreqHz" name="sourceFrequency" group="Internal" default="`${isHFClkEnabled ? getExposedMember(&quot;srss[0].clock[0].hfclk[0]&quot;, &quot;frequency&quot;) : 1}`" min="0" max="400000000" resolution="1" visible="false" editable="false" desc="" />
-    <ParamBool id="isSysAnalogEnabled" name="isSysAnalogEnabled" group="Internal" default="`${isBlockUsed(&quot;pass[&quot; . passInst . &quot;]&quot;)}`" visible="`${debug}`"  editable="false" desc="" />    
+    <ParamBool id="isSysAnalogEnabled" name="isSysAnalogEnabled" group="Internal" default="`${isBlockUsed(&quot;pass[&quot; . passInst . &quot;]&quot;)}`" visible="`${debug}`"  editable="false" desc="" />
     <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="Internal" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
     <ParamRange id="vdda" name="vdda" group="Internal" default="`${isPowerEnabled ? getExposedMember(&quot;srss[0].power[0]&quot;, &quot;vddaMv&quot;) : 3600}`" min="0" max="10000" resolution="1" visible="`${debug}`" editable="false" desc="" />
     <ParamRange id="vddaV" name="vddaV" group="Internal" default="`${vdda / 1000.0}`" min="0" max="10" resolution="0.001" visible="`${debug}`" editable="false" desc="" />
@@ -74,13 +74,14 @@
     <ParamString id="clkFreqMinMHz" name="clkFreqMin" group="General" default="1.0" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="clkFreqMaxMHz" name="clkFreqMax" group="General" default="`${vref_select eq CY_SAR_VREF_SEL_VDDA ? 9.0 : (vref_byp_cap || isVrefExternal)  ? 18.0 : 1.6}`" visible="`${debug}`" editable="false" desc="" />
     <ParamRange id="vref_voltage" name="External Vref Voltage (V)" group="General" default="1.2" min="0.85" max="`${vddaV}`" resolution="0.001" visible="`${isVrefExternal}`" editable="true" desc="Enter the value of external Vref voltage in volts" />
-    <ParamRange id="vref_voltage_mv" name="vref_voltage_mv" group="Internal" default="`${(vref_select eq CY_SAR_VREF_SEL_VDDA) ? vdda : 
-                                                                                        ((vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2) || (vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2_BYP)) ? vdda / 2 : 
+    <ParamRange id="vref_voltage_mv" name="vref_voltage_mv" group="Internal" default="`${(vref_select eq CY_SAR_VREF_SEL_VDDA) ? vdda :
+                                                                                        ((vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2) || (vref_select eq CY_SAR_VREF_SEL_VDDA_DIV_2_BYP)) ? vdda / 2 :
                                                                                         ((vref_select eq CY_SAR_VREF_SEL_BGR) || (vref_select eq CY_SAR_VREF_SEL_BGR_BYP)) ? 1200 : vref_voltage * 1000}`" min="0" max="`${vdda}`" resolution="1" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="vref_voltage_display" name="Vref Voltage (V)" group="General" default="`${vref_voltage_mv / 1000.0}`" visible="`${!isVrefExternal}`" editable="false" desc="Value of the internal Vref voltage in volts" />
     <ParamRange id="num_channels" name="Number of Channels" group="General" default="2" min="1" max="`${channels}`" resolution="1" visible="true" editable="true" desc="Number of channels to scan" />
     <ParamBool id="inj_en" name="Injection Channel" group="General" default="false" visible="true" editable="true" desc="The injection channel usage" />
-    <ParamBool id="boostPump" name="Boost Pump" group="General" default="false" visible="true" editable="true" desc="Enables both the charge pump for SARMUX switches and the SAR internal boost pump" />
+    <ParamBool id="hasCTB" name="hasCTB" group="Internal" default="`${hasBlock(&quot;pass[&quot; . passInst . &quot;].ctb[0].oa[0]&quot;)}`" visible="false" editable="false" desc="Check whether device has CTBs" />
+    <ParamBool id="boostPump" name="Boost Pump" group="General" default="false" visible="true" editable="true" desc="`${hasCTB ? &quot;Enables both the charge pump for SARMUX switches and the SAR internal boost pump.&quot; : &quot;Enables the charge pump for SARMUX switches.&quot;}`" />
     <ParamSignal name="Clock" port="clock_sar[0]" group="Connections" visible="true" desc="Clock that operates this block" canBeEmpty="false">
       <Constraint type="REQUIRE" targetLocation="peri\[\d+\]\.div_.*" valid="true" >
         <Parameter id="intDivider" severity="ERROR" reason="Clock frequency is '`${getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) / 1000000}`MHz', but must be within the range `${clkFreqMinMHz}`MHz-`${clkFreqMaxMHz}`MHz for proper SAR operation.">
@@ -317,17 +318,17 @@
         <ParamBool id="ch$idx_n_port_ded" name="ch$idx_n_port_ded" group="Channel $idx" default="`${ch$idx_n_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
         <ParamRange id="ch$idx_n_pin_num" name="ch$idx_n_pin_num" group="Channel $idx" default="`${((ch$idx_n_pin ne &quot;unknown&quot;) &amp;&amp; ch$idx_n_port_ded) ? ch$idx_n_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
         <ParamString id="ch$idx_n_oa" name="ch$idx_n_oa" group="Channel $idx" default="`${ch$idx_n_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;ch$idx_n_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
-        <ParamBool id="ch$idx_isPairOk" name="ch$idx_isPairOk" group="Channel $idx" default="`${(ch$idx_p_port_ded &amp;&amp; 
+        <ParamBool id="ch$idx_isPairOk" name="ch$idx_isPairOk" group="Channel $idx" default="`${(ch$idx_p_port_ded &amp;&amp;
                                                                                                  ch$idx_n_port_ded &amp;&amp;
                                                                                                  (((ch$idx_p_pin_num eq 0) &amp;&amp; (ch$idx_n_pin_num eq 1)) ||
                                                                                                   ((ch$idx_p_pin_num eq 2) &amp;&amp; (ch$idx_n_pin_num eq 3)) ||
                                                                                                   ((ch$idx_p_pin_num eq 4) &amp;&amp; (ch$idx_n_pin_num eq 5)) ||
                                                                                                   ((ch$idx_p_pin_num eq 6) &amp;&amp; (ch$idx_n_pin_num eq 7)))) ||
-                                                                                                 (ch$idx_p_blockTypeCtb &amp;&amp; 
-                                                                                                  ch$idx_n_blockTypeCtb &amp;&amp; 
-                                                                                                  (ch$idx_p_oa eq 0) &amp;&amp; 
-                                                                                                  (ch$idx_n_oa eq 1)) || 
-                                                                                                 (ch$idx_p_block eq &quot;&quot;) || 
+                                                                                                 (ch$idx_p_blockTypeCtb &amp;&amp;
+                                                                                                  ch$idx_n_blockTypeCtb &amp;&amp;
+                                                                                                  (ch$idx_p_oa eq 0) &amp;&amp;
+                                                                                                  (ch$idx_n_oa eq 1)) ||
+                                                                                                 (ch$idx_p_block eq &quot;&quot;) ||
                                                                                                  (ch$idx_n_block eq &quot;&quot;)}`" visible="`${debug}`" editable="false" desc="" />
     </Repeat>
     <!-- injection channel -->
@@ -355,18 +356,18 @@
     <ParamBool id="inj_n_port_ded" name="inj_n_port_ded" group="Injection Channel" default="`${inj_n_port_num eq dedPort}`" visible="`${debug}`" editable="false" desc="" />
     <ParamRange id="inj_n_pin_num" name="inj_n_pin_num" group="Injection Channel" default="`${((inj_n_pin ne &quot;unknown&quot;) &amp;&amp; inj_n_port_ded) ? inj_n_pin : 8}`" min="0" max="8" resolution="1" visible="`${debug}`" editable="false" desc="" />
     <ParamString id="inj_n_oa" name="inj_n_oa" group="Injection Channel" default="`${inj_n_blockTypeCtb ? getInstFromLocation(getParamValue(&quot;inj_n_block&quot;), &quot;oa&quot;) : &quot;unknown&quot;}`" visible="`${debug}`" editable="false" desc="" />
-                                                                                            
-    <ParamBool id="inj_isPairOk" name="inj_isPairOk" group="Injection Channel" default="`${(inj_p_port_ded &amp;&amp; 
+
+    <ParamBool id="inj_isPairOk" name="inj_isPairOk" group="Injection Channel" default="`${(inj_p_port_ded &amp;&amp;
                                                                                             inj_n_port_ded &amp;&amp;
                                                                                          (((inj_p_pin_num eq 0) &amp;&amp; (inj_n_pin_num eq 1)) ||
                                                                                           ((inj_p_pin_num eq 2) &amp;&amp; (inj_n_pin_num eq 3)) ||
                                                                                           ((inj_p_pin_num eq 4) &amp;&amp; (inj_n_pin_num eq 5)) ||
                                                                                           ((inj_p_pin_num eq 6) &amp;&amp; (inj_n_pin_num eq 7)))) ||
-                                                                                           (inj_p_blockTypeCtb &amp;&amp; 
-                                                                                            inj_n_blockTypeCtb &amp;&amp; 
-                                                                                           (inj_p_oa eq 0) &amp;&amp; 
-                                                                                           (inj_n_oa eq 1)) || 
-                                                                                           (inj_p_block eq &quot;&quot;) || 
+                                                                                           (inj_p_blockTypeCtb &amp;&amp;
+                                                                                            inj_n_blockTypeCtb &amp;&amp;
+                                                                                           (inj_p_oa eq 0) &amp;&amp;
+                                                                                           (inj_n_oa eq 1)) ||
+                                                                                           (inj_p_block eq &quot;&quot;) ||
                                                                                            (inj_n_block eq &quot;&quot;)}`" visible="`${debug}`" editable="false" desc="" />
     <!-- Advanced -->
     <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
@@ -391,12 +392,12 @@
                                                                                                                                                                     (avg_cnt eq CY_SAR_AVG_CNT_8) ||
                                                                                                                                                                     (avg_cnt eq CY_SAR_AVG_CNT_16))}`" paramId="interleaved_avg_cnt"/>
     <DRC type="WARNING" text="Noise and offset can cause unsigned results to underflow (wrap-around to +ve full scale) when Vneg is set to Vssa or External." condition="`${!se_format &amp;&amp; vneg_select ne CY_SAR_NEG_SEL_VREF}`" />
-    <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vref_select eq &quot;CY_SAR_VREF_SEL_VDDA&quot;) || 
+    <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vref_select eq &quot;CY_SAR_VREF_SEL_VDDA&quot;) ||
                                                                                         (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2_BYP&quot;) ||
                                                                                         (vref_select eq &quot;CY_SAR_VREF_SEL_VDDA_DIV_2&quot;)) &amp;&amp; !isPowerEnabled}`" >
       <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="" valid="true" />
     </DRC>
-    <DRC type="ERROR" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${boostPump &amp;&amp; !isSysAnalogEnabled}`" >
+    <DRC type="ERROR" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${(boostPump &amp;&amp; !isSysAnalogEnabled) &amp;&amp; hasCTB}`" >
       <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passInst . &quot;]&quot;}`" value="" valid="true" />
     </DRC>
     <DRC type="ERROR" text="The SAR ADC reference voltage must be higher than 0.85 V" condition="`${!isVrefExternal &amp;&amp; (vref_voltage_mv &lt; 850)}`" />
@@ -533,7 +534,7 @@
                                     (chan24 ? (ch22_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_22_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
                                     (chan24 ? (ch23_en ? &quot;&amp;&quot; . INST_NAME . &quot;_channel_23_config, &quot; : &quot;NULL, &quot;) : &quot;&quot;) .
                                               (inj_en  ? &quot;&amp;&quot; . INST_NAME . &quot;_inj_channel_config&quot;  : &quot;NULL&quot;)}`}" />
-                                                                                            
+
       <Member name="routingConfig" value="NULL" />
       <Member name="vrefMvValue" value="`${INST_NAME}`_VREF_MV"/>
     </ConfigStruct>

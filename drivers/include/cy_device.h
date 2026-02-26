@@ -7,8 +7,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2018-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -1003,6 +1003,47 @@ typedef struct {
 #define LIN_ERROR_CTL(base)                     (((LIN_Type *)(base))->ERROR_CTL)
 #define LIN_TEST_CTL(base)                      (((LIN_Type *)(base))->TEST_CTL)
 #endif /* CY_IP_MXLIN */
+
+/*******************************************************************************
+*                ISOUART
+*******************************************************************************/
+#if defined (CY_IP_M0S8ISOUART)
+#if defined (CY_DEVICE_PSOC4HVPAPPM)
+/* PORT 4 (AUX) */
+/* AuxIFLL */
+#define AUXIFLL_PORT                    (GPIO_PRT4)
+#define AUXIFLL_PIN                     (0u)
+#define AUXIFLL_NUM                     (0u)
+#define AUXIFLL_AMUXSEGMENT             (AMUXBUS_AMUXBUS_A)
+#define AUXIFLL_GPIO                    ((en_hsiom_sel_t)(0u))       /* SW controlled GPIO. */
+#define AUXIFLL_AMUXA                   ((en_hsiom_sel_t)(6u))       /* AMUXBUS A connection. */
+#define AUXIFLL_AMUXB                   ((en_hsiom_sel_t)(7u))       /* AMUXBUS B connection. */
+/* AuxIFLH */
+#define AUXIFLH_PORT                    (GPIO_PRT4)
+#define AUXIFLH_PIN                     (1u)
+#define AUXIFLH_NUM                     (1u)
+#define AUXIFLH_AMUXSEGMENT             (AMUXBUS_AMUXBUS_A)
+#define AUXIFLH_GPIO                    ((en_hsiom_sel_t)(0u))       /* SW controlled GPIO. */
+#define AUXIFLH_AMUXA                   ((en_hsiom_sel_t)(6u))       /* AMUXBUS A connection. */
+#define AUXIFLH_AMUXB                   ((en_hsiom_sel_t)(7u))       /* AMUXBUS B connection. */
+/* AuxIFHL */
+#define AUXIFHL_PORT                    (GPIO_PRT4)
+#define AUXIFHL_PIN                     (2u)
+#define AUXIFHL_NUM                     (2u)
+#define AUXIFHL_AMUXSEGMENT             (AMUXBUS_AMUXBUS_A)
+#define AUXIFHL_GPIO                    ((en_hsiom_sel_t)(0u))       /* SW controlled GPIO. */
+#define AUXIFHL_AMUXA                   ((en_hsiom_sel_t)(6u))       /* AMUXBUS A connection. */
+#define AUXIFHL_AMUXB                   ((en_hsiom_sel_t)(7u))       /* AMUXBUS B connection. */
+/* AuxIFHH */
+#define AUXIFHH_PORT                    (GPIO_PRT4)
+#define AUXIFHH_PIN                     (3u)
+#define AUXIFHH_NUM                     (3u)
+#define AUXIFHH_AMUXSEGMENT             (AMUXBUS_AMUXBUS_A)
+#define AUXIFHH_GPIO                    ((en_hsiom_sel_t)(0u))        /* SW controlled GPIO. */
+#define AUXIFHH_AMUXA                   ((en_hsiom_sel_t)(6u))        /* AMUXBUS A connection. */
+#define AUXIFHH_AMUXB                   ((en_hsiom_sel_t)(7u))        /* AMUXBUS B connection. */
+#endif /* CY_DEVICE_PSOC4HVPAPPM */
+#endif /* CY_IP_M0S8ISOUART */
 
 #endif /* CY_DEVICE_H_ */
 

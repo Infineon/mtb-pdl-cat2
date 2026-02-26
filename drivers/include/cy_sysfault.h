@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_sysfault.h
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * Provides an API declaration of the SysFault driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2024-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2024-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -73,9 +73,8 @@
 * \warning The ROM boot uses fault structure #0 (FAULT_STRUCT0) to detect potential
 * fault sources during boot.
 * It sets up fault masks to detect not correctable ECC errors for SRAM and flash.
-* If fault report structure #0 is used to capture faults and is configured to trigger a reset,
-* use the weak Cy_BootStatus() function and \ref Cy_SysLib_GetBootStatus()
-* ~~should be used~~ to handle Boot-Up Status.
+* If fault report structure #0 is used to capture faults and configured to trigger a reset,
+* use the weak Cy_BootStatus() function and \ref Cy_SysLib_GetBootStatus() to handle Boot-Up Status.
 * Applicable to PSOC4 HVMS/PA only.
 *
 * \section group_sysfault_configuration Configuration Considerations
@@ -98,6 +97,12 @@
 * \section group_sysfault_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.20</td>
+*     <td>Added support of PSOC4 HVPA SPM 1.0 device.
+*         Added ISOUART_FAULT_ECC member to \ref cy_en_sysfault_source_t.</td>
+*     <td>New device support.</td>
+*   </tr>
 *   <tr>
 *     <td>1.10</td>
 *     <td> Added the \ref Cy_SysFault_SetFaultSource and \ref Cy_SysFault_SetFaultData functions.</td>
@@ -143,7 +148,7 @@ extern "C" {
 #define CY_SYSFAULT_DRV_VERSION_MAJOR    1
 
 /** Driver minor version */
-#define CY_SYSFAULT_DRV_VERSION_MINOR    10
+#define CY_SYSFAULT_DRV_VERSION_MINOR    20
 
 /** Driver ID */
 #define CY_SYSFAULT_ID CY_PDL_DRV_ID     (0x76U)
@@ -157,16 +162,10 @@ extern "C" {
 /* The macro to validate parameters in the Cy_SysFault_GetPendingFault() function */
 #define CY_SYSFAULT_IS_FAULT_SET_VALID(pendingFault)  ((pendingFault) == CY_SYSFAULT_SET0)
 
-#if defined(CY_DEVICE_PSOC4HVMS128K) || defined(CY_DEVICE_PSOC4HVMS64K) || defined(CY_DEVICE_PSOC4HV144K)
-    #define CY_SYSFAULT_NO_FAULT ((uint32_t)HVSS_FAULT_PWR + 1UL)
-#elif defined(CY_DEVICE_PAG2S)
-    #define CY_SYSFAULT_NO_FAULT ((uint32_t)SRSS_FAULT_CRWDT + 1UL)
-#endif
-
 #define cy_en_sysfault_source_t     en_sysfault_source_t
 
 /* The macro to validate the Fault source */
-#define CY_SYSFAULT_IS_FAULT_SOURCE_VALID(faultSource)  ((uint32_t)(faultSource) < CY_SYSFAULT_NO_FAULT)
+#define CY_SYSFAULT_IS_FAULT_SOURCE_VALID(faultSource)  ((uint32_t)(faultSource) < (uint32_t)CY_SYSFAULT_NO_FAULT)
 
 /** \endcond */
 
@@ -212,7 +211,7 @@ typedef enum
 
 #if defined(CY_DOXYGEN)
 /**
-* SysFault sources for PSOC 4 HVPA 144K Family of devices.
+* SysFault sources for PSOC 4 HVMS/PA Family of devices.
 * \note For other devices, see the Table of Fault source assignment in the device Datasheet.
 */
 typedef enum
@@ -227,6 +226,7 @@ typedef enum
     CPUSS_FAULT_FLASHC1_BUS_ERR     = 9U,  /**< Flash controller 1 Bus Error */
     SRSS_FAULT_CRWDT                = 10U, /**< Fault output for CRWDT */
     HVSS_FAULT_PWR                  = 11U, /**< Fault output for HVREG */
+    ISOUART_FAULT_ECC               = 12U, /**< ISOUART correctable ECC violation */
 } cy_en_sysfault_source_t;
 
 #endif

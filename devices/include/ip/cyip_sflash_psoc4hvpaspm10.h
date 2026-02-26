@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +20,8 @@
 * limitations under the License.
 *******************************************************************************/
 
-#ifndef _CYIP_SFLASH_128X4_H_
-#define _CYIP_SFLASH_128X4_H_
+#ifndef _CYIP_SFLASH_PSOC4HVPASPM10_H_
+#define _CYIP_SFLASH_PSOC4HVPASPM10_H_
 
 #include "cyip_headers.h"
 
@@ -30,14 +29,15 @@
 *                                    SFLASH
 *******************************************************************************/
 
-#define SFLASH_SECTION_SIZE                     0x00000400UL
+#define SFLASH_SECTION_SIZE                     0x00000800UL
 
 /**
   * \brief Supervisory Flash Area (Infineon Trim & Wounding Info) (SFLASH)
   */
 typedef struct {
   __IOM uint16_t SILICON_ID;                    /*!< 0x00000000 Silicon ID */
-   __IM uint16_t RESERVED[8];
+  __IOM uint8_t  SWD_CONFIG;                    /*!< 0x00000002 SWD pinout selector */
+   __IM uint8_t  RESERVED[15];
   __IOM uint16_t DPSLP_KEY_DELAY;               /*!< 0x00000012 DeepSleep wakeup value for PWR_KEY_DELAY */
   __IOM uint32_t SWD_LISTEN;                    /*!< 0x00000014 Listen Window Length */
   __IOM uint32_t FLASH_START;                   /*!< 0x00000018 Flash Image Start Address */
@@ -79,15 +79,15 @@ typedef struct {
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A2;      /*!< 0x00000374 Alternate temperature calibration data polynomial a2 */
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A1;      /*!< 0x00000376 Alternate temperature calibration data polynomial a1 */
   __IOM uint16_t PACSS_DIAG_TEMP_A_CAL_A0;      /*!< 0x00000378 Alternate temperature calibration data polynomial a0 */
-   __IM uint16_t RESERVED5;
-  __IOM uint16_t SAR_TEMP_MULTIPLIER;           /*!< 0x0000037C SAR Temperature Sensor Multiplication Factor */
-  __IOM uint16_t SAR_TEMP_OFFSET;               /*!< 0x0000037E SAR Temperature Sensor Offset */
-} SFLASH_Type;                                  /*!< Size = 896 (0x380) */
+} SFLASH_Type;                                  /*!< Size = 890 (0x37A) */
 
 
 /* SFLASH.SILICON_ID */
 #define SFLASH_SILICON_ID_SI_ID_Pos             0UL
 #define SFLASH_SILICON_ID_SI_ID_Msk             0xFFFFUL
+/* SFLASH.SWD_CONFIG */
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Pos        0UL
+#define SFLASH_SWD_CONFIG_SWD_SELECT_Msk        0x1UL
 /* SFLASH.DPSLP_KEY_DELAY */
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Pos 0UL
 #define SFLASH_DPSLP_KEY_DELAY_WAKEUP_HOLDOFF_Msk 0x3FFUL
@@ -222,15 +222,9 @@ typedef struct {
 /* SFLASH.PACSS_DIAG_TEMP_A_CAL_A0 */
 #define SFLASH_PACSS_DIAG_TEMP_A_CAL_A0_A0_Pos  0UL
 #define SFLASH_PACSS_DIAG_TEMP_A_CAL_A0_A0_Msk  0xFFFFUL
-/* SFLASH.SAR_TEMP_MULTIPLIER */
-#define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Pos 0UL
-#define SFLASH_SAR_TEMP_MULTIPLIER_TEMP_MULTIPLIER_Msk 0xFFFFUL
-/* SFLASH.SAR_TEMP_OFFSET */
-#define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Pos  0UL
-#define SFLASH_SAR_TEMP_OFFSET_TEMP_OFFSET_Msk  0xFFFFUL
 
 
-#endif /* _CYIP_SFLASH_128X4_H_ */
+#endif /* _CYIP_SFLASH_PSOC4HVPASPM10_H_ */
 
 
 /* [] END OF FILE */

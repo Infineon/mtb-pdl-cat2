@@ -21,6 +21,7 @@ var group__group__sysfault__enums =
       [ "CPUSS_FAULT_FLASHC1_NC_ECC", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25a1b6936e50982123d593c6559ef658c41", null ],
       [ "CPUSS_FAULT_FLASHC1_BUS_ERR", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25a98700e14e7dccfa8aed5615658d33e5c", null ],
       [ "SRSS_FAULT_CRWDT", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25ab0816958a47822d566d40ae7c6f325c6", null ],
-      [ "HVSS_FAULT_PWR", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25a4c0ff32db99be8f2c21ea9512f1427c3", null ]
+      [ "HVSS_FAULT_PWR", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25a4c0ff32db99be8f2c21ea9512f1427c3", null ],
+      [ "ISOUART_FAULT_ECC", "group__group__sysfault__enums.html#ggaecab0433ebc69ea2436086724f5d1e25ae083d18b53d08499aeb22e41840f9086", null ]
     ] ]
 ];

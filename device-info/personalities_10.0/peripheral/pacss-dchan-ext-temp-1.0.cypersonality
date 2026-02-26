@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -122,7 +122,7 @@
       <ParamSignal name="Negative Pin" port="vminus[0]"  group="General" visible="true" desc="Negative Pin Select." multiSelect="false" canBeEmpty="false" >
         <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
           <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
-            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+            <Fixed value="CY_GPIO_DM_OD_DRIVESLOW_IN_OFF" />
           </Parameter>
           <Parameter id="initialState" severity="DEFAULT" reason="">
             <Fixed value="0" />
@@ -133,7 +133,7 @@
       <ParamSignal name="Supply Pin" port="vtemp_sup[0]"  group="General" visible="true" desc="Temperature sensor supply Pin Select" multiSelect="false" canBeEmpty="true" >
         <Constraint type="ACCEPT" targetLocation="ioss\[\d+\]\.port\[\d+\]\.pin.*" valid="true" >
           <Parameter id="DriveModes" severity="INFO" reason="The pin Drive Mode parameter does not match expected.">
-            <Fixed value="CY_GPIO_DM_STRONG_IN_OFF" />
+            <Fixed value="CY_GPIO_DM_OD_DRIVESHIGH_IN_OFF" />
           </Parameter>
           <Parameter id="initialState" severity="DEFAULT" reason="">
             <Fixed value="1" />
@@ -141,8 +141,7 @@
         </Constraint>
       </ParamSignal>
 
-
-      <ParamChoice id="aafMode" name="AAF Mode" group="General" default="`${isCurrent ? ENABLE : (isVoltage || isExtTemp) ? SHORT_ON_SELECT : isIntTemp ? BYPASS : &quot;&quot; }`" visible="true" editable="true" desc="Bypassed: Bypass the Anti-Aliasing Filter. Enable: The AAF will be used continually. Enable and Auto Short: The AAF will be shorted and pre-charged during the channel selection delay. The expectation is that his will decrease the required settling time." >
+      <ParamChoice id="aafMode" name="AAF Mode" group="General" default="`${isCurrent ? ENABLE : (isVoltage || isExtTemp) ? SHORT_ON_SELECT : isIntTemp ? BYPASS : &quot;&quot; }`" visible="true" editable="true" desc="Bypassed: Bypass the Anti-Aliasing Filter. Enable: The AAF will be used continually. Enable and Auto Short: The AAF will be shorted and pre-charged during the channel selection delay. This is expected to decrease the required settling time." >
         <Entry name="Bypassed"              value="BYPASS"          visible="true" />
         <Entry name="Enable"                value="ENABLE"          visible="true" />
         <Entry name="Enable and Auto Short" value="SHORT_ON_SELECT" visible="true" />
@@ -269,12 +268,12 @@
       <ParamRange id="rrShiftRDef" name="rrShiftRDef" group="Gain Control" default="`${ceil(log10(9)/log10(2) + shiftL + sincMode * log10(decRatio1)/log10(2) + log10(movingAvgU)/log10(2) - decShiftR + 2.0 * log10(decRatio2)/log10(2)) - 32.0}`" min="-15.0" max="15.0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="" />
       <ParamRange id="rrShiftR" name="Rate Reducer Right Shift" group="Gain Control" default="`${rrShiftRDef &gt;= 0 ? rrShiftRDef : 0}`" min="0.0" max="15.0" resolution="1" visible="true" editable="false" desc="The maximum data path of the sinc2 rate reducer filter is 42-bits. This shift register is used to align the resolution down to 32-bits, otherwise the MSB bits will be truncated." />
 
-      <ParamRange id="DP_BW" name="DP_BW" group="Gain Control" default="`${log10(9)/log10(2) + shiftL + sincMode * log10(decRatio2) / log10(2) - decShiftR - rrShiftR}`" min="-1000000" max="1000000" resolution="0.00000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
+      <ParamRange id="DP_BW" name="DP_BW" group="Gain Control" default="`${log10(9)/log10(2) + shiftL + sincMode * log10(decRatio2) / log10(2) - decShiftR - rrShiftR}`" min="-1000000" max="1000000" resolution="0.00000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. The value for the amount of the right shift for the input of the post processor (output of the FIR filter)." />
       <ParamRange id="firSum" name="FIR_SUM" group="Gain Control" default="`${firCoef0 + firCoef1 + firCoef2 + firCoef3 + firCoef4 + firCoef5 + firCoef6 + firCoef7 + firCoef8 + firCoef9 + firCoef10 + firCoef11 + firCoef12 + firCoef13 + firCoef14 + firCoef15 + firCoef16 + firCoef17 + firCoef18 + firCoef19 + firCoef20 + firCoef21 + firCoef22 + firCoef23 + firCoef24 + firCoef25 + firCoef26 + firCoef27 + firCoef28 + firCoef29 + firCoef30 + firCoef31 + firCoef32 + firCoef33 + firCoef34 + firCoef35 + firCoef36 + firCoef37 + firCoef38 + firCoef39 + firCoef40 + firCoef41 + firCoef42 + firCoef43 + firCoef44 + firCoef45 + firCoef46 + firCoef47 + firCoef48 + firCoef49 + firCoef50 + firCoef51 + firCoef52 + firCoef53 + firCoef54 + firCoef55 + firCoef56 + firCoef57 + firCoef58 + firCoef59 + firCoef60 + firCoef61 + firCoef62 + firCoef63}`" min="-1" max="1" resolution="0.000000000001" visible="`${debug}`" editable="false" desc="" />
-      <ParamRange id="FIR_DP_ADJ" name="FIR_DP_ADJ" group="Gain Control" default="`${log10(firSum)/log10(2)}`" min="-15" max="0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
-      <ParamRange id="ppShiftR" name="Post Processor Right Shift" group="Gain Control" default="`${(DP_BW + FIR_DP_ADJ - 32) &gt;= 0 ? (DP_BW + FIR_DP_ADJ - 32) : 0}`" min="0" max="15" resolution="1" visible="`${!enableAGC &amp;&amp; enFIR}`" editable="false" desc="Value for the amount of right shift for the input of the post processor (output of the FIR filter)." />
+      <ParamRange id="FIR_DP_ADJ" name="FIR_DP_ADJ" group="Gain Control" default="`${log10(firSum)/log10(2)}`" min="-15" max="0" resolution="0.000000001" visible="`${debug}`" editable="false" desc="Post Processor Right Shift. The value for the amount of the right shift for the input of the post processor (output of the FIR filter)." />
+      <ParamRange id="ppShiftR" name="Post Processor Right Shift" group="Gain Control" default="`${(DP_BW + FIR_DP_ADJ - 32) &gt;= 0 ? (DP_BW + FIR_DP_ADJ - 32) : 0}`" min="0" max="15" resolution="1" visible="`${!enableAGC &amp;&amp; enFIR}`" editable="false" desc="The value for the amount of the right shift for the input of the post processor (output of the FIR filter)." />
 
-      <ParamRange id="maxCnt" name="Max Count" group="Gain Control" default="`${(4 * movingAvgU) * pow(2, (shiftL + (sincMode * (log10(decRatio1) / log10(2))) - decShiftR + 2 * (log10(decRatio2) / log10(2)) - rrShiftR))}`" min="-2147483648" max="2147483647" resolution="1" visible="`${!enableAGC}`" editable="false" desc="The maximum output value. It can be used to convert counts to volt." />
+      <ParamRange id="maxCnt" name="Max Count" group="Gain Control" default="`${(4 * movingAvgU) * pow(2, (shiftL + (sincMode * (log10(decRatio1) / log10(2))) - decShiftR + 2 * (log10(decRatio2) / log10(2)) - rrShiftR))}`" min="1048576" max="1207959552" resolution="1" visible="`${!enableAGC}`" editable="false" desc="The maximum output value. It can be used to convert counts to volt." />
       <ParamRange id="lsbV" name="LSB [V]" group="Gain Control" default="`${vref_voltage_mv / (pgaGain * modulatorGain * maxCnt)}`" min="-2147483648" max="2147483647" resolution="0.000000001" visible="`${!enableAGC}`" editable="false" desc="Least Significant Bit." />
     <!-- End Gain Control group -->
 
@@ -291,7 +290,6 @@
       <ParamBool id="achan0NotUsed" name="achan0NotUsed" group="Internal" default="`${!isBlockUsed(pacssAchanBlockName . &quot;[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
       <ParamBool id="achan1NotUsed" name="achan1NotUsed" group="Internal" default="`${!isBlockUsed(pacssAchanBlockName . &quot;[1]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
       <ParamBool id="agcNotUsed" name="agcNotUsed" group="Internal" default="`${!isBlockUsed(&quot;pacss[0].agc[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
-      <ParamBool id="hvssNotUsed" name="hvssNotUsed" group="Internal" default="`${!isBlockUsed(&quot;hvss[0]&quot;)}`" visible="`${debug}`" editable="false" desc="" />
 
       <ParamRange id="pacssInst" name="pacssInst" group="Internal" default="`${getInstNumber(&quot;pacss&quot;)}`" min="0" max="1" resolution="1" visible="`${debug}`" editable="false" desc="" />
       <ParamString id="pHWName" name="pHWName" group="Internal" default="PACSS" visible="`${debug}`" editable="false" desc="HW name of PACSS instance." />
@@ -318,11 +316,6 @@
     <DRC type="ERROR" text="Enable the Power resource and specify Vdda." condition="`${((vrefh eq &quot;VDDA_DIV_4&quot;) ||
                                                                                         (vrefh eq &quot;VDDA_DIV_3&quot;)) &amp;&amp; !isPowerEnabled}`" >
       <FixIt action="ENABLE_BLOCK" target="`${&quot;srss[0].power[0]&quot;}`" value="" valid="true" />
-    </DRC>
-
-    <!-- Check hvss -->
-    <DRC type="ERROR" text="HVSS is not enabled." condition="`${hvssNotUsed}`" repeatCount="2" >
-      <FixIt action="ENABLE_BLOCK" target="`${&quot;hvss[0]&quot;}`" value="" valid="true" />
     </DRC>
   </DRCs>
 

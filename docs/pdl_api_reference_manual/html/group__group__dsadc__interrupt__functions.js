@@ -13,5 +13,11 @@ var group__group__dsadc__interrupt__functions =
     [ "Cy_DSADC_AgcSetInterrupt", "group__group__dsadc__interrupt__functions.html#gae008d49e3cd7cf151a1c20e09ce03660", null ],
     [ "Cy_DSADC_AgcGetInterruptMask", "group__group__dsadc__interrupt__functions.html#gaa7c4c6b2b30f9ee1a0d12ac44b1afe16", null ],
     [ "Cy_DSADC_AgcSetInterruptMask", "group__group__dsadc__interrupt__functions.html#ga7c5dd320d240ddb6a0d7ab5d50f7500f", null ],
-    [ "Cy_DSADC_AgcGetInterruptStatusMasked", "group__group__dsadc__interrupt__functions.html#gadb575816b59de5a69c6c955f84fc3a60", null ]
+    [ "Cy_DSADC_AgcGetInterruptStatusMasked", "group__group__dsadc__interrupt__functions.html#gadb575816b59de5a69c6c955f84fc3a60", null ],
+    [ "Cy_DSADC_OcdClearInterrupt", "group__group__dsadc__interrupt__functions.html#ga31a98bc5c94db0fc18a76648e41e1c9f", null ],
+    [ "Cy_DSADC_OcdGetInterruptStatus", "group__group__dsadc__interrupt__functions.html#gaead06ad69e008773c0495fe4766c60dd", null ],
+    [ "Cy_DSADC_OcdSetInterrupt", "group__group__dsadc__interrupt__functions.html#ga0dd9259be2661661c4b13ecfe8cc65eb", null ],
+    [ "Cy_DSADC_OcdGetInterruptMask", "group__group__dsadc__interrupt__functions.html#gad98cf6de393fab821f560edb77752113", null ],
+    [ "Cy_DSADC_OcdSetInterruptMask", "group__group__dsadc__interrupt__functions.html#ga3ee445e728b4cac35eb7b8d42fd19a0c", null ],
+    [ "Cy_DSADC_OcdGetInterruptStatusMasked", "group__group__dsadc__interrupt__functions.html#gafa8b5af0680bb0d27aa1a664b6388fe0", null ]
 ];

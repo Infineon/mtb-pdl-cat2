@@ -100,6 +100,8 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__ctb__enums"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__ctb__enums.html">Enumerated Types</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__pass__enums"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__pass__enums.html">Enumerated Types</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>This driver provides API functions to configure and use the analog CTB. </p>
@@ -154,15 +156,15 @@ Configuration Dependencies</h1>
 <p>The CTB relies on other blocks to function properly. The dependencies are documented here.</p>
 <h2><a class="anchor" id="group_ctb_dependencies_charge_pump"></a>
 Charge Pump Configuration</h2>
-<p>Each opamp of the CTB has a charge pump that when enabled increases the input range to the supply rails. Call the <a class="el" href="group__group__ctb__functions__basic.html#gacb1d59f73f0fe67283d0c9d9efa6c306">Cy_CTB_SetPumpClkSource</a> function to set the clock source for all CTBs. This clock can come from one of three sources:</p>
+<p>Each opamp of the CTB has a charge pump that when enabled increases the input range to the supply rails. Call the <a class="el" href="group__group__pass__functions__basic.html#ga9c18b9209065caf47094820c3af1f12d">Cy_PASS_SetPumpClkSource</a> function to set the clock source for all CTBs and SAR ADC. This clock can come from one of three sources:</p>
 <ol type="1">
 <li><p class="startli">The dedicated clock from the SRSS</p>
 <p class="startli">Call the following functions to configure the pump clock from the SRSS:</p><ul>
 <li><a class="el" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a></li>
 </ul>
-<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Use a 24 MHz clock from the SRSS for the charge pump clock. */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Set the source to IMO, which has been configured for 24 MHz. */</span></div><div class="line">    <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa0bd4bea7985e39c3793fd5f97214c926">CY_SYSCLK_PUMP_IN_IMO</a>);</div><div class="line"></div><div class="line">    <span class="comment">/* Select the source for the pump clock to be from the SRSS. */</span></div><div class="line">    <a class="code" href="group__group__ctb__functions__basic.html#gacb1d59f73f0fe67283d0c9d9efa6c306">Cy_CTB_SetPumpClkSource</a>(CTBM0, <a class="code" href="group__group__ctb__enums.html#ggab17cdf969bc01f75e31685058296f747a328fdf373b541780577a1512901ea537">CY_CTB_CLK_PUMP_SRSS</a>);</div></div><!-- fragment --></li>
+<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Use a 24 MHz clock from the SRSS for the charge pump clock. */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Set the source to IMO, which has been configured for 24 MHz. */</span></div><div class="line">    <a class="code" href="group__group__sysclk__clk__pump__funcs.html#ga899f54af16d24fc645a1ffeda0d8b6fb">Cy_SysClk_ClkPumpSetSource</a>(<a class="code" href="group__group__sysclk__clk__pump__enums.html#gga1ab93436379bf71f7c61bfc2f4ee28efa0bd4bea7985e39c3793fd5f97214c926">CY_SYSCLK_PUMP_IN_IMO</a>);</div><div class="line"></div><div class="line">    <span class="comment">/* Select the source for the pump clock to be from the SRSS. */</span></div><div class="line">    <a class="code" href="group__group__pass__functions__basic.html#ga9c18b9209065caf47094820c3af1f12d">Cy_PASS_SetPumpClkSource</a>(PASS0, <a class="code" href="group__group__pass__enums.html#ggaa263efc8c057d80b4917160aa6689d54a1e6d0083e088784869fd700f1a61f84f">CY_PASS_CLK_PUMP_SRSS</a>);</div></div><!-- fragment --></li>
 <li><p class="startli">The high frequency clock</p>
-<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Use a 24 MHz clock from the High frequency clock for the charge pump clock. */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Select the source for the pump clock to be the High frequency clock. */</span></div><div class="line">    <a class="code" href="group__group__ctb__functions__basic.html#gacb1d59f73f0fe67283d0c9d9efa6c306">Cy_CTB_SetPumpClkSource</a>(CTBM0, <a class="code" href="group__group__ctb__enums.html#ggab17cdf969bc01f75e31685058296f747a462045cf261bf27f6dcc0f2b4a726e86">CY_CTB_CLK_PUMP_HF</a>);</div></div><!-- fragment --></li>
+<div class="fragment"><div class="line">    <span class="comment">/* Scenario: Use a 24 MHz clock from the High frequency clock for the charge pump clock. */</span></div><div class="line"></div><div class="line">    <span class="comment">/* Select the source for the pump clock to be the High frequency clock. */</span></div><div class="line">    <a class="code" href="group__group__pass__functions__basic.html#ga9c18b9209065caf47094820c3af1f12d">Cy_PASS_SetPumpClkSource</a>(PASS0, <a class="code" href="group__group__pass__enums.html#ggaa263efc8c057d80b4917160aa6689d54a8fe38530f51e9a0079d8a9ceba08c8bd">CY_PASS_CLK_PUMP_HF</a>);</div></div><!-- fragment --></li>
 <li>The high frequency clock divided by 2</li>
 </ol>
 <dl class="section note"><dt>Note</dt><dd>The same pump clock is used by all opamps on the device. Be aware of this when configuring different opamps to different power levels.</dd></dl>
@@ -178,6 +180,8 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td>1.10 </td><td>Added Cy_PASS_ClkPumpSetSource() to set source of pump clock for PASS block </td><td>Defect fixes  </td></tr>
 <tr>
 <td>1.0.1 </td><td>Update the paths to the code snippets. </td><td>PDL structure update.  </td></tr>
 <tr>

@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -290,11 +289,12 @@ typedef enum
     CPUSS_FAULT_FLASHC_NC_ECC       = 0x0005u,
     CPUSS_FAULT_FLASHC_BUS_ERR      = 0x0006u,
     SRSS_FAULT_CRWDT                = 0x000Au,
-    HVSS_FAULT_PWR                  = 0x000Bu
+    HVSS_FAULT_PWR                  = 0x000Bu,
+    CY_SYSFAULT_NO_FAULT            = 0x000Cu
 } en_sysfault_source_t;
 
 /* Include IP definitions */
-#include "ip/cyip_sflash_128X4.h"
+#include "ip/cyip_sflash_psoc4hvms64k.h"
 #include "ip/cyip_peri.h"
 #include "ip/cyip_hsiom.h"
 #include "ip/cyip_srsshv.h"
@@ -1372,6 +1372,8 @@ typedef enum
 #define SFLASH_HAS_OCD                  0u
 /* Does this product include SAR (m0s8sar) ? */
 #define SFLASH_HAS_SAR                  1u
+/* Does this product include PACSSv2 and CMC (m0s8pacss_ver2 and m0s8cmc) ? */
+#define SFLASH_HAS_PACSSV2              0u
 /* SRSSHV will use the NOESD version when set to 1 */
 #define SRSSHV_SRSSHV_NOESD             0u
 /* Number of bits from WDT_MATCH that are ignore in comparison */

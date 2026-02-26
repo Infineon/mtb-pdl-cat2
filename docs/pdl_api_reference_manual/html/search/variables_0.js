@@ -24,7 +24,7 @@ var searchData=
   ['adcrefvddd',['adcRefVddd',['../structcy__stc__usbpd__context__t.html#a26a4a682da9deef00480a138783402b2',1,'cy_stc_usbpd_context_t']]],
   ['adcres',['adcRes',['../structcy__stc__csd__config__t.html#a2d0daac77be320ca004a77d0e95f09b7',1,'cy_stc_csd_config_t']]],
   ['adcvdddmv',['adcVdddMv',['../structcy__stc__usbpd__context__t.html#a178bc18bc68a72da9bef14c5da619bd1',1,'cy_stc_usbpd_context_t']]],
-  ['addr',['addr',['../structcy__stc__sar__channel__config__t.html#a88b297659ac0f5232102ec8b04eee323',1,'cy_stc_sar_channel_config_t']]],
+  ['addr',['addr',['../structcy__stc__isouart__raw__frame__t.html#ab023ed583d85a8c8f22cf83271ce32da',1,'cy_stc_isouart_raw_frame_t::addr()'],['../structcy__stc__sar__channel__config__t.html#a88b297659ac0f5232102ec8b04eee323',1,'cy_stc_sar_channel_config_t::addr()']]],
   ['ado_5falert',['ado_alert',['../unioncy__pd__pd__do__t.html#a4e78cc3e87bd47cc596f95d8bb5ebb4e',1,'cy_pd_pd_do_t']]],
   ['afcsrccapcnt',['afcSrcCapCnt',['../structcy__stc__legacy__charging__cfg__t.html#a7752afda67c05759431c7ee9c5102a93',1,'cy_stc_legacy_charging_cfg_t']]],
   ['afcsrccaps',['afcSrcCaps',['../structcy__stc__legacy__charging__cfg__t.html#a4192d304cd34cc627646f25e676ec653',1,'cy_stc_legacy_charging_cfg_t']]],

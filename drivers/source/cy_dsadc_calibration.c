@@ -1,14 +1,15 @@
 /***************************************************************************//**
 * \file cy_dsadc_calibration.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API implementation of the calibrations for the Delta-Sigma ADC driver
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,10 +48,10 @@ extern "C" {
 #define CY_DSADC_TEMPERATURE_TO_REDUCTION_FORMAT        (CY_DSADC_TEMPERATURE_FRACTION_BITS - \
                                                         CY_DSADC_TEMPERATURE_FRACTION_BITS_REDUCTION)
 /* Max temperature in fixed point */
-#define CY_DSADC_MAX_TEMPERATURE_IN_FP                  (int32_t)((uint32_t)CY_DSADC_MAX_TEMPERATURE << \
-                                                        CY_DSADC_TEMPERATURE_FRACTION_BITS)
+#define CY_DSADC_MAX_TEMPERATURE_IN_FP                  ((int32_t)(uint32_t)((uint32_t)CY_DSADC_MAX_TEMPERATURE << \
+                                                        CY_DSADC_TEMPERATURE_FRACTION_BITS))
 /* Min temperature in fixed point */
-#define CY_DSADC_MIN_TEMPERATURE_IN_FP                  (-1 * (int32_t)((uint32_t)CY_DSADC_MIN_TEMPERATURE_ABS << \
+#define CY_DSADC_MIN_TEMPERATURE_IN_FP                  (-1 * (int32_t)(uint32_t)((uint32_t)CY_DSADC_MIN_TEMPERATURE_ABS << \
                                                         CY_DSADC_TEMPERATURE_FRACTION_BITS))
 /* Fixed point fraction bit number of (1 / fixed temperature range)
 * -1 is for preventing overflow at max temperature.
@@ -154,8 +155,6 @@ static int32_t Cy_DSADC_CalibCalcCorrection(int32_t minValue,
 *******************************************************************************/
 static int32_t Cy_DSADC_CalibCalcCorrectionWithFixRange(int32_t minValue, int32_t maxValue, int32_t temperature)
 {
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 8, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     /* Saturate if given temperature over the range. */
     int32_t saturateTemp = (temperature > CY_DSADC_MAX_TEMPERATURE_IN_FP) ? CY_DSADC_MAX_TEMPERATURE_IN_FP : \
                            (temperature < CY_DSADC_MIN_TEMPERATURE_IN_FP) ? CY_DSADC_MIN_TEMPERATURE_IN_FP : \
@@ -168,8 +167,8 @@ static int32_t Cy_DSADC_CalibCalcCorrectionWithFixRange(int32_t minValue, int32_
     uint32_t diffAbs = (uint32_t)(diff < 0 ? -diff : diff);
     int32_t sign = (diff < 0) ? -1 : 1;
     /* Calculate temperature div range */
+    CY_MISRA_DEVIATE_LINE('MISRA C-2012 Rule 10.8', 'Casting float32_t to uint32_t will not result in overflow.');
     uint32_t tempDivByRange = deltaTempFromBase * CY_DSADC_1_DIV_BY_TEMP_RANGE_IN_FP;
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
     /* To prevent overflow, shift right with round. The result will be in uint16_t range. */
     tempDivByRange = (tempDivByRange + (1UL << (CY_DSADC_RIGHT_SHIFT_TO_LIMIT_16BITS - 1U))) >> \
                      CY_DSADC_RIGHT_SHIFT_TO_LIMIT_16BITS;
@@ -349,8 +348,6 @@ static void Cy_DSADC_CalibCalcAchan0_2TempTrim(uint16_t* gcor,
                                                int32_t temperature)
 {
     const uint32_t regIndex = (uint32_t)gain << 1U;
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 2, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     /* Get gain and offset trim values */
     const int16_t offsetHot = CY_DSADC_GET_INT16(SFLASH_PACSS_CHAN0_2TEMP_TRIM_OFFSETADJ, \
                                                  SFLASH->PACSS_CHAN0_2TEMP_TRIM[regIndex + 1U]);
@@ -360,7 +357,6 @@ static void Cy_DSADC_CalibCalcAchan0_2TempTrim(uint16_t* gcor,
                                                   SFLASH->PACSS_CHAN0_2TEMP_TRIM[regIndex]);
     const uint16_t gainCold = CY_DSADC_GET_UINT16(SFLASH_PACSS_CHAN0_2TEMP_TRIM_GAINADJ, \
                                                   SFLASH->PACSS_CHAN0_2TEMP_TRIM[regIndex]);
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
 
     const int32_t offset32 = Cy_DSADC_CalibCalcCorrectionWithFixRange((int32_t)offsetCold, (int32_t)offsetHot, temperature);
     const int32_t gain32 = Cy_DSADC_CalibCalcCorrectionWithFixRange((int32_t)gainCold, (int32_t)gainHot, temperature);
@@ -400,8 +396,6 @@ static void Cy_DSADC_CalibCalcAchan1_2TempTrim(uint16_t* gcor,
                                                int32_t temperature)
 {
     const uint32_t regIndex = (uint32_t)gain << 1U;
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 2, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     /* Get gain and offset trim values */
     const int16_t offsetHot = CY_DSADC_GET_INT16(SFLASH_PACSS_CHAN1_2TEMP_TRIM_OFFSETADJ, \
                                                  SFLASH->PACSS_CHAN1_2TEMP_TRIM[regIndex + 1U]);
@@ -411,7 +405,6 @@ static void Cy_DSADC_CalibCalcAchan1_2TempTrim(uint16_t* gcor,
                                                   SFLASH->PACSS_CHAN1_2TEMP_TRIM[regIndex]);
     const uint16_t gainCold = CY_DSADC_GET_UINT16(SFLASH_PACSS_CHAN1_2TEMP_TRIM_GAINADJ, \
                                                   SFLASH->PACSS_CHAN1_2TEMP_TRIM[regIndex]);
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
 
     const int32_t offset32 = Cy_DSADC_CalibCalcCorrectionWithFixRange((int32_t)offsetCold, (int32_t)offsetHot, temperature);
     const int32_t gain32 = Cy_DSADC_CalibCalcCorrectionWithFixRange((int32_t)gainCold, (int32_t)gainHot, temperature);
@@ -449,8 +442,6 @@ static void Cy_DSADC_CalibCalcAchan1_3TempTrim(uint16_t* gcor,
                                                cy_en_dsadc_achan_3temp_trim_divider_type_t divider,
                                                int32_t temperature)
 {
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 9, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     /* Saturate if given temperature over the range. */
     int32_t saturateTemp = (temperature > CY_DSADC_MAX_TEMPERATURE_IN_FP) ? CY_DSADC_MAX_TEMPERATURE_IN_FP : \
                            (temperature < CY_DSADC_MIN_TEMPERATURE_IN_FP) ? CY_DSADC_MIN_TEMPERATURE_IN_FP : \
@@ -501,7 +492,6 @@ static void Cy_DSADC_CalibCalcAchan1_3TempTrim(uint16_t* gcor,
         baseGain = CY_DSADC_GET_UINT16(SFLASH_PACSS_CHAN1_3TEMP_TRIM_GAINADJ, \
                                        SFLASH->PACSS_CHAN1_3TEMP_TRIM[regIndex]);
     }
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
 
     const int32_t offset32 = Cy_DSADC_CalibCalcCorrection((int32_t)baseOffset, (int32_t)maxOffset, tempRange, deltaTempFromBase);
     const int32_t gain32 = Cy_DSADC_CalibCalcCorrection((int32_t)baseGain, (int32_t)maxGain, tempRange, deltaTempFromBase);
@@ -577,13 +567,10 @@ static void Cy_DSADC_CalibCalcAchan0_3TempTrim(uint16_t* gcor,
 *******************************************************************************/
 static void Cy_DSADC_CalibCalcAchan1_ExtTempTrim(uint16_t* gcor, int16_t* ocor, int32_t temperature)
 {
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 2, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     const int16_t offsetHot = CY_DSADC_GET_INT16(SFLASH_PACSS_CHAN1_2TEMP_TRIM_OFFSETADJ, \
                                                  SFLASH->PACSS_CHAN1_2TEMP_TRIM[CY_DSADC_ACHAN1_2TEMP_X1_HOT_OFFSET]);
     const int16_t offsetCold = CY_DSADC_GET_INT16(SFLASH_PACSS_CHAN1_2TEMP_TRIM_OFFSETADJ, \
                                                   SFLASH->PACSS_CHAN1_2TEMP_TRIM[CY_DSADC_ACHAN1_2TEMP_X1_COLD_OFFSET]);
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
     const uint16_t gain = CY_DSADC_GET_UINT16(SFLASH_PACSS_CHAN1_ETEMP_TRIM_ETGAINADJ, SFLASH->PACSS_CHAN1_ETEMP_TRIM);
     const int32_t offset32 = Cy_DSADC_CalibCalcCorrectionWithFixRange((int32_t)offsetCold, (int32_t)offsetHot, temperature);
 
@@ -619,7 +606,7 @@ void Cy_DSADC_CalibrateAchan0_2TempTrim(PACSS_DCHAN_Type* base,
                                         int32_t temperature)
 {
     CY_ASSERT_L1(NULL != base);
-    CY_ASSERT_L1(CY_DSADC_ACHAN0_2TEMP_GAIN_512X >= gain);
+    CY_ASSERT_L3(CY_DSADC_ACHAN0_2TEMP_GAIN_512X >= gain);
 
     uint16_t gcor = 0U;
     int16_t ocor = 0;
@@ -657,7 +644,7 @@ void Cy_DSADC_CalibrateAchan1_2TempTrim(PACSS_DCHAN_Type* base,
                                         int32_t temperature)
 {
     CY_ASSERT_L1(NULL != base);
-    CY_ASSERT_L1(CY_DSADC_ACHAN1_2TEMP_GAIN_512X >= gain);
+    CY_ASSERT_L3(CY_DSADC_ACHAN1_2TEMP_GAIN_512X >= gain);
 
     uint16_t gcor = 0U;
     int16_t ocor = 0;
@@ -695,7 +682,7 @@ void Cy_DSADC_CalibrateAchan1_3TempTrim(PACSS_DCHAN_Type* base,
                                         int32_t temperature)
 {
     CY_ASSERT_L1(NULL != base);
-    CY_ASSERT_L1(CY_DSADC_ACHAN_3TEMP_VDIAG_24 >= divider);
+    CY_ASSERT_L3(CY_DSADC_ACHAN_3TEMP_VDIAG_24 >= divider);
 
     uint16_t gcor = 0U;
     int16_t ocor = 0;
@@ -733,7 +720,7 @@ void Cy_DSADC_CalibrateAchan0_3TempTrim(PACSS_DCHAN_Type* base,
                                         int32_t temperature)
 {
     CY_ASSERT_L1(NULL != base);
-    CY_ASSERT_L1(CY_DSADC_ACHAN_3TEMP_VDIAG_24 >= divider);
+    CY_ASSERT_L3(CY_DSADC_ACHAN_3TEMP_VDIAG_24 >= divider);
 
     uint16_t gcor = 0U;
     int16_t ocor = 0;
@@ -775,8 +762,8 @@ void Cy_DSADC_CalibrateAgcGainLevel(PACSS_MMIO_Type* base,
                                     int32_t temperature)
 {
     CY_ASSERT_L1(NULL != base);
-    CY_ASSERT_L1(CY_DSADC_ACHAN0_2TEMP_GAIN_512X >= gain);
-    CY_ASSERT_L1(CY_DSADC_MAX_GAIN_LEVEL_INDEX >= (uint32_t)index);
+    CY_ASSERT_L3(CY_DSADC_ACHAN0_2TEMP_GAIN_512X >= gain);
+    CY_ASSERT_L2(CY_DSADC_MAX_GAIN_LEVEL_INDEX >= (uint32_t)index);
 
     uint16_t gcor = 0U;
     int16_t ocor = 0;
@@ -842,44 +829,47 @@ uint16_t Cy_DSADC_GetPullupResistance(cy_en_dsadc_dchan_reference_pullup_t selec
 {
     CY_ASSERT_L3(CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL0 >= select);
 
-    int32_t cold = 0;
-    int32_t hot  = 0;
+    uint32_t cold = 0UL;
+    uint32_t hot  = 0UL;
 
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 8, \
-    'Casting uint32_t to int32_t will not result in overflow.');
     switch (select)
     {
-    case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSH0:
-        cold = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSH_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSH_PURES);
-        hot  = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSH_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSH_PURES);
-        break;
-
-    case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL0:
-        cold = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSL_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSL_PURES);
-        hot  = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSL_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSL_PURES);
-        break;
-
-    case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSH1:
-        cold = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSH2_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSH2_PURES);
-        hot  = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSH2_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSH2_PURES);
-        break;
-
-    case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL1:
-        cold = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSL2_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSL2_PURES);
-        hot  = (int32_t)_FLD2VAL(SFLASH_PACSS_DIAG_RSL2_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSL2_PURES);
-        break;
-
-    default:
-        /* Wrong reference pullup */
-        break;
+        case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSH0:
+        {
+            cold = _FLD2VAL(SFLASH_PACSS_DIAG_RSH_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSH_PURES);
+            hot  = _FLD2VAL(SFLASH_PACSS_DIAG_RSH_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSH_PURES);
+            break;
+        }
+        case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL0:
+        {
+            cold = _FLD2VAL(SFLASH_PACSS_DIAG_RSL_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSL_PURES);
+            hot  = _FLD2VAL(SFLASH_PACSS_DIAG_RSL_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSL_PURES);
+            break;
+        }
+        case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSH1:
+        {
+            cold = _FLD2VAL(SFLASH_PACSS_DIAG_RSH2_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSH2_PURES);
+            hot  = _FLD2VAL(SFLASH_PACSS_DIAG_RSH2_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSH2_PURES);
+            break;
+        }
+        case CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL1:
+        {
+            cold = _FLD2VAL(SFLASH_PACSS_DIAG_RSL2_PURES_RES_COLD, SFLASH->PACSS_DIAG_RSL2_PURES);
+            hot  = _FLD2VAL(SFLASH_PACSS_DIAG_RSL2_PURES_RES_HOT, SFLASH->PACSS_DIAG_RSL2_PURES);
+            break;
+        }
+        default:
+        {
+            /* Unknown state */
+            break;
+        }
     }
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
 
     /* Convert resistance values from Ohms/32 to Ohms */
-    cold *= CY_DSADC_SFLASH_PULLUP_TO_OHMS;
-    hot  *= CY_DSADC_SFLASH_PULLUP_TO_OHMS;
+    int32_t coldOhms = (int32_t)cold * CY_DSADC_SFLASH_PULLUP_TO_OHMS;
+    int32_t hotOhms = (int32_t)hot * CY_DSADC_SFLASH_PULLUP_TO_OHMS;
 
-    return (uint16_t)Cy_DSADC_CalibCalcCorrectionWithFixRange(cold, hot, temperature);
+    return (uint16_t)Cy_DSADC_CalibCalcCorrectionWithFixRange(coldOhms, hotOhms, temperature);
 }
 
 #if defined(__cplusplus)

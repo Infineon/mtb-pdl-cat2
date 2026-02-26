@@ -1,14 +1,15 @@
 /***************************************************************************//**
 * \file cy_dsadc.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API declaration of the Delta-Sigma ADC driver
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,6 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*
 *******************************************************************************/
 
 /**
@@ -104,7 +104,7 @@
 * \image html analog_adc.png "Analog ADC part"
 *
 * The analog portion of the ADCs consists:
-* * \ref multiplexer "Input/diagnostic multiplexer"
+* * "Input/diagnostic multiplexer"
 * * \ref pga "Programmable gain amplifier (PGA)"
 * * \ref aaf "Anti-alias filter (AAF)"
 * * \ref buffer "Buffer amplifier"
@@ -124,13 +124,6 @@
 * To reduce offset further, there is circuit chopping in PGA, buffer, and modulator.
 * Chopping frequency is programmable from Fs/2 to Fs/256 (in 2's powers), where default is Fs/32.
 * Fs here is the modulator clock.
-*
-* \anchor multiplexer **Input/diagnostic multiplexer**
-*
-* \image html mux_adc.png "Input/diagnostic multiplexer"
-*
-* \note Resistor dividers enable/select (RDIVen/RDIVsel) coming from HVSS
-* (see \ref group_hvss).
 *
 * \anchor pga **Programmable gain amplifier (PGA)**
 *
@@ -175,6 +168,14 @@
 *
 * The digital stream goes to a decimator (see \ref dchan), which converts
 * the fast oversampled bit stream into slower high-resolution results.
+*
+* \anchor OCD **Overcurrent detector**
+*
+* The overcurrent detector (OCD) provides a safety mechanism to detect battery over current conditions.
+* OCD detection is from the differential current sense inputs, RSHx and RSLx and support both charging and
+* discharging over current. The detect threshold is programmable via an internal DAC. For safety, the OCD operated
+* independently of the ADC which also provides faster detection of over current conditions.
+* One OCD is associated with each set of current sense inputs (RSHx/RSLx).
 *
 * \anchor dchan **Digital part**
 *
@@ -280,6 +281,15 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">1.10</td>
+*     <td>The OCD feature support was added for PSOC4 HVPA SPM 1.0 device.</td>
+*     <td>New feature support.</td>
+*   </tr>
+*   <tr>
+*     <td>Updated interfaces of \ref Cy_DSADC_CountsTo_Volts, \ref Cy_DSADC_CountsTo_mVolts, \ref Cy_DSADC_CountsTo_uVolts.</td>
+*     <td>Defect fix</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -289,9 +299,11 @@
 * \defgroup group_dsadc_macro Macros
 *   \{
 *       \defgroup group_dsadc_macros_interrupt Interrupt Masks
+*       \defgroup group_dsadc_ocd_macros_interrupt Interrupt OCD Masks
 *       \defgroup group_dsadc_cause_macros_interrupt Interrupt Cause Masks
 *       \defgroup group_dsadc_macros_temperature_sensor On-die Temperature Masks
 *       \defgroup group_dsadc_macros_modulator_gain Modulator Gain Masks
+*       \defgroup group_dsadc_ocd_macros_status OCD Status Masks
 *   \}
 * \defgroup group_dsadc_functions Functions
 *   \{
@@ -356,7 +368,7 @@ extern "C" {
 #define CY_DSADC_DRV_VERSION_MAJOR    1
 
 /** Driver minor version */
-#define CY_DSADC_DRV_VERSION_MINOR    0
+#define CY_DSADC_DRV_VERSION_MINOR    10
 
 /** DSADC driver ID */
 #define CY_DSADC_ID CY_PDL_DRV_ID(0x50U)
@@ -394,6 +406,45 @@ extern "C" {
                                              CY_DSADC_DCHAN_INTR_RANGE)
 
 /** \} group_dsadc_macros_interrupt */
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/** \addtogroup group_dsadc_ocd_macros_interrupt
+* \{
+*/
+
+/** Interrupt OCD masks */
+#if(1U == PACSS_MMIO_OCD0_EXISTS) || defined (CY_DOXYGEN)
+#define CY_DSADC_OCD0_INTR_TRIGGER               (PACSS_MMIO_INTR_OCD0_TRIGGER_Msk)      /**< Enable trigger interrupt for OCD0 */
+#define CY_DSADC_OCD0_INTR_UNFILTERED            (PACSS_MMIO_INTR_OCD0_UNFILTERED_Msk)   /**< Enable unfiltered interrupt for OCD0 */
+#define CY_DSADC_OCD0_INTR_FAULT                 (PACSS_MMIO_INTR_OCD0_FAULT_Msk)        /**< Enable fault interrupt for OCD0 */
+#endif /* (1U == PACSS_MMIO_OCD0_EXISTS) || defined (CY_DOXYGEN) */
+
+#if(1U == PACSS_MMIO_OCD1_EXISTS) || defined (CY_DOXYGEN)
+#define CY_DSADC_OCD1_INTR_TRIGGER               (PACSS_MMIO_INTR_OCD1_TRIGGER_Msk)      /**< Enable trigger interrupt for OCD1 */
+#define CY_DSADC_OCD1_INTR_UNFILTERED            (PACSS_MMIO_INTR_OCD1_UNFILTERED_Msk)   /**< Enable unfiltered interrupt for OCD1 */
+#define CY_DSADC_OCD1_INTR_FAULT                 (PACSS_MMIO_INTR_OCD1_FAULT_Msk)        /**< Enable fault interrupt for OCD1 */
+#endif /* (1U == PACSS_MMIO_OCD1_EXISTS) || defined (CY_DOXYGEN) */
+
+/** Combined interrupt OCD mask */
+#if (1U == PACSS_MMIO_OCD0_EXISTS) && (1U == PACSS_MMIO_OCD1_EXISTS) || defined (CY_DOXYGEN)
+#define CY_DSADC_OCD_INTR_MASK              (CY_DSADC_OCD0_INTR_TRIGGER | \
+                                             CY_DSADC_OCD0_INTR_UNFILTERED | \
+                                             CY_DSADC_OCD0_INTR_FAULT | \
+                                             CY_DSADC_OCD1_INTR_TRIGGER | \
+                                             CY_DSADC_OCD1_INTR_UNFILTERED | \
+                                             CY_DSADC_OCD1_INTR_FAULT)
+#elif (1U == PACSS_MMIO_OCD0_EXISTS)
+#define CY_DSADC_OCD_INTR_MASK              (CY_DSADC_OCD0_INTR_TRIGGER | \
+                                             CY_DSADC_OCD0_INTR_UNFILTERED | \
+                                             CY_DSADC_OCD0_INTR_FAULT)
+#elif (1U == PACSS_MMIO_OCD1_EXISTS)
+#define CY_DSADC_OCD_INTR_MASK              (CY_DSADC_OCD1_INTR_TRIGGER | \
+                                             CY_DSADC_OCD1_INTR_UNFILTERED | \
+                                             CY_DSADC_OCD1_INTR_FAULT)
+#endif /* (1U == PACSS_MMIO_OCD0_EXISTS) && (1U == PACSS_MMIO_OCD1_EXISTS) || defined (CY_DOXYGEN) */
+
+/** \} group_dsadc_ocd_macros_interrupt */
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /** \addtogroup group_dsadc_cause_macros_interrupt
 * \{
@@ -472,14 +523,41 @@ extern "C" {
 
 /** \} group_dsadc_macros_modulator_gain */
 
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/** \addtogroup group_dsadc_ocd_macros_status
+* \{
+*/
+
+/** Status OCD status masks */
+#define CY_DSADC_OCD_STATUS_OCD                 (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_OCD_Msk)                  /**< Current state of glitch filter output. */
+#define CY_DSADC_OCD_STATUS_OCD_NEG_COMP        (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_OCD_NEG_COMP_Msk)         /**< Current state of negative OCD comparator. */
+#define CY_DSADC_OCD_STATUS_OCD_POS_COMP        (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_OCD_POS_COMP_Msk)         /**< Current state of positive OCD comparator. */
+#define CY_DSADC_OCD_STATUS_OCD_NEG_HELD        (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_OCD_NEG_HELD_Msk)         /**< Set if negative OCD comparator has triggered. */
+#define CY_DSADC_OCD_STATUS_OCD_POS_HELD        (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_OCD_POS_HELD_Msk)         /**< Set if positive OCD comparator has triggered. */
+#define CY_DSADC_OCD_STATUS_GLITCH_FILTER_COUNT (PACSS_MMIO_OCD_STRUCT_OCD_STATUS_GLITCH_FILTER_COUNT_Msk)  /**< Current state of glitch filter counter. */
+
+/** Combined OCD status mask */
+#define CY_DSADC_OCD_STATUS_MASK                (CY_DSADC_OCD_STATUS_OCD | \
+                                                 CY_DSADC_OCD_STATUS_OCD_NEG_COMP | \
+                                                 CY_DSADC_OCD_STATUS_OCD_POS_COMP | \
+                                                 CY_DSADC_OCD_STATUS_OCD_NEG_HELD | \
+                                                 CY_DSADC_OCD_STATUS_OCD_POS_HELD | \
+                                                 CY_DSADC_OCD_STATUS_GLITCH_FILTER_COUNT)
+
+/** \} group_dsadc_ocd_macros_status */
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
+
 /** \cond INTERNAL */
 
 /* Macros for conditions used in CY_ASSERT calls */
 #define CY_DSADC_INTRMASK_VALID(mask)       (0UL == ((mask) & ~CY_DSADC_INTR_MASK))
 #define CY_DSADC_TMPS_MASK_VALID(mask)      (0UL == ((mask) & ~CY_DSADC_TMPS_SEL_MASK))
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+#define CY_DSADC_OCD_INTRMASK_VALID(mask)   (0UL == ((mask) & ~CY_DSADC_OCD_INTR_MASK))
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /* Macros for use with bit field definitions (xxx_Pos, xxx_Msk) for 16 bit values. */
-#define CY_DSADC_GET_INT16(field, value)    ((int16_t)(((value) & (field ## _Msk)) >> (field ## _Pos)))
+#define CY_DSADC_GET_INT16(field, value)    ((int16_t)(uint16_t)(((value) & (field ## _Msk)) >> (field ## _Pos)))
 #define CY_DSADC_GET_UINT16(field, value)   ((uint16_t)(((value) & (field ## _Msk)) >> (field ## _Pos)))
 
 /** \endcond */
@@ -516,38 +594,42 @@ typedef enum
     CY_DSADC_AGC_AAF_BLANK_MODE_OPEN  = 1U  /**< Disconnect AAF (open SW1 see \ref aaf) */
 } cy_en_dsadc_agc_aaf_blank_mode_t;
 
-/** Ground Reference options for \ref Cy_DSADC_SetGroundReference. */
+#if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) || defined (CY_DOXYGEN)
+/** Ground Reference options for \ref Cy_DSADC_SetGroundReference.
+ * \note Supported only on devices with a High Voltage Divider (see device datasheet).
+ */
 typedef enum
 {
     CY_DSADC_GROUND_REFERENCE_VSSA0 = 0U, /**< Set the High Voltage Divider Ground Connection to VSSA. If VSSA is
-                                         * used, and VSSA is connected to the negative battery pole, then any
-                                         * voltage across the shunt resistor will appear as an offset voltage to
-                                         * chassis ground for the LIN pin.
-                                         * If VSSA is connected to chassis ground, then RSL / RSH should be used
-                                         * as the reference to avoid battery voltage measurement error.
-                                         */
+                                           * used, and VSSA is connected to the negative battery pole, then any
+                                           * voltage across the shunt resistor will appear as an offset voltage to
+                                           * chassis ground for the LIN pin.
+                                           * If VSSA is connected to chassis ground, then RSL / RSH should be used
+                                           * as the reference to avoid battery voltage measurement error.
+                                           */
     CY_DSADC_GROUND_REFERENCE_VSSA1 = 1U, /**< Set the High Voltage Divider Ground Connection to VSSA. If VSSA is
-                                         * used, and VSSA is connected to the negative battery pole, then any
-                                         * voltage across the shunt resistor will appear as an offset voltage to
-                                         * chassis ground for the LIN pin.
-                                         * If VSSA is connected to chassis ground, then RSL / RSH should be used
-                                         * as the reference to avoid battery voltage measurement error.
-                                         */
+                                           * used, and VSSA is connected to the negative battery pole, then any
+                                           * voltage across the shunt resistor will appear as an offset voltage to
+                                           * chassis ground for the LIN pin.
+                                           * If VSSA is connected to chassis ground, then RSL / RSH should be used
+                                           * as the reference to avoid battery voltage measurement error.
+                                           */
     CY_DSADC_GROUND_REFERENCE_RSH   = 2U, /**< Set the High Voltage Divider Ground Connection to RSH. The RSH
-                                         * Terminal is one of the terminals intended to be used with a shunt
-                                         * resistor to measure battery current.
-                                         * The orientation of RSH / RSL in hardware is dependent on the desired
-                                         * sign of the current charge / discharge. For charging current to be
-                                         * positive, RSH should be connected to ground.
-                                         */
+                                           * Terminal is one of the terminals intended to be used with a shunt
+                                           * resistor to measure battery current.
+                                           * The orientation of RSH / RSL in hardware is dependent on the desired
+                                           * sign of the current charge / discharge. For charging current to be
+                                           * positive, RSH should be connected to ground.
+                                           */
     CY_DSADC_GROUND_REFERENCE_RSL   = 3U  /**< Set the High Voltage Divider Ground Connection to RSL. Similar to RSH,
-                                         * this terminal is one of the terminals to use used with a shunt
-                                         * resistor to measure battery current.
-                                         * The orientation of RSH / RSL in hardware is dependent on the desired
-                                         * sign of the current charge / discharge. For discharging current to be
-                                         * positive, RSL should be connected to ground.
-                                         */
+                                           * this terminal is one of the terminals to use used with a shunt
+                                           * resistor to measure battery current.
+                                           * The orientation of RSH / RSL in hardware is dependent on the desired
+                                           * sign of the current charge / discharge. For discharging current to be
+                                           * positive, RSL should be connected to ground.
+                                           */
 } cy_en_dsadc_ground_reference_t;
+#endif /* defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) */
 
 /** Chopping Phase between the HPBGR "BGR Core" and the "output buffer".
  *
@@ -641,6 +723,115 @@ typedef enum
     CY_DSADC_ALL_PRIMARY   = 2U, /**< Start convert all Primary channels */
     CY_DSADC_ALL_SECONDARY = 3U  /**< Start convert all Secondary channels */
 }cy_en_dsadc_convert_source_t;
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/** Select clock edge: negative or positive. */
+typedef enum
+{
+    CY_DSADC_CLOCK_EDGE_NEGATIVE = 0U, /**< Negative clock edge. */
+    CY_DSADC_CLOCK_EDGE_POSITIVE = 1U  /**< Positive clock edge. */
+} cy_en_dsadc_clock_edge_t;
+
+/** Select glitch filter mode: continuous or up/down. */
+typedef enum
+{
+    CY_DSADC_GLITCH_FILTER_MODE_CONTINUOUS = 0U, /**< Continuous glitch filter mode. */
+    CY_DSADC_GLITCH_FILTER_MODE_UPDOWN     = 1U  /**< Up/down glitch filter mode. */
+} cy_en_dsadc_glitch_filter_mode_t;
+
+/** Select IO polarity: low or high. */
+typedef enum
+{
+    CY_DSADC_IO_POLARITY_LOW  = 0U,  /**< IO polarity low. */
+    CY_DSADC_IO_POLARITY_HIGH = 1U   /**< IO polarity high. */
+} cy_en_dsadc_io_polarity_t;
+
+/** The threshold for the overcurrent detection (OCD).
+* Each value corresponds to a specific voltage threshold in millivolts.
+* \note Some threshold values have multiple variants (A, B, C) that map to the same voltage level
+* to handle reserved hardware bit combinations safely.
+*/
+typedef enum
+{
+    CY_DSADC_OCD_THRESH_37_5MV   = 0U,  /**< Overcurrent threshold: 37.5 mV. */
+    CY_DSADC_OCD_THRESH_40_0MV   = 1U,  /**< Overcurrent threshold: 40.0 mV. */
+    CY_DSADC_OCD_THRESH_42_5MV   = 2U,  /**< Overcurrent threshold: 42.5 mV. */
+    CY_DSADC_OCD_THRESH_45_0MV   = 3U,  /**< Overcurrent threshold: 45.0 mV. */
+    CY_DSADC_OCD_THRESH_47_5MV   = 4U,  /**< Overcurrent threshold: 47.5 mV. */
+    CY_DSADC_OCD_THRESH_50_0MV   = 5U,  /**< Overcurrent threshold: 50.0 mV. */
+    CY_DSADC_OCD_THRESH_50_0MV_A = 6U,  /**< Overcurrent threshold: 50.0 mV (variant A). */
+    CY_DSADC_OCD_THRESH_50_0MV_B = 7U,  /**< Overcurrent threshold: 50.0 mV (variant B). */
+    CY_DSADC_OCD_THRESH_75_0MV   = 8U,  /**< Overcurrent threshold: 75.0 mV. */
+    CY_DSADC_OCD_THRESH_80_0MV   = 9U,  /**< Overcurrent threshold: 80.0 mV. */
+    CY_DSADC_OCD_THRESH_85_0MV   = 10U, /**< Overcurrent threshold: 85.0 mV. */
+    CY_DSADC_OCD_THRESH_90_0MV   = 11U, /**< Overcurrent threshold: 90.0 mV. */
+    CY_DSADC_OCD_THRESH_95_0MV   = 12U, /**< Overcurrent threshold: 95.0 mV. */
+    CY_DSADC_OCD_THRESH_100MV    = 13U, /**< Overcurrent threshold: 100.0 mV. */
+    CY_DSADC_OCD_THRESH_100MV_A  = 14U, /**< Overcurrent threshold: 100.0 mV (variant A). */
+    CY_DSADC_OCD_THRESH_100MV_B  = 15U, /**< Overcurrent threshold: 100.0 mV (variant B). */
+    CY_DSADC_OCD_THRESH_150MV    = 16U, /**< Overcurrent threshold: 150.0 mV. */
+    CY_DSADC_OCD_THRESH_160MV    = 17U, /**< Overcurrent threshold: 160.0 mV. */
+    CY_DSADC_OCD_THRESH_170MV    = 18U, /**< Overcurrent threshold: 170.0 mV. */
+    CY_DSADC_OCD_THRESH_180MV    = 19U, /**< Overcurrent threshold: 180.0 mV. */
+    CY_DSADC_OCD_THRESH_190MV    = 20U, /**< Overcurrent threshold: 190.0 mV. */
+    CY_DSADC_OCD_THRESH_200MV    = 21U, /**< Overcurrent threshold: 200.0 mV. */
+    CY_DSADC_OCD_THRESH_200MV_A  = 22U, /**< Overcurrent threshold: 200.0 mV (variant A). */
+    CY_DSADC_OCD_THRESH_200MV_B  = 23U, /**< Overcurrent threshold: 200.0 mV (variant B). */
+    CY_DSADC_OCD_THRESH_200MV_C  = 24U  /**< Overcurrent threshold: 200.0 mV (variant C). */
+} cy_en_dsadc_ocd_threshold_t;
+
+/** The divider for OCD clock frequency.
+ * Uses the DSM clock (clk_dsm) to create OCD clock using the following formula:
+ * Focd = Fclk_dsm / (2*(CLOCK_DIV+1))
+ */
+typedef enum
+{
+    CY_DSADC_OCD_CLOCK_DIVIDER_2  = 0U,  /**< OCD frequency is DSM frequency divided by 2.  */
+    CY_DSADC_OCD_CLOCK_DIVIDER_4  = 1U,  /**< OCD frequency is DSM frequency divided by 4.  */
+    CY_DSADC_OCD_CLOCK_DIVIDER_6  = 2U,  /**< OCD frequency is DSM frequency divided by 6.  */
+    CY_DSADC_OCD_CLOCK_DIVIDER_8  = 3U,  /**< OCD frequency is DSM frequency divided by 8.  */
+    CY_DSADC_OCD_CLOCK_DIVIDER_10 = 4U,  /**< OCD frequency is DSM frequency divided by 10. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_12 = 5U,  /**< OCD frequency is DSM frequency divided by 12. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_14 = 6U,  /**< OCD frequency is DSM frequency divided by 14. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_16 = 7U,  /**< OCD frequency is DSM frequency divided by 16. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_18 = 8U,  /**< OCD frequency is DSM frequency divided by 18. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_20 = 9U,  /**< OCD frequency is DSM frequency divided by 20. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_22 = 10U, /**< OCD frequency is DSM frequency divided by 22. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_24 = 11U, /**< OCD frequency is DSM frequency divided by 24. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_26 = 12U, /**< OCD frequency is DSM frequency divided by 26. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_28 = 13U, /**< OCD frequency is DSM frequency divided by 28. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_30 = 14U, /**< OCD frequency is DSM frequency divided by 30. */
+    CY_DSADC_OCD_CLOCK_DIVIDER_32 = 15U  /**< OCD frequency is DSM frequency divided by 32. */
+} cy_en_dsadc_ocd_clock_divider_t;
+
+/** The OCD output mode.
+ * Only applicable for OCD0.
+ * In any mode other than the default it is used to condense both the OCD0 output and the OCD1 output onto OCD0 pin.
+ */
+typedef enum
+{
+  CY_DSADC_OCD_OUTPUT_MODE_DEFAULT = 0U, /**< OCD0 output pin = OCD0. */
+  CY_DSADC_OCD_OUTPUT_MODE_AND     = 1U, /**< OCD0 output pin = OCD0 && OCD1. */
+  CY_DSADC_OCD_OUTPUT_MODE_OR      = 2U  /**< OCD0 output pin = OCD0 || OCD1. */
+} cy_en_dsadc_ocd_output_mode_t;
+
+/** Self Test mode.
+ * Controls bypassing the input to the detector from the comparator per pos/neg.
+ * Also, enables/disables output to GPIO, interrupt and trigger infra depending on selected mode.
+ */
+typedef enum
+{
+  CY_DSADC_OCD_TST_DISABLED     = 0U, /**< Self Test is disabled. */
+  CY_DSADC_OCD_TST_PH_NH        = 1U, /**< Self Test enabled by bypass positive with High level negative with High level and out enabled. */
+  CY_DSADC_OCD_TST_PH_NL        = 2U, /**< Self Test enabled by bypass positive with High level negative with Low level and out enabled. */
+  CY_DSADC_OCD_TST_PL_NH        = 3U, /**< Self Test enabled by bypass positive with Low level negative with High level and out enabled. */
+  CY_DSADC_OCD_TST_PL_NL        = 4U, /**< Self Test enabled by bypass positive with Low level negative with Low level and out enabled. */
+  CY_DSADC_OCD_TST_PH_NH_NO_OUT = 5U, /**< Self Test enabled by bypass positive with High level negative with High level and out disabled. */
+  CY_DSADC_OCD_TST_PH_NL_NO_OUT = 6U, /**< Self Test enabled by bypass positive with High level negative with Low level and out disabled. */
+  CY_DSADC_OCD_TST_PL_NH_NO_OUT = 7U, /**< Self Test enabled by bypass positive with Low level negative with High level and out disabled. */
+  CY_DSADC_OCD_TST_PL_NL_NO_OUT = 8U  /**< Self Test enabled by bypass positive with Low level negative with Low level and out disabled. */
+} cy_en_dsadc_ocd_test_mode_t;
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /** \} group_enum_common */
 
@@ -870,7 +1061,11 @@ typedef enum
     CY_DSADC_DCHAN_NEGATIVE_PIN_VSSA     = 0x00U, /**< VSSA */
     CY_DSADC_DCHAN_NEGATIVE_PIN_VREFL    = 0x09U, /**< Voltage Reference Low Connection */
     CY_DSADC_DCHAN_NEGATIVE_PIN_SRSS_VSS = 0x0AU, /**< VDIV_RET */
-    CY_DSADC_DCHAN_NEGATIVE_PIN_VDIV_RET = 0x0BU, /**< SRSS Ground (VSS) */
+    #if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) || defined (CY_DOXYGEN)
+        CY_DSADC_DCHAN_NEGATIVE_PIN_VDIV_RET = 0x0BU, /**< SRSS Ground (VSS)
+                                                    * \note Supported only on devices with a High Voltage Divider (see device datasheet).
+                                                    */
+    #endif
     CY_DSADC_DCHAN_NEGATIVE_PIN_VTS_RET  = 0x0CU, /**< External Temperature Sensor Return */
     CY_DSADC_DCHAN_NEGATIVE_PIN_VINT_RET = 0x0DU, /**< Internal Temperature Sensor Return */
     CY_DSADC_DCHAN_NEGATIVE_PIN_GPIO0    = 0x0EU, /**< GPIO 0 (P0_0) */
@@ -884,19 +1079,27 @@ typedef enum
 /** Select the positive input pin for the DCHAN while the DCHAN is being scanned. */
 typedef enum
 {
+    #if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) || defined (CY_DOXYGEN)
     CY_DSADC_DCHAN_POSITIVE_PIN_HVDIV0          = 0x0U,  /**< Set the positive input pin to the output of high voltage divider 0
                                                           *   (HVDIV0 or VSENSE).
+                                                          *   \note Supported only on devices with a High Voltage Divider (see device datasheet).
                                                           */
     CY_DSADC_DCHAN_POSITIVE_PIN_HVDIV1          = 0x04U, /**< Set the positive input pin to the output of high voltage divider 1
                                                           *   (HVDIV1 or VDIAG).
+                                                          *   \note Supported only on devices with a High Voltage Divider (see device datasheet).
                                                           */
+    #endif
     CY_DSADC_DCHAN_POSITIVE_PIN_VTS             = 0x08U, /**< Set the positive input pin to the external temperature sensor
                                                           *   pin. (P1_1)
                                                           */
     CY_DSADC_DCHAN_POSITIVE_PIN_VINT            = 0x0CU, /**< Internal Temperature Sensor Input */
     CY_DSADC_DCHAN_POSITIVE_PIN_VSSA            = 0x10U, /**< Ground Connection Analog (VSSA) */
     CY_DSADC_DCHAN_POSITIVE_PIN_VSSD            = 0x11U, /**< Ground Connection Digital (VSSD) */
-    CY_DSADC_DCHAN_POSITIVE_PIN_VSSL            = 0x12U, /**< High Voltage Subsystem ground connection */
+    #if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_LIN_PRESENT)) || defined (CY_DOXYGEN)
+    CY_DSADC_DCHAN_POSITIVE_PIN_VSSL            = 0x12U, /**< High Voltage Subsystem ground connection
+                                                          *   \note Supported only on devices with a LIN PHY present (see device datasheet).
+                                                          */
+    #endif
     CY_DSADC_DCHAN_POSITIVE_PIN_VREFL           = 0x13U, /**< Voltage Reference Low connection */
     CY_DSADC_DCHAN_POSITIVE_PIN_VTS_RET_K       = 0x15U, /**< External Temperature Sensor Return Kelvin, equivalent to VTS_RET */
     CY_DSADC_DCHAN_POSITIVE_PIN_VINT_RET        = 0x16U, /**< Internal Temperature Sensor Return */
@@ -1303,6 +1506,17 @@ typedef struct
     bool                                                enableOffsetCorrection; /**< Enable or disable offset correction of the decimator values */
 } cy_stc_dsadc_dchan_config_t;
 
+/** Digital Channel Result Tag */
+typedef struct
+{
+    uint8_t parity;       /**< 7-bit ECC parity generated from the 32-bit conversion result. */
+    uint8_t sampleCount;  /**< 6-bit sequential counter for valid outputs, incremeted on each valid output.
+                           *   When averaging  is enabled it increments only when the averaged value becomes valid.
+                           *   It resets whenever the digital channel or the whole PACSS block is disabled.
+                           */
+    uint8_t dataType;     /**< 7-bit code of the latched input / data selection. */
+} cy_stc_dsadc_dchan_result_tag_t;
+
 /** \} group_data_digital_chan */
 
 /** \addtogroup group_data_common
@@ -1344,6 +1558,22 @@ typedef struct {
     const cy_stc_dsadc_hpbgr_config_t* HPBGR;                              /**< High precision bandgap reference configuration pointer */
 } cy_stc_dsadc_config_t;
 
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/** Configure the Over Current Detection (OCD) */
+typedef struct
+{
+    int16_t                                 negativeLimit;              /**< The negative limit. */
+    int16_t                                 positiveLimit;              /**< The positive limit. */
+    cy_en_dsadc_ocd_threshold_t             ocdThreshold;               /**< The OCD threshold. See \ref cy_en_dsadc_ocd_threshold_t */
+    cy_en_dsadc_ocd_clock_divider_t         clockDivision;              /**< The clock division. See \ref cy_en_dsadc_ocd_clock_divider_t. */
+    cy_en_dsadc_clock_edge_t                clockEdge;                  /**< The clock edge. See \ref cy_en_dsadc_clock_edge_t. */
+    cy_en_dsadc_glitch_filter_mode_t        glitchFilterMode;           /**< The glitch filter mode. See \ref cy_en_dsadc_glitch_filter_mode_t. */
+    cy_en_dsadc_io_polarity_t               ioPolarity;                 /**< The IO polarity. See \ref cy_en_dsadc_io_polarity_t. */
+    bool                                    enableNegativeComparator;   /**< Enable or disable the negative comparator */
+    bool                                    enablePositiveComparator;   /**< Enable or disable the positive comparator */
+} cy_stc_dsadc_ocd_config_t;
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
+
 /** \} group_data_common */
 
 /** \addtogroup group_dsadc_base_common_functions
@@ -1364,21 +1594,18 @@ void Cy_DSADC_EnableSequencer(PACSS_MMIO_Type* base);
 void Cy_DSADC_DisableSequencer(PACSS_MMIO_Type* base);
 bool Cy_DSADC_GetSequencerBusy(const PACSS_MMIO_Type* base, uint8_t channel);
 
-uint8_t Cy_DSADC_AgcGetGainLevel(const PACSS_MMIO_Type* base);
-uint16_t Cy_DSADC_AgcGetFastDecimatorResult(const PACSS_MMIO_Type* base);
-
 float32_t Cy_DSADC_CountsTo_Volts(int32_t counts,
                                   float32_t vref,
                                   float32_t analogGain,
-                                  cy_stc_dsadc_dchan_config_t* dchan_config);
+                                  const cy_stc_dsadc_dchan_config_t* dchan_config);
 float32_t Cy_DSADC_CountsTo_mVolts(int32_t counts,
                                    float32_t vref,
                                    float32_t analogGain,
-                                   cy_stc_dsadc_dchan_config_t* dchan_config);
+                                   const cy_stc_dsadc_dchan_config_t* dchan_config);
 float32_t Cy_DSADC_CountsTo_uVolts(int32_t counts,
                                    float32_t vref,
                                    float32_t analogGain,
-                                   cy_stc_dsadc_dchan_config_t* dchan_config);
+                                   const cy_stc_dsadc_dchan_config_t* dchan_config);
 
 void Cy_DSADC_ConnectTemperature(PACSS_MMIO_Type* base, uint32_t selectMask);
 void Cy_DSADC_DisconnectTemperature(PACSS_MMIO_Type* base, uint32_t selectMask);
@@ -1409,7 +1636,9 @@ void Cy_DSADC_DisableLowPowerMode(PACSS_MMIO_Type* base);
 
 void Cy_DSADC_EnableHPBGR(PACSS_MMIO_Type* base, const cy_stc_dsadc_hpbgr_config_t* config);
 void Cy_DSADC_DisableHPBGR(PACSS_MMIO_Type* base);
+#if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) || defined (CY_DOXYGEN)
 void Cy_DSADC_SetGroundReference(PACSS_MMIO_Type* base, cy_en_dsadc_ground_reference_t select);
+#endif
 
 uint16_t Cy_DSADC_GetThresholdCount(const PACSS_MMIO_Type* base, cy_en_dsadc_threshold_select_t select);
 void Cy_DSADC_SetChoppingPosition(PACSS_MMIO_Type* base, cy_en_dsadc_hpbgr_chopping_phase_t select);
@@ -1421,6 +1650,8 @@ void Cy_DSADC_AgcDisable(PACSS_MMIO_Type* base);
 bool Cy_DSADC_AgcIsEnabled(const PACSS_MMIO_Type* base);
 void Cy_DSADC_AgcSetGainCorrection(PACSS_MMIO_Type* base, uint8_t index, uint16_t gain);
 void Cy_DSADC_AgcSetOffsetCorrection(PACSS_MMIO_Type* base, uint8_t index, int16_t offset);
+uint8_t Cy_DSADC_AgcGetGainLevel(const PACSS_MMIO_Type* base);
+uint16_t Cy_DSADC_AgcGetFastDecimatorResult(const PACSS_MMIO_Type* base);
 
 void Cy_DSADC_EnableLowDropoutRegulator(PACSS_MMIO_Type* base);
 void Cy_DSADC_DisableLowDropoutRegulator(PACSS_MMIO_Type* base);
@@ -1428,6 +1659,20 @@ void Cy_DSADC_SetAccumulatorThreshold(PACSS_DCHAN_Type* base, int32_t threshold)
 void Cy_DSADC_ResetAccumulator(PACSS_DCHAN_Type* base);
 void Cy_DSADC_StartConversionAll(PACSS_MMIO_Type* base);
 void Cy_DSADC_PendSecondConvAll(PACSS_MMIO_Type* base);
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+void Cy_DSADC_OcdInit(PACSS_MMIO_Type* base,  uint8_t index, cy_stc_dsadc_ocd_config_t* config);
+void Cy_DSADC_OcdGetConfig(PACSS_MMIO_Type* base, uint8_t index, cy_stc_dsadc_ocd_config_t* config);
+void Cy_DSADC_OcdEnable(PACSS_MMIO_Type* base, uint8_t index);
+void Cy_DSADC_OcdDisable(PACSS_MMIO_Type* base, uint8_t index);
+bool Cy_DSADC_OcdIsEnabled(PACSS_MMIO_Type* base, uint8_t index);
+uint32_t Cy_DSADC_OcdGetStatus(const PACSS_MMIO_Type* base, uint8_t index);
+void Cy_DSADC_OcdClearHoldStatus(PACSS_MMIO_Type* base, uint8_t index);
+void Cy_DSADC_OcdSetTestMode(PACSS_MMIO_Type* base, uint8_t index, cy_en_dsadc_ocd_test_mode_t mode);
+void Cy_DSADC_OcdSetOutputMode(PACSS_MMIO_Type* base, cy_en_dsadc_ocd_output_mode_t mode);
+cy_en_dsadc_ocd_output_mode_t Cy_DSADC_OcdGetOutputMode(PACSS_MMIO_Type* base);
+
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /** \} group_dsadc_ext_common_functions */
 
@@ -1480,6 +1725,8 @@ uint16_t Cy_DSADC_GetPullupResistance(cy_en_dsadc_dchan_reference_pullup_t selec
 int32_t Cy_DSADC_GetResult(const PACSS_DCHAN_Type* base);
 int32_t Cy_DSADC_GetAccumulatorResult(const PACSS_DCHAN_Type* base);
 uint32_t Cy_DSADC_CalcMaxCount(const cy_stc_dsadc_dchan_config_t* config);
+uint32_t Cy_DSADC_GetResultTagRaw(const PACSS_DCHAN_Type* base);
+void Cy_DSADC_GetResultTag(const PACSS_DCHAN_Type* base, cy_stc_dsadc_dchan_result_tag_t* tag);
 
 /** \} group_dsadc_base_dchan_functions */
 
@@ -1866,6 +2113,176 @@ __STATIC_INLINE bool Cy_DSADC_AgcGetInterruptStatusMasked(PACSS_MMIO_Type* base)
 {
     return _FLD2BOOL(PACSS_MMIO_INTR_MASKED_AGC_GLVL_CHG_MASKED, base->INTR_MASKED);
 }
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+
+__STATIC_INLINE void        Cy_DSADC_OcdClearInterrupt(PACSS_MMIO_Type* base, uint32_t intrMask);
+__STATIC_INLINE uint32_t    Cy_DSADC_OcdGetInterruptStatus(PACSS_MMIO_Type* base);
+__STATIC_INLINE void        Cy_DSADC_OcdSetInterrupt(PACSS_MMIO_Type* base, uint32_t intrMask);
+__STATIC_INLINE uint32_t    Cy_DSADC_OcdGetInterruptMask(PACSS_MMIO_Type* base);
+__STATIC_INLINE void        Cy_DSADC_OcdSetInterruptMask(PACSS_MMIO_Type* base, uint32_t intrMask);
+__STATIC_INLINE uint32_t    Cy_DSADC_OcdGetInterruptStatusMasked(PACSS_MMIO_Type* base);
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdClearInterrupt
+****************************************************************************//**
+*
+* \brief
+* Clears the specified OCD MMIO interrupt.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \param intrMask
+* The bitmask of statuses to clear.
+* Select one or more values from \ref group_dsadc_ocd_macros_interrupt and "OR" them together.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDIsr_Handler
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_DSADC_OcdClearInterrupt(PACSS_MMIO_Type* base, uint32_t intrMask)
+{
+    CY_ASSERT_L2(CY_DSADC_OCD_INTRMASK_VALID(intrMask));
+
+    base->INTR = intrMask & CY_DSADC_OCD_INTR_MASK;
+    /* Dummy read for buffered writes. */
+    (void) base->INTR;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetInterruptStatus
+****************************************************************************//**
+*
+* \brief
+* Get the specified OCD MMIO interrupt status.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \return
+* The bit field determines which ocd interrupt is set.
+* To find out occured interrupt, use \ref group_dsadc_ocd_macros_interrupt.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDIsr_Handler
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_DSADC_OcdGetInterruptStatus(PACSS_MMIO_Type* base)
+{
+    return (base->INTR & CY_DSADC_OCD_INTR_MASK);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdSetInterrupt
+****************************************************************************//**
+*
+* \brief
+* Write with '1' to set corresponding bit in interrupt request register.
+* Can be used to set interrupts for firmware testing.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \param intrMask
+* The bit field determines which interrupt will be triggered.
+* Select one or more values from \ref group_dsadc_ocd_macros_interrupt and "OR" them together.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDInterrupt
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_DSADC_OcdSetInterrupt(PACSS_MMIO_Type* base, uint32_t intrMask)
+{
+    CY_ASSERT_L2(CY_DSADC_OCD_INTRMASK_VALID(intrMask));
+
+    base->INTR_SET = intrMask & CY_DSADC_OCD_INTR_MASK;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetInterruptMask
+****************************************************************************//**
+*
+* \brief
+* Get the specified OCD MMIO interrupt mask.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \return
+* The bit field determines which status changes can cause an interrupt.
+* To find out wich interrupts are enabled, use \ref group_dsadc_ocd_macros_interrupt.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDInterrupt
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_DSADC_OcdGetInterruptMask(PACSS_MMIO_Type* base)
+{
+    return (base->INTR_MASK & CY_DSADC_OCD_INTR_MASK);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdSetInterruptMask
+****************************************************************************//**
+*
+* \brief
+* Enables the specified OCD MMIO interrupt mask.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \param intrMask
+* The bit field determines which status changes can cause an interrupt.
+* Select one or more values from \ref group_dsadc_ocd_macros_interrupt and "OR" them together.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDInterrupt
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE void Cy_DSADC_OcdSetInterruptMask(PACSS_MMIO_Type* base, uint32_t intrMask)
+{
+    CY_ASSERT_L2(CY_DSADC_OCD_INTRMASK_VALID(intrMask));
+
+    base->INTR_MASK = intrMask & CY_DSADC_OCD_INTR_MASK;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetInterruptStatusMasked
+****************************************************************************//**
+*
+* \brief
+* Get the specified OCD MMIO interrupt masked (enabled) status.
+*
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+*
+* \return
+* Bitwise AND of the interrupt request and mask registers.
+* To find out the state of the interrupts status masked, use \ref group_dsadc_ocd_macros_interrupt.
+*
+* \funcusage
+* \snippet dsadc_snippet.c snippet_Cy_DSADC_OCDIsr_Handler
+*
+* \note Not applicable for PSOC4 HVPA.
+*
+*******************************************************************************/
+__STATIC_INLINE uint32_t Cy_DSADC_OcdGetInterruptStatusMasked(PACSS_MMIO_Type* base)
+{
+    return (base->INTR_MASKED & CY_DSADC_OCD_INTR_MASK);
+}
+
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /** \} group_dsadc_interrupt_functions */
 

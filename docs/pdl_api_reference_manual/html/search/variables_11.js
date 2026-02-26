@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['samplecount',['sampleCount',['../structcy__stc__dsadc__dchan__result__tag__t.html#ab28cbecc3931d3a15bdf7b6aa4612c40',1,'cy_stc_dsadc_dchan_result_tag_t']]],
   ['sampletime0',['sampleTime0',['../structcy__stc__sar__config__t.html#adb696990f7ea3f459281d41dc9a334f8',1,'cy_stc_sar_config_t']]],
   ['sampletime1',['sampleTime1',['../structcy__stc__sar__config__t.html#a32ebac81e7b7a72aaf27533083b456a8',1,'cy_stc_sar_config_t']]],
   ['sampletime2',['sampleTime2',['../structcy__stc__sar__config__t.html#a0cabdf3b120b5863a9f34145b9cd1024',1,'cy_stc_sar_config_t']]],
@@ -176,6 +177,7 @@ var searchData=
   ['syncjumpwidth',['syncJumpWidth',['../structcy__stc__can__bitrate__t.html#ace58c9dbd278640d2da003d205c8a17d',1,'cy_stc_can_bitrate_t::syncJumpWidth()'],['../structcy__stc__canfd__bitrate__t.html#af0366ec649f3052303d8def51ec61147',1,'cy_stc_canfd_bitrate_t::syncJumpWidth()']]],
   ['syncprimarytrigger',['syncPrimaryTrigger',['../structcy__stc__dsadc__achan__config__t.html#afe888bade40168daf5df897a401a12c9',1,'cy_stc_dsadc_achan_config_t']]],
   ['syncsecondarytrigger',['syncSecondaryTrigger',['../structcy__stc__dsadc__achan__config__t.html#a93530a67dc506c296ab913f089b07714',1,'cy_stc_dsadc_achan_config_t']]],
+  ['syndrome',['syndrome',['../structcy__stc__isouart__ecc__status__t.html#a6cabf044d5acb49218cae32c7b74b772',1,'cy_stc_isouart_ecc_status_t']]],
   ['sys_5fpower',['sys_power',['../structcy__stc__auto__cfg__settings__t.html#a73c9404a80395c0e7cc734f9beff1d96',1,'cy_stc_auto_cfg_settings_t']]],
   ['systemcoreclock',['SystemCoreClock',['../group__group__system__config__globals.html#gaa3cd3e43291e81e795d642b79b6088e6',1,'SystemCoreClock():&#160;system_cat2.c'],['../group__group__system__config__globals.html#gaa3cd3e43291e81e795d642b79b6088e6',1,'SystemCoreClock():&#160;system_cat2.c']]]
 ];

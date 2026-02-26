@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.70
+* \version 2.80
 *
 * Provides the functions for the API for the SAR driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2020-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -38,11 +38,11 @@ extern "C" {
 #define CY_SAR_CLEAR_ALL_SWITCHES       (0x3FFFFFFFUL)    /**< Value to clear all SARMUX switches */
 
 /* Mask value of MUX_SWITCH2 */
-#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#if defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)
     #define CY_SAR_MUX_SWITCH2_MASK (0xFFFFFFFFU)
 #else
     #define CY_SAR_MUX_SWITCH2_MASK (0xFFFF0000U)
-#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
+#endif /* (1U == PASS0_SAR_EXPMUX_PRESENT) */
 #define CY_SAR_DEINIT_SQ_CTRL           (SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P0_Msk \
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P1_Msk \
                                         | SAR_MUX_SWITCH_HW_CTRL_MUX_HW_CTRL_P2_Msk \
@@ -124,7 +124,7 @@ extern "C" {
 #define CY_SAR_DIAG(addr)               (0u)
 #endif /* 4U <= CY_IP_M0S8PASS4A_SAR_VERSION */
 
-#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#if defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)
 #define CY_SAR_EXP_ADDR(addr)           ((CY_SAR_ADDR_EXPMUX_0         == (addr)) || \
                                          (CY_SAR_ADDR_EXPMUX_1         == (addr)) || \
                                          (CY_SAR_ADDR_EXPMUX_2         == (addr)) || \
@@ -135,17 +135,17 @@ extern "C" {
                                          (CY_SAR_ADDR_EXPMUX_7         == (addr)))
 
 #define CY_SAR_EXP_NEG_ADDR(addr)       ((CY_SAR_NEG_ADDR_EXPMUX_0     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_1     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_2     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_3     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_4     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_5     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_6     == (addr)) || \
-                                          CY_SAR_NEG_ADDR_EXPMUX_7     == (addr)))
+                                         (CY_SAR_NEG_ADDR_EXPMUX_1     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_2     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_3     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_4     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_5     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_6     == (addr)) || \
+                                         (CY_SAR_NEG_ADDR_EXPMUX_7     == (addr)))
 #else
 #define CY_SAR_EXP_ADDR(addr)           (0u)
 #define CY_SAR_EXP_NEG_ADDR(addr)       (0u)
-#endif /* 1U == CY_PASS0_SAR_EXPMUX_PRESENT */
+#endif /* 1U == PASS0_SAR_EXPMUX_PRESENT */
 
 #if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
 #define CY_SAR_DIAG(addr)               ((CY_SAR_ADDR_DIAG_GND         == (addr)) || \
@@ -213,7 +213,7 @@ extern "C" {
 
 /* firmware control of expmux and diagmux */
 #if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
-#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#if defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)
 #define CY_EXP_VPLUS(addr)               ((CY_SAR_EXPMUX_FW_P0_VPLUS == (addr)) || \
                                           (CY_SAR_EXPMUX_FW_P1_VPLUS == (addr)) || \
                                           (CY_SAR_EXPMUX_FW_P2_VPLUS == (addr)) || \
@@ -233,7 +233,7 @@ extern "C" {
 #else
 #define CY_EXP_VPLUS(addr)               (0u)
 #define CY_EXP_VMINUS(addr)              (0u)
-#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
+#endif /* (1U == PASS0_SAR_EXPMUX_PRESENT) */
 #define CY_DIAG_VPLUS(addr)              ((CY_SAR_DIAGMUX_FW_VD0_VPLUS == (addr)) || \
                                           (CY_SAR_DIAGMUX_FW_VD1_VPLUS == (addr)) || \
                                           (CY_SAR_DIAGMUX_FW_VD2_VPLUS == (addr)) || \
@@ -260,7 +260,7 @@ extern "C" {
 
 /* hardware control of expmux and diagmux */
 #if defined (CY_IP_M0S8PASS4A_SAR_VERSION) && (4U <= CY_IP_M0S8PASS4A_SAR_VERSION)
-#if defined (CY_PASS0_SAR_EXPMUX_PRESENT) && (1U == CY_PASS0_SAR_EXPMUX_PRESENT)
+#if defined (PASS0_SAR_EXPMUX_PRESENT) && (1U == PASS0_SAR_EXPMUX_PRESENT)
 #define CY_HW_EXPMUX(addr)               ((CY_SAR_EXPMUX_HW_CTRL_P0 == (addr)) || \
                                           (CY_SAR_EXPMUX_HW_CTRL_P1 == (addr)) || \
                                           (CY_SAR_EXPMUX_HW_CTRL_P2 == (addr)) || \
@@ -271,7 +271,7 @@ extern "C" {
                                           (CY_SAR_EXPMUX_HW_CTRL_P7 == (addr)))
 #else
 #define CY_HW_EXPMUX(addr)               (0u)
-#endif /* (1U == CY_PASS0_SAR_EXPMUX_PRESENT) */
+#endif /* (1U == PASS0_SAR_EXPMUX_PRESENT) */
 #define CY_HW_DIAGMUX(addr)              ((CY_SAR_DIAGMUX_HW_CTRL_V0 == (addr)) || \
                                           (CY_SAR_DIAGMUX_HW_CTRL_V1 == (addr)) || \
                                           (CY_SAR_DIAGMUX_HW_CTRL_V2 == (addr)) || \

@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2020-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2020-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -30,7 +30,7 @@
 
 <Personality id="mxttcanfd_ver2_s8" name="CAN FD" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v7">
   <Dependencies>
-    <IpBlock name="mxttcanfd_ver2_s8" />
+    <IpBlock name="mxttcanfd_ver2_s8,m0s8ttcanfd" />
     <Resource name="canfd\.chan" />
   </Dependencies>
   <ExposedMembers />

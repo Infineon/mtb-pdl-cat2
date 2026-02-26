@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--****************************************************************************
+* \file isouart.cypersonality
+* \version 1.0
+*
+* \brief
+* ISOUART personality description file. Supports CAT2 family of devices.
+*
+********************************************************************************
+* \copyright
+* (c) 2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*****************************************************************************-->
+<PersonalityTemplate id="isouart" name="ISOUART" version="1.0" xmlns="http://cypress.com/xsd/cyhwpersonality_v10">
+  <Constants>
+  </Constants>
+  <FittingRules>
+    <MappingRules>
+      <IpBlock name="m0s8isouart" />
+      <Resource name="isouart" />
+    </MappingRules>
+  </FittingRules>
+  <ExposedMembers>
+  </ExposedMembers>
+  <Parameters>
+    <!-- PDL documentation -->
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Overview" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__isouart.html" linkText="Open ISO-UART Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <!-- Internal -->
+    <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamString id="INSTANCE" name="INSTANCE" group="Internal" default="`${toUpper(INST_NAME)}`" visible="`${debug}`" editable="false" desc="" />
+    <ParamString id="InstNumber" name="InstNumber" group="Internal" default="`${getInstNumber(&quot;isouart&quot;)}`" visible="`${debug}`" editable="false" desc="Iso-UART Instance name number." />
+    <ParamRange id="iuartClkMHz" name="iuartClkMHz" group="Internal" default="24000000" min="0" max="400000000" resolution="1" visible="`${debug}`" editable="false" desc="iuartClkMHz" />
+
+    <!-- Connections -->
+    <ParamSignal port="clock_iuart[0]" name="Clock" group="Connections" visible="true" desc="Clock that operates this block." canBeEmpty="false">
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_16\[.*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Clock frequency does not match desired `${iuartClkMHz / 1000000.0}`MHz." >
+          <Fixed
+            value="`${((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) >= 0.5) ? ceil(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) : floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation="peri\[\d+\]\.div_(16.5|24.5).*" valid="true" >
+        <Parameter id="intDivider" severity="ERROR" reason="Update integer divider. Clock frequency does not match desired `${iuartClkMHz / 1000000.0}`MHz." >
+          <Fixed
+            value="`${floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / cast(float, iuartClkMHz))}`" />
+        </Parameter>
+        <Parameter id="fracDivider" severity="ERROR" reason="Update fractional divider. Clock frequency does not match desired `${iuartClkMHz / 1000000.0}`MHz." >
+          <Fixed
+            value="`${((((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz)) * 32.0) - floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz)) * 32.0) >= 0.5) ? ceil(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz)) * 32.0) : floor(((getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz) - floor(getExposedMember(&quot;REF_LOCATION&quot;, &quot;frequency&quot;) * getExposedMember(&quot;REF_LOCATION&quot;, &quot;divider&quot;) / iuartClkMHz)) * 32.0)}`" />
+        </Parameter>
+      </Constraint>
+      <Constraint type="ACCEPT" targetLocation=".*" valid="true" />
+    </ParamSignal>
+    <ParamString id="sourceClock" name="sourceClock" group="Internal" default="`${getBlockFromSignal(&quot;clock_iuart[0]&quot;)}`" visible="`${debug}`" editable="false" desc="Source clock resource" />
+    <ParamBool id="pclkOk" name="PCLK Valid" group="Internal" default="`${hasConnection(&quot;clock_iuart&quot;, 0) &amp;&amp; isBlockUsed(sourceClock)}`" visible="`${debug}`" editable="false" desc="Checks whether there is a PCLK connected and enabled." />
+    <ParamString id="pclkDst" name="PCLK Destination" group="Internal" default="PCLK_ISOUART_CLOCK_IUART" visible="`${debug}`" editable="false" desc="Generates PCLK connection define." />
+
+    <!-- General -->
+    <ParamChoice id="mode" name="Mode" group="General" default="" visible="true" editable="true" desc="Iso UART mode.">
+      <Entry name="Host" value="CY_ISOUART_OP_MODE_HOST" visible="true" />
+      <Entry name="Node" value="CY_ISOUART_OP_MODE_NODE" visible="true" />
+    </ParamChoice>
+    <ParamBool id="isHost" name="isHost" desc="isHost" group="Internal" default="`${mode eq CY_ISOUART_OP_MODE_HOST}`" visible="`${debug}`" editable="false" />
+    <ParamBool id="isNode" name="isNode" desc="isNode" group="Internal" default="`${mode eq CY_ISOUART_OP_MODE_NODE}`" visible="`${debug}`" editable="false" />
+
+    <!-- Host -->
+    <ParamChoice id="topology" name="Topology" group="Host" default="CY_ISOUART_MOT" visible="`${isHost}`" editable="true" desc="Topology of ISOUART chain.">
+      <Entry name="Host on Top" value="CY_ISOUART_MOT" visible="true" />
+      <Entry name="Host on Bottom" value="CY_ISOUART_MOB" visible="true" />
+      <Entry name="Host on Top with Ring Topology" value="CY_ISOUART_MOT_RING" visible="true" />
+      <Entry name="Host on Bottom with Ring Topology" value="CY_ISOUART_MOB_RING" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="bitrate" name="Bit Rate" group="Host" default="CY_ISOUART_HOST_BITRATE_2_1MBPS" visible="`${isHost}`" editable="true" desc="The data rate of the ISOUART chain.">
+      <Entry name="2.1 Mbps" value="CY_ISOUART_HOST_BITRATE_2_1MBPS" visible="true" />
+      <Entry name="3.0 Mbps" value="CY_ISOUART_HOST_BITRATE_3_0MBPS" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="rxMode" name="Reciever Mode" group="Host" default="CY_ISOUART_RECEIVER_MODE_UNPACKED" visible="`${isHost}`" editable="true" desc="REGISTER: Stored in respective RECEIVED register only. UNPACKED: Unpacked, with Data field being stored in local SRAM. RAW: Raw register values stored in local SRAM. This allows for end (slave) to end (ASIL-D host) data integrity to be maintained.">
+      <Entry name="Register" value="CY_ISOUART_RECEIVER_MODE_REGISTER" visible="true" />
+      <Entry name="Unpacked" value="CY_ISOUART_RECEIVER_MODE_UNPACKED" visible="true" />
+      <Entry name="Raw" value="CY_ISOUART_RECEIVER_MODE_RAW" visible="true" />
+    </ParamChoice>
+    <ParamChoice id="crcHost" name="CRC Polynomial" group="Host" default="CY_ISOUART_CRC8_SAE_J1850" visible="`${isHost}`" editable="true" desc='CRC Polynomial "CRC8 SAE J1850: z^8 + z^4 + z^3 + z^2 + 1" "CRC8 H2F: x^8 + x^5 + x^3 + x^2 + x + 1"'>
+      <Entry name="CRC8 SAE J1850" value="CY_ISOUART_CRC8_SAE_J1850" visible="true" />
+      <Entry name="CRC8 H2F" value="CY_ISOUART_CRC8_H2F" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enBlockIdHost" name="Block ID Enable" desc="Enable Block ID" group="Host" default="false" visible="`${isHost}`" editable="true" />
+    <ParamBool id="enBroadcastHost" name="Broadcast Multi Read Enable" desc="Enables Multi Read Broadcast" group="Host" default="false" visible="`${isHost}`" editable="true" />
+    <ParamBool id="enLoopback" name="Internal Loopback Enable" desc="Local loopback control." group="Host" default="false" visible="`${isHost}`" editable="true" />
+
+    <!-- Host Trigger signal -->
+    <ParamBool id="writeDone" name="Write Done" desc="Whether to use the trigger when a write transaction is complete" group="Host Trigger signal" default="false" visible="`${isHost}`" editable="true" />
+    <ParamBool id="lowSramFull" name="Low side of SRAM is full" desc="Whether to use the trigger when data is full in the SRAM Low side" group="Host Trigger signal" default="false" visible="`${isHost}`" editable="true" />
+    <ParamBool id="highSramFull" name="High side of SRAM is full" desc="Whether to use the trigger when data is full in the SRAM High side" group="Host Trigger signal" default="false" visible="`${isHost}`" editable="true" />
+
+    <!-- Node -->
+    <ParamChoice id="crcNode" name="CRC Polynomial" group="Node" default="CY_ISOUART_CRC8_SAE_J1850" visible="`${isNode}`" editable="true" desc='CRC Polynomial "CRC8 SAE J1850: z^8 + z^4 + z^3 + z^2 + 1" "CRC8 H2F: x^8 + x^5 + x^3 + x^2 + x + 1"'>
+      <Entry name="CRC8 SAE J1850" value="CY_ISOUART_CRC8_SAE_J1850" visible="true" />
+      <Entry name="CRC8 H2F" value="CY_ISOUART_CRC8_H2F" visible="true" />
+    </ParamChoice>
+    <ParamBool id="enBlockIdNode" name="Block ID Enable" desc="Enable Block ID" group="Node" default="false" visible="`${isNode}`" editable="true" />
+    <ParamBool id="enBroadcastNode" name="Broadcast Multi Read Enable" desc="Enables Multi Read Broadcast" group="Node" default="false" visible="`${isNode}`" editable="true" />
+    <ParamRange id="baseAddrA" name="Base Address A" group="Node" default="0" min="0" max="128" resolution="1" visible="`${isNode}`" editable="true" desc="Base addresses used when returning registers enabled by bits 4 and 3:0 of the multi-read configuration register." />
+    <ParamRange id="baseAddrB" name="Base Address B" group="Node" default="0" min="0" max="128" resolution="1" visible="`${isNode}`" editable="true" desc="Base addresses used when returning registers enabled by bits 8 and 7:5 of the multi-read configuration register." />
+
+    <!-- Node Emergency Mode (EMM) Trigger signal -->
+    <ParamRange id="numTrigIn" name="numTrigIn" group="Node Emergency Mode (EMM) Trigger signal" default="`${lookupExpression(&quot;NUMTRIGIN&quot;)}`" min="0" max="256" resolution="1" visible="`${debug}`" editable="false" desc="Number of trigger inputs." />
+
+    <ParamSignal port="tr_emm_in[0]" name="Trigger input 0 for EMM" group="Node Emergency Mode (EMM) Trigger signal" visible="`${(isNode &amp;&amp; (numTrigIn &gt; 0))}`" desc="Trigger input tr_emm_in[0] will cause an EMM to be sent if asserted." canBeEmpty="true" />
+    <ParamBool id="trigIn0_enable" name="trigIn0 Enable" group="Node Emergency Mode (EMM) Trigger signal" default="`${hasConnection(&quot;tr_emm_in&quot;, 0)}`" visible="false" editable="false" desc="" />
+    <ParamSignal port="tr_emm_in[1]" name="Trigger input 1 for EMM" group="Node Emergency Mode (EMM) Trigger signal" visible="`${(isNode &amp;&amp; (numTrigIn &gt; 1))}`" desc="Trigger input tr_emm_in[1] will cause an EMM to be sent if asserted." canBeEmpty="true" />
+    <ParamBool id="trigIn1_enable" name="trigIn1 Enable" group="Node Emergency Mode (EMM) Trigger signal" default="`${hasConnection(&quot;tr_emm_in&quot;, 1)}`" visible="false" editable="false" desc="" />
+    <ParamSignal port="tr_emm_in[2]" name="Trigger input 2 for EMM" group="Node Emergency Mode (EMM) Trigger signal" visible="`${(isNode &amp;&amp; (numTrigIn &gt; 2))}`" desc="Trigger input tr_emm_in[2] will cause an EMM to be sent if asserted." canBeEmpty="true" />
+	  <ParamBool id="trigIn2_enable" name="trigIn2 Enable" group="Node Emergency Mode (EMM) Trigger signal" default="`${hasConnection(&quot;tr_emm_in&quot;, 2)}`" visible="false" editable="false" desc="" />
+    <ParamSignal port="tr_emm_in[3]" name="Trigger input 3 for EMM" group="Node Emergency Mode (EMM) Trigger signal" visible="`${(isNode &amp;&amp; (numTrigIn &gt; 3))}`" desc="Trigger input tr_emm_in[3] will cause an EMM to be sent if asserted." canBeEmpty="true" />
+	  <ParamBool id="trigIn3_enable" name="trigIn3 Enable" group="Node Emergency Mode (EMM) Trigger signal" default="`${hasConnection(&quot;tr_emm_in&quot;, 3)}`" visible="false" editable="false" desc="" />
+
+    <!-- Advanced -->
+    <ParamBool id="inFlash" name="Store Config in Flash" group="Advanced" default="true" visible="true" editable="true" desc="Controls whether the configuration structure is stored in flash (const, true) or SRAM (not const, false)." />
+  </Parameters>
+
+  <DRCs>
+  </DRCs>
+
+  <ConfigFirmware>
+    <ConfigInclude value="cy_isouart.h" include="true" />
+    <ConfigInclude value="cy_sysclk.h" include="`${pclkOk}`" />
+
+    <ConfigDefine name="`${INST_NAME}`_HW" value="ISOUART" public="true" include="true" />
+    <ConfigDefine name="`${INST_NAME}`_IRQ" value="isouart_interrupt_IRQn" public="true" include="true" />
+
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_isouart_host_config_t" const="`${inFlash}`" public="true" include="`${isHost}`">
+      <Member name="topology" value="`${topology}`" />
+      <Member name="hostBitrate" value="`${bitrate}`" />
+      <Member name="receiverMode" value="`${rxMode}`" />
+      <Member name="crcPolicy" value="`${crcHost}`" />
+      <Member name="enableBlockId" value="`${enBlockIdHost ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useWriteDoneTrig" value="`${writeDone ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useLowSramFullTrig" value="`${lowSramFull ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useHighSramFullTrig" value="`${highSramFull ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="enableMultiReadBC" value="`${enBroadcastHost ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="enableInternalLoopback" value="`${enLoopback ? &quot;true&quot; : &quot;false&quot;}`" />
+    </ConfigStruct>
+    <ConfigStruct name="`${INST_NAME}`_config" type="cy_stc_isouart_node_config_t" const="`${inFlash}`" public="true" include="`${isNode}`">
+      <Member name="crcPolicy" value="`${crcNode}`" />
+      <Member name="enableBlockId" value="`${enBlockIdNode ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useTrig0Emm" value="`${trigIn0_enable ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useTrig1Emm" value="`${trigIn1_enable ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useTrig2Emm" value="`${trigIn2_enable ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="useTrig3Emm" value="`${trigIn3_enable ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="enableMultiReadBC" value="`${enBroadcastNode ? &quot;true&quot; : &quot;false&quot;}`" />
+      <Member name="baseAddressA" value="`${baseAddrA}`" />
+      <Member name="baseAddressB" value="`${baseAddrB}`" />
+    </ConfigStruct>
+
+    <ConfigInstruction value="Cy_ISOUART_HostInit(`${INST_NAME}`_HW, &amp;`${INST_NAME}`_config);" include="`${isHost}`" purpose="INITIALIZE" />
+    <ConfigInstruction value="Cy_ISOUART_NodeInit(`${INST_NAME}`_HW, &amp;`${INST_NAME}`_config);" include="`${isNode}`" purpose="INITIALIZE" />
+    <ConfigInstruction value="Cy_SysClk_PeriphAssignDivider(`${pclkDst}`, `${getExposedMember(sourceClock, &quot;clockSel&quot;)}`);" include="`${pclkOk}`" purpose="INITIALIZE" />
+  </ConfigFirmware>
+</PersonalityTemplate>

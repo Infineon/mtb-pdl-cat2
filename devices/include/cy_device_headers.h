@@ -3,9 +3,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
-*
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -1900,6 +1899,18 @@
     #include "cy8c4147lce_hv413.h"
 #elif defined (CY8C4147LCE_HV423)
     #include "cy8c4147lce_hv423.h"
+#elif defined (CY8C4147LDE_HV504)
+    #include "cy8c4147lde_hv504.h"
+#elif defined (CY8C4147LDE_HV534)
+    #include "cy8c4147lde_hv534.h"
+#elif defined (CY8C4147LDE_HV604)
+    #include "cy8c4147lde_hv604.h"
+#elif defined (CY8C4147LDE_HV634)
+    #include "cy8c4147lde_hv634.h"
+#elif defined (CY8C4147LDE_HV704)
+    #include "cy8c4147lde_hv704.h"
+#elif defined (CY8C4147LDE_HV734)
+    #include "cy8c4147lde_hv734.h"
 #else
     #error Undefined part number. Consider updating PDL via ModusToolbox Library Manager to resolve the issue.
 #endif

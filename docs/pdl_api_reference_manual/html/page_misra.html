@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('page_misra.html','');});
 <tr>
 <td rowspan="2">MISRA Checking Tool </td><td>Coverity Static Analysis Tool </td><td>2022.12.0  </td></tr>
 </table>
+<p>Test results may vary across different MISRA checking tools due to implementation differences, compiler settings, and varying interpretations of MISRA guidelines. For instance, MISRA Rule 1.1 may generate false positives when tools enforce only the C99 minimum of 4095 macro identifiers, while modern toolchains (such as GCC, ARM, IAR) typically support significantly higher limits based on available memory and compiler architecture.</p>
 <h1>Project Deviation</h1>
 <p>The list of deviated required rules is provided in the table below. Advisory rules deviation is not documented, as not required per MISRA specification.</p>
 <table class="doxtable">

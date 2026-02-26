@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Woundings xml_version="1" xmlns="http://cypress.com/xsd/cychipresourcewoundings_v1">
   <MemoryWounding name="SRAM_KB" memoryId="SRAM" />
   <MemoryWounding name="FLASH_KB" memoryId="FLASH" />
@@ -50,6 +50,9 @@
   </RemoveListWounding>
   <RemoveListWounding name="USBPD_REMOVED">
     <Block name="usbpd" />
+  </RemoveListWounding>
+  <RemoveListWounding name="ISOUART_REMOVED">
+    <Block name="isouart" />
   </RemoveListWounding>
   <IndexResourceWounding name="LPCOMP_REMOVED">
     <ResourceIndex index="0">

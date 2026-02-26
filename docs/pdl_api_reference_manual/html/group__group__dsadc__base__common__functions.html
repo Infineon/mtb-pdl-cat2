@@ -105,7 +105,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga8397ad6f75f2c719eda4f84698ef4642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full DeInit of the sigma-delta AGC.  <a href="#ga8397ad6f75f2c719eda4f84698ef4642">More...</a><br /></td></tr>
 <tr class="separator:ga8397ad6f75f2c719eda4f84698ef4642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga30b9cf40d1421bff52642693e60dbaaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga30b9cf40d1421bff52642693e60dbaaa">Cy_DSADC_Enable</a> (const PACSS_Type *base, <a class="el" href="structcy__stc__dsadc__config__t.html">cy_stc_dsadc_config_t</a> *config)</td></tr>
-<tr class="memdesc:ga30b9cf40d1421bff52642693e60dbaaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full Enable configured parts of the sigma-delta AGC.  <a href="#ga30b9cf40d1421bff52642693e60dbaaa">More...</a><br /></td></tr>
+<tr class="memdesc:ga30b9cf40d1421bff52642693e60dbaaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full Enable configured parts of the sigma-delta ADC.  <a href="#ga30b9cf40d1421bff52642693e60dbaaa">More...</a><br /></td></tr>
 <tr class="separator:ga30b9cf40d1421bff52642693e60dbaaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga51295685e8698aa671c57a1e786ef94b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga51295685e8698aa671c57a1e786ef94b">Cy_DSADC_Disable</a> (const PACSS_Type *base)</td></tr>
 <tr class="memdesc:ga51295685e8698aa671c57a1e786ef94b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full Disable all parts of the sigma-delta ADC.  <a href="#ga51295685e8698aa671c57a1e786ef94b">More...</a><br /></td></tr>
@@ -119,21 +119,15 @@ Functions</h2></td></tr>
 <tr class="memitem:gae728f6171aff06f14f8489ea842dffbd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#gae728f6171aff06f14f8489ea842dffbd">Cy_DSADC_GetSequencerBusy</a> (const PACSS_MMIO_Type *base, uint8_t channel)</td></tr>
 <tr class="memdesc:gae728f6171aff06f14f8489ea842dffbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the sequencer status.  <a href="#gae728f6171aff06f14f8489ea842dffbd">More...</a><br /></td></tr>
 <tr class="separator:gae728f6171aff06f14f8489ea842dffbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#gadd3dfbfa9984c9efe3effbd38db5927d">Cy_DSADC_AgcGetGainLevel</a> (const PACSS_MMIO_Type *base)</td></tr>
-<tr class="memdesc:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current gain level.  <a href="#gadd3dfbfa9984c9efe3effbd38db5927d">More...</a><br /></td></tr>
-<tr class="separator:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9977065d879e3e6105fc98fb8d8dd089"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga9977065d879e3e6105fc98fb8d8dd089">Cy_DSADC_AgcGetFastDecimatorResult</a> (const PACSS_MMIO_Type *base)</td></tr>
-<tr class="memdesc:ga9977065d879e3e6105fc98fb8d8dd089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AGC Fast Decimator Result.  <a href="#ga9977065d879e3e6105fc98fb8d8dd089">More...</a><br /></td></tr>
-<tr class="separator:ga9977065d879e3e6105fc98fb8d8dd089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5b990077d0b4716a930e7d4d16bfd069"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga5b990077d0b4716a930e7d4d16bfd069">Cy_DSADC_CountsTo_Volts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
-<tr class="memdesc:ga5b990077d0b4716a930e7d4d16bfd069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to Volts.  <a href="#ga5b990077d0b4716a930e7d4d16bfd069">More...</a><br /></td></tr>
-<tr class="separator:ga5b990077d0b4716a930e7d4d16bfd069"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga483626d318111de68741ce232bf13299"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga483626d318111de68741ce232bf13299">Cy_DSADC_CountsTo_mVolts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
-<tr class="memdesc:ga483626d318111de68741ce232bf13299"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to millivolts.  <a href="#ga483626d318111de68741ce232bf13299">More...</a><br /></td></tr>
-<tr class="separator:ga483626d318111de68741ce232bf13299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga63075d85acab3cb7d83ace527d27c653"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga63075d85acab3cb7d83ace527d27c653">Cy_DSADC_CountsTo_uVolts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
-<tr class="memdesc:ga63075d85acab3cb7d83ace527d27c653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to microvolts.  <a href="#ga63075d85acab3cb7d83ace527d27c653">More...</a><br /></td></tr>
-<tr class="separator:ga63075d85acab3cb7d83ace527d27c653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe88a3831fd1eac9f24d6de51ad6f25a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#gafe88a3831fd1eac9f24d6de51ad6f25a">Cy_DSADC_CountsTo_Volts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
+<tr class="memdesc:gafe88a3831fd1eac9f24d6de51ad6f25a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to Volts.  <a href="#gafe88a3831fd1eac9f24d6de51ad6f25a">More...</a><br /></td></tr>
+<tr class="separator:gafe88a3831fd1eac9f24d6de51ad6f25a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7239873610f58f8f10daced258410dee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga7239873610f58f8f10daced258410dee">Cy_DSADC_CountsTo_mVolts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
+<tr class="memdesc:ga7239873610f58f8f10daced258410dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to millivolts.  <a href="#ga7239873610f58f8f10daced258410dee">More...</a><br /></td></tr>
+<tr class="separator:ga7239873610f58f8f10daced258410dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4397842181241a3494950c2802dce42f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga4397842181241a3494950c2802dce42f">Cy_DSADC_CountsTo_uVolts</a> (int32_t counts, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> vref, <a class="el" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> analogGain, const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *dchan_config)</td></tr>
+<tr class="memdesc:ga4397842181241a3494950c2802dce42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the input from raw DSADC counts to microvolts.  <a href="#ga4397842181241a3494950c2802dce42f">More...</a><br /></td></tr>
+<tr class="separator:ga4397842181241a3494950c2802dce42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga42746b42adf280c0ed17b054c31abbe3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga42746b42adf280c0ed17b054c31abbe3">Cy_DSADC_ConnectTemperature</a> (PACSS_MMIO_Type *base, uint32_t selectMask)</td></tr>
 <tr class="memdesc:ga42746b42adf280c0ed17b054c31abbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects the specified pin to the parts of the on-die temperature sensor.  <a href="#ga42746b42adf280c0ed17b054c31abbe3">More...</a><br /></td></tr>
 <tr class="separator:ga42746b42adf280c0ed17b054c31abbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,7 +138,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaa041b6efd411a39de68b1f7c4ecae913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the on-die temperature sensor.  <a href="#gaa041b6efd411a39de68b1f7c4ecae913">More...</a><br /></td></tr>
 <tr class="separator:gaa041b6efd411a39de68b1f7c4ecae913"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga342671c6d75de15d1e7d89b104d7e3b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga342671c6d75de15d1e7d89b104d7e3b4">Cy_DSADC_DisableTemperature</a> (PACSS_MMIO_Type *base)</td></tr>
-<tr class="memdesc:ga342671c6d75de15d1e7d89b104d7e3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the on-die temperature sensor.  <a href="#ga342671c6d75de15d1e7d89b104d7e3b4">More...</a><br /></td></tr>
+<tr class="memdesc:ga342671c6d75de15d1e7d89b104d7e3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the on-die temperature sensor.  <a href="#ga342671c6d75de15d1e7d89b104d7e3b4">More...</a><br /></td></tr>
 <tr class="separator:ga342671c6d75de15d1e7d89b104d7e3b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga077b6c33223c19a85b86ff92d1b27b24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__common__functions.html#ga077b6c33223c19a85b86ff92d1b27b24">Cy_DSADC_InitTemperature</a> (PACSS_MMIO_Type *base, <a class="el" href="structcy__stc__dsadc__temperature__config__t.html">cy_stc_dsadc_temperature_config_t</a> *config)</td></tr>
 <tr class="memdesc:ga077b6c33223c19a85b86ff92d1b27b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the on-die temperature sensor.  <a href="#ga077b6c33223c19a85b86ff92d1b27b24">More...</a><br /></td></tr>
@@ -355,7 +349,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Full Enable configured parts of the sigma-delta AGC. </p>
+<p>Full Enable configured parts of the sigma-delta ADC. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>The base address for the PACSS. </td></tr>
@@ -485,62 +479,8 @@ Only those parts will be enabled for which pointers are not NULL in the config <
 
 </div>
 </div>
-<a id="gadd3dfbfa9984c9efe3effbd38db5927d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadd3dfbfa9984c9efe3effbd38db5927d">&#9670;&nbsp;</a></span>Cy_DSADC_AgcGetGainLevel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t Cy_DSADC_AgcGetGainLevel </td>
-          <td>(</td>
-          <td class="paramtype">const PACSS_MMIO_Type *&#160;</td>
-          <td class="paramname"><em>base</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get current gain level. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Current gain level. </dd></dl>
-
-</div>
-</div>
-<a id="ga9977065d879e3e6105fc98fb8d8dd089"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9977065d879e3e6105fc98fb8d8dd089">&#9670;&nbsp;</a></span>Cy_DSADC_AgcGetFastDecimatorResult()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t Cy_DSADC_AgcGetFastDecimatorResult </td>
-          <td>(</td>
-          <td class="paramtype">const PACSS_MMIO_Type *&#160;</td>
-          <td class="paramname"><em>base</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the AGC Fast Decimator Result. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>AGC Fast Decimator Result. </dd></dl>
-
-</div>
-</div>
-<a id="ga5b990077d0b4716a930e7d4d16bfd069"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5b990077d0b4716a930e7d4d16bfd069">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_Volts()</h2>
+<a id="gafe88a3831fd1eac9f24d6de51ad6f25a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafe88a3831fd1eac9f24d6de51ad6f25a">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_Volts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -566,7 +506,7 @@ Only those parts will be enabled for which pointers are not NULL in the config <
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
           <td class="paramname"><em>dchan_config</em>&#160;</td>
         </tr>
         <tr>
@@ -588,12 +528,12 @@ Only those parts will be enabled for which pointers are not NULL in the config <
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Result in volts. </dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to volts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to volts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> volts = <a class="code" href="group__group__dsadc__base__common__functions.html#ga5b990077d0b4716a930e7d4d16bfd069">Cy_DSADC_CountsTo_Volts</a>(result,</div><div class="line">                                              CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                              CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                              &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to volts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to volts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> volts = <a class="code" href="group__group__dsadc__base__common__functions.html#gafe88a3831fd1eac9f24d6de51ad6f25a">Cy_DSADC_CountsTo_Volts</a>(result,</div><div class="line">                                              CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                              CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                              &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
-<a id="ga483626d318111de68741ce232bf13299"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga483626d318111de68741ce232bf13299">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_mVolts()</h2>
+<a id="ga7239873610f58f8f10daced258410dee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7239873610f58f8f10daced258410dee">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_mVolts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -619,7 +559,7 @@ Only those parts will be enabled for which pointers are not NULL in the config <
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
           <td class="paramname"><em>dchan_config</em>&#160;</td>
         </tr>
         <tr>
@@ -641,12 +581,12 @@ Only those parts will be enabled for which pointers are not NULL in the config <
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Result in millivolts. </dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to millivolts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to millivolts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> millivolts = <a class="code" href="group__group__dsadc__base__common__functions.html#ga483626d318111de68741ce232bf13299">Cy_DSADC_CountsTo_mVolts</a>(result,</div><div class="line">                                                    CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                                    CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                                    &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to millivolts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to millivolts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> millivolts = <a class="code" href="group__group__dsadc__base__common__functions.html#ga7239873610f58f8f10daced258410dee">Cy_DSADC_CountsTo_mVolts</a>(result,</div><div class="line">                                                    CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                                    CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                                    &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
-<a id="ga63075d85acab3cb7d83ace527d27c653"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga63075d85acab3cb7d83ace527d27c653">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_uVolts()</h2>
+<a id="ga4397842181241a3494950c2802dce42f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4397842181241a3494950c2802dce42f">&#9670;&nbsp;</a></span>Cy_DSADC_CountsTo_uVolts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -672,7 +612,7 @@ Only those parts will be enabled for which pointers are not NULL in the config <
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *&#160;</td>
           <td class="paramname"><em>dchan_config</em>&#160;</td>
         </tr>
         <tr>
@@ -694,7 +634,7 @@ Only those parts will be enabled for which pointers are not NULL in the config <
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Result in microvolts. </dd></dl>
-<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to microvolts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to microvolts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> microvolts = <a class="code" href="group__group__dsadc__base__common__functions.html#ga63075d85acab3cb7d83ace527d27c653">Cy_DSADC_CountsTo_uVolts</a>(result,</div><div class="line">                                                    CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                                    CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                                    &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
+<dl class="section user"><dt>Function Usage</dt><dd><div class="fragment"><div class="line">    <span class="comment">/* Scenario: DCADC conversion has completed and result is valid.</span></div><div class="line"><span class="comment">     * Retrieve the result on DCHAN0 and convert it to microvolts.</span></div><div class="line"><span class="comment">     */</span></div><div class="line"></div><div class="line">    <span class="comment">/* HPBGR reference voltage */</span></div><div class="line"><span class="preprocessor">    #define CY_DCADC_HBPGR_VOLTAGE              (1.2F)</span></div><div class="line"><span class="preprocessor">    #define CY_DSADC_ANALOG_GAIN_DCHAN0         (1.0F)</span></div><div class="line"></div><div class="line">    <span class="comment">/* Get the result of the conversion on DCHAN0. */</span></div><div class="line">    int32_t result = <a class="code" href="group__group__dsadc__base__dchan__functions.html#gac24a4355de02b3f7ccb9cb597cb5cadb">Cy_DSADC_GetResult</a>(PACSS_DCHAN0);</div><div class="line">    <span class="comment">/* Convert the result to microvolts. */</span></div><div class="line">    <a class="code" href="group__group__syslib__macros.html#ga4611b605e45ab401f02cab15c5e38715">float32_t</a> microvolts = <a class="code" href="group__group__dsadc__base__common__functions.html#ga4397842181241a3494950c2802dce42f">Cy_DSADC_CountsTo_uVolts</a>(result,</div><div class="line">                                                    CY_DCADC_HBPGR_VOLTAGE,</div><div class="line">                                                    CY_DSADC_ANALOG_GAIN_DCHAN0,</div><div class="line">                                                    &amp;dchan_config);</div></div><!-- fragment --></dd></dl>
 
 </div>
 </div>
@@ -814,7 +754,7 @@ Only those parts will be enabled for which pointers are not NULL in the config <
       </table>
 </div><div class="memdoc">
 
-<p>Enables the on-die temperature sensor. </p>
+<p>Disables the on-die temperature sensor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>

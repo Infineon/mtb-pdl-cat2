@@ -1,14 +1,14 @@
 /*******************************************************************************
 * \file cy_canfd.c
-* \version 1.20
+* \version 1.30
 *
 * \brief
 *  Provides an API implementation of the CAN FD driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2019-2023), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2019-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -26,7 +26,7 @@
 *******************************************************************************/
 #include "cy_canfd.h"
 
-#ifdef CY_IP_MXTTCANFD
+#if defined (CY_IP_MXTTCANFD) || defined (CY_IP_M0S8TTCANFD)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -1962,7 +1962,7 @@ cy_en_canfd_tx_buffer_status_t Cy_CANFD_GetTxBufferStatus(CANFD_Type const *base
 }
 #endif
 
-#endif /* CY_IP_MXTTCANFD */
+#endif /* defined (CY_IP_MXTTCANFD) || defined (CY_IP_M0S8TTCANFD) */
 
 
 /* [] END OF FILE */

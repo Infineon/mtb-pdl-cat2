@@ -98,6 +98,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gab0db214fef1867b6862aaaa8bfe2d275"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__dchan__functions.html#gab0db214fef1867b6862aaaa8bfe2d275">Cy_DSADC_CalcMaxCount</a> (const <a class="el" href="structcy__stc__dsadc__dchan__config__t.html">cy_stc_dsadc_dchan_config_t</a> *config)</td></tr>
 <tr class="memdesc:gab0db214fef1867b6862aaaa8bfe2d275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the maximum count value of the conversion result from the passed DCHAN configuration.  <a href="#gab0db214fef1867b6862aaaa8bfe2d275">More...</a><br /></td></tr>
 <tr class="separator:gab0db214fef1867b6862aaaa8bfe2d275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8e0f0feb3440fd5909cf2edba95140da"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__dchan__functions.html#ga8e0f0feb3440fd5909cf2edba95140da">Cy_DSADC_GetResultTagRaw</a> (const PACSS_DCHAN_Type *base)</td></tr>
+<tr class="memdesc:ga8e0f0feb3440fd5909cf2edba95140da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the 32-bit tag word associated with the most recent valid conversion.  <a href="#ga8e0f0feb3440fd5909cf2edba95140da">More...</a><br /></td></tr>
+<tr class="separator:ga8e0f0feb3440fd5909cf2edba95140da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga914de1e4be589b725ed693acba0a9070"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__base__dchan__functions.html#ga914de1e4be589b725ed693acba0a9070">Cy_DSADC_GetResultTag</a> (const PACSS_DCHAN_Type *base, <a class="el" href="structcy__stc__dsadc__dchan__result__tag__t.html">cy_stc_dsadc_dchan_result_tag_t</a> *tag)</td></tr>
+<tr class="memdesc:ga914de1e4be589b725ed693acba0a9070"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes the tag word for the most recent valid conversion into a structure.  <a href="#ga914de1e4be589b725ed693acba0a9070">More...</a><br /></td></tr>
+<tr class="separator:ga914de1e4be589b725ed693acba0a9070"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -201,6 +207,74 @@ Functions</h2></td></tr>
 <p>SRR = RR_SHIFTR value ([0, 15])</p>
 <p>SPP = PP_SHIFTR value ([0, 15])</p>
 <p>FIRADJ = log2(sum(FIRcoeff)) (assumes fix 0) </p>
+
+</div>
+</div>
+<a id="ga8e0f0feb3440fd5909cf2edba95140da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8e0f0feb3440fd5909cf2edba95140da">&#9670;&nbsp;</a></span>Cy_DSADC_GetResultTagRaw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_DSADC_GetResultTagRaw </td>
+          <td>(</td>
+          <td class="paramtype">const PACSS_DCHAN_Type *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the 32-bit tag word associated with the most recent valid conversion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The base address for the Digital Channel. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>32-bit tag word with the following field allocation: <br />
+ Bits [6:0] RESULT_PARITY - 7-bit ECC parity computed from the 32-bit result. <br />
+ Bits [13:8] SMP_COUNT - 6-bit sample counter. Increments for each valid (post-processed) output. Resets when DSADC or the DCHAN is disabled. <br />
+ Bits [17:16] DCH_ID - Hardware digital channel ID (constant for a given channel instance). <br />
+ Bits [26:20] DATA_TYPE - Latched input/data selection identifier used for the conversion. Latched at start of conversion, reported here when result is ready. </dd></dl>
+
+</div>
+</div>
+<a id="ga914de1e4be589b725ed693acba0a9070"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga914de1e4be589b725ed693acba0a9070">&#9670;&nbsp;</a></span>Cy_DSADC_GetResultTag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_GetResultTag </td>
+          <td>(</td>
+          <td class="paramtype">const PACSS_DCHAN_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__dchan__result__tag__t.html">cy_stc_dsadc_dchan_result_tag_t</a> *&#160;</td>
+          <td class="paramname"><em>tag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Decodes the tag word for the most recent valid conversion into a structure. </p>
+<p>All fields are captured simultaneously with the conversion result. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The base address for the Digital Channel. </td></tr>
+    <tr><td class="paramname">tag</td><td>Non-NULL pointer to a result tag structureto be filled. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

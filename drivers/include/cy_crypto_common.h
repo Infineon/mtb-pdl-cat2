@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_crypto_common.h
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 *  This file provides common constants and parameters for the Crypto driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -47,7 +47,7 @@ extern "C" {
 #define CY_CRYPTO_DRV_VERSION_MAJOR         1
 
 /** Driver minor version */
-#define CY_CRYPTO_DRV_VERSION_MINOR         0
+#define CY_CRYPTO_DRV_VERSION_MINOR         10
 
 #if defined (CRYPTO_AES) || defined (CY_DOXYGEN)
 /** Crypto AES block size (in bytes) */

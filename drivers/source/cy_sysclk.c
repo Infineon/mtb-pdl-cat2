@@ -1,13 +1,13 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.50
+* \version 3.60
 *
 * Provides an API implementation of the sysclk driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -95,7 +95,8 @@ uint32_t Cy_SysClk_ExtClkGetFrequency(void)
 /* =========================    EXTREF SECTION    =========================== */
 /* ========================================================================== */
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
-#if (CY_IP_M0S8EXCO_VERSION == 2U) || defined(CY_DOXYGEN)
+#if (CY_IP_M0S8EXCO_VERSION == 2U)
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1U))
 /** \cond INTERNAL */
 static uint32_t extRefFreq = 0UL; /* Internal storage for external PLL reference frequency user setting */
 
@@ -152,6 +153,7 @@ uint32_t Cy_SysClk_ExtRefGetFrequency(void)
     return (extRefFreq);
 }
 /** \} group_sysclk_ext_ref_funcs */
+#endif /* EXCO_PLL_PRESENT */
 #endif /* CY_IP_M0S8EXCO_VERSION == 2U */
 #endif /* CY_IP_M0S8EXCO */
 
@@ -871,7 +873,7 @@ cy_en_sysclk_status_t Cy_SysClk_IloCompensate(uint32_t desiredDelay , uint32_t *
     return (retVal);
 }
 
-#if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u)) || defined(CY_DOXYGEN)
+#if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
 /* ========================================================================== */
 /* ===========================    ECO SECTION    ============================ */
 /* ========================================================================== */
@@ -934,7 +936,7 @@ static uint32_t ecoFreq = 0UL; /* Internal storage for ECO frequency user settin
 * Configures the external crystal oscillator (ECO) trim bits based on crystal
 * characteristics. This function should be called only when the ECO is disabled.
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for PSOC4 HVMS/PA devices, except PSOC 4 HVPA SPM.
 *
 * \param freq Operating frequency of the crystal in Hz.
 * Valid range: 4000000...33330000 (4..33.33 MHz).
@@ -1062,7 +1064,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoConfigure(uint32_t freq, uint32_t cLoad, uint
 * Enables the external crystal oscillator (ECO). This function should be called
 * after \ref Cy_SysClk_EcoConfigure.
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for PSOC4 HVMS/PA devices, except PSOC 4 HVPA SPM.
 *
 * \param timeoutUs Amount of time in microseconds to wait for the ECO to stabilize.
 * To avoid waiting for stabilization, set this parameter to 0.
@@ -1120,7 +1122,7 @@ cy_en_sysclk_status_t Cy_SysClk_EcoEnable(uint32_t timeoutUs)
 *
 * Returns the frequency of the external crystal oscillator (ECO).
 *
-* \note Not applicable for PSOC4 HVMS/PA.
+* \note Not applicable for PSOC4 HVMS/PA devices, except PSOC 4 HVPA SPM.
 *
 * \return The frequency of the ECO.
 *
@@ -1136,25 +1138,7 @@ uint32_t Cy_SysClk_EcoGetFrequency(void)
 }
 /** \} group_sysclk_eco_funcs */
 
-
-#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u)) || defined(CY_DOXYGEN)
-/* ========================================================================== */
-/* ===========================    PLL SECTION    ============================ */
-/* ========================================================================== */
-
-#if (defined (EXCO_PLL_REF_IN_EN) && (EXCO_PLL_REF_IN_EN == 1u)) || defined(CY_DOXYGEN)
-
-#if (CY_IP_M0S8EXCO_VERSION == 1U)
-#define  CY_SYSCLK_PLL_IS_SRC_VALID(src) (((src) == CY_SYSCLK_PLL_SRC_ECO) || \
-                                          ((src) == CY_SYSCLK_PLL_SRC_IMO))
-#else /* (CY_IP_M0S8EXCO_VERSION == 2U) */
-#define  CY_SYSCLK_PLL_IS_SRC_VALID(src) (((src) == CY_SYSCLK_PLL_SRC_ECO)    || \
-                                          ((src) == CY_SYSCLK_PLL_SRC_EXTREF) || \
-                                          ((src) == CY_SYSCLK_PLL_SRC_IMO))
-#endif /* (CY_IP_M0S8EXCO_VERSION == 1U) */
-
 #define CY_SYSCLK_EXCO_PGM_CLK_SEQ_GEN (8UL)
-
 
 /*******************************************************************************
 * Function Name: Cy_SysClk_EcoSeqGen
@@ -1179,6 +1163,22 @@ static void Cy_SysClk_EcoSeqGen(void)
         EXCO_EXCO_PGM_CLK &= ~EXCO_EXCO_PGM_CLK_ENABLE_Msk;
     }
 }
+
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
+/* ========================================================================== */
+/* ===========================    PLL SECTION    ============================ */
+/* ========================================================================== */
+
+#if (defined (EXCO_PLL_REF_IN_EN) && (EXCO_PLL_REF_IN_EN == 1u))
+
+#if (CY_IP_M0S8EXCO_VERSION == 1U)
+#define  CY_SYSCLK_PLL_IS_SRC_VALID(src) (((src) == CY_SYSCLK_PLL_SRC_ECO) || \
+                                          ((src) == CY_SYSCLK_PLL_SRC_IMO))
+#else /* (CY_IP_M0S8EXCO_VERSION == 2U) */
+#define  CY_SYSCLK_PLL_IS_SRC_VALID(src) (((src) == CY_SYSCLK_PLL_SRC_ECO)    || \
+                                          ((src) == CY_SYSCLK_PLL_SRC_EXTREF) || \
+                                          ((src) == CY_SYSCLK_PLL_SRC_IMO))
+#endif /* (CY_IP_M0S8EXCO_VERSION == 1U) */
 
 /**
 * \addtogroup group_sysclk_pll_funcs
@@ -1775,9 +1775,9 @@ typedef enum
 static cy_en_sysclk_exco_status_t Cy_SysClk_ExcoGetStatus(void)
 {
     cy_en_sysclk_exco_status_t excoStatus = CY_SYSCLK_EXCO_OUT_INVALID;
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
     cy_en_sysclk_pll_bypass_t bypassState = Cy_SysClk_PllGetBypassState(0UL);
 
-#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
     if (CY_SYSCLK_PLL_BYP_AUTO == bypassState)
     {
         if (Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
@@ -1809,7 +1809,6 @@ static cy_en_sysclk_exco_status_t Cy_SysClk_ExcoGetStatus(void)
     }
     return excoStatus;
 }
-
 
 /*******************************************************************************
 * Function Name: Cy_SysClk_ExcoGetFrequency
@@ -1845,19 +1844,26 @@ static uint32_t Cy_SysClk_ExcoGetFrequency(void)
 
 /** \cond */
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
-#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
-    #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_EXCO)   || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_ECO)    || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_PLL))
-#else
-    #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_EXCO)   || \
-                                             ((src) == CY_SYSCLK_CLKHF_IN_ECO))
-#endif /* EXCO_PLL_PRESENT */
-#elif (defined (CY_IP_M0S8SRSSHV))
+    #if (defined(CY_IP_M0S8SRSSHV) && (CY_IP_M0S8SRSSHV == 1u))
+        #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
+                                                 ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
+                                                 ((src) == CY_SYSCLK_CLKHF_IN_HPOSC)  || \
+                                                 ((src) == CY_SYSCLK_CLKHF_IN_EXCO))
+    #else
+        #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
+            #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_EXCO)   || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_ECO)    || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_PLL))
+        #else
+            #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_EXCO)   || \
+                                                     ((src) == CY_SYSCLK_CLKHF_IN_ECO))
+        #endif /* EXCO_PLL_PRESENT */
+    #endif /* CY_IP_M0S8SRSSHV */
+#elif (defined(CY_IP_M0S8SRSSHV) && (CY_IP_M0S8SRSSHV == 1u))
     #define  CY_SYSCLK_IS_SOURCE_VALID(src) (((src) == CY_SYSCLK_CLKHF_IN_IMO)    || \
                                              ((src) == CY_SYSCLK_CLKHF_IN_EXTCLK) || \
                                              ((src) == CY_SYSCLK_CLKHF_IN_HPOSC))
@@ -1923,6 +1929,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
                 Cy_SysClk_EcoSeqGen();
                 retVal = CY_SYSCLK_SUCCESS;
             }
+            #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
             /* BWC section start, for HAL 2.0.0 only */
             else if ((CY_SYSCLK_CLKHF_IN_ECO == source) && (0UL != Cy_SysClk_EcoGetFrequency()))
             {
@@ -1930,7 +1937,6 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
                 source = CY_SYSCLK_CLKHF_IN_EXCO;
                 retVal = CY_SYSCLK_SUCCESS;
             }
-            #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
             else if ((CY_SYSCLK_CLKHF_IN_PLL == source) && Cy_SysClk_PllIsEnabled(0UL) && Cy_SysClk_PllIsLocked(0UL))
             {
                 if (0UL != Cy_SysClk_EcoGetFrequency())
@@ -1995,7 +2001,9 @@ cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(cy_en_sysclk_clkhf_src_t source)
 * \return \ref cy_en_sysclk_clkhf_src_t : \n
 * \ref CY_SYSCLK_CLKHF_IN_IMO - IMO - Internal R/C Oscillator. \n
 * \ref CY_SYSCLK_CLKHF_IN_EXTCLK - EXTCLK - External Clock Pin. \n
-* \ref CY_SYSCLK_CLKHF_IN_EXCO - EXCO block output, ECO or PLL, use \ref Cy_SysClk_PllBypass to select between them.
+* \ref CY_SYSCLK_CLKHF_IN_EXCO - EXCO block output, normally ECO or PLL (use \ref Cy_SysClk_PllBypass to select between them).
+*   As part of the Clock Supervisor (CSV) failover strategy, when a fault is detected, the EXCO block output
+*   will be automatically switched to IMO and the \ref CY_SYSCLK_INTR_SW_IMO interrupt will be generated. \n
 * \ref CY_SYSCLK_CLKHF_IN_HPOSC - High Precision Oscillator. \n
 *
 * \funcusage
@@ -2018,7 +2026,11 @@ cy_en_sysclk_clkhf_src_t Cy_SysClk_ClkHfGetSource(void)
 * \return The frequency, in Hz.
 *
 * \note
-* The reported value may be zero, which indicates the frequency is unknown.
+* The reported value may be zero, which indicates the frequency is unknown. \n
+* If Clock Supervisor (CSV) has detected an ECO fault and automatically switched the EXCO output to IMO,
+* this function will still report the configured ECO frequency (not the actual IMO frequency being output).
+* To detect if CSV failover has occurred, check the \ref CY_SYSCLK_INTR_SW_IMO interrupt status using
+* \ref Cy_SysClk_GetInterruptStatus or \ref Cy_SysClk_GetInterruptStatusMasked.
 *
 * \funcusage
 * \snippet sysclk_snippet.c snippet_Cy_SysClk_ClkHfSetDivider
@@ -3562,7 +3574,6 @@ cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t sour
 
 
 #if (defined(CY_IP_M0S8EXCO) && (CY_IP_M0S8EXCO == 1u))
-#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
 #if (CY_IP_M0S8EXCO_VERSION == 2U)
 /*******************************************************************************
 * Function Name: Cy_SysClk_CsvInit
@@ -3570,7 +3581,7 @@ cy_en_sysclk_status_t Cy_SysClk_ClkPumpSetSource(cy_en_sysclk_clkpump_src_t sour
 *
 * Initializes the clock supervision parameters.
 *
-* This API is available on devices with the CSV Feature (i.e. PSOC 4500S and 4100S Max).
+* This API is available on devices with the CSV feature (i.e. PSOC 4500S, 4100S Max, and PSOC4 HVPA SPM).
 * Refer to the Device Datasheet to check the CSV feature support.
 *
 * \param config A pointer to the structure of type \ref cy_stc_sysclk_csv_config_t
@@ -3603,7 +3614,6 @@ void Cy_SysClk_CsvInit(cy_stc_sysclk_csv_config_t * config)
 
 
 #endif /* CY_IP_M0S8EXCO_VERSION == 2U */
-#endif /* EXCO_PLL_PRESENT */
 #endif /* CY_IP_M0S8EXCO */
 
 /* ========================================================================== */
@@ -3684,7 +3694,9 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
 #if defined (CY_IP_M0S8EXCO)
     static bool exco;
     static bool eco;
+#if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
     static bool pll;
+#endif /* (EXCO_PLL_PRESENT) */
 #endif /* CY_IP_M0S8EXCO */
 
 #if defined (CY_IP_M0S8EXCO) || defined(CY_IP_M0S8WCO)
@@ -3753,7 +3765,9 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
 
                     (void)Cy_SysClk_ClkHfSetSource(CY_SYSCLK_CLKHF_IN_IMO);
 
+                    #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
                     pll = Cy_SysClk_PllIsEnabled(0UL);
+                    #endif /* (EXCO_PLL_PRESENT) */
                     eco = Cy_SysClk_EcoIsEnabled();
                 }
             #endif /* CY_IP_M0S8EXCO */
@@ -3779,6 +3793,7 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
 
                     if (0UL != timeout)
                     {
+                        #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
                         if (pll)
                         {
                             timeout = DEEP_SLEEP_PLL_TIMEOUT;
@@ -3789,6 +3804,7 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
                                 Cy_SysLib_DelayUs(1U);
                             }
                         }
+                        #endif /* (EXCO_PLL_PRESENT) */
 
                         if (0UL != timeout)
                         {
@@ -3804,12 +3820,14 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
                         }
                         else
                         {
+                            #if (defined(EXCO_PLL_PRESENT) && (EXCO_PLL_PRESENT == 1u))
                             /* Call the callback (if registered) */
                             if ((NULL != callbackParams->context) &&
                                 (NULL != ((cy_stc_sysclk_context_t*)(callbackParams->context))->callback))
                             {
                                 ((cy_stc_sysclk_context_t*)(callbackParams->context))->callback(CY_SYSCLK_PLL_TIMEOUT_EVENT);
                             }
+                            #endif /* (EXCO_PLL_PRESENT) */
                         }
                     }
                     else

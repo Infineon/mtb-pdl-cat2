@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -135,7 +135,13 @@
     <ParamString id="cfgGainStrName" name="cfgGainStrName" group="Internal" default="`${INST_NAME}`_gain_levels" visible="`${debug}`" editable="false" desc="" />
 
   </Parameters>
-  <DRCs/>
+
+  <DRCs>
+    <DRC type="ERROR" text="Min Gain Level must be less than or equal to Max Gain Level." condition="`${minGainLevel &gt; maxGainLevel}`" >
+      <FixIt action="SET_PARAM" target="minGainLevel" value="`${maxGainLevel}`" valid="true"/>
+    </DRC>
+  </DRCs>
+
   <ConfigFirmware>
     <ConfigInclude value="cy_dsadc.h" include="true" />
 

@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_ctb.c
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 * Provides the public functions for the CTB driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2017-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2017-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -25,6 +25,44 @@
 * limitations under the License.
 *******************************************************************************/
 #include "cy_ctb.h"
+
+#ifdef CY_IP_M0S8PASS4A
+
+#if (3u != CY_IP_M0S8PASS4A_VERSION)
+
+#define PASS_PASS_CTRL_PMPCLK_Pos (PASS_PASS_CTRL_PMPCLK_BYP_Pos)
+#define PASS_PASS_CTRL_PMPCLK_Msk (PASS_PASS_CTRL_PMPCLK_BYP_Msk | PASS_PASS_CTRL_PMPCLK_SRC_Msk)
+
+/*******************************************************************************
+* Function Name: Cy_PASS_SetPumpClkSource
+****************************************************************************//**
+*
+* Sets the clock source for both charge pumps in the CTB and SAR ADC. 
+* Recall that each CTB opamp and SAR ADC has its own charge pump.
+*
+* \param base
+* The pointer to structure-describing registers.
+*
+* \param pumpClk
+* Clock source selection for the pump. See \ref cy_en_ctb_clk_pump_source_t.
+*
+* \note This function should be used instead of obsolete
+*       Cy_CTB_SetPumpClkSource() function because it will be removed in the
+*       next releases.
+*
+* \funcusage
+* \snippet ctb_snippet.c PASS_SNIPPET_SET_CLK_PUMP_SOURCE_HF
+* \snippet ctb_snippet.c PASS_SNIPPET_SET_CLK_PUMP_SOURCE_SRSS
+*
+*******************************************************************************/
+void Cy_PASS_SetPumpClkSource(PASS_Type * base, cy_en_pass_clk_pump_source_t pumpClk)
+{
+    CY_ASSERT_L3(CY_PASS_CLKPUMP(pumpClk));
+
+    CY_REG32_CLR_SET(PASS_PASS_CTRL(base), PASS_PASS_CTRL_PMPCLK, pumpClk);
+}
+
+#endif /* (3u != CY_IP_M0S8PASS4A_VERSION) */
 
 #ifdef CY_IP_M0S8PASS4A_CTB
 
@@ -710,9 +748,6 @@ uint32_t Cy_CTB_DSAB_GetCurrent(const CTBM_Type * base)
     return (_FLD2VAL(PASS_DSAB_DSAB_CTRL_CURRENT_SEL, PASS_DSAB_DSAB_CTRL(CY_CTB_PASS_BASE(base))));
 }
 
-
-#define PASS_PASS_CTRL_PMPCLK_Pos (PASS_PASS_CTRL_PMPCLK_BYP_Pos)
-#define PASS_PASS_CTRL_PMPCLK_Msk (PASS_PASS_CTRL_PMPCLK_BYP_Msk | PASS_PASS_CTRL_PMPCLK_SRC_Msk)
 /*******************************************************************************
 * Function Name: Cy_CTB_SetPumpClkSource
 ****************************************************************************//**
@@ -725,6 +760,9 @@ uint32_t Cy_CTB_DSAB_GetCurrent(const CTBM_Type * base)
 *
 * \param pumpClk
 * Clock source selection for the pump. See \ref cy_en_ctb_clk_pump_source_t.
+*
+* \note This function is obsolete and will be removed in the next releases.
+*       Please use Cy_PASS_SetPumpClkSource() instead.
 *
 * \funcusage
 * \snippet ctb_snippet.c CTB_SNIPPET_SET_CLK_PUMP_SOURCE_HF
@@ -932,5 +970,6 @@ uint32_t Cy_CTB_CompGetStatus(const CTBM_Type * base, cy_en_ctb_opamp_sel_t comp
 }
 
 #endif /* CY_IP_M0S8PASS4A_CTB */
+#endif /* CY_IP_M0S8PASS4A */
 
 /* [] END OF FILE */

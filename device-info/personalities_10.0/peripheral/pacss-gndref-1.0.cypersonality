@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -42,8 +42,10 @@
     <!-- PDL documentation -->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__dsadc.html" linkText="Open DSADC (Delta-Sigma ADC) Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
     <ParamBool id="debug" name="debug" group="Internal" default="false" visible="false" editable="false" desc="" />
+    <ParamBool id="vdivPresent" name="vdivPresent" group="Internal" default="`${hasBlock(&quot;hvss[0].vdiv[0]&quot;)}`" visible="false" editable="false" desc="" />
+    <ParamBool id="linPhyPresent" name="linPhyPresent" group="Internal" default="`${hasBlock(&quot;hvss[0].linPhy[0]&quot;)}`" visible="false" editable="false" desc="" />
 
-    <ParamChoice id="gndRef" name="Ground Reference" group="General" default="VSSA0" visible="true" editable="true" desc="High Voltage Divider Ground Reference Mux Select." >
+    <ParamChoice id="gndRef" name="Ground Reference" group="General" default="CY_DSADC_GROUND_REFERENCE_VSSA0" visible="`${vdivPresent}`" editable="true" desc="High Voltage Divider Ground Reference Mux Select." >
       <Entry name="VSSA0" value="CY_DSADC_GROUND_REFERENCE_VSSA0" visible="true" />
       <Entry name="VSSA1" value="CY_DSADC_GROUND_REFERENCE_VSSA1" visible="true" />
       <Entry name="RSH" value="CY_DSADC_GROUND_REFERENCE_RSH" visible="true" />
@@ -52,7 +54,7 @@
 
     <ParamSignal port="vssa[0]"            name="vssa"            group="Connections" visible="true" desc="Analog GND (VSSA)" canBeEmpty="true" multiSelect="true" />
     <ParamSignal port="vg1_vssd[0]"        name="vssd"            group="Connections" visible="true" desc="Digital GND (VSSD)" canBeEmpty="true" multiSelect="true" />
-    <ParamSignal port="vssl[0]"            name="vssl"            group="Connections" visible="true" desc="LIN GND (VSSL)" canBeEmpty="true" multiSelect="true" />
+    <ParamSignal port="vssl[0]"            name="vssl"            group="Connections" visible="`${linPhyPresent}`" desc="LIN GND (VSSL)" canBeEmpty="true" multiSelect="true" />
     <ParamSignal port="srss_vss[0]"        name="srss_vss"        group="Connections" visible="true" desc="SRSS GND" canBeEmpty="true" multiSelect="true" />
     <ParamSignal port="vrefl[0]"           name="vrefl"           group="Connections" visible="true" desc="VREFL" canBeEmpty="true" multiSelect="true" />
     <ParamSignal port="vts_ret_k[0]"       name="vts_ret_k"       group="Connections" visible="true" desc="External temperature sense reference GND" canBeEmpty="true" multiSelect="true" />
@@ -62,7 +64,7 @@
   <ConfigFirmware>
     <ConfigInclude value="cy_dsadc.h" include="true" />
 
-    <ConfigVariable type="cy_en_dsadc_ground_reference_t" name="`${INST_NAME}`_gndref_config" value="`${gndRef}`" const="false" public="true" include="true" />
+    <ConfigVariable type="cy_en_dsadc_ground_reference_t" name="`${INST_NAME}`_gndref_config" value="`${gndRef}`" const="false" public="true" include="`${vdivPresent}`" />
 
   </ConfigFirmware>
 </PersonalityTemplate>

@@ -1,14 +1,15 @@
 /***************************************************************************//**
 * \file cy_dsadc.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API implementation of the Delta-Sigma ADC driver
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,7 +72,7 @@ extern "C" {
 #define CY_DSADC_TEMPERATURE_CURRENT_RATIO_UNIT_SHIFT (4U)
 
 /* Slope term of linear approximation 0.0534*2^20 * -1 */
-#define CY_DSADC_TEMPERATURE_NORMALIZATION_A      (55993U)
+#define CY_DSADC_TEMPERATURE_NORMALIZATION_A      (55993UL)
 #define CY_DSADC_TEMPERATURE_NORMALIZATION_A_SIGN (-1)
 /* TEMPERATURE_NORMALIZATION_A ratio(20) + current ratio one shift + current ratio unit shift + temp ratio */
 #define CY_DSADC_TEMPERATURE_COEFFICIENT_RATIO ((20U + (CY_DSADC_TEMPERATURE_CURRENT_RATIO_ONE_SHIFT + \
@@ -114,6 +115,38 @@ extern "C" {
 /* Check if the VBE is not out of range */
 #define IS_OUT_OF_RANGE_VBE(value)   (((value) > (int32_t)CY_DSADC_TEMPERATURE_DVBE_MIN) && \
                                       ((value) < (int32_t)CY_DSADC_TEMPERATURE_DVBE_MAX))
+
+/* OCD self test is disabled. */
+#define CY_DSADC_OCD_ST_MODE_DISABLE    (0UL)
+/* OCD self test is enabled. Triggers, interrupts, and outputs are enabled. */
+#define CY_DSADC_OCD_ST_MODE_ENABLE1    (1UL)
+/* OCD self test is enabled. Triggers, interrupts, and outputs are disabled. */
+#define CY_DSADC_OCD_ST_MODE_ENABLE2    (2UL)
+
+/* Max OCD structure index. */
+#define CY_DSADC_MAX_OCD_STRUCT_INDEX       (1UL)
+/* Max AGC gain level index. */
+#define CY_DSADC_MAX_AGC_GAIN_LEVEL_INDEX   (9UL)
+/* OCD Thresh trim index */
+#define CY_DSADC_OCD_THRESH_TRIM_37_5MV     (0U)
+#define CY_DSADC_OCD_THRESH_TRIM_40_0MV     (1U)
+#define CY_DSADC_OCD_THRESH_TRIM_42_5MV     (2U)
+#define CY_DSADC_OCD_THRESH_TRIM_45_0MV     (3U)
+#define CY_DSADC_OCD_THRESH_TRIM_47_5MV     (4U)
+#define CY_DSADC_OCD_THRESH_TRIM_50_0MV     (5U)
+#define CY_DSADC_OCD_THRESH_TRIM_75_0MV     (6U)
+#define CY_DSADC_OCD_THRESH_TRIM_80_0MV     (7U)
+#define CY_DSADC_OCD_THRESH_TRIM_85_0MV     (8U)
+#define CY_DSADC_OCD_THRESH_TRIM_90_0MV     (9U)
+#define CY_DSADC_OCD_THRESH_TRIM_95_0MV     (10U)
+#define CY_DSADC_OCD_THRESH_TRIM_100MV      (11U)
+#define CY_DSADC_OCD_THRESH_TRIM_150MV      (12U)
+#define CY_DSADC_OCD_THRESH_TRIM_160MV      (13U)
+#define CY_DSADC_OCD_THRESH_TRIM_170MV      (14U)
+#define CY_DSADC_OCD_THRESH_TRIM_180MV      (15U)
+#define CY_DSADC_OCD_THRESH_TRIM_190MV      (16U)
+#define CY_DSADC_OCD_THRESH_TRIM_200MV      (17U)
+
 /** \endcond */
 
 /*==================[internal function definitions]===========================*/
@@ -133,6 +166,7 @@ extern "C" {
 static void Cy_DSADC_Agc_ConfigureGainLevel(PACSS_MMIO_GAINLVL_STRUCT_Type* base,
                                             const cy_stc_dsadc_gain_level_config_t* gainLevel)
 {
+    CY_ASSERT_L1(NULL != gainLevel);
     /* Set GAIN_CFG0 register */
     base->GAIN_CFG0 = (_VAL2FLD(PACSS_MMIO_GAINLVL_STRUCT_GAIN_CFG0_PGA_GAIN, (uint32_t)gainLevel->pgaGain) | \
                        _VAL2FLD(PACSS_MMIO_GAINLVL_STRUCT_GAIN_CFG0_SHIFT1, gainLevel->leftShift) | \
@@ -167,12 +201,83 @@ static void Cy_DSADC_Agc_ConfigureGainLevel(PACSS_MMIO_GAINLVL_STRUCT_Type* base
 static void Cy_DSADC_Agc_ConfigGainLevelAll(PACSS_MMIO_Type* base,
                                             const cy_stc_dsadc_agc_config_t* config)
 {
+    CY_ASSERT_L1(NULL != config);
     /* Configure gain level parameters */
     for(uint32_t index = 0U; index < (uint32_t)config->numGainLevels; index++)
     {
         Cy_DSADC_Agc_ConfigureGainLevel(&(base->GAINLVL_STRUCT[index]), &(config->gainLevels[index]));
     }
 }
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_DSADC_SetOcdTrim
+****************************************************************************//**
+*
+* \brief
+* Set OCD Trim register.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \param threshold
+* OCD threshold value to set. See \ref cy_en_dsadc_ocd_threshold_t.
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+static void Cy_DSADC_SetOcdTrim(PACSS_MMIO_Type* base, uint8_t index, cy_en_dsadc_ocd_threshold_t threshold)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    CY_ASSERT_L3(CY_DSADC_OCD_THRESH_200MV_C >= threshold);
+    /* Map threshold enum values to SFLASH trim array indices to get correct calibration values for OCD */
+    const uint8_t trimIndexMap[] =
+    {
+        CY_DSADC_OCD_THRESH_TRIM_37_5MV, /* Cy_DSADC_OCD_THRESH_37_5MV   */
+        CY_DSADC_OCD_THRESH_TRIM_40_0MV, /* Cy_DSADC_OCD_THRESH_40_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_42_5MV, /* Cy_DSADC_OCD_THRESH_42_5MV   */
+        CY_DSADC_OCD_THRESH_TRIM_45_0MV, /* Cy_DSADC_OCD_THRESH_45_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_47_5MV, /* Cy_DSADC_OCD_THRESH_47_5MV   */
+        CY_DSADC_OCD_THRESH_TRIM_50_0MV, /* Cy_DSADC_OCD_THRESH_50_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_50_0MV, /* Cy_DSADC_OCD_THRESH_50_0MV_A */
+        CY_DSADC_OCD_THRESH_TRIM_50_0MV, /* Cy_DSADC_OCD_THRESH_50_0MV_B */
+        CY_DSADC_OCD_THRESH_TRIM_75_0MV, /* Cy_DSADC_OCD_THRESH_75_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_80_0MV, /* Cy_DSADC_OCD_THRESH_80_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_85_0MV, /* Cy_DSADC_OCD_THRESH_85_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_90_0MV, /* Cy_DSADC_OCD_THRESH_90_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_95_0MV, /* Cy_DSADC_OCD_THRESH_95_0MV   */
+        CY_DSADC_OCD_THRESH_TRIM_100MV,  /* Cy_DSADC_OCD_THRESH_100MV    */
+        CY_DSADC_OCD_THRESH_TRIM_100MV,  /* Cy_DSADC_OCD_THRESH_100MV_A  */
+        CY_DSADC_OCD_THRESH_TRIM_100MV,  /* Cy_DSADC_OCD_THRESH_100MV_B  */
+        CY_DSADC_OCD_THRESH_TRIM_150MV,  /* Cy_DSADC_OCD_THRESH_150MV    */
+        CY_DSADC_OCD_THRESH_TRIM_160MV,  /* Cy_DSADC_OCD_THRESH_160MV    */
+        CY_DSADC_OCD_THRESH_TRIM_170MV,  /* Cy_DSADC_OCD_THRESH_170MV    */
+        CY_DSADC_OCD_THRESH_TRIM_180MV,  /* Cy_DSADC_OCD_THRESH_180MV    */
+        CY_DSADC_OCD_THRESH_TRIM_190MV,  /* Cy_DSADC_OCD_THRESH_190MV    */
+        CY_DSADC_OCD_THRESH_TRIM_200MV,  /* Cy_DSADC_OCD_THRESH_200MV    */
+        CY_DSADC_OCD_THRESH_TRIM_200MV,  /* Cy_DSADC_OCD_THRESH_200MV_A  */
+        CY_DSADC_OCD_THRESH_TRIM_200MV,  /* Cy_DSADC_OCD_THRESH_200MV_B  */
+        CY_DSADC_OCD_THRESH_TRIM_200MV   /* Cy_DSADC_OCD_THRESH_200MV_C  */
+    };
+
+    const uint8_t trimIndex = trimIndexMap[threshold];
+    /* UnLock protected register */
+    Cy_DSADC_UnlockProtReg(base);
+
+    if(0U == index)
+    {
+        /* Set OCD0 Trim register */
+        CY_REG32_CLR_SET(base->TRIM_OCD00_CTL, PACSS_MMIO_TRIM_OCD00_CTL_TRIM0, SFLASH->PACSS_CHAN0_OCD_VTH_TRIM[trimIndex]);
+    }
+    else
+    {
+        /* Set OCD1 Trim register */
+        CY_REG32_CLR_SET(base->TRIM_OCD01_CTL, PACSS_MMIO_TRIM_OCD01_CTL_TRIM1, SFLASH->PACSS_CHAN1_OCD_VTH_TRIM[trimIndex]);
+    }
+    /* Lock protected register */
+    Cy_DSADC_LockProtReg(base);
+}
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 /*****************************************************************************/
 /* API                                                                       */
@@ -316,6 +421,8 @@ bool Cy_DSADC_GetSequencerBusy(const PACSS_MMIO_Type* base, uint8_t channel)
 *******************************************************************************/
 void Cy_DSADC_EnableHPBGR(PACSS_MMIO_Type* base, const cy_stc_dsadc_hpbgr_config_t* config)
 {
+    CY_ASSERT_L1(NULL != config);
+    /* Configure HPBGR */
     base->HPBGR_CTL = (_VAL2FLD(PACSS_MMIO_HPBGR_CTL_CHOP_CLK_SEL, config->hpbgrChoppingPhase) | \
                        _VAL2FLD(PACSS_MMIO_HPBGR_CTL_HPBGR_FCHOP, config->hpbgrChoppingDivider) | \
                        _VAL2FLD(PACSS_MMIO_HPBGR_CTL_SEL_PHC, config->enableExternalCapacitor) | \
@@ -340,6 +447,7 @@ void Cy_DSADC_DisableHPBGR(PACSS_MMIO_Type* base)
     base->PACSS_CTL &= ~PACSS_MMIO_PACSS_CTL_HPBGR_EN_Msk;
 }
 
+#if defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) || defined (CY_DOXYGEN)
 /*******************************************************************************
 * Function Name: Cy_DSADC_SetGroundReference
 ****************************************************************************//**
@@ -350,13 +458,18 @@ void Cy_DSADC_DisableHPBGR(PACSS_MMIO_Type* base)
 * The pointer to the MMIO instance of the PACSS.
 * \param select
 * Ground Reference Selection. see \ref cy_en_dsadc_ground_reference_t
+* \note
+* This API is available only on devices that include the High Voltage Divider.
+* Refer to the device datasheet for more details.
 *
 *******************************************************************************/
 void Cy_DSADC_SetGroundReference(PACSS_MMIO_Type* base, cy_en_dsadc_ground_reference_t select)
 {
+    CY_ASSERT_L3(CY_DSADC_GROUND_REFERENCE_RSL >= select);
     /* Set ground reference */
     CY_REG32_CLR_SET(base->PACSS_CTL, PACSS_MMIO_PACSS_CTL_HVDIVG_MUX_SEL, (uint32_t)select);
 }
+#endif /* defined(_CYIP_HVSS_H_) || (defined(_CYIP_HVSS_V2_H_) && (0u != HVSS_HVDIV_PRESENT)) */
 
 /*******************************************************************************
 * Function Name: Cy_DSADC_GetThresholdCount
@@ -374,6 +487,8 @@ void Cy_DSADC_SetGroundReference(PACSS_MMIO_Type* base, cy_en_dsadc_ground_refer
 *******************************************************************************/
 uint16_t Cy_DSADC_GetThresholdCount(const PACSS_MMIO_Type* base, cy_en_dsadc_threshold_select_t select)
 {
+    CY_ASSERT_L3(CY_DSADC_LOW_THRESHHOLD_CNTR >= select);
+
     uint16_t count = 0U;
     if(select == CY_DSADC_LOW_THRESHHOLD_CNTR)
     {
@@ -406,6 +521,7 @@ uint16_t Cy_DSADC_GetThresholdCount(const PACSS_MMIO_Type* base, cy_en_dsadc_thr
 *******************************************************************************/
 void Cy_DSADC_SetChoppingPosition(PACSS_MMIO_Type* base, cy_en_dsadc_hpbgr_chopping_phase_t select)
 {
+    CY_ASSERT_L3(CY_DSADC_HPBGR_CHOPPING_PHASE_REVERSE >= select);
     /* Set the chopping position */
     base->HPBGR_CTL |= _BOOL2FLD(PACSS_MMIO_HPBGR_CTL_CHOP_POS, (uint32_t)select);
 }
@@ -444,6 +560,9 @@ cy_en_dsadc_hpbgr_chopping_phase_t Cy_DSADC_GetChoppingPosition(const PACSS_MMIO
 *******************************************************************************/
 void Cy_DSADC_AgcInit(PACSS_MMIO_Type* base, const cy_stc_dsadc_agc_config_t* config)
 {
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != config);
+
     base->AGC_CTL0 = (_VAL2FLD(PACSS_MMIO_AGC_CTL0_LO_THRESH, config->lowerThreshold) | \
                       _VAL2FLD(PACSS_MMIO_AGC_CTL0_HI_THRESH, config->upperThreshold) | \
                       _VAL2FLD(PACSS_MMIO_AGC_CTL0_MIN_LVL, config->minGainLevel) | \
@@ -534,6 +653,7 @@ bool Cy_DSADC_AgcIsEnabled(const PACSS_MMIO_Type* base)
 *******************************************************************************/
 void Cy_DSADC_AgcSetGainCorrection(PACSS_MMIO_Type* base, uint8_t index, uint16_t gain)
 {
+    CY_ASSERT_L2(CY_DSADC_MAX_AGC_GAIN_LEVEL_INDEX >= (uint32_t)index);
     /* Set gain correction */
     base->GAINLVL_STRUCT[index].GAIN_COR = (uint32_t)gain;
 }
@@ -554,6 +674,7 @@ void Cy_DSADC_AgcSetGainCorrection(PACSS_MMIO_Type* base, uint8_t index, uint16_
 *******************************************************************************/
 void Cy_DSADC_AgcSetOffsetCorrection(PACSS_MMIO_Type* base, uint8_t index, int16_t offset)
 {
+    CY_ASSERT_L2(CY_DSADC_MAX_AGC_GAIN_LEVEL_INDEX >= (uint32_t)index);
     /* Set offset correction */
     base->GAINLVL_STRUCT[index].OFST_COR = (uint32_t)((uint16_t)offset);
 }
@@ -612,10 +733,10 @@ uint16_t Cy_DSADC_AgcGetFastDecimatorResult(const PACSS_MMIO_Type* base)
 *******************************************************************************/
 void Cy_DSADC_Init(const PACSS_Type * base, cy_stc_dsadc_config_t* config)
 {
-    CY_ASSERT_L2(NULL != base);
-    CY_ASSERT_L2(NULL != config);
-    uint32_t iter = 0UL;
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != config);
 
+    uint32_t iter = 0UL;
     /* Configure the PACSS */
     /* In order to enable any Analog Channel the Sequencer must be enabled first
      */
@@ -678,8 +799,9 @@ void Cy_DSADC_Init(const PACSS_Type * base, cy_stc_dsadc_config_t* config)
 *******************************************************************************/
 void Cy_DSADC_Deinit(const PACSS_Type * base)
 {
-    uint32_t iter = 0UL;
+    CY_ASSERT_L1(NULL != base);
 
+    uint32_t iter = 0UL;
     Cy_DSADC_AgcDisable((PACSS_MMIO_Type*) &base->MMIO);
 
     for (iter = 0UL; iter < PACSS_DCH_NR; iter++)
@@ -701,7 +823,7 @@ void Cy_DSADC_Deinit(const PACSS_Type * base)
 ****************************************************************************//**
 *
 * \brief
-* Full Enable configured parts of the sigma-delta AGC
+* Full Enable configured parts of the sigma-delta ADC.
 * \param base
 * The base address for the PACSS.
 * \param config
@@ -715,9 +837,10 @@ void Cy_DSADC_Deinit(const PACSS_Type * base)
 *******************************************************************************/
 void Cy_DSADC_Enable(const PACSS_Type * base, cy_stc_dsadc_config_t* config)
 {
-    CY_ASSERT_L2(NULL != base);
-    uint32_t iter = 0UL;
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != config);
 
+    uint32_t iter = 0UL;
     /* In order to enable any Analog Channel the Sequencer must be enabled first */
     Cy_DSADC_EnableSequencer((PACSS_MMIO_Type*) &base->MMIO);
     Cy_DSADC_EnableHPBGR((PACSS_MMIO_Type*) &base->MMIO, config->HPBGR);
@@ -766,7 +889,8 @@ void Cy_DSADC_Enable(const PACSS_Type * base, cy_stc_dsadc_config_t* config)
 *******************************************************************************/
 void Cy_DSADC_Disable(const PACSS_Type * base)
 {
-    CY_ASSERT_L2(NULL != base);
+    CY_ASSERT_L1(NULL != base);
+
     Cy_DSADC_Deinit(base);
 }
 
@@ -784,7 +908,9 @@ void Cy_DSADC_Disable(const PACSS_Type * base)
 *******************************************************************************/
 void Cy_DSADC_StartConvert(PACSS_Type* base, cy_en_dsadc_convert_source_t source)
 {
-    CY_ASSERT_L2(NULL != base);
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L3(CY_DSADC_ALL_SECONDARY >= source);
+    /* Start conversion for the selected source */
     switch(source)
     {
         case CY_DSADC_ACHAN0:
@@ -833,7 +959,7 @@ void Cy_DSADC_StartConvert(PACSS_Type* base, cy_en_dsadc_convert_source_t source
 *******************************************************************************/
 void Cy_DSADC_StopConvert(PACSS_DCHAN_Type* base)
 {
-    CY_ASSERT_L2(NULL != base);
+    CY_ASSERT_L1(NULL != base);
     Cy_DSADC_SetSampleMode(base, CY_DSADC_DCHAN_SAMPLE_MODE_SINGLE_SHOT);
 }
 
@@ -860,9 +986,9 @@ void Cy_DSADC_StopConvert(PACSS_DCHAN_Type* base)
 float32_t Cy_DSADC_CountsTo_Volts(int32_t counts,
                                   float32_t vref,
                                   float32_t analogGain,
-                                  cy_stc_dsadc_dchan_config_t* dchan_config)
+                                  const cy_stc_dsadc_dchan_config_t* dchan_config)
 {
-    CY_ASSERT_L2(NULL != dchan_config);
+    CY_ASSERT_L1(NULL != dchan_config);
     CY_ASSERT_L2(0.0F != analogGain);
 
     float32_t result_Volts = 0.0F;
@@ -897,9 +1023,9 @@ float32_t Cy_DSADC_CountsTo_Volts(int32_t counts,
 float32_t Cy_DSADC_CountsTo_mVolts(int32_t counts,
                                    float32_t vref,
                                    float32_t analogGain,
-                                   cy_stc_dsadc_dchan_config_t* dchan_config)
+                                   const cy_stc_dsadc_dchan_config_t* dchan_config)
 {
-    CY_ASSERT_L2(NULL != dchan_config);
+    CY_ASSERT_L1(NULL != dchan_config);
     CY_ASSERT_L2(0.0F != analogGain);
 
     float32_t result_mVolts = 0.0F;
@@ -934,9 +1060,9 @@ float32_t Cy_DSADC_CountsTo_mVolts(int32_t counts,
 float32_t Cy_DSADC_CountsTo_uVolts(int32_t counts,
                                    float32_t vref,
                                    float32_t analogGain,
-                                   cy_stc_dsadc_dchan_config_t* dchan_config)
+                                   const cy_stc_dsadc_dchan_config_t* dchan_config)
 {
-    CY_ASSERT_L2(NULL != dchan_config);
+    CY_ASSERT_L1(NULL != dchan_config);
     CY_ASSERT_L2(0.0F != analogGain);
 
     float32_t result_uVolts = 0.0F;
@@ -1007,7 +1133,7 @@ void Cy_DSADC_EnableTemperature(PACSS_MMIO_Type* base)
 ****************************************************************************//**
 *
 * \brief
-* Enables the on-die temperature sensor.
+* Disables the on-die temperature sensor.
 * \param base
 * The pointer to the MMIO instance of the PACSS.
 *
@@ -1036,8 +1162,9 @@ void Cy_DSADC_DisableTemperature(PACSS_MMIO_Type* base)
 *******************************************************************************/
 void Cy_DSADC_InitTemperature(PACSS_MMIO_Type* base, cy_stc_dsadc_temperature_config_t* config)
 {
+    CY_ASSERT_L1(NULL != base);
     CY_ASSERT_L1(NULL != config);
-
+    /* Configure on-die temperature sensor */
     base->TMPS_CTL = (_VAL2FLD(PACSS_MMIO_TMPS_CTL_IREF_SEL, config->currentSource) | \
                       _VAL2FLD(PACSS_MMIO_TMPS_CTL_IREF_UNIT, config->current) | \
                       _VAL2FLD(PACSS_MMIO_TMPS_CTL_LOAD_MODE, config->loadMode) | \
@@ -1195,7 +1322,7 @@ void Cy_DSADC_InitializeDieTempConfigs(cy_stc_dsadc_temperature_config_t* one,
 uint32_t Cy_DSADC_CalcCurrentRatio(int32_t currentOne, int32_t currentUnit)
 {
     /* Check if the counts of voltage when IREF current x1 and x9 is not out of range */
-    CY_ASSERT_L3(IS_OUT_OF_RANGE_1X(currentOne) && IS_OUT_OF_RANGE_9X(currentUnit));
+    CY_ASSERT_L2(IS_OUT_OF_RANGE_1X(currentOne) && IS_OUT_OF_RANGE_9X(currentUnit));
 
     /* The ratio of two DSADC conversion results */
     const uint32_t numerator   = (uint32_t)currentUnit << CY_DSADC_TEMPERATURE_CURRENT_RATIO_UNIT_SHIFT;
@@ -1245,29 +1372,26 @@ int32_t Cy_DSADC_CalcDieTemp(int32_t vbeOne,
 {
     /* Validate input parameters */
     CY_ASSERT_L3(CY_DSADC_TEMPERATURE_CONFIG_ALTERNATE >= setup);
-    CY_ASSERT_L3(IS_OUT_OF_RANGE_VBE(vbeOne) && IS_OUT_OF_RANGE_VBE(vbeUnit) && IS_OUT_OF_RANGE_RATIO(currentRatio));
+    CY_ASSERT_L2(IS_OUT_OF_RANGE_VBE(vbeOne) && IS_OUT_OF_RANGE_VBE(vbeUnit) && IS_OUT_OF_RANGE_RATIO(currentRatio));
 
     /* Calculate Delta VBE: difference between two DSADC measurements */
     const int32_t deltaVbe = vbeUnit - vbeOne;
 
-    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 12, \
-    'Casting uint32_t to int32_t, and uint64_t to int64_t will not result in overflow.');
     /* Normalize Delta VBE using the current ratio and linear approximation */
-    int32_t coefficientTemp = (int32_t)(((uint32_t)CY_DSADC_TEMPERATURE_NORMALIZATION_A * currentRatio) >> 1U);
-    coefficientTemp = coefficientTemp * CY_DSADC_TEMPERATURE_NORMALIZATION_A_SIGN;
-    const int32_t coefficient = coefficientTemp + (int32_t)CY_DSADC_TEMPERATURE_NORMALIZATION_B;
+    uint32_t coefficientTemp = (CY_DSADC_TEMPERATURE_NORMALIZATION_A * currentRatio) >> 1U;
+    int32_t coefficientSigned = (int32_t)coefficientTemp * CY_DSADC_TEMPERATURE_NORMALIZATION_A_SIGN;
+    const int32_t coefficient = coefficientSigned + (int32_t)CY_DSADC_TEMPERATURE_NORMALIZATION_B;
 
     /* Adjust Delta VBE using the normalized coefficient */
-    int64_t deltaTemp = ((int64_t)deltaVbe * (int64_t)coefficient) + \
-                        (int64_t)(1ULL << (CY_DSADC_TEMPERATURE_COEFFICIENT_RATIO - 1U));
+    uint64_t roundingValue = 1ULL << (CY_DSADC_TEMPERATURE_COEFFICIENT_RATIO - 1U);
+    int64_t deltaTemp = ((int64_t)deltaVbe * (int64_t)coefficient) + (int64_t)roundingValue;
 
     int32_t sign = (0LL > deltaTemp) ? -1 : 1;
     deltaTemp = (0LL > deltaTemp) ? -deltaTemp : deltaTemp;
 
-    int32_t delta = (int32_t)((uint64_t)deltaTemp >> CY_DSADC_TEMPERATURE_COEFFICIENT_RATIO);
-    delta = delta * sign;
+    uint64_t deltaTempShifted = (uint64_t)deltaTemp >> CY_DSADC_TEMPERATURE_COEFFICIENT_RATIO;
+    int32_t delta = (int32_t)deltaTempShifted * sign;
     delta = deltaVbe + delta;
-
     /* Get temperature calibration data polynomial (a0, a1, a2) */
     int16_t a2 = 0;
     int16_t a1 = 0;
@@ -1288,26 +1412,26 @@ int32_t Cy_DSADC_CalcDieTemp(int32_t vbeOne,
 
     /* Calculate the squared term: a2 * x^2 * 2^(-34) */
     int64_t sqrdTerm = (int64_t)delta * (int64_t)delta;
-    sqrdTerm = (int64_t)(((uint64_t)sqrdTerm + (1ULL << (CY_DSADC_TEMPERATURE_SQUARED_TERM_SHIFT - 1U))) >> \
-                CY_DSADC_TEMPERATURE_SQUARED_TERM_SHIFT);
-    sqrdTerm = sqrdTerm * (int64_t)a2;
+    uint64_t sqrdRounding = 1ULL << (CY_DSADC_TEMPERATURE_SQUARED_TERM_SHIFT - 1U);
+    uint64_t sqrdTempShifted = ((uint64_t)sqrdTerm + sqrdRounding) >> CY_DSADC_TEMPERATURE_SQUARED_TERM_SHIFT;
+    sqrdTerm = (int64_t)sqrdTempShifted * (int64_t)a2;
 
     /* Calculate the linear term: a1 * x * 2^(-9) */
     int32_t linearTerm = delta;
     sign = (0L > linearTerm) ? -1 : 1;
     linearTerm = (0L > linearTerm) ? -linearTerm : linearTerm;
 
-    linearTerm = (int32_t)(((uint32_t)linearTerm + (1UL << (CY_DSADC_TEMPERATURE_LINEAR_TERM_SHIFT - 1U))) >> \
-                  CY_DSADC_TEMPERATURE_LINEAR_TERM_SHIFT);
-    linearTerm = linearTerm * sign;
+    uint32_t linearRounding = 1UL << (CY_DSADC_TEMPERATURE_LINEAR_TERM_SHIFT - 1U);
+    uint32_t linearTempShifted = ((uint32_t)linearTerm + linearRounding) >> CY_DSADC_TEMPERATURE_LINEAR_TERM_SHIFT;
+    linearTerm = (int32_t)linearTempShifted * sign;
     linearTerm = linearTerm * (int32_t)a1;
 
     /* Calculate the offset term: a0 * 2^14 */
     sign = (0L > a0) ? -1 : 1;
     a0 = (0L > a0) ? -a0 : a0;
-    int32_t offset = (int32_t)((uint32_t)a0 << CY_DSADC_TEMPERATURE_OFFSET_TERM_SHIFT);
-    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
-    offset = offset * sign;
+
+    uint32_t offsetTemp = (uint32_t)a0 << CY_DSADC_TEMPERATURE_OFFSET_TERM_SHIFT;
+    int32_t offset = (int32_t)offsetTemp * sign;
 
     return ((int32_t)sqrdTerm + linearTerm + offset);
 }
@@ -1457,6 +1581,369 @@ void Cy_DSADC_PendSecondConvAll(PACSS_MMIO_Type* base)
     /* Trigger conversion for all enabled secondary channels */
     base->START |= PACSS_MMIO_START_PEND_SEC_Msk;
 }
+
+#if(0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN)
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdDisable
+****************************************************************************//**
+*
+* \brief
+* Disable the OCD.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdDisable(PACSS_MMIO_Type* base, uint8_t index)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    /* Disable the OCD */
+    if(0U == index)
+    {
+        base->PACSS_CTL &= ~PACSS_MMIO_PACSS_CTL_OCD0_EN_Msk;
+    }
+    else
+    {
+        base->PACSS_CTL &= ~PACSS_MMIO_PACSS_CTL_OCD1_EN_Msk;
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdIsEnabled
+****************************************************************************//**
+*
+* \brief
+* Get OCD enabled status.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \return
+* Current OCD status.
+* - true  : OCD enabled.
+* - false : OCD disabled.
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+bool Cy_DSADC_OcdIsEnabled(PACSS_MMIO_Type* base, uint8_t index)
+{
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+
+    bool result = false;
+
+    if(0U == index)
+    {
+        result = (0U != _FLD2VAL(PACSS_MMIO_PACSS_CTL_OCD0_EN, base->PACSS_CTL)) ? true : false;
+    }
+    else
+    {
+        result = (0U != _FLD2VAL(PACSS_MMIO_PACSS_CTL_OCD1_EN, base->PACSS_CTL)) ? true : false;
+    }
+
+    return result;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdEnable
+****************************************************************************//**
+*
+* \brief
+* Enable the OCD.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdEnable(PACSS_MMIO_Type* base, uint8_t index)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    /* Enable the OCD */
+    if(0U == index)
+    {
+        base->PACSS_CTL |= PACSS_MMIO_PACSS_CTL_OCD0_EN_Msk;
+    }
+    else
+    {
+        base->PACSS_CTL |= PACSS_MMIO_PACSS_CTL_OCD1_EN_Msk;
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetStatus
+****************************************************************************//**
+*
+* \brief
+* Returns the OCD status register value.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \return
+* Over Current Detector Status. See \ref group_dsadc_ocd_macros_status
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+uint32_t Cy_DSADC_OcdGetStatus(const PACSS_MMIO_Type* base, uint8_t index)
+{
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    /* Get status of the OCD */
+    return (base->OCD_STRUCT[index].OCD_STATUS & CY_DSADC_OCD_STATUS_MASK);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdClearHoldStatus
+****************************************************************************//**
+*
+* \brief
+* Clear the OCD hold status.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdClearHoldStatus(PACSS_MMIO_Type* base, uint8_t index)
+{
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    base->OCD_STRUCT[index].OCD_STATUS = CY_DSADC_OCD_STATUS_OCD_POS_HELD | CY_DSADC_OCD_STATUS_OCD_POS_HELD;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdSetTestMode
+****************************************************************************//**
+*
+* \brief
+* Set OCD self test mode.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \param mode
+* OCD self test mode to set. See \ref cy_en_dsadc_ocd_test_mode_t
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdSetTestMode(PACSS_MMIO_Type* base, uint8_t index, cy_en_dsadc_ocd_test_mode_t mode)
+{
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    CY_ASSERT_L3(CY_DSADC_OCD_TST_PL_NL_NO_OUT >= mode);
+
+    switch(mode)
+    {
+        case CY_DSADC_OCD_TST_DISABLED:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_DISABLE);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PH_NH:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE1);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PH_NL:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE1);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PL_NH:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE1);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PL_NL:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE1);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PH_NH_NO_OUT:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE2);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PH_NL_NO_OUT:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE2);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PL_NH_NO_OUT:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 1UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE2);
+            break;
+        }
+
+        case CY_DSADC_OCD_TST_PL_NL_NO_OUT:
+        {
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0UL);
+            CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_ENABLE2);
+            break;
+        }
+
+        default:
+        {
+            /* Unknown state */
+            break;
+        }
+    }
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdSetOutputMode
+****************************************************************************//**
+*
+* \brief
+* Select output mode for condensing OCD1 output onto OCD0 output pin.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param mode
+* OCD output mode to set. See \ref cy_en_dsadc_ocd_output_mode_t
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdSetOutputMode(PACSS_MMIO_Type* base, cy_en_dsadc_ocd_output_mode_t mode)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L3(CY_DSADC_OCD_OUTPUT_MODE_OR >= mode);
+
+    CY_REG32_CLR_SET(base->OCD_STRUCT[0].OCD_CTL, PACSS_MMIO_OCD_STRUCT_OCD_CTL_OCD_MODE, (uint32_t)mode);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetOutputMode
+****************************************************************************//**
+*
+* \brief
+* Return current OCD0 output mode.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \return
+* OCD output mode. See \ref cy_en_dsadc_ocd_output_mode_t
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+cy_en_dsadc_ocd_output_mode_t Cy_DSADC_OcdGetOutputMode(PACSS_MMIO_Type* base)
+{
+    CY_ASSERT_L1(NULL != base);
+
+    CY_MISRA_DEVIATE_LINE('MISRA C-2012 Rule 10.8', 'The field values match the enumeration.');
+    return (cy_en_dsadc_ocd_output_mode_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_OCD_MODE, base->OCD_STRUCT[0].OCD_CTL);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdInit
+****************************************************************************//**
+*
+* \brief
+* Initializes the OCD.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \param config
+* Configuration options for the OCD. See \ref cy_stc_dsadc_ocd_config_t
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdInit(PACSS_MMIO_Type* base, uint8_t index, cy_stc_dsadc_ocd_config_t* config)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != config);
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+
+    /* Set OCD_FILT_LIMIT register */
+    CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_FILT_LIMIT, PACSS_MMIO_OCD_STRUCT_OCD_FILT_LIMIT_POS_LIMIT, config->positiveLimit);
+    CY_REG32_CLR_SET(base->OCD_STRUCT[index].OCD_FILT_LIMIT, \
+                     PACSS_MMIO_OCD_STRUCT_OCD_FILT_LIMIT_NEG_LIMIT, \
+                     (int16_t)((int32_t)config->negativeLimit * -1));
+    /* Set OCD_CTL register */
+    base->OCD_STRUCT[index].OCD_CTL = (_VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_OCD_THRESH, config->ocdThreshold) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_MODE, CY_DSADC_OCD_ST_MODE_DISABLE) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_POS, 0U) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_ST_NEG, 0U) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_CLOCK_DIV, config->clockDivision) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_CLOCK_EDGE, config->clockEdge) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_GLITCH_FILTER_MODE, config->glitchFilterMode) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_IO_POLARITY, config->ioPolarity) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_POS_EN, \
+                                                ((0U != (uint8_t)config->enablePositiveComparator) ? 1U : 0U)) | \
+                                       _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_NEG_EN, \
+                                                ((0U != (uint8_t)config->enableNegativeComparator) ? 1U : 0U)));
+    /* Clear OCD hold status. */
+    base->OCD_STRUCT[index].OCD_STATUS = _VAL2FLD(PACSS_MMIO_OCD_STRUCT_OCD_CTL_OCD_THRESH,
+                                                  (CY_DSADC_OCD_STATUS_OCD_POS_HELD | CY_DSADC_OCD_STATUS_OCD_NEG_HELD));
+    /* Set OCD Trim register */
+    Cy_DSADC_SetOcdTrim(base, index, config->ocdThreshold);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_OcdGetConfig
+****************************************************************************//**
+*
+* \brief
+* Get the OCD configuration.
+* \param base
+* The pointer to the MMIO instance of the PACSS.
+* \param index
+* OCD index. Valid inputs are between 0 and 1 (inclusive).
+* \param config
+* Pointer to the configuration options for the OCD. See \ref cy_stc_dsadc_ocd_config_t
+* \note Applicable to PSOC4 HVPA SPM only.
+*
+*******************************************************************************/
+void Cy_DSADC_OcdGetConfig(PACSS_MMIO_Type* base, uint8_t index, cy_stc_dsadc_ocd_config_t* config)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L2(CY_DSADC_MAX_OCD_STRUCT_INDEX >= (uint32_t)index);
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 2, \
+        'Casting uint32_t to int16_t is safe as the register field values are within int16_t range.');
+    uint32_t ocdFiltRegVal = base->OCD_STRUCT[index].OCD_FILT_LIMIT;
+    config->positiveLimit = (int16_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_FILT_LIMIT_POS_LIMIT, ocdFiltRegVal);
+    config->negativeLimit = (int16_t)((int32_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_FILT_LIMIT_NEG_LIMIT, ocdFiltRegVal) * -1);
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
+
+    CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Rule 10.8', 5, \
+        'Casting uint32_t to enumeration types is safe as the register field values match the enumeration ranges.');
+    uint32_t ocdCtlRegVal = base->OCD_STRUCT[index].OCD_CTL;
+    config->ocdThreshold = (cy_en_dsadc_ocd_threshold_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_OCD_THRESH, ocdCtlRegVal);
+    config->clockDivision = (cy_en_dsadc_ocd_clock_divider_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_CLOCK_DIV, ocdCtlRegVal);
+    config->clockEdge = (cy_en_dsadc_clock_edge_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_CLOCK_EDGE, ocdCtlRegVal);
+    config->glitchFilterMode = (cy_en_dsadc_glitch_filter_mode_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_GLITCH_FILTER_MODE, ocdCtlRegVal);
+    config->ioPolarity = (cy_en_dsadc_io_polarity_t)_FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_IO_POLARITY, ocdCtlRegVal);
+    CY_MISRA_BLOCK_END('MISRA C-2012 Rule 10.8');
+    config->enableNegativeComparator = (0U != _FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_POS_EN, ocdCtlRegVal)) ? true : false;
+    config->enablePositiveComparator = (0U != _FLD2VAL(PACSS_MMIO_OCD_STRUCT_OCD_CTL_NEG_EN, ocdCtlRegVal)) ? true : false;
+}
+#endif /* (0U < PACSS_MMIO_OCD_NR) || defined (CY_DOXYGEN) */
 
 #if defined(__cplusplus)
 }

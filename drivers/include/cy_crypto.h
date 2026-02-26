@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_crypto.h
-* \version 1.0
+* \version 1.10
 *
 * \brief
 *  This file provides an API declaration of the Crypto driver
 *
 *******************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -147,6 +147,11 @@
 * \section group_crypto_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>1.10</td>
+*     <td>Bug fixed in \ref Cy_Crypto_Sha_Partial to ensure correct return codes.</td>
+*     <td>Bug fixing.</td>
+*   </tr>
 *   <tr>
 *     <td>1.0.1</td>
 *     <td>Update the paths to the code snippets.</td>

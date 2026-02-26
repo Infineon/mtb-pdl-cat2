@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_sysfault.c
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * Provides an API implementation of the SysFault driver.
 *
 ********************************************************************************
 * \copyright
-* (c) (2024-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2024-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -47,8 +47,7 @@ cy_en_sysfault_status_t  Cy_SysFault_Init(FAULT_STRUCT_Type *base, cy_stc_sysfau
 
 cy_en_sysfault_source_t Cy_SysFault_GetErrorSource(FAULT_STRUCT_Type *base)
 {
-    CY_MISRA_DEVIATE_LINE('MISRA C-2012 Rule 10.8','Intentional typecast to cy_en_sysfault_source_t enum.');
-    cy_en_sysfault_source_t sysFaultSource = (cy_en_sysfault_source_t)CY_SYSFAULT_NO_FAULT;
+    cy_en_sysfault_source_t sysFaultSource = CY_SYSFAULT_NO_FAULT;
 
     if (_FLD2BOOL(FAULT_STRUCT_STATUS_VALID, FAULT_STATUS(base)))
     {

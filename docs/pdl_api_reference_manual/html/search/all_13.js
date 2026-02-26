@@ -45,9 +45,16 @@ var searchData=
   ['usbvid',['usbVid',['../structcy__pd__pd__do__t_1_1_s_t_d___v_d_m___i_d___h_d_r.html#a613f37cf8a2555362be8990660986951',1,'cy_pd_pd_do_t::STD_VDM_ID_HDR']]],
   ['usbxid',['usbXid',['../structcy__pd__pd__do__t_1_1_s_t_d___c_e_r_t___v_d_o.html#a7646c9380b18105c147ea592cbd919e3',1,'cy_pd_pd_do_t::STD_CERT_VDO']]],
   ['useagc',['useAgc',['../structcy__stc__dsadc__dchan__config__t.html#a705fb938544c6e145634d15b2fbffb45',1,'cy_stc_dsadc_dchan_config_t']]],
+  ['usehighsramfulltrig',['useHighSramFullTrig',['../structcy__stc__isouart__host__config__t.html#a6c23666ea78dc0cd7bfec02fc6cac07e',1,'cy_stc_isouart_host_config_t']]],
+  ['uselowsramfulltrig',['useLowSramFullTrig',['../structcy__stc__isouart__host__config__t.html#af0e3381512aca34d28f2f2093f34e29a',1,'cy_stc_isouart_host_config_t']]],
   ['useoverloaddetection',['useOverloadDetection',['../structcy__stc__dsadc__achan__config__t.html#a5fe1581e233a5688038a84a7bef0ad01',1,'cy_stc_dsadc_achan_config_t']]],
   ['userxfifo',['useRxFifo',['../structcy__stc__scb__i2c__config__t.html#a5051507a6a9adb8b9db39572c5f11340',1,'cy_stc_scb_i2c_config_t']]],
+  ['usetrig0emm',['useTrig0Emm',['../structcy__stc__isouart__node__config__t.html#afa42000374b181df542ba87f1e4fc0e6',1,'cy_stc_isouart_node_config_t']]],
+  ['usetrig1emm',['useTrig1Emm',['../structcy__stc__isouart__node__config__t.html#af25e88dbc960e648bae59fd1124d226a',1,'cy_stc_isouart_node_config_t']]],
+  ['usetrig2emm',['useTrig2Emm',['../structcy__stc__isouart__node__config__t.html#ae30a6904f8349900fb5292e9091b1023',1,'cy_stc_isouart_node_config_t']]],
+  ['usetrig3emm',['useTrig3Emm',['../structcy__stc__isouart__node__config__t.html#a94ffb1977354e84c67aa37f81b8a3118',1,'cy_stc_isouart_node_config_t']]],
   ['usetxfifo',['useTxFifo',['../structcy__stc__scb__i2c__config__t.html#a2c4bded993c3b334fbc2321952ab99f5',1,'cy_stc_scb_i2c_config_t']]],
+  ['usewritedonetrig',['useWriteDoneTrig',['../structcy__stc__isouart__host__config__t.html#a939e813fbcde1a41f9ed8b64cef25c63',1,'cy_stc_isouart_host_config_t']]],
   ['ustd_5fqc_5fpps_5fhdr',['USTD_QC_PPS_HDR',['../structcy__pd__pd__do__t_1_1_u_s_t_d___q_c___p_p_s___h_d_r.html',1,'cy_pd_pd_do_t::USTD_QC_PPS_HDR'],['../unioncy__pd__pd__do__t.html#a15c0c7bd321d091eab9a9ee6d00ae393',1,'cy_pd_pd_do_t::ustd_qc_pps_hdr()']]],
   ['ustd_5fvdm_5fhdr',['USTD_VDM_HDR',['../structcy__pd__pd__do__t_1_1_u_s_t_d___v_d_m___h_d_r.html',1,'cy_pd_pd_do_t::USTD_VDM_HDR'],['../unioncy__pd__pd__do__t.html#a3e3ba8c0df9e5db784b2925c5e4a50f4',1,'cy_pd_pd_do_t::ustd_vdm_hdr()']]]
 ];

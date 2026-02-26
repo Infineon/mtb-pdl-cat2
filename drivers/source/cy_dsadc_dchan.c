@@ -1,14 +1,15 @@
 /***************************************************************************//**
 * \file cy_dsadc_dchan.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides an API implementation of the digital channels Delta-Sigma ADC
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -105,6 +106,7 @@ static void Cy_DSADC_Dchan_ConfigureFIRFilter(PACSS_DCHAN_Type* base,
 *******************************************************************************/
 void Cy_DSADC_DisableDchan(PACSS_DCHAN_Type* base)
 {
+    CY_ASSERT_L1(NULL != base);
     /* Disable DCHAN */
     base->DCHAN_CTL &= ~PACSS_DCHAN_DCHAN_CTL_ENABLE_Msk;
 }
@@ -137,6 +139,7 @@ void Cy_DSADC_DisablePullup(PACSS_DCHAN_Type* base)
 *******************************************************************************/
 void Cy_DSADC_EnableDchan(PACSS_DCHAN_Type* base)
 {
+    CY_ASSERT_L1(NULL != base);
     /* Enable DCHAN */
     base->DCHAN_CTL |= PACSS_DCHAN_DCHAN_CTL_ENABLE_Msk;
 }
@@ -171,6 +174,8 @@ void Cy_DSADC_EnablePullup(PACSS_DCHAN_Type* base)
 *******************************************************************************/
 void Cy_DSADC_InitDchan(PACSS_DCHAN_Type* base, const cy_stc_dsadc_dchan_config_t* config)
 {
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != config);
     /* Set DCHAN_CTL register (AGC_GAIN_EN, SEC_EN) */
     CY_REG32_CLR_SET(base->DCHAN_CTL, PACSS_DCHAN_DCHAN_CTL_SEC_EN, config->priority);
     if (false != config->useAgc)
@@ -307,9 +312,11 @@ void Cy_DSADC_SetInputPin(PACSS_DCHAN_Type* base,
                           cy_en_dsadc_dchan_positive_pin_t pinPositive,
                           cy_en_dsadc_dchan_negative_pin_t pinNegative)
 {
+    CY_ASSERT_L3(CY_DSADC_DCHAN_POSITIVE_PIN_AMUXB >= pinPositive);
+    CY_ASSERT_L3(CY_DSADC_DCHAN_NEGATIVE_PIN_AMUXB >= pinNegative);
     /* Set positive and negative pin */
-    CY_REG32_CLR_SET(base->SMP_CTL, PACSS_ACHAN_INMUX_CTL_POS_PIN_SEL, pinPositive);
-    CY_REG32_CLR_SET(base->SMP_CTL, PACSS_ACHAN_INMUX_CTL_NEG_PIN_SEL, pinNegative);
+    CY_REG32_CLR_SET(base->SMP_CTL, PACSS_DCHAN_SMP_CTL_POS_PIN_SEL, pinPositive);
+    CY_REG32_CLR_SET(base->SMP_CTL, PACSS_DCHAN_SMP_CTL_NEG_PIN_SEL, pinNegative);
 }
 
 /*******************************************************************************
@@ -327,6 +334,7 @@ void Cy_DSADC_SetInputPin(PACSS_DCHAN_Type* base,
 *******************************************************************************/
 void Cy_DSADC_SetPullupSelect(PACSS_DCHAN_Type* base, cy_en_dsadc_dchan_reference_pullup_t select)
 {
+    CY_ASSERT_L3(CY_DSADC_DCHAN_REFERENCE_PULLUP_RSL0 >= select);
     /* Set pullup select */
     CY_REG32_CLR_SET(base->SMP_REF_CTL, PACSS_DCHAN_SMP_REF_CTL_RS_PULLUP_SEL, (uint32_t)select);
 }
@@ -345,6 +353,7 @@ void Cy_DSADC_SetPullupSelect(PACSS_DCHAN_Type* base, cy_en_dsadc_dchan_referenc
 *******************************************************************************/
 void Cy_DSADC_SetSampleMode(PACSS_DCHAN_Type* base, cy_en_dsadc_dchan_sample_mode_t mode)
 {
+    CY_ASSERT_L3(CY_DSADC_DCHAN_SAMPLE_MODE_CONTINUOUS >= mode);
     /* Set sample mode */
     CY_REG32_CLR_SET(base->DEC_CTL, PACSS_DCHAN_DEC_CTL_CONV_MODE, (uint32_t)mode);
 }
@@ -367,6 +376,8 @@ void Cy_DSADC_SetVref(PACSS_DCHAN_Type* base,
                       cy_en_dsadc_dchan_reference_vrefh_t vrefh,
                       cy_en_dsadc_dchan_reference_vrefl_t vrefl)
 {
+    CY_ASSERT_L3(CY_DSADC_DCHAN_REFERENCE_VREFH_VDDA_DIV_3 >= vrefh);
+    CY_ASSERT_L3(CY_DSADC_DCHAN_REFERENCE_VREFL_VTS_RET >= vrefl);
     /* Set VREFH, VREFL and VREF buffer */
     CY_REG32_CLR_SET(base->SMP_REF_CTL, PACSS_DCHAN_SMP_REF_CTL_VREFH_SEL, vrefh);
     CY_REG32_CLR_SET(base->SMP_REF_CTL, PACSS_DCHAN_SMP_REF_CTL_VREFL_SEL, vrefl);
@@ -440,6 +451,7 @@ void Cy_DSADC_EnableGainCorrection(PACSS_DCHAN_Type* base)
 *******************************************************************************/
 void Cy_DSADC_EnableOffsetCorrection(PACSS_DCHAN_Type* base)
 {
+    CY_ASSERT_L1(NULL != base);
     /* Enable offset correction */
     base->DEC_CTL |= PACSS_DCHAN_DEC_CTL_OCOR_EN_Msk;
 }
@@ -459,6 +471,7 @@ void Cy_DSADC_EnableOffsetCorrection(PACSS_DCHAN_Type* base)
 *******************************************************************************/
 void Cy_DSADC_ConfigureGainLevel(PACSS_DCHAN_Type* base, const cy_stc_dsadc_gain_level_config_t* gain)
 {
+    CY_ASSERT_L1(NULL != gain);
     /* Configure gain level */
     /* Set PGA gain */
     base->PGA_GAIN_CTL = (uint32_t)gain->pgaGain;
@@ -552,6 +565,7 @@ void Cy_DSADC_ConfigureGainLevel(PACSS_DCHAN_Type* base, const cy_stc_dsadc_gain
 *******************************************************************************/
 uint32_t Cy_DSADC_CalcMaxCount(const cy_stc_dsadc_dchan_config_t* config)
 {
+    CY_ASSERT_L1(NULL != config);
     /* Set U (moving sum averaging) as a default return value */
     uint32_t result = 1U;
     /* U - moving sum */
@@ -620,6 +634,58 @@ uint32_t Cy_DSADC_CalcMaxCount(const cy_stc_dsadc_dchan_config_t* config)
 int32_t Cy_DSADC_GetResult(const PACSS_DCHAN_Type* base)
 {
     return (int32_t)(base->RESULT);
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_GetResultTagRaw
+****************************************************************************//**
+*
+* \brief
+* Returns the 32-bit tag word associated with the most recent valid conversion.
+* \param base
+* The base address for the Digital Channel.
+* \return
+* 32-bit tag word with the following field allocation: \n
+*   Bits [6:0]   RESULT_PARITY  - 7-bit ECC parity computed from the 32-bit result. \n
+*   Bits [13:8]  SMP_COUNT      - 6-bit sample counter. Increments for each valid
+*                                 (post-processed) output. Resets when DSADC or
+*                                 the DCHAN is disabled. \n
+*   Bits [17:16] DCH_ID         - Hardware digital channel ID (constant for a
+*                                 given channel instance). \n
+*   Bits [26:20] DATA_TYPE      - Latched input/data selection identifier used
+*                                 for the conversion. Latched at start of
+*                                 conversion, reported here when result is ready.
+*
+*******************************************************************************/
+uint32_t Cy_DSADC_GetResultTagRaw(const PACSS_DCHAN_Type* base)
+{
+    CY_ASSERT_L1(NULL != base);
+    return base->RESULT_TAG;
+}
+
+/*******************************************************************************
+* Function Name: Cy_DSADC_GetResultTag
+****************************************************************************//**
+*
+* \brief
+* Decodes the tag word for the most recent valid conversion into a structure.
+* All fields are captured simultaneously with the conversion result.
+* \param base
+* The base address for the Digital Channel.
+* \param tag
+* Non-NULL pointer to a result tag structureto be filled.
+*
+*******************************************************************************/
+void Cy_DSADC_GetResultTag(const PACSS_DCHAN_Type* base, cy_stc_dsadc_dchan_result_tag_t* tag)
+{
+    CY_ASSERT_L1(NULL != base);
+    CY_ASSERT_L1(NULL != tag);
+
+    uint32_t reg = base->RESULT_TAG;
+
+    tag->parity = (uint8_t)_FLD2VAL(PACSS_DCHAN_RESULT_TAG_RESULT_PARITY, reg);
+    tag->sampleCount = (uint8_t)_FLD2VAL(PACSS_DCHAN_RESULT_TAG_SMP_COUNT, reg);
+    tag->dataType = (uint8_t)_FLD2VAL(PACSS_DCHAN_RESULT_TAG_DATA_TYPE, reg);
 }
 
 /*******************************************************************************

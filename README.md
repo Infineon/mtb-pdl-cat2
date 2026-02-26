@@ -63,5 +63,7 @@ See the "Getting started" section of the [PDL API reference manual](https://infi
 
 - [CCGxF_CFP device family](https://www.infineon.com/cms/en/product/universal-serial-bus/usb-c-power-delivery-controllers)
 
+- [PSOC&trade; 4 HV device family](https://www.infineon.com/products/microcontroller/32-bit-psoc-arm-cortex/psoc-4-hv-m0)
+
 ---
-© 2020-2025, Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation.
+© Infineon Technologies AG or an affiliate of Infineon Technologies AG, 2020-2026.

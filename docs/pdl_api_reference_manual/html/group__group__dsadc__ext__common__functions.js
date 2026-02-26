@@ -12,10 +12,22 @@ var group__group__dsadc__ext__common__functions =
     [ "Cy_DSADC_AgcIsEnabled", "group__group__dsadc__ext__common__functions.html#gafdad594089079904dcf56444b5c9cd78", null ],
     [ "Cy_DSADC_AgcSetGainCorrection", "group__group__dsadc__ext__common__functions.html#ga3dcfd1fbec6ff010160ae828ff9d260b", null ],
     [ "Cy_DSADC_AgcSetOffsetCorrection", "group__group__dsadc__ext__common__functions.html#ga1cf10915a4fc9e03dbd6334e862103be", null ],
+    [ "Cy_DSADC_AgcGetGainLevel", "group__group__dsadc__ext__common__functions.html#gadd3dfbfa9984c9efe3effbd38db5927d", null ],
+    [ "Cy_DSADC_AgcGetFastDecimatorResult", "group__group__dsadc__ext__common__functions.html#ga9977065d879e3e6105fc98fb8d8dd089", null ],
     [ "Cy_DSADC_EnableLowDropoutRegulator", "group__group__dsadc__ext__common__functions.html#ga63b278a99332ae51bcf6377c17b9709a", null ],
     [ "Cy_DSADC_DisableLowDropoutRegulator", "group__group__dsadc__ext__common__functions.html#gaed4a4deed282e0e19501ae40df2ca133", null ],
     [ "Cy_DSADC_SetAccumulatorThreshold", "group__group__dsadc__ext__common__functions.html#ga107545c45a1859ac989b6e3045f20211", null ],
     [ "Cy_DSADC_ResetAccumulator", "group__group__dsadc__ext__common__functions.html#ga5f4349a35da28b022a7e0c77ea0527d9", null ],
     [ "Cy_DSADC_StartConversionAll", "group__group__dsadc__ext__common__functions.html#gaf008b40afca6500714b1a1560909fb83", null ],
-    [ "Cy_DSADC_PendSecondConvAll", "group__group__dsadc__ext__common__functions.html#ga6ce2e8f482ef7cad4b15960bd16a7d17", null ]
+    [ "Cy_DSADC_PendSecondConvAll", "group__group__dsadc__ext__common__functions.html#ga6ce2e8f482ef7cad4b15960bd16a7d17", null ],
+    [ "Cy_DSADC_OcdInit", "group__group__dsadc__ext__common__functions.html#ga90a96437715ee5aaf00849f555d50001", null ],
+    [ "Cy_DSADC_OcdGetConfig", "group__group__dsadc__ext__common__functions.html#ga4f5de7f2b558eda472191e2dcb8572df", null ],
+    [ "Cy_DSADC_OcdEnable", "group__group__dsadc__ext__common__functions.html#ga315f43bc1fc108150832e69bc8222625", null ],
+    [ "Cy_DSADC_OcdDisable", "group__group__dsadc__ext__common__functions.html#ga82b62dcf8c875b0458f027edf444a719", null ],
+    [ "Cy_DSADC_OcdIsEnabled", "group__group__dsadc__ext__common__functions.html#gabb8489da9a92760e50b722ca54168ebd", null ],
+    [ "Cy_DSADC_OcdGetStatus", "group__group__dsadc__ext__common__functions.html#ga01b84da32290646fffcc2981fb0dda38", null ],
+    [ "Cy_DSADC_OcdClearHoldStatus", "group__group__dsadc__ext__common__functions.html#gad117d2c308e34bcc4feb622c7baf78f9", null ],
+    [ "Cy_DSADC_OcdSetTestMode", "group__group__dsadc__ext__common__functions.html#gac9bdb8cce5707ff8c34123d7e7524825", null ],
+    [ "Cy_DSADC_OcdSetOutputMode", "group__group__dsadc__ext__common__functions.html#gaa285db5eb4ccfa7c47f18f8a23bf255a", null ],
+    [ "Cy_DSADC_OcdGetOutputMode", "group__group__dsadc__ext__common__functions.html#gafa7ba87d99a7f62e75acf96cfe49ba7b", null ]
 ];

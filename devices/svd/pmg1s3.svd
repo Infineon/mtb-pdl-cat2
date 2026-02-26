@@ -6,9 +6,8 @@
   <series>PMG1S3</series>
   <version>1.0</version>
   <description>PMG1S3</description>
-  <licenseText>(c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company)\n
-    or an affiliate of Cypress Semiconductor Corporation.\n
-\n
+  <licenseText>(c) 2016-2026, Infineon Technologies AG or an affiliate of\n
+    Infineon Technologies AG.\n
     SPDX-License-Identifier: Apache-2.0\n
 \n
     Licensed under the Apache License, Version 2.0 (the "License");\n

@@ -74,4 +74,9 @@
   <Source id="m0s8mscv3lp-2.0">
     <Destination id="m0s8mscv3lp-3.0" valid="true" message="Migration is successful" defaultMapping="true"/>
   </Source>
+  <Source id="m0s8sysanalog-1.0">
+    <Destination id="m0s8sysanalog-2.0" valid="true" message="Migration is successful" defaultMapping="true">
+        <Parameter param="clock" value="`${(value(&quot;clock&quot;,&quot;clock&quot;) eq &quot;CY_CTB_CLK_PUMP_HF_DIV_2&quot;) ? &quot;CY_PASS_CLK_PUMP_HF_DIV_2&quot; : (value(&quot;clock&quot;,&quot;clock&quot;) eq &quot;CY_CTB_CLK_PUMP_HF&quot;) ? &quot;CY_PASS_CLK_PUMP_HF&quot; : (value(&quot;clock&quot;,&quot;clock&quot;) eq &quot;CY_CTB_CLK_PUMP_SRSS&quot;) ? &quot;CY_PASS_CLK_PUMP_SRSS&quot; : value(&quot;clock&quot;,&quot;clock&quot;)}`" />
+    </Destination>
+  </Source>
 </Migration>

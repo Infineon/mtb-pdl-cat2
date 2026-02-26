@@ -5,8 +5,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2018-2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2018-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -33,17 +33,19 @@
 #include "cy_canfd.h"
 #include "cy_crypto.h"
 #include "cy_cryptolite.h"
+#include "cy_crwdt.h"
 #include "cy_csd.h"
 #include "cy_ctb.h"
-#include "cy_crwdt.h"
 #include "cy_dmac.h"
 #include "cy_dsadc.h"
 #include "cy_flash.h"
 #include "cy_gpio.h"
 #include "cy_hvss.h"
 #include "cy_i2s.h"
+#include "cy_isouart.h"
 #include "cy_lin.h"
 #include "cy_lpcomp.h"
+#include "cy_ltc.h"
 #include "cy_msc.h"
 #include "cy_msclp.h"
 #include "cy_ram.h"
@@ -74,7 +76,5 @@
 #include "cy_usbpd_vbus_ctrl.h"
 #include "cy_wdc.h"
 #include "cy_wdt.h"
-#include "cy_ltc.h"
-
 
 #endif /* CY_PDL_H */

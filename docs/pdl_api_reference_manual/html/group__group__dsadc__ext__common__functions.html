@@ -125,6 +125,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga1cf10915a4fc9e03dbd6334e862103be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga1cf10915a4fc9e03dbd6334e862103be">Cy_DSADC_AgcSetOffsetCorrection</a> (PACSS_MMIO_Type *base, uint8_t index, int16_t offset)</td></tr>
 <tr class="memdesc:ga1cf10915a4fc9e03dbd6334e862103be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the offset correction factor for the specified AGC gain level.  <a href="#ga1cf10915a4fc9e03dbd6334e862103be">More...</a><br /></td></tr>
 <tr class="separator:ga1cf10915a4fc9e03dbd6334e862103be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gadd3dfbfa9984c9efe3effbd38db5927d">Cy_DSADC_AgcGetGainLevel</a> (const PACSS_MMIO_Type *base)</td></tr>
+<tr class="memdesc:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current gain level.  <a href="#gadd3dfbfa9984c9efe3effbd38db5927d">More...</a><br /></td></tr>
+<tr class="separator:gadd3dfbfa9984c9efe3effbd38db5927d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9977065d879e3e6105fc98fb8d8dd089"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga9977065d879e3e6105fc98fb8d8dd089">Cy_DSADC_AgcGetFastDecimatorResult</a> (const PACSS_MMIO_Type *base)</td></tr>
+<tr class="memdesc:ga9977065d879e3e6105fc98fb8d8dd089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the AGC Fast Decimator Result.  <a href="#ga9977065d879e3e6105fc98fb8d8dd089">More...</a><br /></td></tr>
+<tr class="separator:ga9977065d879e3e6105fc98fb8d8dd089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga63b278a99332ae51bcf6377c17b9709a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga63b278a99332ae51bcf6377c17b9709a">Cy_DSADC_EnableLowDropoutRegulator</a> (PACSS_MMIO_Type *base)</td></tr>
 <tr class="memdesc:ga63b278a99332ae51bcf6377c17b9709a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the LDO, which provides voltage to the modulator.  <a href="#ga63b278a99332ae51bcf6377c17b9709a">More...</a><br /></td></tr>
 <tr class="separator:ga63b278a99332ae51bcf6377c17b9709a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +149,36 @@ Functions</h2></td></tr>
 <tr class="memitem:ga6ce2e8f482ef7cad4b15960bd16a7d17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga6ce2e8f482ef7cad4b15960bd16a7d17">Cy_DSADC_PendSecondConvAll</a> (PACSS_MMIO_Type *base)</td></tr>
 <tr class="memdesc:ga6ce2e8f482ef7cad4b15960bd16a7d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers the conversion for all enabled secondary channels.  <a href="#ga6ce2e8f482ef7cad4b15960bd16a7d17">More...</a><br /></td></tr>
 <tr class="separator:ga6ce2e8f482ef7cad4b15960bd16a7d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90a96437715ee5aaf00849f555d50001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga90a96437715ee5aaf00849f555d50001">Cy_DSADC_OcdInit</a> (PACSS_MMIO_Type *base, uint8_t index, <a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> *config)</td></tr>
+<tr class="memdesc:ga90a96437715ee5aaf00849f555d50001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the OCD.  <a href="#ga90a96437715ee5aaf00849f555d50001">More...</a><br /></td></tr>
+<tr class="separator:ga90a96437715ee5aaf00849f555d50001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4f5de7f2b558eda472191e2dcb8572df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga4f5de7f2b558eda472191e2dcb8572df">Cy_DSADC_OcdGetConfig</a> (PACSS_MMIO_Type *base, uint8_t index, <a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> *config)</td></tr>
+<tr class="memdesc:ga4f5de7f2b558eda472191e2dcb8572df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the OCD configuration.  <a href="#ga4f5de7f2b558eda472191e2dcb8572df">More...</a><br /></td></tr>
+<tr class="separator:ga4f5de7f2b558eda472191e2dcb8572df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga315f43bc1fc108150832e69bc8222625"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga315f43bc1fc108150832e69bc8222625">Cy_DSADC_OcdEnable</a> (PACSS_MMIO_Type *base, uint8_t index)</td></tr>
+<tr class="memdesc:ga315f43bc1fc108150832e69bc8222625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the OCD.  <a href="#ga315f43bc1fc108150832e69bc8222625">More...</a><br /></td></tr>
+<tr class="separator:ga315f43bc1fc108150832e69bc8222625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82b62dcf8c875b0458f027edf444a719"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga82b62dcf8c875b0458f027edf444a719">Cy_DSADC_OcdDisable</a> (PACSS_MMIO_Type *base, uint8_t index)</td></tr>
+<tr class="memdesc:ga82b62dcf8c875b0458f027edf444a719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the OCD.  <a href="#ga82b62dcf8c875b0458f027edf444a719">More...</a><br /></td></tr>
+<tr class="separator:ga82b62dcf8c875b0458f027edf444a719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabb8489da9a92760e50b722ca54168ebd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gabb8489da9a92760e50b722ca54168ebd">Cy_DSADC_OcdIsEnabled</a> (PACSS_MMIO_Type *base, uint8_t index)</td></tr>
+<tr class="memdesc:gabb8489da9a92760e50b722ca54168ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get OCD enabled status.  <a href="#gabb8489da9a92760e50b722ca54168ebd">More...</a><br /></td></tr>
+<tr class="separator:gabb8489da9a92760e50b722ca54168ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga01b84da32290646fffcc2981fb0dda38"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#ga01b84da32290646fffcc2981fb0dda38">Cy_DSADC_OcdGetStatus</a> (const PACSS_MMIO_Type *base, uint8_t index)</td></tr>
+<tr class="memdesc:ga01b84da32290646fffcc2981fb0dda38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the OCD status register value.  <a href="#ga01b84da32290646fffcc2981fb0dda38">More...</a><br /></td></tr>
+<tr class="separator:ga01b84da32290646fffcc2981fb0dda38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad117d2c308e34bcc4feb622c7baf78f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gad117d2c308e34bcc4feb622c7baf78f9">Cy_DSADC_OcdClearHoldStatus</a> (PACSS_MMIO_Type *base, uint8_t index)</td></tr>
+<tr class="memdesc:gad117d2c308e34bcc4feb622c7baf78f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the OCD hold status.  <a href="#gad117d2c308e34bcc4feb622c7baf78f9">More...</a><br /></td></tr>
+<tr class="separator:gad117d2c308e34bcc4feb622c7baf78f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac9bdb8cce5707ff8c34123d7e7524825"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gac9bdb8cce5707ff8c34123d7e7524825">Cy_DSADC_OcdSetTestMode</a> (PACSS_MMIO_Type *base, uint8_t index, <a class="el" href="group__group__enum__common.html#ga7d87b7ec11061ee0e468feacf7742861">cy_en_dsadc_ocd_test_mode_t</a> mode)</td></tr>
+<tr class="memdesc:gac9bdb8cce5707ff8c34123d7e7524825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set OCD self test mode.  <a href="#gac9bdb8cce5707ff8c34123d7e7524825">More...</a><br /></td></tr>
+<tr class="separator:gac9bdb8cce5707ff8c34123d7e7524825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa285db5eb4ccfa7c47f18f8a23bf255a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gaa285db5eb4ccfa7c47f18f8a23bf255a">Cy_DSADC_OcdSetOutputMode</a> (PACSS_MMIO_Type *base, <a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a> mode)</td></tr>
+<tr class="memdesc:gaa285db5eb4ccfa7c47f18f8a23bf255a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select output mode for condensing OCD1 output onto OCD0 output pin.  <a href="#gaa285db5eb4ccfa7c47f18f8a23bf255a">More...</a><br /></td></tr>
+<tr class="separator:gaa285db5eb4ccfa7c47f18f8a23bf255a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa7ba87d99a7f62e75acf96cfe49ba7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__dsadc__ext__common__functions.html#gafa7ba87d99a7f62e75acf96cfe49ba7b">Cy_DSADC_OcdGetOutputMode</a> (PACSS_MMIO_Type *base)</td></tr>
+<tr class="memdesc:gafa7ba87d99a7f62e75acf96cfe49ba7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current OCD0 output mode.  <a href="#gafa7ba87d99a7f62e75acf96cfe49ba7b">More...</a><br /></td></tr>
+<tr class="separator:gafa7ba87d99a7f62e75acf96cfe49ba7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -243,6 +279,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>This API is available only on devices that include the High Voltage Divider. Refer to the device datasheet for more details. </dd></dl>
 
 </div>
 </div>
@@ -557,6 +594,60 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gadd3dfbfa9984c9efe3effbd38db5927d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadd3dfbfa9984c9efe3effbd38db5927d">&#9670;&nbsp;</a></span>Cy_DSADC_AgcGetGainLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t Cy_DSADC_AgcGetGainLevel </td>
+          <td>(</td>
+          <td class="paramtype">const PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get current gain level. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Current gain level. </dd></dl>
+
+</div>
+</div>
+<a id="ga9977065d879e3e6105fc98fb8d8dd089"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9977065d879e3e6105fc98fb8d8dd089">&#9670;&nbsp;</a></span>Cy_DSADC_AgcGetFastDecimatorResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t Cy_DSADC_AgcGetFastDecimatorResult </td>
+          <td>(</td>
+          <td class="paramtype">const PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the AGC Fast Decimator Result. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>AGC Fast Decimator Result. </dd></dl>
+
+</div>
+</div>
 <a id="ga63b278a99332ae51bcf6377c17b9709a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga63b278a99332ae51bcf6377c17b9709a">&#9670;&nbsp;</a></span>Cy_DSADC_EnableLowDropoutRegulator()</h2>
 
@@ -723,6 +814,403 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga90a96437715ee5aaf00849f555d50001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga90a96437715ee5aaf00849f555d50001">&#9670;&nbsp;</a></span>Cy_DSADC_OcdInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdInit </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> *&#160;</td>
+          <td class="paramname"><em>config</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes the OCD. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+    <tr><td class="paramname">config</td><td>Configuration options for the OCD. See <a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="ga4f5de7f2b558eda472191e2dcb8572df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4f5de7f2b558eda472191e2dcb8572df">&#9670;&nbsp;</a></span>Cy_DSADC_OcdGetConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdGetConfig </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> *&#160;</td>
+          <td class="paramname"><em>config</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the OCD configuration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+    <tr><td class="paramname">config</td><td>Pointer to the configuration options for the OCD. See <a class="el" href="structcy__stc__dsadc__ocd__config__t.html">cy_stc_dsadc_ocd_config_t</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="ga315f43bc1fc108150832e69bc8222625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga315f43bc1fc108150832e69bc8222625">&#9670;&nbsp;</a></span>Cy_DSADC_OcdEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdEnable </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable the OCD. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="ga82b62dcf8c875b0458f027edf444a719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga82b62dcf8c875b0458f027edf444a719">&#9670;&nbsp;</a></span>Cy_DSADC_OcdDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdDisable </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disable the OCD. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="gabb8489da9a92760e50b722ca54168ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb8489da9a92760e50b722ca54168ebd">&#9670;&nbsp;</a></span>Cy_DSADC_OcdIsEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Cy_DSADC_OcdIsEnabled </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get OCD enabled status. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Current OCD status.<ul>
+<li>true : OCD enabled.</li>
+<li>false : OCD disabled. </li>
+</ul>
+</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="ga01b84da32290646fffcc2981fb0dda38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga01b84da32290646fffcc2981fb0dda38">&#9670;&nbsp;</a></span>Cy_DSADC_OcdGetStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t Cy_DSADC_OcdGetStatus </td>
+          <td>(</td>
+          <td class="paramtype">const PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the OCD status register value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Over Current Detector Status. See <a class="el" href="group__group__dsadc__ocd__macros__status.html">OCD Status Masks</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="gad117d2c308e34bcc4feb622c7baf78f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad117d2c308e34bcc4feb622c7baf78f9">&#9670;&nbsp;</a></span>Cy_DSADC_OcdClearHoldStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdClearHoldStatus </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear the OCD hold status. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="gac9bdb8cce5707ff8c34123d7e7524825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac9bdb8cce5707ff8c34123d7e7524825">&#9670;&nbsp;</a></span>Cy_DSADC_OcdSetTestMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdSetTestMode </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__enum__common.html#ga7d87b7ec11061ee0e468feacf7742861">cy_en_dsadc_ocd_test_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set OCD self test mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">index</td><td>OCD index. Valid inputs are between 0 and 1 (inclusive). </td></tr>
+    <tr><td class="paramname">mode</td><td>OCD self test mode to set. See <a class="el" href="group__group__enum__common.html#ga7d87b7ec11061ee0e468feacf7742861">cy_en_dsadc_ocd_test_mode_t</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="gaa285db5eb4ccfa7c47f18f8a23bf255a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa285db5eb4ccfa7c47f18f8a23bf255a">&#9670;&nbsp;</a></span>Cy_DSADC_OcdSetOutputMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Cy_DSADC_OcdSetOutputMode </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Select output mode for condensing OCD1 output onto OCD0 output pin. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+    <tr><td class="paramname">mode</td><td>OCD output mode to set. See <a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
+
+</div>
+</div>
+<a id="gafa7ba87d99a7f62e75acf96cfe49ba7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa7ba87d99a7f62e75acf96cfe49ba7b">&#9670;&nbsp;</a></span>Cy_DSADC_OcdGetOutputMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a> Cy_DSADC_OcdGetOutputMode </td>
+          <td>(</td>
+          <td class="paramtype">PACSS_MMIO_Type *&#160;</td>
+          <td class="paramname"><em>base</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return current OCD0 output mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>The pointer to the MMIO instance of the PACSS. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>OCD output mode. See <a class="el" href="group__group__enum__common.html#ga5bfef03afeb1294841ee9f3ff33c5995">cy_en_dsadc_ocd_output_mode_t</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Applicable to PSOC4 HVPA SPM only. </dd></dl>
 
 </div>
 </div>

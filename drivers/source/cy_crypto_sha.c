@@ -1,14 +1,14 @@
 /***************************************************************************//**
 * \file cy_crypto_sha.c
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 *  This file provides SHA API implementation of the Crypto driver.
 *
 *******************************************************************************
 * \copyright
-* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2016-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -213,7 +213,7 @@ cy_en_crypto_status_t Cy_Crypto_Sha_Partial(CRYPTO_Type *base,
     uint32_t hashBlockIdx;
     uint32_t hashBlockSize;
 
-    if (NULL == base || NULL == shaContext || 0U == shaContext->blockSize || (messageSize > 0U && NULL == message))
+    if (NULL == base || NULL == shaContext || (messageSize > 0U && NULL == message))
     {
         return CY_CRYPTO_BAD_PARAMS;
     }
@@ -226,6 +226,13 @@ cy_en_crypto_status_t Cy_Crypto_Sha_Partial(CRYPTO_Type *base,
     if ((CY_CRYPTO_SHA_INITIALIZED != shaContext->processState) && (CY_CRYPTO_SHA_PARTIAL_PROCESSED != shaContext->processState))
     {
         return CY_CRYPTO_INVALID_OPERATION;
+    }
+
+    /* Ensure SHA context is initialized or in partial-processing state otherwise the call sequence is invalid. */
+
+    if (0U == shaContext->blockSize)
+    {
+        return CY_CRYPTO_BAD_PARAMS;
     }
 
     hashBlockIdx  = shaContext->blockIdx;

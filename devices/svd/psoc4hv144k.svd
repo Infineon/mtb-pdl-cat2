@@ -6,9 +6,8 @@
   <series>PSOC4HV144K</series>
   <version>1.0</version>
   <description>PSOC4HV144K</description>
-  <licenseText>(c) (2016-2025), Cypress Semiconductor Corporation (an Infineon company)\n
-    or an affiliate of Cypress Semiconductor Corporation.\n
-\n
+  <licenseText>(c) 2016-2026, Infineon Technologies AG or an affiliate of\n
+    Infineon Technologies AG.\n
     SPDX-License-Identifier: Apache-2.0\n
 \n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -633,8 +632,8 @@ Note that this field is retained. However, the counter that is used to implement
             <field>
               <name>OVER_TEMP_THRESH</name>
               <description>Over-temperature threshold.   
-0: TEMP_HIGH condition occurs between 120C and 125C.
-1: TEMP_HIGH condition occurs between 60C and 75C (used for testing).</description>
+0: TEMP_HIGH condition occurs between 110C and 145C.
+1: TEMP_HIGH condition occurs between 50C and 90C (used for testing).</description>
               <bitRange>[17:17]</bitRange>
             </field>
             <field>
@@ -11848,47 +11847,6 @@ Represents the value of PACSS.DCHAN[]_SMP_CTL.POS_PIN_SEL.DATA_TYPE used during 
               </field>
             </fields>
           </register>
-          <cluster>
-            <dim>64</dim>
-            <dimIncrement>16</dimIncrement>
-            <name>FCFG[%s]</name>
-            <description>FIR Configuration</description>
-            <addressOffset>0x100</addressOffset>
-            <register>
-              <name>COEF</name>
-              <description>Coefficient Value</description>
-              <addressOffset>0x0</addressOffset>
-              <resetMask>0x00000000</resetMask>
-              <fields>
-                <field>
-                  <name>COEF</name>
-                  <description>FIR Coefficient Value
-
-The coefficient values can range from -1+1/(2^15) to 1-1/(2^15) with a resolution of 1/(2^15). The coefficient uses twos-complement notation and the decimal point is fixed to the right of the most significant bit.
-
-Examples: -0.25 = 0xE000 and 0.25 = 0x2000
-
-Note: The Coefficient values are stored in SRAM, not registers. They are not initialized during a reset.  They also cannot be accessed during a conversion.</description>
-                  <bitRange>[15:0]</bitRange>
-                </field>
-              </fields>
-            </register>
-            <register>
-              <name>TAP</name>
-              <description>Tap Value</description>
-              <addressOffset>0x8</addressOffset>
-              <resetMask>0x00000000</resetMask>
-              <fields>
-                <field>
-                  <name>TAP</name>
-                  <description>Tap value, Witten by hardware readable by software. 
-
-Note: The TAP values are stored in SRAM, not registers. They are not initialized during a reset.  They also cannot be accessed during a conversion.</description>
-                  <bitRange>[31:0]</bitRange>
-                </field>
-              </fields>
-            </register>
-          </cluster>
         </cluster>
         <cluster>
           <dim>2</dim>

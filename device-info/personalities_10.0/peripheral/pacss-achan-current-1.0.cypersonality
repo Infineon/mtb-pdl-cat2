@@ -10,8 +10,8 @@
 *
 ********************************************************************************
 * \copyright
-* (c) (2025), Cypress Semiconductor Corporation (an Infineon company) or
-* an affiliate of Cypress Semiconductor Corporation.
+* (c) 2025-2026, Infineon Technologies AG or an affiliate of
+* Infineon Technologies AG.
 *
 * SPDX-License-Identifier: Apache-2.0
 *
@@ -82,7 +82,7 @@
       <Entry name="FW trigger" value="FW" visible="true" />
     </ParamChoice>
 
-    <ParamChoice id="secondaryTrigger" name="Secondary Trigger Select" group="General" default="`${isCurrent ? HW_IN0 : FW}`" visible="true" editable="true" desc="Select for Trigger that pends secondary digital channels linked to this analog channel to convert on the next primary trigger." >
+    <ParamChoice id="secondaryTrigger" name="Secondary Trigger Select" group="General" default="`${isCurrent ? FW : HW_IN2}`" visible="true" editable="true" desc="Select for Trigger that pends secondary digital channels linked to this analog channel to convert on the next primary trigger." >
       <Entry name="DCHAN0 trigger input" value="HW_IN0" visible="true" />
       <Entry name="DCHAN1 trigger input" value="HW_IN1" visible="true" />
       <Entry name="DCHAN2 trigger input" value="HW_IN2" visible="true" />

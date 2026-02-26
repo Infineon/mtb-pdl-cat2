@@ -73,5 +73,10 @@ var group__group__data__digital__chan =
       [ "useAgc", "structcy__stc__dsadc__dchan__config__t.html#a705fb938544c6e145634d15b2fbffb45", null ],
       [ "enableGainCorrection", "structcy__stc__dsadc__dchan__config__t.html#ae408cc637dd567d71edc61d48f723ddf", null ],
       [ "enableOffsetCorrection", "structcy__stc__dsadc__dchan__config__t.html#a6b30f2eb4ba4cf42f2b7c85a6f0cc596", null ]
+    ] ],
+    [ "cy_stc_dsadc_dchan_result_tag_t", "structcy__stc__dsadc__dchan__result__tag__t.html", [
+      [ "parity", "structcy__stc__dsadc__dchan__result__tag__t.html#afc5c564027a92e7b648002ed8c22e1be", null ],
+      [ "sampleCount", "structcy__stc__dsadc__dchan__result__tag__t.html#ab28cbecc3931d3a15bdf7b6aa4612c40", null ],
+      [ "dataType", "structcy__stc__dsadc__dchan__result__tag__t.html#a54441aa689da75ffc60992b6925406d0", null ]
     ] ]
 ];

@@ -144,19 +144,13 @@ Auto-Gain Control</div></div>
 <div class="caption">
 Analog ADC part</div></div>
 <p> The analog portion of the ADCs consists:</p><ul>
-<li><a class="el" href="group__group__dsadc.html#multiplexer">Input/diagnostic multiplexer</a></li>
+<li>"Input/diagnostic multiplexer"</li>
 <li><a class="el" href="group__group__dsadc.html#pga">Programmable gain amplifier (PGA)</a></li>
 <li><a class="el" href="group__group__dsadc.html#aaf">Anti-alias filter (AAF)</a></li>
 <li><a class="el" href="group__group__dsadc.html#buffer">Buffer amplifier</a></li>
 <li><a class="el" href="group__group__dsadc.html#DSM">Delta-sigma modulator</a></li>
 </ul>
 <p>The analog DSM system receives a differential signal selected through the analog multiplexer. This differential signal is received by a programmable gain amplifier (PGA). The output of the PGA feeds a low-pass anti-alias filter (AAF) with a bandwidth of ~30 kHz. A buffer amplifier drives the DSM modulator - this amplifier has high bandwidth to settle the modulator capacitors to better than 16 bits each time they are settled. The modulator uses capacitor dividers to set gain. The modulator is a third order with switched capacitor amplifier circuits. The modulator produces a multi-level digital bitstream sent to the digital channel. PGA and buffer amplifiers have offset trim, which reduces to offset these sub-blocks to &lt;0.5 mV (across temperature). Offset trim is done during production. To reduce offset further, there is circuit chopping in PGA, buffer, and modulator. Chopping frequency is programmable from Fs/2 to Fs/256 (in 2's powers), where default is Fs/32. Fs here is the modulator clock.</p>
-<p><a class="anchor" id="multiplexer"></a><b>Input/diagnostic multiplexer</b></p>
-<div class="image">
-<img src="mux_adc.png" alt="mux_adc.png"/>
-<div class="caption">
-Input/diagnostic multiplexer</div></div>
- <dl class="section note"><dt>Note</dt><dd>Resistor dividers enable/select (RDIVen/RDIVsel) coming from HVSS (see <a class="el" href="group__group__hvss.html">HVSS (High-Voltage Subsystem)</a>).</dd></dl>
 <p><a class="anchor" id="pga"></a><b>Programmable gain amplifier (PGA)</b></p>
 <p>The PGA is a fully-differential pseudo-instrumentation amplifier implemented with two Opamps. The PGA can be programmed for gains of 1 to 32. The PGA gain can be programmed via the internal bus or comes from the AGC. The PGA input range is -250 mV to 1.2 V (For RSH/RSL input pins, the input range is -300 mV to +300 mV). A negative pump is used to allow inputs to be below ground. This PGA has low-noise and input capacitance of about 1.5 pF. The PGA includes input/output chopping, which the sequencer can enable, and digital offset trim.</p>
 <p><a class="anchor" id="aaf"></a><b>Anti-alias filter (AAF)</b></p>
@@ -171,6 +165,8 @@ Anti-alias filter (AAF)</div></div>
 <p><a class="anchor" id="DSM"></a><b>Delta-sigma modulator</b></p>
 <p>The delta-sigma modulator works by taking the difference between input and feedback signals (delta) and accumulating that difference (sigma) to produce a digital output.</p>
 <p>The digital stream goes to a decimator (see <a class="el" href="group__group__dsadc.html#dchan">dchan</a>), which converts the fast oversampled bit stream into slower high-resolution results.</p>
+<p><a class="anchor" id="OCD"></a><b>Overcurrent detector</b></p>
+<p>The overcurrent detector (OCD) provides a safety mechanism to detect battery over current conditions. OCD detection is from the differential current sense inputs, RSHx and RSLx and support both charging and discharging over current. The detect threshold is programmable via an internal DAC. For safety, the OCD operated independently of the ADC which also provides faster detection of over current conditions. One OCD is associated with each set of current sense inputs (RSHx/RSLx).</p>
 <p><a class="anchor" id="dchan"></a><b>Digital part</b></p>
 <div class="image">
 <img src="digital_adc.png" alt="digital_adc.png"/>
@@ -216,6 +212,10 @@ Changelog</h1>
 <table class="doxtable">
 <tr>
 <th>Version</th><th>Changes</th><th>Reason for Change </th></tr>
+<tr>
+<td rowspan="2">1.10 </td><td>The OCD feature support was added for PSOC4 HVPA SPM 1.0 device. </td><td>New feature support.  </td></tr>
+<tr>
+<td>Updated interfaces of <a class="el" href="group__group__dsadc__base__common__functions.html#gafe88a3831fd1eac9f24d6de51ad6f25a">Cy_DSADC_CountsTo_Volts</a>, <a class="el" href="group__group__dsadc__base__common__functions.html#ga7239873610f58f8f10daced258410dee">Cy_DSADC_CountsTo_mVolts</a>, <a class="el" href="group__group__dsadc__base__common__functions.html#ga4397842181241a3494950c2802dce42f">Cy_DSADC_CountsTo_uVolts</a>. </td><td>Defect fix  </td></tr>
 <tr>
 <td>1.0 </td><td>Initial version </td><td></td></tr>
 </table>
