@@ -33,6 +33,7 @@
   </Dependencies>
 
   <ExposedMembers>
+    <ExposedMember key="isHVdevice" paramId="isHVdevice" />
   </ExposedMembers>
 
   <Parameters>
@@ -52,6 +53,11 @@
     <!-- Superblock instance name -->
     <ParamString id="sbInstanceName" name="Superblock Instance Name" group="System" default="`${INST_NAME}`"
                  visible="false" editable="false" desc="Superblock Instance Name" />
+
+    <!-- ExposedMember -->
+    <ParamBool id="isHVdevice" name="Device belongs to high-voltage family" group="Internal"
+               default="`${hasBlock(&quot;hvss[0]&quot;)}`" visible="false" editable="false"
+               desc="Checks whether the HVSS block is present in the device (unique for HV family)" />
 
     <!-- VDDA Voltage query -->
     <ParamBool id="isPowerEnabled" name="Is Power Enabled" group="System" default="`${isBlockUsed(&quot;srss[0].power[0]&quot;)}`"

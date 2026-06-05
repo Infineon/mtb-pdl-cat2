@@ -208,23 +208,45 @@
     #define SFLASH_MSCLP0_CLK_IMO_TRIM3_25_MHZ  ((uint32_t)(((SFLASH_Type *) SFLASH)->MSCLP_CLK_IMO_TRIM3_25))
 #endif /* CY_IP_M0S8MSCV3LP */
 
-#if defined (SFLASH_HAS_DYNAMIC_IMO)
+#if defined (SFLASH_HAS_DYNAMIC_IMO) 
 
-#define CY_SAR_TEMP_H_TENTH_DEGREE           (1000)             /**< Hot temperature in tens of degrees Celsius (100C) */
-#define CY_SAR_TEMP_RH_TENTH_DEGREE          (625)              /**< Room hot temperature in tens of degrees Celsius (62.5C) */
-#define CY_SAR_TEMP_R_TENTH_DEGREE           (250)              /**< Room temperature in tens of degrees Celsius (25C) */
-#define CY_SAR_TEMP_RC_TENTH_DEGREE          (-75)              /**< Room cold temperature in tens of degrees Celsius (-7.5C) */
-#define CY_SAR_TEMP_C_TENTH_DEGREE           (-400)             /**< Cold temperature in tens of degrees Celsius (-40C) */
+#if defined (CY_DEVICE_SERIES_PSOC_4100T_PLUS) || \
+   (defined (CY_DEVICE_SERIES_PSOC_4100S_PLUS) && (defined (CY8C4147AZQ_S445I) || defined (CY8C4147AZQ_S455I)))
+   
+   #define CY_DEVICE_DYNAMIC_IMO_ENABLED (1u)
+
+/* 
+Temperature points definition for Dynamis IMO feature.
+Note:   Hot, Room and Cold temperature points are the temperatures at which the Dynamic IMO is trimmed.
+        Room hot and Room cold temperature points are calculated as:
+        Room hot temperature = (Hot temperature + Room temperature) / 2
+        Room cold temperature = (Room temperature + Cold temperature) / 2 
+*/
+#if defined CY_DEVICE_SERIES_PSOC_4100S_PLUS
+    #if (defined (CY8C4147AZQ_S445I) || defined (CY8C4147AZQ_S455I))
+        #define CY_SAR_TEMP_H_TENTH_DEGREE           (1000)             /**< Hot temperature in tens of degrees Celsius (100C) */
+        #define CY_SAR_TEMP_RH_TENTH_DEGREE          (625)              /**< Room hot temperature in tens of degrees Celsius (62.5C) */
+        #define CY_SAR_TEMP_R_TENTH_DEGREE           (250)              /**< Room temperature in tens of degrees Celsius (25C) */
+        #define CY_SAR_TEMP_RC_TENTH_DEGREE          (-75)              /**< Room cold temperature in tens of degrees Celsius (-7.5C) */
+        #define CY_SAR_TEMP_C_TENTH_DEGREE           (-400)             /**< Cold temperature in tens of degrees Celsius (-40C) */
+    #endif /* (defined (CY8C4147AZQ_S445I) || defined (CY8C4147AZQ_S455I)) */
+#else /* defined CY_DEVICE_SERIES_PSOC_4100T_PLUS */
+    #define CY_SAR_TEMP_H_TENTH_DEGREE           (1100)             /**< Hot temperature in tens of degrees Celsius (110C) */
+    #define CY_SAR_TEMP_RH_TENTH_DEGREE          (675)              /**< Room hot temperature in tens of degrees Celsius (67.5C) */
+    #define CY_SAR_TEMP_R_TENTH_DEGREE           (250)              /**< Room temperature in tens of degrees Celsius (25C) */
+    #define CY_SAR_TEMP_RC_TENTH_DEGREE          (-75)              /**< Room cold temperature in tens of degrees Celsius (-7.5C) */
+    #define CY_SAR_TEMP_C_TENTH_DEGREE           (-400)             /**< Cold temperature in tens of degrees Celsius (-40C) */
+#endif /* defined CY_DEVICE_SERIES_PSOC_4100S_PLUS */
 
 /**
   * \brief Die temperature in SAR counts
   */
 typedef struct {
-    volatile const uint16_t CY_SAR_TEMP_H_COUNTS;               /*!< SAR counts for dietemp at 100C */
-    volatile const uint16_t CY_SAR_TEMP_C_COUNTS;               /*!< SAR counts for dietemp at 62.5C */
-    volatile const uint16_t CY_SAR_TEMP_R_COUNTS;               /*!< SAR counts for dietemp at 25C */
-    volatile const uint16_t CY_SAR_TEMP_RH_COUNTS;              /*!< SAR counts for dietemp at -7.5C */
-    volatile const uint16_t CY_SAR_TEMP_RC_COUNTS;              /*!< SAR counts for dietemp at -40C */
+    volatile const uint16_t CY_SAR_TEMP_H_COUNTS;               /*!< SAR counts for dietemp at Hot temperature */
+    volatile const uint16_t CY_SAR_TEMP_C_COUNTS;               /*!< SAR counts for dietemp at Room hot temperature */
+    volatile const uint16_t CY_SAR_TEMP_R_COUNTS;               /*!< SAR counts for dietemp at Room temperature */
+    volatile const uint16_t CY_SAR_TEMP_RH_COUNTS;              /*!< SAR counts for dietemp at Room cold temperature */
+    volatile const uint16_t CY_SAR_TEMP_RC_COUNTS;              /*!< SAR counts for dietemp at Cold temperature */
 }SFLASH_IMO_CAL_TEMP_Type;
 
 
@@ -238,9 +260,9 @@ typedef struct {
   * \brief IMO Trim values
   */
 typedef struct {
-    volatile const uint8_t CY_SYSCLK_IMO_TRIM_HOT[7];           /*!<Trim value at 100C for 24Mhz, 28Mhz, ... 48Mhz */
-    volatile const uint8_t CY_SYSCLK_IMO_TRIM_COLD[7];          /*!<Trim value at -40C for 24Mhz, 28Mhz, ... 48Mhz */
-    volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM[7];          /*!<Trim value at 25C for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_HOT[7];           /*!<Trim value at Hot for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_COLD[7];          /*!<Trim value at Cold for 24Mhz, 28Mhz, ... 48Mhz */
+    volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM[7];          /*!<Trim value at Room for 24Mhz, 28Mhz, ... 48Mhz */
     volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM_HOT[7];      /*!<Trim value at between Room and Hot for 24Mhz, 28Mhz, ... 48Mhz */
     volatile const uint8_t CY_SYSCLK_IMO_TRIM_ROOM_COLD[7];     /*!<Trim value at between Room and Cold for 24Mhz, 28Mhz, ... 48Mhz */
     volatile const uint8_t CY_SYSCLK_IMO_TRIM_OFFSET_HOT[7];    /*!<Offset trim value for Hot for 24Mhz, 28Mhz, ... 48Mhz */
@@ -253,8 +275,13 @@ typedef struct {
 #endif
 #define CY_SFLASH_IMO_CAL_TRIM                                  ((SFLASH_IMO_CAL_TRIM_Type *) CY_SFLASH_IMO_CAL_TRIM_BASE)
 
-
-#endif /* SFLASH_HAS_DYNAMIC_IMO */
+#else 
+    #define CY_DEVICE_DYNAMIC_IMO_ENABLED (0u)
+#endif /* #if defined (CY_DEVICE_SERIES_PSOC_4100T_PLUS) || \
+             (defined (CY_DEVICE_SERIES_PSOC_4100S_PLUS) && (defined (CY8C4147AZQ_S445I) || defined (CY8C4147AZQ_S455I))) */
+#else 
+    #define CY_DEVICE_DYNAMIC_IMO_ENABLED (0u)
+#endif /* #if defined (SFLASH_HAS_DYNAMIC_IMO) */
 
 #if defined(CPUSS_SPCIF_FLASH_S8FS_VER2)
 #define SFLASH_USER_AREA                    (((SFLASH_Type *) SFLASH)->USER_SFLASH_AREA[0U])

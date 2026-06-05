@@ -442,7 +442,11 @@ void Cy_USBPD_Pump_Disable (
     context->base->pump5v_ctrl = PDSS_PUMP5V_CTRL_DEFAULT;
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
+#if (!defined(CY_DEVICE_SERIES_PMG1B2))
     context->base->pump_ctrl |= (PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (!defined(CY_DEVICE_SERIES_PMG1B2)) */
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 
@@ -496,7 +500,11 @@ void Cy_USBPD_Pump_Enable (
     CY_UNUSED_PARAMETER(index);
 #else /* CY_DEVICE_CCG3PA */
     CY_UNUSED_PARAMETER(index);
+#if (!defined(CY_DEVICE_SERIES_PMG1B2))
     context->base->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
+#else
+    CY_UNUSED_PARAMETER(context);
+#endif /* (!defined(CY_DEVICE_SERIES_PMG1B2)) */
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 }
 #if CY_USBPD_CGND_SHIFT_ENABLE
@@ -633,8 +641,10 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Init (
     /* Disable filter on comparator 1 and comparator 2 outputs. */
     pd->intr_1_cfg &= ~(PDSS_INTR_1_CFG_CMP_OUT1_FILT_EN | PDSS_INTR_1_CFG_CMP_OUT2_FILT_EN);
 
+#if (!defined(CY_DEVICE_SERIES_PMG1B2))
     /* Leave the CC pump enabled. */
     pd->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP | PDSS_PUMP_CTRL_BYPASS_LV);
+#endif /* (!defined(CY_DEVICE_SERIES_PMG1B2)) */
 
 #else
     #error "Unsupported IP"
@@ -930,9 +940,11 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Start (
     /* Enable Deep sleep reference. */
     pd->dpslp_ref_ctrl &= ~PDSS_DPSLP_REF_CTRL_PD_DPSLP;
 
+#if (!defined(CY_DEVICE_SERIES_PMG1B2))
     /* Enable PUMP */
     pd->pump_ctrl &= ~(PDSS_PUMP_CTRL_PD_PUMP  | PDSS_PUMP_CTRL_BYPASS_LV);
     Cy_SysLib_DelayUs (50);
+#endif /* (!defined(CY_DEVICE_SERIES_PMG1B2)) */
 
     /* Enable V5V change detect interrupt. */
     pd->intr1         = PDSS_INTR1_V5V_CHANGED;
@@ -1061,8 +1073,10 @@ cy_en_usbpd_status_t Cy_USBPD_TypeC_Stop (
     /* Power down the block. */
     pd->cc_ctrl_0 |= PDSS_CC_CTRL_0_PWR_DISABLE;
 
+#if (!defined(CY_DEVICE_SERIES_PMG1B2))
     /* Disable PUMP */
     pd->pump_ctrl |= (PDSS_PUMP_CTRL_PD_PUMP  | PDSS_PUMP_CTRL_BYPASS_LV);
+#endif /* (!defined(CY_DEVICE_SERIES_PMG1B2)) */
 
     /* Turn off references. */
     /* Reset PDSS_DPSLP_REF_CTRL_PD_DPSLP bit to ensure proper functionality of REFGEN block */
@@ -2808,9 +2822,9 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
 #if defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)
     PPDSS_TRIMS_REGS_T pdtrims;
 #endif /* defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) */
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     uint32_t tmp;
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 #if defined(CY_DEVICE_PMG1S3)
     uint8_t vref = 0u;
 #endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
@@ -2932,6 +2946,32 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         pd->ngdo_ctrl_p |= PDSS_NGDO_CTRL_P_BYPASS_2DFF;
         pd->ngdo_ctrl_c |= PDSS_NGDO_CTRL_C_BYPASS_2DFF;
 #endif /* defined(CY_DEVICE_CCG3) */
+
+#if defined(CY_DEVICE_CCG4PD3)
+        /* Set trim settings. */
+        tmp = pd->s8usbpd_trim_6 & ~PDSS_S8USBPD_TRIM_6_V1P575_TRIM_MASK;
+        tmp |= SILICON_TRIM6_V1P575_TRIM_VALUE;
+        pd->s8usbpd_trim_6 = tmp;
+
+        tmp = pd->s8usbpd_trim_3 & ~PDSS_S8USBPD_TRIM_3_V0P55_TRIM_MASK;
+        tmp |= SILICON_TRIM3_V0P55_TRIM_VALUE;
+        pd->s8usbpd_trim_3 = tmp;
+
+        /*
+         * Clearing of TX_TRIM field is enough for Rp = 1.5A or Default termination
+         * at initialization time. Later TX_TRIM could be updated for Rp = 3A
+         * termination.
+         */
+        pd->s8usbpd_trim_0 &= ~PDSS_S8USBPD_TRIM_0_TX_TRIM_MASK;
+
+        /*
+         * Bypass the synchronizer for fault detection in CLK_LF domain, so that
+         * spacing takes effect right after fault detection.
+         */
+        pd->ngdo_ctrl_p |= PDSS_NGDO_CTRL_P_BYPASS_2DFF;
+        pd->ngdo_ctrl_c |= PDSS_NGDO_CTRL_C_BYPASS_2DFF;
+#endif /* defined(CY_DEVICE_CCG4PD3) */
+
 #if (defined(CY_DEVICE_CCG6DF_CFP))
         /*
          * The Deep Sleep voltage reference is used as input to the refgen block at all times.
@@ -3525,8 +3565,8 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
         /* Initialize ADCs. */
         status = Cy_USBPD_Adc_Init (context, CY_USBPD_ADC_ID_0);
 
-#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3))
-        /* PMG1S0 and PMG1S2 have two ADCs per PD block. */
+#if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
+        /* PMG1S0, PMG1S2 and PMG1B2 have two ADCs per PD block. */
         status = Cy_USBPD_Adc_Init (context, CY_USBPD_ADC_ID_1);
 
 #elif (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
@@ -3536,7 +3576,7 @@ cy_en_usbpd_status_t Cy_USBPD_Init(
             /* JIRA: CCGX_PA-598 - ADC 1 to be using VDDD reference. */
             (void)Cy_USBPD_Adc_SelectVref(context, CY_USBPD_ADC_ID_1, CY_USBPD_ADC_VREF_VDDD);
         }
-#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3)) */
+#endif /* (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3)) */
 
 #if (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1) || defined(CY_DEVICE_CCG6DF_CFP))
 #if PDL_CC_OVP_ENABLE
@@ -4638,7 +4678,7 @@ void Cy_USBPD_Intr1Handler (
 
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
         if ((intrCause & (PDSS_INTR1_CMP_OUT1_CHANGED | PDSS_INTR1_CMP_OUT2_CHANGED)) != 0U)
         {
             Cy_USBPD_Adc_IntrHandler(context);
@@ -4652,7 +4692,7 @@ void Cy_USBPD_Intr1Handler (
             Cy_USBPD_Vbus_V5vChangeDetectHandler (context);
         }
 #endif /* PMG1_V5V_CHANGE_DETECT */
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
         if ((intrCause & PDSS_INTR1_VCMP_LA_CHANGED) != 0U)
         {
@@ -5065,7 +5105,7 @@ void Cy_USBPD_Intr1Handler (
     }
 #endif /* PDL_VREG_INRUSH_DET_ENABLE */
 
-#if PDL_VOUTBB_RCP_ENABLE
+#if (PDL_VBUS_RCP_ENABLE || PDL_VOUTBB_RCP_ENABLE)
     if ((pd->intr17_masked & PDSS_INTR17_MASKED_PDBB_GDRVO_HSRCP_MASKED) != 0U)
     {
         /* Disable and Clear the interrupt. */
@@ -5077,9 +5117,7 @@ void Cy_USBPD_Intr1Handler (
             context->voutRcpCbk(context, true);
         }
     }
-#endif /* PDL_VOUTBB_RCP_ENABLE */
-
-
+#endif /* (PDL_VBUS_RCP_ENABLE || PDL_VOUTBB_RCP_ENABLE) */
 #endif /* (defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1)) */
 }
 

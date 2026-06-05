@@ -1,4 +1,4 @@
-# mtb-pdl-cat2 peripheral driver library v2.20.0
+# mtb-pdl-cat2 peripheral driver library v2.21.0
 
 See the [README.md](./README.md) and the
 [PDL API reference manual](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/index.html)
@@ -7,35 +7,26 @@ for a complete description of the Peripheral driver library.
 ## What's included?
 
 ### New Features
-- Added support for new PSOC&trade; 4 HVPA SPM 1.0 device family.
-- Added new drivers for the PSOC&trade; 4 HVPA SPM 1.0 devices.
-Please refer to the [New drivers](#new-drivers) section below for details.
-- Updated the CANFD driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform configuration.
-- Updated the Crypto driver with improved error handling in Cy_Crypto_Sha_Partial function.
-- Updated the SysFault driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform support.
-- Updated the SysClk driver to incorporate PSOC&trade; 4 HVPA SPM 1.0 platform configuration.
-- Updated the SAR driver with enhanced EXPMUX functionality.
-- Updated the DSADC driver with OCD feature support for PSOC&trade; 4 HVPA SPM 1.0 devices.
-- Updated the CTB driver with new function for PSOC&trade; 4 devices.
+- Added support for PMG1-B2 device family.
+- Updated the SysClk driver to support Dynamic IMO on PSOC&trade; 4100S Plus device.
+- Updated the SAR driver to support Dynamic IMO on PSOC&trade; 4100S Plus device.
+- New Dock configuration table features added to support PMG1S3 Dock SDK 1.3
+- Added support for CCGx_CFP Dual port dock part numbers to enable dual port configuration functionality in USBPD implementation.
+- Added new MPNs for PSOC&trade; 4100S Plus device families.
 
 ### Updated drivers
-- [CANFD 1.30](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__canfd.html)
-- [Crypto 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__crypto.html)
-- [SysFault 1.20](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysfault.html)
-- [SysClk 3.60](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
-- [SAR 2.80](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
-- [DSADC 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__dsadc.html)
-- [CTB 1.10](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__ctb.html)
+- [SysClk 3.70](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sysclk.html)
+- [SAR 2.90](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__sar.html)
 
 ### New drivers
-- [ISOUART 1.0](https://infineon.github.io/mtb-pdl-cat2/pdl_api_reference_manual/html/group__group__isouart.html)
 
 ### Updated personalities
-- The SAR personality for PSOC&trade; 4 HVMS Platform improved to clarify functionality of "Boost Pump" field.
-- The ILO clock diagram for PSOC™ 4 HVMS/PA Platform improved to display accurate clock tolerance specification.
-- Enabled multiple personalities on PSOC&trade; 4 HVPA SPM 1.0 device family: SysClocks, ECO, DSADC, CANFD, LIN.
-- Added new personalities for PSOC&trade; 4 HVPA SPM 1.0 device family: ISOUART, OCD.
-- The sysanalog personality for PSOC&trade; 4 Platform improved to choose clock source of the Pump.
+* Updated Personalities (in 10.0 folder):
+  * peripheral:
+    * wdc-1.0.cypersonality
+  * platform:
+    * crwdt-1.0.cypersonality 
+
 
 ## Defect fixes
 
@@ -49,7 +40,7 @@ This version of PDL was validated for compatibility with the following software 
 | :---                                                                          | :----        |
 | ModusToolbox&trade;                                                           |  3.7.0       |
 | [Infineon Core Library](https://github.com/Infineon/core-lib)                 |  1.7.0       |
-| [Device Database](https://github.com/Infineon/device-db)                      |  4.35.0      |
+| [Device Database](https://github.com/Infineon/device-db)                      |  4.36.0      |
 | CMSIS-Core(M)                                                                 |  6.1.0       |
 | GCC compiler                                                                  |  14.2.1      |
 | IAR compiler                                                                  |  9.50.2      |

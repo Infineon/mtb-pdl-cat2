@@ -1,7 +1,5 @@
 var NAVTREEINDEX18 =
 {
-"group__group__usbpd__common__macros.html#ga2b6a0d753e89d4776462c6bd46b6d5b1":[2,34,0,0,29],
-"group__group__usbpd__common__macros.html#ga2df9aa51d543ea63caff6ee2f2d2d4e4":[2,34,0,0,47],
 "group__group__usbpd__common__macros.html#ga2f82e8ccb5aa33276db983983da17ac7":[2,34,0,0,39],
 "group__group__usbpd__common__macros.html#ga3b16b1abcf2af81244c4ac02eddaf937":[2,34,0,0,11],
 "group__group__usbpd__common__macros.html#ga4488500d3c424cea813b8a784e6605db":[2,34,0,0,18],
@@ -249,5 +247,7 @@ var NAVTREEINDEX18 =
 "group__group__usbpd__legacy__macros.html#ga57edd3471e275af73638938a4d4511a2":[2,34,2,0,60],
 "group__group__usbpd__legacy__macros.html#ga5845be1b85fcf876b370ae51721b5557":[2,34,2,0,42],
 "group__group__usbpd__legacy__macros.html#ga620b5a157cbbea8a9a81650294ba224a":[2,34,2,0,83],
-"group__group__usbpd__legacy__macros.html#ga624fd078d7115a6595e2870b4cf3cdda":[2,34,2,0,0]
+"group__group__usbpd__legacy__macros.html#ga624fd078d7115a6595e2870b4cf3cdda":[2,34,2,0,0],
+"group__group__usbpd__legacy__macros.html#ga6985dd863f2e78b8200bcc8c1b684742":[2,34,2,0,4],
+"group__group__usbpd__legacy__macros.html#ga6f82209ab9c448fc4918dc1be8649cb4":[2,34,2,0,49]
 };

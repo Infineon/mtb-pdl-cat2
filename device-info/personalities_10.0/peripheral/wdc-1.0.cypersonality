@@ -38,7 +38,7 @@
   
   <Parameters>
     <!-- PDL documentation -->
-    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__wdt.html" linkText="Open Watchdog Timer Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation" default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__wdc.html" linkText="Open Watchdog Counters Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
 
     <ParamChoice id="ClockSource" name="Clock signal" group="Inputs" default="CY_WDC_CLOCK_ILO" visible="true" editable="true" desc="Specifies the clock source for WDC.">
       <Entry name="ILO" value="CY_WDC_CLOCK_ILO" visible="true" />

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 3.60
+* \version 3.70
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -75,6 +75,11 @@
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td>3.70</td>
+*     <td>Added Dynamic IMO only for new 4100S Plus devices.</td>
+*     <td>New feature support.</td>
+*   </tr>
 *   <tr>
 *     <td>3.60</td>
 *     <td>Added support of PSOC4 HVPA SPM 1.0 device.</td>
@@ -811,9 +816,9 @@ uint32_t Cy_SysClk_ImoGetFrequency(void);
 cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock);
 cy_en_sysclk_imo_lock_t Cy_SysClk_ImoGetLockStatus(void);
 #endif /* (CY_IP_M0S8WCO) */
-#if defined (SFLASH_HAS_DYNAMIC_IMO)
+#if CY_DEVICE_DYNAMIC_IMO_ENABLED
 void Cy_SysClk_ImoTempTrim(int16_t tenthDegreeC);
-#endif
+#endif /* CY_DEVICE_DYNAMIC_IMO_ENABLE */
 __STATIC_INLINE void Cy_SysClk_ImoEnable(void);
 __STATIC_INLINE void Cy_SysClk_ImoDisable(void);
 __STATIC_INLINE bool Cy_SysClk_ImoIsEnabled(void);

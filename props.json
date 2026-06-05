@@ -8,6 +8,7 @@
         "svd":{
             "COMPONENT_CCG7D": "devices/svd/ccg7d.svd",
             "COMPONENT_CCG7S": "devices/svd/ccg7s.svd",
+            "COMPONENT_PMG1B2": "devices/svd/pmg1b2.svd",
             "COMPONENT_PMG1S0": "devices/svd/pmg1s0.svd",
             "COMPONENT_PMG1S1": "devices/svd/pmg1s1.svd",
             "COMPONENT_PMG1S2": "devices/svd/pmg1s2.svd",

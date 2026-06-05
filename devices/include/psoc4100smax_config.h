@@ -1807,6 +1807,8 @@ typedef enum
 #define SFLASH_MOVE_CSD2_INIT_VALUE     0u
 /* Does this product include PACSS (m0s8pacss) ? */
 #define SFLASH_HAS_PACSS                0u
+/* Does this product use Dynamic IMO? */
+#define SFLASH_HAS_DYNAMIC_IMO          0u
 /* SRSSLT will use the NOESD version when set to 1 */
 #define SRSSLT_SRSSLT_NOESD             0u
 /* Number of bits from WDT_MATCH that are ignore in comparison */

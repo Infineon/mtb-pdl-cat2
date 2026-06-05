@@ -394,6 +394,9 @@
       <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passInst . &quot;]&quot;}`" value="" valid="true" />
     </DRC>
     <DRC type="ERROR" text="The SAR ADC reference voltage must be higher than 0.85 V" condition="`${!isVrefExternal &amp;&amp; (vref_voltage_mv &lt; 850)}`" />
+    <DRC type="INFO" text="Enable the Programmable Analog resource and specify the Charge Pump Clock Source." condition="`${(boostPump &amp;&amp; !isSysAnalogEnabled) &amp;&amp; !hasCTB &amp;&amp; (vdda lt 4000)}`" >
+      <FixIt action="ENABLE_BLOCK" target="`${&quot;pass[&quot; . passInst . &quot;]&quot;}`" value="" valid="true" />
+    </DRC>
     <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(ch$idx_se || ch$idx_isPairOk || ch$idxNegAddrEn)}`" paramId="Ch$idx Vminus" repeatCount="24" />
     <DRC type="INFO" text="`${pairedDrcMessage}`" condition="`${!(inj_se || inj_isPairOk || chInjNegAddrEn)}`" paramId="Injection Vminus" />
     <DRC type="INFO" text="`${tempAvgDrcMessage}`" condition="`${ch$idx_p_blockTypeTemp &amp;&amp; !ch$idx_avg}`" paramId="Ch$idx Vplus" repeatCount="24" >

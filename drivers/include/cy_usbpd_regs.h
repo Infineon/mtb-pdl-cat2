@@ -50,6 +50,9 @@
 #elif defined(CY_DEVICE_CCG7S) 
 #include "cy_usbpd_ccg7s_regs.h"
 
+#elif defined(CY_DEVICE_SERIES_PMG1B2)
+#include "cy_usbpd_pmg1b2_regs.h"
+
 #else
 /* Do nothing */
 #endif

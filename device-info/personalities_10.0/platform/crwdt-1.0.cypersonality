@@ -41,7 +41,7 @@
     <!-- PDL documentation TODO: FIX IT!-->
     <ParamDoc id="pdlDoc" name="Configuration Help" group="Peripheral Documentation"
     default="file:///`${cy_libs_path()}`/docs/pdl_api_reference_manual/html/group__group__crwdt.html"
-    linkText="Open Watchdog Timer Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
+    linkText="Open Challenge Response Watchdog Timer Documentation" visible="true" desc="Opens the Peripheral Driver Library Documentation" />
 
     <!-- Check DRSc -->
     <ParamString id="sourceClockRsc" name="Source Clock" group="Internal" default="srss[0].clock[0].lfclk[0]" visible="false" editable="false" desc="" />

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.c
-* \version 3.60
+* \version 3.70
 *
 * Provides an API implementation of the sysclk driver.
 *
@@ -489,7 +489,7 @@ cy_en_sysclk_status_t Cy_SysClk_ImoLock(cy_en_sysclk_imo_lock_t lock)
 }
 #endif /* (CY_IP_M0S8WCO) */
 
-#if defined (SFLASH_HAS_DYNAMIC_IMO)
+#if CY_DEVICE_DYNAMIC_IMO_ENABLED
 
 /** \cond */
 #define CY_SYSCLK_IMO_TRIM2_SIZE            (0x03uL)
@@ -573,7 +573,7 @@ void Cy_SysClk_ImoTempTrim(int16_t tenthDegreeC)
     SRSSLT->CLK_IMO_TRIM1 = ((uint32_t)trimTarget >> CY_SYSCLK_IMO_TRIM2_SIZE) & CY_SYSCLK_IMO_TRIM1_MSK;
     SRSSLT->CLK_IMO_TRIM2 = ((uint32_t)trimTarget) & CY_SYSCLK_IMO_TRIM2_MSK;
 }
-#endif
+#endif /* CY_DEVICE_DYNAMIC_IMO_ENABLED */
 
 
 /* ========================================================================== */

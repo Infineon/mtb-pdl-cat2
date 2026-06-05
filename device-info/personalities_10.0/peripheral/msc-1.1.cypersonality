@@ -245,7 +245,7 @@
         </ParamSignal>
 
         <Repeat count="32">
-          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="CAPSENSE™ Sensors"
+          <ParamSignal port="s_pad[$idx]" name="`${SensorName$idx}`" group="`${(SensorName$idx eq &quot;Cref0&quot;) ? &quot;External Capacitors&quot; : (SensorName$idx eq &quot;Cref1&quot;) ? &quot;External Capacitors&quot; : &quot;CAPSENSE™ Sensors&quot;}`"
                        visible="`${($idx &lt; PadSensorCount)}`"
                        desc="`${&quot;Pin connection for s_pad[$idx] virtual pad&quot;}`"
                        canBeEmpty="`${!($idx &lt; PadSensorCount)}`"

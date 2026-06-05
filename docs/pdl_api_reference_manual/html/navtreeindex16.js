@@ -1,7 +1,5 @@
 var NAVTREEINDEX16 =
 {
-"group__group__tcpwm__input__selection.html#gae36951351e06e1002c3cffa96a52f2a4":[2,31,0,0,0,12],
-"group__group__tcpwm__input__selection.html#gaebe56546700f098c04c3b7540bb4b039":[2,31,0,0,0,14],
 "group__group__tcpwm__input__selection.html#gaf27295bc3270bcb5467905f92679c7de":[2,31,0,0,0,11],
 "group__group__tcpwm__interrupt__sources.html":[2,31,0,0,2],
 "group__group__tcpwm__interrupt__sources.html#ga300637c566ff7f72bb19cf839ce85c0e":[2,31,0,0,2,2],
@@ -249,5 +247,7 @@ var NAVTREEINDEX16 =
 "group__group__usbpd__common.html":[2,34,0],
 "group__group__usbpd__common__data__structures.html":[2,34,0,2],
 "group__group__usbpd__common__data__structures.html#ga0983608a262274879abd9c6a85ec161a":[2,34,0,2,86],
-"group__group__usbpd__common__data__structures.html#ga0ccc5643ae10a48605b9d2fd4ffb7628":[2,34,0,2,87]
+"group__group__usbpd__common__data__structures.html#ga0ccc5643ae10a48605b9d2fd4ffb7628":[2,34,0,2,87],
+"group__group__usbpd__common__data__structures.html#ga4abe4a4854b176f511f2c583e243bd0e":[2,34,0,2,78],
+"group__group__usbpd__common__data__structures.html#ga59e055a653d6b35a611b63d5118fa007":[2,34,0,2,76]
 };

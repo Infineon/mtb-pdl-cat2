@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.h
-* \version 2.80
+* \version 2.90
 *
 * Header file for the SAR driver.
 *
@@ -365,6 +365,11 @@
 * \section group_sar_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="1">2.90</td>
+*     <td>Added Dynamic IMO only for new 4100S Plus devices.</td>
+*     <td>New feature support.</td>
+*   </tr>
 *   <tr>
 *     <td>2.80</td>
 *     <td>Fixed an issue related to using EXPMUX.</td>
@@ -1192,9 +1197,9 @@ float32_t Cy_SAR_CountsTo_Volts(const SAR_Type * base, uint32_t chan, int16_t ad
 int16_t Cy_SAR_CountsTo_mVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int32_t Cy_SAR_CountsTo_uVolts(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
 int16_t Cy_SAR_CountsTo_degreeC(const SAR_Type * base, uint32_t chan, int16_t adcCounts);
-#if defined (SFLASH_HAS_DYNAMIC_IMO)
+#if CY_DEVICE_DYNAMIC_IMO_ENABLED
 int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_t adcCounts);
-#endif
+#endif /* CY_DEVICE_DYNAMIC_IMO_ENABLE */
 cy_en_sar_status_t Cy_SAR_SetChannelOffset(const SAR_Type * base, uint32_t chan, int16_t offsetCount);
 cy_en_sar_status_t Cy_SAR_SetChannelGain(const SAR_Type * base, uint32_t chan, int32_t adcGain);
 /** \} */

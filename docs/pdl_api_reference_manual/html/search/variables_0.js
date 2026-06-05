@@ -9,7 +9,7 @@ var searchData=
   ['acceptaddrinfifo',['acceptAddrInFifo',['../structcy__stc__scb__i2c__config__t.html#a9074db87cce95b20f6adbaf905e05f98',1,'cy_stc_scb_i2c_config_t::acceptAddrInFifo()'],['../structcy__stc__scb__uart__config__t.html#a74ad4d501763b438b7903fb04e9df1b1',1,'cy_stc_scb_uart_config_t::acceptAddrInFifo()']]],
   ['acceptancecode',['acceptanceCode',['../structcy__stc__can__rx__buffer__config__t.html#ad7c3cb8eb542ad1c84a8c0707d948224',1,'cy_stc_can_rx_buffer_config_t']]],
   ['acceptancemask',['acceptanceMask',['../structcy__stc__can__rx__buffer__config__t.html#a7f2f276143dddeb5b09d59d026b7c660',1,'cy_stc_can_rx_buffer_config_t']]],
-  ['achan',['achan',['../structcy__stc__dsadc__dchan__config__t.html#aad702db48289a6dbd86faefdbd1f3d8e',1,'cy_stc_dsadc_dchan_config_t::achan()'],['../structcy__stc__dsadc__config__t.html#a287334859bf743e4274ce063a639562b',1,'cy_stc_dsadc_config_t::ACHAN()']]],
+  ['achan',['ACHAN',['../structcy__stc__dsadc__config__t.html#a287334859bf743e4274ce063a639562b',1,'cy_stc_dsadc_config_t::ACHAN()'],['../structcy__stc__dsadc__dchan__config__t.html#aad702db48289a6dbd86faefdbd1f3d8e',1,'cy_stc_dsadc_dchan_config_t::achan()']]],
   ['achan_5fchopping',['ACHAN_CHOPPING',['../structcy__stc__dsadc__config__t.html#ad3d78833e177d8c59a2b891e959e46a1',1,'cy_stc_dsadc_config_t']]],
   ['ackgeneraladdr',['ackGeneralAddr',['../structcy__stc__scb__i2c__config__t.html#a7a705499e24c5dade7143d1c339389af',1,'cy_stc_scb_i2c_config_t']]],
   ['act_5fcbl_5fvdo',['act_cbl_vdo',['../unioncy__pd__pd__do__t.html#aeafc54f5e84ade4981762045813d8253',1,'cy_pd_pd_do_t']]],

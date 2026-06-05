@@ -656,7 +656,9 @@
         (defined(CY_DEVICE_CCG7D)) || \
         (defined(CYPD6229_52LQXI)) || \
         (defined(CYPD6229_52LQXIT)) || \
-        (defined(CYPD8229_52LQXIT)))
+        (defined(CYPD8229_52LQXIT)) || \
+        (defined(CYPD6239_52LQXIT)) || \
+        (defined(CYPD8239_52LQXIT)))
 
 #ifndef NO_OF_TYPEC_PORTS
 /** Two USB-C ports supported on CYPM1322-97BZXIT part. */
@@ -1734,7 +1736,17 @@ typedef union
         uint32_t portMaxPdp   : 8;                /**< Bits 23:16 - Maximum Port PDP. */
         uint32_t reserved     : 7;                /**< Bits 30: 24 - Reserved. */
         uint32_t portType     : 1;                /**< Bit     31 - Port Type. */
-    } src_info;  
+    } src_info; 
+    
+    /** @brief Different fields of source information for DPS SIDO*/
+    struct SRC_INFO_DPS
+    {
+        uint32_t portGuarantPdp   : 9;           /**< Bits 08:00 - Port Guaranteed PDP */
+        uint32_t portMaxPdp       : 9;           /**< Bits 17:9 - Port Maximum PDP */
+        uint32_t reserved         : 12;          /**< Bits 29: 18 - Reserved. */
+        uint32_t dpsPort          : 1;           /**< Bit 30 - DPS Port. */
+        uint32_t portType         : 1;           /**< Bit     31 - Port Type. */
+    } src_info_dps;
     /** @endcond */
 
 } cy_pd_pd_do_t;

@@ -1,7 +1,5 @@
 var NAVTREEINDEX15 =
 {
-"group__group__syslib__functions.html#gaebb4e952584f0c428f58f7b4dbd3ceff":[2,28,1,5],
-"group__group__syslib__macros.html":[2,28,0],
 "group__group__syslib__macros.html#ga12200ca1ff7e119d8fe12f70d525651a":[2,28,0,9],
 "group__group__syslib__macros.html#ga1b790e8c9721ede5abc2d420e740a579":[2,28,0,7],
 "group__group__syslib__macros.html#ga1c0ebfbdb81ba7c5a3601a4b274b7666":[2,28,0,6],
@@ -249,5 +247,7 @@ var NAVTREEINDEX15 =
 "group__group__tcpwm__input__selection.html#gaae060090a4a95ad4b6ae724c715effa9":[2,31,0,0,0,3],
 "group__group__tcpwm__input__selection.html#gab72f09ee77ffc56587d3ad52e421cbb8":[2,31,0,0,0,15],
 "group__group__tcpwm__input__selection.html#gabe343e8f0821b0b0a5853f11b0da2f47":[2,31,0,0,0,2],
-"group__group__tcpwm__input__selection.html#gae135ae2ee5a9e693e23448a677f49c07":[2,31,0,0,0,7]
+"group__group__tcpwm__input__selection.html#gae135ae2ee5a9e693e23448a677f49c07":[2,31,0,0,0,7],
+"group__group__tcpwm__input__selection.html#gae36951351e06e1002c3cffa96a52f2a4":[2,31,0,0,0,12],
+"group__group__tcpwm__input__selection.html#gaebe56546700f098c04c3b7540bb4b039":[2,31,0,0,0,14]
 };

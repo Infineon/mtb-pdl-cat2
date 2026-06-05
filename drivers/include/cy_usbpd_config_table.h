@@ -68,6 +68,9 @@
 #define CY_CONFIG_GET_PPS_SRC_ENABLED(resp)  (((resp) >> 0x01u) & 0x01u)
 /**< Macro to extract the PPS Source Enable/Disable field from the config field.*/
 
+#define CY_CONFIG_MAX_DFP_PORT_COUNT_DOCK            (27u)
+/**< Maximum number of DFP ports supported for DFP power sharing algorithm.*/
+
 /**
  * @brief Struct to hold the Alt modes settings.
  */
@@ -1066,6 +1069,12 @@ typedef struct
 
     uint16_t    sec_config_offset;      /**< Offset of the Security Configuration table. */
     uint16_t    sec_config_size;        /**< Size of the Security Configuration table in bytes. */
+    
+    uint16_t    dfp_power_sharing_offset;      /**< Offset of the DFP power sharing configuration table */
+    uint16_t    dfp_power_sharing_size;        /**< Size of the DFP power sharing Configuration table in bytes. */
+    
+    uint16_t    app_config_offset;      /**< Offset of the application specification Dock Configuration table. */
+    uint16_t    app_config_size;        /**< Size of the application specification Dock Configuration table in bytes. */
 
     uint16_t    user_area_offset;       /**< Offset of the User Configuration area. */
     uint16_t    user_area_size;         /**< Size of the User Configuration area in bytes */
@@ -1460,6 +1469,54 @@ typedef struct
     uint32_t db_event_mask;                     /**< Default value of HPI event mask that will be applied to all PD ports on the device */
     uint32_t io_port_level;                     /**< IO level on the GPIO ports */
 }host_config_param_t;
+
+/**
+ *  @brief DFP port configuration data which is part of DFP power sharing configuration.
+ *
+ */
+typedef struct
+{
+    uint8_t device_idx              : 4;    /**< b3:b0 Device Index in CDTT configuration. */
+    uint8_t reserved                : 2;    /**< b5:b4 reserved. */
+    uint8_t device_port_idx         : 1;    /**< b6 Port Index in the device.
+                                             *      0: Port 0\n
+                                             *      1: Port 1 */
+    uint8_t power_sharing_enable    : 1;    /**< b7 DFP power sharing enable\n
+                                             *      0: Disable\n
+                                             *      1: Enable */
+}dfp_port_config_t;
+
+/**
+ * @typedef dps_config_t
+ * @brief DFP power sharing configuration data which is part of DMC configuration table.
+ *
+ */
+typedef struct
+{
+    uint8_t dfp_power_sharing_enable;       /**< DFP Power Sharing Enable/Disable. */
+    uint8_t num_dfp_ports;                  /**< No of DFP ports participating in power sharing algorithm. */
+    uint8_t max_pdp_watts;                  /**< Maximum PDP that can be allocated to a DFP port. */
+    uint8_t min_pdp_watts;                  /**< Minimum PDP that can be allocated to DFP port(s). */
+    uint8_t power_sharing_method;           /**< Power sharing selection method:\n
+                                             *   0 - First come first serve\n
+                                             *   1 - Fixed priority\n
+                                             *   2 - Equal priority */
+    uint8_t fixed_priority_dfp_port;        /**< DFP port for which the Maximum PDP is to be allocated.
+                                             * This field has to be configured when Fixed Priority is selected
+                                             * as the power_sharing_method.*/
+    dfp_port_config_t dfp_port_config[CY_CONFIG_MAX_DFP_PORT_COUNT_DOCK];
+                                            /**< DFP port information required to communicate with the associated device. */
+}dps_config_t;
+
+/**
+ * @typedef app_config_dock_t
+ * @brief Struct to hold the application specific dock configuration table.
+ */
+typedef struct
+{
+    uint32_t io_port_level;                     /**< IO level on the GPIO ports */
+    uint8_t usb2_hub_selection;                 /* USB2 Hub selection. 0 - FL5801 Hub, 1 - HX2G3 Hub */
+}app_config_dock_t;
 
 #if CY_USE_CONFIG_TABLE
 typedef struct

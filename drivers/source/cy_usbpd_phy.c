@@ -69,7 +69,7 @@
 
 
 /* Recommended CC transceiver settings for various PMG1 devices. */
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
 
 #define RX_CNT_MAX_CFG                  (RX_CNT_MAX_VAL << PDSS_RX_CC_RX_CNT_MAX_POS)
 #define RX_UI_BOUNDARY_DELTA_CFG        (RX_UI_BOUNDARY_DELTA_VAL << PDSS_RX_CC_RX_UI_BOUNDARY_DELTA_POS)
@@ -86,7 +86,7 @@
                                           PDSS_RX_SOP_GOOD_CRC_EN_CTRL_EXT_TX_SEND_PRIME_SOP_GOOD_CRC_EN |      \
                                           PDSS_RX_SOP_GOOD_CRC_EN_CTRL_EXT_TX_SEND_DBL_PRIME_SOP_GOOD_CRC_EN)
 
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
 #if (defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_SERIES_WLC1))
 

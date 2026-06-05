@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sar.c
-* \version 2.80
+* \version 2.90
 *
 * Provides the functions for the API for the SAR driver.
 *
@@ -1828,7 +1828,7 @@ uint32_t Cy_SAR_GetDiagHwCtrl(const SAR_Type * base)
 #endif /* (CY_IP_M0S8PASS4A_SAR_VERSION >= 4u) */
 
 
-#if defined (SFLASH_HAS_DYNAMIC_IMO)
+#if CY_DEVICE_DYNAMIC_IMO_ENABLED
 /*******************************************************************************
 * Function Name: Cy_SAR_CountsTo_tenthDegreeC
 ****************************************************************************//**
@@ -1928,7 +1928,7 @@ int16_t Cy_SAR_CountsTo_tenthDegreeC(const SAR_Type *base, uint32_t chan, int16_
 
     return (int16_t)retVal;
 }
-#endif
+#endif /* CY_DEVICE_DYNAMIC_IMO_ENABLED */
 
 
 /*******************************************************************************

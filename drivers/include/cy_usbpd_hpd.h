@@ -154,6 +154,15 @@
 #define HPD_HSIOM_SETTING_P0                    (13U)
 #define HPD_HSIOM_SETTING_P1                    (13U)
 
+#elif (defined(CY_DEVICE_CCG4PD3))
+#define HPD_P0_PORT_PIN                         (0x23U)    /* GPIO_PORT_2_PIN_3 */
+#define HPD_P1_PORT_PIN                         (0x15U)    /* GPIO_PORT_1_PIN_5 */
+#define HPD_P0_PORT                             (2U)
+#define HPD_P1_PORT                             (3U)
+#define HPD_P0_PIN                              (1U)
+#define HPD_P1_PIN                              (5U)
+#define HPD_HSIOM_SETTING_P0                    (15U)
+#define HPD_HSIOM_SETTING_P1                    (15U)
 #else
 #error "Device not supported."
 #endif

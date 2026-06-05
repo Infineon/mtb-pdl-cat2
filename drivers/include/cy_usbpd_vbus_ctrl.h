@@ -557,6 +557,10 @@ int16_t Cy_USBPD_Vbus_Ctrl_FbGetIdacStep(uint16_t new_volt, uint16_t cur_volt);
 
 int16_t Cy_USBPD_Vbus_GetTrimIdac(cy_stc_usbpd_context_t * context, uint16_t volt_mv);
 
+#if (defined(CY_DEVICE_SERIES_PMG1B2))
+void Cy_USBPD_Vbus_ExtDischargeInit(void);
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B2)) */
+
 void Cy_USBPD_Vbus_SystemClockDisable(cy_stc_usbpd_context_t * context);
 
 void Cy_USBPD_Vbus_SystemClockEnable(cy_stc_usbpd_context_t * context);

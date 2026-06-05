@@ -348,9 +348,9 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_us
 
     pd = context->base;
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     uint16_t retVal = 0U;
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 #if defined (CY_DEVICE_CCG3PA)
     context->vbusDetachAdcInp = CY_USBPD_ADC_INPUT_AMUX_B;
     context->vbusDetachAdcId = CY_USBPD_ADC_ID_1;
@@ -375,7 +375,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_us
     pd->adc_ctrl = PDSS_ADC_CTRL_ADC_ISO_N | PDSS_ADC_CTRL_PD_LV;
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     context->adcRefVddd[adcId] = true;
     context->adcVdddMv[adcId]  = PD_ADC_DEFAULT_VDDD_VOLT_MV;
 
@@ -405,7 +405,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_Init(cy_stc_usbpd_context_t *context, cy_en_us
 #else
     context->vbusMonDiv        = VBUS_MON_DIV_8P_VAL;
 #endif /* defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3)*/
 
     return CY_USBPD_STAT_SUCCESS;
 }
@@ -596,7 +596,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_FreeRunCtrl(cy_stc_usbpd_context_t *context, c
     /* Configure ADC */
     pd->adc_ctrl[adcId] = regVal | PDSS_ADC_CTRL_ADC_ISO_N |
             (((uint32_t)input << PDSS_ADC_CTRL_VSEL_POS) & PDSS_ADC_CTRL_VSEL_MASK);
-#endif /* defined(CY_DEVICE_CCG3PA) */
+#endif /* defined(CY_DEVICE_CCG3PA) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)|| defined(CY_DEVICE_SERIES_WLC1)|| defined(CY_DEVICE_PAG2S)*/
 
 #if (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP))
     /* Disable interrupts. */
@@ -621,7 +621,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_FreeRunCtrl(cy_stc_usbpd_context_t *context, c
     pd->intr3_cfg_adc_hs = temp_intr3_cfg_adc_hs;
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     if (adcId == CY_USBPD_ADC_ID_0)
     {
         /* Disable interrupts. */
@@ -641,7 +641,7 @@ cy_en_usbpd_status_t Cy_USBPD_Adc_FreeRunCtrl(cy_stc_usbpd_context_t *context, c
         pd->adc2_ctrl = (uint32_t)level | PDSS_ADC2_CTRL_ADC_ISO_N |
             (((uint32_t)input << PDSS_ADC2_CTRL_VSEL_POS) & PDSS_ADC2_CTRL_VSEL_MASK);
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     /* Only one ADC supported on some devices. */
     CY_UNUSED_PARAMETER(adcId);
@@ -786,7 +786,7 @@ void Cy_USBPD_Adc_CompCtrl(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t
     }
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     if (cb != NULL)
     {
         if (adcId == CY_USBPD_ADC_ID_0)
@@ -874,7 +874,7 @@ void Cy_USBPD_Adc_CompCtrl(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_t
             pd->intr1 = PDSS_INTR1_CMP_OUT2_CHANGED;
         }
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     /* Only one ADC supported on some devices. */
     CY_UNUSED_PARAMETER(adcId);
@@ -1042,7 +1042,7 @@ bool Cy_USBPD_Adc_CompSample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id
     pd_adc_restore_intr(context, adcId, regAdcCtrl);
 #endif /* defined(CY_IP_MXUSBPD) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     if (adcId == CY_USBPD_ADC_ID_0)
     {
         regAdcCtrl = pd->adc1_ctrl;
@@ -1111,7 +1111,7 @@ bool Cy_USBPD_Adc_CompSample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id
             }
         }
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     Cy_SysLib_ExitCriticalSection(state);
 
@@ -1161,7 +1161,7 @@ bool Cy_USBPD_Adc_GetCompStatus(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc
     }
 #endif /* (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_CCG6DF) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     if (adcId == CY_USBPD_ADC_ID_0)
     {
         if ((pd->adc1_ctrl & PDSS_ADC1_CTRL_CMP_OUT) != 0U)
@@ -1176,7 +1176,7 @@ bool Cy_USBPD_Adc_GetCompStatus(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc
             return false;
         }
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     return true;
 }
@@ -1211,7 +1211,9 @@ uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_
 {
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
+#if !defined(CY_DEVICE_CCG4PD3)
     uint32_t volatile timeout = 0;
+#endif /* !defined(CY_DEVICE_CCG4PD3) */
     uint8_t level = 0;
     uint32_t regAdcCtrl;
     (void)adcId;
@@ -1327,7 +1329,7 @@ uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_
 
 #endif /* defined(CY_IP_MXUSBPD) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     uint32_t rval;
 
     volatile uint32_t *adc_ctrl_reg_p;
@@ -1359,8 +1361,13 @@ uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_
     /* Configure the input. */
     *adc_ctrl_reg_p = PDSS_ADC1_CTRL_ADC_ISO_N |
         (((uint32_t)input << PDSS_ADC1_CTRL_VSEL_POS) & PDSS_ADC1_CTRL_VSEL_MASK);
+    Cy_SysLib_DelayUs (2u);
     *adc_sar_ctrl_reg_p |= PDSS_ADC1_SAR_CTRL_SAR_EN;
 
+#if defined(CY_DEVICE_CCG4PD3)
+    /* With 1Mhz input clock the measurement doesn't take longer 10us */
+    Cy_SysLib_DelayUs (10u);
+#else
     /* Wait for sampling to complete or timeout. */
     while (timeout < PD_ADC_TIMEOUT_COUNT)
     {
@@ -1370,9 +1377,10 @@ uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_
         }
         timeout++;
     }
+#endif /* defined(CY_DEVICE_CCG4PD3) */
 
     /* Delay required between SAR_EN bit to be cleared and value to be loaded. */
-    Cy_SysLib_DelayUs (2);
+    Cy_SysLib_DelayUs (2u);
 
     level = (uint8_t)((*adc_sar_ctrl_reg_p & PDSS_ADC1_SAR_CTRL_SAR_OUT_MASK) >>
             PDSS_ADC1_SAR_CTRL_SAR_OUT_POS);
@@ -1395,7 +1403,7 @@ uint8_t Cy_USBPD_Adc_Sample(cy_stc_usbpd_context_t *context, cy_en_usbpd_adc_id_
             pd->intr1_set |= adc_intr_mask;
         }
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     Cy_SysLib_ExitCriticalSection(state);
 
@@ -2128,9 +2136,32 @@ void Cy_USBPD_Adc_IntrHandler(cy_stc_usbpd_context_t *context)
             context->adcCb[CY_USBPD_ADC_ID_0](context, compOut);
         }
     }
-#elif (defined(CY_DEVICE_CCG3))
+#elif (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     if ((pd->intr1_masked & PDSS_INTR1_CMP_OUT1_CHANGED) != 0U)
     {
+#if (defined(CY_DEVICE_CCG4PD3) && defined(PDL_VBUS_OVP_ENABLE))
+        if (context->usbpdConfig->vbusOvpConfig->mode == (uint8_t)CY_USBPD_VBUS_OVP_MODE_ADC)
+        {
+            /* Load the interrupt configuration. */
+            uint32_t intCfg = (pd->intr_1_cfg & PDSS_INTR_1_CFG_ADC1_CFG_MASK) >> PDSS_INTR_1_CFG_ADC1_CFG_POS;
+            uint8_t debounce = context->usbpdConfig->vbusOvpConfig->debounce;
+
+            while (debounce != 0U)
+            {
+                if (((intCfg == (uint32_t)CY_USBPD_ADC_INT_FALLING) && ((pd->adc1_ctrl & PDSS_ADC1_CTRL_CMP_OUT) == 0U)) ||
+                    ((intCfg == (uint32_t)CY_USBPD_ADC_INT_RISING) && ((pd->adc1_ctrl & PDSS_ADC1_CTRL_CMP_OUT) != 0U)))
+                {
+                    Cy_SysLib_DelayUs(1U);
+                    debounce--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+#endif /* defined(CY_DEVICE_CCG4PD3) && defined(PDL_VBUS_OVP_ENABLE) */
+
         /* Disable the interrupt. */
         pd->intr1_mask &= ~PDSS_INTR1_CMP_OUT1_CHANGED;
 
@@ -2150,6 +2181,29 @@ void Cy_USBPD_Adc_IntrHandler(cy_stc_usbpd_context_t *context)
 
     if ((pd->intr1_masked & PDSS_INTR1_CMP_OUT2_CHANGED) != 0U)
     {
+#if (defined(CY_DEVICE_CCG4PD3) && defined(PDL_VBUS_OVP_ENABLE))
+        if (context->usbpdConfig->vbusOvpConfig->mode == (uint8_t)CY_USBPD_VBUS_OVP_MODE_ADC)
+        {
+            /* Load the interrupt configuration. */
+            uint32_t intCfg = (pd->intr_1_cfg & PDSS_INTR_1_CFG_ADC2_CFG_MASK) >> PDSS_INTR_1_CFG_ADC2_CFG_POS;
+            uint8_t debounce = context->usbpdConfig->vbusOvpConfig->debounce;
+
+            while (debounce != 0U)
+            {
+                if (((intCfg == (uint32_t)CY_USBPD_ADC_INT_FALLING) && ((pd->adc2_ctrl & PDSS_ADC2_CTRL_CMP_OUT) == 0U)) ||
+                    ((intCfg == (uint32_t)CY_USBPD_ADC_INT_RISING) && ((pd->adc2_ctrl & PDSS_ADC2_CTRL_CMP_OUT) != 0U)))
+                {
+                    Cy_SysLib_DelayUs(1U);
+                    debounce--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+#endif /* defined(CY_DEVICE_CCG4PD3) && defined(PDL_VBUS_OVP_ENABLE) */
+
         /* Disable the interrupt. */
         pd->intr1_mask &= ~PDSS_INTR1_CMP_OUT2_CHANGED;
 
@@ -2388,7 +2442,7 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Enable(cy_stc_usbpd_context_t *context, uint
 
     return CY_USBPD_STAT_SUCCESS;
 
-#elif defined(CY_DEVICE_CCG3)
+#elif (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     PPDSS_REGS_T pd = context->base;
 
     if (channel == CY_PD_CC_CHANNEL_1)
@@ -2527,7 +2581,7 @@ cy_en_usbpd_status_t Cy_USBPD_Vconn_Disable(cy_stc_usbpd_context_t *context, uin
 #endif /* defined(CY_DEVICE_CCG6DF_CFP) */
     return CY_USBPD_STAT_SUCCESS;
 
-#elif defined(CY_DEVICE_CCG3)
+#elif (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     PPDSS_REGS_T pd = context->base;
 
     if (channel == CY_PD_CC_CHANNEL_1)
@@ -2643,7 +2697,7 @@ bool Cy_USBPD_Vconn_IsPresent(cy_stc_usbpd_context_t *context, uint8_t channel)
     }
 #endif /* defined(CY_DEVICE_CCG6DF_CFP) */
 
-#if defined(CY_DEVICE_CCG3)
+#if (defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3))
     PPDSS_REGS_T pd = context->base;
 
     if (channel == CY_PD_CC_CHANNEL_1)
@@ -2654,7 +2708,7 @@ bool Cy_USBPD_Vconn_IsPresent(cy_stc_usbpd_context_t *context, uint8_t channel)
     {
         retVal = ((pd->pfet300_ctrl & PDSS_PFET300_CTRL_EN_SWITCH_CC2) != 0U);
     }
-#endif /* defined(CY_DEVICE_CCG3) */
+#endif /* defined(CY_DEVICE_CCG3) || defined(CY_DEVICE_CCG4PD3) */
 
     return retVal;
 }
@@ -4398,6 +4452,39 @@ void Cy_USBPD_Vbus_NgdoOff (cy_stc_usbpd_context_t *context, bool pfet)
 /** Vbus discharge drive strength at high voltages for PMG1S1. */
 #define DISCHG_DRIVE_STRENGTH_VBUS_HI_REVA      (0x03UL)
 
+ /* 
+  * The 68-pin PMG1-B2 MPN uses an external discharge circuit which is controlled using a GPIO
+  */
+#if (defined(CY_DEVICE_SERIES_PMG1B2))
+
+#define CY_GPIO_EXT_DISCH_PRT           (GPIO_PRT1)
+#define CY_GPIO_EXT_DISCH_PIN           (4)
+
+/*******************************************************************************
+* Function Name: Cy_USBPD_Vbus_ExtDischargeInit
+****************************************************************************//**
+*
+* Initialize and prepare to use pin that controls external discharge cirquit.
+*
+*******************************************************************************/
+void Cy_USBPD_Vbus_ExtDischargeInit(void)
+{
+    Cy_GPIO_Pin_FastInit(CY_GPIO_EXT_DISCH_PRT, CY_GPIO_EXT_DISCH_PIN, CY_GPIO_DM_STRONG, 0, HSIOM_SEL_GPIO);
+}
+
+/* Enable the external discharge circuit */
+static void Cy_USBPD_Vbus_ExtDischargeOn(void)
+{
+    Cy_GPIO_Write(CY_GPIO_EXT_DISCH_PRT, CY_GPIO_EXT_DISCH_PIN, 1 );
+}
+
+/* Disable the external discharge circuit */
+static void Cy_USBPD_Vbus_ExtDischargeOff(void)
+{
+    Cy_GPIO_Write(CY_GPIO_EXT_DISCH_PRT, CY_GPIO_EXT_DISCH_PIN, 0 );
+}
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B2)) */
+
 /*******************************************************************************
 * Function Name: Cy_USBPD_Vbus_DischargeOn
 ****************************************************************************//**
@@ -4541,6 +4628,9 @@ void Cy_USBPD_Vbus_DischargeOn(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
     pd->vbus_ctrl |= PDSS_VBUS_CTRL_DISCHG_EN;
 
+#elif (defined(CY_DEVICE_SERIES_PMG1B2))
+    (void)context; 
+    Cy_USBPD_Vbus_ExtDischargeOn();
 #endif /* CY_DEVICE */
 
 #if (PSVP_FPGA_ENABLE)
@@ -4681,6 +4771,9 @@ void Cy_USBPD_Vbus_DischargeOff(cy_stc_usbpd_context_t *context)
     PPDSS_REGS_T pd = context->base;
     pd->vbus_ctrl &= ~PDSS_VBUS_CTRL_DISCHG_EN;
 
+#elif (defined(CY_DEVICE_SERIES_PMG1B2))
+    (void)context; 
+    Cy_USBPD_Vbus_ExtDischargeOff();
 #endif /* CY_DEVICE */
 
 #if PSVP_FPGA_ENABLE
@@ -6123,7 +6216,7 @@ void Cy_USBPD_SetRefgenVoltage(cy_stc_usbpd_context_t *context, uint8_t vrefSel,
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb, bool pctrl)
 {
-#if PDL_VBUS_OVP_ENABLE
+#if (PDL_VBUS_OVP_ENABLE && (!defined(CY_DEVICE_CCG4PD3)))
     PPDSS_REGS_T pd = context->base;
     uint32_t regVal;
     uint16_t threshold;
@@ -6395,7 +6488,7 @@ void Cy_USBPD_Fault_Vbus_OvpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 {
-#if PDL_VBUS_OVP_ENABLE
+#if PDL_VBUS_OVP_ENABLE && !defined(CY_DEVICE_CCG4PD3)
 #if defined(CY_IP_MXUSBPD)
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
@@ -6500,7 +6593,7 @@ void Cy_USBPD_Fault_Vbus_OvpDisable(cy_stc_usbpd_context_t *context, bool pctrl)
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_OvpIntrHandler(cy_stc_usbpd_context_t *context)
 {
-#if (PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE)
+#if ((PDL_VBUS_OVP_ENABLE || PDL_VBUS_RCP_OV_ENABLE) && (!defined(CY_DEVICE_CCG4PD3)))
     PPDSS_REGS_T pd = context->base;
 
 #if defined(CY_IP_MXUSBPD)
@@ -7771,7 +7864,12 @@ void Cy_USBPD_Fault_Vbus_OcpEnable(cy_stc_usbpd_context_t *context, uint32_t cur
 #endif /* defined(PDL_VBUS_OCP_ENABLE) */
     CY_UNUSED_PARAMETER(context);
     CY_UNUSED_PARAMETER(current);
+#if ((PDL_VBUS_OCP_ENABLE) && defined(CY_DEVICE_SERIES_PMG1B2))
+    /* Set up OCP callback. */
+    context->vbusOcpCbk = cb;
+#else
     (void)(cy_cb_vbus_fault_t)cb;
+#endif /* (PDL_VBUS_OCP_ENABLE) && defined(CY_DEVICE_SERIES_PMG1B2) */
 }
 
 /*******************************************************************************
@@ -8517,10 +8615,13 @@ void Cy_USBPD_Vbus_LoadChangeISR_En(cy_stc_usbpd_context_t *context, uint32_t cu
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t volt, cy_cb_vbus_fault_t cb)
 {
-#if (defined(PDL_VBUS_RCP_ENABLE) && (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)))
+#if (defined(PDL_VBUS_RCP_ENABLE) && (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG6DF_CFP)))
     PPDSS_REGS_T pd = context->base;
+#if (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S)))
     uint32_t regval = 0;
     uint32_t vref = 0;
+#endif /* (!(defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S))) */
+
 #if defined(CY_DEVICE_CCG6)    
     uint16_t trim_rcp_offset_value = 0;
 #endif /* defined(CY_DEVICE_CCG6) */
@@ -8929,10 +9030,23 @@ void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 #else
     CY_UNUSED_PARAMETER(vref);
 #endif /* PDL_VBUS_RCP_OV_ENABLE */
+#elif (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG7D))
+
+#if defined(CY_DEVICE_SERIES_PMG1B1)
+    PPDSS_TRIMS_REGS_T pd_trims = (PPDSS_TRIMS_REGS_T)context->trimsBase;
+    CY_USBPD_REG_FIELD_UPDATE(pd_trims->trim_bb_gdrvo_1, PDSS_TRIM_BB_GDRVO_1_TRIM_HSRCP, 0x2Eu);
+#endif /* defined(CY_DEVICE_SERIES_PMG1B1) */
+
+    /* Clear and enable Buck-boost Vout RCP detect interrupt. */
+    pd->intr17 = PDSS_INTR17_PDBB_GDRVO_HSRCP;
+    pd->intr17_mask |= PDSS_INTR17_MASK_PDBB_GDRVO_HSRCP_MASK;
 #endif /* CY_DEVICE */
 
+#if (!(defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG7D)))
     /* Auto FET turn off mode. */
     Cy_USBPD_Fault_FetAutoModeEnable (context, true, CY_USBPD_VBUS_FILTER_ID_HSCSA_RCP);
+#endif /* !(defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG7D)) */
+
     Cy_SysLib_ExitCriticalSection (state);
     CY_UNUSED_PARAMETER(volt);
 #else
@@ -8960,7 +9074,7 @@ void Cy_USBPD_Fault_Vbus_RcpEnable(cy_stc_usbpd_context_t *context, uint16_t vol
 *******************************************************************************/
 void Cy_USBPD_Fault_Vbus_RcpDisable(cy_stc_usbpd_context_t *context)
 {
-#if (defined(PDL_VBUS_RCP_ENABLE) && (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP)))
+#if (defined(PDL_VBUS_RCP_ENABLE) && (defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7D) || defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG6DF_CFP)))
     PPDSS_REGS_T pd = context->base;
     uint32_t state;
 #if defined(CY_DEVICE_CCG6)    
@@ -9020,6 +9134,13 @@ void Cy_USBPD_Fault_Vbus_RcpDisable(cy_stc_usbpd_context_t *context)
     /* Remove RCP as source. */
     Cy_USBPD_Fault_FetAutoModeDisable (context, true, CY_USBPD_VBUS_FILTER_ID_HSCSA_RCP);
 #endif /* defined(CY_DEVICE_CCG6) || defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG6DF_CFP) */
+
+#if (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG7D))
+    /* Disable and Clear the interrupt. */
+    pd->intr17_mask &= ~PDSS_INTR17_MASK_PDBB_GDRVO_HSRCP_MASK;
+    pd->intr17 = PDSS_INTR17_PDBB_GDRVO_HSRCP;
+#endif /* (defined(CY_DEVICE_CCG7S) || defined(CY_DEVICE_CCG7D)) */
+
     Cy_SysLib_ExitCriticalSection (state);
 #else
     CY_UNUSED_PARAMETER(context);
@@ -9387,7 +9508,12 @@ static uint16_t Cy_USBPD_Fault_Vbus_Scp_SystemCalcLimit(cy_stc_usbpd_context_t *
     }
 
 #else /* (!CCG_LOAD_SHARING_ENABLE && !CCG_TEMP_BASED_VOLTAGE_THROTTLING && !CCG_VIN_BASED_VOLTAGE_THROTTLING) */
+#if (defined(CY_DEVICE_SERIES_PMG1B1))
+    /* For PMG1B1 devices, set SCP limit from device configurator table */
+    context->vbusScpLimit = (uint16_t)context->usbpdConfig->vbusScpConfig->threshold * 100u;
+#else
     context->vbusScpLimit = VBUS_SCP_THRESHOLD_6A;
+#endif /* (defined(CY_DEVICE_SERIES_PMG1B1)) */
 #endif /* (CCG_LOAD_SHARING_ENABLE || CCG_TEMP_BASED_VOLTAGE_THROTTLING || CCG_VIN_BASED_VOLTAGE_THROTTLING) */
 #endif /* VBUS_SCP_THRESHOLD_OVERRIDE */
 

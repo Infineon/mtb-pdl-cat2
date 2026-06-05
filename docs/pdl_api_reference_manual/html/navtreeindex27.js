@@ -1,7 +1,5 @@
 var NAVTREEINDEX27 =
 {
-"structcy__stc__usbpd__context__t.html#a90bcef564f22e3f3759028dc85b76db1":[2,34,0,2,19,104],
-"structcy__stc__usbpd__context__t.html#a91c743462b50c8096ad8237af9eabc38":[2,34,0,2,19,80],
 "structcy__stc__usbpd__context__t.html#a92177a37a2a7945fd60c757c04e6f6f1":[2,34,0,2,19,44],
 "structcy__stc__usbpd__context__t.html#a92650d6424586a77c3e4638845410a02":[2,34,0,2,19,73],
 "structcy__stc__usbpd__context__t.html#a938a02f6456927a4ac68b572da58a667":[2,34,0,2,19,38],

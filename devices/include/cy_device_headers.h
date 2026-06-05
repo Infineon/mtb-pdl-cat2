@@ -871,6 +871,10 @@
     #include "cy8c4147lde_s463.h"
 #elif defined (CY8C4147LDE_S473)
     #include "cy8c4147lde_s473.h"
+#elif defined (CY8C4147AZQ_S445I)
+    #include "cy8c4147azq_s445i.h"
+#elif defined (CY8C4147AZQ_S455I)
+    #include "cy8c4147azq_s455i.h"
 #elif defined (CY8C4724FNI_S402)
     #include "cy8c4724fni_s402.h"
 #elif defined (CY8C4724LQI_S401)
@@ -1579,6 +1583,8 @@
     #include "cypm1116_48lqxi.h"
 #elif defined (CYPM1321_97BZXIT)
     #include "cypm1321_97bzxit.h"
+#elif defined (CYPM1216_68LQXI)
+    #include "cypm1216_68lqxi.h"
 #elif defined (CYPD7291_68LDXS)
     #include "cypd7291_68ldxs.h"
 #elif defined (CYPD7299_68LDXS)
